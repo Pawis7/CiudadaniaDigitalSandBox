@@ -1,0 +1,153 @@
+<!-- Hero Section (Single Card Container) -->
+<section class="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden mb-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+    <div class="p-12 lg:p-16 space-y-8">
+      <h1 class="text-5xl md:text-6xl font-black text-slate-800 tracking-tight leading-[1.1]">
+        Hola, bienvenidas y bienvenidos a <br>
+        <span class="text-blue-600">Ciudadanía Digital</span>
+      </h1>
+      <p class="text-lg text-slate-500 max-w-xl leading-relaxed">
+        Aprendemos, convivimos y participamos en entornos digitales de forma segura, responsable y respetuosa.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <button class="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20">
+          Explorar contenidos
+        </button>
+        <button class="border-2 border-teal-600 text-teal-600 px-8 py-3 rounded-xl font-bold hover:bg-teal-50 transition-all">
+          Entrar por perfil
+        </button>
+      </div>
+    </div>
+    <div class="relative h-full min-h-[400px]">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800" alt="Gente usando tecnología" class="w-full h-full object-cover">
+      <!-- Floating icons decor -->
+      <div class="absolute top-12 left-12 w-16 h-16 bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl flex items-center justify-center animate-bounce">
+        <span class="material-icons-outlined text-blue-500 text-3xl">lock</span>
+      </div>
+      <div class="absolute bottom-12 right-12 w-14 h-14 bg-violet-500/90 backdrop-blur-sm rounded-2xl shadow-xl flex items-center justify-center text-white">
+        <span class="material-icons-outlined text-2xl">favorite</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Category Cards (No change needed here, they look good) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+  <div *ngFor="let cat of categories" class="group relative h-80 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-slate-100">
+    <img [src]="cat.image" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+    <div class="absolute bottom-8 left-8 right-8 flex items-center justify-between">
+      <h3 class="text-white font-bold text-2xl tracking-tight">{{cat.name}}</h3>
+      <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:rotate-45">
+        <span class="material-icons-outlined">arrow_forward</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Secondary Info Cards (Edutips, etc.) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+  <!-- Edutips -->
+  <div class="bg-white border border-slate-100 rounded-[2rem] p-8 relative overflow-hidden shadow-sm hover:shadow-md transition-all h-[240px] flex flex-col justify-between">
+    <div class="flex justify-between items-start">
+      <div class="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-200">
+        <span class="material-icons-outlined text-2xl">play_arrow</span>
+      </div>
+      <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=200" class="w-24 h-24 object-contain" alt="Laptop illustration">
+    </div>
+    <div class="space-y-2">
+      <h4 class="font-black text-slate-800 text-xl tracking-tight">Edutips</h4>
+      <p class="text-sm text-slate-400 leading-snug max-w-[180px]">Biblioteca de videos sobre muchos temas</p>
+    </div>
+    <div class="absolute bottom-6 right-6 w-10 h-10 border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors cursor-pointer">
+      <span class="material-icons-outlined text-sm">arrow_forward</span>
+    </div>
+  </div>
+  
+  <!-- El día que casi -->
+  <div class="bg-white border border-slate-100 rounded-[2rem] p-8 relative overflow-hidden shadow-sm hover:shadow-md transition-all h-[240px] flex flex-col justify-between">
+    <div class="flex justify-between items-start">
+      <div class="w-14 h-14 bg-yellow-400 text-white rounded-full flex items-center justify-center shadow-lg shadow-yellow-100">
+        <span class="material-icons-outlined text-2xl">star</span>
+      </div>
+      <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=200" class="w-24 h-24 object-cover rounded-2xl" alt="Character illustration">
+    </div>
+    <div class="space-y-2">
+      <h4 class="font-black text-slate-800 text-xl tracking-tight">El día que casi</h4>
+      <p class="text-sm text-slate-400 leading-snug max-w-[180px]">Serie animada para niñas y niños</p>
+    </div>
+    <div class="absolute bottom-6 right-6 w-10 h-10 border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors cursor-pointer">
+      <span class="material-icons-outlined text-sm">arrow_forward</span>
+    </div>
+  </div>
+
+  <!-- Ayuda Digital -->
+  <div class="bg-white border border-slate-100 rounded-[2rem] p-8 relative overflow-hidden shadow-sm hover:shadow-md transition-all h-[240px] flex flex-col justify-between">
+    <div class="flex justify-between items-start">
+      <div class="w-14 h-14 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg shadow-red-100">
+        <span class="material-icons-outlined text-2xl">shield</span>
+      </div>
+      <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=200" class="w-24 h-24 object-contain" alt="Phone illustration">
+    </div>
+    <div class="space-y-2">
+      <h4 class="font-black text-slate-800 text-xl tracking-tight">Ayuda Digital</h4>
+      <p class="text-sm text-slate-400 leading-snug max-w-[180px]">Instancias oficiales para riesgos digitales</p>
+    </div>
+    <div class="absolute bottom-6 right-6 w-10 h-10 border border-slate-100 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-50 transition-colors cursor-pointer">
+      <span class="material-icons-outlined text-sm">arrow_forward</span>
+    </div>
+  </div>
+</section>
+
+<!-- Three Pillars -->
+<section class="bg-white rounded-[3rem] border border-slate-100 shadow-sm p-12 flex flex-col md:flex-row items-center justify-between gap-12 mb-12 text-center">
+  <div class="flex-1 space-y-4 flex flex-col items-center">
+    <div class="w-16 h-16 bg-[#76B9B4] text-white rounded-full flex items-center justify-center shadow-lg shadow-teal-50">
+      <span class="material-icons-outlined text-3xl">school</span>
+    </div>
+    <h4 class="font-black text-2xl text-slate-800 tracking-tight">Aprender</h4>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-[180px]">Desarrolla habilidades digitales para la vida.</p>
+  </div>
+  
+  <div class="hidden md:block w-px h-28 bg-slate-100"></div>
+
+  <div class="flex-1 space-y-4 flex flex-col items-center">
+    <div class="w-16 h-16 bg-[#8B80C1] text-white rounded-full flex items-center justify-center shadow-lg shadow-violet-50">
+      <span class="material-icons-outlined text-3xl">groups</span>
+    </div>
+    <h4 class="font-black text-2xl text-slate-800 tracking-tight">Convivir</h4>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-[180px]">Construye relaciones positivas en línea.</p>
+  </div>
+
+  <div class="hidden md:block w-px h-28 bg-slate-100"></div>
+
+  <div class="flex-1 space-y-4 flex flex-col items-center">
+    <div class="w-16 h-16 bg-[#F2746B] text-white rounded-full flex items-center justify-center shadow-lg shadow-orange-50">
+      <span class="material-icons-outlined text-3xl">campaign</span>
+    </div>
+    <h4 class="font-black text-2xl text-slate-800 tracking-tight">Participar</h4>
+    <p class="text-sm text-slate-400 leading-relaxed max-w-[180px]">Usa la tecnología para crear e informar.</p>
+  </div>
+</section>
+
+<!-- Secondary CTA (Gradient and Less Height) -->
+<section class="bg-white rounded-[3rem] border border-slate-100 shadow-sm overflow-hidden flex flex-col md:flex-row mb-12 h-[350px]">
+  <div class="flex-1 p-12 flex flex-col justify-center space-y-6 relative z-10 bg-white">
+    <h2 class="text-3xl font-black text-slate-800 tracking-tight leading-tight max-w-sm">
+      La ciudadanía digital nos conecta y nos responsabiliza.
+    </h2>
+    <p class="text-sm text-slate-400 max-w-sm leading-relaxed">
+      Cada acción en línea tiene impacto. Elige informarte, respetar y participar para construir una comunidad mejor.
+    </p>
+    <div>
+      <button class="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition-all text-sm">
+        Conoce más
+      </button>
+    </div>
+  </div>
+  <div class="flex-1 relative">
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover">
+  </div>
+</section>

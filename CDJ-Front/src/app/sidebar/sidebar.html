@@ -1,0 +1,82 @@
+<aside class="bg-white rounded-[2rem] border border-slate-100 shadow-sm h-[calc(100vh-3rem)] sticky top-6 overflow-y-auto overflow-x-hidden flex flex-col">
+  <div class="p-6">
+    <!-- Logo area -->
+    <div class="flex items-center gap-3 mb-8 px-2">
+      <div class="w-10 h-10 bg-gradient-to-tr from-blue-400 via-violet-400 to-pink-400 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-violet-100">
+        CD
+      </div>
+      <div class="font-black text-slate-800 leading-tight tracking-tighter text-lg">
+        Ciudadanía<br>Digital
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="space-y-1">
+      <h3 class="text-[11px] font-black text-teal-600 uppercase tracking-widest px-4 mb-4">Exploración</h3>
+      
+      <!-- Primary Sections -->
+      <div *ngFor="let section of sections" class="space-y-1">
+        <button (click)="toggleSection(section)" 
+                class="w-full flex items-center justify-between p-3 rounded-xl transition-all group hover:bg-slate-50">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-sm" [ngClass]="section.color">
+              <span class="material-icons-outlined text-xl">{{section.icon}}</span>
+            </div>
+            <span class="font-bold text-sm text-slate-700">{{section.title}}</span>
+          </div>
+          <span class="material-icons-outlined text-slate-400 text-lg transition-transform duration-300" 
+                [class.rotate-180]="section.expanded">
+            {{section.expanded ? 'expand_less' : 'expand_more'}}
+          </span>
+        </button>
+        
+        <!-- Sub-items -->
+        <div *ngIf="section.expanded" class="ml-14 space-y-1 py-1">
+          <a *ngFor="let item of section.items" href="#" 
+             class="flex items-center gap-3 p-2 rounded-lg text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-blue-50 transition-all group">
+            <div class="w-1.5 h-1.5 rounded-full" [ngClass]="section.color"></div>
+            {{item}}
+          </a>
+        </div>
+      </div>
+
+      <!-- Secondary Links (Joined with the main list) -->
+      <a href="#" class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-all group">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-sm">
+            <span class="material-icons-outlined text-xl">play_circle</span>
+          </div>
+          <span class="font-bold text-slate-700 text-sm">Edutips</span>
+        </div>
+        <span class="material-icons-outlined text-slate-400 group-hover:text-blue-500 transition-colors">chevron_right</span>
+      </a>
+      <a href="#" class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-all group">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-white shadow-sm">
+            <span class="material-icons-outlined text-xl">star</span>
+          </div>
+          <span class="font-bold text-slate-700 text-sm">El día que casi</span>
+        </div>
+        <span class="material-icons-outlined text-slate-400 group-hover:text-yellow-600 transition-colors">chevron_right</span>
+      </a>
+      <a href="#" class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-all group">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white shadow-sm">
+            <span class="material-icons-outlined text-xl">shield</span>
+          </div>
+          <span class="font-bold text-slate-700 text-sm">Ayuda Digital</span>
+        </div>
+        <span class="material-icons-outlined text-slate-400 group-hover:text-red-600 transition-colors">chevron_right</span>
+      </a>
+      <a href="#" class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-all group">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-teal-400 flex items-center justify-center text-white shadow-sm">
+            <span class="material-icons-outlined text-xl">groups</span>
+          </div>
+          <span class="font-bold text-slate-700 text-sm">Quiénes somos</span>
+        </div>
+        <span class="material-icons-outlined text-slate-400 group-hover:text-teal-600 transition-colors">chevron_right</span>
+      </a>
+    </div>
+  </div>
+</aside>
