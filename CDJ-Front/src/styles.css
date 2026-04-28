@@ -1,11 +1,12 @@
 @import 'tailwindcss';
 
+/* ========== Garet (font-face) ========== */
 @font-face {
   font-family: 'Garet';
   src: url('/assets/fonts/garet/Garet-Book.woff2') format('woff2'),
-       url('/assets/fonts/garet/Garet-Book.woff') format('woff'),
-       url('/assets/fonts/garet/Garet-Book.ttf') format('truetype');
-  font-weight: 400;
+       url('/assets/fonts/garet/Garet-Book.woff')  format('woff'),
+       url('/assets/fonts/garet/Garet-Book.ttf')   format('truetype');
+  font-weight: 400 600;
   font-style: normal;
   font-display: swap;
 }
@@ -13,23 +14,182 @@
 @font-face {
   font-family: 'Garet';
   src: url('/assets/fonts/garet/Garet-Heavy.woff2') format('woff2'),
-       url('/assets/fonts/garet/Garet-Heavy.woff') format('woff'),
-       url('/assets/fonts/garet/Garet-Heavy.ttf') format('truetype');
-  font-weight: 800;
+       url('/assets/fonts/garet/Garet-Heavy.woff')  format('woff'),
+       url('/assets/fonts/garet/Garet-Heavy.ttf')   format('truetype');
+  font-weight: 700 900;
   font-style: normal;
   font-display: swap;
 }
 
+/* ========== Tailwind 4 theme ========== */
+@theme {
+  --font-sans: 'Garet', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Garet', ui-sans-serif, system-ui, sans-serif;
+}
+
 :root {
-  --font-family: 'Garet', 'Inter', sans-serif;
+  --safe-pad: env(safe-area-inset-bottom, 0px);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: 'Garet', ui-sans-serif, system-ui, sans-serif;
   @apply antialiased text-slate-800;
+  background:
+    radial-gradient(1200px 600px at 90% -10%, rgba(45,212,191,0.14), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(167,139,250,0.10), transparent 60%),
+    #F4F7FB;
+  background-attachment: fixed;
+  min-height: 100dvh;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family);
+  font-family: 'Garet', ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* ========== Iconos Material Symbols Rounded ========== */
+.icon,
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'liga';
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 500,
+    'GRAD' 0,
+    'opsz' 24;
+  user-select: none;
+}
+.icon-fill,
+.material-symbols-rounded.fill { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+.icon-bold { font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 24; }
+.icon-sm { font-size: 18px; }
+.icon-md { font-size: 22px; }
+.icon-lg { font-size: 28px; }
+.icon-xl { font-size: 36px; }
+.icon-2xl { font-size: 44px; }
+
+/* ========== Scroll reveal — suave, sin blur ========== */
+.reveal-init {
+  opacity: 0;
+  will-change: transform, opacity;
+  transition:
+    opacity var(--reveal-duration, 900ms) cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+    transform var(--reveal-duration, 900ms) cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+}
+.reveal-init[data-reveal-direction='up']    { transform: translate3d(0, 14px, 0); }
+.reveal-init[data-reveal-direction='down']  { transform: translate3d(0, -14px, 0); }
+.reveal-init[data-reveal-direction='left']  { transform: translate3d(14px, 0, 0); }
+.reveal-init[data-reveal-direction='right'] { transform: translate3d(-14px, 0, 0); }
+.reveal-init[data-reveal-direction='fade']  { transform: none; }
+.reveal-init[data-reveal-direction='scale'] { transform: scale(0.98); }
+.reveal-in {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ========== Keyframes utilitarios ========== */
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -8px, 0); }
+}
+@keyframes float-fast {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(0, -10px, 0) rotate(2deg); }
+}
+@keyframes blob {
+  0%, 100% { border-radius: 42% 58% 64% 36% / 47% 36% 64% 53%; transform: translate3d(0,0,0) rotate(0); }
+  33%      { border-radius: 56% 44% 38% 62% / 42% 62% 38% 58%; transform: translate3d(8px,-6px,0) rotate(8deg); }
+  66%      { border-radius: 36% 64% 52% 48% / 58% 36% 64% 42%; transform: translate3d(-6px,8px,0) rotate(-6deg); }
+}
+@keyframes shine {
+  0%   { transform: translateX(-120%); }
+  60%  { transform: translateX(120%); }
+  100% { transform: translateX(120%); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(0.9); opacity: 0.55; }
+  80%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes gradient-pan {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+.anim-float-slow { animation: float-slow 7s ease-in-out infinite; }
+.anim-float-fast { animation: float-fast 5s ease-in-out infinite; }
+.anim-blob       { animation: blob 16s ease-in-out infinite; }
+.anim-gradient   { background-size: 200% 200%; animation: gradient-pan 14s ease infinite; }
+
+/* Marquee horizontal */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.anim-marquee { animation: marquee 40s linear infinite; }
+.anim-marquee:hover { animation-play-state: paused; }
+
+/* Scrollbar suave para carruseles horizontales */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+}
+.scroll-snap-x > * { scroll-snap-align: start; }
+.scroll-snap-x::-webkit-scrollbar { height: 8px; }
+.scroll-snap-x::-webkit-scrollbar-thumb { background: rgba(15,23,42,0.15); border-radius: 999px; }
+
+/* Search overlay */
+@keyframes searchOverlayIn {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(12px); }
+}
+@keyframes searchPanelIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.search-overlay { animation: searchOverlayIn 220ms ease-out forwards; }
+.search-panel   { animation: searchPanelIn 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Glass card utility */
+.glass {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+}
+
+/* Foco accesible global */
+:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.55);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-float-slow,
+  .anim-float-fast,
+  .anim-blob,
+  .anim-gradient,
+  .anim-marquee {
+    animation: none !important;
+  }
+  .reveal-init {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

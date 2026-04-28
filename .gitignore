@@ -1,0 +1,47 @@
+# ----- Editores e IDEs -----
+.vscode/
+.idea/
+.history/
+*.swp
+*.swo
+
+# ----- Skills / agentes locales -----
+.skills/
+.claude/
+
+# ----- Playwright / MCP -----
+.playwright-mcp/
+playwright-report/
+test-results/
+*.snap.png
+inicio-desktop*.png
+page-*.png
+page-*.yml
+console-*.log
+
+# ----- Sistema -----
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ----- Node / build / cache -----
+node_modules/
+**/node_modules/
+**/.angular/
+**/dist/
+**/.next/
+**/.turbo/
+**/.cache/
+**/coverage/
+**/.parcel-cache/
+*.log
+npm-debug.log*
+yarn-error.log
+yarn-debug.log*
+pnpm-debug.log*
+
+# ----- Variables de entorno -----
+.env
+.env.*
+!.env.example

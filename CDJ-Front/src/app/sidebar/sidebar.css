@@ -1,4 +1,1 @@
-/* Estilos específicos para el sidebar */
-:host {
-  display: block;
-}
+:host { display: block; height: 100%; }

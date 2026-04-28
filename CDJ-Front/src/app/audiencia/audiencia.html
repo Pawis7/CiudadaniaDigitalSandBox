@@ -1,0 +1,188 @@
+@if (page(); as p) {
+  <!-- HERO de audiencia -->
+  <section
+    appReveal="fade"
+    [revealDuration]="900"
+    class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-slate-100 bg-slate-900 text-white shadow-sm sm:mb-12 sm:rounded-[2.5rem]">
+    <div class="absolute inset-0">
+      <app-editable-image
+        [id]="p.heroImageId"
+        [src]="p.heroImage"
+        [alt]="p.title"
+        [width]="1600" [height]="1000" aspectLabel="16:10"
+        [eager]="true"
+        imgClass="h-full w-full object-cover opacity-40">
+      </app-editable-image>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-tr opacity-70 anim-gradient" [ngClass]="p.accentClass"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+
+    <div class="relative z-10 p-6 sm:p-12 lg:p-16">
+      <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-white/70 sm:mb-6">
+        <a routerLink="/" class="transition-colors hover:text-white">Inicio</a>
+        <span class="material-symbols-rounded text-sm">chevron_right</span>
+        <span class="text-white">{{ p.title }}</span>
+      </nav>
+
+      <span appReveal="up"
+            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest backdrop-blur sm:text-xs">
+        <span class="grid h-5 w-5 place-items-center rounded-full text-white" [ngClass]="p.iconBgClass">
+          <span class="material-symbols-rounded text-[14px] icon-fill">{{ p.icon }}</span>
+        </span>
+        {{ p.eyebrow }}
+      </span>
+
+      <h1 appReveal="up" [revealDelay]="80"
+          class="mt-4 text-balance font-black leading-[1.05] tracking-tight"
+          style="font-size: clamp(2rem, 3vw + 1rem, 3.5rem)">
+        {{ p.title }}
+      </h1>
+      <p appReveal="up" [revealDelay]="160" class="mt-2 text-base font-semibold text-white/85 sm:text-lg">
+        {{ p.tagline }}
+      </p>
+      <p appReveal="up" [revealDelay]="220" class="mt-4 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
+        {{ p.description }}
+      </p>
+
+      @if (p.ageRange) {
+        <div appReveal="up" [revealDelay]="280"
+             class="mt-6 inline-flex items-center gap-2 rounded-2xl bg-white/15 px-4 py-2 text-xs font-bold backdrop-blur sm:text-sm">
+          <span class="material-symbols-rounded text-base icon-fill">cake</span>
+          Edad recomendada: {{ p.ageRange }}
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- SUB-NIVELES -->
+  @if (p.subLevels.length) {
+    <section class="mb-8 sm:mb-12">
+      <div appReveal="up" class="mb-5 sm:mb-7">
+        <p class="text-xs font-black uppercase tracking-widest" [ngClass]="'text-' + p.iconBgClass.replace('bg-', '').replace('-500', '-600')">
+          Por nivel
+        </p>
+        <h2 class="text-2xl font-black tracking-tight text-slate-800 sm:text-3xl">Encuentra tu nivel</h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <a *ngFor="let sub of p.subLevels; let i = index"
+           href="#"
+           appReveal="up"
+           [revealDelay]="i * 80"
+           class="group relative overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl sm:rounded-[2rem]">
+          <div class="relative aspect-[5/4] overflow-hidden">
+            <div class="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-110">
+              <app-editable-image
+                [id]="sub.imageId"
+                [src]="sub.imageUrl"
+                [alt]="sub.title"
+                [width]="900" [height]="720" aspectLabel="5:4"
+                imgClass="h-full w-full object-cover">
+              </app-editable-image>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-tr opacity-30" [ngClass]="sub.bgClass"></div>
+
+            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-2xl bg-white/95 text-slate-900 shadow-lg backdrop-blur transition-transform duration-500 group-hover:scale-110">
+              <span class="material-symbols-rounded text-xl icon-fill">{{ sub.icon }}</span>
+            </span>
+
+            <div class="absolute inset-x-4 bottom-4 sm:inset-x-5 sm:bottom-5">
+              <h3 class="text-xl font-black tracking-tight text-white drop-shadow-md sm:text-2xl">{{ sub.title }}</h3>
+              <p class="mt-0.5 text-xs font-semibold uppercase tracking-wider text-white/85">{{ sub.subtitle }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between p-4 sm:p-5">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500">
+              <span class="material-symbols-rounded text-[16px]">menu_book</span>
+              {{ sub.resourceCount }} recursos
+            </span>
+            <span class="grid h-9 w-9 place-items-center rounded-full text-slate-300 transition-all duration-500 group-hover:rotate-45 group-hover:bg-slate-900 group-hover:text-white">
+              <span class="material-symbols-rounded text-base">arrow_forward</span>
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+  }
+
+  <!-- SERIES RECOMENDADAS -->
+  @if (recommendedSeries().length) {
+    <section class="mb-8 sm:mb-12">
+      <div appReveal="up" class="mb-5 sm:mb-7">
+        <p class="text-xs font-black uppercase tracking-widest text-pink-600">Series recomendadas</p>
+        <h2 class="text-2xl font-black tracking-tight text-slate-800 sm:text-3xl">Empieza por aquí</h2>
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <a *ngFor="let serie of recommendedSeries(); let i = index"
+           [routerLink]="['/series', serie.slug]"
+           appReveal="up"
+           [revealDelay]="i * 90"
+           class="group relative overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl sm:rounded-[2rem]">
+          <div class="relative aspect-[16/10] w-full overflow-hidden">
+            <div class="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-110">
+              <app-editable-image
+                [id]="'series-cover-' + serie.id"
+                [src]="serie.coverImageUrl"
+                [alt]="serie.title"
+                [width]="1600" [height]="1000" aspectLabel="16:10"
+                imgClass="h-full w-full object-cover">
+              </app-editable-image>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent"></div>
+            <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-slate-700 shadow backdrop-blur">
+              <span class="grid h-5 w-5 place-items-center rounded-full text-white" [ngClass]="serie.iconBgClass">
+                <span class="material-symbols-rounded text-[14px] icon-fill">{{ serie.icon }}</span>
+              </span>
+              {{ serie.episodeCount }} episodios
+            </span>
+            <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-slate-800 shadow-2xl transition-all duration-500 group-hover:scale-110">
+              <span class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+            </span>
+          </div>
+          <div class="p-5 sm:p-6">
+            <h3 class="text-lg font-black tracking-tight text-slate-800 sm:text-xl">{{ serie.title }}</h3>
+            <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">{{ serie.tagline }}</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  }
+
+  <!-- EXPLORA POR TEMA -->
+  <app-explore-by-topic heading="Explora por tema"></app-explore-by-topic>
+
+  <!-- TOPICS DETALLADOS -->
+  <section class="mb-12">
+    <div appReveal="up" class="mb-5 sm:mb-7">
+      <p class="text-xs font-black uppercase tracking-widest text-slate-500">Lo que vas a encontrar</p>
+      <h2 class="text-2xl font-black tracking-tight text-slate-800 sm:text-3xl">Temas principales</h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div *ngFor="let t of p.topics; let i = index"
+           appReveal="up"
+           [revealDelay]="i * 80"
+           class="group relative overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
+        <span class="grid h-12 w-12 place-items-center rounded-xl text-white shadow-lg transition-transform duration-500 group-hover:scale-110"
+              [ngClass]="t.bgClass">
+          <span class="material-symbols-rounded text-2xl icon-fill">{{ t.icon }}</span>
+        </span>
+        <h3 class="mt-4 text-lg font-black tracking-tight text-slate-800">{{ t.title }}</h3>
+        <p class="mt-1 text-sm leading-relaxed text-slate-500">{{ t.description }}</p>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="mb-12 rounded-[2rem] border border-slate-100 bg-white p-12 text-center shadow-sm">
+    <span class="material-symbols-rounded text-5xl text-slate-300">help</span>
+    <h2 class="mt-4 text-2xl font-black tracking-tight text-slate-800">Página no encontrada</h2>
+    <a routerLink="/"
+       class="mt-6 inline-flex items-center gap-2 rounded-xl bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-teal-700">
+      <span class="material-symbols-rounded text-base">arrow_back</span>
+      Volver al inicio
+    </a>
+  </section>
+}

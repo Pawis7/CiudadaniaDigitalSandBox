@@ -1,18 +1,31 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ContentService } from '../core/services/content.service';
+import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
+import { EditableImageComponent } from '../shared/editable-image/editable-image';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RevealDirective, EditableImageComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
-  styleUrl: './inicio.css'
+  styleUrl: './inicio.css',
 })
 export class InicioComponent {
-  categories = [
-    { name: 'Niñas y niños', image: 'https://images.unsplash.com/photo-1502086223501-7ea2493954b9?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Adolescentes', image: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Familias', image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=400' },
-    { name: 'Docentes', image: 'https://images.unsplash.com/photo-1544717297-fa154ddad021?auto=format&fit=crop&q=80&w=400' }
+  private content = inject(ContentService);
+
+  hero = this.content.hero;
+  categories = this.content.categories;
+  featureCards = this.content.featureCards;
+  pillars = this.content.pillars;
+  secondaryBanner = this.content.secondaryBanner;
+  videoSeries = this.content.videoSeries;
+
+  stats = [
+    { value: '120+', label: 'Recursos publicados' },
+    { value: '8', label: 'Series animadas' },
+    { value: '4', label: 'Audiencias' },
   ];
 }

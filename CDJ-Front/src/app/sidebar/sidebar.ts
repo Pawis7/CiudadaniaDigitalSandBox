@@ -1,50 +1,31 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ContentService } from '../core/services/content.service';
+import { NavSection } from '../core/models/content.models';
+import { CdjLogoComponent } from '../shared/cdj-logo/cdj-logo';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, CdjLogoComponent],
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css'
+  styleUrl: './sidebar.css',
 })
 export class SidebarComponent {
-  sections = [
-    {
-      title: 'Niñas y niños',
-      icon: 'face',
-      color: 'bg-teal-500',
-      textColor: 'text-teal-600',
-      expanded: true,
-      items: ['Preescolar', 'Primaria baja', 'Primaria alta']
-    },
-    {
-      title: 'Adolescentes',
-      icon: 'smartphone',
-      color: 'bg-violet-500',
-      textColor: 'text-violet-600',
-      expanded: false,
-      items: ['Secundaria', 'Preparatoria']
-    },
-    {
-      title: 'Familias',
-      icon: 'groups',
-      color: 'bg-orange-500',
-      textColor: 'text-orange-600',
-      expanded: false,
-      items: ['0-5 Primera infancia', '6-11 Niñez', '12-14 Adolescencia temprana', '15-22 Adolescencia tardía y juventud']
-    },
-    {
-      title: 'Docentes',
-      icon: 'school',
-      color: 'bg-green-500',
-      textColor: 'text-green-600',
-      expanded: false,
-      items: ['Preescolar', 'Primaria baja', 'Primaria alta', 'Secundaria', 'Preparatoria']
-    }
-  ];
+  @Input() variant: 'desktop' | 'mobile' = 'desktop';
+  @Output() navigate = new EventEmitter<void>();
 
-  toggleSection(section: any) {
+  private content = inject(ContentService);
+  branding = this.content.branding;
+  sections = this.content.navSections;
+
+  toggleSection(section: NavSection) {
     section.expanded = !section.expanded;
+  }
+
+  onNavigate() {
+    this.navigate.emit();
   }
 }
