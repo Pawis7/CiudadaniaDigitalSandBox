@@ -16,7 +16,7 @@
 
       @if (widthLabel || aspect) {
         <span class="pointer-events-none absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold text-slate-700 shadow backdrop-blur">
-          <span class="material-symbols-rounded text-[14px]">aspect_ratio</span>
+          <span translate="no" class="notranslate material-symbols-rounded text-[14px]">aspect_ratio</span>
           @if (widthLabel) { {{ widthLabel }} }
           @if (widthLabel && aspect) { · }
           @if (aspect) { {{ aspect }} }
@@ -29,7 +29,7 @@
           (click)="pickFile()"
           [disabled]="uploading()"
           class="group inline-flex items-center gap-1.5 rounded-full bg-slate-900/95 px-3 py-1.5 text-[11px] font-bold text-white shadow-lg backdrop-blur transition-all hover:bg-blue-600 active:scale-95 disabled:opacity-50">
-          <span class="material-symbols-rounded text-[16px]">{{ uploading() ? 'progress_activity' : 'edit' }}</span>
+          <span translate="no" class="notranslate material-symbols-rounded text-[16px]">{{ uploading() ? 'progress_activity' : 'edit' }}</span>
           {{ uploading() ? 'Subiendo…' : (hasOverride() ? 'Reemplazar' : 'Modificar') }}
         </button>
 
@@ -38,7 +38,7 @@
             type="button"
             (click)="reset()"
             class="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[11px] font-bold text-slate-700 shadow-lg backdrop-blur transition-all hover:bg-slate-50 active:scale-95">
-            <span class="material-symbols-rounded text-[16px]">restart_alt</span>
+            <span translate="no" class="notranslate material-symbols-rounded text-[16px]">restart_alt</span>
             Restablecer
           </button>
         }

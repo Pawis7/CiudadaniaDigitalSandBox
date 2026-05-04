@@ -3,11 +3,11 @@
   <section appReveal="fade" class="mb-6">
     <nav class="mb-3 flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-400">
       <a routerLink="/" class="transition-colors hover:text-slate-700">Inicio</a>
-      <span class="material-symbols-rounded text-sm">chevron_right</span>
+      <span translate="no" class="notranslate material-symbols-rounded text-sm">chevron_right</span>
       <a routerLink="/series" class="transition-colors hover:text-slate-700">Series</a>
-      <span class="material-symbols-rounded text-sm">chevron_right</span>
+      <span translate="no" class="notranslate material-symbols-rounded text-sm">chevron_right</span>
       <a [routerLink]="['/series', ctx.serie.slug]" class="transition-colors hover:text-slate-700">{{ ctx.serie.title }}</a>
-      <span class="material-symbols-rounded text-sm">chevron_right</span>
+      <span translate="no" class="notranslate material-symbols-rounded text-sm">chevron_right</span>
       <span class="text-slate-700">{{ ctx.video.title }}</span>
     </nav>
 
@@ -15,7 +15,7 @@
       <div class="min-w-0">
         <span class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-slate-700">
           <span class="grid h-5 w-5 place-items-center rounded-full text-white" [ngClass]="ctx.serie.iconBgClass">
-            <span class="material-symbols-rounded text-[14px] icon-fill">{{ ctx.serie.icon }}</span>
+            <span translate="no" class="notranslate material-symbols-rounded text-[14px] icon-fill">{{ ctx.serie.icon }}</span>
           </span>
           {{ ctx.serie.title }}
         </span>
@@ -38,7 +38,7 @@
       <div class="flex shrink-0 flex-wrap gap-2">
         <button type="button"
           class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-600/25 transition-all hover:-translate-y-0.5 hover:bg-blue-700">
-          <span class="material-symbols-rounded text-base icon-fill">play_arrow</span>
+          <span translate="no" class="notranslate material-symbols-rounded text-base icon-fill">play_arrow</span>
           Iniciar recurso
         </button>
         <button type="button" (click)="toggleSaved()"
@@ -50,12 +50,12 @@
           [class.border-slate-200]="!saved()"
           [class.text-slate-700]="!saved()"
           [class.hover:bg-slate-50]="!saved()">
-          <span class="material-symbols-rounded text-base" [class.icon-fill]="saved()">{{ saved() ? 'bookmark_added' : 'bookmark' }}</span>
+          <span translate="no" class="notranslate material-symbols-rounded text-base" [class.icon-fill]="saved()">{{ saved() ? 'bookmark_added' : 'bookmark' }}</span>
           {{ saved() ? 'Guardado' : 'Guardar' }}
         </button>
         <button type="button"
           class="grid h-11 w-11 place-items-center rounded-xl border border-slate-200 text-slate-600 transition-colors hover:bg-slate-50">
-          <span class="material-symbols-rounded text-xl">share</span>
+          <span translate="no" class="notranslate material-symbols-rounded text-xl">share</span>
         </button>
       </div>
     </div>
@@ -74,19 +74,19 @@
         <ul class="mt-3 space-y-2">
           <li class="flex items-start gap-3 text-sm text-slate-600 sm:text-base">
             <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
-              <span class="material-symbols-rounded text-[14px] icon-bold">check</span>
+              <span translate="no" class="notranslate material-symbols-rounded text-[14px] icon-bold">check</span>
             </span>
             Identificar señales claras de riesgo digital y reaccionar a tiempo.
           </li>
           <li class="flex items-start gap-3 text-sm text-slate-600 sm:text-base">
             <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
-              <span class="material-symbols-rounded text-[14px] icon-bold">check</span>
+              <span translate="no" class="notranslate material-symbols-rounded text-[14px] icon-bold">check</span>
             </span>
             Conocer pasos concretos para protegerte y proteger a otros.
           </li>
           <li class="flex items-start gap-3 text-sm text-slate-600 sm:text-base">
             <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-100 text-emerald-700">
-              <span class="material-symbols-rounded text-[14px] icon-bold">check</span>
+              <span translate="no" class="notranslate material-symbols-rounded text-[14px] icon-bold">check</span>
             </span>
             Saber a quién acudir si necesitas ayuda.
           </li>
@@ -96,7 +96,7 @@
         <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div class="flex items-start gap-3 rounded-xl bg-slate-50 p-4">
             <span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-blue-500 text-white">
-              <span class="material-symbols-rounded text-lg icon-fill">home</span>
+              <span translate="no" class="notranslate material-symbols-rounded text-lg icon-fill">home</span>
             </span>
             <div>
               <h3 class="text-sm font-black text-slate-800">En casa</h3>
@@ -105,7 +105,7 @@
           </div>
           <div class="flex items-start gap-3 rounded-xl bg-slate-50 p-4">
             <span class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-emerald-500 text-white">
-              <span class="material-symbols-rounded text-lg icon-fill">school</span>
+              <span translate="no" class="notranslate material-symbols-rounded text-lg icon-fill">school</span>
             </span>
             <div>
               <h3 class="text-sm font-black text-slate-800">En el aula</h3>
@@ -123,7 +123,7 @@
         <ul class="space-y-3">
           <li *ngFor="let f of ficha()" class="flex items-start gap-3 text-sm">
             <span class="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-100 text-slate-700">
-              <span class="material-symbols-rounded text-lg">{{ f.icon }}</span>
+              <span translate="no" class="notranslate material-symbols-rounded text-lg">{{ f.icon }}</span>
             </span>
             <div>
               <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">{{ f.label }}</p>
@@ -142,7 +142,7 @@
               <a [routerLink]="['/recurso', r.id]"
                  class="group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-slate-50">
                 <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-tr from-blue-500 to-cyan-500 text-white shadow-sm">
-                  <span class="material-symbols-rounded text-lg icon-fill">play_arrow</span>
+                  <span translate="no" class="notranslate material-symbols-rounded text-lg icon-fill">play_arrow</span>
                 </span>
                 <div class="min-w-0">
                   <p class="line-clamp-2 text-sm font-bold text-slate-800 group-hover:text-blue-700">{{ r.title }}</p>
@@ -169,7 +169,7 @@
            appReveal="up" [revealDelay]="i * 80"
            class="group flex flex-col gap-3 rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl">
           <span class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-tr text-white shadow-lg" [ngClass]="v.accent">
-            <span class="material-symbols-rounded text-xl icon-fill">play_arrow</span>
+            <span translate="no" class="notranslate material-symbols-rounded text-xl icon-fill">play_arrow</span>
           </span>
           <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400">{{ v.seriesTitle }}</p>
           <h3 class="text-sm font-black tracking-tight text-slate-800">{{ v.title }}</h3>
@@ -179,11 +179,11 @@
   }
 } @else {
   <section class="mb-12 rounded-[2rem] border border-slate-100 bg-white p-12 text-center shadow-sm">
-    <span class="material-symbols-rounded text-5xl text-slate-300">help</span>
+    <span translate="no" class="notranslate material-symbols-rounded text-5xl text-slate-300">help</span>
     <h2 class="mt-4 text-2xl font-black tracking-tight text-slate-800">Recurso no encontrado</h2>
     <a routerLink="/edutips"
        class="mt-6 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-blue-700">
-      <span class="material-symbols-rounded text-base">video_library</span>
+      <span translate="no" class="notranslate material-symbols-rounded text-base">video_library</span>
       Ir a Edutips
     </a>
   </section>

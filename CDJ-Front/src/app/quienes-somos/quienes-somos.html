@@ -4,7 +4,7 @@
 
   <nav class="mb-3 flex items-center gap-2 text-xs font-semibold text-slate-400">
     <a routerLink="/" class="transition-colors hover:text-slate-700">Inicio</a>
-    <span class="material-symbols-rounded text-sm">chevron_right</span>
+    <span translate="no" class="notranslate material-symbols-rounded text-sm">chevron_right</span>
     <span class="text-slate-700">Quiénes somos</span>
   </nav>
 
@@ -25,7 +25,7 @@
        appReveal="up" [revealDelay]="i * 100"
        class="rounded-[1.5rem] border border-slate-100 bg-white p-6 shadow-sm sm:rounded-[2rem] sm:p-8">
     <span class="grid h-12 w-12 place-items-center rounded-xl text-white shadow-lg" [ngClass]="pilar.bgClass">
-      <span class="material-symbols-rounded text-2xl icon-fill">{{ pilar.icon }}</span>
+      <span translate="no" class="notranslate material-symbols-rounded text-2xl icon-fill">{{ pilar.icon }}</span>
     </span>
     <h3 class="mt-4 text-xl font-black tracking-tight text-slate-800">{{ pilar.title }}</h3>
     <p class="mt-2 text-sm leading-relaxed text-slate-500">{{ pilar.description }}</p>
@@ -43,7 +43,7 @@
          appReveal="up" [revealDelay]="i * 80"
          class="rounded-[1.5rem] border border-slate-100 bg-white p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl sm:rounded-[2rem]">
       <span class="grid h-12 w-12 place-items-center rounded-2xl text-white shadow-lg" [ngClass]="t.bgClass">
-        <span class="material-symbols-rounded text-2xl icon-fill">{{ t.icon }}</span>
+        <span translate="no" class="notranslate material-symbols-rounded text-2xl icon-fill">{{ t.icon }}</span>
       </span>
       <h3 class="mt-4 text-base font-black tracking-tight text-slate-800">{{ t.name }}</h3>
       <p class="mt-0.5 text-xs font-semibold uppercase tracking-wider text-slate-400">{{ t.role }}</p>

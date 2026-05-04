@@ -15,6 +15,30 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/garet/Garet-Book.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/garet/Garet-Heavy.woff2" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,-25..0&display=swap" rel="stylesheet">
+  <script>
+    // Prevent icons from being translated by browser tools (like Google Translate)
+    // material-symbols-rounded uses ligatures (text) which break when translated.
+    const fixIcons = (node) => {
+      if (!node || node.nodeType !== 1) return;
+      const isIcon = node.classList.contains('material-symbols-rounded') || node.classList.contains('icon');
+      if (isIcon) {
+        node.setAttribute('translate', 'no');
+        node.classList.add('notranslate');
+      }
+      // Also check children
+      const icons = node.querySelectorAll('.material-symbols-rounded, .icon');
+      icons.forEach(el => {
+        el.setAttribute('translate', 'no');
+        el.classList.add('notranslate');
+      });
+    };
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(m => m.addedNodes.forEach(fixIcons));
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    // Initial fix for static content
+    document.addEventListener('DOMContentLoaded', () => fixIcons(document.body));
+  </script>
 </head>
 <body class="text-slate-800">
   <app-root></app-root>

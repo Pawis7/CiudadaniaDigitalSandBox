@@ -31,7 +31,7 @@ export const DEFAULT_TOPICS: TopicItem[] = [
         </div>
         <a href="#" class="hidden items-center gap-1 text-sm font-bold text-slate-500 transition-colors hover:text-slate-800 sm:inline-flex">
           Todos los temas
-          <span class="material-symbols-rounded text-base">arrow_forward</span>
+          <span translate="no" class="notranslate material-symbols-rounded text-base">arrow_forward</span>
         </a>
       </div>
 
@@ -42,7 +42,7 @@ export const DEFAULT_TOPICS: TopicItem[] = [
           <span
             class="grid h-12 w-12 place-items-center rounded-2xl text-white shadow-md transition-all duration-500 group-hover:scale-110 group-hover:shadow-lg sm:h-14 sm:w-14"
             [ngClass]="t.bgClass">
-            <span class="material-symbols-rounded text-2xl icon-fill sm:text-[26px]">{{ t.icon }}</span>
+            <span translate="no" class="notranslate material-symbols-rounded text-2xl icon-fill sm:text-[26px]">{{ t.icon }}</span>
           </span>
           <span class="text-center text-[11px] font-bold leading-tight text-slate-700 sm:text-xs">
             {{ t.label }}
