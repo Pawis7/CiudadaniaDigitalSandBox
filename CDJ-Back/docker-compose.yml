@@ -1,0 +1,50 @@
+# =============================================================================
+# PostgreSQL local para dev del backend de Ciudadanía Digital.
+#
+# Uso:
+#   docker compose up -d       Levanta Postgres en background
+#   docker compose down        Detiene
+#   docker compose down -v     Detiene y borra volumen (reset total)
+#
+# La base, usuario y password coinciden con DATABASE_URL en .env.example
+# =============================================================================
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: cdj-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: cdj
+      POSTGRES_USER: cdj
+      POSTGRES_PASSWORD: cdj_dev
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - cdj-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cdj -d cdj']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  # Opcional: pgAdmin web para inspeccionar la DB
+  # Comentar si no se usa.
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cdj-pgadmin
+    restart: unless-stopped
+    ports:
+      - '5050:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cdj.local
+      PGADMIN_DEFAULT_PASSWORD: cdj_dev
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  cdj-pg-data:
+    name: cdj-pg-data

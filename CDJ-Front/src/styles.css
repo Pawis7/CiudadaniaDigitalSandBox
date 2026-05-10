@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 
-/* ========== Garet (font-face) ========== */
+/* ========================================================================
+   GARET (font-face)
+   ======================================================================== */
 @font-face {
   font-family: 'Garet';
   src: url('/assets/fonts/garet/Garet-Book.woff2') format('woff2'),
@@ -21,16 +23,121 @@
   font-display: swap;
 }
 
-/* ========== Tailwind 4 theme ========== */
+/* ========================================================================
+   TAILWIND THEME
+   ======================================================================== */
 @theme {
   --font-sans: 'Garet', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Garet', ui-sans-serif, system-ui, sans-serif;
+
+  /* === Tokens institucionales === */
+  --color-cdj-50:  #F0FDFA;
+  --color-cdj-100: #CCFBF1;
+  --color-cdj-200: #99F6E4;
+  --color-cdj-300: #5EEAD4;
+  --color-cdj-400: #2DD4BF;
+  --color-cdj-500: #14B8A6;
+  --color-cdj-600: #0F766E;
+  --color-cdj-700: #115E59;
+  --color-cdj-800: #134E4A;
+
+  --color-paper:        #FAF7F2;
+  --color-paper-soft:   #F2EEE7;
+  --color-line:         #EAE3D9;
+  --color-ink:          #0F172A;
+  --color-ink-soft:     #475569;
 }
 
+/* ========================================================================
+   DESIGN TOKENS — Sistema cromático por audiencia y sección
+   ========================================================================
+   Cada audiencia tiene 4 tonos:
+     --aud         deep accent (texto, iconos sólidos, botones)
+     --aud-soft    accent vibrante (chips, bordes, hovers)
+     --aud-tint    pastel medio (cards, fondos de sección)
+     --aud-cream   pastel claro (fondos suaves, hover bg)
+   ======================================================================== */
 :root {
+  /* Institucional / marca */
+  --c-cdj:        #0F766E;
+  --c-cdj-soft:   #14B8A6;
+  --c-cdj-tint:   #CCFBF1;
+  --c-cdj-cream:  #F0FDFA;
+
+  /* Niñas y niños — turquesa cálido */
+  --c-kids:       #0D9488;
+  --c-kids-soft:  #14B8A6;
+  --c-kids-tint:  #CCFBF1;
+  --c-kids-cream: #ECFDF5;
+
+  /* Adolescentes — violeta vibrante */
+  --c-teens:      #7C3AED;
+  --c-teens-soft: #8B5CF6;
+  --c-teens-tint: #EDE9FE;
+  --c-teens-cream:#F5F3FF;
+
+  /* Familias — naranja cálido */
+  --c-families:      #EA580C;
+  --c-families-soft: #F97316;
+  --c-families-tint: #FFEDD5;
+  --c-families-cream:#FFF7ED;
+
+  /* Docentes — verde docente */
+  --c-teachers:      #059669;
+  --c-teachers-soft: #10B981;
+  --c-teachers-tint: #D1FAE5;
+  --c-teachers-cream:#ECFDF5;
+
+  /* Ayuda Digital — coral, no rojo */
+  --c-help:       #E11D48;
+  --c-help-soft:  #F43F5E;
+  --c-help-tint:  #FFE4E6;
+  --c-help-cream: #FFF1F2;
+
+  /* Edutips — azul biblioteca */
+  --c-edutips:      #2563EB;
+  --c-edutips-soft: #3B82F6;
+  --c-edutips-tint: #DBEAFE;
+  --c-edutips-cream:#EFF6FF;
+
+  /* El día que casi — ámbar serie animada */
+  --c-casi:       #D97706;
+  --c-casi-soft:  #F59E0B;
+  --c-casi-tint:  #FEF3C7;
+  --c-casi-cream: #FFFBEB;
+
+  /* Neutrales */
+  --c-paper:      #FAF7F2;
+  --c-paper-soft: #F2EEE7;
+  --c-line:       #EAE3D9;
+  --c-line-soft:  #F1ECE3;
+  --c-ink:        #0F172A;
+  --c-ink-soft:   #475569;
+  --c-ink-mute:   #94A3B8;
+
   --safe-pad: env(safe-area-inset-bottom, 0px);
+
+  /* Default audience tokens (override per scope) */
+  --aud:        var(--c-cdj);
+  --aud-soft:   var(--c-cdj-soft);
+  --aud-tint:   var(--c-cdj-tint);
+  --aud-cream:  var(--c-cdj-cream);
 }
 
+/* ========================================================================
+   AUDIENCE SCOPES — aplica con [data-audience="..."] o .audience-*
+   ======================================================================== */
+[data-audience='kids'],     .audience-kids     { --aud:var(--c-kids);     --aud-soft:var(--c-kids-soft);     --aud-tint:var(--c-kids-tint);     --aud-cream:var(--c-kids-cream); }
+[data-audience='teens'],    .audience-teens    { --aud:var(--c-teens);    --aud-soft:var(--c-teens-soft);    --aud-tint:var(--c-teens-tint);    --aud-cream:var(--c-teens-cream); }
+[data-audience='families'], .audience-families { --aud:var(--c-families); --aud-soft:var(--c-families-soft); --aud-tint:var(--c-families-tint); --aud-cream:var(--c-families-cream); }
+[data-audience='teachers'], .audience-teachers { --aud:var(--c-teachers); --aud-soft:var(--c-teachers-soft); --aud-tint:var(--c-teachers-tint); --aud-cream:var(--c-teachers-cream); }
+[data-audience='help'],     .audience-help     { --aud:var(--c-help);     --aud-soft:var(--c-help-soft);     --aud-tint:var(--c-help-tint);     --aud-cream:var(--c-help-cream); }
+[data-audience='edutips'],  .audience-edutips  { --aud:var(--c-edutips);  --aud-soft:var(--c-edutips-soft);  --aud-tint:var(--c-edutips-tint);  --aud-cream:var(--c-edutips-cream); }
+[data-audience='casi'],     .audience-casi     { --aud:var(--c-casi);     --aud-soft:var(--c-casi-soft);     --aud-tint:var(--c-casi-tint);     --aud-cream:var(--c-casi-cream); }
+
+/* ========================================================================
+   GLOBAL — body, headings, scroll
+   ======================================================================== */
 html {
   scroll-behavior: smooth;
 }
@@ -38,10 +145,12 @@ html {
 body {
   font-family: 'Garet', ui-sans-serif, system-ui, sans-serif;
   @apply antialiased text-slate-800;
-  background:
-    radial-gradient(1200px 600px at 90% -10%, rgba(45,212,191,0.14), transparent 60%),
-    radial-gradient(900px 500px at -10% 20%, rgba(167,139,250,0.10), transparent 60%),
-    #F4F7FB;
+  color: var(--c-ink);
+  background-color: var(--c-paper);
+  background-image:
+    radial-gradient(900px 480px at 88% -8%, rgba(20, 184, 166, 0.10), transparent 60%),
+    radial-gradient(720px 420px at -8% 18%, rgba(15, 118, 110, 0.07), transparent 60%),
+    radial-gradient(640px 360px at 100% 92%, rgba(234, 88, 12, 0.05), transparent 60%);
   background-attachment: fixed;
   min-height: 100dvh;
 }
@@ -50,9 +159,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Garet', ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.02em;
+  color: var(--c-ink);
 }
 
-/* ========== Iconos Material Symbols Rounded ========== */
+/* ========================================================================
+   ICONOS — Material Symbols Rounded
+   ======================================================================== */
 .icon,
 .material-symbols-rounded {
   font-family: 'Material Symbols Rounded';
@@ -83,7 +195,221 @@ h1, h2, h3, h4, h5, h6 {
 .icon-xl { font-size: 36px; }
 .icon-2xl { font-size: 44px; }
 
-/* ========== Scroll reveal — suave, sin blur ========== */
+/* Transición fluida de fill 0→1 vía font-variation-settings.
+   Aplica a cualquier .icon-interactive — y se activa fill cuando el span
+   o un ancestro tiene .is-active, :hover, :focus-visible, [aria-pressed=true]. */
+.icon-interactive,
+.material-symbols-rounded.interactive {
+  transition: font-variation-settings 220ms ease, transform 220ms ease, color 220ms ease;
+}
+.icon-interactive:hover,
+a:hover .icon-interactive,
+button:hover .icon-interactive,
+.is-active .icon-interactive,
+[aria-pressed='true'] .icon-interactive,
+[aria-current='page'] .icon-interactive,
+.icon-interactive:focus-visible {
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ========================================================================
+   PATRONES DE CARD — el ADN visual reusable
+   ======================================================================== */
+
+/* Card neutral, fondo blanco con borde cálido */
+.card-warm {
+  background: #FFFFFF;
+  border: 1px solid var(--c-line);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+@media (min-width: 640px) {
+  .card-warm { border-radius: 1.25rem; }
+}
+
+/* Card con tinte de audiencia (usa --aud-* del scope) */
+.card-tint {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--aud-cream) 65%, white), white 80%),
+    var(--aud-cream);
+  border: 1px solid color-mix(in srgb, var(--aud) 18%, transparent);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--aud) 8%, transparent);
+}
+@media (min-width: 640px) {
+  .card-tint { border-radius: 1.25rem; }
+}
+
+/* Card hover universal */
+.card-hover {
+  transition:
+    transform 380ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 380ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 36px -12px rgba(15, 23, 42, 0.12);
+  border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 28%, transparent);
+}
+
+/* Sección "paper warm" — para bloques que necesitan respirar fuera del flujo */
+.section-warm {
+  background: var(--c-paper-soft);
+  border-radius: 2rem;
+  border: 1px solid var(--c-line-soft);
+}
+
+/* Eyebrow consistente — pequeño tag de sección */
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--aud, var(--c-cdj));
+}
+.eyebrow-ink { color: var(--c-ink-soft); }
+
+/* Display headings — escala compacta tipo Khan Academy moderno */
+.display-1 {
+  font-size: clamp(1.75rem, 2.5vw + 0.75rem, 2.875rem);
+  font-weight: 900;
+  letter-spacing: -0.022em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.display-2 {
+  font-size: clamp(1.375rem, 1.4vw + 0.75rem, 2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.display-3 {
+  font-size: clamp(1.125rem, 0.8vw + 0.75rem, 1.5rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+/* Botón primary de audiencia */
+.btn-aud {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  font-size: 0.875rem;
+  background: var(--aud, var(--c-cdj));
+  color: white;
+  box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--aud, var(--c-cdj)) 60%, transparent);
+  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-aud:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px -8px color-mix(in srgb, var(--aud, var(--c-cdj)) 70%, transparent);
+  background: color-mix(in srgb, var(--aud, var(--c-cdj)) 88%, black);
+}
+.btn-aud::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+  transform: translateX(-120%);
+  transition: transform 600ms ease;
+  pointer-events: none;
+}
+.btn-aud:hover::after { transform: translateX(120%); }
+
+/* Botón ghost/outlined */
+.btn-ghost-aud {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  font-size: 0.875rem;
+  border: 1.5px solid color-mix(in srgb, var(--aud, var(--c-cdj)) 35%, transparent);
+  background: color-mix(in srgb, var(--aud-cream, var(--c-cdj-cream)) 50%, white);
+  color: color-mix(in srgb, var(--aud, var(--c-cdj)) 75%, black);
+  transition: all 200ms ease;
+}
+.btn-ghost-aud:hover {
+  background: var(--aud-cream, var(--c-cdj-cream));
+  border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 55%, transparent);
+}
+
+/* Compact button para sidebar / chips densos */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  background: var(--c-paper-soft);
+  color: var(--c-ink);
+  transition: all 180ms ease;
+}
+.btn-pill:hover { background: white; box-shadow: 0 1px 4px rgba(15,23,42,0.08); }
+
+/* ========================================================================
+   HERO BACKGROUNDS por audiencia — sólido + textura sutil
+   ======================================================================== */
+.hero-aud {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 500px at 88% -10%, color-mix(in srgb, var(--aud-soft, var(--c-cdj-soft)) 45%, transparent), transparent 60%),
+    radial-gradient(640px 380px at 8% 110%, color-mix(in srgb, var(--aud, var(--c-cdj)) 55%, transparent), transparent 60%),
+    color-mix(in srgb, var(--aud, var(--c-cdj)) 92%, black);
+  color: white;
+  border-radius: 1.75rem;
+  border: 1px solid color-mix(in srgb, var(--aud, var(--c-cdj)) 60%, black 25%);
+}
+@media (min-width: 640px) {
+  .hero-aud { border-radius: 2.5rem; }
+}
+
+/* Hero modo cálido (fondo papel con personajes) */
+.hero-warm {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(700px 380px at 92% -12%, color-mix(in srgb, var(--aud-tint, var(--c-cdj-tint)) 70%, transparent), transparent 60%),
+    radial-gradient(560px 320px at -6% 110%, color-mix(in srgb, var(--aud-cream, var(--c-cdj-cream)) 80%, transparent), transparent 60%),
+    #FFFFFF;
+  border-radius: 1.75rem;
+  border: 1px solid var(--c-line);
+}
+@media (min-width: 640px) {
+  .hero-warm { border-radius: 2.5rem; }
+}
+
+/* Halo decorativo reusable (para detrás de iconos/badges) */
+.halo-aud {
+  position: relative;
+}
+.halo-aud::before {
+  content: '';
+  position: absolute;
+  inset: -25%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--aud, var(--c-cdj)) 35%, transparent), transparent 70%);
+  filter: blur(20px);
+  z-index: -1;
+}
+
+/* ========================================================================
+   SCROLL REVEAL
+   ======================================================================== */
 .reveal-init {
   opacity: 0;
   will-change: transform, opacity;
@@ -102,7 +428,9 @@ h1, h2, h3, h4, h5, h6 {
   transform: none !important;
 }
 
-/* ========== Keyframes utilitarios ========== */
+/* ========================================================================
+   KEYFRAMES UTILITARIOS
+   ======================================================================== */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0); }
   50%      { transform: translate3d(0, -8px, 0); }
@@ -130,11 +458,16 @@ h1, h2, h3, h4, h5, h6 {
   0%, 100% { background-position: 0% 50%; }
   50%      { background-position: 100% 50%; }
 }
+@keyframes orbit-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
 .anim-float-slow { animation: float-slow 7s ease-in-out infinite; }
 .anim-float-fast { animation: float-fast 5s ease-in-out infinite; }
 .anim-blob       { animation: blob 16s ease-in-out infinite; }
 .anim-gradient   { background-size: 200% 200%; animation: gradient-pan 14s ease infinite; }
+.anim-orbit      { animation: orbit-slow 32s linear infinite; }
 
 /* Marquee horizontal */
 @keyframes marquee {
@@ -144,16 +477,25 @@ h1, h2, h3, h4, h5, h6 {
 .anim-marquee { animation: marquee 40s linear infinite; }
 .anim-marquee:hover { animation-play-state: paused; }
 
-/* Scrollbar suave para carruseles horizontales */
+/* ========================================================================
+   SCROLL HORIZONTAL — carruseles
+   ======================================================================== */
 .scroll-snap-x {
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 .scroll-snap-x > * { scroll-snap-align: start; }
 .scroll-snap-x::-webkit-scrollbar { height: 8px; }
 .scroll-snap-x::-webkit-scrollbar-thumb { background: rgba(15,23,42,0.15); border-radius: 999px; }
 
-/* Search overlay */
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* ========================================================================
+   SEARCH OVERLAY
+   ======================================================================== */
 @keyframes searchOverlayIn {
   from { opacity: 0; backdrop-filter: blur(0); }
   to   { opacity: 1; backdrop-filter: blur(12px); }
@@ -165,26 +507,57 @@ h1, h2, h3, h4, h5, h6 {
 .search-overlay { animation: searchOverlayIn 220ms ease-out forwards; }
 .search-panel   { animation: searchPanelIn 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
-/* Glass card utility */
+/* ========================================================================
+   GLASS UTILITY
+   ======================================================================== */
 .glass {
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+}
+.glass-dark {
+  background: rgba(15, 23, 42, 0.55);
   backdrop-filter: saturate(140%) blur(14px);
   -webkit-backdrop-filter: saturate(140%) blur(14px);
 }
 
-/* Foco accesible global */
+/* ========================================================================
+   TEXTURAS SUTILES
+   ======================================================================== */
+
+/* Grain noise inline para fondos blancos que se sientan demasiado planos */
+.bg-paper-grain {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.06  0 0 0 0 0.05  0 0 0 0 0.04  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    var(--c-paper);
+}
+
+/* Patrón de puntos sutiles para secciones especiales */
+.bg-dots-aud {
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--aud, var(--c-cdj)) 20%, transparent) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ========================================================================
+   FOCO ACCESIBLE
+   ======================================================================== */
 :focus-visible {
-  outline: 3px solid rgba(20, 184, 166, 0.55);
+  outline: 3px solid color-mix(in srgb, var(--aud, var(--c-cdj)) 55%, transparent);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
+/* ========================================================================
+   PREFERS REDUCED MOTION
+   ======================================================================== */
 @media (prefers-reduced-motion: reduce) {
   .anim-float-slow,
   .anim-float-fast,
   .anim-blob,
   .anim-gradient,
-  .anim-marquee {
+  .anim-marquee,
+  .anim-orbit {
     animation: none !important;
   }
   .reveal-init {
@@ -192,4 +565,6 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 1 !important;
     transform: none !important;
   }
+  .card-hover { transition: none !important; }
+  html { scroll-behavior: auto; }
 }

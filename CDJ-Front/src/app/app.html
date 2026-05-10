@@ -1,7 +1,11 @@
-<div class="relative flex min-h-[100dvh] gap-4 p-3 sm:p-4 lg:gap-6 lg:p-6">
-  <!-- Sidebar desktop -->
-  <div class="hidden w-72 flex-shrink-0 lg:block">
-    <app-sidebar variant="desktop"></app-sidebar>
+<div class="relative flex min-h-[100dvh] gap-3 p-2 sm:gap-4 sm:p-3 lg:gap-4 lg:p-4">
+  <!-- Sidebar desktop (rail 64px collapsed, expand on hover).
+       z-50 + isolate para que el aside expanded esté siempre encima
+       de heroes y demás contenido (que crean stacking contexts propios). -->
+  <div class="relative isolate hidden w-16 shrink-0 lg:block" style="z-index: 60;">
+    <div class="sticky top-3 h-[calc(100dvh-1rem)]">
+      <app-sidebar variant="desktop"></app-sidebar>
+    </div>
   </div>
 
   <!-- Mobile drawer -->
@@ -29,12 +33,12 @@
   </div>
 
   <div class="flex min-w-0 flex-1 flex-col gap-4 lg:gap-6">
-    <!-- Header -->
+    <!-- Header — compacto, sin botones decorativos -->
     <header
-      class="sticky top-3 z-40 rounded-2xl border border-slate-100 bg-white/85 px-4 py-3 shadow-sm backdrop-blur transition-all duration-300 sm:top-4 sm:rounded-3xl sm:px-6 lg:px-8 lg:py-4"
+      class="sticky top-2 z-40 rounded-xl border border-[color:var(--c-line)] bg-white/90 px-3 py-2 shadow-sm backdrop-blur transition-all duration-300 sm:top-3 sm:rounded-2xl sm:px-5 lg:px-6 lg:py-2.5"
       [class.shadow-md]="scrolled()"
       [class.bg-white]="scrolled()">
-      <div class="flex items-center justify-between gap-3 sm:gap-6">
+      <div class="flex items-center justify-between gap-3">
         <!-- Mobile logo + hamburguesa -->
         <div class="flex items-center gap-2.5 lg:hidden">
           <button
@@ -42,56 +46,41 @@
             (click)="toggleDrawer()"
             [attr.aria-label]="drawerOpen() ? 'Cerrar menú' : 'Abrir menú'"
             [attr.aria-expanded]="drawerOpen()"
-            class="grid h-10 w-10 place-items-center rounded-xl border border-slate-100 bg-white text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95">
-            <span class="material-symbols-rounded text-2xl">{{ drawerOpen() ? 'close' : 'menu' }}</span>
+            class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--c-line)] bg-white text-[color:var(--c-ink)] transition-all hover:bg-[color:var(--c-paper-soft)] active:scale-95">
+            <span translate="no" class="material-symbols-rounded text-[22px]">{{ drawerOpen() ? 'close' : 'menu' }}</span>
           </button>
           <a routerLink="/" class="flex items-center gap-2">
-            <app-cdj-logo containerClass="h-9 w-9 rounded-lg bg-emerald-50 text-teal-600"></app-cdj-logo>
-            <span class="text-sm font-black leading-[1.05] tracking-tight text-slate-800">
-              Ciudadanía<br>Digital <span class="text-teal-600">Jalisco</span>
+            <app-cdj-logo containerClass="h-8 w-8 rounded-lg bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
+            <span class="text-[12px] font-black leading-[1.05] tracking-tight text-[color:var(--c-ink)]">
+              Ciudadanía<br>Digital <span class="text-[color:var(--c-cdj)]">Jalisco</span>
             </span>
           </a>
         </div>
 
         <!-- Desktop nav -->
-        <nav class="hidden items-center gap-1 lg:flex">
+        <nav class="hidden items-center gap-0.5 lg:flex">
           <a *ngFor="let link of topNav"
              [routerLink]="link.href.startsWith('/') ? link.href : null"
              [href]="!link.href.startsWith('/') ? link.href : null"
              [routerLinkActiveOptions]="{ exact: link.exact }"
-             routerLinkActive="bg-teal-50 text-teal-700"
-             class="rounded-xl px-3 py-2 text-sm font-bold text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900">
+             routerLinkActive="bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"
+             class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] font-bold text-[color:var(--c-ink-soft)] transition-colors hover:bg-[color:var(--c-paper-soft)] hover:text-[color:var(--c-ink)]">
+            <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive">{{ link.icon }}</span>
             {{ link.label }}
           </a>
         </nav>
 
-        <div class="flex items-center gap-1.5 sm:gap-2">
+        <div class="flex items-center gap-1.5">
           <!-- Buscador -->
           <button
             type="button"
             (click)="openSearch()"
-            aria-label="Buscar (Ctrl + K)"
-            title="Buscar (Ctrl + K)"
-            class="group flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-sm font-medium text-slate-500 transition-all hover:border-slate-300 hover:bg-white hover:text-slate-800 sm:px-4">
-            <span class="material-symbols-rounded text-xl">search</span>
+            aria-label="Buscar (Cmd + K)"
+            title="Buscar (Cmd + K)"
+            class="group inline-flex items-center gap-2 rounded-lg border border-[color:var(--c-line)] bg-[color:var(--c-paper-soft)]/60 px-2.5 py-1.5 text-[13px] font-medium text-[color:var(--c-ink-soft)] transition-all hover:border-[color:var(--c-cdj)]/40 hover:bg-white hover:text-[color:var(--c-ink)] sm:px-3">
+            <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive">search</span>
             <span class="hidden sm:inline">Buscar</span>
-            <span class="hidden rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-500 sm:inline">⌘K</span>
-          </button>
-
-          <!-- Lengua de señas (accesibilidad) -->
-          <button
-            type="button"
-            (click)="toggleSignLanguage()"
-            [attr.aria-pressed]="signLanguage()"
-            [title]="signLanguage() ? 'Lengua de señas activada' : 'Activar lengua de señas'"
-            class="hidden h-10 w-10 place-items-center rounded-xl border transition-colors sm:grid"
-            [class.border-teal-200]="signLanguage()"
-            [class.bg-teal-50]="signLanguage()"
-            [class.text-teal-700]="signLanguage()"
-            [class.border-slate-100]="!signLanguage()"
-            [class.text-slate-500]="!signLanguage()"
-            [class.hover:bg-slate-50]="!signLanguage()">
-            <span class="material-symbols-rounded text-xl" [class.icon-fill]="signLanguage()">sign_language</span>
+            <kbd class="hidden rounded border border-[color:var(--c-line)] bg-white px-1 py-0.5 text-[9px] font-bold text-[color:var(--c-ink-mute)] sm:inline">⌘K</kbd>
           </button>
 
           @if (isAdmin()) {
@@ -99,20 +88,19 @@
               type="button"
               (click)="toggleEdit()"
               [attr.aria-pressed]="editMode()"
-              [title]="editMode() ? 'Salir de modo edición (admin)' : 'Activar modo edición (admin)'"
-              class="relative grid h-10 w-10 place-items-center rounded-xl border transition-all sm:h-10 sm:w-auto sm:gap-2 sm:px-3"
-              [class.border-teal-200]="editMode()"
-              [class.bg-teal-50]="editMode()"
-              [class.text-teal-700]="editMode()"
-              [class.border-slate-100]="!editMode()"
-              [class.text-slate-500]="!editMode()"
-              [class.hover:bg-slate-50]="!editMode()">
-              <span class="material-symbols-rounded text-xl" [class.icon-fill]="editMode()">{{ editMode() ? 'edit_square' : 'edit' }}</span>
-              <span class="hidden text-xs font-bold sm:inline">{{ editMode() ? 'Editando' : 'Editar' }}</span>
+              [title]="editMode() ? 'Salir de modo edición' : 'Activar modo edición'"
+              class="relative grid h-9 w-9 place-items-center rounded-lg border transition-all"
+              [class.border-amber-300]="editMode()"
+              [class.bg-amber-50]="editMode()"
+              [class.text-amber-700]="editMode()"
+              [class.border-c-line]="!editMode()"
+              [class.text-c-ink-soft]="!editMode()"
+              [class.hover:bg-c-paper-soft]="!editMode()">
+              <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="editMode()">{{ editMode() ? 'edit_square' : 'edit' }}</span>
               @if (editMode()) {
-                <span class="absolute -right-1 -top-1 flex h-2.5 w-2.5">
-                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-75"></span>
-                  <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-teal-500"></span>
+                <span class="absolute -right-0.5 -top-0.5 flex h-2 w-2">
+                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+                  <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
                 </span>
               }
             </button>
@@ -120,21 +108,19 @@
             @if (editMode() && hasOverrides()) {
               <button type="button" (click)="resetAllImages()"
                 title="Restablecer todas las imágenes"
-                class="hidden h-10 w-10 place-items-center rounded-xl border border-amber-200 bg-amber-50 text-amber-700 transition-colors hover:bg-amber-100 sm:grid">
-                <span class="material-symbols-rounded text-xl">restart_alt</span>
+                class="hidden h-9 w-9 place-items-center rounded-lg border border-amber-200 bg-amber-50 text-amber-700 transition-colors hover:bg-amber-100 sm:grid">
+                <span translate="no" class="material-symbols-rounded text-[18px]">restart_alt</span>
               </button>
             }
           }
 
-          <a routerLink="/series"
-             class="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-teal-600/25 transition-all hover:bg-teal-700 hover:shadow-teal-600/40 active:scale-[0.98] sm:px-5">
+          <a routerLink="/recursos"
+             class="btn-aud group">
             <span class="hidden sm:inline">Explorar</span>
-            <span class="material-symbols-rounded text-base transition-transform group-hover:translate-x-0.5">arrow_forward</span>
-            <span class="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"></span>
+            <span translate="no" class="material-symbols-rounded text-[18px] transition-transform group-hover:translate-x-0.5">arrow_forward</span>
           </a>
         </div>
       </div>
-
     </header>
 
     <main class="flex-1">
@@ -198,7 +184,7 @@
       <div class="search-panel relative z-10 mt-20 w-[92%] max-w-2xl sm:mt-28">
         <div class="overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-2xl shadow-slate-900/20">
           <div class="flex items-center gap-3 border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">
-            <span class="material-symbols-rounded text-2xl text-slate-400">search</span>
+            <span translate="no" class="material-symbols-rounded text-2xl text-slate-400">search</span>
             <input
               #searchInput
               type="text"
@@ -209,7 +195,7 @@
             @if (searchQuery()) {
               <button type="button" (click)="searchQuery.set('')"
                 class="grid h-8 w-8 place-items-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700">
-                <span class="material-symbols-rounded text-base">close</span>
+                <span translate="no" class="material-symbols-rounded text-base">close</span>
               </button>
             }
             <button type="button" (click)="closeSearch()"
@@ -225,42 +211,42 @@
               <a routerLink="/edutips" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-violet-200 hover:bg-white hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-violet-500 text-white">
-                  <span class="material-symbols-rounded text-lg icon-fill">play_circle</span>
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">play_circle</span>
                 </span>
                 <span class="text-sm font-bold text-slate-700">Edutips</span>
               </a>
               <a routerLink="/series" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-white hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-pink-500 text-white">
-                  <span class="material-symbols-rounded text-lg icon-fill">video_library</span>
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">video_library</span>
                 </span>
                 <span class="text-sm font-bold text-slate-700">Series</span>
               </a>
               <a routerLink="/ayuda" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:bg-white hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-rose-500 text-white">
-                  <span class="material-symbols-rounded text-lg icon-fill">shield</span>
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">shield</span>
                 </span>
                 <span class="text-sm font-bold text-slate-700">Ayuda Digital</span>
               </a>
               <a routerLink="/p/ninas-y-ninos" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-teal-200 hover:bg-white hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-teal-500 text-white">
-                  <span class="material-symbols-rounded text-lg icon-fill">face</span>
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">face</span>
                 </span>
                 <span class="text-sm font-bold text-slate-700">Niñas y niños</span>
               </a>
               <a routerLink="/p/familias" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-orange-200 hover:bg-white hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-orange-500 text-white">
-                  <span class="material-symbols-rounded text-lg icon-fill">groups</span>
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">groups</span>
                 </span>
                 <span class="text-sm font-bold text-slate-700">Familias</span>
               </a>
               <a routerLink="/p/docentes" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-white hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-emerald-500 text-white">
-                  <span class="material-symbols-rounded text-lg icon-fill">school</span>
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">school</span>
                 </span>
                 <span class="text-sm font-bold text-slate-700">Docentes</span>
               </a>

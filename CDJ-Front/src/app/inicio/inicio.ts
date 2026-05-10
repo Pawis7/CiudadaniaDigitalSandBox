@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { EditableImageComponent } from '../shared/editable-image/editable-image';
+import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, EditableImageComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, EditableImageComponent, AudIllustrationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',

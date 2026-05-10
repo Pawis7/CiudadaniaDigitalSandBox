@@ -1,18 +1,21 @@
-<!-- ============== HERO ============== -->
+<!-- ====================================================================
+     HERO — identidad teal cálido, ilustración SVG de fondo, badges del PDF
+     ==================================================================== -->
 <section
   appReveal="fade"
   [revealDuration]="900"
-  class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-slate-100 bg-white shadow-sm sm:mb-12 sm:rounded-[2.5rem]">
-  <!-- Blobs decorativos -->
-  <div aria-hidden="true" class="pointer-events-none absolute -left-16 -top-16 h-72 w-72 rounded-full bg-gradient-to-tr from-blue-300/40 via-violet-300/40 to-pink-300/40 blur-3xl anim-blob"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-gradient-to-tr from-teal-200/40 via-emerald-200/40 to-cyan-200/40 blur-3xl anim-blob" style="animation-delay:-6s"></div>
+  class="hero-warm relative mb-10 sm:mb-14"
+  data-audience="cdj">
 
-  <div class="relative grid grid-cols-1 items-center gap-0 lg:grid-cols-[1.15fr_1fr]">
-    <div class="space-y-5 p-6 sm:space-y-6 sm:p-10 lg:p-12 xl:p-14">
+  <div aria-hidden="true" class="pointer-events-none absolute -left-20 -top-24 h-80 w-80 rounded-full bg-[color-mix(in_srgb,var(--c-cdj-tint)_70%,transparent)] blur-3xl anim-blob"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -right-24 -bottom-24 h-96 w-96 rounded-full bg-[color-mix(in_srgb,var(--c-families-tint)_60%,transparent)] blur-3xl anim-blob" style="animation-delay:-6s"></div>
+
+  <div class="relative grid grid-cols-1 items-center gap-0 lg:grid-cols-[1.2fr_1fr]">
+    <div class="space-y-6 p-6 sm:space-y-7 sm:p-10 lg:p-14">
       @if (hero().eyebrow) {
         <span
           appReveal="up"
-          class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-slate-600 shadow-sm backdrop-blur sm:text-xs">
+          class="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--c-cdj)_25%,transparent)] bg-white/80 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-[color:var(--c-cdj)] shadow-sm backdrop-blur sm:text-xs">
           <span class="relative flex h-2 w-2">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-400 opacity-75"></span>
             <span class="relative inline-flex h-2 w-2 rounded-full bg-teal-500"></span>
@@ -24,10 +27,9 @@
       <h1
         appReveal="up"
         [revealDelay]="80"
-        class="text-balance font-black leading-[1.05] tracking-tight text-slate-800"
-        style="font-size: clamp(1.875rem, 2.4vw + 1rem, 3.25rem)">
+        class="display-1 text-[color:var(--c-ink)]">
         {{ hero().titleLead }}
-        <span class="block bg-gradient-to-tr from-blue-600 via-violet-600 to-pink-500 bg-clip-text text-transparent anim-gradient">
+        <span class="mt-1 block bg-gradient-to-br from-[color:var(--c-cdj)] via-[color:var(--c-cdj-soft)] to-[color:var(--c-teachers)] bg-clip-text text-transparent">
           {{ hero().titleHighlight }}
         </span>
       </h1>
@@ -35,261 +37,314 @@
       <p
         appReveal="up"
         [revealDelay]="160"
-        class="max-w-xl text-base leading-relaxed text-slate-500 sm:text-lg">
+        class="max-w-xl text-base leading-relaxed text-[color:var(--c-ink-soft)] sm:text-lg">
         {{ hero().description }}
       </p>
 
       <div appReveal="up" [revealDelay]="240" class="flex flex-wrap gap-3 sm:gap-4">
-        <a [href]="hero().primaryCta.href"
-           class="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-teal-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-teal-600/25 transition-all hover:-translate-y-0.5 hover:bg-teal-700 hover:shadow-xl hover:shadow-teal-600/40 active:translate-y-0 sm:px-8 sm:text-base">
-          <span class="material-symbols-rounded text-xl">explore</span>
+        <a [href]="hero().primaryCta.href" class="btn-aud">
+          <span translate="no" class="material-symbols-rounded text-xl">explore</span>
           {{ hero().primaryCta.label }}
-          <span class="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"></span>
         </a>
         @if (hero().secondaryCta) {
-          <a [href]="hero().secondaryCta!.href"
-             class="inline-flex items-center gap-2 rounded-xl border-2 border-teal-600 px-6 py-3 text-sm font-bold text-teal-700 transition-all hover:bg-teal-50 sm:px-8 sm:text-base">
-            <span class="material-symbols-rounded text-xl">badge</span>
+          <a [href]="hero().secondaryCta!.href" class="btn-ghost-aud">
+            <span translate="no" class="material-symbols-rounded text-xl">badge</span>
             {{ hero().secondaryCta!.label }}
           </a>
         }
       </div>
 
-      <div appReveal="up" [revealDelay]="320" class="grid grid-cols-3 gap-4 pt-6 sm:gap-6 sm:pt-8">
-        <div *ngFor="let s of stats" class="border-l-2 border-slate-100 pl-3 sm:pl-4">
-          <div class="text-2xl font-black text-slate-800 sm:text-3xl">{{ s.value }}</div>
-          <div class="text-[11px] uppercase tracking-wider text-slate-500 sm:text-xs">{{ s.label }}</div>
+      <div appReveal="up" [revealDelay]="320" class="grid grid-cols-3 gap-4 pt-4 sm:gap-6">
+        <div *ngFor="let s of stats" class="border-l-2 border-[color:var(--c-line)] pl-3 sm:pl-4">
+          <div class="text-2xl font-black text-[color:var(--c-ink)] sm:text-3xl">{{ s.value }}</div>
+          <div class="text-[11px] uppercase tracking-wider text-[color:var(--c-ink-soft)] sm:text-xs">{{ s.label }}</div>
         </div>
       </div>
     </div>
 
-    <div class="relative h-64 sm:h-80 lg:h-full lg:min-h-[520px]">
+    <!-- Lado derecho: ilustración + badges flotantes (estilo PDF) -->
+    <div class="relative h-72 sm:h-96 lg:h-full lg:min-h-[520px]">
       <app-editable-image
         id="hero-main"
+        theme="cdj"
+        scene="hero"
         [src]="hero().imageUrl"
         [alt]="hero().imageAlt"
         [width]="1600" [height]="1200" aspectLabel="4:3"
         [eager]="true"
         imgClass="h-full w-full object-cover">
       </app-editable-image>
-      <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent lg:bg-gradient-to-r lg:from-white/0 lg:via-transparent lg:to-transparent"></div>
 
-      <div appReveal="scale" [revealDelay]="320"
-           class="absolute left-4 top-4 grid h-14 w-14 place-items-center rounded-2xl bg-white/95 shadow-xl shadow-slate-900/10 backdrop-blur anim-float-slow sm:left-8 sm:top-8 sm:h-16 sm:w-16">
-        <span class="material-symbols-rounded text-2xl text-blue-600 icon-fill sm:text-3xl">verified_user</span>
+      <!-- Badge: Seguridad y privacidad (teal) -->
+      <div appReveal="left" [revealDelay]="360"
+           class="absolute left-4 top-4 flex items-center gap-2.5 rounded-2xl bg-white/95 px-4 py-2.5 shadow-xl shadow-slate-900/10 backdrop-blur anim-float-slow sm:left-6 sm:top-6">
+        <span class="grid h-9 w-9 place-items-center rounded-xl bg-[color:var(--c-cdj)] text-white">
+          <span translate="no" class="material-symbols-rounded text-xl icon-fill">verified_user</span>
+        </span>
+        <div class="text-[11px] leading-tight">
+          <p class="font-black text-[color:var(--c-ink)]">Seguridad</p>
+          <p class="text-[color:var(--c-ink-soft)]">y privacidad</p>
+        </div>
       </div>
 
-      <div appReveal="scale" [revealDelay]="420"
-           class="absolute bottom-6 right-6 grid h-12 w-12 place-items-center rounded-2xl bg-violet-600/95 text-white shadow-xl shadow-violet-500/30 backdrop-blur anim-float-fast sm:bottom-12 sm:right-12 sm:h-14 sm:w-14">
-        <span class="material-symbols-rounded text-xl icon-fill sm:text-2xl">favorite</span>
+      <!-- Badge: Convivencia (violeta) -->
+      <div appReveal="scale" [revealDelay]="440"
+           class="absolute right-4 top-12 grid h-12 w-12 place-items-center rounded-2xl bg-[color:var(--c-teens)] text-white shadow-xl shadow-violet-500/30 anim-float-fast sm:right-8 sm:top-16 sm:h-14 sm:w-14">
+        <span translate="no" class="material-symbols-rounded text-2xl icon-fill">forum</span>
       </div>
 
-      <div appReveal="left" [revealDelay]="500"
-           class="absolute bottom-6 left-6 hidden items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-bold text-slate-700 shadow-lg backdrop-blur sm:flex">
-        <span class="material-symbols-rounded text-base text-pink-500 icon-fill">bolt</span>
+      <!-- Badge: Respeto (coral) -->
+      <div appReveal="scale" [revealDelay]="520"
+           class="absolute bottom-20 right-6 grid h-10 w-10 place-items-center rounded-2xl bg-[color:var(--c-help)] text-white shadow-xl shadow-rose-500/30 anim-float-slow sm:bottom-24 sm:right-12 sm:h-12 sm:w-12">
+        <span translate="no" class="material-symbols-rounded text-xl icon-fill">favorite</span>
+      </div>
+
+      <!-- Banderín: Aprende, convive y participa -->
+      <div appReveal="left" [revealDelay]="600"
+           class="absolute bottom-4 left-4 hidden items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-bold text-[color:var(--c-ink)] shadow-lg backdrop-blur sm:flex sm:left-6 sm:bottom-6">
+        <span translate="no" class="material-symbols-rounded text-base text-[color:var(--c-families)] icon-fill">bolt</span>
         Aprende, convive y participa
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============== CATEGORÍAS ============== -->
-<section class="mb-8 sm:mb-12">
-  <div class="mb-5 flex items-end justify-between gap-4 sm:mb-7">
+<!-- ====================================================================
+     CATEGORÍAS POR AUDIENCIA — cada card con su tinte propio (PDF style)
+     ==================================================================== -->
+<section id="perfiles" class="mb-10 sm:mb-16">
+  <div class="mb-6 flex items-end justify-between gap-4 sm:mb-8">
     <div appReveal="up">
-      <p class="text-xs font-black uppercase tracking-widest text-teal-600">Para ti</p>
-      <h2 class="text-2xl font-black tracking-tight text-slate-800 sm:text-3xl">Encuentra tu espacio</h2>
-    </div>
-    <a href="#" class="hidden items-center gap-1 text-sm font-bold text-slate-500 transition-colors hover:text-slate-800 sm:inline-flex">
-      Ver todas <span class="material-symbols-rounded text-base">arrow_forward</span>
-    </a>
-  </div>
-
-  <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-    <a *ngFor="let cat of categories(); let i = index"
-       [routerLink]="['/p', cat.slug]"
-       appReveal="up"
-       [revealDelay]="i * 80"
-       class="group relative h-56 cursor-pointer overflow-hidden rounded-[1.5rem] border border-slate-100 shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl sm:h-72 sm:rounded-[2rem]">
-      <div class="absolute inset-0 transition-transform duration-[900ms] group-hover:scale-110">
-        <app-editable-image
-          [id]="'category-' + cat.slug"
-          [src]="cat.imageUrl"
-          [alt]="cat.name"
-          [width]="800" [height]="960" aspectLabel="5:6"
-          imgClass="h-full w-full object-cover">
-        </app-editable-image>
-      </div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent"></div>
-      <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-           [ngClass]="cat.accent"></div>
-
-      <div class="absolute inset-x-4 bottom-4 flex items-end justify-between gap-2 sm:inset-x-6 sm:bottom-6">
-        <h3 class="text-lg font-black tracking-tight text-white drop-shadow-md sm:text-2xl">{{ cat.name }}</h3>
-        <span class="grid h-10 w-10 place-items-center rounded-full bg-white text-slate-800 shadow-lg transition-all duration-500 group-hover:rotate-45 group-hover:bg-blue-600 group-hover:text-white sm:h-12 sm:w-12">
-          <span class="material-symbols-rounded text-base sm:text-xl">arrow_forward</span>
-        </span>
-      </div>
-    </a>
-  </div>
-</section>
-
-<!-- ============== SERIES DESTACADAS ============== -->
-<section id="contenidos" class="mb-8 sm:mb-12">
-  <div class="mb-5 flex items-end justify-between gap-4 sm:mb-7">
-    <div appReveal="up">
-      <p class="text-xs font-black uppercase tracking-widest text-pink-600">Series</p>
-      <h2 class="text-2xl font-black tracking-tight text-slate-800 sm:text-3xl">Mira y aprende</h2>
-      <p class="mt-1 max-w-xl text-sm text-slate-500 sm:text-base">
-        Cápsulas y episodios cortos para todas las edades.
+      <p class="eyebrow eyebrow-ink">Encuentra tu espacio</p>
+      <h2 class="display-2 mt-1">¿Quién eres en este viaje?</h2>
+      <p class="mt-2 max-w-xl text-sm text-[color:var(--c-ink-soft)] sm:text-base">
+        Cada perfil tiene su propia ruta de aprendizaje, lenguaje y recursos.
       </p>
     </div>
-    <a routerLink="/series" class="hidden items-center gap-1 text-sm font-bold text-slate-500 transition-colors hover:text-slate-800 sm:inline-flex">
-      Ver catálogo <span class="material-symbols-rounded text-base">arrow_forward</span>
-    </a>
   </div>
 
-  <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-    <a *ngFor="let serie of videoSeries(); let i = index"
-       [routerLink]="['/series', serie.slug]"
+  <div class="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 xl:grid-cols-4">
+    <a *ngFor="let cat of categories(); let i = index"
+       [routerLink]="['/p', cat.slug]"
+       [attr.data-audience]="cat.audience"
        appReveal="up"
-       [revealDelay]="i * 90"
-       class="group relative overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-2xl sm:rounded-[2rem]">
-      <div class="relative aspect-[16/10] w-full overflow-hidden">
-        <div class="absolute inset-0 transition-transform duration-[1.2s] group-hover:scale-110">
-          <app-editable-image
-            [id]="'series-cover-' + serie.id"
-            [src]="serie.coverImageUrl"
-            [alt]="serie.title"
-            [width]="1600" [height]="1000" aspectLabel="16:10"
-            imgClass="h-full w-full object-cover">
-          </app-editable-image>
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+       [revealDelay]="i * 80"
+       class="card-tint card-hover group relative flex h-72 flex-col overflow-hidden p-5 sm:h-80 sm:p-6">
 
-        <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-slate-700 shadow backdrop-blur">
-          <span class="grid h-5 w-5 place-items-center rounded-full text-white" [ngClass]="serie.iconBgClass">
-            <span class="material-symbols-rounded text-[14px] icon-fill">{{ serie.icon }}</span>
+      <!-- Decoración orgánica top-right -->
+      <span aria-hidden="true"
+            class="pointer-events-none absolute -right-8 -top-10 h-40 w-40 rounded-full opacity-50 blur-2xl"
+            [style.background]="'color-mix(in srgb, var(--aud) 35%, transparent)'"></span>
+
+      <!-- Header: chip de edad + flecha -->
+      <div class="relative mb-4 flex items-start justify-between">
+        @if (cat.ageRange) {
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--aud)] shadow-sm">
+            <span translate="no" class="material-symbols-rounded text-[14px]">cake</span>
+            {{ cat.ageRange }}
           </span>
-          {{ serie.episodeCount }} episodios
-        </span>
-
-        <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-slate-800 shadow-2xl shadow-black/30 transition-all duration-500 group-hover:scale-110">
-          <span class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+        }
+        <span class="grid h-10 w-10 place-items-center rounded-full bg-white text-[color:var(--aud)] shadow-md transition-all duration-500 group-hover:rotate-45 group-hover:bg-[color:var(--aud)] group-hover:text-white">
+          <span translate="no" class="material-symbols-rounded text-base">arrow_forward</span>
         </span>
       </div>
 
-      <div class="p-5 sm:p-6">
-        <h3 class="text-lg font-black tracking-tight text-slate-800 sm:text-xl">{{ serie.title }}</h3>
-        <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-slate-400">{{ serie.tagline }}</p>
-        <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-500">{{ serie.description }}</p>
+      <!-- Ilustración SVG temática -->
+      <div class="relative -mx-5 my-2 flex-1 sm:-mx-6">
+        <app-aud-illustration
+          [theme]="cat.audience"
+          [scene]="cat.illoScene || 'hero'"
+          class="block h-full w-full">
+        </app-aud-illustration>
       </div>
 
+      <!-- Footer: título + descripción -->
+      <div class="relative mt-3">
+        <h3 class="text-xl font-black tracking-tight text-[color:var(--c-ink)]">{{ cat.name }}</h3>
+        @if (cat.description) {
+          <p class="mt-1 text-sm leading-snug text-[color:var(--c-ink-soft)]">{{ cat.description }}</p>
+        }
+      </div>
     </a>
   </div>
 </section>
 
-<!-- ============== FEATURE CARDS ============== -->
-<section class="mb-8 grid grid-cols-1 gap-4 sm:mb-12 sm:gap-6 md:grid-cols-3">
-  <a *ngFor="let card of featureCards(); let i = index"
-     [routerLink]="card.href.startsWith('/') ? card.href : null"
-     [href]="!card.href.startsWith('/') ? card.href : null"
-     appReveal="up"
-     [revealDelay]="i * 100"
-     class="group relative flex h-[240px] flex-col justify-between overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl sm:rounded-[2rem] sm:p-8">
-    <div class="flex items-start justify-between">
-      <span class="grid h-14 w-14 place-items-center rounded-full text-white shadow-lg transition-transform duration-500 group-hover:scale-110"
-            [ngClass]="[card.iconBgClass, card.iconShadowClass]">
-        <span class="material-symbols-rounded text-2xl icon-fill">{{ card.icon }}</span>
-      </span>
-      <div class="h-20 w-20 overflow-hidden rounded-2xl opacity-90 transition-transform duration-500 group-hover:rotate-3 sm:h-24 sm:w-24">
-        <app-editable-image
-          [id]="'feature-' + card.id"
-          [src]="card.imageUrl"
-          [alt]="card.title"
-          [width]="400" [height]="400" aspectLabel="1:1"
-          imgClass="h-full w-full object-cover">
-        </app-editable-image>
+<!-- ====================================================================
+     SECCIONES ESPECIALES — Edutips, El día que casi, Ayuda Digital
+     ==================================================================== -->
+<section id="contenidos" class="mb-10 sm:mb-16">
+  <div class="mb-6 flex items-end justify-between gap-4 sm:mb-8">
+    <div appReveal="up">
+      <p class="eyebrow text-[color:var(--c-edutips)]">Espacios curados</p>
+      <h2 class="display-2 mt-1">Tres lugares para empezar</h2>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-5 sm:gap-7 md:grid-cols-3">
+    <a *ngFor="let card of featureCards(); let i = index"
+       [routerLink]="card.href.startsWith('/') ? card.href : null"
+       [href]="!card.href.startsWith('/') ? card.href : null"
+       [attr.data-audience]="card.audience"
+       appReveal="up"
+       [revealDelay]="i * 110"
+       class="card-tint card-hover group relative flex flex-col overflow-hidden">
+
+      <!-- Cover ilustrado, full bleed -->
+      <div class="relative aspect-[16/10] w-full overflow-hidden">
+        <app-aud-illustration
+          [theme]="card.audience"
+          [scene]="card.illoScene || 'hero'"
+          class="block h-full w-full transition-transform duration-[1200ms] group-hover:scale-105">
+        </app-aud-illustration>
+
+        @if (card.badge) {
+          <span class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-[color:var(--aud)] shadow-md">
+            <span class="grid h-4 w-4 place-items-center rounded-full bg-[color:var(--aud)] text-white">
+              <span translate="no" class="material-symbols-rounded text-[10px] icon-fill">{{ card.icon }}</span>
+            </span>
+            {{ card.badge }}
+          </span>
+        }
       </div>
-    </div>
-    <div class="space-y-1.5">
-      <h4 class="text-xl font-black tracking-tight text-slate-800">{{ card.title }}</h4>
-      <p class="max-w-[200px] text-sm leading-snug text-slate-500">{{ card.description }}</p>
-    </div>
-    <span class="absolute bottom-5 right-5 grid h-10 w-10 place-items-center rounded-full border border-slate-100 text-slate-400 transition-all duration-500 group-hover:border-transparent group-hover:bg-slate-900 group-hover:text-white">
-      <span class="material-symbols-rounded text-base">arrow_forward</span>
-    </span>
-  </a>
+
+      <!-- Body -->
+      <div class="flex flex-1 flex-col gap-3 p-5 sm:p-6">
+        <h3 class="text-xl font-black tracking-tight text-[color:var(--c-ink)] sm:text-2xl">{{ card.title }}</h3>
+        <p class="text-sm leading-relaxed text-[color:var(--c-ink-soft)]">{{ card.description }}</p>
+
+        <span class="mt-auto inline-flex items-center gap-1.5 text-sm font-bold text-[color:var(--aud)]">
+          Entrar
+          <span translate="no" class="material-symbols-rounded text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
+        </span>
+      </div>
+    </a>
+  </div>
 </section>
 
-<!-- ============== PILARES ============== -->
+<!-- ====================================================================
+     PILARES — Aprender · Convivir · Participar
+     ==================================================================== -->
 <section
   appReveal="up"
-  class="mb-8 rounded-[1.75rem] border border-slate-100 bg-white p-6 shadow-sm sm:mb-12 sm:rounded-[2.5rem] sm:p-12">
-  <div class="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
-    <p class="text-xs font-black uppercase tracking-widest text-violet-600">Nuestro enfoque</p>
-    <h2 class="mt-2 text-2xl font-black tracking-tight text-slate-800 sm:text-3xl">Tres pilares para una vida digital plena</h2>
+  class="card-warm relative mb-10 overflow-hidden p-6 sm:mb-16 sm:p-12">
+
+  <span aria-hidden="true" class="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-[color:var(--c-paper-soft)] blur-3xl"></span>
+
+  <div class="relative mx-auto mb-10 max-w-2xl text-center sm:mb-12">
+    <p class="eyebrow text-[color:var(--c-cdj)]">Nuestro enfoque</p>
+    <h2 class="display-2 mt-2">Tres pilares para una vida digital plena</h2>
+    <p class="mt-3 text-sm text-[color:var(--c-ink-soft)] sm:text-base">
+      Construimos ciudadanía digital alrededor de estos tres principios — todos los recursos del portal cumplen al menos uno.
+    </p>
   </div>
 
-  <div class="grid grid-cols-1 items-stretch gap-8 md:grid-cols-3 md:gap-4">
+  <div class="relative grid grid-cols-1 items-stretch gap-8 md:grid-cols-3 md:gap-6">
     <div *ngFor="let pillar of pillars(); let i = index"
          appReveal="up"
          [revealDelay]="i * 120"
-         class="relative flex flex-col items-center gap-3 px-2 text-center sm:px-4">
-      <div class="relative">
-        <span class="absolute inset-0 -z-10 rounded-full opacity-30 blur-xl" [ngClass]="pillar.bgClass"></span>
-        <span class="grid h-16 w-16 place-items-center rounded-full text-white shadow-lg transition-transform duration-500 hover:scale-110"
+         class="relative flex flex-col items-center gap-4 px-2 text-center sm:px-4">
+      <div class="halo-aud relative">
+        <span class="absolute inset-0 -z-10 rounded-full opacity-40 blur-xl" [ngClass]="pillar.bgClass"></span>
+        <span class="grid h-20 w-20 place-items-center rounded-2xl text-white shadow-xl transition-transform duration-500 hover:scale-110"
               [ngClass]="[pillar.bgClass, pillar.shadowClass]">
-          <span class="material-symbols-rounded text-3xl icon-fill">{{ pillar.icon }}</span>
+          <span translate="no" class="material-symbols-rounded text-4xl icon-fill">{{ pillar.icon }}</span>
         </span>
       </div>
-      <h4 class="text-2xl font-black tracking-tight text-slate-800">{{ pillar.title }}</h4>
-      <p class="max-w-[220px] text-sm leading-relaxed text-slate-500">{{ pillar.description }}</p>
+      <h4 class="text-2xl font-black tracking-tight text-[color:var(--c-ink)]">{{ pillar.title }}</h4>
+      <p class="max-w-[240px] text-sm leading-relaxed text-[color:var(--c-ink-soft)]">{{ pillar.description }}</p>
 
       @if (i < pillars().length - 1) {
-        <span aria-hidden="true" class="absolute right-0 top-2 hidden h-28 w-px bg-slate-100 md:block"></span>
+        <span aria-hidden="true" class="absolute right-0 top-8 hidden h-32 w-px bg-[color:var(--c-line)] md:block"></span>
       }
     </div>
   </div>
 </section>
 
-<!-- ============== CTA BANNER ============== -->
+<!-- ====================================================================
+     SERIES DESTACADAS — Mira y aprende
+     ==================================================================== -->
+<section class="mb-10 sm:mb-16">
+  <div class="mb-6 flex items-end justify-between gap-4 sm:mb-8">
+    <div appReveal="up">
+      <p class="eyebrow text-[color:var(--c-edutips)]">Series</p>
+      <h2 class="display-2 mt-1">Mira y aprende</h2>
+      <p class="mt-2 max-w-xl text-sm text-[color:var(--c-ink-soft)] sm:text-base">
+        Cápsulas y episodios cortos para todas las edades.
+      </p>
+    </div>
+    <a routerLink="/series" class="hidden items-center gap-1.5 text-sm font-bold text-[color:var(--c-ink-soft)] transition-colors hover:text-[color:var(--c-ink)] sm:inline-flex">
+      Ver catálogo <span translate="no" class="material-symbols-rounded text-base">arrow_forward</span>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 gap-5 sm:gap-7 md:grid-cols-2 lg:grid-cols-3">
+    <a *ngFor="let serie of videoSeries(); let i = index"
+       [routerLink]="['/series', serie.slug]"
+       [attr.data-audience]="serie.audience"
+       appReveal="up"
+       [revealDelay]="i * 90"
+       class="card-warm card-hover group relative flex flex-col overflow-hidden">
+
+      <div class="relative aspect-[16/10] w-full overflow-hidden">
+        <app-aud-illustration
+          [theme]="serie.audience"
+          [scene]="serie.illoScene || 'spark'"
+          class="block h-full w-full transition-transform duration-[1200ms] group-hover:scale-105">
+        </app-aud-illustration>
+
+        <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-[color:var(--c-ink)] shadow-md backdrop-blur">
+          <span class="grid h-5 w-5 place-items-center rounded-full bg-[color:var(--aud)] text-white">
+            <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">{{ serie.icon }}</span>
+          </span>
+          {{ serie.episodeCount }} episodios
+        </span>
+
+        <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-[color:var(--c-ink)] shadow-2xl shadow-black/30 transition-all duration-500 group-hover:scale-110 group-hover:bg-[color:var(--aud)] group-hover:text-white">
+          <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+        </span>
+      </div>
+
+      <div class="p-5 sm:p-6">
+        <h3 class="text-lg font-black tracking-tight text-[color:var(--c-ink)] sm:text-xl">{{ serie.title }}</h3>
+        <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--aud)]">{{ serie.tagline }}</p>
+        <p class="mt-3 line-clamp-2 text-sm leading-relaxed text-[color:var(--c-ink-soft)]">{{ serie.description }}</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ====================================================================
+     CTA BANNER — identidad teal institucional, NO morado random
+     ==================================================================== -->
 <section
   appReveal="up"
-  class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-slate-900/20 bg-slate-900 text-white shadow-2xl sm:mb-12 sm:rounded-[2.5rem]">
-  <div class="absolute inset-0">
-    <app-editable-image
-      id="cta-banner"
-      [src]="secondaryBanner().imageUrl"
-      [alt]="secondaryBanner().title"
-      [width]="1920" [height]="900" aspectLabel="64:30"
-      imgClass="h-full w-full object-cover opacity-30">
-    </app-editable-image>
-  </div>
-  <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/70 via-violet-600/40 to-pink-600/40 anim-gradient"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/70 to-transparent"></div>
+  class="hero-aud relative mb-10 overflow-hidden text-white shadow-2xl sm:mb-16"
+  data-audience="cdj">
 
-  <div class="relative grid grid-cols-1 gap-8 p-6 sm:p-12 lg:grid-cols-[1.4fr_1fr] lg:gap-10 lg:p-16">
+  <span aria-hidden="true" class="pointer-events-none absolute -left-24 -bottom-24 h-96 w-96 rounded-full bg-white/10 blur-3xl anim-blob"></span>
+  <span aria-hidden="true" class="pointer-events-none absolute -right-20 -top-24 h-80 w-80 rounded-full bg-[color-mix(in_srgb,var(--c-families)_45%,transparent)] blur-3xl anim-blob" style="animation-delay:-7s"></span>
+
+  <div class="relative grid grid-cols-1 gap-10 p-6 sm:p-12 lg:grid-cols-[1.4fr_1fr] lg:gap-12 lg:p-16">
     <div class="space-y-5">
       <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest backdrop-blur sm:text-xs">
-        <span class="material-symbols-rounded text-base icon-fill">campaign</span>
+        <span translate="no" class="material-symbols-rounded text-base icon-fill">campaign</span>
         Comunidad
       </span>
-      <h2 class="text-balance text-2xl font-black leading-tight tracking-tight sm:text-3xl lg:text-4xl">
+      <h2 class="display-2 text-white">
         {{ secondaryBanner().title }}
       </h2>
       <p class="max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
         {{ secondaryBanner().description }}
       </p>
-      <div class="flex flex-wrap gap-3">
+      <div class="flex flex-wrap gap-3 pt-1">
         <a [href]="secondaryBanner().ctaHref"
-           class="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-slate-900 shadow-xl transition-all hover:-translate-y-0.5 hover:shadow-2xl active:translate-y-0">
+           class="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-[color:var(--c-cdj)] shadow-xl transition-all hover:-translate-y-0.5 hover:shadow-2xl active:translate-y-0">
           {{ secondaryBanner().ctaLabel }}
-          <span class="material-symbols-rounded text-base transition-transform group-hover:translate-x-0.5">arrow_forward</span>
+          <span translate="no" class="material-symbols-rounded text-base transition-transform group-hover:translate-x-1">arrow_forward</span>
         </a>
         <a routerLink="/series"
-           class="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-white/10">
-          <span class="material-symbols-rounded text-base">play_arrow</span>
+           class="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur transition-all hover:bg-white/20">
+          <span translate="no" class="material-symbols-rounded text-base">play_arrow</span>
           Ver series
         </a>
       </div>
@@ -303,8 +358,8 @@
             <div class="mt-1 text-[11px] uppercase tracking-wider text-white/80">{{ s.label }}</div>
           </div>
           <div class="col-span-2 flex items-center gap-3 rounded-2xl bg-white/10 p-5 backdrop-blur">
-            <span class="grid h-12 w-12 place-items-center rounded-xl bg-white text-slate-900">
-              <span class="material-symbols-rounded text-2xl icon-fill">tips_and_updates</span>
+            <span class="grid h-12 w-12 place-items-center rounded-xl bg-white text-[color:var(--c-cdj)]">
+              <span translate="no" class="material-symbols-rounded text-2xl icon-fill">tips_and_updates</span>
             </span>
             <div class="text-sm leading-snug">
               <p class="font-black">Tip de hoy</p>

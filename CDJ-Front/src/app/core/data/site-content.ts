@@ -22,16 +22,15 @@ export const BRANDING: SiteBranding = {
 };
 
 export const HERO: Hero = {
-  eyebrow: 'Portal público de aprendizaje',
+  eyebrow: 'Portal público de aprendizaje · Jalisco',
   titleLead: 'Hola, bienvenidas y bienvenidos a',
   titleHighlight: 'Ciudadanía Digital',
   description:
-    'Aprendemos, convivimos y participamos en entornos digitales de forma segura, responsable y respetuosa.',
+    'Aprendemos, convivimos y participamos en entornos digitales de forma segura, responsable y respetuosa. Para niñas, niños, adolescentes, familias y docentes.',
   primaryCta: { label: 'Explorar contenidos', href: '#contenidos' },
   secondaryCta: { label: 'Entrar por perfil', href: '#perfiles' },
-  imageUrl:
-    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200',
-  imageAlt: 'Personas colaborando con tecnología',
+  imageUrl: '/assets/img/hero-main.svg',
+  imageAlt: 'Comunidad aprendiendo en entornos digitales',
 };
 
 export const CATEGORIES: Category[] = [
@@ -39,33 +38,45 @@ export const CATEGORIES: Category[] = [
     id: 'kids',
     slug: 'ninas-y-ninos',
     name: 'Niñas y niños',
-    imageUrl:
-      'https://images.unsplash.com/photo-1502086223501-7ea2493954b9?auto=format&fit=crop&q=80&w=600',
+    description: 'Jugar, descubrir y cuidarse en línea con calma.',
+    imageUrl: '/assets/img/category-ninas-y-ninos.svg',
     accent: 'from-teal-400/0 via-teal-500/20 to-teal-600/40',
+    audience: 'kids',
+    illoScene: 'play',
+    ageRange: '5 a 11 años',
   },
   {
     id: 'teens',
     slug: 'adolescentes',
     name: 'Adolescentes',
-    imageUrl:
-      'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=600',
+    description: 'Información directa para tu vida en redes.',
+    imageUrl: '/assets/img/category-adolescentes.svg',
     accent: 'from-violet-400/0 via-violet-500/20 to-violet-600/40',
+    audience: 'teens',
+    illoScene: 'connect',
+    ageRange: '12 a 17 años',
   },
   {
     id: 'families',
     slug: 'familias',
     name: 'Familias',
-    imageUrl:
-      'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=600',
+    description: 'Conversaciones y acuerdos que sí ayudan.',
+    imageUrl: '/assets/img/category-familias.svg',
     accent: 'from-orange-400/0 via-orange-500/20 to-orange-600/40',
+    audience: 'families',
+    illoScene: 'connect',
+    ageRange: 'Todas las edades',
   },
   {
     id: 'teachers',
     slug: 'docentes',
     name: 'Docentes',
-    imageUrl:
-      'https://images.unsplash.com/photo-1544717297-fa154ddad021?auto=format&fit=crop&q=80&w=600',
+    description: 'Recursos listos para llevar al aula.',
+    imageUrl: '/assets/img/category-docentes.svg',
     accent: 'from-emerald-400/0 via-emerald-500/20 to-emerald-600/40',
+    audience: 'teachers',
+    illoScene: 'study',
+    ageRange: 'Preescolar a preparatoria',
   },
 ];
 
@@ -73,35 +84,41 @@ export const FEATURE_CARDS: FeatureCard[] = [
   {
     id: 'edutips',
     title: 'Edutips',
-    description: 'Biblioteca de videos sobre muchos temas',
+    description: 'Cápsulas breves para aprender, conversar y actuar mejor.',
     icon: 'play_arrow',
     iconBgClass: 'bg-blue-600',
     iconShadowClass: 'shadow-blue-200',
-    imageUrl:
-      'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=400',
-    href: '/series/edutips',
+    imageUrl: '/assets/img/feature-edutips.svg',
+    href: '/edutips',
+    audience: 'edutips',
+    illoScene: 'spark',
+    badge: 'Biblioteca',
   },
   {
     id: 'casi',
     title: 'El día que casi',
-    description: 'Serie animada para niñas y niños',
+    description: 'Serie animada con historias que evitaron un riesgo digital.',
     icon: 'star',
-    iconBgClass: 'bg-yellow-400',
-    iconShadowClass: 'shadow-yellow-100',
-    imageUrl:
-      'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=400',
+    iconBgClass: 'bg-amber-500',
+    iconShadowClass: 'shadow-amber-100',
+    imageUrl: '/assets/img/feature-casi.svg',
     href: '/series/el-dia-que-casi',
+    audience: 'casi',
+    illoScene: 'play',
+    badge: 'Serie animada',
   },
   {
     id: 'ayuda',
     title: 'Ayuda Digital',
-    description: 'Instancias oficiales para riesgos digitales',
+    description: 'Si recibiste un fraude, acoso o algo no está bien, no estás solo.',
     icon: 'shield',
-    iconBgClass: 'bg-red-500',
-    iconShadowClass: 'shadow-red-100',
-    imageUrl:
-      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=400',
-    href: '#ayuda',
+    iconBgClass: 'bg-rose-500',
+    iconShadowClass: 'shadow-rose-100',
+    imageUrl: '/assets/img/feature-ayuda.svg',
+    href: '/ayuda',
+    audience: 'help',
+    illoScene: 'shield',
+    badge: 'Orientación',
   },
 ];
 
@@ -111,7 +128,7 @@ export const PILLARS: Pillar[] = [
     title: 'Aprender',
     description: 'Desarrolla habilidades digitales para la vida.',
     icon: 'school',
-    bgClass: 'bg-[#76B9B4]',
+    bgClass: 'bg-[#0D9488]',
     shadowClass: 'shadow-teal-100',
   },
   {
@@ -119,15 +136,15 @@ export const PILLARS: Pillar[] = [
     title: 'Convivir',
     description: 'Construye relaciones positivas en línea.',
     icon: 'groups',
-    bgClass: 'bg-[#8B80C1]',
+    bgClass: 'bg-[#7C3AED]',
     shadowClass: 'shadow-violet-100',
   },
   {
     id: 'participar',
     title: 'Participar',
-    description: 'Usa la tecnología para crear e informar.',
+    description: 'Usa la tecnología para crear, expresar e informar.',
     icon: 'campaign',
-    bgClass: 'bg-[#F2746B]',
+    bgClass: 'bg-[#EA580C]',
     shadowClass: 'shadow-orange-100',
   },
 ];
@@ -137,10 +154,10 @@ export const SECONDARY_BANNER: Banner = {
   title: 'La ciudadanía digital nos conecta y nos responsabiliza.',
   description:
     'Cada acción en línea tiene impacto. Elige informarte, respetar y participar para construir una comunidad mejor.',
-  imageUrl:
-    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=1200',
+  imageUrl: '/assets/img/cta-banner.svg',
   ctaLabel: 'Conoce más',
   ctaHref: '#mas',
+  audience: 'cdj',
 };
 
 export const VIDEO_SERIES: VideoSeries[] = [
@@ -151,12 +168,13 @@ export const VIDEO_SERIES: VideoSeries[] = [
     tagline: 'Cápsulas para tu día a día digital',
     description:
       'Microvideos para aprender a moverte en internet con seguridad, criterio y respeto.',
-    coverImageUrl:
-      'https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&q=80&w=1200',
+    coverImageUrl: '/assets/img/series-cover-edutips.svg',
     accentClass: 'from-blue-500 to-cyan-500',
     iconBgClass: 'bg-blue-600',
     icon: 'play_arrow',
     episodeCount: 4,
+    audience: 'edutips',
+    illoScene: 'spark',
     videos: [
       {
         id: 'edu-1',
@@ -199,12 +217,13 @@ export const VIDEO_SERIES: VideoSeries[] = [
     tagline: 'Serie animada para niñas y niños',
     description:
       'Historias cortas donde personajes evitan riesgos digitales tomando buenas decisiones.',
-    coverImageUrl:
-      'https://images.unsplash.com/photo-1633613286848-e6f43bbafb8d?auto=format&fit=crop&q=80&w=1200',
-    accentClass: 'from-yellow-400 to-orange-500',
-    iconBgClass: 'bg-yellow-400',
+    coverImageUrl: '/assets/img/series-cover-casi.svg',
+    accentClass: 'from-amber-400 to-orange-500',
+    iconBgClass: 'bg-amber-500',
     icon: 'star',
     episodeCount: 3,
+    audience: 'casi',
+    illoScene: 'play',
     videos: [
       {
         id: 'casi-1',
@@ -236,12 +255,13 @@ export const VIDEO_SERIES: VideoSeries[] = [
     tagline: 'Conversaciones en casa sobre lo digital',
     description:
       'Guías y diálogos para acompañar a hijas e hijos en su vida en línea.',
-    coverImageUrl:
-      'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1200',
+    coverImageUrl: '/assets/img/series-cover-familias.svg',
     accentClass: 'from-orange-400 to-rose-500',
     iconBgClass: 'bg-orange-500',
     icon: 'groups',
     episodeCount: 2,
+    audience: 'families',
+    illoScene: 'connect',
     videos: [
       {
         id: 'fam-1',
@@ -266,54 +286,54 @@ export const NAV_SECTIONS: NavSection[] = [
     id: 'kids',
     title: 'Niñas y niños',
     icon: 'face',
-    bgClass: 'bg-teal-500',
-    textClass: 'text-teal-600',
+    bgClass: 'bg-[#0D9488]',
+    textClass: 'text-teal-700',
     expanded: true,
     items: [
-      { label: 'Preescolar', href: '#preescolar' },
-      { label: 'Primaria baja', href: '#primaria-baja' },
-      { label: 'Primaria alta', href: '#primaria-alta' },
+      { label: 'Preescolar', href: '/p/ninas-y-ninos#preescolar' },
+      { label: 'Primaria baja', href: '/p/ninas-y-ninos#primaria-baja' },
+      { label: 'Primaria alta', href: '/p/ninas-y-ninos#primaria-alta' },
     ],
   },
   {
     id: 'teens',
     title: 'Adolescentes',
     icon: 'smartphone',
-    bgClass: 'bg-violet-500',
-    textClass: 'text-violet-600',
+    bgClass: 'bg-[#7C3AED]',
+    textClass: 'text-violet-700',
     expanded: false,
     items: [
-      { label: 'Secundaria', href: '#secundaria' },
-      { label: 'Preparatoria', href: '#preparatoria' },
+      { label: 'Secundaria', href: '/p/adolescentes#secundaria' },
+      { label: 'Preparatoria', href: '/p/adolescentes#preparatoria' },
     ],
   },
   {
     id: 'families',
     title: 'Familias',
     icon: 'groups',
-    bgClass: 'bg-orange-500',
-    textClass: 'text-orange-600',
+    bgClass: 'bg-[#EA580C]',
+    textClass: 'text-orange-700',
     expanded: false,
     items: [
-      { label: '0-5 Primera infancia', href: '#0-5' },
-      { label: '6-11 Niñez', href: '#6-11' },
-      { label: '12-14 Adolescencia temprana', href: '#12-14' },
-      { label: '15-22 Adolescencia tardía y juventud', href: '#15-22' },
+      { label: '0-5 Primera infancia', href: '/p/familias#fam-0-5' },
+      { label: '6-11 Niñez', href: '/p/familias#fam-6-11' },
+      { label: '12-14 Adolescencia temprana', href: '/p/familias#fam-12-14' },
+      { label: '15-22 Adolescencia tardía y juventud', href: '/p/familias#fam-15-22' },
     ],
   },
   {
     id: 'teachers',
     title: 'Docentes',
     icon: 'school',
-    bgClass: 'bg-emerald-500',
-    textClass: 'text-emerald-600',
+    bgClass: 'bg-[#059669]',
+    textClass: 'text-emerald-700',
     expanded: false,
     items: [
-      { label: 'Preescolar', href: '#d-preescolar' },
-      { label: 'Primaria baja', href: '#d-primaria-baja' },
-      { label: 'Primaria alta', href: '#d-primaria-alta' },
-      { label: 'Secundaria', href: '#d-secundaria' },
-      { label: 'Preparatoria', href: '#d-preparatoria' },
+      { label: 'Preescolar', href: '/p/docentes#doc-pre' },
+      { label: 'Primaria baja', href: '/p/docentes#doc-pb' },
+      { label: 'Primaria alta', href: '/p/docentes#doc-pa' },
+      { label: 'Secundaria', href: '/p/docentes#doc-sec' },
+      { label: 'Preparatoria', href: '/p/docentes#doc-prep' },
     ],
   },
 ];
@@ -327,28 +347,28 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: 'Recursos',
     links: [
-      { label: 'Videos animados', href: '#' },
-      { label: 'Audiocuentos', href: '#' },
-      { label: 'Microlecciones', href: '#' },
-      { label: 'Guías y checklist', href: '#' },
+      { label: 'Videos animados', href: '/recursos' },
+      { label: 'Audiocuentos', href: '/recursos' },
+      { label: 'Microlecciones', href: '/recursos' },
+      { label: 'Guías y checklist', href: '/recursos' },
     ],
   },
   {
     title: 'Para aprender',
     links: [
-      { label: 'Secuencias didácticas', href: '#' },
-      { label: 'Proyectos', href: '#' },
-      { label: 'Retos', href: '#' },
-      { label: 'Tutoriales imprimibles', href: '#' },
+      { label: 'Edutips', href: '/edutips' },
+      { label: 'El día que casi', href: '/series/el-dia-que-casi' },
+      { label: 'Rutas guiadas', href: '/recursos' },
+      { label: 'Tutoriales imprimibles', href: '/recursos' },
     ],
   },
   {
     title: 'Institucional',
     links: [
-      { label: 'Quiénes somos', href: '#' },
-      { label: 'Alianzas', href: '#' },
-      { label: 'Noticias', href: '#' },
-      { label: 'Contacto', href: '#' },
+      { label: 'Quiénes somos', href: '/quienes-somos' },
+      { label: 'Ayuda Digital', href: '/ayuda' },
+      { label: 'Aliados', href: '/quienes-somos' },
+      { label: 'Contacto', href: '/quienes-somos' },
     ],
   },
 ];

@@ -6,6 +6,7 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { YoutubePlayerComponent } from '../shared/youtube-player/youtube-player';
 import { ExploreByTopicComponent } from '../shared/explore-by-topic/explore-by-topic';
+import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 
 interface FilterChip { id: string; label: string; icon?: string; }
 
@@ -15,6 +16,7 @@ interface FilterChip { id: string; label: string; icon?: string; }
   imports: [
     CommonModule, FormsModule, RouterLink,
     RevealDirective, YoutubePlayerComponent, ExploreByTopicComponent,
+    AudIllustrationComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './edutips.html',

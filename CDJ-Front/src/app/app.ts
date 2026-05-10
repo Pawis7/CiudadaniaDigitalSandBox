@@ -42,11 +42,12 @@ export class App implements AfterViewInit {
 
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
 
-  topNav = [
-    { label: 'Inicio', href: '/', exact: true },
-    { label: 'Series', href: '/series', exact: false },
-    { label: 'Recursos', href: '/recursos', exact: false },
-    { label: 'Quiénes somos', href: '/quienes-somos', exact: false },
+  topNav: { label: string; href: string; exact: boolean; icon: string }[] = [
+    { label: 'Inicio',    href: '/',              exact: true,  icon: 'home' },
+    { label: 'Recursos',  href: '/recursos',      exact: false, icon: 'auto_stories' },
+    { label: 'Cursos',    href: '/cursos',        exact: false, icon: 'menu_book' },
+    { label: 'Juegos',    href: '/juegos',        exact: false, icon: 'sports_esports' },
+    { label: 'Quiénes',   href: '/quienes-somos', exact: false, icon: 'groups' },
   ];
 
   constructor() {

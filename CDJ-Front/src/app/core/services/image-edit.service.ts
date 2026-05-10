@@ -54,6 +54,24 @@ export class ImageEditService {
     return this.overrides()[id];
   }
 
+  /**
+   * Merge no-destructivo de overrides que vienen del backend.
+   * Si el usuario tiene un override local (dataURL en localStorage), gana
+   * — para que pueda previsualizar cambios sin tocar el server. Cuando
+   * confirme la subida, el backend devuelve la URL real y la guardamos.
+   */
+  mergeBackendOverrides(serverMap: Record<string, string>) {
+    if (!serverMap || typeof serverMap !== 'object') return;
+    this.overrides.update((current) => {
+      const merged: Record<string, string> = { ...serverMap };
+      // Preferir overrides locales (dataURL del editor) sobre los del server
+      for (const [id, val] of Object.entries(current)) {
+        if (val?.startsWith('data:')) merged[id] = val;
+      }
+      return merged;
+    });
+  }
+
   private readOverrides(): Record<string, string> {
     if (!this.isBrowser) return {};
     try {

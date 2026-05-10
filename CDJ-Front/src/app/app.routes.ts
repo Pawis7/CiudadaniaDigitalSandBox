@@ -34,6 +34,21 @@ export const routes: Routes = [
     title: 'Recursos · Ciudadanía Digital',
   },
   {
+    path: 'cursos',
+    loadComponent: () => import('./cursos/cursos').then((m) => m.CursosComponent),
+    title: 'Cursos · Ciudadanía Digital',
+  },
+  {
+    path: 'juegos',
+    loadComponent: () => import('./juegos/juegos').then((m) => m.JuegosComponent),
+    title: 'Juegos · Ciudadanía Digital',
+  },
+  {
+    path: 'notebooks-ia',
+    loadComponent: () => import('./notebooks-ia/notebooks-ia').then((m) => m.NotebooksIaComponent),
+    title: 'Notebooks IA · Ciudadanía Digital',
+  },
+  {
     path: 'quienes-somos',
     loadComponent: () => import('./quienes-somos/quienes-somos').then((m) => m.QuienesSomosComponent),
     title: 'Quiénes somos · Ciudadanía Digital',

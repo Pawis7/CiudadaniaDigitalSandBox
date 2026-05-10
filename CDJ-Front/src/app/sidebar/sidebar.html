@@ -1,117 +1,108 @@
-<aside
-  class="flex h-full flex-col overflow-hidden rounded-[2rem] border border-slate-100 bg-white/90 shadow-sm backdrop-blur"
-  [class.sticky]="variant === 'desktop'"
-  [class.top-6]="variant === 'desktop'">
-  <div class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden p-5 sm:p-6">
+<!-- =================================================================
+     Navigation Rail (desktop) — 64px collapsed · 280px hover-expand
+     o Drawer (mobile) — siempre 100% del panel
+     ================================================================= -->
+<div
+  class="sidebar-shell relative h-full"
+  [class.is-mobile]="variant === 'mobile'"
+  [class.is-expanded]="isOpen"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()">
+
+  <aside
+    class="sidebar-aside flex h-full flex-col overflow-hidden border border-[color:var(--c-line)] bg-white/95 shadow-sm backdrop-blur"
+    [class.rounded-2xl]="variant === 'mobile'"
+    [class.rounded-r-2xl]="variant === 'desktop'"
+    [class.shadow-2xl]="isOpen && variant === 'desktop'">
+
     <!-- Logo -->
-    <a routerLink="/" (click)="onNavigate()" class="group mb-6 flex items-center gap-3 px-1 sm:mb-8 sm:px-2">
-      <app-cdj-logo containerClass="h-11 w-11 rounded-2xl bg-emerald-50 text-teal-600 shadow-sm transition-transform duration-300 group-hover:scale-105"></app-cdj-logo>
-      <div class="text-base font-black leading-[1.05] tracking-tight text-slate-800 sm:text-lg">
-        {{ branding().logoText.line1 }}<br>{{ branding().logoText.line2 }}
-        <span class="ml-0.5 text-teal-600">Jalisco</span>
+    <a routerLink="/" (click)="onNavigate()"
+       class="group flex h-16 shrink-0 items-center gap-3 border-b border-[color:var(--c-line)] px-3.5">
+      <app-cdj-logo containerClass="h-9 w-9 shrink-0 rounded-xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)] shadow-sm transition-transform duration-300 group-hover:scale-105"></app-cdj-logo>
+      <div class="sidebar-label overflow-hidden text-[13px] font-black leading-[1.05] tracking-tight text-[color:var(--c-ink)]">
+        {{ branding().logoText.line1 }}<br>
+        {{ branding().logoText.line2 }}
+        <span class="ml-0.5 text-[color:var(--c-cdj)]">Jalisco</span>
       </div>
     </a>
 
-    <!-- Navegación -->
-    <nav class="space-y-1">
-      <h3 class="mb-3 px-3 text-[11px] font-black uppercase tracking-widest text-teal-600">Exploración</h3>
+    <!-- Navegación principal -->
+    <nav class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-2 py-3 gap-0.5">
 
-      <div *ngFor="let section of sections()" class="space-y-1">
-        <button
-          type="button"
-          (click)="toggleSection(section)"
-          [attr.aria-expanded]="section.expanded"
-          class="group flex w-full items-center justify-between rounded-xl p-2.5 transition-all hover:bg-slate-50 active:scale-[0.99]">
-          <span class="flex items-center gap-3">
-            <span
-              class="grid h-9 w-9 place-items-center rounded-full text-white shadow-sm transition-transform duration-300 group-hover:scale-110"
-              [ngClass]="section.bgClass">
-              <span class="material-symbols-rounded text-lg">{{ section.icon }}</span>
+      <!-- Audiencias -->
+      <h3 class="sidebar-label mb-1 px-2 text-[10px] font-black uppercase tracking-widest text-[color:var(--c-ink-mute)]">
+        Audiencias
+      </h3>
+
+      <ng-container *ngFor="let item of audiences">
+        <div class="relative" (mouseenter)="hoverAudience(item.id)" (mouseleave)="hoverAudience(null)">
+          <a [routerLink]="item.routerLink" (click)="onNavigate()"
+             routerLinkActive="is-active"
+             [attr.data-audience]="item.audience"
+             class="sidebar-item group">
+            <span class="sidebar-icon" [ngClass]="item.bgClass">
+              <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive text-white">{{ item.icon }}</span>
             </span>
-            <span class="text-sm font-bold text-slate-700">{{ section.title }}</span>
-          </span>
-          <span
-            class="material-symbols-rounded text-base text-slate-400 transition-transform duration-300"
-            [class.rotate-180]="section.expanded">
-            expand_more
-          </span>
-        </button>
+            <span class="sidebar-label flex-1 text-[13px] font-bold text-[color:var(--c-ink)]">{{ item.label }}</span>
+            @if (item.subItems?.length && isOpen) {
+              <span translate="no" class="sidebar-label material-symbols-rounded text-[18px] text-[color:var(--c-ink-mute)] transition-transform"
+                    [class.rotate-180]="hoveredAudience() === item.id">expand_more</span>
+            }
+          </a>
 
-        <div
-          class="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out"
-          [style.grid-template-rows]="section.expanded ? '1fr' : '0fr'">
-          <div class="min-h-0">
-            <div class="ml-12 space-y-1 py-1">
-              <a *ngFor="let item of section.items"
-                 [href]="item.href"
+          <!-- Sub-niveles (solo cuando expanded + hovered) -->
+          @if (isOpen && hoveredAudience() === item.id && item.subItems?.length) {
+            <div class="sidebar-sub" [attr.data-audience]="item.audience">
+              <a *ngFor="let sub of item.subItems"
+                 [href]="sub.href"
                  (click)="onNavigate()"
-                 class="flex items-center gap-3 rounded-lg p-2 text-xs font-semibold text-slate-500 transition-all hover:bg-blue-50 hover:text-slate-800">
-                <span class="h-1.5 w-1.5 rounded-full" [ngClass]="section.bgClass"></span>
-                {{ item.label }}
+                 class="sidebar-subitem group">
+                <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[color:var(--aud-cream)] text-[color:var(--aud)] transition-colors group-hover:bg-[color:var(--aud)] group-hover:text-white">
+                  <span translate="no" class="material-symbols-rounded text-[15px] icon-interactive">{{ sub.icon }}</span>
+                </span>
+                <span class="text-[12px] font-semibold text-[color:var(--c-ink-soft)] group-hover:text-[color:var(--c-ink)]">{{ sub.label }}</span>
               </a>
             </div>
-          </div>
+          }
         </div>
-      </div>
+      </ng-container>
 
-      <div class="my-3 h-px bg-slate-100"></div>
+      <div class="my-3 mx-1 h-px bg-[color:var(--c-line)]"></div>
 
-      <a routerLink="/edutips" routerLinkActive="bg-blue-50" (click)="onNavigate()"
-         class="group flex items-center justify-between rounded-xl p-2.5 transition-all hover:bg-slate-50">
-        <span class="flex items-center gap-3">
-          <span class="grid h-9 w-9 place-items-center rounded-full bg-blue-500 text-white shadow-sm">
-            <span class="material-symbols-rounded text-lg">play_circle</span>
-          </span>
-          <span class="text-sm font-bold text-slate-700">Edutips</span>
+      <!-- Secciones especiales -->
+      <h3 class="sidebar-label mb-1 px-2 text-[10px] font-black uppercase tracking-widest text-[color:var(--c-ink-mute)]">
+        Espacios
+      </h3>
+      <a *ngFor="let s of sections"
+         [routerLink]="s.routerLink"
+         (click)="onNavigate()"
+         routerLinkActive="is-active"
+         [attr.data-audience]="s.audience"
+         class="sidebar-item group">
+        <span class="sidebar-icon" [ngClass]="s.bgClass">
+          <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive text-white">{{ s.icon }}</span>
         </span>
-        <span class="material-symbols-rounded text-slate-400 transition-colors group-hover:text-blue-500">chevron_right</span>
-      </a>
-
-      <a routerLink="/series/el-dia-que-casi" routerLinkActive="bg-yellow-50" (click)="onNavigate()"
-         class="group flex items-center justify-between rounded-xl p-2.5 transition-all hover:bg-slate-50">
-        <span class="flex items-center gap-3">
-          <span class="grid h-9 w-9 place-items-center rounded-full bg-yellow-400 text-white shadow-sm">
-            <span class="material-symbols-rounded text-lg">star</span>
-          </span>
-          <span class="text-sm font-bold text-slate-700">El día que casi</span>
-        </span>
-        <span class="material-symbols-rounded text-slate-400 transition-colors group-hover:text-yellow-600">chevron_right</span>
-      </a>
-
-      <a href="#ayuda" (click)="onNavigate()"
-         class="group flex items-center justify-between rounded-xl p-2.5 transition-all hover:bg-slate-50">
-        <span class="flex items-center gap-3">
-          <span class="grid h-9 w-9 place-items-center rounded-full bg-red-500 text-white shadow-sm">
-            <span class="material-symbols-rounded text-lg">shield</span>
-          </span>
-          <span class="text-sm font-bold text-slate-700">Ayuda Digital</span>
-        </span>
-        <span class="material-symbols-rounded text-slate-400 transition-colors group-hover:text-red-600">chevron_right</span>
-      </a>
-
-      <a href="#quienes" (click)="onNavigate()"
-         class="group flex items-center justify-between rounded-xl p-2.5 transition-all hover:bg-slate-50">
-        <span class="flex items-center gap-3">
-          <span class="grid h-9 w-9 place-items-center rounded-full bg-teal-500 text-white shadow-sm">
-            <span class="material-symbols-rounded text-lg">groups</span>
-          </span>
-          <span class="text-sm font-bold text-slate-700">Quiénes somos</span>
-        </span>
-        <span class="material-symbols-rounded text-slate-400 transition-colors group-hover:text-teal-600">chevron_right</span>
+        <span class="sidebar-label flex-1 text-[13px] font-bold text-[color:var(--c-ink)]">{{ s.label }}</span>
       </a>
     </nav>
-  </div>
 
-  <!-- Footer del sidebar -->
-  <div class="border-t border-slate-100 p-4">
-    <div class="flex items-center gap-3 rounded-2xl bg-gradient-to-tr from-blue-50 to-violet-50 p-3">
-      <span class="grid h-9 w-9 place-items-center rounded-xl bg-white text-blue-600 shadow-sm">
-        <span class="material-symbols-rounded text-lg">tips_and_updates</span>
-      </span>
-      <div class="text-[11px] leading-snug">
-        <p class="font-black text-slate-800">¿Tip del día?</p>
-        <p class="text-slate-500">Activa la verificación en dos pasos.</p>
-      </div>
+    <!-- Footer del sidebar — pin -->
+    <div class="shrink-0 border-t border-[color:var(--c-line)] p-2">
+      @if (variant === 'desktop') {
+        <button type="button" (click)="togglePin()"
+          [attr.aria-pressed]="pinned()"
+          [title]="pinned() ? 'Desfijar (auto-colapsar)' : 'Fijar abierto'"
+          class="sidebar-item group w-full">
+          <span class="sidebar-icon bg-[color:var(--c-paper-soft)]">
+            <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive text-[color:var(--c-ink)]">
+              {{ pinned() ? 'keep' : 'keep_off' }}
+            </span>
+          </span>
+          <span class="sidebar-label flex-1 text-[12px] font-semibold text-[color:var(--c-ink-soft)]">
+            {{ pinned() ? 'Fijado' : 'Fijar abierto' }}
+          </span>
+        </button>
+      }
     </div>
-  </div>
-</aside>
+  </aside>
+</div>

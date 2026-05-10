@@ -18,6 +18,8 @@ export interface Hero {
   imageAlt: string;
 }
 
+export type AudienceSlug = 'kids' | 'teens' | 'families' | 'teachers' | 'help' | 'edutips' | 'casi' | 'cdj';
+
 export interface Banner {
   id: string;
   title: string;
@@ -26,15 +28,19 @@ export interface Banner {
   ctaLabel?: string;
   ctaHref?: string;
   accentColor?: string;
+  audience?: AudienceSlug;
 }
 
 export interface Category {
   id: string;
   slug: string;
   name: string;
+  description?: string;
   imageUrl: string;
   accent: string;
-  description?: string;
+  audience: AudienceSlug;
+  illoScene?: 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
+  ageRange?: string;
 }
 
 export interface Pillar {
@@ -55,6 +61,9 @@ export interface FeatureCard {
   iconShadowClass: string;
   imageUrl: string;
   href: string;
+  audience: AudienceSlug;
+  illoScene?: 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
+  badge?: string;
 }
 
 export interface VideoItem {
@@ -79,6 +88,8 @@ export interface VideoSeries {
   icon: string;
   episodeCount: number;
   videos: VideoItem[];
+  audience: AudienceSlug;
+  illoScene?: 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
 }
 
 export interface NavSection {

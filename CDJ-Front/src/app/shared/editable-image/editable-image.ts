@@ -10,11 +10,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageEditService } from '../../core/services/image-edit.service';
+import { AudIllustrationComponent, AudScene, AudTheme } from '../aud-illustration/aud-illustration';
 
 @Component({
   selector: 'app-editable-image',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AudIllustrationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './editable-image.html',
   styleUrl: './editable-image.css',
@@ -30,6 +31,8 @@ export class EditableImageComponent {
   private _height = signal<number | undefined>(undefined);
   private _aspectLabel = signal<string | undefined>(undefined);
   private _eager = signal<boolean>(false);
+  private _theme = signal<AudTheme>('cdj');
+  private _scene = signal<AudScene>('hero');
 
   @Input({ required: true }) set id(v: string) { this._id.set(v); }
   @Input({ required: true }) set src(v: string) { this._src.set(v); }
@@ -39,15 +42,19 @@ export class EditableImageComponent {
   @Input() set height(v: number | undefined) { this._height.set(v); }
   @Input() set aspectLabel(v: string | undefined) { this._aspectLabel.set(v); }
   @Input() set eager(v: boolean) { this._eager.set(v); }
+  @Input() set theme(v: AudTheme) { this._theme.set(v); }
+  @Input() set scene(v: AudScene) { this._scene.set(v); }
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   uploading = signal(false);
   errorMsg = signal<string | null>(null);
+  imgFailed = signal(false);
 
   resolvedSrc = computed(() => this.svc.getOverride(this._id()) ?? this._src());
   hasOverride = computed(() => !!this.svc.getOverride(this._id()));
   editMode = this.svc.editMode;
+  showFallback = computed(() => this.imgFailed() && !this.hasOverride());
 
   get displayId() { return this._id(); }
   get alt$() { return this._alt(); }
@@ -59,6 +66,11 @@ export class EditableImageComponent {
     return null;
   }
   get aspect() { return this._aspectLabel(); }
+  get themeVal(): AudTheme { return this._theme(); }
+  get sceneVal(): AudScene { return this._scene(); }
+
+  onImgLoad() { this.imgFailed.set(false); }
+  onImgError() { this.imgFailed.set(true); }
 
   pickFile() {
     this.errorMsg.set(null);
@@ -83,6 +95,7 @@ export class EditableImageComponent {
     try {
       const dataUrl = await this.fileToDataUrl(file);
       this.svc.setOverride(this._id(), dataUrl);
+      this.imgFailed.set(false);
     } catch {
       this.errorMsg.set('No se pudo leer la imagen.');
     } finally {
@@ -93,6 +106,7 @@ export class EditableImageComponent {
 
   reset() {
     this.svc.clearOverride(this._id());
+    this.imgFailed.set(false);
   }
 
   private fileToDataUrl(file: File): Promise<string> {
