@@ -4,23 +4,22 @@
        ==================================================================== -->
   <section
     appReveal="fade"
-    [revealDuration]="900"
+    [revealDuration]="700"
     [attr.data-audience]="audienceTheme()"
-    class="hero-aud relative mb-8 text-white sm:mb-12">
+    class="hero-aud relative mb-8 overflow-hidden text-white sm:mb-12">
 
-    <span aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl anim-blob"></span>
-    <span aria-hidden="true" class="pointer-events-none absolute -left-20 -bottom-20 h-80 w-80 rounded-full bg-black/15 blur-3xl anim-blob" style="animation-delay:-6s"></span>
+    <span aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl"></span>
 
-    <div class="relative z-10 grid grid-cols-1 items-center gap-10 p-6 sm:p-12 lg:grid-cols-[1.4fr_1fr] lg:p-16">
+    <div class="relative z-10 grid grid-cols-1 items-center gap-10 p-6 sm:p-12 lg:grid-cols-[1.4fr_1fr] lg:p-14">
       <div>
-        <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-white/80 sm:mb-6">
+        <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-white/80">
           <a routerLink="/" class="transition-colors hover:text-white">Inicio</a>
           <span translate="no" class="material-symbols-rounded text-sm">chevron_right</span>
           <span class="text-white">{{ p.title }}</span>
         </nav>
 
         <span appReveal="up"
-              class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest backdrop-blur sm:text-xs">
+              class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest backdrop-blur">
           <span class="grid h-5 w-5 place-items-center rounded-full bg-white/25 text-white">
             <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">{{ p.icon }}</span>
           </span>
@@ -37,13 +36,22 @@
           {{ p.description }}
         </p>
 
-        @if (p.ageRange) {
-          <div appReveal="up" [revealDelay]="280"
-               class="mt-6 inline-flex items-center gap-2 rounded-2xl bg-white/15 px-4 py-2 text-xs font-bold backdrop-blur sm:text-sm">
-            <span translate="no" class="material-symbols-rounded text-base icon-fill">cake</span>
-            Edad recomendada: {{ p.ageRange }}
-          </div>
-        }
+        <div appReveal="up" [revealDelay]="280" class="mt-6 flex flex-wrap items-center gap-2">
+          @if (p.ageRange) {
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
+              <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">cake</span>
+              Edad: {{ p.ageRange }}
+            </span>
+          }
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
+            <span translate="no" class="material-symbols-rounded text-[14px]">layers</span>
+            {{ p.subLevels.length }} niveles
+          </span>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
+            <span translate="no" class="material-symbols-rounded text-[14px]">auto_stories</span>
+            {{ p.topics.length }} temas
+          </span>
+        </div>
       </div>
 
       <!-- Ilustración -->
@@ -54,48 +62,50 @@
   </section>
 
   <!-- ====================================================================
-       SUB-NIVELES con tinte de audiencia
+       SUB-NIVELES — cards más limpios
        ==================================================================== -->
   @if (p.subLevels.length) {
-    <section class="mb-10 sm:mb-16" [attr.data-audience]="audienceTheme()">
-      <div appReveal="up" class="mb-6 sm:mb-8">
-        <p class="eyebrow text-[color:var(--aud)]">Por nivel</p>
-        <h2 class="display-2 mt-1">Encuentra tu nivel</h2>
+    <section class="mb-10 sm:mb-14" [attr.data-audience]="audienceTheme()">
+      <div appReveal="up" class="section-head">
+        <div>
+          <p class="eyebrow text-[color:var(--aud)]">Por nivel</p>
+          <h2 class="display-2 mt-1">Encuentra tu nivel</h2>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <a *ngFor="let sub of p.subLevels; let i = index"
            [attr.id]="sub.id"
            href="#"
            appReveal="up"
-           [revealDelay]="i * 80"
-           class="card-tint card-hover group relative flex flex-col overflow-hidden">
+           [revealDelay]="i * 70"
+           class="card card-hover group relative flex flex-col">
 
-          <div class="relative aspect-[5/4] overflow-hidden">
+          <div class="relative aspect-[5/3] overflow-hidden">
             <app-aud-illustration
               [theme]="audienceTheme()"
               scene="play"
-              class="block h-full w-full transition-transform duration-[1200ms] group-hover:scale-105">
+              class="block h-full w-full transition-transform duration-700 group-hover:scale-105">
             </app-aud-illustration>
 
-            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-2xl bg-white text-[color:var(--aud)] shadow-md transition-transform duration-500 group-hover:scale-110">
+            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-xl bg-white/95 text-[color:var(--aud)] shadow-md transition-transform duration-300 group-hover:scale-110">
               <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ sub.icon }}</span>
             </span>
-
-            <div class="absolute inset-x-4 bottom-3 rounded-xl bg-white/95 px-3 py-2 backdrop-blur sm:inset-x-5 sm:bottom-4">
-              <h3 class="text-base font-black tracking-tight text-[color:var(--c-ink)] sm:text-lg">{{ sub.title }}</h3>
-              <p class="text-[11px] font-bold uppercase tracking-wider text-[color:var(--aud)]">{{ sub.subtitle }}</p>
-            </div>
           </div>
 
-          <div class="flex items-center justify-between p-4 sm:p-5">
-            <span class="inline-flex items-center gap-1.5 text-xs font-bold text-[color:var(--c-ink-soft)]">
-              <span translate="no" class="material-symbols-rounded text-[16px]">menu_book</span>
-              {{ sub.resourceCount }} recursos
-            </span>
-            <span class="grid h-9 w-9 place-items-center rounded-full text-[color:var(--c-ink-mute)] transition-all duration-500 group-hover:rotate-45 group-hover:bg-[color:var(--aud)] group-hover:text-white">
-              <span translate="no" class="material-symbols-rounded text-base">arrow_forward</span>
-            </span>
+          <div class="flex flex-1 flex-col p-5">
+            <p class="text-[10px] font-black uppercase tracking-widest text-[color:var(--aud)]">{{ sub.subtitle }}</p>
+            <h3 class="mt-1 text-lg font-black tracking-tight text-[color:var(--text-primary)]">{{ sub.title }}</h3>
+            <div class="mt-4 flex items-center justify-between border-t border-[color:var(--border-soft)] pt-3 text-[12px] font-bold text-[color:var(--text-soft)]">
+              <span class="inline-flex items-center gap-1">
+                <span translate="no" class="material-symbols-rounded text-[14px]">menu_book</span>
+                {{ sub.resourceCount }} recursos
+              </span>
+              <span class="inline-flex items-center gap-1 text-[color:var(--aud)] transition-transform group-hover:translate-x-0.5">
+                Ver
+                <span translate="no" class="material-symbols-rounded text-[16px]">arrow_forward</span>
+              </span>
+            </div>
           </div>
         </a>
       </div>
@@ -106,74 +116,76 @@
        SERIES RECOMENDADAS
        ==================================================================== -->
   @if (recommendedSeries().length) {
-    <section class="mb-10 sm:mb-16">
-      <div appReveal="up" class="mb-6 sm:mb-8">
-        <p class="eyebrow text-[color:var(--c-edutips)]">Series recomendadas</p>
-        <h2 class="display-2 mt-1">Empieza por aquí</h2>
+    <section class="mb-10 sm:mb-14">
+      <div appReveal="up" class="section-head">
+        <div>
+          <p class="eyebrow text-[color:var(--c-edutips)]">Series recomendadas</p>
+          <h2 class="display-2 mt-1">Empieza por aquí</h2>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 gap-5 sm:gap-7 md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         <a *ngFor="let serie of recommendedSeries(); let i = index"
            [routerLink]="['/series', serie.slug]"
            [attr.data-audience]="serie.audience"
            appReveal="up"
-           [revealDelay]="i * 90"
-           class="card-warm card-hover group relative flex flex-col overflow-hidden">
+           [revealDelay]="i * 80"
+           class="card card-hover group relative flex flex-col overflow-hidden">
 
           <div class="relative aspect-[16/10] w-full overflow-hidden">
-            <app-aud-illustration [theme]="serie.audience" [scene]="serie.illoScene || 'spark'" class="block h-full w-full transition-transform duration-[1200ms] group-hover:scale-105"></app-aud-illustration>
-            <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-[color:var(--c-ink)] shadow-md backdrop-blur">
-              <span class="grid h-5 w-5 place-items-center rounded-full bg-[color:var(--aud)] text-white">
-                <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">{{ serie.icon }}</span>
+            <app-aud-illustration [theme]="serie.audience" [scene]="serie.illoScene || 'spark'" class="block h-full w-full transition-transform duration-700 group-hover:scale-105"></app-aud-illustration>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent"></div>
+
+            <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-[color:var(--text-primary)]">
+              <span class="grid h-4 w-4 place-items-center rounded-full bg-[color:var(--aud)] text-white">
+                <span translate="no" class="material-symbols-rounded text-[10px] icon-fill">{{ serie.icon }}</span>
               </span>
               {{ serie.episodeCount }} episodios
             </span>
-            <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-[color:var(--c-ink)] shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:bg-[color:var(--aud)] group-hover:text-white">
+            <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-[color:var(--text-primary)] shadow-2xl shadow-black/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-[color:var(--aud)] group-hover:text-white">
               <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
             </span>
           </div>
-          <div class="p-5 sm:p-6">
-            <h3 class="text-lg font-black tracking-tight text-[color:var(--c-ink)] sm:text-xl">{{ serie.title }}</h3>
-            <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-[color:var(--aud)]">{{ serie.tagline }}</p>
+          <div class="p-5">
+            <h3 class="text-lg font-black tracking-tight text-[color:var(--text-primary)] sm:text-xl">{{ serie.title }}</h3>
+            <p class="mt-1 text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">{{ serie.tagline }}</p>
           </div>
         </a>
       </div>
     </section>
   }
 
-  <!-- ====================================================================
-       EXPLORA POR TEMA
-       ==================================================================== -->
+  <!-- EXPLORA POR TEMA -->
   <app-explore-by-topic heading="Explora por tema"></app-explore-by-topic>
 
-  <!-- ====================================================================
-       TOPICS DETALLADOS
-       ==================================================================== -->
+  <!-- TOPICS -->
   <section class="mb-12" [attr.data-audience]="audienceTheme()">
-    <div appReveal="up" class="mb-6 sm:mb-8">
-      <p class="eyebrow text-[color:var(--c-ink-soft)]">Lo que vas a encontrar</p>
-      <h2 class="display-2 mt-1">Temas principales</h2>
+    <div appReveal="up" class="section-head">
+      <div>
+        <p class="eyebrow text-[color:var(--text-mute)]">Lo que vas a encontrar</p>
+        <h2 class="display-2 mt-1">Temas principales</h2>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
       <div *ngFor="let t of p.topics; let i = index"
            appReveal="up"
-           [revealDelay]="i * 80"
-           class="card-warm card-hover group relative flex flex-col gap-3 p-6">
-        <span class="grid h-12 w-12 place-items-center rounded-xl text-white shadow-lg transition-transform duration-500 group-hover:scale-110"
+           [revealDelay]="i * 70"
+           class="card card-hover flex flex-col gap-3 p-5">
+        <span class="grid h-11 w-11 place-items-center rounded-xl text-white shadow-md"
               [ngClass]="t.bgClass">
-          <span translate="no" class="material-symbols-rounded text-2xl icon-fill">{{ t.icon }}</span>
+          <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ t.icon }}</span>
         </span>
-        <h3 class="text-lg font-black tracking-tight text-[color:var(--c-ink)]">{{ t.title }}</h3>
-        <p class="text-sm leading-relaxed text-[color:var(--c-ink-soft)]">{{ t.description }}</p>
+        <h3 class="text-base font-black tracking-tight text-[color:var(--text-primary)]">{{ t.title }}</h3>
+        <p class="text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ t.description }}</p>
       </div>
     </div>
   </section>
 } @else {
-  <section class="card-warm mb-12 p-12 text-center">
-    <span translate="no" class="material-symbols-rounded text-5xl text-slate-300">help</span>
-    <h2 class="mt-4 text-2xl font-black tracking-tight text-[color:var(--c-ink)]">Página no encontrada</h2>
-    <a routerLink="/" class="btn-aud mt-6">
+  <section class="surface mb-12 p-12 text-center">
+    <span translate="no" class="material-symbols-rounded text-5xl text-[color:var(--text-mute)]">help</span>
+    <h2 class="mt-4 text-2xl font-black tracking-tight text-[color:var(--text-primary)]">Página no encontrada</h2>
+    <a routerLink="/" class="btn-primary mt-6">
       <span translate="no" class="material-symbols-rounded text-base">arrow_back</span>
       Volver al inicio
     </a>

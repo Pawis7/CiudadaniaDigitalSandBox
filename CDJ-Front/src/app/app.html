@@ -1,9 +1,8 @@
-<div class="relative flex min-h-[100dvh] gap-3 p-2 sm:gap-4 sm:p-3 lg:gap-4 lg:p-4">
-  <!-- Sidebar desktop (rail 64px collapsed, expand on hover).
-       z-50 + isolate para que el aside expanded esté siempre encima
-       de heroes y demás contenido (que crean stacking contexts propios). -->
-  <div class="relative isolate hidden w-16 shrink-0 lg:block" style="z-index: 60;">
-    <div class="sticky top-3 h-[calc(100dvh-1rem)]">
+<div class="relative flex min-h-[100dvh] gap-4 p-3 sm:p-4 lg:gap-5 lg:p-5">
+
+  <!-- Sidebar desktop persistente -->
+  <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 60;">
+    <div class="sticky top-4 h-[calc(100dvh-2rem)]">
       <app-sidebar variant="desktop"></app-sidebar>
     </div>
   </div>
@@ -14,112 +13,154 @@
     [class.pointer-events-none]="!drawerOpen()"
     aria-modal="true"
     role="dialog">
-    <!-- Overlay -->
     <div
-      class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300"
+      class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300"
       [class.opacity-0]="!drawerOpen()"
       [class.opacity-100]="drawerOpen()"
       (click)="closeDrawer()"
       aria-hidden="true">
     </div>
-
-    <!-- Panel -->
     <div
-      class="absolute inset-y-0 left-0 flex w-[86%] max-w-[340px] flex-col p-3 transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      class="absolute inset-y-0 left-0 flex w-[86%] max-w-[320px] flex-col p-3 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
       [class.-translate-x-full]="!drawerOpen()"
       [class.translate-x-0]="drawerOpen()">
       <app-sidebar variant="mobile" (navigate)="closeDrawer()"></app-sidebar>
     </div>
   </div>
 
-  <div class="flex min-w-0 flex-1 flex-col gap-4 lg:gap-6">
-    <!-- Header — compacto, sin botones decorativos -->
+  <!-- Main column -->
+  <div class="flex min-w-0 flex-1 flex-col gap-5 lg:gap-6">
+
+    <!-- Topbar — limpio, info densa, profesional -->
     <header
-      class="sticky top-2 z-40 rounded-xl border border-[color:var(--c-line)] bg-white/90 px-3 py-2 shadow-sm backdrop-blur transition-all duration-300 sm:top-3 sm:rounded-2xl sm:px-5 lg:px-6 lg:py-2.5"
-      [class.shadow-md]="scrolled()"
-      [class.bg-white]="scrolled()">
-      <div class="flex items-center justify-between gap-3">
-        <!-- Mobile logo + hamburguesa -->
-        <div class="flex items-center gap-2.5 lg:hidden">
+      class="topbar flex items-center gap-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-2.5 shadow-sm sm:px-4 lg:gap-4 lg:px-5 lg:py-3"
+      [class.shadow-md]="scrolled()">
+
+      <!-- Mobile: hamburger + logo compacto -->
+      <div class="flex items-center gap-2.5 lg:hidden">
+        <button
+          type="button"
+          (click)="toggleDrawer()"
+          [attr.aria-label]="drawerOpen() ? 'Cerrar menú' : 'Abrir menú'"
+          [attr.aria-expanded]="drawerOpen()"
+          class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-primary)] transition-all hover:bg-[color:var(--surface-soft)] active:scale-95">
+          <span translate="no" class="material-symbols-rounded text-[22px]">{{ drawerOpen() ? 'close' : 'menu' }}</span>
+        </button>
+        <a routerLink="/" class="flex items-center gap-2">
+          <app-cdj-logo containerClass="h-8 w-8 rounded-lg bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
+          <span class="text-[12px] font-black leading-[1.05] tracking-tight text-[color:var(--text-primary)]">
+            Ciudadanía<br>Digital <span class="text-[color:var(--c-cdj)]">Jalisco</span>
+          </span>
+        </a>
+      </div>
+
+      <!-- Desktop nav primario (chips de catálogo) -->
+      <nav class="hidden items-center gap-0.5 lg:flex">
+        <a *ngFor="let link of topNav"
+           [routerLink]="link.href.startsWith('/') ? link.href : null"
+           [href]="!link.href.startsWith('/') ? link.href : null"
+           [routerLinkActiveOptions]="{ exact: link.exact }"
+           routerLinkActive="bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"
+           class="rounded-lg px-3 py-1.5 text-[13.5px] font-semibold text-[color:var(--text-secondary)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]">
+          {{ link.label }}
+        </a>
+      </nav>
+
+      <!-- Search inline (siempre visible en desktop) -->
+      <div class="ml-auto hidden flex-1 max-w-md sm:flex">
+        <button
+          type="button"
+          (click)="openSearch()"
+          aria-label="Buscar (Cmd + K)"
+          class="search-input cursor-pointer text-left">
+          <span translate="no" class="material-symbols-rounded text-[18px] text-[color:var(--text-mute)]">search</span>
+          <span class="flex-1 text-[color:var(--text-mute)]">Buscar cursos, recursos, videos…</span>
+          <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 text-[10px] font-bold text-[color:var(--text-mute)]">⌘K</kbd>
+        </button>
+      </div>
+
+      <!-- Acciones a la derecha -->
+      <div class="ml-auto flex items-center gap-1.5 sm:ml-0">
+        <!-- Search (mobile) -->
+        <button
+          type="button"
+          (click)="openSearch()"
+          aria-label="Buscar"
+          class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)] sm:hidden">
+          <span translate="no" class="material-symbols-rounded text-[18px]">search</span>
+        </button>
+
+        <!-- Toggle tema -->
+        <button
+          type="button"
+          (click)="toggleTheme()"
+          [attr.aria-label]="theme() === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
+          [title]="theme() === 'dark' ? 'Tema claro' : 'Tema oscuro'"
+          class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]">
+          <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive">
+            {{ theme() === 'dark' ? 'light_mode' : 'dark_mode' }}
+          </span>
+        </button>
+
+        <!-- Lengua de señas (accesibilidad) -->
+        <button
+          type="button"
+          (click)="toggleSignLanguage()"
+          [attr.aria-pressed]="signLanguage()"
+          aria-label="Activar lengua de señas"
+          title="Lengua de señas"
+          class="hidden h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)] sm:grid"
+          [class.bg-]="signLanguage()"
+          [class.bg-cdj-50]="signLanguage()"
+          [class.text-cdj-600]="signLanguage()"
+          [class.border-cdj-200]="signLanguage()">
+          <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="signLanguage()">sign_language</span>
+        </button>
+
+        @if (isAdmin()) {
           <button
             type="button"
-            (click)="toggleDrawer()"
-            [attr.aria-label]="drawerOpen() ? 'Cerrar menú' : 'Abrir menú'"
-            [attr.aria-expanded]="drawerOpen()"
-            class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--c-line)] bg-white text-[color:var(--c-ink)] transition-all hover:bg-[color:var(--c-paper-soft)] active:scale-95">
-            <span translate="no" class="material-symbols-rounded text-[22px]">{{ drawerOpen() ? 'close' : 'menu' }}</span>
-          </button>
-          <a routerLink="/" class="flex items-center gap-2">
-            <app-cdj-logo containerClass="h-8 w-8 rounded-lg bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
-            <span class="text-[12px] font-black leading-[1.05] tracking-tight text-[color:var(--c-ink)]">
-              Ciudadanía<br>Digital <span class="text-[color:var(--c-cdj)]">Jalisco</span>
-            </span>
-          </a>
-        </div>
-
-        <!-- Desktop nav -->
-        <nav class="hidden items-center gap-0.5 lg:flex">
-          <a *ngFor="let link of topNav"
-             [routerLink]="link.href.startsWith('/') ? link.href : null"
-             [href]="!link.href.startsWith('/') ? link.href : null"
-             [routerLinkActiveOptions]="{ exact: link.exact }"
-             routerLinkActive="bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"
-             class="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] font-bold text-[color:var(--c-ink-soft)] transition-colors hover:bg-[color:var(--c-paper-soft)] hover:text-[color:var(--c-ink)]">
-            <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive">{{ link.icon }}</span>
-            {{ link.label }}
-          </a>
-        </nav>
-
-        <div class="flex items-center gap-1.5">
-          <!-- Buscador -->
-          <button
-            type="button"
-            (click)="openSearch()"
-            aria-label="Buscar (Cmd + K)"
-            title="Buscar (Cmd + K)"
-            class="group inline-flex items-center gap-2 rounded-lg border border-[color:var(--c-line)] bg-[color:var(--c-paper-soft)]/60 px-2.5 py-1.5 text-[13px] font-medium text-[color:var(--c-ink-soft)] transition-all hover:border-[color:var(--c-cdj)]/40 hover:bg-white hover:text-[color:var(--c-ink)] sm:px-3">
-            <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive">search</span>
-            <span class="hidden sm:inline">Buscar</span>
-            <kbd class="hidden rounded border border-[color:var(--c-line)] bg-white px-1 py-0.5 text-[9px] font-bold text-[color:var(--c-ink-mute)] sm:inline">⌘K</kbd>
-          </button>
-
-          @if (isAdmin()) {
-            <button
-              type="button"
-              (click)="toggleEdit()"
-              [attr.aria-pressed]="editMode()"
-              [title]="editMode() ? 'Salir de modo edición' : 'Activar modo edición'"
-              class="relative grid h-9 w-9 place-items-center rounded-lg border transition-all"
-              [class.border-amber-300]="editMode()"
-              [class.bg-amber-50]="editMode()"
-              [class.text-amber-700]="editMode()"
-              [class.border-c-line]="!editMode()"
-              [class.text-c-ink-soft]="!editMode()"
-              [class.hover:bg-c-paper-soft]="!editMode()">
-              <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="editMode()">{{ editMode() ? 'edit_square' : 'edit' }}</span>
-              @if (editMode()) {
-                <span class="absolute -right-0.5 -top-0.5 flex h-2 w-2">
-                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
-                  <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
-                </span>
-              }
-            </button>
-
-            @if (editMode() && hasOverrides()) {
-              <button type="button" (click)="resetAllImages()"
-                title="Restablecer todas las imágenes"
-                class="hidden h-9 w-9 place-items-center rounded-lg border border-amber-200 bg-amber-50 text-amber-700 transition-colors hover:bg-amber-100 sm:grid">
-                <span translate="no" class="material-symbols-rounded text-[18px]">restart_alt</span>
-              </button>
+            (click)="toggleEdit()"
+            [attr.aria-pressed]="editMode()"
+            [title]="editMode() ? 'Salir de modo edición' : 'Activar modo edición'"
+            class="relative grid h-9 w-9 place-items-center rounded-lg border transition-all"
+            [class.border-amber-300]="editMode()"
+            [class.bg-amber-50]="editMode()"
+            [class.text-amber-700]="editMode()"
+            [class.border-c-line]="!editMode()"
+            [class.text-c-ink-soft]="!editMode()"
+            [class.hover:bg-c-paper-soft]="!editMode()">
+            <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="editMode()">{{ editMode() ? 'edit_square' : 'edit' }}</span>
+            @if (editMode()) {
+              <span class="absolute -right-0.5 -top-0.5 flex h-2 w-2">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+              </span>
             }
-          }
+          </button>
 
-          <a routerLink="/recursos"
-             class="btn-aud group">
-            <span class="hidden sm:inline">Explorar</span>
-            <span translate="no" class="material-symbols-rounded text-[18px] transition-transform group-hover:translate-x-0.5">arrow_forward</span>
-          </a>
-        </div>
+          @if (editMode() && hasOverrides()) {
+            <button type="button" (click)="resetAllImages()"
+              title="Restablecer todas las imágenes"
+              class="hidden h-9 w-9 place-items-center rounded-lg border border-amber-200 bg-amber-50 text-amber-700 transition-colors hover:bg-amber-100 sm:grid">
+              <span translate="no" class="material-symbols-rounded text-[18px]">restart_alt</span>
+            </button>
+          }
+        }
+
+        <!-- Mi cuenta (placeholder) -->
+        <button type="button"
+          class="hidden h-9 items-center gap-2 rounded-lg border border-[color:var(--border)] px-3 text-[13px] font-semibold text-[color:var(--text-primary)] transition-all hover:bg-[color:var(--surface-soft)] sm:inline-flex"
+          title="Iniciar sesión">
+          <span translate="no" class="material-symbols-rounded text-[18px]">person</span>
+          <span>Acceder</span>
+        </button>
+
+        <!-- CTA primary -->
+        <a routerLink="/cursos" class="btn-primary">
+          <span class="hidden sm:inline">Empezar</span>
+          <span translate="no" class="material-symbols-rounded text-[18px]">arrow_forward</span>
+        </a>
       </div>
     </header>
 
@@ -128,16 +169,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm sm:rounded-[2.5rem] sm:p-10 lg:p-12">
+    <footer class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-10 lg:p-12">
       <div class="grid grid-cols-1 gap-10 md:grid-cols-5 lg:gap-12">
         <div class="md:col-span-2">
           <a routerLink="/" class="mb-5 flex items-center gap-3">
-            <app-cdj-logo containerClass="h-11 w-11 rounded-2xl bg-emerald-50 text-teal-600 shadow-sm"></app-cdj-logo>
-            <div class="text-lg font-black leading-tight text-slate-800">
+            <app-cdj-logo containerClass="h-11 w-11 rounded-2xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)] shadow-sm"></app-cdj-logo>
+            <div class="text-lg font-black leading-tight text-[color:var(--text-primary)]">
               {{ branding().siteName }}
             </div>
           </a>
-          <p class="max-w-sm leading-relaxed text-slate-500">
+          <p class="max-w-sm leading-relaxed text-[color:var(--text-soft)]">
             {{ branding().tagline }}
           </p>
           <div class="mt-7 flex flex-wrap gap-2.5">
@@ -145,9 +186,8 @@
                [href]="s.href"
                [attr.aria-label]="s.label"
                [title]="s.label"
-               class="group grid h-11 w-11 place-items-center rounded-2xl bg-slate-50 text-slate-500 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:text-white hover:shadow-lg"
-               [ngClass]="s.hoverClass">
-              <span class="block h-[18px] w-[18px] transition-transform duration-300 group-hover:scale-110">
+               class="group grid h-10 w-10 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--c-cdj)] hover:text-white hover:shadow-md">
+              <span class="block h-[16px] w-[16px] transition-transform duration-200 group-hover:scale-110">
                 <app-brand-icon [name]="s.brand" [label]="s.label"></app-brand-icon>
               </span>
             </a>
@@ -155,18 +195,22 @@
         </div>
 
         <div *ngFor="let group of footerColumns()">
-          <h4 class="mb-5 text-xs font-black uppercase tracking-widest text-slate-800">{{ group.title }}</h4>
+          <h4 class="mb-5 text-xs font-black uppercase tracking-widest text-[color:var(--text-primary)]">{{ group.title }}</h4>
           <ul class="space-y-3">
             <li *ngFor="let item of group.links">
-              <a [href]="item.href" class="text-sm text-slate-500 transition-colors hover:text-blue-600">
+              <a [href]="item.href" class="text-sm text-[color:var(--text-soft)] transition-colors hover:text-[color:var(--c-cdj)]">
                 {{ item.label }}
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <div class="mt-10 border-t border-slate-100 pt-8 text-center text-xs text-slate-400 sm:mt-12">
-        © {{ year }} {{ branding().siteName }}. Todos los derechos reservados.
+      <div class="mt-10 flex flex-col gap-3 border-t border-[color:var(--border-soft)] pt-8 text-center text-xs text-[color:var(--text-mute)] sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:text-left">
+        <span>© {{ year }} {{ branding().siteName }} · Gobierno de Jalisco</span>
+        <span class="inline-flex items-center justify-center gap-2">
+          <span class="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+          Plataforma activa
+        </span>
       </div>
     </footer>
   </div>
@@ -175,86 +219,83 @@
   @if (searchOpen()) {
     <div class="fixed inset-0 z-[60] flex items-start justify-center"
          role="dialog" aria-modal="true" aria-label="Buscar">
-      <!-- Backdrop -->
-      <div class="search-overlay absolute inset-0 bg-slate-900/35 backdrop-blur-md"
+      <div class="search-overlay absolute inset-0 bg-slate-900/40 backdrop-blur-md"
            (click)="closeSearch()"
            aria-hidden="true"></div>
 
-      <!-- Panel -->
       <div class="search-panel relative z-10 mt-20 w-[92%] max-w-2xl sm:mt-28">
-        <div class="overflow-hidden rounded-3xl border border-slate-200/60 bg-white shadow-2xl shadow-slate-900/20">
-          <div class="flex items-center gap-3 border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">
-            <span translate="no" class="material-symbols-rounded text-2xl text-slate-400">search</span>
+        <div class="overflow-hidden rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-2xl">
+          <div class="flex items-center gap-3 border-b border-[color:var(--border-soft)] px-4 py-3 sm:px-6 sm:py-4">
+            <span translate="no" class="material-symbols-rounded text-2xl text-[color:var(--text-mute)]">search</span>
             <input
               #searchInput
               type="text"
               [ngModel]="searchQuery()"
               (ngModelChange)="searchQuery.set($event)"
-              placeholder="Buscar videos, series, recursos…"
-              class="w-full bg-transparent text-base font-medium text-slate-800 placeholder-slate-400 outline-none sm:text-lg">
+              placeholder="Buscar cursos, recursos, videos, audiencias…"
+              class="w-full bg-transparent text-base font-medium text-[color:var(--text-primary)] placeholder-[color:var(--text-mute)] outline-none sm:text-lg">
             @if (searchQuery()) {
               <button type="button" (click)="searchQuery.set('')"
-                class="grid h-8 w-8 place-items-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700">
+                class="grid h-8 w-8 place-items-center rounded-full text-[color:var(--text-mute)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]">
                 <span translate="no" class="material-symbols-rounded text-base">close</span>
               </button>
             }
             <button type="button" (click)="closeSearch()"
-              class="hidden items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-[10px] font-bold text-slate-500 transition-colors hover:bg-slate-100 sm:inline-flex">
+              class="hidden items-center gap-1 rounded-md border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-2 py-1 text-[10px] font-bold text-[color:var(--text-soft)] transition-colors hover:bg-[color:var(--surface-card)] sm:inline-flex">
               ESC
             </button>
           </div>
 
-          <!-- Sugerencias rápidas -->
           <div class="px-4 py-4 sm:px-6 sm:py-5">
-            <p class="mb-3 text-[11px] font-black uppercase tracking-widest text-slate-400">Atajos rápidos</p>
+            <p class="mb-3 text-[11px] font-black uppercase tracking-widest text-[color:var(--text-mute)]">Acceso rápido</p>
             <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              <a routerLink="/cursos" (click)="closeSearch()"
+                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-teachers)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teachers)] text-white">
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">menu_book</span>
+                </span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Cursos</span>
+              </a>
               <a routerLink="/edutips" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-violet-200 hover:bg-white hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-violet-500 text-white">
+                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-edutips)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-edutips)] text-white">
                   <span translate="no" class="material-symbols-rounded text-lg icon-fill">play_circle</span>
                 </span>
-                <span class="text-sm font-bold text-slate-700">Edutips</span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Edutips</span>
               </a>
               <a routerLink="/series" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-pink-200 hover:bg-white hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-pink-500 text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">video_library</span>
+                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-casi)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-casi)] text-white">
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">movie</span>
                 </span>
-                <span class="text-sm font-bold text-slate-700">Series</span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Series</span>
               </a>
               <a routerLink="/ayuda" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-rose-200 hover:bg-white hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-rose-500 text-white">
+                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-help)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-help)] text-white">
                   <span translate="no" class="material-symbols-rounded text-lg icon-fill">shield</span>
                 </span>
-                <span class="text-sm font-bold text-slate-700">Ayuda Digital</span>
-              </a>
-              <a routerLink="/p/ninas-y-ninos" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-teal-200 hover:bg-white hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-teal-500 text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">face</span>
-                </span>
-                <span class="text-sm font-bold text-slate-700">Niñas y niños</span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Ayuda Digital</span>
               </a>
               <a routerLink="/p/familias" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-orange-200 hover:bg-white hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-orange-500 text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">groups</span>
+                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-families)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-families)] text-white">
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">family_restroom</span>
                 </span>
-                <span class="text-sm font-bold text-slate-700">Familias</span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Familias</span>
               </a>
               <a routerLink="/p/docentes" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 transition-all hover:-translate-y-0.5 hover:border-emerald-200 hover:bg-white hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-emerald-500 text-white">
+                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-teachers)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teachers)] text-white">
                   <span translate="no" class="material-symbols-rounded text-lg icon-fill">school</span>
                 </span>
-                <span class="text-sm font-bold text-slate-700">Docentes</span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Docentes</span>
               </a>
             </div>
           </div>
 
-          <div class="border-t border-slate-100 bg-slate-50/40 px-4 py-3 text-[11px] font-semibold text-slate-400 sm:px-6">
-            <span class="hidden sm:inline">Tip · usa <kbd class="rounded border border-slate-200 bg-white px-1.5 py-0.5 font-bold text-slate-600">⌘</kbd> + <kbd class="rounded border border-slate-200 bg-white px-1.5 py-0.5 font-bold text-slate-600">K</kbd> para abrir desde cualquier sección</span>
+          <div class="border-t border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] px-4 py-3 text-[11px] font-semibold text-[color:var(--text-mute)] sm:px-6">
+            <span class="hidden sm:inline">Tip · usa <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 font-bold text-[color:var(--text-soft)]">⌘</kbd> + <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 font-bold text-[color:var(--text-soft)]">K</kbd> para abrir desde cualquier sección</span>
             <span class="sm:hidden">Toca fuera o ESC para cerrar</span>
           </div>
         </div>

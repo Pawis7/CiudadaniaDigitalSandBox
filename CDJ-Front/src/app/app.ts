@@ -11,6 +11,9 @@ import { ImageEditService } from './core/services/image-edit.service';
 import { CdjLogoComponent } from './shared/cdj-logo/cdj-logo';
 
 const ADMIN_FLAG = 'cdj_admin_v1';
+const THEME_KEY  = 'cdj_theme';
+
+type ThemeMode = 'light' | 'dark';
 
 @Component({
   selector: 'app-root',
@@ -38,19 +41,23 @@ export class App implements AfterViewInit {
   searchQuery = signal('');
   signLanguage = signal(false);
   isAdmin = signal<boolean>(this.readAdminFlag());
+  theme = signal<ThemeMode>(this.readTheme());
   year = new Date().getFullYear();
 
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('inlineSearch') inlineSearch?: ElementRef<HTMLInputElement>;
 
-  topNav: { label: string; href: string; exact: boolean; icon: string }[] = [
-    { label: 'Inicio',    href: '/',              exact: true,  icon: 'home' },
-    { label: 'Recursos',  href: '/recursos',      exact: false, icon: 'auto_stories' },
-    { label: 'Cursos',    href: '/cursos',        exact: false, icon: 'menu_book' },
-    { label: 'Juegos',    href: '/juegos',        exact: false, icon: 'sports_esports' },
-    { label: 'Quiénes',   href: '/quienes-somos', exact: false, icon: 'groups' },
+  topNav: { label: string; href: string; exact: boolean }[] = [
+    { label: 'Catálogo',  href: '/cursos',        exact: false },
+    { label: 'Recursos',  href: '/recursos',      exact: false },
+    { label: 'Edutips',   href: '/edutips',       exact: false },
+    { label: 'Series',    href: '/series',        exact: false },
+    { label: 'Comunidad', href: '/quienes-somos', exact: false },
   ];
 
   constructor() {
+    this.applyTheme(this.theme());
+
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => {
@@ -67,7 +74,6 @@ export class App implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // Atajos: Cmd/Ctrl + K para abrir buscador
     document.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -95,10 +101,6 @@ export class App implements AfterViewInit {
     this.searchOpen.set(false);
     this.searchQuery.set('');
   }
-  toggleSearch() {
-    if (this.searchOpen()) this.closeSearch();
-    else this.openSearch();
-  }
 
   toggleSignLanguage() {
     this.signLanguage.update((v) => !v);
@@ -109,6 +111,19 @@ export class App implements AfterViewInit {
     if (confirm('¿Restablecer todas las imágenes a la versión original?')) {
       this.imgEdit.clearAll();
     }
+  }
+
+  toggleTheme() {
+    const next: ThemeMode = this.theme() === 'dark' ? 'light' : 'dark';
+    this.theme.set(next);
+    this.applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch {}
+  }
+
+  private applyTheme(mode: ThemeMode) {
+    if (typeof document === 'undefined') return;
+    if (mode === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
   }
 
   @HostListener('window:scroll')
@@ -133,5 +148,15 @@ export class App implements AfterViewInit {
     } catch {}
     this.isAdmin.set(on);
     if (!on && this.editMode()) this.imgEdit.toggleEdit();
+  }
+
+  private readTheme(): ThemeMode {
+    if (typeof localStorage === 'undefined') return 'light';
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
   }
 }

@@ -1,108 +1,125 @@
 <!-- =================================================================
-     Navigation Rail (desktop) — 64px collapsed · 280px hover-expand
-     o Drawer (mobile) — siempre 100% del panel
+     Sidebar — Persistente estilo Coursera/edX
+     Default expanded (256px). Collapsable a 72px con toggle.
      ================================================================= -->
 <div
-  class="sidebar-shell relative h-full"
+  class="sidebar-shell"
   [class.is-mobile]="variant === 'mobile'"
-  [class.is-expanded]="isOpen"
-  (mouseenter)="onMouseEnter()"
-  (mouseleave)="onMouseLeave()">
+  [class.is-collapsed]="collapsed() && variant === 'desktop'">
 
-  <aside
-    class="sidebar-aside flex h-full flex-col overflow-hidden border border-[color:var(--c-line)] bg-white/95 shadow-sm backdrop-blur"
-    [class.rounded-2xl]="variant === 'mobile'"
-    [class.rounded-r-2xl]="variant === 'desktop'"
-    [class.shadow-2xl]="isOpen && variant === 'desktop'">
+  <aside class="sidebar-aside">
 
-    <!-- Logo -->
-    <a routerLink="/" (click)="onNavigate()"
-       class="group flex h-16 shrink-0 items-center gap-3 border-b border-[color:var(--c-line)] px-3.5">
-      <app-cdj-logo containerClass="h-9 w-9 shrink-0 rounded-xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)] shadow-sm transition-transform duration-300 group-hover:scale-105"></app-cdj-logo>
-      <div class="sidebar-label overflow-hidden text-[13px] font-black leading-[1.05] tracking-tight text-[color:var(--c-ink)]">
-        {{ branding().logoText.line1 }}<br>
-        {{ branding().logoText.line2 }}
-        <span class="ml-0.5 text-[color:var(--c-cdj)]">Jalisco</span>
-      </div>
-    </a>
+    <!-- Header con logo + toggle -->
+    <div class="sidebar-head">
+      <a routerLink="/" (click)="onNavigate()" class="sidebar-brand">
+        <app-cdj-logo containerClass="h-9 w-9 shrink-0 rounded-xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
+        <div class="sidebar-brand-text">
+          {{ branding().logoText.line1 }}<br>
+          {{ branding().logoText.line2 }}
+          <span class="text-[color:var(--c-cdj)]">Jalisco</span>
+        </div>
+      </a>
 
-    <!-- Navegación principal -->
-    <nav class="flex flex-1 flex-col overflow-y-auto overflow-x-hidden px-2 py-3 gap-0.5">
+      @if (variant === 'desktop') {
+        <button type="button" (click)="toggleCollapse()"
+          class="sidebar-toggle"
+          [attr.aria-label]="collapsed() ? 'Expandir sidebar' : 'Colapsar sidebar'"
+          [title]="collapsed() ? 'Expandir' : 'Colapsar'">
+          <span translate="no" class="material-symbols-rounded text-[20px]">
+            {{ collapsed() ? 'menu_open' : 'left_panel_close' }}
+          </span>
+        </button>
+      }
+    </div>
 
-      <!-- Audiencias -->
-      <h3 class="sidebar-label mb-1 px-2 text-[10px] font-black uppercase tracking-widest text-[color:var(--c-ink-mute)]">
-        Audiencias
-      </h3>
+    <!-- Nav -->
+    <nav class="sidebar-nav">
+
+      <!-- Sección APRENDER -->
+      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Apr.' : 'Aprender' }}</h3>
+      <a *ngFor="let item of learnSections"
+         [routerLink]="item.routerLink"
+         (click)="onNavigate()"
+         routerLinkActive="is-active"
+         [attr.data-audience]="item.audience"
+         class="sidebar-item"
+         [title]="item.label">
+        <span class="sidebar-icon">
+          <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span>
+        </span>
+        <span class="sidebar-label">{{ item.label }}</span>
+      </a>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- Sección AUDIENCIAS -->
+      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Aud.' : 'Audiencias' }}</h3>
 
       <ng-container *ngFor="let item of audiences">
-        <div class="relative" (mouseenter)="hoverAudience(item.id)" (mouseleave)="hoverAudience(null)">
-          <a [routerLink]="item.routerLink" (click)="onNavigate()"
+        <div>
+          <a [routerLink]="item.routerLink"
+             (click)="onNavigate()"
              routerLinkActive="is-active"
              [attr.data-audience]="item.audience"
-             class="sidebar-item group">
-            <span class="sidebar-icon" [ngClass]="item.bgClass">
-              <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive text-white">{{ item.icon }}</span>
+             class="sidebar-item"
+             [title]="item.label">
+            <span class="sidebar-icon">
+              <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive"
+                [style.color]="'var(--c-' + item.audience + ')'">{{ item.icon }}</span>
             </span>
-            <span class="sidebar-label flex-1 text-[13px] font-bold text-[color:var(--c-ink)]">{{ item.label }}</span>
-            @if (item.subItems?.length && isOpen) {
-              <span translate="no" class="sidebar-label material-symbols-rounded text-[18px] text-[color:var(--c-ink-mute)] transition-transform"
-                    [class.rotate-180]="hoveredAudience() === item.id">expand_more</span>
+            <span class="sidebar-label">{{ item.label }}</span>
+            @if (item.subItems?.length) {
+              <button type="button" (click)="toggleAudience(item.id, $event)"
+                class="sidebar-chevron"
+                [class.is-open]="openedAudience() === item.id"
+                [attr.aria-label]="'Ver sub-niveles de ' + item.label">
+                <span translate="no" class="material-symbols-rounded text-[16px]">expand_more</span>
+              </button>
             }
           </a>
 
-          <!-- Sub-niveles (solo cuando expanded + hovered) -->
-          @if (isOpen && hoveredAudience() === item.id && item.subItems?.length) {
+          @if (openedAudience() === item.id && item.subItems?.length) {
             <div class="sidebar-sub" [attr.data-audience]="item.audience">
               <a *ngFor="let sub of item.subItems"
                  [href]="sub.href"
                  (click)="onNavigate()"
-                 class="sidebar-subitem group">
-                <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[color:var(--aud-cream)] text-[color:var(--aud)] transition-colors group-hover:bg-[color:var(--aud)] group-hover:text-white">
-                  <span translate="no" class="material-symbols-rounded text-[15px] icon-interactive">{{ sub.icon }}</span>
-                </span>
-                <span class="text-[12px] font-semibold text-[color:var(--c-ink-soft)] group-hover:text-[color:var(--c-ink)]">{{ sub.label }}</span>
+                 class="sidebar-subitem">
+                <span class="sidebar-subitem-dot"></span>
+                <span>{{ sub.label }}</span>
               </a>
             </div>
           }
         </div>
       </ng-container>
 
-      <div class="my-3 mx-1 h-px bg-[color:var(--c-line)]"></div>
+      <div class="sidebar-divider"></div>
 
-      <!-- Secciones especiales -->
-      <h3 class="sidebar-label mb-1 px-2 text-[10px] font-black uppercase tracking-widest text-[color:var(--c-ink-mute)]">
-        Espacios
-      </h3>
-      <a *ngFor="let s of sections"
+      <!-- Sección AYUDA -->
+      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Otros' : 'Ayuda y comunidad' }}</h3>
+      <a *ngFor="let s of helpSections"
          [routerLink]="s.routerLink"
          (click)="onNavigate()"
          routerLinkActive="is-active"
          [attr.data-audience]="s.audience"
-         class="sidebar-item group">
-        <span class="sidebar-icon" [ngClass]="s.bgClass">
-          <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive text-white">{{ s.icon }}</span>
+         class="sidebar-item"
+         [title]="s.label">
+        <span class="sidebar-icon">
+          <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ s.icon }}</span>
         </span>
-        <span class="sidebar-label flex-1 text-[13px] font-bold text-[color:var(--c-ink)]">{{ s.label }}</span>
+        <span class="sidebar-label">{{ s.label }}</span>
       </a>
     </nav>
 
-    <!-- Footer del sidebar — pin -->
-    <div class="shrink-0 border-t border-[color:var(--c-line)] p-2">
-      @if (variant === 'desktop') {
-        <button type="button" (click)="togglePin()"
-          [attr.aria-pressed]="pinned()"
-          [title]="pinned() ? 'Desfijar (auto-colapsar)' : 'Fijar abierto'"
-          class="sidebar-item group w-full">
-          <span class="sidebar-icon bg-[color:var(--c-paper-soft)]">
-            <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive text-[color:var(--c-ink)]">
-              {{ pinned() ? 'keep' : 'keep_off' }}
-            </span>
-          </span>
-          <span class="sidebar-label flex-1 text-[12px] font-semibold text-[color:var(--c-ink-soft)]">
-            {{ pinned() ? 'Fijado' : 'Fijar abierto' }}
-          </span>
-        </button>
-      }
+    <!-- Footer del sidebar -->
+    <div class="sidebar-foot">
+      <a href="https://jalisco.gob.mx" target="_blank" rel="noopener"
+         class="sidebar-item"
+         title="Gobierno de Jalisco">
+        <span class="sidebar-icon">
+          <span translate="no" class="material-symbols-rounded text-[20px] text-[color:var(--c-cdj)]">account_balance</span>
+        </span>
+        <span class="sidebar-label text-[12px] font-semibold">Gobierno de Jalisco</span>
+      </a>
     </div>
   </aside>
 </div>

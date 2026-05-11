@@ -1,7 +1,7 @@
 /* =================================================================
-   Sidebar — Navigation Rail con hover-to-expand (Vercel/Linear style)
-   El shell ocupa siempre 64px en el flow, el aside es absolute
-   y crece a 288px cuando hover (sin empujar el contenido).
+   Sidebar — persistente estilo Coursera/edX
+   Default expanded (256px). Collapsable a 72px con toggle.
+   Mobile: drawer 100% del panel.
    ================================================================= */
 
 :host {
@@ -11,9 +11,13 @@
 }
 
 .sidebar-shell {
-  width: 64px;
+  width: 256px;
   height: 100%;
   position: relative;
+  transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) {
+  width: 72px;
 }
 .sidebar-shell.is-mobile {
   width: 100%;
@@ -21,29 +25,102 @@
 
 .sidebar-aside {
   position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 64px;
-  transition: width 260ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 50;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+.sidebar-shell.is-mobile .sidebar-aside {
+  position: relative;
+  height: 100%;
+}
+
+/* Header con logo + toggle */
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem;
+  border-bottom: 1px solid var(--border-soft);
+  min-height: 64px;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sidebar-brand-text {
+  font-size: 0.8125rem;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.018em;
+  color: var(--text-primary);
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-brand-text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-toggle {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-xs);
+  color: var(--text-mute);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 160ms ease, color 160ms ease;
+}
+.sidebar-toggle:hover {
+  background: var(--surface-soft);
+  color: var(--text-primary);
+}
+
+/* Nav scroll area */
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem 0.625rem;
   display: flex;
   flex-direction: column;
 }
+.sidebar-nav::-webkit-scrollbar { width: 4px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
 
-/* Hover sobre el shell expande el aside (CSS only, sin depender de Angular state).
-   También se queda expandido si tiene .is-pinned o .is-expanded forzado. */
-.sidebar-shell:not(.is-mobile):hover .sidebar-aside,
-.sidebar-shell.is-expanded:not(.is-mobile) .sidebar-aside,
-.sidebar-shell.is-pinned:not(.is-mobile) .sidebar-aside {
-  width: 288px;
+/* Section heading */
+.sidebar-section-label {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  padding: 0 0.625rem;
+  margin: 0.875rem 0 0.375rem;
 }
+.sidebar-section-label:first-child { margin-top: 0; }
 
-.sidebar-shell.is-mobile .sidebar-aside {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-section-label {
+  text-align: center;
+  font-size: 0.5625rem;
+  letter-spacing: 0.18em;
+  padding: 0;
+  color: var(--text-faint);
 }
 
 /* Items */
@@ -51,103 +128,131 @@
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  padding: 0.5rem;
-  border-radius: 0.625rem;
-  transition: background 180ms ease;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.8125rem;
+  transition: background 160ms ease, color 160ms ease;
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
   white-space: nowrap;
   overflow: hidden;
-  cursor: pointer;
-  width: 100%;
   min-width: 0;
+  width: 100%;
 }
 .sidebar-item:hover {
-  background: var(--c-paper-soft);
+  background: var(--surface-soft);
+  color: var(--text-primary);
 }
 .sidebar-item.is-active {
-  background: color-mix(in srgb, var(--aud, var(--c-cdj)) 12%, transparent);
+  background: var(--aud-cream, var(--c-cdj-cream));
+  color: var(--aud, var(--c-cdj));
+  font-weight: 700;
 }
-.sidebar-item.is-active .sidebar-label {
-  color: color-mix(in srgb, var(--aud, var(--c-cdj)) 85%, black);
+.sidebar-item.is-active::before {
+  content: '';
+  position: absolute;
+  left: -0.625rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 3px;
+  background: var(--aud, var(--c-cdj));
+  border-radius: 0 3px 3px 0;
 }
 
-/* Icono cuadrado del item */
 .sidebar-icon {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 1.5rem;
+  height: 1.5rem;
   flex-shrink: 0;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
-  transition: transform 220ms ease, box-shadow 220ms ease;
-}
-.sidebar-item:hover .sidebar-icon {
-  transform: scale(1.06);
-  box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.18);
-}
-.sidebar-item.is-active .sidebar-icon {
-  transform: scale(1.04);
-  box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--aud, var(--c-cdj)) 60%, transparent);
+  color: inherit;
 }
 
-/* Label se oculta cuando el sidebar está colapsado */
 .sidebar-label {
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 200ms ease 60ms, transform 240ms cubic-bezier(0.16, 1, 0.3, 1) 60ms;
-  pointer-events: none;
   flex: 1;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.sidebar-shell:not(.is-mobile):hover .sidebar-label,
-.sidebar-shell.is-expanded:not(.is-mobile) .sidebar-label,
-.sidebar-shell.is-pinned:not(.is-mobile) .sidebar-label,
-.sidebar-shell.is-mobile .sidebar-label {
   opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
+  transition: opacity 160ms ease;
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-label,
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-chevron {
+  opacity: 0;
+  pointer-events: none;
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-item {
+  justify-content: center;
+  gap: 0;
 }
 
-/* Sub-niveles dentro de una audiencia */
+.sidebar-chevron {
+  font-size: 1rem;
+  color: var(--text-mute);
+  transition: transform 200ms ease;
+  opacity: 1;
+}
+.sidebar-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+/* Sub-niveles */
 .sidebar-sub {
-  margin: 0.25rem 0 0.5rem 1.125rem;
-  padding: 0.375rem 0.5rem 0.375rem 1.625rem;
-  border-left: 2px solid color-mix(in srgb, var(--aud, var(--c-cdj)) 30%, transparent);
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  gap: 0.0625rem;
+  margin: 0.125rem 0 0.25rem 1.875rem;
+  padding-left: 0.625rem;
+  border-left: 1.5px solid var(--border);
+  overflow: hidden;
 }
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-sub { display: none; }
+
 .sidebar-subitem {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.375rem 0.5rem;
-  border-radius: 0.5rem;
-  transition: background 160ms ease;
-  white-space: nowrap;
-  overflow: hidden;
+  padding: 0.3125rem 0.5rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  transition: color 160ms ease, background 160ms ease;
+  text-decoration: none;
 }
 .sidebar-subitem:hover {
-  background: var(--aud-cream);
+  color: var(--text-primary);
+  background: var(--surface-soft);
+}
+.sidebar-subitem-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--aud) 60%, transparent);
+  flex-shrink: 0;
 }
 
-/* Sombra cuando expandido (más drama de capa) */
-.sidebar-shell:not(.is-mobile):hover .sidebar-aside,
-.sidebar-shell.is-expanded:not(.is-mobile) .sidebar-aside {
-  box-shadow: 0 16px 40px -12px rgba(15, 23, 42, 0.18);
+/* Footer */
+.sidebar-foot {
+  border-top: 1px solid var(--border-soft);
+  padding: 0.625rem;
 }
 
-/* Scrollbar interno fino */
-.sidebar-aside nav::-webkit-scrollbar { width: 4px; }
-.sidebar-aside nav::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.1); border-radius: 999px; }
+.sidebar-divider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: 0.625rem 0.625rem;
+}
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
+  .sidebar-shell,
   .sidebar-aside,
   .sidebar-label,
-  .sidebar-icon,
-  .sidebar-item { transition: none !important; }
+  .sidebar-item,
+  .sidebar-brand-text { transition: none !important; }
 }
