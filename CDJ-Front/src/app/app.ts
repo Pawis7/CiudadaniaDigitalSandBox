@@ -10,6 +10,7 @@ import { BrandIconComponent } from './shared/brand-icon/brand-icon';
 import { ImageEditService } from './core/services/image-edit.service';
 import { CdjLogoComponent } from './shared/cdj-logo/cdj-logo';
 import { AuthService } from './core/services/auth.service';
+import { UiIconComponent } from './shared/ui-icon/ui-icon';
 
 const ADMIN_FLAG = 'cdj_admin_v1';
 const THEME_KEY  = 'cdj_theme';
