@@ -99,9 +99,15 @@
   padding: 1rem 0.625rem;
   display: flex;
   flex-direction: column;
+  scrollbar-gutter: stable; /* Evita que el contenido "brinque" o se contraiga al aparecer el scroll */
 }
 .sidebar-nav::-webkit-scrollbar { width: 4px; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+/* Asegurar que nada en el nav se "encoja" al expandir secciones */
+.sidebar-nav > * {
+  flex-shrink: 0;
+}
 
 /* Section heading */
 .sidebar-section-label {
@@ -141,6 +147,7 @@
   overflow: hidden;
   min-width: 0;
   width: 100%;
+  flex-shrink: 0;
 }
 .sidebar-item:hover {
   background: var(--surface-soft);
@@ -191,26 +198,46 @@
 }
 
 .sidebar-chevron {
+  display: grid;
+  place-items: center;
   font-size: 1rem;
   color: var(--text-mute);
-  transition: transform 200ms ease;
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 1;
 }
 .sidebar-chevron.is-open {
   transform: rotate(180deg);
 }
 
-/* Sub-niveles */
-.sidebar-sub {
+.sidebar-audience-group {
   display: flex;
   flex-direction: column;
-  gap: 0.0625rem;
-  margin: 0.125rem 0 0.25rem 1.875rem;
-  padding-left: 0.625rem;
-  border-left: 1.5px solid var(--border);
-  overflow: hidden;
+  flex-shrink: 0;
+  width: 100%;
 }
-.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-sub { display: none; }
+
+.sidebar-sub-wrapper {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease;
+  pointer-events: none;
+}
+.sidebar-sub-wrapper.is-open {
+  max-height: 400px; /* Suficiente para los sub-items */
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-sub {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.125rem 0 0.5rem 1.875rem;
+  border-left: 1.5px solid var(--border);
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-sub-wrapper { display: none; }
 
 .sidebar-subitem {
   display: flex;

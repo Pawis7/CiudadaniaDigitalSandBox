@@ -107,7 +107,7 @@ export class SidebarComponent {
   }
 
   toggleAudience(id: string, ev: Event) {
-    ev.preventDefault();
+    // ev.preventDefault(); // Permitimos la navegación si es un enlace, el toggle es secundario
     ev.stopPropagation();
     this.openedAudience.update((curr) => (curr === id ? null : id));
   }
