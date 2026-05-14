@@ -63,5 +63,10 @@ export const routes: Routes = [
     loadComponent: () => import('./audiencia/audiencia').then((m) => m.AudienciaComponent),
     title: 'Ciudadanía Digital',
   },
+  {
+    path: 'AlfaAdminLogin',
+    loadComponent: () => import('./auth/login').then((m) => m.LoginComponent),
+    title: 'Acceso Administrativo · Ciudadanía Digital',
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -485,3 +485,11 @@ model AINotebook {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hash
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

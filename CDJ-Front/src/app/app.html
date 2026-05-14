@@ -1,9 +1,9 @@
 <div class="relative flex min-h-[100dvh] gap-4 p-3 sm:p-4 lg:gap-5 lg:p-5">
 
   <!-- Sidebar desktop persistente -->
-  <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 40;">
-    <div class="sticky top-4 h-[calc(100dvh-2rem)]">
-      <app-sidebar variant="desktop"></app-sidebar>
+  <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 60;">
+    <div class="sticky top-5 h-[calc(100dvh-2.5rem)]">
+      <app-sidebar variant="desktop" (logout)="onLogout()"></app-sidebar>
     </div>
   </div>
 
@@ -24,7 +24,7 @@
       class="absolute inset-y-0 left-0 flex w-[86%] max-w-[320px] flex-col p-3 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
       [class.-translate-x-full]="!drawerOpen()"
       [class.translate-x-0]="drawerOpen()">
-      <app-sidebar variant="mobile" (navigate)="closeDrawer()"></app-sidebar>
+      <app-sidebar variant="mobile" (navigate)="closeDrawer()" (logout)="onLogout()"></app-sidebar>
     </div>
   </div>
 
@@ -108,6 +108,21 @@
           </span>
         </button>
 
+        <!-- Lengua de señas (accesibilidad) - OCULTO POR AHORA -->
+        <button
+          type="button"
+          (click)="toggleSignLanguage()"
+          [attr.aria-pressed]="signLanguage()"
+          aria-label="Activar lengua de señas"
+          title="Lengua de señas"
+          class="!hidden h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]"
+          [class.bg-]="signLanguage()"
+          [class.bg-cdj-50]="signLanguage()"
+          [class.text-cdj-600]="signLanguage()"
+          [class.border-cdj-200]="signLanguage()">
+          <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="signLanguage()">sign_language</span>
+        </button>
+
         @if (isAdmin()) {
           <button
             type="button"
@@ -137,6 +152,23 @@
               <span translate="no" class="material-symbols-rounded text-[18px]">restart_alt</span>
             </button>
           }
+        }
+
+        <!-- Mi cuenta / Login -->
+        @if (!isAuthenticated()) {
+          <a routerLink="/AlfaAdminLogin"
+            class="hidden h-9 items-center gap-2 rounded-lg border border-[color:var(--border)] px-3 text-[13px] font-semibold text-[color:var(--text-primary)] transition-all hover:bg-[color:var(--surface-soft)] sm:inline-flex"
+            title="Iniciar sesión">
+            <span translate="no" class="material-symbols-rounded text-[18px]">person</span>
+            <span>Acceder</span>
+          </a>
+        } @else {
+          <button type="button" (click)="onLogout()"
+            class="hidden h-9 cursor-pointer items-center gap-2 rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-3 text-[13px] font-semibold text-rose-500 transition-all hover:bg-rose-500/10 sm:inline-flex"
+            title="Cerrar sesión">
+            <span translate="no" class="material-symbols-rounded text-[18px]">logout</span>
+            <span>Salir</span>
+          </button>
         }
 
         <!-- CTA primary -->
@@ -275,6 +307,20 @@
             <span class="hidden sm:inline">Tip · usa <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 font-bold text-[color:var(--text-soft)]">⌘</kbd> + <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 font-bold text-[color:var(--text-soft)]">K</kbd> para abrir desde cualquier sección</span>
             <span class="sm:hidden">Toca fuera o ESC para cerrar</span>
           </div>
+        </div>
+      </div>
+    </div>
+  }
+  <!-- Overlay de Feedback (Logout) -->
+  @if (loggingOut()) {
+    <div class="feedback-overlay">
+      <div class="feedback-card">
+        <div class="feedback-icon">
+          <span translate="no" class="material-symbols-rounded text-3xl icon-fill">verified_user</span>
+        </div>
+        <div class="feedback-text">
+          <h3>Sesión Finalizada</h3>
+          <p>Has salido de forma segura del panel de administración.</p>
         </div>
       </div>
     </div>

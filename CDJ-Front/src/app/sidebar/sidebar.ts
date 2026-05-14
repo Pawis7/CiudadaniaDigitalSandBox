@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 import { ContentService } from '../core/services/content.service';
 import { CdjLogoComponent } from '../shared/cdj-logo/cdj-logo';
 
@@ -34,6 +35,10 @@ const COLLAPSE_KEY = 'cdj_sidebar_collapsed';
 export class SidebarComponent {
   @Input() variant: 'desktop' | 'mobile' = 'desktop';
   @Output() navigate = new EventEmitter<void>();
+  @Output() logout = new EventEmitter<void>();
+
+  private auth = inject(AuthService);
+  isAuthenticated = this.auth.isLogged;
 
   private content = inject(ContentService);
   branding = this.content.branding;

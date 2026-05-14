@@ -1,50 +1,103 @@
 # =============================================================================
-# PostgreSQL local para dev del backend de Ciudadanía Digital.
-#
-# Uso:
-#   docker compose up -d       Levanta Postgres en background
-#   docker compose down        Detiene
-#   docker compose down -v     Detiene y borra volumen (reset total)
-#
-# La base, usuario y password coinciden con DATABASE_URL en .env.example
+# DOCKER COMPOSE - CDJ BACKEND (ENTORNO LOCAL)
+# =============================================================================
+# USO:
+#   docker compose up -d              → Levantar DB y API
+#   docker compose --profile tools up → Levantar con pgAdmin
 # =============================================================================
 
 services:
-  postgres:
+  # ---------------------------------------------------------------------------
+  # BASE DE DATOS POSTGRESQL 17
+  # ---------------------------------------------------------------------------
+  db:
     image: postgres:17-alpine
-    container_name: cdj-postgres
+    container_name: cdj_db_local
     restart: unless-stopped
-    ports:
-      - '5432:5432'
     environment:
-      POSTGRES_DB: cdj
       POSTGRES_USER: cdj
       POSTGRES_PASSWORD: cdj_dev
-      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: cdj
+    ports:
+      - "5432:5432"
     volumes:
-      - cdj-pg-data:/var/lib/postgresql/data
+      - cdj_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U cdj -d cdj']
+      test: ["CMD-SHELL", "pg_isready -U cdj -d cdj"]
       interval: 5s
-      timeout: 3s
-      retries: 12
+      timeout: 5s
+      retries: 5
 
-  # Opcional: pgAdmin web para inspeccionar la DB
-  # Comentar si no se usa.
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: cdj-pgadmin
+  # ---------------------------------------------------------------------------
+  # API NEXT.JS
+  # ---------------------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cdj_api_local
     restart: unless-stopped
     ports:
-      - '5050:80'
+      - "4180:4180"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgresql://cdj:cdj_dev@db:5432/cdj?schema=public"
+      NODE_ENV: development
+    volumes:
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - ./public/uploads:/app/public/uploads
+      - /app/.next # ← Volumen anónimo para evitar errores de permisos en cache
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo '⏳ Sincronizando base de datos...' &&
+        npx prisma db push --accept-data-loss &&
+        echo '✅ Base de datos sincronizada' &&
+        echo '🌱 Ejecutando seeds...' &&
+        npx prisma db seed || echo '⚠️ Seeds ya existentes o error (no crítico)' &&
+        echo '🚀 Iniciando API...' &&
+        npm run dev
+      "
+
+  # ---------------------------------------------------------------------------
+  # PRISMA STUDIO (Interfaz visual para la DB)
+  # ---------------------------------------------------------------------------
+  studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cdj_studio_local
+    profiles: ["tools"] # Solo se levanta si lo pides explícitamente
+    environment:
+      - DATABASE_URL=postgresql://cdj:cdj_dev@db:5432/cdj?schema=public
+    ports:
+      - "5555:5555"
+    command: npx prisma studio --browser none
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # PGADMIN (OPCIONAL)
+  # ---------------------------------------------------------------------------
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cdj_pgadmin
+    restart: unless-stopped
+    profiles: ["tools"]
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@cdj.local
       PGADMIN_DEFAULT_PASSWORD: cdj_dev
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
     depends_on:
-      postgres:
-        condition: service_healthy
+      - db
 
 volumes:
-  cdj-pg-data:
-    name: cdj-pg-data
+  cdj_pgdata:
+    name: cdj_pgdata_local

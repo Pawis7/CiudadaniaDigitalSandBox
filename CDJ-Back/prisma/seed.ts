@@ -3,6 +3,7 @@
  * Idempotente vía `upsert`. Se ejecuta con:  yarn db:seed
  */
 import { PrismaClient } from '@prisma/client';
+import { hashPassword } from '../src/lib/crypto';
 
 const prisma = new PrismaClient();
 
@@ -201,6 +202,20 @@ async function main() {
       },
     });
   }
+
+  // === Admin User (Alfa) ===
+  const adminEmail = 'admin@cdj.jalisco.gob.mx';
+  const hashedPassword = hashPassword('AlfaCDJ2026!');
+
+  await prisma.adminUser.upsert({
+    where: { email: adminEmail },
+    update: { password: hashedPassword },
+    create: {
+      email: adminEmail,
+      password: hashedPassword,
+      name: 'Administrador Alfa',
+    },
+  });
 
   console.log('✓ Seed completado.');
 }

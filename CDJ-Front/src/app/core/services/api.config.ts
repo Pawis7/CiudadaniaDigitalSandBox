@@ -13,7 +13,7 @@ function readOverride(): string | null {
   try { return localStorage.getItem(RUNTIME_OVERRIDE_KEY); } catch { return null; }
 }
 
-export const API_BASE: string = readOverride() ?? 'http://127.0.0.1:4180/api';
+export const API_BASE: string = readOverride() ?? 'http://localhost:4180/api';
 
 export const API_TIMEOUT_MS = 4500;
 

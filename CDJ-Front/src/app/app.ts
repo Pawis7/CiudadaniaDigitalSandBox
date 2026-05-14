@@ -9,7 +9,7 @@ import { ContentService } from './core/services/content.service';
 import { BrandIconComponent } from './shared/brand-icon/brand-icon';
 import { ImageEditService } from './core/services/image-edit.service';
 import { CdjLogoComponent } from './shared/cdj-logo/cdj-logo';
-import { UiIconComponent } from './shared/ui-icon/ui-icon';
+import { AuthService } from './core/services/auth.service';
 
 const ADMIN_FLAG = 'cdj_admin_v1';
 const THEME_KEY  = 'cdj_theme';
@@ -40,7 +40,14 @@ export class App implements AfterViewInit {
   scrolled = signal(false);
   searchOpen = signal(false);
   searchQuery = signal('');
-  signLanguage = signal(false);
+  private auth = inject(AuthService);
+  /** true si el backend confirmó una sesión válida — fuente de verdad para botones de edición */
+  isLogged = this.auth.isLogged;
+  isAuthenticated = this.isLogged; // alias para el template
+
+  /** Estado para la animación de cierre de sesión */
+  loggingOut = signal(false);
+
   isAdmin = signal<boolean>(this.readAdminFlag());
   theme = signal<ThemeMode>(this.readTheme());
   year = new Date().getFullYear();
@@ -64,6 +71,9 @@ export class App implements AfterViewInit {
         this.closeDrawer();
         this.searchOpen.set(false);
       });
+
+    // Verificar sesión al arrancar (restaura estado si hay cookie válida)
+    this.auth.checkSession();
 
     // Activar/desactivar modo admin con ?admin=1 / ?admin=0 en la URL
     this.route.queryParamMap.pipe(take(1)).subscribe((params) => {
@@ -102,8 +112,19 @@ export class App implements AfterViewInit {
     this.searchQuery.set('');
   }
 
+  signLanguage = signal(false);
+
   toggleSignLanguage() {
     this.signLanguage.update((v) => !v);
+  }
+
+  async onLogout() {
+    this.loggingOut.set(true);
+    // Pequeño delay artificial para que la animación sea perceptible y premium
+    await new Promise(resolve => setTimeout(resolve, 800));
+    await this.auth.logout();
+    // No usamos router.navigate, usamos location.href para recargar todo el estado (placebo de limpieza)
+    window.location.href = '/';
   }
 
   toggleEdit() { this.imgEdit.toggleEdit(); }
