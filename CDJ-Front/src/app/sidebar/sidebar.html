@@ -39,6 +39,7 @@
       <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Apr.' : 'Aprender' }}</h3>
       <a *ngFor="let item of learnSections"
          [routerLink]="item.routerLink"
+         [routerLinkActiveOptions]="{ exact: item.id === 'home' }"
          (click)="onNavigate()"
          routerLinkActive="is-active"
          [attr.data-audience]="item.audience"
