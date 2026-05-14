@@ -1,33 +1,66 @@
 /**
- * Auth Bearer simple por token estático.
+ * Utilidades de autenticación JWT via httpOnly cookie.
  *
- * Para esta primera fase del backend (interno SEP, sin login público) basta
- * con un token compartido entre el panel admin y la API. Cuando llegue el
- * login real se cambia por JWT/sessions sin tocar las rutas.
+ * El JWT NUNCA se expone a JavaScript. Solo se lee en el servidor
+ * a través de la cookie 'cdj_session', que es httpOnly + SameSite=Strict.
  *
  * Uso en route handlers:
- *   if (!isAdmin(request)) return unauthorized();
+ *   const payload = verifySession(request);
+ *   if (!payload) return unauthorized();
  */
 import { NextRequest, NextResponse } from 'next/server';
+import { verifyToken } from './crypto';
 
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN ?? '';
+export const SESSION_COOKIE = 'cdj_session';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_alfa_cdj_2026';
 
-export function isAdmin(request: NextRequest | Request): boolean {
-  if (!ADMIN_TOKEN) return false;
-  const header = request.headers.get('authorization') ?? '';
-  if (!header.toLowerCase().startsWith('bearer ')) return false;
-  const token = header.slice(7).trim();
-  // Comparación tiempo-constante para evitar timing attacks
-  return constantTimeEquals(token, ADMIN_TOKEN);
+export interface SessionPayload {
+  userId: string;
+  email: string;
+  exp: number;
 }
 
-export function unauthorized(message = 'Token de administrador requerido o inválido.') {
+/**
+ * Verifica el JWT en la cookie de sesión.
+ * Devuelve el payload si es válido, null si no existe o expiró.
+ */
+export function verifySession(request: NextRequest | Request): SessionPayload | null {
+  try {
+    const cookieHeader = request.headers.get('cookie') ?? '';
+    const cookie = parseCookie(cookieHeader, SESSION_COOKIE);
+    if (!cookie) return null;
+
+    const payload = verifyToken(cookie, JWT_SECRET) as unknown as SessionPayload;
+    if (!payload) return null;
+
+    const now = Math.floor(Date.now() / 1000);
+    if (payload.exp && payload.exp < now) return null;
+
+    return payload;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Atajo: true si la sesión es válida (para guards de endpoints admin).
+ */
+export function isAdmin(request: NextRequest | Request): boolean {
+  return verifySession(request) !== null;
+}
+
+export function unauthorized(message = 'Sesión requerida o expirada.') {
   return NextResponse.json({ error: message }, { status: 401 });
 }
 
-function constantTimeEquals(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let mismatch = 0;
-  for (let i = 0; i < a.length; i++) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return mismatch === 0;
+/**
+ * Parsea una cookie específica del header Cookie.
+ */
+function parseCookie(header: string, name: string): string | null {
+  const parts = header.split(';');
+  for (const part of parts) {
+    const [k, v] = part.trim().split('=');
+    if (k === name && v) return decodeURIComponent(v);
+  }
+  return null;
 }

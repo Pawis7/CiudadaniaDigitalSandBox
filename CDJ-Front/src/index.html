@@ -15,6 +15,17 @@
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/garet/Garet-Book.woff2" crossorigin>
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/garet/Garet-Heavy.woff2" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..700,0..1,-25..0&display=swap" rel="stylesheet">
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('cdj_theme');
+        var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (theme === 'dark' || (!theme && supportDarkMode)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="text-slate-800">
   <app-root></app-root>

@@ -112,6 +112,17 @@
 
     <!-- Footer del sidebar -->
     <div class="sidebar-foot">
+      @if (isAuthenticated()) {
+        <button type="button" (click)="logout.emit()"
+           class="sidebar-item mb-2 w-full cursor-pointer border-none bg-rose-500/5 text-rose-500 hover:bg-rose-500/10"
+           title="Cerrar sesión">
+          <span class="sidebar-icon">
+            <span translate="no" class="material-symbols-rounded text-[20px]">logout</span>
+          </span>
+          <span class="sidebar-label font-bold">Cerrar sesión</span>
+        </button>
+      }
+
       <a href="https://jalisco.gob.mx" target="_blank" rel="noopener"
          class="sidebar-item"
          title="Gobierno de Jalisco">
