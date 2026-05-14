@@ -2,7 +2,7 @@
 
   <!-- Sidebar desktop persistente -->
   <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 60;">
-    <div class="sticky top-4 h-[calc(100dvh-2rem)]">
+    <div class="sticky top-5 h-[calc(100dvh-2.5rem)]">
       <app-sidebar variant="desktop"></app-sidebar>
     </div>
   </div>
@@ -33,7 +33,7 @@
 
     <!-- Topbar — limpio, info densa, profesional -->
     <header
-      class="topbar flex items-center gap-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-2.5 shadow-sm sm:px-4 lg:gap-4 lg:px-5 lg:py-3"
+      class="topbar sticky top-3 sm:top-4 lg:top-5 flex items-center gap-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-2.5 shadow-sm sm:px-4 lg:gap-4 lg:px-5 lg:py-3"
       [class.shadow-md]="scrolled()">
 
       <!-- Mobile: hamburger + logo compacto -->
