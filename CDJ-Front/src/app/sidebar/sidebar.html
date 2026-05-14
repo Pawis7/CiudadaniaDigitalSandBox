@@ -56,9 +56,9 @@
       <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Perf.' : 'Perfiles' }}</h3>
 
       <ng-container *ngFor="let item of audiences">
-        <div>
+        <div class="sidebar-audience-group">
           <a [routerLink]="item.routerLink"
-             (click)="onNavigate()"
+             (click)="item.subItems?.length ? toggleAudience(item.id, $event) : onNavigate()"
              routerLinkActive="is-active"
              [attr.data-audience]="item.audience"
              class="sidebar-item"
@@ -69,24 +69,24 @@
             </span>
             <span class="sidebar-label">{{ item.label }}</span>
             @if (item.subItems?.length) {
-              <button type="button" (click)="toggleAudience(item.id, $event)"
-                class="sidebar-chevron"
-                [class.is-open]="openedAudience() === item.id"
-                [attr.aria-label]="'Ver sub-niveles de ' + item.label">
+              <span class="sidebar-chevron"
+                [class.is-open]="openedAudience() === item.id">
                 <span translate="no" class="material-symbols-rounded text-[16px]">expand_more</span>
-              </button>
+              </span>
             }
           </a>
 
-          @if (openedAudience() === item.id && item.subItems?.length) {
-            <div class="sidebar-sub" [attr.data-audience]="item.audience">
-              <a *ngFor="let sub of item.subItems"
-                 [href]="sub.href"
-                 (click)="onNavigate()"
-                 class="sidebar-subitem">
-                <span class="sidebar-subitem-dot"></span>
-                <span>{{ sub.label }}</span>
-              </a>
+          @if (item.subItems?.length) {
+            <div class="sidebar-sub-wrapper" [class.is-open]="openedAudience() === item.id">
+              <div class="sidebar-sub" [attr.data-audience]="item.audience">
+                <a *ngFor="let sub of item.subItems"
+                   [href]="sub.href"
+                   (click)="onNavigate()"
+                   class="sidebar-subitem">
+                  <span class="sidebar-subitem-dot"></span>
+                  <span>{{ sub.label }}</span>
+                </a>
+              </div>
             </div>
           }
         </div>
