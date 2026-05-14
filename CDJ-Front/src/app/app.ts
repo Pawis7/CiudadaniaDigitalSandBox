@@ -9,6 +9,7 @@ import { ContentService } from './core/services/content.service';
 import { BrandIconComponent } from './shared/brand-icon/brand-icon';
 import { ImageEditService } from './core/services/image-edit.service';
 import { CdjLogoComponent } from './shared/cdj-logo/cdj-logo';
+import { UiIconComponent } from './shared/ui-icon/ui-icon';
 
 const ADMIN_FLAG = 'cdj_admin_v1';
 const THEME_KEY  = 'cdj_theme';
@@ -18,7 +19,7 @@ type ThemeMode = 'light' | 'dark';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterOutlet, RouterLink, RouterLinkActive, SidebarComponent, BrandIconComponent, CdjLogoComponent],
+  imports: [CommonModule, FormsModule, RouterOutlet, RouterLink, RouterLinkActive, SidebarComponent, BrandIconComponent, CdjLogoComponent, UiIconComponent],
   changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -48,11 +49,10 @@ export class App implements AfterViewInit {
   @ViewChild('inlineSearch') inlineSearch?: ElementRef<HTMLInputElement>;
 
   topNav: { label: string; href: string; exact: boolean }[] = [
-    { label: 'Catálogo',  href: '/cursos',        exact: false },
-    { label: 'Recursos',  href: '/recursos',      exact: false },
-    { label: 'Edutips',   href: '/edutips',       exact: false },
-    { label: 'Series',    href: '/series',        exact: false },
-    { label: 'Comunidad', href: '/quienes-somos', exact: false },
+    { label: 'Perfiles',  href: '/p/adolescentes', exact: false },
+    { label: 'Cursos',    href: '/cursos',         exact: false },
+    { label: 'Recursos',  href: '/recursos',       exact: false },
+    { label: 'Ayuda',     href: '/ayuda',          exact: false },
   ];
 
   constructor() {

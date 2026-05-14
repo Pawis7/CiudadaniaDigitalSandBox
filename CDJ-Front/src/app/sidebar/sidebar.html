@@ -53,7 +53,7 @@
       <div class="sidebar-divider"></div>
 
       <!-- Sección AUDIENCIAS -->
-      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Aud.' : 'Audiencias' }}</h3>
+      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Perf.' : 'Perfiles' }}</h3>
 
       <ng-container *ngFor="let item of audiences">
         <div>
@@ -95,7 +95,7 @@
       <div class="sidebar-divider"></div>
 
       <!-- Sección AYUDA -->
-      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Otros' : 'Ayuda y comunidad' }}</h3>
+      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Más' : 'Orientación y más' }}</h3>
       <a *ngFor="let s of helpSections"
          [routerLink]="s.routerLink"
          (click)="onNavigate()"

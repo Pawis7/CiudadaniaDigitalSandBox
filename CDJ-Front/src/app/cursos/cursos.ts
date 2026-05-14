@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { COURSES } from '../core/data/special-sections.data';
 import { Course, CourseLevel } from '../core/models/special-sections.models';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
+import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 
 type SortKey = 'popular' | 'recent' | 'duration_asc' | 'duration_desc';
 type DurationKey = 'todos' | 'corto' | 'medio' | 'largo';
@@ -12,7 +13,7 @@ type DurationKey = 'todos' | 'corto' | 'medio' | 'largo';
 @Component({
   selector: 'app-cursos',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, UiIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cursos.html',
 })
@@ -52,6 +53,12 @@ export class CursosComponent {
   protected levelLabels: Record<CourseLevel, string> = {
     basico: 'Básico', intermedio: 'Intermedio', avanzado: 'Avanzado',
   };
+
+  protected featuredMoments: { title: string; copy: string; icon: UiIconName }[] = [
+    { title: 'Rutas guiadas', copy: 'Programas con una progresión clara para no aprender a saltos.', icon: 'course' },
+    { title: 'Aplicación real', copy: 'Contenido pensado para escuela, familia y vida digital cotidiana.', icon: 'community' },
+    { title: 'Constancia opcional', copy: 'Algunos cursos incluyen reconocimiento al finalizar.', icon: 'check' },
+  ];
 
   protected filtered = computed(() => {
     const q = this.query().trim().toLowerCase();

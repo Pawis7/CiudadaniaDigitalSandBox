@@ -1,0 +1,343 @@
+<section
+  id="secundaria-privacidad"
+  class="sim-shell relative overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-5 py-6 shadow-[var(--shadow-xl)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
+  data-audience="teens">
+
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute -left-20 top-12 h-56 w-56 rounded-full bg-violet-500/12 blur-3xl"></div>
+    <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-emerald-500/12 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border-soft)] pb-5">
+    <div>
+      <p class="eyebrow text-[color:var(--aud)]">Secundaria · Privacidad y seguridad</p>
+      <h2 class="display-2 mt-1">Simulador de fraudes por chat</h2>
+      <p class="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--text-soft)]">
+        Aprende a identificar urgencia, ligas falsas y robo de datos en tiempo real. Elige tus respuestas y observa la simulación en el dispositivo.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--aud-cream)] px-3 py-1.5 text-[color:var(--aud)]">
+        <span translate="no" class="material-symbols-rounded text-sm">schedule</span>
+        {{ data.metadata.estimatedDuration }}
+      </span>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-emerald-700">
+        <span translate="no" class="material-symbols-rounded text-sm">shield_lock</span>
+        Sin capturar datos
+      </span>
+    </div>
+  </div>
+
+  <div class="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-center">
+    <!-- COLUMNA IZQUIERDA: Contexto, Pregunta y Opciones de Respuesta -->
+    <div class="lg:col-span-7 space-y-6 flex flex-col justify-center">
+      @if (!started()) {
+        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-white p-6 shadow-md space-y-4">
+          <span class="inline-flex items-center gap-2 rounded-xl bg-violet-100 p-3 text-violet-700 font-bold text-xs">
+            <span translate="no" class="material-symbols-rounded text-base">psychology</span>
+            Entrenamiento interactivo
+          </span>
+          <h3 class="text-xl font-black tracking-tight text-[color:var(--text-primary)]">¿Estás listo para poner a prueba tu criterio?</h3>
+          <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">
+            A lo largo de este ejercicio te enfrentarás a 3 casos reales que miles de estudiantes en México reciben todos los días por WhatsApp o SMS.
+          </p>
+          <div class="grid gap-3 sm:grid-cols-3 pt-2">
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <strong class="block font-black text-sm text-violet-700">Caso 1</strong>
+              <span class="text-xs text-[color:var(--text-soft)]">Promoción inesperada</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <strong class="block font-black text-sm text-amber-600">Caso 2</strong>
+              <span class="text-xs text-[color:var(--text-soft)]">Paquete pendiente</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
+              <strong class="block font-black text-sm text-rose-600">Caso 3</strong>
+              <span class="text-xs text-[color:var(--text-soft)]">Apoyo en riesgo</span>
+            </div>
+          </div>
+          <div class="pt-4">
+            <button type="button" (click)="start()" class="btn-primary w-full py-4 text-base shadow-lg hover:shadow-xl transition-all">
+              <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
+              Comenzar simulador
+            </button>
+          </div>
+        </div>
+      } @else if (finished()) {
+        <div
+          class="rounded-[1.9rem] border p-6 shadow-[var(--shadow-lg)] space-y-4"
+          [class.border-emerald-200]="result().tone === 'solid'"
+          [class.bg-emerald-50]="result().tone === 'solid'"
+          [class.border-amber-200]="result().tone === 'medium'"
+          [class.bg-amber-50]="result().tone === 'medium'"
+          [class.border-rose-200]="result().tone === 'risk'"
+          [class.bg-rose-50]="result().tone === 'risk'">
+          <p class="text-[11px] font-black uppercase tracking-[0.18em]"
+             [class.text-emerald-700]="result().tone === 'solid'"
+             [class.text-amber-700]="result().tone === 'medium'"
+             [class.text-rose-700]="result().tone === 'risk'">
+            Resultado final del simulador
+          </p>
+          <h3 class="text-2xl font-black tracking-tight text-[color:var(--text-primary)]">{{ result().title }}</h3>
+          <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ result().description }}</p>
+
+          <div class="rounded-[1.25rem] bg-white/90 p-4 shadow-sm border border-white">
+            <p class="text-xs font-black uppercase tracking-[0.16em] text-[color:var(--text-mute)] mb-1">Mensaje modelo</p>
+            <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ result().message }}</p>
+          </div>
+
+          <div class="grid gap-2.5 pt-2">
+            @for (item of result().checklist; track item) {
+              <div class="flex items-center gap-3 rounded-xl border border-white/70 bg-white/80 px-4 py-3 shadow-sm">
+                <span translate="no" class="material-symbols-rounded text-[color:var(--aud)] shrink-0">check_circle</span>
+                <p class="text-sm font-medium leading-relaxed text-[color:var(--text-primary)]">{{ item }}</p>
+              </div>
+            }
+          </div>
+
+          <div class="pt-4 flex flex-wrap gap-3">
+            <button type="button" class="btn-primary py-3.5 px-6 font-bold flex items-center gap-2" (click)="copyMessage()">
+              <span translate="no" class="material-symbols-rounded text-base">content_copy</span>
+              {{ copied() ? '¡Copiado!' : 'Copiar mensaje' }}
+            </button>
+            <button type="button" class="btn-secondary py-3.5 px-6 font-bold flex items-center gap-2" (click)="restart()">
+              <span translate="no" class="material-symbols-rounded text-base">refresh</span>
+              Volver a jugar
+            </button>
+          </div>
+        </div>
+      } @else {
+        <!-- Encabezado del caso actual y progreso -->
+        <div class="flex items-center justify-between bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-2xl p-4 shadow-sm">
+          <div>
+            <span class="text-[10px] font-black uppercase tracking-widest text-[color:var(--aud)]">Caso {{ currentCaseIndex() + 1 }} de {{ cases.length }}</span>
+            <h3 class="text-base font-black text-[color:var(--text-primary)]">{{ currentCase().name }}</h3>
+          </div>
+          <div class="text-right">
+            <span class="text-xs font-bold text-[color:var(--text-mute)]">Paso {{ currentStepIndex() + 1 }} de {{ currentCase().steps.length }}</span>
+            <div class="flex gap-1 mt-1">
+              @for (step of currentCase().steps; track step.question; let idx = $index) {
+                <span class="h-1.5 w-4 rounded-full bg-slate-200"
+                  [class.bg-[color:var(--aud)]]="idx === currentStepIndex()"
+                  [class.bg-emerald-500]="idx < currentStepIndex()"></span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Pregunta y Señal de Alerta -->
+        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-white p-6 shadow-md space-y-4">
+          <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3">
+            <span class="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-violet-700">
+              <span translate="no" class="material-symbols-rounded text-base">help</span>
+              Tu decisión
+            </span>
+            <span class="text-xs font-semibold text-[color:var(--text-mute)]">Hora recibida: {{ currentStep().time }}</span>
+          </div>
+
+          <h4 class="text-lg font-black text-[color:var(--text-primary)]">{{ currentStep().question }}</h4>
+          <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ currentStep().text }}</p>
+
+          <div class="rounded-2xl bg-violet-50/80 border border-violet-100 p-4 flex gap-3 text-violet-950 shadow-sm">
+            <span translate="no" class="material-symbols-rounded text-xl text-violet-700 shrink-0">tips_and_updates</span>
+            <div class="space-y-0.5">
+              <strong class="block text-xs font-black uppercase tracking-wider text-violet-800">Señal de alerta</strong>
+              <p class="text-xs leading-relaxed font-medium">{{ currentStep().hint }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opciones de Respuesta -->
+        <div class="space-y-3">
+          <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Elige qué harías en este chat:</p>
+          <div class="grid gap-3">
+            @for (choice of currentStep().choices; track choice.title; let idx = $index) {
+              <button
+                type="button"
+                [disabled]="selectedChoiceIndex() !== null || isTyping()"
+                (click)="choose(idx)"
+                class="flex items-center justify-between p-4 rounded-2xl border bg-white text-left font-bold transition-all duration-200 group cursor-pointer"
+                [class.opacity-60]="selectedChoiceIndex() !== null && selectedChoiceIndex() !== idx"
+                [class.border-[color:var(--border-soft)]]="selectedChoiceIndex() === null"
+                [class.hover:border-[color:var(--aud)]]="selectedChoiceIndex() === null && !isTyping()"
+                [class.hover:shadow-md]="selectedChoiceIndex() === null && !isTyping()"
+                [class.border-emerald-500]="selectedChoiceIndex() === idx && choice.type === 'good'"
+                [class.bg-emerald-50]="selectedChoiceIndex() === idx && choice.type === 'good'"
+                [class.border-amber-500]="selectedChoiceIndex() === idx && choice.type === 'warn'"
+                [class.bg-amber-50]="selectedChoiceIndex() === idx && choice.type === 'warn'"
+                [class.border-rose-500]="selectedChoiceIndex() === idx && choice.type === 'bad'"
+                [class.bg-rose-50]="selectedChoiceIndex() === idx && choice.type === 'bad'">
+                <span class="text-sm leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors pr-3">{{ choice.title }}</span>
+                <span
+                  class="shrink-0 rounded-full px-3 py-1 text-[10px] font-black tracking-wider uppercase shadow-sm"
+                  [class.bg-emerald-100]="choice.type === 'good'" [class.text-emerald-800]="choice.type === 'good'"
+                  [class.bg-amber-100]="choice.type === 'warn'" [class.text-amber-800]="choice.type === 'warn'"
+                  [class.bg-rose-100]="choice.type === 'bad'" [class.text-rose-800]="choice.type === 'bad'">
+                  {{ choiceTone(choice.type) }}
+                </span>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Retroalimentación y botón Continuar -->
+        @if (selectedChoice(); as answer) {
+          <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-white p-6 shadow-lg animate-fade-in space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-[color:var(--text-mute)]">Retroalimentación</span>
+              <span class="inline-flex items-center gap-1 text-xs font-black uppercase px-2.5 py-0.5 rounded-full"
+                [class.bg-emerald-100]="answer.type === 'good'" [class.text-emerald-800]="answer.type === 'good'"
+                [class.bg-amber-100]="answer.type === 'warn'" [class.text-amber-800]="answer.type === 'warn'"
+                [class.bg-rose-100]="answer.type === 'bad'" [class.text-rose-800]="answer.type === 'bad'">
+                {{ choiceTone(answer.type) }}
+              </span>
+            </div>
+            <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ answer.feedback }}</p>
+
+            @if (currentStepIndex() === currentCase().steps.length - 1) {
+              <div class="rounded-xl bg-slate-50 border border-slate-100 p-4 mt-3 flex items-start gap-3">
+                <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">task_alt</span>
+                <div class="space-y-0.5">
+                  <strong class="block text-xs font-black text-[color:var(--text-primary)] uppercase tracking-wider">Cierre del caso</strong>
+                  <p class="text-xs font-medium text-[color:var(--text-soft)] leading-relaxed">{{ currentCaseSummary() }}</p>
+                </div>
+              </div>
+            }
+
+            <button type="button" class="btn-primary w-full py-4 font-black shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
+              <span>{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'Ver resultado final' : currentStepIndex() === currentCase().steps.length - 1 ? 'Siguiente caso' : 'Continuar conversación' }}</span>
+              <span translate="no" class="material-symbols-rounded text-lg">{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'verified' : 'arrow_forward' }}</span>
+            </button>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- COLUMNA DERECHA: El Dispositivo Mockup y Animación de Chat -->
+    <div class="lg:col-span-5 flex justify-center lg:justify-end">
+      <div class="phone-frame w-full max-w-[280px]">
+        <div class="phone-shell">
+          <div class="phone-notch"></div>
+
+          <div class="phone-screen min-h-[500px] flex flex-col justify-between bg-[#ece5dd]">
+            @if (!started()) {
+              <div class="phone-intro flex-1 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-violet-900 to-slate-900 text-white">
+                <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur text-white shadow-lg mb-4">
+                  <span translate="no" class="material-symbols-rounded text-3xl">mark_chat_unread</span>
+                </span>
+                <h3 class="text-xl font-black">Chat en Vivo</h3>
+                <p class="text-xs text-white/80 mt-2 max-w-xs leading-relaxed">
+                  Aquí verás los mensajes simulados en tiempo real.
+                </p>
+              </div>
+            } @else if (finished()) {
+              <div class="phone-result flex-1 flex flex-col items-center justify-center text-center p-6 bg-emerald-900 text-white">
+                <span class="grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur text-white shadow-lg mb-4">
+                  <span translate="no" class="material-symbols-rounded text-4xl">verified_user</span>
+                </span>
+                <h3 class="text-2xl font-black">¡Completado!</h3>
+                <p class="text-xs text-white/80 mt-2 max-w-xs leading-relaxed">
+                  Revisa tu retroalimentación en el panel izquierdo.
+                </p>
+              </div>
+            } @else {
+              <!-- Cabecera de WhatsApp / SMS -->
+              <div class="wa-header flex items-center justify-between px-3 py-2 bg-[#075e54] text-white pt-8 shadow-md shrink-0">
+                <div class="flex items-center gap-2 overflow-hidden">
+                  <span class="grid h-8 w-8 place-items-center rounded-full font-black text-[10px] shadow-inner shrink-0"
+                    [class.bg-gradient-to-br]="true"
+                    [class.from-emerald-400]="currentStep().avatar === 'brand-app'" [class.to-teal-600]="currentStep().avatar === 'brand-app'"
+                    [class.from-amber-400]="currentStep().avatar === 'brand-shipping'" [class.to-orange-600]="currentStep().avatar === 'brand-shipping'"
+                    [class.from-rose-500]="currentStep().avatar === 'brand-gov'" [class.to-rose-700]="currentStep().avatar === 'brand-gov'">
+                    {{ avatarLabel(currentStep().avatar) }}
+                  </span>
+                  <div class="min-w-0">
+                    <strong class="block text-[11px] font-black text-white leading-tight truncate">{{ currentStep().name }}</strong>
+                    <span class="text-[9px] text-white/80 flex items-center gap-1 font-medium">
+                      {{ currentStep().status }}
+                      @if (currentStep().verified) {
+                        <span translate="no" class="material-symbols-rounded text-[10px] text-sky-400">verified</span>
+                      }
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <span translate="no" class="material-symbols-rounded text-base text-white/90">videocam</span>
+                  <span translate="no" class="material-symbols-rounded text-base text-white/90">call</span>
+                </div>
+              </div>
+
+              <!-- Barra de caso en el teléfono -->
+              <div class="bg-white/90 backdrop-blur border-b border-slate-200 px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-700 shadow-sm shrink-0">
+                <span class="truncate">{{ currentCase().name }}</span>
+                <span class="text-[9px] font-semibold text-slate-500 shrink-0 ml-1">Paso {{ currentStepIndex() + 1 }}</span>
+              </div>
+
+              <!-- Historial de Chat -->
+              <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col justify-end">
+                <div class="space-y-2.5 flex flex-col">
+                  @for (message of currentStep().chat; track $index) {
+                    <div class="flex animate-slide-up [animation-fill-mode:backwards]" [style.animation-delay]="$index * 150 + 'ms'" [class.justify-center]="message.role === 'system'" [class.justify-end]="message.role === 'me'">
+                      <div class="rounded-2xl px-3 py-2 max-w-[85%] shadow-sm text-[11px] leading-relaxed font-medium"
+                        [class.bg-white]="message.role === 'other' && message.tone !== 'alert'" [class.text-slate-800]="message.role === 'other' && message.tone !== 'alert'"
+                        [class.bg-rose-50]="message.tone === 'alert'" [class.border]="message.tone === 'alert'" [class.border-rose-200]="message.tone === 'alert'" [class.text-rose-950]="message.tone === 'alert'"
+                        [class.bg-[#dcf8c6]]="message.role === 'me'" [class.text-slate-900]="message.role === 'me'"
+                        [class.bg-slate-800/60]="message.role === 'system'" [class.text-white]="message.role === 'system'" [class.text-[9px]]="message.role === 'system'" [class.rounded-full]="message.role === 'system'">
+                        <span>{{ message.text }}</span>
+                        @if (message.time && message.role !== 'system') {
+                          <small class="block text-[8px] text-right text-slate-400 mt-0.5">{{ message.time }}</small>
+                        }
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Animación de Bloqueo / Reporte -->
+                  @if (selectedChoice() && !isTyping() && (selectedChoice()!.title.toLowerCase().includes('bloquear') || selectedChoice()!.title.toLowerCase().includes('reportar'))) {
+                    <div class="my-2 flex justify-center animate-block-pulse">
+                      <div class="rounded-2xl bg-rose-600 px-3 py-1.5 text-white font-black text-[10px] shadow-md flex items-center gap-1 border border-rose-400">
+                        <span translate="no" class="material-symbols-rounded text-xs">block</span>
+                        Contacto Bloqueado y Reportado
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Animación de escritura "Escribiendo..." -->
+                  @if (isTyping()) {
+                    <div class="flex justify-end animate-fade-in">
+                      <div class="rounded-2xl rounded-tr-sm bg-[#dcf8c6] px-3 py-2 shadow-sm flex items-center gap-1">
+                        <span class="h-1 w-1 rounded-full bg-emerald-700 animate-bounce"></span>
+                        <span class="h-1 w-1 rounded-full bg-emerald-700 animate-bounce [animation-delay:0.2s]"></span>
+                        <span class="h-1 w-1 rounded-full bg-emerald-700 animate-bounce [animation-delay:0.4s]"></span>
+                      </div>
+                    </div>
+                  }
+
+                  <!-- Respuesta seleccionada -->
+                  @if (selectedChoice() && !isTyping() && !selectedChoice()!.title.toLowerCase().includes('bloquear')) {
+                    <div class="flex justify-end animate-slide-up">
+                      <div class="rounded-2xl rounded-tr-sm bg-[#dcf8c6] px-3 py-2 max-w-[85%] shadow-sm text-[11px] font-bold text-slate-900">
+                        <span>{{ selectedChoice()!.title }}</span>
+                        <small class="block text-[8px] text-right text-emerald-700 mt-0.5">✓✓ Justo ahora</small>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <!-- Footer del teléfono mockup -->
+              <div class="bg-[#f0f0f0] border-t border-slate-300 p-2 flex items-center gap-1.5 shrink-0">
+                <span translate="no" class="material-symbols-rounded text-slate-500 text-lg">add_circle</span>
+                <div class="flex-1 rounded-full bg-white px-3 py-1 text-[10px] text-slate-400 font-medium border border-slate-200 truncate">
+                  {{ selectedChoiceIndex() !== null ? 'Mensaje enviado' : 'Elige una opción...' }}
+                </div>
+                <span translate="no" class="material-symbols-rounded text-slate-500 text-lg">mic</span>
+              </div>
+            }
+          </div>
+
+          <div class="phone-homebar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,7 +1,7 @@
 <div class="relative flex min-h-[100dvh] gap-4 p-3 sm:p-4 lg:gap-5 lg:p-5">
 
   <!-- Sidebar desktop persistente -->
-  <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 60;">
+  <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 40;">
     <div class="sticky top-4 h-[calc(100dvh-2rem)]">
       <app-sidebar variant="desktop"></app-sidebar>
     </div>
@@ -44,7 +44,9 @@
           [attr.aria-label]="drawerOpen() ? 'Cerrar menú' : 'Abrir menú'"
           [attr.aria-expanded]="drawerOpen()"
           class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-primary)] transition-all hover:bg-[color:var(--surface-soft)] active:scale-95">
-          <span translate="no" class="material-symbols-rounded text-[22px]">{{ drawerOpen() ? 'close' : 'menu' }}</span>
+          <span class="h-[18px] w-[18px]">
+            <app-ui-icon [name]="drawerOpen() ? 'close' : 'menu'"></app-ui-icon>
+          </span>
         </button>
         <a routerLink="/" class="flex items-center gap-2">
           <app-cdj-logo containerClass="h-8 w-8 rounded-lg bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
@@ -73,7 +75,9 @@
           (click)="openSearch()"
           aria-label="Buscar (Cmd + K)"
           class="search-input cursor-pointer text-left">
-          <span translate="no" class="material-symbols-rounded text-[18px] text-[color:var(--text-mute)]">search</span>
+          <span class="h-[16px] w-[16px] text-[color:var(--text-mute)]">
+            <app-ui-icon name="search"></app-ui-icon>
+          </span>
           <span class="flex-1 text-[color:var(--text-mute)]">Buscar cursos, recursos, videos…</span>
           <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 text-[10px] font-bold text-[color:var(--text-mute)]">⌘K</kbd>
         </button>
@@ -87,7 +91,9 @@
           (click)="openSearch()"
           aria-label="Buscar"
           class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)] sm:hidden">
-          <span translate="no" class="material-symbols-rounded text-[18px]">search</span>
+          <span class="h-[16px] w-[16px]">
+            <app-ui-icon name="search"></app-ui-icon>
+          </span>
         </button>
 
         <!-- Toggle tema -->
@@ -97,24 +103,9 @@
           [attr.aria-label]="theme() === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
           [title]="theme() === 'dark' ? 'Tema claro' : 'Tema oscuro'"
           class="grid h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]">
-          <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive">
-            {{ theme() === 'dark' ? 'light_mode' : 'dark_mode' }}
+          <span class="h-[17px] w-[17px]">
+            <app-ui-icon [name]="theme() === 'dark' ? 'sun' : 'moon'"></app-ui-icon>
           </span>
-        </button>
-
-        <!-- Lengua de señas (accesibilidad) -->
-        <button
-          type="button"
-          (click)="toggleSignLanguage()"
-          [attr.aria-pressed]="signLanguage()"
-          aria-label="Activar lengua de señas"
-          title="Lengua de señas"
-          class="hidden h-9 w-9 place-items-center rounded-lg border border-[color:var(--border)] text-[color:var(--text-secondary)] transition-all hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)] sm:grid"
-          [class.bg-]="signLanguage()"
-          [class.bg-cdj-50]="signLanguage()"
-          [class.text-cdj-600]="signLanguage()"
-          [class.border-cdj-200]="signLanguage()">
-          <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="signLanguage()">sign_language</span>
         </button>
 
         @if (isAdmin()) {
@@ -148,18 +139,12 @@
           }
         }
 
-        <!-- Mi cuenta (placeholder) -->
-        <button type="button"
-          class="hidden h-9 items-center gap-2 rounded-lg border border-[color:var(--border)] px-3 text-[13px] font-semibold text-[color:var(--text-primary)] transition-all hover:bg-[color:var(--surface-soft)] sm:inline-flex"
-          title="Iniciar sesión">
-          <span translate="no" class="material-symbols-rounded text-[18px]">person</span>
-          <span>Acceder</span>
-        </button>
-
         <!-- CTA primary -->
-        <a routerLink="/cursos" class="btn-primary">
-          <span class="hidden sm:inline">Empezar</span>
-          <span translate="no" class="material-symbols-rounded text-[18px]">arrow_forward</span>
+        <a routerLink="/cursos" class="inline-flex h-9 items-center gap-2 rounded-xl bg-[color:var(--c-cdj)] px-4 text-[13px] font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[color:var(--c-cdj-deep)] hover:shadow-md">
+          <span class="hidden sm:inline">Explorar portal</span>
+          <span class="h-[14px] w-[14px]">
+            <app-ui-icon name="arrow-right"></app-ui-icon>
+          </span>
         </a>
       </div>
     </header>
@@ -183,9 +168,12 @@
           </p>
           <div class="mt-7 flex flex-wrap gap-2.5">
             <a *ngFor="let s of socialLinks()"
-               [href]="s.href"
+               [href]="s.href !== '#' ? s.href : null"
                [attr.aria-label]="s.label"
-               [title]="s.label"
+               [title]="s.href !== '#' ? s.label : s.label + ' próximamente'"
+               [attr.aria-disabled]="s.href === '#' ? 'true' : null"
+               [class.pointer-events-none]="s.href === '#'"
+               [class.opacity-50]="s.href === '#'"
                class="group grid h-10 w-10 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--c-cdj)] hover:text-white hover:shadow-md">
               <span class="block h-[16px] w-[16px] transition-transform duration-200 group-hover:scale-110">
                 <app-brand-icon [name]="s.brand" [label]="s.label"></app-brand-icon>
@@ -198,7 +186,10 @@
           <h4 class="mb-5 text-xs font-black uppercase tracking-widest text-[color:var(--text-primary)]">{{ group.title }}</h4>
           <ul class="space-y-3">
             <li *ngFor="let item of group.links">
-              <a [href]="item.href" class="text-sm text-[color:var(--text-soft)] transition-colors hover:text-[color:var(--c-cdj)]">
+              <a
+                [routerLink]="item.href.startsWith('/') ? item.href : null"
+                [href]="!item.href.startsWith('/') ? item.href : null"
+                class="text-sm text-[color:var(--text-soft)] transition-colors hover:text-[color:var(--c-cdj)]">
                 {{ item.label }}
               </a>
             </li>
@@ -248,48 +239,34 @@
 
           <div class="px-4 py-4 sm:px-6 sm:py-5">
             <p class="mb-3 text-[11px] font-black uppercase tracking-widest text-[color:var(--text-mute)]">Acceso rápido</p>
-            <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-2">
               <a routerLink="/cursos" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-teachers)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teachers)] text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">menu_book</span>
+                  <span class="h-[16px] w-[16px]"><app-ui-icon name="course"></app-ui-icon></span>
                 </span>
                 <span class="text-sm font-bold text-[color:var(--text-primary)]">Cursos</span>
               </a>
               <a routerLink="/edutips" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-edutips)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-edutips)] text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">play_circle</span>
+                  <span class="h-[16px] w-[16px]"><app-ui-icon name="spark"></app-ui-icon></span>
                 </span>
                 <span class="text-sm font-bold text-[color:var(--text-primary)]">Edutips</span>
-              </a>
-              <a routerLink="/series" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-casi)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-casi)] text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">movie</span>
-                </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Series</span>
               </a>
               <a routerLink="/ayuda" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-help)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
                 <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-help)] text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">shield</span>
+                  <span class="h-[16px] w-[16px]"><app-ui-icon name="shield"></app-ui-icon></span>
                 </span>
                 <span class="text-sm font-bold text-[color:var(--text-primary)]">Ayuda Digital</span>
               </a>
-              <a routerLink="/p/familias" (click)="closeSearch()"
+              <a routerLink="/p/adolescentes" (click)="closeSearch()"
                  class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-families)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-families)] text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">family_restroom</span>
+                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teens)] text-white">
+                  <span class="h-[16px] w-[16px]"><app-ui-icon name="phone"></app-ui-icon></span>
                 </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Familias</span>
-              </a>
-              <a routerLink="/p/docentes" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-teachers)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teachers)] text-white">
-                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">school</span>
-                </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Docentes</span>
+                <span class="text-sm font-bold text-[color:var(--text-primary)]">Adolescentes</span>
               </a>
             </div>
           </div>

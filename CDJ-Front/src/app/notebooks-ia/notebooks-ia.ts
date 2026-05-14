@@ -22,8 +22,15 @@ export class NotebooksIaComponent {
     return this.notebooks().filter((n) => k === 'todos' || n.kind === k);
   });
 
-  protected featured = computed(() => this.notebooks().find((n) => n.featured));
-  protected rest = computed(() => this.notebooks().filter((n) => !n.featured));
+  protected featured = computed(() => {
+    const list = this.filtered();
+    return list.find((n) => n.featured) ?? list[0];
+  });
+
+  protected rest = computed(() => {
+    const currentFeatured = this.featured();
+    return this.filtered().filter((n) => n.id !== currentFeatured?.id);
+  });
 
   protected kindMeta: Record<AINotebookKind, { label: string; icon: string; brand: string }> = {
     notebooklm:     { label: 'NotebookLM',      icon: 'auto_awesome',  brand: 'Google' },

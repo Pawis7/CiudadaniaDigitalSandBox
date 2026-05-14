@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 import { AUDIENCE_PAGES } from '../core/data/page-content';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
-import { ExploreByTopicComponent } from '../shared/explore-by-topic/explore-by-topic';
 import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
+import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
 import { AudienceSlug } from '../core/models/content.models';
 
 const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
@@ -20,7 +20,7 @@ const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, ExploreByTopicComponent, AudIllustrationComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })
@@ -43,4 +43,6 @@ export class AudienciaComponent {
       .videoSeries()
       .filter((s) => p.recommendedSeriesSlugs.includes(s.slug));
   });
+
+  isTeenAudience = computed(() => this.slug() === 'adolescentes');
 }

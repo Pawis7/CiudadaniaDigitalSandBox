@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
+import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective],
+  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
@@ -28,53 +29,81 @@ export class InicioComponent {
     { value: '8',    label: 'Series' },
   ];
 
-  hotTerms = [
-    { label: 'Privacidad',     href: '/recursos' },
-    { label: 'Ciberacoso',     href: '/ayuda' },
-    { label: 'Convivencia',    href: '/cursos' },
-    { label: 'Bienestar digital', href: '/edutips' },
-  ];
-
-  /** Cursos destacados curados — placeholders coherentes con el catálogo */
-  featuredCourses = [
+  quickAccess: { title: string; copy: string; href: string; icon: UiIconName; tone: string }[] = [
     {
-      title: 'Convivencia digital en el aula',
-      description: 'Estrategias prácticas para fomentar respeto y bienestar entre estudiantes.',
-      audience: 'teachers', audienceLabel: 'Docentes',
-      audIcon: 'school', icon: 'menu_book',
-      level: 'Intermedio', duration: '6h', lessons: 18, certificate: true,
+      title: 'Cursos',
+      copy: 'Recorridos más estructurados para aprender por tema.',
+      href: '/cursos',
+      icon: 'course',
+      tone: 'bg-emerald-600',
     },
     {
-      title: 'Privacidad en familia',
-      description: 'Una guía conversacional para hablar con tus hijos sobre datos personales.',
-      audience: 'families', audienceLabel: 'Familias',
-      audIcon: 'family_restroom', icon: 'shield',
-      level: 'Básico', duration: '2h', lessons: 8, certificate: false,
+      title: 'Recursos',
+      copy: 'Materiales concretos para prevenir, hablar y actuar.',
+      href: '/recursos',
+      icon: 'library',
+      tone: 'bg-violet-600',
     },
     {
-      title: 'Identidad digital adolescente',
-      description: 'Reputación, huella digital y cómo cuidar tu narrativa en redes.',
-      audience: 'teens', audienceLabel: 'Adolescentes',
-      audIcon: 'smartphone', icon: 'fingerprint',
-      level: 'Intermedio', duration: '4h', lessons: 12, certificate: true,
+      title: 'Ayuda Digital',
+      copy: 'Orientación para fraude, acoso o situaciones de riesgo.',
+      href: '/ayuda',
+      icon: 'shield',
+      tone: 'bg-rose-600',
     },
     {
-      title: 'Mi primera vez en internet',
-      description: 'Para los más pequeños: qué es internet, cómo navegar y a quién pedir ayuda.',
-      audience: 'kids', audienceLabel: 'Niñas y niños',
-      audIcon: 'child_care', icon: 'auto_stories',
-      level: 'Básico', duration: '1h', lessons: 6, certificate: false,
+      title: 'Edutips',
+      copy: 'Cápsulas breves para moverte mejor en internet.',
+      href: '/edutips',
+      icon: 'spark',
+      tone: 'bg-amber-600',
     },
   ];
 
-  getCatIcon(audience: string): string {
-    const map: Record<string, string> = {
-      kids: 'child_care',
-      teens: 'smartphone',
-      families: 'family_restroom',
+  featuredSpaces: { title: string; description: string; href: string; audience: string; icon: UiIconName; kicker: string }[] = [
+    {
+      title: 'Cursos',
+      description: 'Programas más completos para trabajar ciudadanía digital con continuidad y propósito.',
+      href: '/cursos',
+      audience: 'teachers',
+      icon: 'course',
+      kicker: 'Aprender',
+    },
+    {
+      title: 'Edutips',
+      description: 'Piezas breves y directas para resolver dudas del día a día digital sin saturarte.',
+      href: '/edutips',
+      audience: 'edutips',
+      icon: 'spark',
+      kicker: 'Orientar',
+    },
+    {
+      title: 'Ayuda Digital',
+      description: 'Canales de apoyo cuando algo ya pasó y necesitas una siguiente acción clara.',
+      href: '/ayuda',
+      audience: 'help',
+      icon: 'shield',
+      kicker: 'Actuar',
+    },
+  ];
+
+  getCatIcon(audience: string): UiIconName {
+    const map: Record<string, UiIconName> = {
+      kids: 'children',
+      teens: 'phone',
+      families: 'family',
       teachers: 'school',
-      cdj: 'public',
+      cdj: 'community',
     };
-    return map[audience] ?? 'public';
+    return map[audience] ?? 'community';
+  }
+
+  pillarUiIcon(id: string): UiIconName {
+    const map: Record<string, UiIconName> = {
+      aprender: 'course',
+      convivir: 'community',
+      participar: 'spark',
+    };
+    return map[id] ?? 'check';
   }
 }

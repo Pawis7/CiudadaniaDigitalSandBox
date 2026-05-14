@@ -60,7 +60,7 @@
   --c-families:   #EA580C;  --c-families-soft: #F97316; --c-families-tint: #FFEDD5; --c-families-cream: #FFF7ED;
   --c-teachers:   #059669;  --c-teachers-soft: #10B981; --c-teachers-tint: #D1FAE5; --c-teachers-cream: #ECFDF5;
   --c-help:       #E11D48;  --c-help-soft:  #F43F5E;  --c-help-tint:  #FFE4E6;  --c-help-cream:  #FFF1F2;
-  --c-edutips:    #2563EB;  --c-edutips-soft: #3B82F6; --c-edutips-tint: #DBEAFE; --c-edutips-cream: #EFF6FF;
+  --c-edutips:    #D97706;  --c-edutips-soft: #F59E0B; --c-edutips-tint: #FEF3C7; --c-edutips-cream: #FFFBEB;
   --c-casi:       #D97706;  --c-casi-soft:  #F59E0B;  --c-casi-tint:  #FEF3C7;  --c-casi-cream:  #FFFBEB;
 
   /* === Superficies — TEMA CLARO === */
@@ -490,10 +490,10 @@ button:hover .icon-interactive,
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
 }
 @media (min-width: 640px) {
-  .section-head { margin-bottom: 2rem; }
+  .section-head { margin-bottom: 1.4rem; }
 }
 
 /* ========================================================================
@@ -742,10 +742,9 @@ button:hover .icon-interactive,
   position: sticky;
   top: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--surface-card) 88%, transparent);
-  backdrop-filter: saturate(180%) blur(16px);
-  -webkit-backdrop-filter: saturate(180%) blur(16px);
-  border-bottom: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--surface-card) 92%, transparent);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
 }
 
 /* Searchbar inline (estilo Coursera) */
@@ -756,7 +755,7 @@ button:hover .icon-interactive,
   padding: 0.5rem 0.875rem;
   background: var(--surface-soft);
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: 0.95rem;
   color: var(--text-primary);
   font-size: 0.875rem;
   font-weight: 500;

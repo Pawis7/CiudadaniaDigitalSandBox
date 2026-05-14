@@ -43,7 +43,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     description:
       'Cápsulas, audiocuentos y videos cortos para descubrir el mundo digital con seguridad y curiosidad.',
     heroImage:
-      'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&q=80&w=1600',
+      'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-kids-hero',
     accentClass: 'from-teal-500 via-emerald-500 to-cyan-500',
     pillBgClass: 'bg-teal-500',
@@ -51,7 +51,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'face',
     ageRange: '5 a 11 años',
     subLevels: [
-      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pre', bgClass: 'from-teal-400 to-emerald-500', icon: 'child_care', resourceCount: 12 },
+      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pre', bgClass: 'from-teal-400 to-emerald-500', icon: 'child_care', resourceCount: 12 },
       { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: 'https://images.unsplash.com/photo-1522661067900-ab829854a57f?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pb',  bgClass: 'from-emerald-400 to-cyan-500', icon: 'crayon', resourceCount: 18 },
       { id: 'primaria-alta',  title: 'Primaria alta', subtitle: '9 a 11 años', imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pa',  bgClass: 'from-cyan-400 to-blue-500',    icon: 'auto_stories', resourceCount: 22 },
     ],

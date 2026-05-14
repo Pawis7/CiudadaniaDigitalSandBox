@@ -8,6 +8,7 @@
 # ----- Skills / agentes locales -----
 .skills/
 .claude/
+gpt-skills/
 
 # ----- Playwright / MCP -----
 .playwright-mcp/

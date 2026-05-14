@@ -6,7 +6,7 @@
     appReveal="fade"
     [revealDuration]="700"
     [attr.data-audience]="audienceTheme()"
-    class="hero-aud relative mb-8 overflow-hidden text-white sm:mb-12">
+    class="hero-aud relative mb-8 overflow-hidden text-white sm:mb-10">
 
     <span aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl"></span>
 
@@ -54,9 +54,9 @@
         </div>
       </div>
 
-      <!-- Ilustración -->
-      <div class="relative hidden h-72 lg:block">
-        <app-aud-illustration [theme]="audienceTheme()" scene="hero" class="block h-full w-full overflow-hidden rounded-3xl"></app-aud-illustration>
+      <!-- Fotografía de la audiencia -->
+      <div class="relative hidden h-72 lg:block overflow-hidden rounded-3xl bg-[color:var(--surface-soft)] shadow-md">
+        <img [src]="p.heroImage" [alt]="p.title" class="block h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105">
       </div>
     </div>
   </section>
@@ -65,7 +65,7 @@
        SUB-NIVELES — cards más limpios
        ==================================================================== -->
   @if (p.subLevels.length) {
-    <section class="mb-10 sm:mb-14" [attr.data-audience]="audienceTheme()">
+    <section class="mb-8 sm:mb-10" [attr.data-audience]="audienceTheme()">
       <div appReveal="up" class="section-head">
         <div>
           <p class="eyebrow text-[color:var(--aud)]">Por nivel</p>
@@ -74,21 +74,19 @@
       </div>
 
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <a *ngFor="let sub of p.subLevels; let i = index"
+        <article *ngFor="let sub of p.subLevels; let i = index"
            [attr.id]="sub.id"
-           href="#"
            appReveal="up"
            [revealDelay]="i * 70"
            class="card card-hover group relative flex flex-col">
 
-          <div class="relative aspect-[5/3] overflow-hidden">
-            <app-aud-illustration
-              [theme]="audienceTheme()"
-              scene="play"
-              class="block h-full w-full transition-transform duration-700 group-hover:scale-105">
-            </app-aud-illustration>
+          <div class="relative aspect-[5/3] overflow-hidden bg-[color:var(--surface-soft)]">
+            <img
+              [src]="sub.imageUrl"
+              [alt]="sub.title"
+              class="block h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
 
-            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-xl bg-white/95 text-[color:var(--aud)] shadow-md transition-transform duration-300 group-hover:scale-110">
+            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-xl bg-white/95 text-[color:var(--aud)] shadow-md transition-transform duration-300 group-hover:scale-110 backdrop-blur">
               <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ sub.icon }}</span>
             </span>
           </div>
@@ -107,16 +105,59 @@
               </span>
             </div>
           </div>
-        </a>
+        </article>
       </div>
     </section>
   }
+
+  @if (isTeenAudience()) {
+    <div class="mb-8 overflow-hidden rounded-[2rem] bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
+          <span translate="no" class="material-symbols-rounded text-sm">school</span> Secundaria · Privacidad y seguridad
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-black tracking-tight">¡Prueba nuestro Simulador de Fraudes por Chat!</h3>
+        <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">Aprende a detectar trampas, premios falsos y extorsiones simulando una conversación en tiempo real sin arriesgar tus datos.</p>
+      </div>
+      <a href="#simulador-fraudes" class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black text-violet-700 shadow-lg hover:bg-violet-50 hover:scale-105 transition-all whitespace-nowrap">
+        <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span> Iniciar Simulador
+      </a>
+    </div>
+
+    <section id="simulador-fraudes" class="mb-8 sm:mb-10">
+      <app-secondary-fraud-simulator appReveal="up"></app-secondary-fraud-simulator>
+    </section>
+  }
+
+  <!-- TOPICS -->
+  <section class="mb-8" [attr.data-audience]="audienceTheme()">
+    <div appReveal="up" class="section-head">
+      <div>
+        <p class="eyebrow text-[color:var(--text-mute)]">Lo que vas a encontrar</p>
+        <h2 class="display-2 mt-1">Temas principales</h2>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div *ngFor="let t of p.topics; let i = index"
+           appReveal="up"
+           [revealDelay]="i * 70"
+           class="card card-hover flex flex-col gap-3 p-5">
+        <span class="grid h-11 w-11 place-items-center rounded-xl text-white shadow-md"
+              [ngClass]="t.bgClass">
+          <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ t.icon }}</span>
+        </span>
+        <h3 class="text-base font-black tracking-tight text-[color:var(--text-primary)]">{{ t.title }}</h3>
+        <p class="text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ t.description }}</p>
+      </div>
+    </div>
+  </section>
 
   <!-- ====================================================================
        SERIES RECOMENDADAS
        ==================================================================== -->
   @if (recommendedSeries().length) {
-    <section class="mb-10 sm:mb-14">
+    <section class="mb-8 sm:mb-10">
       <div appReveal="up" class="section-head">
         <div>
           <p class="eyebrow text-[color:var(--c-edutips)]">Series recomendadas</p>
@@ -154,33 +195,6 @@
       </div>
     </section>
   }
-
-  <!-- EXPLORA POR TEMA -->
-  <app-explore-by-topic heading="Explora por tema"></app-explore-by-topic>
-
-  <!-- TOPICS -->
-  <section class="mb-12" [attr.data-audience]="audienceTheme()">
-    <div appReveal="up" class="section-head">
-      <div>
-        <p class="eyebrow text-[color:var(--text-mute)]">Lo que vas a encontrar</p>
-        <h2 class="display-2 mt-1">Temas principales</h2>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <div *ngFor="let t of p.topics; let i = index"
-           appReveal="up"
-           [revealDelay]="i * 70"
-           class="card card-hover flex flex-col gap-3 p-5">
-        <span class="grid h-11 w-11 place-items-center rounded-xl text-white shadow-md"
-              [ngClass]="t.bgClass">
-          <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ t.icon }}</span>
-        </span>
-        <h3 class="text-base font-black tracking-tight text-[color:var(--text-primary)]">{{ t.title }}</h3>
-        <p class="text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ t.description }}</p>
-      </div>
-    </div>
-  </section>
 } @else {
   <section class="surface mb-12 p-12 text-center">
     <span translate="no" class="material-symbols-rounded text-5xl text-[color:var(--text-mute)]">help</span>
