@@ -27,8 +27,13 @@
       </div>
     </div>
 
-    <div class="relative hidden h-72 lg:block">
-      <app-aud-illustration theme="help" scene="shield" class="block h-full w-full overflow-hidden rounded-3xl"></app-aud-illustration>
+    <!-- Elemento Gráfico de Ayuda -->
+    <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center animate-fade-in group">
+      <!-- Soft glowing ambient behind the graphic -->
+      <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-white/25 to-transparent blur-2xl opacity-40 group-hover:scale-110 transition-transform duration-1000"></span>
+      <app-aud-illustration theme="help" 
+                           scene="shield" 
+                           class="relative z-10 block h-full w-full overflow-hidden rounded-[1.8rem] transition-transform duration-1000 group-hover:scale-[1.03]"></app-aud-illustration>
     </div>
   </div>
 </section>

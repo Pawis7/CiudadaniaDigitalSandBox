@@ -54,9 +54,13 @@
         </div>
       </div>
 
-      <!-- Fotografía de la audiencia -->
-      <div class="relative hidden h-72 lg:block overflow-hidden rounded-3xl bg-[color:var(--surface-soft)] shadow-md">
-        <img [src]="p.heroImage" [alt]="p.title" class="block h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105">
+      <!-- Fotografía / Elemento Gráfico de la Audiencia -->
+      <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center animate-fade-in group">
+        <!-- Soft glowing ambient behind the graphic -->
+        <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-white/25 to-transparent blur-2xl opacity-40 group-hover:scale-110 transition-transform duration-1000"></span>
+        <img [src]="p.heroImage" 
+             [alt]="p.title" 
+             class="relative z-10 block h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]">
       </div>
     </div>
   </section>
@@ -65,20 +69,37 @@
        SUB-NIVELES — cards más limpios
        ==================================================================== -->
   @if (p.subLevels.length) {
-    <section class="mb-8 sm:mb-10" [attr.data-audience]="audienceTheme()">
+    <section class="mb-8 sm:mb-10 animate-fade-in" [attr.data-audience]="audienceTheme()">
       <div appReveal="up" class="section-head">
         <div>
           <p class="eyebrow text-[color:var(--aud)]">Por nivel</p>
-          <h2 class="display-2 mt-1">Encuentra tu nivel</h2>
+          <h2 class="display-2 mt-1">Elige tu nivel de aprendizaje</h2>
+          <p class="mt-2 text-sm text-[color:var(--text-soft)] max-w-xl">
+            Haz clic en tu nivel para abrir su portal interactivo, acceder a minijuegos exclusivos, simuladores en vivo y material didáctico.
+          </p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <article *ngFor="let sub of p.subLevels; let i = index"
            [attr.id]="sub.id"
+           (click)="selectedLevel.set(sub.id)"
            appReveal="up"
            [revealDelay]="i * 70"
-           class="card card-hover group relative flex flex-col">
+           class="card card-hover group relative flex flex-col cursor-pointer transition-all duration-300"
+           [class.ring-4]="selectedLevel() === sub.id"
+           [class.ring-violet-500]="selectedLevel() === sub.id && isTeenAudience()"
+           [class.ring-teal-500]="selectedLevel() === sub.id && !isTeenAudience()"
+           [class.shadow-2xl]="selectedLevel() === sub.id"
+           [class.scale-[1.03]]="selectedLevel() === sub.id"
+           [class.border-violet-300]="selectedLevel() === sub.id && isTeenAudience()"
+           [class.border-teal-300]="selectedLevel() === sub.id && !isTeenAudience()">
+
+          <!-- Active Selection Badge -->
+          <span *ngIf="selectedLevel() === sub.id" 
+                class="absolute right-4 top-4 bg-[color:var(--aud)] text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md z-20 animate-pulse">
+            Activo
+          </span>
 
           <div class="relative aspect-[5/3] overflow-hidden bg-[color:var(--surface-soft)]">
             <img
@@ -86,7 +107,7 @@
               [alt]="sub.title"
               class="block h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105">
 
-            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-xl bg-white/95 text-[color:var(--aud)] shadow-md transition-transform duration-300 group-hover:scale-110 backdrop-blur">
+            <span class="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-xl bg-white/95 text-[color:var(--aud)] shadow-md transition-transform duration-300 group-hover:scale-110 backdrop-blur z-10">
               <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ sub.icon }}</span>
             </span>
           </div>
@@ -100,7 +121,7 @@
                 {{ sub.resourceCount }} recursos
               </span>
               <span class="inline-flex items-center gap-1 text-[color:var(--aud)] transition-transform group-hover:translate-x-0.5">
-                Ver
+                Abrir portal
                 <span translate="no" class="material-symbols-rounded text-[16px]">arrow_forward</span>
               </span>
             </div>
@@ -108,24 +129,216 @@
         </article>
       </div>
     </section>
-  }
 
-  @if (isTeenAudience()) {
-    <div class="mb-8 overflow-hidden rounded-[2rem] bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="space-y-2">
-        <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
-          <span translate="no" class="material-symbols-rounded text-sm">school</span> Secundaria · Privacidad y seguridad
-        </span>
-        <h3 class="text-2xl sm:text-3xl font-black tracking-tight">¡Prueba nuestro Simulador de Fraudes por Chat!</h3>
-        <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">Aprende a detectar trampas, premios falsos y extorsiones simulando una conversación en tiempo real sin arriesgar tus datos.</p>
+    <!-- ====================================================================
+         PORTAL DE NIVEL DINÁMICO & FILTRADO DE RECURSOS
+         ==================================================================== -->
+    <section class="mb-10 p-6 sm:p-8 rounded-[2rem] border border-[color:var(--border-soft)] bg-gradient-to-b from-[color:var(--surface-soft)] to-[color:var(--surface-card)] shadow-lg animate-fade-in">
+      
+      <!-- Encabezado del Portal de Aprendizaje Activo -->
+      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[color:var(--border-soft)] pb-6">
+        <div>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--aud-cream)] px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[color:var(--aud)] mb-2 shadow-sm">
+            <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">school</span>
+            Portal de aprendizaje activo
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-[color:var(--text-primary)]">
+            Recursos y actividades: <span class="text-[color:var(--aud)]">{{ getActiveLevelName() }}</span>
+          </h2>
+          <p class="text-sm text-[color:var(--text-soft)] max-w-xl mt-1.5 leading-relaxed">
+            Explora las herramientas interactivas, guías descargables y retos diseñados para el nivel {{ getActiveLevelName() }}. ¡Filtra y busca lo que necesites!
+          </p>
+        </div>
+
+        <!-- Barra de búsqueda rápida -->
+        <div class="relative w-full max-w-xs shrink-0">
+          <span translate="no" class="material-symbols-rounded absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+          <input 
+            type="text" 
+            [value]="searchQuery()"
+            (input)="updateSearch($event)"
+            placeholder="Buscar minijuego, video..." 
+            class="w-full pl-10 pr-4 py-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] text-sm font-semibold text-[color:var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--aud)] focus:border-transparent transition-all shadow-sm">
+          <button *ngIf="searchQuery()" (click)="searchQuery.set('')" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
+            <span translate="no" class="material-symbols-rounded text-sm">close</span>
+          </button>
+        </div>
       </div>
-      <a href="#simulador-fraudes" class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black text-violet-700 shadow-lg hover:bg-violet-50 hover:scale-105 transition-all whitespace-nowrap">
-        <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span> Iniciar Simulador
-      </a>
-    </div>
 
-    <section id="simulador-fraudes" class="mb-8 sm:mb-10">
-      <app-secondary-fraud-simulator appReveal="up"></app-secondary-fraud-simulator>
+      <!-- Filtro por categoría (Chips) -->
+      <div class="mb-6 flex flex-wrap items-center gap-2">
+        <span class="text-xs font-black uppercase tracking-wider text-[color:var(--text-mute)] mr-2">Filtrar por:</span>
+        <button type="button" 
+                (click)="activeFilter.set('todos')" 
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
+                [class.bg-[color:var(--aud)]]="activeFilter() === 'todos'"
+                [class.text-white]="activeFilter() === 'todos'"
+                [class.bg-[color:var(--surface-card)]]="activeFilter() !== 'todos'"
+                [class.text-[color:var(--text-soft)]]="activeFilter() !== 'todos'"
+                [class.border]="activeFilter() !== 'todos'"
+                [class.border-[color:var(--border-soft)]]="activeFilter() !== 'todos'"
+                [class.hover:bg-slate-100]="activeFilter() !== 'todos'">
+          <span translate="no" class="material-symbols-rounded text-[13px]">apps</span>
+          Todos los recursos
+        </button>
+
+        <button type="button" 
+                (click)="activeFilter.set('game')" 
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
+                [class.bg-violet-600]="activeFilter() === 'game'"
+                [class.text-white]="activeFilter() === 'game'"
+                [class.bg-[color:var(--surface-card)]]="activeFilter() !== 'game'"
+                [class.text-slate-600]="activeFilter() !== 'game'"
+                [class.border]="activeFilter() !== 'game'"
+                [class.border-[color:var(--border-soft)]]="activeFilter() !== 'game'"
+                [class.hover:bg-violet-50]="activeFilter() !== 'game'">
+          <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">sports_esports</span>
+          Minijuegos 🎮
+        </button>
+
+        <button type="button" 
+                (click)="activeFilter.set('video')" 
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
+                [class.bg-sky-600]="activeFilter() === 'video'"
+                [class.text-white]="activeFilter() === 'video'"
+                [class.bg-[color:var(--surface-card)]]="activeFilter() !== 'video'"
+                [class.text-sky-700]="activeFilter() !== 'video'"
+                [class.border]="activeFilter() !== 'video'"
+                [class.border-[color:var(--border-soft)]]="activeFilter() !== 'video'"
+                [class.hover:bg-sky-50]="activeFilter() !== 'video'">
+          <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">play_circle</span>
+          Videos 📺
+        </button>
+
+        <button type="button" 
+                (click)="activeFilter.set('guide')" 
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
+                [class.bg-emerald-600]="activeFilter() === 'guide'"
+                [class.text-white]="activeFilter() === 'guide'"
+                [class.bg-[color:var(--surface-card)]]="activeFilter() !== 'guide'"
+                [class.text-emerald-700]="activeFilter() !== 'guide'"
+                [class.border]="activeFilter() !== 'guide'"
+                [class.border-[color:var(--border-soft)]]="activeFilter() !== 'guide'"
+                [class.hover:bg-emerald-50]="activeFilter() !== 'guide'">
+          <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">description</span>
+          Guías y PDFs 📝
+        </button>
+      </div>
+
+      <!-- Grid de recursos filtrados -->
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-h-[180px]">
+        <article *ngFor="let item of filteredResources(); let idx = index"
+                 class="card card-hover flex flex-col justify-between overflow-hidden group">
+          
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div class="space-y-3">
+              <!-- Resource Header: Icon & Category Badge -->
+              <div class="flex items-center justify-between">
+                <span class="grid h-10 w-10 place-items-center rounded-xl text-white shadow-md bg-gradient-to-br"
+                      [ngClass]="item.colorClass">
+                  <span translate="no" class="material-symbols-rounded text-lg icon-fill">{{ item.icon }}</span>
+                </span>
+                
+                <span class="rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider shadow-sm"
+                      [class.bg-violet-100]="item.type === 'game'" [class.text-violet-700]="item.type === 'game'"
+                      [class.bg-sky-100]="item.type === 'video'" [class.text-sky-700]="item.type === 'video'"
+                      [class.bg-emerald-100]="item.type === 'guide'" [class.text-emerald-700]="item.type === 'guide'">
+                  {{ item.typeLabel }}
+                </span>
+              </div>
+
+              <!-- Title & Description -->
+              <div class="pt-1.5">
+                <h4 class="text-base font-black tracking-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors duration-200">{{ item.title }}</h4>
+                <p class="text-xs text-[color:var(--text-soft)] leading-relaxed mt-1.5">{{ item.description }}</p>
+              </div>
+            </div>
+
+            <!-- Resource Footer Metadata -->
+            <div class="mt-4 pt-3 border-t border-[color:var(--border-soft)] flex items-center justify-between text-[11px] font-bold text-[color:var(--text-mute)]">
+              <span class="inline-flex items-center gap-1">
+                <span translate="no" class="material-symbols-rounded text-[13px]">schedule</span>
+                {{ item.duration }}
+              </span>
+
+              <span class="inline-flex items-center gap-1 rounded bg-amber-50 text-amber-700 px-1.5 py-0.5 text-[9px] uppercase font-black" *ngIf="item.badge">
+                {{ item.badge }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Bottom Button -->
+          <div class="px-5 pb-5">
+            <a *ngIf="item.id === 'simulador-fraudes'; else normalLink"
+               (click)="scrollToAnchor('simulador-fraudes-anchor')" 
+               class="btn-primary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none">
+              <span translate="no" class="material-symbols-rounded text-sm">play_arrow</span>
+              {{ item.actionLabel }}
+            </a>
+            <ng-template #normalLink>
+              <a [href]="item.link" 
+                 [target]="item.link.startsWith('http') ? '_blank' : '_self'"
+                 class="btn-secondary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 border border-[color:var(--border-soft)] hover:bg-[color:var(--aud)] hover:text-white hover:border-transparent transition-all">
+                <span translate="no" class="material-symbols-rounded text-sm">{{ item.type === 'video' ? 'play_circle' : item.type === 'guide' ? 'download' : 'open_in_new' }}</span>
+                {{ item.actionLabel }}
+              </a>
+            </ng-template>
+          </div>
+        </article>
+
+        <!-- Empty State inside Portal grid -->
+        <div *ngIf="filteredResources().length === 0" 
+             class="col-span-full py-12 text-center flex flex-col items-center justify-center bg-[color:var(--surface-card)] rounded-2xl border border-dashed border-slate-200">
+          <span translate="no" class="material-symbols-rounded text-5xl text-slate-300">search_off</span>
+          <h4 class="mt-3 text-lg font-black text-[color:var(--text-primary)]">No encontramos recursos</h4>
+          <p class="text-xs text-[color:var(--text-soft)] mt-1 max-w-xs leading-relaxed">No hay actividades que coincidan con tu búsqueda en este filtro de categoría. Intenta otra combinación.</p>
+          <button type="button" (click)="searchQuery.set(''); activeFilter.set('todos')" class="btn-secondary mt-4 py-2 px-4 text-xs font-black">Limpiar filtros</button>
+        </div>
+      </div>
+      
+      <!-- ====================================================================
+           NIDADO DEL SIMULADOR DE FRAUDES DENTRO DE SECUNDARIA
+           ==================================================================== -->
+      <div id="simulador-fraudes-anchor" 
+           *ngIf="selectedLevel() === 'secundaria' && isTeenAudience()" 
+           class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6">
+        
+        <!-- Featured simulator header banner inside workspace -->
+        <div class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-2">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
+              <span translate="no" class="material-symbols-rounded text-sm">sports_esports</span> Laboratorio de Phishing · En Vivo
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-black tracking-tight">¡Simulador de Fraudes en Vivo!</h3>
+            <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">Aprende a detectar trampas, premios falsos y extorsiones interactuando con un chat simulado. Pon a prueba tus reflejos digitales ahora.</p>
+          </div>
+          <button (click)="scrollToAnchor('dispositivo-simulador')" class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black text-violet-700 shadow-lg hover:bg-violet-50 hover:scale-105 transition-all whitespace-nowrap">
+            <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span> Probar Simulador Móvil
+          </button>
+        </div>
+
+        <!-- The actual fraud simulator component -->
+        <div id="dispositivo-simulador" class="pt-4">
+          <app-secondary-fraud-simulator></app-secondary-fraud-simulator>
+        </div>
+      </div>
+
+      <!-- Feature showcase for Preparatoria when active -->
+      <div *ngIf="selectedLevel() === 'preparatoria' && isTeenAudience()" 
+           class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6 animate-fade-in">
+        <div class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-fuchsia-600 to-pink-600 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-2">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
+              <span translate="no" class="material-symbols-rounded text-sm">3d_rotation</span> Laboratorio de Huella Digital
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-black tracking-tight">Próximamente: Simulador de Huella Digital 3D</h3>
+            <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">Un simulador de decisiones avanzadas en la preparatoria para entender cómo tus datos e historial de navegación alimentan los perfiles algorítmicos comerciales.</p>
+          </div>
+          <button class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black text-pink-700 shadow-lg hover:bg-pink-50 hover:scale-105 transition-all whitespace-nowrap opacity-75 cursor-not-allowed">
+            <span translate="no" class="material-symbols-rounded text-xl">hourglass_empty</span> Próximamente
+          </button>
+        </div>
+      </div>
     </section>
   }
 

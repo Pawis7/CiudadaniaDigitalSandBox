@@ -8,27 +8,40 @@
     <span class="is-current">Quiénes somos</span>
   </nav>
 
-  <p appReveal="up" class="eyebrow text-[color:var(--c-cdj)]">Quiénes somos</p>
-  <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-2">
-    Promovemos una vida digital sana, segura y consciente
-  </h1>
-  <p appReveal="up" [revealDelay]="160" class="lede mt-4 max-w-3xl">
-    Somos un equipo interdisciplinar que diseña recursos abiertos para niñas, niños, adolescentes, familias y docentes. Trabajamos con instituciones públicas, escuelas y aliados de la sociedad civil.
-  </p>
+  <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.5fr_1fr]">
+    <div>
+      <p appReveal="up" class="eyebrow text-[color:var(--c-cdj)]">Quiénes somos</p>
+      <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-2">
+        Promovemos una vida digital sana, segura y consciente
+      </h1>
+      <p appReveal="up" [revealDelay]="160" class="lede mt-4 max-w-3xl">
+        Somos un equipo interdisciplinar que diseña recursos abiertos para niñas, niños, adolescentes, familias y docentes. Trabajamos con instituciones públicas, escuelas y aliados de la sociedad civil.
+      </p>
 
-  <div appReveal="up" [revealDelay]="220" class="mt-6 flex flex-wrap gap-2 text-[12px]">
-    <span class="meta-pill is-success">
-      <span translate="no" class="material-symbols-rounded text-[14px]">verified</span>
-      Iniciativa pública
-    </span>
-    <span class="meta-pill">
-      <span translate="no" class="material-symbols-rounded text-[14px]">handshake</span>
-      Sociedad civil + escuelas
-    </span>
-    <span class="meta-pill">
-      <span translate="no" class="material-symbols-rounded text-[14px]">public</span>
-      Recursos abiertos
-    </span>
+      <div appReveal="up" [revealDelay]="220" class="mt-6 flex flex-wrap gap-2 text-[12px]">
+        <span class="meta-pill is-success">
+          <span translate="no" class="material-symbols-rounded text-[14px]">verified</span>
+          Iniciativa pública
+        </span>
+        <span class="meta-pill">
+          <span translate="no" class="material-symbols-rounded text-[14px]">handshake</span>
+          Sociedad civil + escuelas
+        </span>
+        <span class="meta-pill">
+          <span translate="no" class="material-symbols-rounded text-[14px]">public</span>
+          Recursos abiertos
+        </span>
+      </div>
+    </div>
+
+    <!-- Elemento Gráfico Institucional -->
+    <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-[color:var(--c-cdj)] backdrop-blur-md border border-[color:var(--c-cdj-cream)] shadow-2xl flex items-center justify-center animate-fade-in group">
+      <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-white/20 to-transparent blur-2xl opacity-30 group-hover:scale-110 transition-transform duration-1000"></span>
+      <!-- Placeholder para la ilustración oficial de Quiénes Somos -->
+      <span class="relative z-10 grid h-24 w-24 place-items-center rounded-3xl bg-white/20 text-white shadow-xl backdrop-blur-sm border border-white/30 transition-transform duration-1000 group-hover:scale-[1.03]">
+        <span translate="no" class="material-symbols-rounded text-5xl icon-fill">diversity_3</span>
+      </span>
+    </div>
   </div>
 </section>
 
