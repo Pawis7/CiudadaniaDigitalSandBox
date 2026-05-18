@@ -182,6 +182,7 @@
    ======================================================================== */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
   background: var(--surface-base);
   color-scheme: light;
 }

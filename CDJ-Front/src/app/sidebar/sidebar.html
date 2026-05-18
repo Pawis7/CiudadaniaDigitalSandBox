@@ -82,7 +82,7 @@
               <div class="sidebar-sub" [attr.data-audience]="item.audience">
                 <a *ngFor="let sub of item.subItems"
                    [href]="sub.href"
-                   (click)="onNavigate()"
+                   (click)="onSubitemClick()"
                    class="sidebar-subitem">
                   <span class="sidebar-subitem-dot"></span>
                   <span>{{ sub.label }}</span>

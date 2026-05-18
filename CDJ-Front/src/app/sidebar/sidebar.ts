@@ -122,6 +122,10 @@ export class SidebarComponent {
     this.navigate.emit();
   }
 
+  onSubitemClick() {
+    this.navigate.emit();
+  }
+
   private readCollapsed(): boolean {
     if (typeof localStorage === 'undefined') return false;
     return localStorage.getItem(COLLAPSE_KEY) === '1';
