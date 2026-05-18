@@ -43,7 +43,7 @@
 
       <div class="mt-8 grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
         @for (item of quickAccess; track item.title) {
-          <a [routerLink]="item.href" class="rounded-[1.2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] px-4 py-4 transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[var(--shadow-md)]">
+          <a [routerLink]="item.href" class="rounded-[1.2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] px-4 py-4 transition-all hover:-translate-y-0.5 hover:bg-[color:var(--surface-card)] hover:shadow-[var(--shadow-md)]">
             <span class="mb-3 grid h-10 w-10 place-items-center rounded-2xl text-white" [ngClass]="item.tone">
               <span class="h-[18px] w-[18px]"><app-ui-icon [name]="item.icon"></app-ui-icon></span>
             </span>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="relative">
-      <div class="rounded-[2rem] border border-[color:var(--border-soft)] bg-white p-5 shadow-[var(--shadow-lg)]">
+      <div class="rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-[var(--shadow-lg)]">
         <div class="overflow-hidden rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] flex items-center justify-center">
           <img
             src="/banners/ciudadania-digital-ia-secundario.png"
@@ -68,7 +68,7 @@
             <p class="text-[11px] font-black uppercase tracking-[0.18em] text-[color:var(--c-cdj)]">Panorama del portal</p>
             <h2 class="mt-1 text-2xl font-black tracking-tight text-[color:var(--text-primary)]">Una entrada más clara y actual</h2>
           </div>
-          <span class="grid h-12 w-12 place-items-center rounded-2xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]">
+          <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]">
             <span class="h-[20px] w-[20px]"><app-ui-icon name="community"></app-ui-icon></span>
           </span>
         </div>
@@ -80,22 +80,22 @@
                 <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[color:var(--text-mute)]">Qué encuentras aquí</p>
                 <p class="mt-1 text-sm font-bold text-[color:var(--text-primary)]">Cursos, recursos, series y ayuda digital</p>
               </div>
-              <span class="grid h-10 w-10 place-items-center rounded-2xl bg-[color:var(--c-teens-cream)] text-[color:var(--c-teens)]">
-                <span class="h-[16px] w-[16px]"><app-ui-icon name="library"></app-ui-icon></span>
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[color:var(--c-teens-cream)] text-[color:var(--c-teens)]">
+                <span class="h-[20px] w-[20px]"><app-ui-icon name="library"></app-ui-icon></span>
               </span>
             </div>
           </div>
 
           <div class="grid grid-cols-3 gap-3">
             @for (s of stats; track s.label) {
-              <div class="rounded-[1.25rem] border border-[color:var(--border-soft)] bg-white px-3 py-4 text-center">
+              <div class="rounded-[1.25rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-4 text-center">
                 <p class="text-2xl font-black tracking-tight text-[color:var(--text-primary)]">{{ s.value }}</p>
                 <p class="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[color:var(--text-mute)]">{{ s.label }}</p>
               </div>
             }
           </div>
 
-          <div class="rounded-[1.4rem] border border-[color:var(--border-soft)] bg-white p-4">
+          <div class="rounded-[1.4rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-4">
             <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[color:var(--text-mute)]">Principio rector</p>
             <p class="mt-2 text-base font-black tracking-tight text-[color:var(--text-primary)]">Menos ruido, más orientación.</p>
             <p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">
@@ -162,7 +162,7 @@
             [attr.data-audience]="card.audience"
             appReveal="up"
             [revealDelay]="i * 90"
-            class="group rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-[var(--shadow-md)]">
+            class="group rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 transition-all hover:-translate-y-0.5 hover:bg-[color:var(--surface-card)] hover:shadow-[var(--shadow-md)]">
             <div class="flex items-start justify-between gap-4">
               <div>
                 <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[color:var(--aud)]">{{ card.kicker }}</p>
