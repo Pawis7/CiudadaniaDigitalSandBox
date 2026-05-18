@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
@@ -45,6 +45,15 @@ export class SidebarComponent {
 
   collapsed = signal<boolean>(this.readCollapsed());
   openedAudience = signal<string | null>(null);
+
+  constructor() {
+    effect(() => {
+      const isCollapsed = this.collapsed();
+      if (typeof document !== 'undefined' && this.variant === 'desktop') {
+        document.body.classList.toggle('sidebar-collapsed', isCollapsed);
+      }
+    });
+  }
 
   /** Sección APRENDER — los espacios de contenido educativo */
   learnSections: SidebarItem[] = [
@@ -119,6 +128,10 @@ export class SidebarComponent {
 
   onNavigate() {
     this.openedAudience.set(null);
+    this.navigate.emit();
+  }
+
+  onSubitemClick() {
     this.navigate.emit();
   }
 

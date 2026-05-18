@@ -1,7 +1,7 @@
 <section
   appReveal="fade"
   [revealDuration]="700"
-  class="relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12"
   data-audience="cdj">
 
   <div class="pointer-events-none absolute inset-0">
@@ -54,7 +54,16 @@
       </div>
     </div>
 
-    <div class="relative">
+    <!-- Panel Derecho en Escritorio: Imagen limpia de banner que calza en 423px -->
+    <div class="relative hidden lg:block overflow-hidden rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] shadow-[var(--shadow-lg)] h-[280px] w-full">
+      <img
+        src="/banners/ciudadania-digital-ia-secundario.png"
+        alt="Banner de Ciudadanía Digital Jalisco Aprende IA"
+        class="block w-full h-full object-cover object-center">
+    </div>
+
+    <!-- Panel Derecho en Móvil/Tablet: Tarjeta de información completa -->
+    <div class="relative lg:hidden">
       <div class="rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-[var(--shadow-lg)]">
         <div class="overflow-hidden rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] flex items-center justify-center">
           <img
@@ -202,7 +211,7 @@
 
 <section
   appReveal="up"
-  class="relative overflow-hidden rounded-[2rem] border border-transparent bg-[color:var(--c-cdj)] px-6 py-8 text-white shadow-[var(--shadow-xl)] sm:px-10 sm:py-10"
+  class="relative overflow-hidden rounded-[2rem] border border-transparent bg-[color:var(--c-cdj)] px-6 py-8 text-primary-variable shadow-[var(--shadow-xl)] sm:px-10 sm:py-10"
   data-audience="cdj">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
@@ -211,9 +220,9 @@
 
   <div class="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-center">
     <div>
-      <p class="text-[11px] font-black uppercase tracking-[0.18em] text-white/70">Paso 3</p>
-      <h2 class="display-2 mt-2 text-white">{{ secondaryBanner().title }}</h2>
-      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/84 sm:text-base">{{ secondaryBanner().description }}</p>
+      <p class="text-[11px] font-black uppercase tracking-[0.18em] text-primary-variable opacity-70">Paso 3</p>
+      <h2 class="display-2 mt-2 text-primary-variable">{{ secondaryBanner().title }}</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-primary-variable opacity-84 sm:text-base">{{ secondaryBanner().description }}</p>
       <div class="mt-6 flex flex-wrap gap-3">
         <a
           [routerLink]="secondaryBanner().ctaHref?.startsWith('/') ? secondaryBanner().ctaHref : null"
@@ -230,16 +239,16 @@
     </div>
 
     <div class="rounded-[1.6rem] border border-white/15 bg-white/10 p-5 backdrop-blur-sm">
-      <p class="text-[11px] font-black uppercase tracking-[0.16em] text-white/65">Ruta complementaria</p>
+      <p class="text-[11px] font-black uppercase tracking-[0.16em] text-primary-variable opacity-65">Ruta complementaria</p>
       <h3 class="mt-2 text-2xl font-black tracking-tight">Explora también Notebooks IA</h3>
-      <p class="mt-3 text-sm leading-relaxed text-white/80">
+      <p class="mt-3 text-sm leading-relaxed text-primary-variable opacity-80">
         Asistentes entrenados con el material del portal para resolver dudas concretas con un acceso más guiado.
       </p>
       <div class="mt-5 grid grid-cols-3 gap-3">
         @for (s of stats; track s.label) {
           <div class="rounded-[1.1rem] bg-white/10 px-3 py-4 text-center">
             <p class="text-2xl font-black tracking-tight">{{ s.value }}</p>
-            <p class="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">{{ s.label }}</p>
+            <p class="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-primary-variable opacity-70">{{ s.label }}</p>
           </div>
         }
       </div>
