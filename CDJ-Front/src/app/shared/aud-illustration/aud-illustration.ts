@@ -147,7 +147,7 @@ export type AudScene = 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark
             <circle cx="400" cy="280" r="100" [attr.fill]="'var(--aud-cream)'" />
             <polygon points="400,200 420,280 400,360 380,280" [attr.fill]="'var(--aud)'" />
             <circle cx="400" cy="280" r="10" fill="#fff" stroke-width="4" [attr.stroke]="'var(--aud)'" />
-            <text x="400" y="178" text-anchor="middle" font-family="Garet, sans-serif" font-weight="900" font-size="18" [attr.fill]="'var(--aud)'">N</text>
+            <text x="400" y="178" text-anchor="middle" font-family="'Work Sans', sans-serif" font-weight="900" font-size="18" [attr.fill]="'var(--aud)'">N</text>
           </ng-container>
 
           <!-- Default: hero balanceado -->
