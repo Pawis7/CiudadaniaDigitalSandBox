@@ -1,7 +1,7 @@
 <section
   appReveal="fade"
   [revealDuration]="700"
-  class="relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12"
   data-audience="cdj">
 
   <div class="pointer-events-none absolute inset-0">
@@ -54,7 +54,16 @@
       </div>
     </div>
 
-    <div class="relative">
+    <!-- Panel Derecho en Escritorio: Imagen limpia de banner que calza en 423px -->
+    <div class="relative hidden lg:block overflow-hidden rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] shadow-[var(--shadow-lg)] h-[280px] w-full">
+      <img
+        src="/banners/ciudadania-digital-ia-secundario.png"
+        alt="Banner de Ciudadanía Digital Jalisco Aprende IA"
+        class="block w-full h-full object-cover object-center">
+    </div>
+
+    <!-- Panel Derecho en Móvil/Tablet: Tarjeta de información completa -->
+    <div class="relative lg:hidden">
       <div class="rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-[var(--shadow-lg)]">
         <div class="overflow-hidden rounded-[1.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] flex items-center justify-center">
           <img

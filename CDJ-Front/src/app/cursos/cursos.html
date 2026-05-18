@@ -1,4 +1,4 @@
-<section class="relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12" data-audience="teachers">
+<section class="catalog-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12" data-audience="teachers">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
     <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-sky-500/8 blur-3xl"></div>
@@ -31,17 +31,17 @@
       </div>
     </div>
 
-    <div class="rounded-[1.8rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-[var(--shadow-lg)]">
+    <div class="rounded-[1.8rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-4 lg:p-4 lg:py-3.5 shadow-[var(--shadow-lg)]">
       <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[color:var(--c-teachers)]">Qué distingue esta sección</p>
-      <div class="mt-4 space-y-4">
+      <div class="mt-4 lg:mt-3 space-y-4 lg:space-y-2.5">
         @for (item of featuredMoments; track item.title) {
-          <div class="flex gap-3 rounded-[1.2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4">
-            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-600 text-white">
-              <span class="h-[20px] w-[20px]"><app-ui-icon [name]="item.icon"></app-ui-icon></span>
+          <div class="flex gap-3 rounded-[1.2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 lg:p-2.5">
+            <span class="grid h-12 w-12 lg:h-10 lg:w-10 shrink-0 place-items-center rounded-2xl bg-emerald-600 text-white">
+              <span class="h-[20px] w-[20px] lg:h-[18px] lg:w-[18px]"><app-ui-icon [name]="item.icon"></app-ui-icon></span>
             </span>
             <div>
-              <p class="text-sm font-black tracking-tight text-[color:var(--text-primary)]">{{ item.title }}</p>
-              <p class="mt-1 text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ item.copy }}</p>
+              <p class="text-sm lg:text-xs font-black tracking-tight text-[color:var(--text-primary)]">{{ item.title }}</p>
+              <p class="mt-1 text-[13px] lg:text-[11px] leading-relaxed text-[color:var(--text-soft)]">{{ item.copy }}</p>
             </div>
           </div>
         }
