@@ -36,6 +36,8 @@
   --color-cdj-600: #0F766E;
   --color-cdj-700: #115E59;
   --color-cdj-800: #134E4A;
+
+  --color-primary-variable: var(--text-primary-variable);
 }
 
 /* ========================================================================
@@ -81,6 +83,7 @@
   --text-mute:      #94A3B8;
   --text-faint:     #CBD5E1;
   --text-on-accent: #FFFFFF;
+  --text-primary-variable: #FFFFFF;
 
   /* === Compatibilidad con sistema previo (legacy aliases) === */
   --c-paper:      var(--surface-base);
@@ -135,6 +138,7 @@
   --text-soft:       #CBD5E1;
   --text-mute:       #94A3B8;
   --text-faint:      #475569;
+  --text-primary-variable: #FFFFFF;
 
   /* Tints de audiencia ajustados (más opacos sobre dark) */
   --c-cdj-cream:   color-mix(in srgb, var(--c-cdj) 18%, var(--surface-card));
@@ -606,9 +610,18 @@ button:hover .icon-interactive,
     radial-gradient(900px 500px at 88% -10%, color-mix(in srgb, var(--aud-soft, var(--c-cdj-soft)) 38%, transparent), transparent 60%),
     radial-gradient(640px 380px at 8% 110%, color-mix(in srgb, var(--aud, var(--c-cdj)) 48%, transparent), transparent 60%),
     color-mix(in srgb, var(--aud, var(--c-cdj)) 92%, black);
-  color: white;
+  color: var(--text-primary-variable);
   border-radius: var(--radius-xl);
   border: 1px solid color-mix(in srgb, var(--aud, var(--c-cdj)) 60%, black 25%);
+}
+
+.hero-aud h1,
+.hero-aud h2,
+.hero-aud h3,
+.hero-aud h4,
+.hero-aud h5,
+.hero-aud h6 {
+  color: inherit;
 }
 
 /* Hero compacto para páginas de catálogo (estilo Coursera) */
