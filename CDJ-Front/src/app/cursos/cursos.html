@@ -31,13 +31,13 @@
       </div>
     </div>
 
-    <div class="rounded-[1.8rem] border border-[color:var(--border-soft)] bg-white p-5 shadow-[var(--shadow-lg)]">
+    <div class="rounded-[1.8rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-[var(--shadow-lg)]">
       <p class="text-[11px] font-black uppercase tracking-[0.16em] text-[color:var(--c-teachers)]">Qué distingue esta sección</p>
       <div class="mt-4 space-y-4">
         @for (item of featuredMoments; track item.title) {
           <div class="flex gap-3 rounded-[1.2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4">
-            <span class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-600 text-white">
-              <span class="h-[16px] w-[16px]"><app-ui-icon [name]="item.icon"></app-ui-icon></span>
+            <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-emerald-600 text-white">
+              <span class="h-[20px] w-[20px]"><app-ui-icon [name]="item.icon"></app-ui-icon></span>
             </span>
             <div>
               <p class="text-sm font-black tracking-tight text-[color:var(--text-primary)]">{{ item.title }}</p>
@@ -116,8 +116,8 @@
               <span class="meta-pill is-warning">Constancia</span>
             }
           </div>
-          <span class="grid h-11 w-11 place-items-center rounded-2xl bg-white text-[color:var(--aud)] shadow-[var(--shadow-sm)]">
-            <span class="h-[16px] w-[16px]"><app-ui-icon name="course"></app-ui-icon></span>
+          <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[color:var(--aud-cream)] text-[color:var(--aud)] shadow-[var(--shadow-sm)]">
+            <span class="h-[20px] w-[20px]"><app-ui-icon name="course"></app-ui-icon></span>
           </span>
         </div>
 
