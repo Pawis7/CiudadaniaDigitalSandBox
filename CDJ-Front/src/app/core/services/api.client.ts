@@ -77,7 +77,7 @@ export class ApiClient {
         headers,
         body: payload,
         signal: ctrl.signal,
-        // credentials: 'omit',  // explícito para evitar surprise cookies
+        credentials: 'include',  // Envia cookies httpOnly para autenticacion
       });
       const ct = res.headers.get('content-type') ?? '';
       const json: ApiEnvelope<T> = ct.includes('application/json')
