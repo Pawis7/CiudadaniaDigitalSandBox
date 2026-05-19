@@ -89,12 +89,13 @@ export const FEATURE_CARDS: FeatureCard[] = [
     icon:           'play_arrow',
     iconBgClass:    'bg-amber-600',
     iconShadowClass: 'shadow-amber-200',
-    imageUrl:    'https://i.ytimg.com/vi/w4hf7tEW-S8/hqdefault.jpg',
+    imageUrl:    'https://i.ytimg.com/pl_c/PL6UhGvZdF4uhD8jXwsbf1hxPj6kNUw5RU/studio_square_thumbnail.jpg?sqp=CNDEstAG-oaymwEICNYGEOADSFqi85f_AwYI6rKuxAY=&rs=AOn4CLCBEH4d1WE5XwdDesTbG-_VBH49hw',
     destination: 'edutips',
     href:        resolveDestination('edutips'),
     audience:    'edutips',
     illoScene:   'spark',
     badge:       'Biblioteca',
+    sections:    ['inicio'],
   },
   {
     id:          'casi',
@@ -103,12 +104,13 @@ export const FEATURE_CARDS: FeatureCard[] = [
     icon:           'star',
     iconBgClass:    'bg-amber-500',
     iconShadowClass: 'shadow-amber-100',
-    imageUrl:    'https://i.ytimg.com/vi/oOJixf5_pPo/hqdefault.jpg',
+    imageUrl:    'https://i.ytimg.com/vi/oOJixf5_pPo/hqdefault.jpg?sqp=-oaymwExCNACELwBSFryq4qpAyMIARUAAIhCGAHwAQH4Af4JgALQBYoCDAgAEAEYciBIKCYwDw==&rs=AOn4CLD7Ykl4CewlF_Hxa4wjnq9LYDwX6w',
     destination: 'series_casi',
     href:        resolveDestination('series_casi'),
     audience:    'casi',
     illoScene:   'play',
     badge:       'Serie animada',
+    sections:    ['inicio'],
   },
   {
     id:          'ayuda',
@@ -123,6 +125,7 @@ export const FEATURE_CARDS: FeatureCard[] = [
     audience:    'help',
     illoScene:   'shield',
     badge:       'Orientación',
+    sections:    ['inicio'],
   },
 ];
 
