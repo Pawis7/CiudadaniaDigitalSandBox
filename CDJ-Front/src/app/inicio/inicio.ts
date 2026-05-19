@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
@@ -19,6 +19,7 @@ export class InicioComponent {
 
   hero = this.content.hero;
   categories = this.content.categories;
+  profileCards = computed(() => this.categories().map((cat) => this.content.categoryAsCard(cat)));
   featureCards = this.content.featureCards;
   pillars = this.content.pillars;
   secondaryBanner = this.content.secondaryBanner;

@@ -47,7 +47,27 @@ export class ContentService {
 
   readonly branding = signal<SiteBranding>(BRANDING);
   readonly hero = signal<Hero>(HERO);
-  readonly categories = signal<Category[]>(CATEGORIES);
+  private _categoriesRaw = signal<Category[]>(CATEGORIES);
+
+  /**
+   * Categorías con parches locales aplicados.
+   */
+  readonly categories = computed(() => {
+    const raw = this._categoriesRaw();
+    const patches = this.contentEdit.seriesPatches();
+    return raw.map((cat) => {
+      const p = patches[cat.id];
+      return p
+        ? {
+            ...cat,
+            name:        p.title ?? cat.name,
+            description: p.description ?? cat.description,
+            imageUrl:    p.coverImageUrl ?? cat.imageUrl,
+          }
+        : cat;
+    });
+  });
+
   readonly pillars = signal<Pillar[]>(PILLARS);
   readonly secondaryBanner = signal<Banner>(SECONDARY_BANNER);
   readonly navSections = signal<NavSection[]>(NAV_SECTIONS);
@@ -144,6 +164,45 @@ export class ContentService {
   }
 
   /**
+   * Convierte una Category al shape FeatureCard para poder usar
+   * <app-feature-card> en la página de inicio u otras listas.
+   */
+  categoryAsCard(cat: Category): FeatureCard {
+    const iconMap: Record<string, string> = {
+      kids: 'face',
+      teens: 'smartphone',
+      families: 'groups',
+      teachers: 'school',
+    };
+    const bgMap: Record<string, string> = {
+      kids: 'bg-teal-600',
+      teens: 'bg-violet-600',
+      families: 'bg-orange-600',
+      teachers: 'bg-emerald-600',
+    };
+    const destMap: Record<string, string> = {
+      kids: 'ninas_y_ninos',
+      teens: 'adolescentes',
+      families: 'familias',
+      teachers: 'docentes',
+    };
+    return {
+      id:             cat.id,
+      title:          cat.name,
+      description:    cat.description ?? '',
+      icon:           iconMap[cat.audience] ?? 'person',
+      iconBgClass:    bgMap[cat.audience] ?? 'bg-slate-600',
+      iconShadowClass: '',
+      imageUrl:       cat.imageUrl,
+      destination:    destMap[cat.audience] ?? 'inicio',
+      href:           `/p/${cat.slug}`,
+      audience:       cat.audience,
+      illoScene:      cat.illoScene,
+      badge:          cat.ageRange,
+    };
+  }
+
+  /**
    * Trae el bundle de contenido del backend y lo aplica a los signals.
    * Llamable a mano (p.ej. después de un cambio en /admin) para refrescar.
    */
@@ -205,7 +264,7 @@ export class ContentService {
     }
 
     if (b.categories?.length) {
-      this.categories.set(b.categories.map((c) => ({
+      this._categoriesRaw.set(b.categories.map((c) => ({
         id: c.audience, slug: c.slug, name: c.name, description: c.description ?? undefined,
         imageUrl: c.imageUrl, accent: c.accentClass,
         audience: c.audience, illoScene: c.illoScene ?? undefined,

@@ -15,7 +15,7 @@ export const CARD_DESTINATIONS: Record<string, { label: string; href: string; ic
   series:          { label: 'Catálogo de Series',       href: '/series',                      icon: 'video_library' },
   series_edutips:  { label: 'Serie: Edutips',           href: '/series/edutips',              icon: 'tips_and_updates' },
   series_casi:     { label: 'Serie: El día que casi',   href: '/series/el-dia-que-casi',      icon: 'star' },
-  series_familias: { label: 'Serie: Familias',          href: '/series/familias',             icon: 'family_restroom' },
+  series_familias: { label: 'Serie: Familias',          href: '/series/familias-conectadas',  icon: 'family_restroom' },
   series_kids:     { label: 'Serie: Niños',             href: '/series/kids',                 icon: 'child_care' },
   series_teens:    { label: 'Serie: Adolescentes',      href: '/series/teens',                icon: 'school' },
   cursos:          { label: 'Cursos',                   href: '/cursos',                      icon: 'menu_book' },
