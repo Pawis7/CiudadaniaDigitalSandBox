@@ -1,6 +1,7 @@
 import { Injectable, signal, effect, inject, PLATFORM_ID, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './auth.service';
+import { ApiClient } from './api.client';
 
 const STORAGE_KEY   = 'cdj_image_overrides_v1';
 const EDIT_MODE_KEY = 'cdj_edit_mode_v1';
@@ -20,6 +21,7 @@ export class ImageEditService {
   private platformId = inject(PLATFORM_ID);
   private isBrowser  = isPlatformBrowser(this.platformId);
   private auth       = inject(AuthService);
+  private api        = inject(ApiClient);
 
   /** Estado interno del lápiz. No usar directamente en templates. */
   readonly editMode  = signal<boolean>(false);
@@ -81,6 +83,31 @@ export class ImageEditService {
       const { [id]: _, ...rest } = v;
       return rest;
     });
+  }
+
+  async uploadImage(id: string, file: File): Promise<void> {
+    const form = new FormData();
+    form.append('file', file);
+    try {
+      const res = await this.api.putMultipart<any>(`/images/${id}`, form);
+      const url = res.data?.url ?? res.url;
+      if (url) {
+        this.setOverride(id, url);
+      }
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      throw err;
+    }
+  }
+
+  async deleteOverride(id: string): Promise<void> {
+    try {
+      await this.api.del(`/images/${id}`);
+      this.clearOverride(id);
+    } catch (err) {
+      console.error('Error deleting image override:', err);
+      throw err;
+    }
   }
 
   clearAll() { this.overrides.set({}); }

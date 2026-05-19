@@ -225,6 +225,76 @@ export class ContentService {
   }
 
   /**
+   * Guarda los cambios de una card en la base de datos (admin).
+   * Determina automáticamente qué tabla(s) del backend actualizar según el ID de la card.
+   */
+  async saveCardToDatabase(
+    cardId: string,
+    patch: { title?: string; description?: string; imageUrl?: string; destination?: string }
+  ): Promise<void> {
+    const changes: Record<string, any> = {};
+    if (patch.title !== undefined) changes.title = patch.title;
+    if (patch.description !== undefined) changes.description = patch.description;
+    if (patch.imageUrl !== undefined) changes.imageUrl = patch.imageUrl;
+    if (patch.destination !== undefined) changes.destination = patch.destination;
+
+    if (Object.keys(changes).length === 0) return;
+
+    // 1. Identificar si es una categoría de audiencia (kids, teens, families, teachers)
+    const audienceSlugMap: Record<string, string> = {
+      kids: 'ninas-y-ninos',
+      teens: 'adolescentes',
+      families: 'familias',
+      teachers: 'docentes'
+    };
+
+    const isAudience = !!audienceSlugMap[cardId];
+    // 2. Identificar si es una serie (edutips, casi, familias)
+    const seriesIds = new Set(['edutips', 'casi', 'familias']);
+    const isSeries = seriesIds.has(cardId);
+
+    // 3. Identificar si es una feature card real en BD (edutips, casi, ayuda)
+    const dbFeatureCardIds = new Set(['edutips', 'casi', 'ayuda']);
+    const isDbFeatureCard = dbFeatureCardIds.has(cardId);
+
+    try {
+      // Si es audiencia, actualiza tabla Audience
+      if (isAudience) {
+        const slug = audienceSlugMap[cardId];
+        await this.api.patch(`/content/audiences/${slug}`, {
+          title: changes.title,
+          description: changes.description,
+          imageUrl: changes.imageUrl
+        });
+      }
+
+      // Si es serie, actualiza tabla VideoSeries
+      if (isSeries) {
+        await this.api.patch(`/content/series/${cardId}`, {
+          title: changes.title,
+          description: changes.description,
+          imageUrl: changes.imageUrl
+        });
+      }
+
+      // Si es una feature card real, actualiza tabla FeatureCard
+      if (isDbFeatureCard) {
+        await this.api.patch(`/content/feature-cards/${cardId}`, changes);
+      }
+
+      // Limpiar los parches locales de localStorage una vez guardado en base de datos
+      this.contentEdit.confirmSeriesPatch(cardId);
+      this.contentEdit.confirmCardPatch(cardId);
+
+      // Refrescar datos desde el backend para pintar lo que guardamos
+      await this.refreshFromBackend();
+    } catch (err) {
+      console.error('Error al guardar en base de datos:', err);
+      throw err;
+    }
+  }
+
+  /**
    * Mapea la respuesta del backend (formas Prisma con relations) a las
    * formas que esperan los componentes del front. La idea es absorber
    * cambios del backend sin tocar componentes.

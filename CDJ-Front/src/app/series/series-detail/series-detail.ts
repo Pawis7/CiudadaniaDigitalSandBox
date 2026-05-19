@@ -28,16 +28,28 @@ export class SeriesDetailComponent {
   editMode = this.imgEdit.isEditActive;
 
   hasOverride(id: string): boolean { return !!this.imgEdit.getOverride(id); }
-  resetOverride(id: string) { this.imgEdit.clearOverride(id); }
+  async resetOverride(id: string) {
+    try {
+      await this.imgEdit.deleteOverride(id);
+      await this.content.refreshFromBackend();
+    } catch (err) {
+      console.error('Error al restablecer la portada:', err);
+    }
+  }
 
-  onFileSelected(event: Event, id: string) {
+  async onFileSelected(event: Event, id: string) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => { this.imgEdit.setOverride(id, String(reader.result)); };
-    reader.readAsDataURL(file);
-    input.value = '';
+    try {
+      await this.imgEdit.uploadImage(id, file);
+      await this.content.refreshFromBackend();
+    } catch (err) {
+      console.error('Error al subir la portada:', err);
+      alert('Error al subir la imagen.');
+    } finally {
+      input.value = '';
+    }
   }
 
   private slug = toSignal(

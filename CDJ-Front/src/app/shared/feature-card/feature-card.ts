@@ -12,6 +12,7 @@ import { FeatureCard } from '../../core/models/content.models';
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { ContentEditService } from '../../core/services/content-edit.service';
 import { AuthService } from '../../core/services/auth.service';
+import { ContentService } from '../../core/services/content.service';
 import { EditableImageComponent } from '../editable-image/editable-image';
 import { RevealDirective } from '../scroll-reveal/scroll-reveal.directive';
 import { CARD_DESTINATIONS, resolveDestination } from '../../core/data/card-destinations';
@@ -42,6 +43,7 @@ export class FeatureCardComponent {
   private imgEdit     = inject(ImageEditService);
   private contentEdit = inject(ContentEditService);
   private auth        = inject(AuthService);
+  private contentSvc  = inject(ContentService);
 
   @Input({ required: true }) card!: FeatureCard;
   @Input() delay = 0;
@@ -86,7 +88,7 @@ export class FeatureCardComponent {
 
   closePanel() { this.panelOpen.set(false); }
 
-  savePanel() {
+  async savePanel() {
     // Título, descripción e imagen → patchSeries (fuente de verdad)
     const seriesPatch: { title?: string; description?: string; coverImageUrl?: string } = {};
     const t = this.editTitle().trim();
@@ -112,6 +114,17 @@ export class FeatureCardComponent {
     }
 
     this.panelOpen.set(false);
+
+    try {
+      await this.contentSvc.saveCardToDatabase(this.card.id, {
+        title: t,
+        description: d,
+        imageUrl: u,
+        destination: dest
+      });
+    } catch (err) {
+      console.error('Error al persistir en base de datos:', err);
+    }
   }
 
   resetCard() {
