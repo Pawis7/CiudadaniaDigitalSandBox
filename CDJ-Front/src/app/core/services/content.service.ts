@@ -232,7 +232,7 @@ export class ContentService {
     cardId: string,
     patch: { title?: string; description?: string; imageUrl?: string; destination?: string }
   ): Promise<void> {
-    const changes: Record<string, any> = {};
+    const changes: { title?: string; description?: string; imageUrl?: string; destination?: string } = {};
     if (patch.title !== undefined) changes.title = patch.title;
     if (patch.description !== undefined) changes.description = patch.description;
     if (patch.imageUrl !== undefined) changes.imageUrl = patch.imageUrl;
