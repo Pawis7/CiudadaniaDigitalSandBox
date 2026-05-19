@@ -277,6 +277,7 @@ export class ContentService {
         id: f.id, title: f.title, description: f.description, icon: f.icon,
         iconBgClass: f.iconBgClass, iconShadowClass: f.iconShadowClass,
         imageUrl: f.imageUrl, href: f.href,
+        destination: f.destination,
         audience: f.audience, illoScene: f.illoScene ?? undefined, badge: f.badge ?? undefined,
       })));
     }
@@ -361,6 +362,7 @@ interface BackendAudience {
 interface BackendFeatureCard {
   id: string; title: string; description: string; icon: string;
   iconBgClass: string; iconShadowClass: string; imageUrl: string; href: string;
+  destination?: string;
   audience: BackendAudience['audience']; illoScene: BackendAudience['illoScene']; badge: string | null;
 }
 interface BackendSeries {

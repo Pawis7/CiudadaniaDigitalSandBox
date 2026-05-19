@@ -61,7 +61,7 @@ export interface FeatureCard {
   iconShadowClass: string;
   imageUrl:        string;
   /** Clave del enum CardDestination — se resuelve a href por resolveDestination() */
-  destination:     string;
+  destination?:    string;
   /** href resuelto (lo añade el backend o ContentService al hidratar) */
   href:            string;
   audience:        AudienceSlug;
