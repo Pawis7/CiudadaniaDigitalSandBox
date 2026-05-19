@@ -198,7 +198,7 @@ export class ContentService {
       iconBgClass:    serie.iconBgClass,
       iconShadowClass: '',
       imageUrl:       serie.coverImageUrl,
-      href:           `/series/${serie.slug}`,
+      href:           serie.slug === 'edutips' ? '/edutips' : `/series/${serie.slug}`,
       audience:       serie.audience,
       illoScene:      serie.illoScene,
       badge:          `${serie.episodeCount} episodios`,
