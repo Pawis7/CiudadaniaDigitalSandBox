@@ -14,6 +14,7 @@ import { ContentEditService } from '../../core/services/content-edit.service';
 import { AuthService } from '../../core/services/auth.service';
 import { EditableImageComponent } from '../editable-image/editable-image';
 import { RevealDirective } from '../scroll-reveal/scroll-reveal.directive';
+import { CARD_DESTINATIONS, resolveDestination } from '../../core/data/card-destinations';
 
 /**
  * Tarjeta de contenido destacado — reutilizable en cualquier página.
@@ -21,10 +22,11 @@ import { RevealDirective } from '../scroll-reveal/scroll-reveal.directive';
  * Campos editables (solo admin logueado):
  *   · title       → patchSeries (fuente de verdad compartida)
  *   · description → patchSeries
- *   · imageUrl    → patchSeries (como URL de texto; subida de archivo en próxima iteración)
+ *   · imageUrl    → patchSeries (como URL de texto)
+ *   · destination → patchCard  (selección de ruta, no texto libre)
  *
- * href y badge son configuración fija — no se editan desde el front.
- * Si el usuario cierra sesión con el lápiz activo, editMode cae a false automáticamente.
+ * href se resuelve automáticamente de destination — nunca se escribe a mano.
+ * Si el usuario cierra sesión con el lápiz activo, editMode cae a false.
  *
  * Uso:
  *   <app-feature-card [card]="myCard" [delay]="80" />
@@ -45,45 +47,70 @@ export class FeatureCardComponent {
   @Input() delay = 0;
   @Input() showDescription = true;
 
+  /** Lista de destinos válidos para el <select> del panel */
+  readonly destinations = CARD_DESTINATIONS;
+
   /**
    * Editar solo está disponible si el admin está logueado.
    * Si cierra sesión con el lápiz encendido, los controles desaparecen solos.
    */
   editMode = computed(() => this.imgEdit.editMode() && this.auth.isLogged());
 
-  panelOpen       = signal(false);
-  editTitle       = signal('');
-  editDescription = signal('');
-  editImageUrl    = signal('');
+  panelOpen        = signal(false);
+  editTitle        = signal('');
+  editDescription  = signal('');
+  editImageUrl     = signal('');
+  editDestination  = signal('');
 
   /** ¿Hay parches locales pendientes de sincronizar con el backend? */
   hasEdits = computed(() => {
     const sp = this.contentEdit.seriesPatches()[this.card?.id];
-    return !!(sp && Object.keys(sp).length);
+    const cp = this.contentEdit.cardPatches()[this.card?.id];
+    return !!(sp && Object.keys(sp).length) || !!(cp && Object.keys(cp).length);
+  });
+
+  /** Etiqueta del destino actual para mostrar en la tarjeta */
+  destinationLabel = computed(() => {
+    const key = this.contentEdit.cardPatches()[this.card?.id]?.['destination'] as string
+      ?? this.card?.destination;
+    return CARD_DESTINATIONS.find((d) => d.key === key)?.label ?? '';
   });
 
   openPanel() {
     this.editTitle.set(this.card.title);
     this.editDescription.set(this.card.description);
     this.editImageUrl.set(this.card.imageUrl);
+    this.editDestination.set(this.card.destination);
     this.panelOpen.set(true);
   }
 
   closePanel() { this.panelOpen.set(false); }
 
   savePanel() {
-    const patch: { title?: string; description?: string; coverImageUrl?: string } = {};
+    // Título, descripción e imagen → patchSeries (fuente de verdad)
+    const seriesPatch: { title?: string; description?: string; coverImageUrl?: string } = {};
     const t = this.editTitle().trim();
     const d = this.editDescription().trim();
     const u = this.editImageUrl().trim();
-
-    if (t) patch.title = t;
-    if (d) patch.description = d;
+    if (t) seriesPatch.title = t;
+    if (d) seriesPatch.description = d;
     if (u) {
-      patch.coverImageUrl = u;
-      this.imgEdit.setOverride(this.card.id, u); // render inmediato
+      seriesPatch.coverImageUrl = u;
+      this.imgEdit.setOverride(this.card.id, u);
     }
-    this.contentEdit.patchSeries(this.card.id, patch);
+    if (Object.keys(seriesPatch).length) {
+      this.contentEdit.patchSeries(this.card.id, seriesPatch);
+    }
+
+    // Destino → patchCard (campo exclusivo de FeatureCard, resuelve href)
+    const dest = this.editDestination();
+    if (dest && dest !== this.card.destination) {
+      this.contentEdit.patchCard(this.card.id, {
+        destination: dest,
+        href: resolveDestination(dest),
+      });
+    }
+
     this.panelOpen.set(false);
   }
 

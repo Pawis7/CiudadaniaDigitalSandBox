@@ -54,10 +54,10 @@
 
       <!-- Barra de acciones rápidas -->
       <div class="flex items-center justify-between gap-2 px-3 py-2">
-        <span class="text-[9px] font-extrabold uppercase tracking-wider text-[color:var(--text-mute)]">ID: {{ card.id }}</span>
+        <span class="text-[9px] font-extrabold uppercase tracking-wider text-[color:var(--text-mute)]">
+          ID: {{ card.id }}
+        </span>
         <div class="flex items-center gap-1.5">
-
-          <!-- Abrir editor -->
           <button
             type="button"
             (click)="openPanel()"
@@ -65,8 +65,6 @@
             <span translate="no" class="material-symbols-rounded text-xs">edit</span>
             <span>Editar</span>
           </button>
-
-          <!-- Resetear -->
           @if (hasEdits() || hasImageOverride()) {
             <button
               type="button"
@@ -76,7 +74,6 @@
               <span translate="no" class="material-symbols-rounded text-xs">restart_alt</span>
             </button>
           }
-
         </div>
       </div>
 
@@ -121,6 +118,29 @@
               (input)="editImageUrl.set($any($event.target).value)"
               placeholder="https://..."
               class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+          </div>
+
+          <!-- Destino — selector, nunca texto libre -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">
+              Destino (a dónde lleva)
+            </label>
+            <div class="relative">
+              <select
+                [value]="editDestination()"
+                (change)="editDestination.set($any($event.target).value)"
+                class="w-full appearance-none rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 pr-8 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all cursor-pointer">
+                @for (dest of destinations; track dest.key) {
+                  <option [value]="dest.key" [selected]="dest.key === editDestination()">
+                    {{ dest.label }} — {{ dest.href }}
+                  </option>
+                }
+              </select>
+              <span translate="no" class="material-symbols-rounded pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-sm text-[color:var(--text-mute)]">expand_more</span>
+            </div>
+            <p class="mt-1 text-[10px] text-[color:var(--text-mute)]">
+              Solo puedes elegir rutas existentes para evitar errores de enlace.
+            </p>
           </div>
 
           <!-- Acciones -->
