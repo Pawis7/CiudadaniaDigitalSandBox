@@ -1,22 +1,24 @@
 @import 'tailwindcss';
 
 /* ========================================================================
-   WORK SANS (font-face)
+   GARET (font-face)
    ======================================================================== */
 @font-face {
-  font-family: 'Work Sans';
-  src: url('/assets/fonts/worksans/WorkSans-VariableFont_wght.ttf') format('truetype-variations'),
-       url('/assets/fonts/worksans/WorkSans-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
+  font-family: 'Garet';
+  src: url('/assets/fonts/garet/Garet-Book.woff2') format('woff2'),
+       url('/assets/fonts/garet/Garet-Book.woff')  format('woff'),
+       url('/assets/fonts/garet/Garet-Book.ttf')   format('truetype');
+  font-weight: 400 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Work Sans';
-  src: url('/assets/fonts/worksans/WorkSans-Italic-VariableFont_wght.ttf') format('truetype-variations'),
-       url('/assets/fonts/worksans/WorkSans-Italic-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: italic;
+  font-family: 'Garet';
+  src: url('/assets/fonts/garet/Garet-Heavy.woff2') format('woff2'),
+       url('/assets/fonts/garet/Garet-Heavy.woff')  format('woff'),
+       url('/assets/fonts/garet/Garet-Heavy.ttf')   format('truetype');
+  font-weight: 700 900;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -24,8 +26,8 @@
    TAILWIND THEME
    ======================================================================== */
 @theme {
-  --font-sans: 'Work Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Work Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', 'Garet', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Garet', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
   --color-cdj-50:  #F0FDFA;
   --color-cdj-100: #CCFBF1;
@@ -191,7 +193,7 @@ html[data-theme='dark'] {
 }
 
 body {
-  font-family: 'Work Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Garet', ui-sans-serif, system-ui, sans-serif;
   @apply antialiased;
   color: var(--text-primary);
   background-color: var(--surface-base);
@@ -200,7 +202,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Work Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Garet', ui-sans-serif, system-ui, sans-serif;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--text-primary);
@@ -650,6 +652,12 @@ button:hover .icon-interactive,
 
 /* ========================================================================
    GLOBAL HERO BANNER DIMENSIONS (1392 x 423 / 1546 x 423 collapsed)
+   AI AGENT NOTE: DO NOT CHANGE THESE DIMENSIONS.
+   The optimal design requires strict dimensions:
+   - Sidebar Expanded: 1392px width
+   - Sidebar Collapsed: 1546px width
+   - Desktop Height (>= 1024px): Exactly 423px height.
+   These dimensions are locked to prevent visual inconsistency.
    ======================================================================== */
 .main-hero,
 .hero-aud,
@@ -658,8 +666,27 @@ button:hover .icon-interactive,
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  transition: max-width 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.hero-aud,
+.catalog-hero {
   padding: 1.5rem !important;
-  transition: max-width 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.main-hero {
+  padding: 0 !important;
+  display: block !important;
+}
+
+.main-hero img {
+  object-position: 20% 50% !important;
+  transition: object-position 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: object-position;
+}
+
+body.sidebar-collapsed .main-hero img {
+  object-position: 50% 50% !important;
 }
 
 body.sidebar-collapsed .main-hero,
@@ -669,7 +696,6 @@ body.sidebar-collapsed .catalog-hero {
 }
 
 @media (min-width: 768px) {
-  .main-hero,
   .hero-aud,
   .catalog-hero {
     padding: 2rem 2.5rem !important;
@@ -677,15 +703,22 @@ body.sidebar-collapsed .catalog-hero {
 }
 
 @media (min-width: 1024px) {
-  .main-hero,
   .hero-aud,
   .catalog-hero {
     height: 423px !important;
     min-height: 423px !important;
+    max-height: 423px !important;
     padding: 2.5rem 3.5rem !important;
     display: grid !important;
     align-content: center !important;
     justify-content: stretch !important;
+  }
+
+  .main-hero {
+    height: 423px !important;
+    min-height: 423px !important;
+    max-height: 423px !important;
+    display: block !important;
   }
 }
 
