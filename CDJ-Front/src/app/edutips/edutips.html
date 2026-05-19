@@ -5,29 +5,15 @@
      Optimal sizing is strictly locked to:
      - Sidebar Expanded: 1392px x 423px
      - Sidebar Collapsed: 1546px x 423px -->
-<section class="catalog-hero mb-8" data-audience="edutips">
-  <nav class="breadcrumb mb-4">
-    <a routerLink="/">Inicio</a>
-    <span class="breadcrumb-sep">›</span>
-    <span class="is-current">Edutips</span>
-  </nav>
-
-  <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_1.5fr]">
-    <div>
-      <p class="eyebrow text-[color:var(--c-edutips)]">Biblioteca de videos</p>
-      <h1 appReveal="up" class="display-1 mt-2">Edutips</h1>
-      <p appReveal="up" [revealDelay]="100" class="lede mt-3 max-w-2xl">
-        Cápsulas para aprender, conversar y actuar mejor en el mundo digital. Filtra por edad, nivel, tipo o duración.
-      </p>
-    </div>
-
-    <div class="overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-lg)] flex items-center justify-center bg-[color:var(--surface-soft)]">
-      <img
-        src="/banners/ciudadania-digital-adolescentes.png"
-        alt="Banner de Edutips"
-        class="block w-full h-auto object-contain object-center">
-    </div>
-  </div>
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+  data-audience="edutips">
+  <img
+    src="/banners/CIUCDADANIA_DIGITAL_EDUTIPS.png"
+    alt="Ciudadanía Digital Jalisco Edutips Banner"
+    class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
 
 <!-- FILTROS — barra desplegable limpia y compacta -->

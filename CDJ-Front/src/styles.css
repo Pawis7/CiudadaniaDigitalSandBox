@@ -680,13 +680,7 @@ button:hover .icon-interactive,
 }
 
 .main-hero img {
-  object-position: 20% 50% !important;
-  transition: object-position 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: object-position;
-}
-
-body.sidebar-collapsed .main-hero img {
-  object-position: 50% 50% !important;
+  object-position: center !important;
 }
 
 body.sidebar-collapsed .main-hero,

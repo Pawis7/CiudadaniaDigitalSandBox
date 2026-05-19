@@ -30,7 +30,7 @@ export class AudienciaComponent {
   private route   = inject(ActivatedRoute);
   private content = inject(ContentService);
 
-  private slug = toSignal(
+  slug = toSignal(
     this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')),
     { initialValue: '' },
   );
