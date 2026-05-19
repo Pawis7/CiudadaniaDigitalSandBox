@@ -45,8 +45,8 @@
 
         <div class="pool-card-details">
           <div class="flex items-center gap-2.5">
-            <span class="card-icon-preview" [ngClass]="card.iconBgClass">
-              <app-ui-icon [name]="card.icon"></app-ui-icon>
+            <span class="card-icon-preview grid place-items-center" [ngClass]="card.iconBgClass">
+              <span translate="no" class="material-symbols-rounded text-sm icon-fill text-white">{{ card.icon }}</span>
             </span>
             <div>
               <h4 class="card-title-preview">{{ card.title }}</h4>

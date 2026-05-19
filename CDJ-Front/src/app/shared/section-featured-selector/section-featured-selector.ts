@@ -4,12 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { ContentService } from '../../core/services/content.service';
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { FeatureCard } from '../../core/models/content.models';
-import { UiIconComponent } from '../ui-icon/ui-icon';
 
 @Component({
   selector: 'app-section-featured-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule, UiIconComponent],
+  imports: [CommonModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './section-featured-selector.html',
   styleUrl: './section-featured-selector.css',
