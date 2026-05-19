@@ -1062,3 +1062,12 @@ body.sidebar-collapsed .catalog-hero {
   .card-hover, .course-card { transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* Recortar franjas negras integradas de las miniaturas de YouTube en tarjetas */
+.card img[src*="ytimg.com"],
+.card img[src*="youtube.com"],
+article img[src*="ytimg.com"],
+article img[src*="youtube.com"] {
+  transform: scale(1.22) !important;
+  object-fit: cover !important;
+}
