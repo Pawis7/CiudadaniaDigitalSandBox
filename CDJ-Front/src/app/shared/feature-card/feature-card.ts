@@ -52,9 +52,9 @@ export class FeatureCardComponent {
 
   /**
    * Editar solo está disponible si el admin está logueado.
-   * Si cierra sesión con el lápiz encendido, los controles desaparecen solos.
+   * isEditActive ya combina editMode + auth.isLogged() en el servicio.
    */
-  editMode = computed(() => this.imgEdit.editMode() && this.auth.isLogged());
+  editMode = this.imgEdit.isEditActive;
 
   panelOpen        = signal(false);
   editTitle        = signal('');

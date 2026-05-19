@@ -42,7 +42,7 @@ export class SidebarComponent {
   isAuthenticated = this.auth.isLogged;
 
   private imgEdit = inject(ImageEditService);
-  editMode = this.imgEdit.editMode;
+  editMode = this.imgEdit.isEditActive;   // ← siempre auth-gated
 
   private content = inject(ContentService);
   branding = this.content.branding;

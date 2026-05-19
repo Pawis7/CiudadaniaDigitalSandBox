@@ -24,8 +24,8 @@ export class SeriesDetailComponent {
   private imgEdit = inject(ImageEditService);
   private auth    = inject(AuthService);
 
-  /** editMode del hero cover también requiere login */
-  editMode = computed(() => this.imgEdit.editMode() && this.auth.isLogged());
+  /** editMode del hero cover también requiere login — isEditActive ya lo garantiza */
+  editMode = this.imgEdit.isEditActive;
 
   hasOverride(id: string): boolean { return !!this.imgEdit.getOverride(id); }
   resetOverride(id: string) { this.imgEdit.clearOverride(id); }

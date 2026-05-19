@@ -47,7 +47,7 @@ export class EditableImageComponent {
  
   resolvedSrc = computed(() => this.svc.getOverride(this._id()) ?? this._src());
   hasOverride = computed(() => !!this.svc.getOverride(this._id()));
-  editMode = this.svc.editMode;
+  isEditActive = this.svc.isEditActive;
   showFallback = computed(() => this.imgFailed() && !this.hasOverride());
  
   get displayId() { return this._id(); }

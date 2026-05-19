@@ -1,19 +1,19 @@
-import { Injectable, signal, effect, inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, signal, effect, inject, PLATFORM_ID, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './auth.service';
 
-const STORAGE_KEY  = 'cdj_image_overrides_v1';
+const STORAGE_KEY   = 'cdj_image_overrides_v1';
 const EDIT_MODE_KEY = 'cdj_edit_mode_v1';
 
 /**
  * Gestiona el modo de edición y los overrides locales de imágenes.
  *
- * Seguridad: editMode solo puede activarse si el usuario está logueado.
- * Si cierra sesión con el lápiz activo, se desactiva automáticamente.
- *
- * Los componentes no deben usar editMode directamente como gate de UI —
- * deben usar: computed(() => imgEdit.editMode() && auth.isLogged())
- * para doble protección (ya implementado en FeatureCardComponent y similares).
+ * REGLA DE SEGURIDAD:
+ *   `editMode` es la señal interna (puede ser true/false).
+ *   `isEditActive` es el computed que deben usar los componentes:
+ *     = editMode() && auth.isLogged()
+ *   Si el usuario cierra sesión → isEditActive cae a false automáticamente.
+ *   `toggleEdit()` es un no-op si el usuario no está logueado.
  */
 @Injectable({ providedIn: 'root' })
 export class ImageEditService {
@@ -21,36 +21,37 @@ export class ImageEditService {
   private isBrowser  = isPlatformBrowser(this.platformId);
   private auth       = inject(AuthService);
 
-  readonly editMode  = signal<boolean>(false); // Siempre arranca en false; se restaura solo si hay sesión
+  /** Estado interno del lápiz. No usar directamente en templates. */
+  readonly editMode  = signal<boolean>(false);
+
+  /** ← Usar ESTE en templates y componentes: garantiza auth + lápiz */
+  readonly isEditActive = computed(() => this.editMode() && this.auth.isLogged());
+
   readonly overrides = signal<Record<string, string>>(this.readOverrides());
 
   constructor() {
     if (!this.isBrowser) return;
 
-    // Persistir overrides en localStorage
+    // Persistir overrides
     effect(() => {
       const v = this.overrides();
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(v)); } catch {}
     });
 
-    // Restaurar editMode del localStorage SOLO si hay sesión activa
-    // Se ejecuta de forma diferida para que auth.currentUser() esté disponible
+    // Auth guard reactivo:
+    // - Si se desloguea con el lápiz activo → editMode = false
+    // - Si se loguea y tenía el lápiz activo antes → restaurar
     effect(() => {
       const logged = this.auth.isLogged();
       if (!logged) {
-        // Si cierra sesión → forzar editMode a false inmediatamente
         this.editMode.set(false);
-      } else {
-        // Si está logueado → restaurar el estado que tenía antes
-        const saved = this.readEditMode();
-        if (saved) this.editMode.set(true);
+        try { localStorage.setItem(EDIT_MODE_KEY, '0'); } catch {}
       }
     });
   }
 
   /**
-   * Activa/desactiva el modo de edición.
-   * Solo funciona si el usuario está logueado — si no, no hace nada.
+   * Activa/desactiva el lápiz. No-op si el usuario no está logueado.
    */
   toggleEdit() {
     if (!this.auth.isLogged()) {
@@ -62,6 +63,13 @@ export class ImageEditService {
       try { localStorage.setItem(EDIT_MODE_KEY, next ? '1' : '0'); } catch {}
       return next;
     });
+  }
+
+  /** Restaura el lápiz desde localStorage. Llamar solo después de checkSession(). */
+  restoreEditMode() {
+    if (!this.isBrowser || !this.auth.isLogged()) return;
+    const saved = this.readEditMode();
+    if (saved) this.editMode.set(true);
   }
 
   setOverride(id: string, dataUrl: string) {
@@ -81,10 +89,6 @@ export class ImageEditService {
     return this.overrides()[id];
   }
 
-  /**
-   * Merge no-destructivo de overrides que vienen del backend.
-   * Los overrides locales (dataURL) tienen prioridad sobre los del server.
-   */
   mergeBackendOverrides(serverMap: Record<string, string>) {
     if (!serverMap || typeof serverMap !== 'object') return;
     this.overrides.update((current) => {
@@ -106,8 +110,6 @@ export class ImageEditService {
 
   private readEditMode(): boolean {
     if (!this.isBrowser) return false;
-    try {
-      return localStorage.getItem(EDIT_MODE_KEY) === '1';
-    } catch { return false; }
+    try { return localStorage.getItem(EDIT_MODE_KEY) === '1'; } catch { return false; }
   }
 }
