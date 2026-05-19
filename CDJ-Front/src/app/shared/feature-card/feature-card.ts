@@ -80,7 +80,7 @@ export class FeatureCardComponent {
     this.editTitle.set(this.card.title);
     this.editDescription.set(this.card.description);
     this.editImageUrl.set(this.card.imageUrl);
-    this.editDestination.set(this.card.destination);
+    this.editDestination.set(this.card.destination ?? '');
     this.panelOpen.set(true);
   }
 
