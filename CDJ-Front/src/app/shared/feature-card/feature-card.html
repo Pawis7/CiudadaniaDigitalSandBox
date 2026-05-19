@@ -48,7 +48,7 @@
 
   </a>
 
-  <!-- ── PANEL DE EDICIÓN (solo admin, fuera del <a>) ──────────────────── -->
+  <!-- ── PANEL DE EDICIÓN (solo admin logueado, fuera del <a>) ─────────── -->
   @if (editMode()) {
     <div class="border-t border-[color:var(--border-soft)] bg-slate-50 dark:bg-slate-900/40">
 
@@ -57,29 +57,17 @@
         <span class="text-[9px] font-extrabold uppercase tracking-wider text-[color:var(--text-mute)]">ID: {{ card.id }}</span>
         <div class="flex items-center gap-1.5">
 
-          <!-- Subir imagen -->
-          <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)">
-          <button
-            type="button"
-            (click)="fileInput.click()"
-            title="Cambiar imagen"
-            class="inline-flex items-center gap-1 rounded-lg bg-slate-200 dark:bg-slate-800 px-2 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white active:scale-95 transition-colors">
-            <span translate="no" class="material-symbols-rounded text-xs">image</span>
-            <span>Imagen</span>
-          </button>
-
-          <!-- Editar texto -->
+          <!-- Abrir editor -->
           <button
             type="button"
             (click)="openPanel()"
-            title="Editar texto"
             class="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-2 py-1 text-[11px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 transition-colors">
             <span translate="no" class="material-symbols-rounded text-xs">edit</span>
             <span>Editar</span>
           </button>
 
-          <!-- Resetear todo -->
-          @if (hasTextEdits() || hasImageOverride()) {
+          <!-- Resetear -->
+          @if (hasEdits() || hasImageOverride()) {
             <button
               type="button"
               (click)="resetCard()"
@@ -88,14 +76,15 @@
               <span translate="no" class="material-symbols-rounded text-xs">restart_alt</span>
             </button>
           }
+
         </div>
       </div>
 
-      <!-- Formulario de edición de texto -->
+      <!-- Formulario de edición inline -->
       @if (panelOpen()) {
         <div class="border-t border-[color:var(--border-soft)] bg-white dark:bg-slate-950 p-4 space-y-3 animate-[fadeIn_.15s_ease]">
 
-          <div class="flex items-center justify-between mb-1">
+          <div class="flex items-center justify-between">
             <p class="text-[10px] font-extrabold uppercase tracking-widest text-[color:var(--text-mute)]">Editar tarjeta</p>
             <button type="button" (click)="closePanel()"
               class="grid h-5 w-5 place-items-center rounded text-[color:var(--text-mute)] hover:text-[color:var(--text-primary)] transition-colors">
@@ -123,40 +112,30 @@
               class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none transition-all"></textarea>
           </div>
 
-          <!-- Badge y Enlace en fila -->
-          <div class="grid grid-cols-2 gap-2">
-            <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">Badge</label>
-              <input
-                type="text"
-                [value]="editBadge()"
-                (input)="editBadge.set($any($event.target).value)"
-                placeholder="Ej. Serie animada"
-                class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
-            </div>
-            <div>
-              <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">Enlace (href)</label>
-              <input
-                type="text"
-                [value]="editHref()"
-                (input)="editHref.set($any($event.target).value)"
-                placeholder="Ej. /series/mi-serie"
-                class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
-            </div>
+          <!-- URL de imagen -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">URL de imagen</label>
+            <input
+              type="url"
+              [value]="editImageUrl()"
+              (input)="editImageUrl.set($any($event.target).value)"
+              placeholder="https://..."
+              class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
           </div>
 
-          <!-- Acciones del formulario -->
+          <!-- Acciones -->
           <div class="flex justify-end gap-2 pt-1">
             <button type="button" (click)="closePanel()"
               class="rounded-lg border border-[color:var(--border-soft)] px-3 py-1.5 text-[11px] font-bold text-[color:var(--text-soft)] hover:text-[color:var(--text-primary)] transition-colors">
               Cancelar
             </button>
             <button type="button" (click)="savePanel()"
-              class="rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 transition-all">
+              class="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 transition-all">
               <span translate="no" class="material-symbols-rounded text-xs">save</span>
               Guardar
             </button>
           </div>
+
         </div>
       }
 

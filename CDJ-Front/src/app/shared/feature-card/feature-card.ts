@@ -11,18 +11,20 @@ import { RouterLink } from '@angular/router';
 import { FeatureCard } from '../../core/models/content.models';
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { ContentEditService } from '../../core/services/content-edit.service';
+import { AuthService } from '../../core/services/auth.service';
 import { EditableImageComponent } from '../editable-image/editable-image';
 import { RevealDirective } from '../scroll-reveal/scroll-reveal.directive';
 
 /**
- * Tarjeta de contenido destacado — completamente reutilizable.
+ * Tarjeta de contenido destacado — reutilizable en cualquier página.
  *
- * Los cambios de título, descripción e imagen van a ContentEditService.patchSeries()
- * para que la VideoSeries sea la ÚNICA fuente de verdad. Así, editar "Edutips"
- * aquí actualiza automáticamente todas las demás instancias (catálogo de series,
- * audiencias, detail) sin código extra.
+ * Campos editables (solo admin logueado):
+ *   · title       → patchSeries (fuente de verdad compartida)
+ *   · description → patchSeries
+ *   · imageUrl    → patchSeries (como URL de texto; subida de archivo en próxima iteración)
  *
- * Badge y href son campos exclusivos de FeatureCard y van a patchCard().
+ * href y badge son configuración fija — no se editan desde el front.
+ * Si el usuario cierra sesión con el lápiz activo, editMode cae a false automáticamente.
  *
  * Uso:
  *   <app-feature-card [card]="myCard" [delay]="80" />
@@ -37,57 +39,55 @@ import { RevealDirective } from '../scroll-reveal/scroll-reveal.directive';
 export class FeatureCardComponent {
   private imgEdit     = inject(ImageEditService);
   private contentEdit = inject(ContentEditService);
+  private auth        = inject(AuthService);
 
   @Input({ required: true }) card!: FeatureCard;
   @Input() delay = 0;
   @Input() showDescription = true;
 
-  editMode = this.imgEdit.editMode;
+  /**
+   * Editar solo está disponible si el admin está logueado.
+   * Si cierra sesión con el lápiz encendido, los controles desaparecen solos.
+   */
+  editMode = computed(() => this.imgEdit.editMode() && this.auth.isLogged());
 
   panelOpen       = signal(false);
   editTitle       = signal('');
   editDescription = signal('');
-  editBadge       = signal('');
-  editHref        = signal('');
+  editImageUrl    = signal('');
 
-  /**
-   * ¿Hay algún parche local para esta card? Revisa tanto seriesPatches
-   * (título, descripción, imagen) como cardPatches (badge, href).
-   */
-  hasTextEdits = computed(() => {
+  /** ¿Hay parches locales pendientes de sincronizar con el backend? */
+  hasEdits = computed(() => {
     const sp = this.contentEdit.seriesPatches()[this.card?.id];
-    const cp = this.contentEdit.cardPatches()[this.card?.id];
-    const hasSeriesEdit = !!(sp && Object.keys(sp).length);
-    const hasCardEdit   = !!(cp && Object.keys(cp).filter(k => k !== 'imageUrl').length);
-    return hasSeriesEdit || hasCardEdit;
+    return !!(sp && Object.keys(sp).length);
   });
 
   openPanel() {
     this.editTitle.set(this.card.title);
     this.editDescription.set(this.card.description);
-    this.editBadge.set(this.card.badge ?? '');
-    this.editHref.set(this.card.href);
+    this.editImageUrl.set(this.card.imageUrl);
     this.panelOpen.set(true);
   }
 
   closePanel() { this.panelOpen.set(false); }
 
   savePanel() {
-    // Título y descripción → patchSeries (fuente de verdad compartida con el catálogo)
-    this.contentEdit.patchSeries(this.card.id, {
-      title:       this.editTitle(),
-      description: this.editDescription(),
-    });
-    // Badge y href → patchCard (campos exclusivos de FeatureCard)
-    this.contentEdit.patchCard(this.card.id, {
-      badge: this.editBadge() || undefined,
-      href:  this.editHref(),
-    });
+    const patch: { title?: string; description?: string; coverImageUrl?: string } = {};
+    const t = this.editTitle().trim();
+    const d = this.editDescription().trim();
+    const u = this.editImageUrl().trim();
+
+    if (t) patch.title = t;
+    if (d) patch.description = d;
+    if (u) {
+      patch.coverImageUrl = u;
+      this.imgEdit.setOverride(this.card.id, u); // render inmediato
+    }
+    this.contentEdit.patchSeries(this.card.id, patch);
     this.panelOpen.set(false);
   }
 
   resetCard() {
-    // Limpiar tanto series patches como card patches y la imagen
     this.contentEdit.resetSeries(this.card.id);
     this.contentEdit.resetCard(this.card.id);
     this.imgEdit.clearOverride(this.card.id);
@@ -95,20 +95,5 @@ export class FeatureCardComponent {
 
   hasImageOverride(): boolean {
     return !!this.imgEdit.getOverride(this.card.id);
-  }
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = String(reader.result);
-      // Imagen → ImageEditService (render inmediato) + patchSeries (fuente de verdad)
-      this.imgEdit.setOverride(this.card.id, dataUrl);
-      this.contentEdit.patchSeries(this.card.id, { coverImageUrl: dataUrl });
-    };
-    reader.readAsDataURL(file);
-    input.value = '';
   }
 }

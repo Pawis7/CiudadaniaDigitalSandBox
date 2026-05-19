@@ -122,6 +122,28 @@ export class ContentService {
   }
 
   /**
+   * Convierte una VideoSeries al shape FeatureCard para poder usar
+   * <app-feature-card> en cualquier página (audiencia, series-list, series-detail).
+   * Usar el array ya reactivo (videoSeries()) garantiza que los parches
+   * de ContentEditService ya están aplicados.
+   */
+  seriesAsCard(serie: VideoSeries): FeatureCard {
+    return {
+      id:             serie.id,
+      title:          serie.title,
+      description:    serie.description,
+      icon:           serie.icon,
+      iconBgClass:    serie.iconBgClass,
+      iconShadowClass: '',
+      imageUrl:       serie.coverImageUrl,
+      href:           `/series/${serie.slug}`,
+      audience:       serie.audience,
+      illoScene:      serie.illoScene,
+      badge:          `${serie.episodeCount} episodios`,
+    };
+  }
+
+  /**
    * Trae el bundle de contenido del backend y lo aplica a los signals.
    * Llamable a mano (p.ej. después de un cambio en /admin) para refrescar.
    */

@@ -1,38 +1,67 @@
 import { Injectable, signal, effect, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './auth.service';
 
-const STORAGE_KEY = 'cdj_image_overrides_v1';
+const STORAGE_KEY  = 'cdj_image_overrides_v1';
 const EDIT_MODE_KEY = 'cdj_edit_mode_v1';
 
 /**
- * Persistencia local de imágenes "modificadas" desde la UI.
- * El usuario presiona "Modificar" → se guarda un dataURL en localStorage
- * bajo el id del slot. Al renderizar, el componente prefiere el override
- * a la URL original. Útil para previsualizar cómo quedaría el sitio
- * sin tocar código ni backend.
+ * Gestiona el modo de edición y los overrides locales de imágenes.
+ *
+ * Seguridad: editMode solo puede activarse si el usuario está logueado.
+ * Si cierra sesión con el lápiz activo, se desactiva automáticamente.
+ *
+ * Los componentes no deben usar editMode directamente como gate de UI —
+ * deben usar: computed(() => imgEdit.editMode() && auth.isLogged())
+ * para doble protección (ya implementado en FeatureCardComponent y similares).
  */
 @Injectable({ providedIn: 'root' })
 export class ImageEditService {
   private platformId = inject(PLATFORM_ID);
-  private isBrowser = isPlatformBrowser(this.platformId);
+  private isBrowser  = isPlatformBrowser(this.platformId);
+  private auth       = inject(AuthService);
 
-  readonly editMode = signal<boolean>(this.readEditMode());
+  readonly editMode  = signal<boolean>(false); // Siempre arranca en false; se restaura solo si hay sesión
   readonly overrides = signal<Record<string, string>>(this.readOverrides());
 
   constructor() {
     if (!this.isBrowser) return;
-    effect(() => {
-      const v = this.editMode();
-      try { localStorage.setItem(EDIT_MODE_KEY, v ? '1' : '0'); } catch {}
-    });
+
+    // Persistir overrides en localStorage
     effect(() => {
       const v = this.overrides();
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(v)); } catch {}
     });
+
+    // Restaurar editMode del localStorage SOLO si hay sesión activa
+    // Se ejecuta de forma diferida para que auth.currentUser() esté disponible
+    effect(() => {
+      const logged = this.auth.isLogged();
+      if (!logged) {
+        // Si cierra sesión → forzar editMode a false inmediatamente
+        this.editMode.set(false);
+      } else {
+        // Si está logueado → restaurar el estado que tenía antes
+        const saved = this.readEditMode();
+        if (saved) this.editMode.set(true);
+      }
+    });
   }
 
+  /**
+   * Activa/desactiva el modo de edición.
+   * Solo funciona si el usuario está logueado — si no, no hace nada.
+   */
   toggleEdit() {
-    this.editMode.update((v) => !v);
+    if (!this.auth.isLogged()) {
+      this.editMode.set(false);
+      return;
+    }
+    this.editMode.update((v) => {
+      const next = !v;
+      try { localStorage.setItem(EDIT_MODE_KEY, next ? '1' : '0'); } catch {}
+      return next;
+    });
   }
 
   setOverride(id: string, dataUrl: string) {
@@ -46,9 +75,7 @@ export class ImageEditService {
     });
   }
 
-  clearAll() {
-    this.overrides.set({});
-  }
+  clearAll() { this.overrides.set({}); }
 
   getOverride(id: string): string | undefined {
     return this.overrides()[id];
@@ -56,15 +83,12 @@ export class ImageEditService {
 
   /**
    * Merge no-destructivo de overrides que vienen del backend.
-   * Si el usuario tiene un override local (dataURL en localStorage), gana
-   * — para que pueda previsualizar cambios sin tocar el server. Cuando
-   * confirme la subida, el backend devuelve la URL real y la guardamos.
+   * Los overrides locales (dataURL) tienen prioridad sobre los del server.
    */
   mergeBackendOverrides(serverMap: Record<string, string>) {
     if (!serverMap || typeof serverMap !== 'object') return;
     this.overrides.update((current) => {
       const merged: Record<string, string> = { ...serverMap };
-      // Preferir overrides locales (dataURL del editor) sobre los del server
       for (const [id, val] of Object.entries(current)) {
         if (val?.startsWith('data:')) merged[id] = val;
       }
@@ -77,17 +101,13 @@ export class ImageEditService {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       return raw ? JSON.parse(raw) : {};
-    } catch {
-      return {};
-    }
+    } catch { return {}; }
   }
 
   private readEditMode(): boolean {
     if (!this.isBrowser) return false;
     try {
       return localStorage.getItem(EDIT_MODE_KEY) === '1';
-    } catch {
-      return false;
-    }
+    } catch { return false; }
   }
 }

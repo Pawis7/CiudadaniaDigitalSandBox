@@ -8,21 +8,24 @@ import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.direct
 import { YoutubePlayerComponent } from '../../shared/youtube-player/youtube-player';
 import { EditableImageComponent } from '../../shared/editable-image/editable-image';
 import { ImageEditService } from '../../core/services/image-edit.service';
-import { SeriesCardComponent } from '../../shared/series-card/series-card';
+import { AuthService } from '../../core/services/auth.service';
+import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
 
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, SeriesCardComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, FeatureCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })
 export class SeriesDetailComponent {
-  private route = inject(ActivatedRoute);
+  private route   = inject(ActivatedRoute);
   private content = inject(ContentService);
   private imgEdit = inject(ImageEditService);
+  private auth    = inject(AuthService);
 
-  editMode = this.imgEdit.editMode;
+  /** editMode del hero cover también requiere login */
+  editMode = computed(() => this.imgEdit.editMode() && this.auth.isLogged());
 
   hasOverride(id: string): boolean { return !!this.imgEdit.getOverride(id); }
   resetOverride(id: string) { this.imgEdit.clearOverride(id); }
@@ -42,12 +45,17 @@ export class SeriesDetailComponent {
     { initialValue: '' },
   );
 
-  serie = computed(() => this.content.getSeriesBySlug(this.slug()));
+  serie  = computed(() => this.content.getSeriesBySlug(this.slug()));
   videos = computed(() => this.serie()?.videos ?? []);
 
-  related = computed(() => {
+  /** Otras series como FeatureCard para usar app-feature-card */
+  relatedCards = computed(() => {
     const current = this.serie();
     if (!current) return [];
-    return this.content.videoSeries().filter((s) => s.id !== current.id).slice(0, 3);
+    return this.content
+      .videoSeries()
+      .filter((s) => s.id !== current.id)
+      .slice(0, 3)
+      .map((s) => this.content.seriesAsCard(s));
   });
 }

@@ -8,7 +8,6 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
-import { EditableImageComponent } from '../shared/editable-image/editable-image';
 import { AudienceSlug } from '../core/models/content.models';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 
@@ -22,12 +21,12 @@ const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, EditableImageComponent, FeatureCardComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, FeatureCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })
 export class AudienciaComponent {
-  private route = inject(ActivatedRoute);
+  private route   = inject(ActivatedRoute);
   private content = inject(ContentService);
 
   private slug = toSignal(
@@ -35,16 +34,19 @@ export class AudienciaComponent {
     { initialValue: '' },
   );
 
-  page = computed(() => AUDIENCE_PAGES.find((a) => a.slug === this.slug()));
+  page          = computed(() => AUDIENCE_PAGES.find((a) => a.slug === this.slug()));
   audienceTheme = computed<AudienceSlug>(() => SLUG_TO_AUDIENCE[this.slug()] ?? 'cdj');
 
-  recommendedSeries = computed(() => {
+  /** Series recomendadas convertidas a FeatureCard → usa app-feature-card */
+  recommendedCards = computed(() => {
     const p = this.page();
     if (!p) return [];
     return this.content
       .videoSeries()
-      .filter((s) => p.recommendedSeriesSlugs.includes(s.slug));
+      .filter((s) => p.recommendedSeriesSlugs.includes(s.slug))
+      .map((s) => this.content.seriesAsCard(s));
   });
 
   isTeenAudience = computed(() => this.slug() === 'adolescentes');
 }
+
