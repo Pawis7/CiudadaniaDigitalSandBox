@@ -1,19 +1,28 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { RESOURCES } from '../core/data/page-content';
+import { ContentService } from '../core/services/content.service';
+import { ImageEditService } from '../core/services/image-edit.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
+import { FeatureCardComponent } from '../shared/feature-card/feature-card';
+import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 
 @Component({
   selector: 'app-recursos',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, UiIconComponent],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './recursos.html',
 })
 export class RecursosComponent {
+  private content = inject(ContentService);
+  private imgEdit = inject(ImageEditService);
+
+  featuredCards = this.content.recursosFeatureCards;
+  editMode = this.imgEdit.isEditActive;
   private allResources = RESOURCES.map((resource, index) => ({
     ...resource,
     uiIcon: ([

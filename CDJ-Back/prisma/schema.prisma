@@ -247,6 +247,7 @@ model FeatureCard {
   illoScene       IlloScene?
   badge           String?
   sortOrder       Int             @default(0)
+  sections        String[]        @default([])
   updatedAt       DateTime        @updatedAt
 }
 

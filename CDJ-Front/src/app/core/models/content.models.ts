@@ -67,6 +67,7 @@ export interface FeatureCard {
   audience:        AudienceSlug;
   illoScene?:      'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
   badge?:          string;
+  sections?:       string[];
 }
 
 export interface VideoItem {

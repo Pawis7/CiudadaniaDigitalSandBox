@@ -46,7 +46,29 @@
       </div>
     </div>
   </div>
-</section>
+<!-- RECURSOS DESTACADOS -->
+@if (featuredCards().length || editMode()) {
+  <section class="mb-8 sm:mb-10">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>
+        <p class="eyebrow text-[color:var(--c-cdj)]">Recomendaciones destacadas</p>
+        <h2 class="display-2 mt-1">Recursos destacados</h2>
+      </div>
+      <app-section-featured-selector section="recursos" sectionTitle="Recursos" />
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      @for (card of featuredCards(); track card.id; let i = $index) {
+        <app-feature-card [card]="card" [delay]="i * 80" />
+      }
+      @if (!featuredCards().length) {
+        <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
+          No hay recursos destacados seleccionados. Haz clic en "Destacados" para agregar.
+        </div>
+      }
+    </div>
+  </section>
+}
 
 <section class="mb-8 rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-[var(--shadow-lg)] sm:mb-10 sm:p-6">
   <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">

@@ -16,9 +16,16 @@
 
 <!-- CONTENIDO DESTACADO SEJ -->
 <section class="mb-10 sm:mb-12">
+  <app-section-featured-selector section="inicio" sectionTitle="Inicio" />
+
   <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
     @for (card of featureCards(); track card.id; let i = $index) {
       <app-feature-card [card]="card" [delay]="i * 80" />
+    }
+    @if (!featureCards().length) {
+      <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
+        No hay tarjetas destacadas en esta sección. Haz clic en "Destacados: Inicio" para agregar.
+      </div>
     }
   </div>
 </section>

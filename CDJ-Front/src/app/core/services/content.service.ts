@@ -128,6 +128,48 @@ export class ContentService {
     });
   });
 
+  readonly homeFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('inicio')).slice(0, 3)
+  );
+
+  readonly kidsFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('kids')).slice(0, 3)
+  );
+
+  readonly teensFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('teens')).slice(0, 3)
+  );
+
+  readonly familiesFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('families')).slice(0, 3)
+  );
+
+  readonly teachersFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('teachers')).slice(0, 3)
+  );
+
+  readonly seriesFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('series')).slice(0, 3)
+  );
+
+  readonly recursosFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('recursos')).slice(0, 3)
+  );
+
+  /**
+   * Actualiza la lista de FeatureCards seleccionadas para una sección.
+   * Máximo 3 cards por sección.
+   */
+  async updateSectionFeaturedCards(section: string, cardIds: string[]): Promise<void> {
+    try {
+      await this.api.patch(`/content/sections/${section}`, { cardIds });
+      await this.refreshFromBackend();
+    } catch (err) {
+      console.error(`Error al actualizar destacados de la sección ${section}:`, err);
+      throw err;
+    }
+  }
+
   readonly loading = signal(false);
   readonly source = signal<'static' | 'backend'>('static');
   readonly lastError = signal<string | null>(null);
@@ -349,6 +391,7 @@ export class ContentService {
         imageUrl: f.imageUrl, href: f.href,
         destination: f.destination,
         audience: f.audience, illoScene: f.illoScene ?? undefined, badge: f.badge ?? undefined,
+        sections: f.sections ?? [],
       })));
     }
 
@@ -434,6 +477,7 @@ interface BackendFeatureCard {
   iconBgClass: string; iconShadowClass: string; imageUrl: string; href: string;
   destination?: string;
   audience: BackendAudience['audience']; illoScene: BackendAudience['illoScene']; badge: string | null;
+  sections?: string[];
 }
 interface BackendSeries {
   id: string; slug: string; title: string; tagline: string; description: string;

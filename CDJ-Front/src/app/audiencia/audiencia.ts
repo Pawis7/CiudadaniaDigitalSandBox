@@ -10,6 +10,7 @@ import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustr
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
 import { AudienceSlug } from '../core/models/content.models';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
+import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 
 const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
   'ninas-y-ninos': 'kids',
@@ -21,7 +22,7 @@ const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, FeatureCardComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })
@@ -37,14 +38,14 @@ export class AudienciaComponent {
   page          = computed(() => AUDIENCE_PAGES.find((a) => a.slug === this.slug()));
   audienceTheme = computed<AudienceSlug>(() => SLUG_TO_AUDIENCE[this.slug()] ?? 'cdj');
 
-  /** Series recomendadas convertidas a FeatureCard → usa app-feature-card */
+  /** Tarjetas destacadas seleccionadas por el administrador desde base de datos */
   recommendedCards = computed(() => {
-    const p = this.page();
-    if (!p) return [];
-    return this.content
-      .videoSeries()
-      .filter((s) => p.recommendedSeriesSlugs.includes(s.slug))
-      .map((s) => this.content.seriesAsCard(s));
+    const aud = this.audienceTheme();
+    if (aud === 'kids') return this.content.kidsFeatureCards();
+    if (aud === 'teens') return this.content.teensFeatureCards();
+    if (aud === 'families') return this.content.familiesFeatureCards();
+    if (aud === 'teachers') return this.content.teachersFeatureCards();
+    return [];
   });
 
   isTeenAudience = computed(() => this.slug() === 'adolescentes');

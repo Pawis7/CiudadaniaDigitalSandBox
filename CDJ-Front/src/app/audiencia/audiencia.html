@@ -157,23 +157,27 @@
     </div>
   </section>
 
-  <!-- SERIES RECOMENDADAS -->
-  @if (recommendedCards().length) {
-    <section class="mb-8 sm:mb-10">
-      <div appReveal="up" class="section-head">
-        <div>
-          <p class="eyebrow text-[color:var(--c-edutips)]">Series recomendadas</p>
-          <h2 class="display-2 mt-1">Empieza por aquí</h2>
-        </div>
+  <!-- CONTENIDO DESTACADO PERFIL -->
+  <section class="mb-8 sm:mb-10">
+    <div appReveal="up" class="section-head flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <p class="eyebrow text-[color:var(--c-edutips)]">Contenido destacado</p>
+        <h2 class="display-2 mt-1">Recomendados para este perfil</h2>
       </div>
+      <app-section-featured-selector [section]="audienceTheme()" [sectionTitle]="page()?.title ?? 'este perfil'" />
+    </div>
 
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-        @for (card of recommendedCards(); track card.id; let i = $index) {
-          <app-feature-card [card]="card" [delay]="i * 80" />
-        }
-      </div>
-    </section>
-  }
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      @for (card of recommendedCards(); track card.id; let i = $index) {
+        <app-feature-card [card]="card" [delay]="i * 80" />
+      }
+      @if (!recommendedCards().length) {
+        <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
+          No hay tarjetas destacadas seleccionadas para este perfil. Haz clic en "Destacados" para agregar.
+        </div>
+      }
+    </div>
+  </section>
 } @else {
   <section class="surface mb-12 p-12 text-center">
     <span translate="no" class="material-symbols-rounded text-5xl text-[color:var(--text-mute)]">help</span>

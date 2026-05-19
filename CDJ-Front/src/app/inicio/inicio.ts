@@ -5,11 +5,12 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
+import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
@@ -20,7 +21,7 @@ export class InicioComponent {
   hero = this.content.hero;
   categories = this.content.categories;
   profileCards = computed(() => this.categories().map((cat) => this.content.categoryAsCard(cat)));
-  featureCards = this.content.featureCards;
+  featureCards = this.content.homeFeatureCards;
   pillars = this.content.pillars;
   secondaryBanner = this.content.secondaryBanner;
   videoSeries = this.content.videoSeries;
