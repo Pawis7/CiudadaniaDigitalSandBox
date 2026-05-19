@@ -1,0 +1,166 @@
+<div
+  appReveal="up"
+  [revealDelay]="delay"
+  [attr.data-audience]="card.audience"
+  class="card card-hover group relative flex flex-col overflow-hidden">
+
+  <!-- ── ENLACE PRINCIPAL ──────────────────────────────────────────────── -->
+  <a [href]="card.href" class="flex flex-1 flex-col overflow-hidden">
+
+    <!-- Imagen -->
+    <div class="relative aspect-[16/10] w-full overflow-hidden">
+      <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+        <app-editable-image
+          [id]="card.id"
+          [src]="card.imageUrl"
+          [alt]="card.title"
+          [width]="1600" [height]="1000" aspectLabel="16:10"
+          imgClass="h-full w-full object-cover"
+          [theme]="card.audience"
+          [scene]="card.illoScene || 'spark'">
+        </app-editable-image>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none"></div>
+
+      <!-- Badge -->
+      @if (card.badge) {
+        <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-slate-900 pointer-events-none">
+          <span class="grid h-4 w-4 place-items-center rounded-full text-white shadow-sm" [ngClass]="card.iconBgClass">
+            <span translate="no" class="material-symbols-rounded text-[10px] icon-fill">{{ card.icon }}</span>
+          </span>
+          {{ card.badge }}
+        </span>
+      }
+
+      <!-- Play button -->
+      <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-slate-900 shadow-2xl shadow-black/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-[color:var(--aud)] group-hover:text-white pointer-events-none">
+        <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+      </span>
+    </div>
+
+    <!-- Texto -->
+    <div class="p-5 flex-1">
+      <h3 class="text-lg font-black tracking-tight text-[color:var(--text-primary)] sm:text-xl">{{ card.title }}</h3>
+      @if (showDescription) {
+        <p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">{{ card.description }}</p>
+      }
+    </div>
+
+  </a>
+
+  <!-- ── PANEL DE EDICIÓN (solo admin, fuera del <a>) ──────────────────── -->
+  @if (editMode()) {
+    <div class="border-t border-[color:var(--border-soft)] bg-slate-50 dark:bg-slate-900/40">
+
+      <!-- Barra de acciones rápidas -->
+      <div class="flex items-center justify-between gap-2 px-3 py-2">
+        <span class="text-[9px] font-extrabold uppercase tracking-wider text-[color:var(--text-mute)]">ID: {{ card.id }}</span>
+        <div class="flex items-center gap-1.5">
+
+          <!-- Subir imagen -->
+          <input #fileInput type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)">
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            title="Cambiar imagen"
+            class="inline-flex items-center gap-1 rounded-lg bg-slate-200 dark:bg-slate-800 px-2 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white active:scale-95 transition-colors">
+            <span translate="no" class="material-symbols-rounded text-xs">image</span>
+            <span>Imagen</span>
+          </button>
+
+          <!-- Editar texto -->
+          <button
+            type="button"
+            (click)="openPanel()"
+            title="Editar texto"
+            class="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-2 py-1 text-[11px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 transition-colors">
+            <span translate="no" class="material-symbols-rounded text-xs">edit</span>
+            <span>Editar</span>
+          </button>
+
+          <!-- Resetear todo -->
+          @if (hasTextEdits() || hasImageOverride()) {
+            <button
+              type="button"
+              (click)="resetCard()"
+              title="Restablecer original"
+              class="inline-flex items-center gap-1 rounded-lg bg-slate-200 dark:bg-slate-800 px-2 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 hover:bg-rose-600 hover:text-white active:scale-95 transition-colors">
+              <span translate="no" class="material-symbols-rounded text-xs">restart_alt</span>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Formulario de edición de texto -->
+      @if (panelOpen()) {
+        <div class="border-t border-[color:var(--border-soft)] bg-white dark:bg-slate-950 p-4 space-y-3 animate-[fadeIn_.15s_ease]">
+
+          <div class="flex items-center justify-between mb-1">
+            <p class="text-[10px] font-extrabold uppercase tracking-widest text-[color:var(--text-mute)]">Editar tarjeta</p>
+            <button type="button" (click)="closePanel()"
+              class="grid h-5 w-5 place-items-center rounded text-[color:var(--text-mute)] hover:text-[color:var(--text-primary)] transition-colors">
+              <span translate="no" class="material-symbols-rounded text-sm">close</span>
+            </button>
+          </div>
+
+          <!-- Título -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">Título</label>
+            <input
+              type="text"
+              [value]="editTitle()"
+              (input)="editTitle.set($any($event.target).value)"
+              class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm font-semibold text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+          </div>
+
+          <!-- Descripción -->
+          <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">Descripción</label>
+            <textarea
+              rows="2"
+              [value]="editDescription()"
+              (input)="editDescription.set($any($event.target).value)"
+              class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none transition-all"></textarea>
+          </div>
+
+          <!-- Badge y Enlace en fila -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">Badge</label>
+              <input
+                type="text"
+                [value]="editBadge()"
+                (input)="editBadge.set($any($event.target).value)"
+                placeholder="Ej. Serie animada"
+                class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase tracking-wider text-[color:var(--text-mute)] mb-1">Enlace (href)</label>
+              <input
+                type="text"
+                [value]="editHref()"
+                (input)="editHref.set($any($event.target).value)"
+                placeholder="Ej. /series/mi-serie"
+                class="w-full rounded-lg border border-[color:var(--border-soft)] bg-transparent px-3 py-1.5 text-sm text-[color:var(--text-primary)] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all">
+            </div>
+          </div>
+
+          <!-- Acciones del formulario -->
+          <div class="flex justify-end gap-2 pt-1">
+            <button type="button" (click)="closePanel()"
+              class="rounded-lg border border-[color:var(--border-soft)] px-3 py-1.5 text-[11px] font-bold text-[color:var(--text-soft)] hover:text-[color:var(--text-primary)] transition-colors">
+              Cancelar
+            </button>
+            <button type="button" (click)="savePanel()"
+              class="rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 transition-all">
+              <span translate="no" class="material-symbols-rounded text-xs">save</span>
+              Guardar
+            </button>
+          </div>
+        </div>
+      }
+
+    </div>
+  }
+
+</div>

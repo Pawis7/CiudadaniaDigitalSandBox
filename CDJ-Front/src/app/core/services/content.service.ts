@@ -1,4 +1,5 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { ContentEditService } from './content-edit.service';
 import {
   Banner,
   Category,
@@ -42,16 +43,70 @@ export class ContentService {
   private api = inject(ApiClient);
   private imgEdit = inject(ImageEditService);
 
+  private contentEdit = inject(ContentEditService);
+
   readonly branding = signal<SiteBranding>(BRANDING);
   readonly hero = signal<Hero>(HERO);
   readonly categories = signal<Category[]>(CATEGORIES);
-  readonly featureCards = signal<FeatureCard[]>(FEATURE_CARDS);
   readonly pillars = signal<Pillar[]>(PILLARS);
   readonly secondaryBanner = signal<Banner>(SECONDARY_BANNER);
-  readonly videoSeries = signal<VideoSeries[]>(VIDEO_SERIES);
   readonly navSections = signal<NavSection[]>(NAV_SECTIONS);
   readonly socialLinks = signal<SocialLink[]>(SOCIAL_LINKS);
   readonly footerColumns = signal<FooterColumn[]>(FOOTER_COLUMNS);
+
+  /**
+   * Datos crudos: base estática o payload del backend.
+   * Solo se usan dentro del computed — nunca los consumen los componentes directamente.
+   */
+  private _featureCardsRaw = signal<FeatureCard[]>(FEATURE_CARDS);
+  private _videoSeriesRaw  = signal<VideoSeries[]>(VIDEO_SERIES);
+
+  /**
+   * VideoSeries con parches locales aplicados.
+   * Es la ÚNICA fuente de verdad para título, descripción e imagen de cualquier
+   * contenido que también se muestra como FeatureCard.
+   */
+  readonly videoSeries = computed(() =>
+    this.contentEdit.applySeriesPatches(this._videoSeriesRaw())
+  );
+
+  /**
+   * FeatureCards derivadas automáticamente.
+   *
+   * Regla: si una FeatureCard tiene el mismo ID que una VideoSeries, HEREDA
+   * título, descripción e imagen de esa serie — nunca duplica la data.
+   * FEATURE_CARDS solo aporta config de display: badge, href, icon, iconBgClass.
+   *
+   * → Editar "Edutips" en el catálogo de series actualiza su Feature Card
+   *   en inicio, audiencias y cualquier otro lugar automáticamente.
+   * → Las cards sin serie (ej. "ayuda") siguen usando su propia data.
+   */
+  readonly featureCards = computed((): FeatureCard[] => {
+    const rawCards = this._featureCardsRaw();
+    // videoSeries ya tiene los parches de series aplicados
+    const seriesMap = new Map(this.videoSeries().map((s) => [s.id, s]));
+    // Parches de card para campos exclusivos de FeatureCard (badge, href)
+    const cardPatches = this.contentEdit.cardPatches();
+
+    return rawCards.map((card) => {
+      const serie = seriesMap.get(card.id);
+      const base: FeatureCard = serie
+        ? {
+            ...card,
+            // Hereda los campos de contenido de la serie (fuente de verdad)
+            title:       serie.title,
+            description: serie.description,
+            imageUrl:    serie.coverImageUrl,
+            icon:        serie.icon,
+            iconBgClass: serie.iconBgClass,
+          }
+        : card; // Card standalone (ayuda): usa su propia data
+
+      // Parches de card solo para campos que no existen en VideoSeries (badge, href)
+      const cp = cardPatches[card.id];
+      return cp ? { ...base, ...cp } : base;
+    });
+  });
 
   readonly loading = signal(false);
   readonly source = signal<'static' | 'backend'>('static');
@@ -137,7 +192,7 @@ export class ContentService {
     }
 
     if (b.featureCards?.length) {
-      this.featureCards.set(b.featureCards.map((f) => ({
+      this._featureCardsRaw.set(b.featureCards.map((f) => ({
         id: f.id, title: f.title, description: f.description, icon: f.icon,
         iconBgClass: f.iconBgClass, iconShadowClass: f.iconShadowClass,
         imageUrl: f.imageUrl, href: f.href,
@@ -146,7 +201,7 @@ export class ContentService {
     }
 
     if (b.videoSeries?.length) {
-      this.videoSeries.set(b.videoSeries.map((s) => ({
+      this._videoSeriesRaw.set(b.videoSeries.map((s) => ({
         id: s.id, slug: s.slug, title: s.title, tagline: s.tagline,
         description: s.description, coverImageUrl: s.coverImageUrl,
         accentClass: s.accentClass, iconBgClass: s.iconBgClass, icon: s.icon,

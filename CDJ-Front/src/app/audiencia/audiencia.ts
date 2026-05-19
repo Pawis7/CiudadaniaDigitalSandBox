@@ -8,7 +8,9 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
+import { EditableImageComponent } from '../shared/editable-image/editable-image';
 import { AudienceSlug } from '../core/models/content.models';
+import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 
 const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
   'ninas-y-ninos': 'kids',
@@ -20,7 +22,7 @@ const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, EditableImageComponent, FeatureCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })

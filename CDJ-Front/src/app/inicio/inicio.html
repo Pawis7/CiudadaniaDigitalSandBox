@@ -14,6 +14,15 @@
     class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
 
+<!-- CONTENIDO DESTACADO SEJ -->
+<section class="mb-10 sm:mb-12">
+  <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+    @for (card of featureCards(); track card.id; let i = $index) {
+      <app-feature-card [card]="card" [delay]="i * 80" />
+    }
+  </div>
+</section>
+
 <section class="mb-8 sm:mb-10">
   <div class="section-head">
     <div appReveal="up">

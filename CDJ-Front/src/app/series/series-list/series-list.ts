@@ -4,17 +4,18 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ContentService } from '../../core/services/content.service';
 import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
-import { EditableImageComponent } from '../../shared/editable-image/editable-image';
+import { SeriesCardComponent } from '../../shared/series-card/series-card';
 
 @Component({
   selector: 'app-series-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, EditableImageComponent],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, SeriesCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-list.html',
 })
 export class SeriesListComponent {
   private content = inject(ContentService);
+
   query = signal('');
   series = computed(() => {
     const query = this.query().trim().toLowerCase();

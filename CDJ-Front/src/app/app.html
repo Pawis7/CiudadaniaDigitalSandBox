@@ -123,36 +123,6 @@
           <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="signLanguage()">sign_language</span>
         </button>
 
-        @if (isAdmin()) {
-          <button
-            type="button"
-            (click)="toggleEdit()"
-            [attr.aria-pressed]="editMode()"
-            [title]="editMode() ? 'Salir de modo edición' : 'Activar modo edición'"
-            class="relative grid h-9 w-9 place-items-center rounded-lg border transition-all"
-            [class.border-amber-300]="editMode()"
-            [class.bg-amber-50]="editMode()"
-            [class.text-amber-700]="editMode()"
-            [class.border-c-line]="!editMode()"
-            [class.text-c-ink-soft]="!editMode()"
-            [class.hover:bg-c-paper-soft]="!editMode()">
-            <span translate="no" class="material-symbols-rounded text-[18px] icon-interactive" [class.icon-fill]="editMode()">{{ editMode() ? 'edit_square' : 'edit' }}</span>
-            @if (editMode()) {
-              <span class="absolute -right-0.5 -top-0.5 flex h-2 w-2">
-                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75"></span>
-                <span class="relative inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
-              </span>
-            }
-          </button>
-
-          @if (editMode() && hasOverrides()) {
-            <button type="button" (click)="resetAllImages()"
-              title="Restablecer todas las imágenes"
-              class="hidden h-9 w-9 place-items-center rounded-lg border border-amber-200 bg-amber-50 text-amber-700 transition-colors hover:bg-amber-100 sm:grid">
-              <span translate="no" class="material-symbols-rounded text-[18px]">restart_alt</span>
-            </button>
-          }
-        }
 
         <!-- Mi cuenta / Login -->
         @if (!isAuthenticated()) {

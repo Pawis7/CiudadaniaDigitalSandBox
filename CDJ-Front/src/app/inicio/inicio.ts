@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
+import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
