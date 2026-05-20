@@ -651,18 +651,16 @@ button:hover .icon-interactive,
 }
 
 /* ========================================================================
-   GLOBAL HERO BANNER DIMENSIONS (1392 x 423 / 1546 x 423 collapsed)
-   AI AGENT NOTE: DO NOT CHANGE THESE DIMENSIONS.
-   The optimal design requires strict dimensions:
-   - Sidebar Expanded: 1392px width
-   - Sidebar Collapsed: 1546px width
+   GLOBAL HERO BANNER DIMENSIONS
+   - Base design deliverable: 1392 x 423 / 1546 x 423 (collapsed)
+   - Large screen / 1080p scale: 1604 x 423 / 1788 x 423 (collapsed)
+     (CSS scales the base image using object-cover to fit larger viewports)
    - Desktop Height (>= 1024px): Exactly 423px height.
-   These dimensions are locked to prevent visual inconsistency.
    ======================================================================== */
 .main-hero,
 .hero-aud,
 .catalog-hero {
-  max-width: 1392px !important;
+  max-width: 1604px !important;
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -683,10 +681,24 @@ button:hover .icon-interactive,
   object-position: center !important;
 }
 
+@media (min-width: 1700px) {
+  .main-hero img {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 1788px !important;
+    min-width: 1788px !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+}
+
 body.sidebar-collapsed .main-hero,
 body.sidebar-collapsed .hero-aud,
 body.sidebar-collapsed .catalog-hero {
-  max-width: 1546px !important;
+  max-width: 1788px !important;
 }
 
 @media (min-width: 768px) {
