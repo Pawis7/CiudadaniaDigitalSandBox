@@ -93,7 +93,7 @@
       <article *ngFor="let v of videos(); let i = index"
                appReveal="up"
                [revealDelay]="i * 60"
-               class="card card-hover group overflow-hidden">
+               class="card card-video-hover group overflow-hidden">
         <app-youtube-player [url]="v.youtubeUrl" [title]="v.title" quality="hq"></app-youtube-player>
 
         <div class="p-5">

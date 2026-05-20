@@ -357,6 +357,20 @@ button:hover .icon-interactive,
   z-index: 10;
 }
 
+.card-video-hover {
+  cursor: pointer;
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 220ms ease;
+}
+.card-video-hover:hover {
+  transform: translateY(-4px) scale(1.025) !important;
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 30%, var(--border));
+  z-index: 10;
+}
+
 /* === Course card — la unidad central de la plataforma === */
 .course-card {
   background: var(--surface-card);

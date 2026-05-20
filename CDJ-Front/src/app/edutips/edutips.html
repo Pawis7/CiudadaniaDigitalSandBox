@@ -106,7 +106,7 @@
       <article *ngFor="let v of filteredVideos(); let i = index"
                appReveal="up" [revealDelay]="i * 60"
                data-audience="edutips"
-               class="card card-hover group flex flex-col overflow-hidden">
+               class="card card-video-hover group flex flex-col overflow-hidden">
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
           <img [src]="getYoutubeThumb(v.youtubeUrl)" [alt]="v.title" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
           <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
