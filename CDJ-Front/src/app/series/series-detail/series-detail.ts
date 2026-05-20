@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -10,11 +10,12 @@ import { EditableImageComponent } from '../../shared/editable-image/editable-ima
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { AuthService } from '../../core/services/auth.service';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
+import { VideoModalComponent } from '../../shared/video-modal/video-modal';
 
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, FeatureCardComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, FeatureCardComponent, VideoModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })
@@ -59,6 +60,16 @@ export class SeriesDetailComponent {
 
   serie  = computed(() => this.content.getSeriesBySlug(this.slug()));
   videos = computed(() => this.serie()?.videos ?? []);
+
+  /** Video activo para el modal emergente */
+  activeVideo = signal<any>(null);
+
+  /** Extrae la URL del thumbnail de alta calidad de YouTube */
+  getYoutubeThumb(url: string): string {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|\/watch\?v=))([\w-]{11})/);
+    const vid = match ? match[1] : '';
+    return `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+  }
 
   /** Otras series como FeatureCard para usar app-feature-card */
   relatedCards = computed(() => {

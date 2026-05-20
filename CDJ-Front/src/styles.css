@@ -1106,10 +1106,8 @@ body.sidebar-collapsed .catalog-hero {
   html { scroll-behavior: auto; }
 }
 
-/* Recortar franjas negras integradas de las miniaturas de YouTube en tarjetas */
-.card img[src*="ytimg.com"],
-.card img[src*="youtube.com"],
-article img[src*="ytimg.com"],
-article img[src*="youtube.com"] {
-  object-fit: cover !important;
+/* utility to lock scroll */
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
 }

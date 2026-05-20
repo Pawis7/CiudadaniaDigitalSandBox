@@ -6,6 +6,7 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { YoutubePlayerComponent } from '../shared/youtube-player/youtube-player';
 import { ExploreByTopicComponent } from '../shared/explore-by-topic/explore-by-topic';
+import { VideoModalComponent } from '../shared/video-modal/video-modal';
 
 interface FilterChip { id: string; label: string; icon?: string; }
 interface VideoMeta {
@@ -21,7 +22,7 @@ interface VideoMeta {
   standalone: true,
   imports: [
     CommonModule, FormsModule, RouterLink,
-    RevealDirective, YoutubePlayerComponent, ExploreByTopicComponent,
+    RevealDirective, YoutubePlayerComponent, ExploreByTopicComponent, VideoModalComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './edutips.html',
