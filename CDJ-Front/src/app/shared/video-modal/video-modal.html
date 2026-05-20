@@ -16,7 +16,13 @@
     </button>
 
     <!-- Panel con overflow:hidden para el iframe -->
-    <div class="vm-panel">
+    <div class="vm-panel" #panel
+         (touchstart)="onTouchStart($event)"
+         (touchmove)="onTouchMove($event)"
+         (touchend)="onTouchEnd($event)">
+
+      <!-- Drag handle visual para móvil -->
+      <div class="vm-drag-handle"></div>
 
     <!-- ── Player ────────────────────────────────────────── -->
     <div class="vm-player-wrap">
@@ -34,7 +40,7 @@
 
     <!-- ── Metadata ───────────────────────────────────────── -->
     @if (data(); as v) {
-      <div class="vm-meta">
+      <div class="vm-meta" #meta>
 
         <!-- Fila principal: título + duración -->
         <div class="vm-meta-header">
