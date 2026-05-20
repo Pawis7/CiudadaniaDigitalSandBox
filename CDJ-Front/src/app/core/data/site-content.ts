@@ -119,7 +119,7 @@ export const FEATURE_CARDS: FeatureCard[] = [
     icon:           'shield',
     iconBgClass:    'bg-rose-500',
     iconShadowClass: 'shadow-rose-100',
-    imageUrl:    '/assets/img/feature-ayuda.svg',
+    imageUrl:    '/Portadas/AyudaDigital_Portada.png',
     destination: 'ayuda',
     href:        resolveDestination('ayuda'),
     audience:    'help',

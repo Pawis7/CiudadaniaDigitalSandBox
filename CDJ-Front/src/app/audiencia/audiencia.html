@@ -16,6 +16,17 @@
         alt="Ciudadanía Digital Jalisco Niñas y Niños"
         class="block w-full h-auto lg:h-full lg:object-cover">
     </section>
+  } @else if (slug() === 'docentes') {
+    <section
+      appReveal="fade"
+      [revealDuration]="700"
+      class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+      data-audience="teachers">
+      <img
+        src="/banners/CIUDADANIADOCENTESDIGITAL.png"
+        alt="Ciudadanía Digital Jalisco Docentes"
+        class="block w-full h-auto lg:h-full lg:object-cover">
+    </section>
   } @else {
     <section
       appReveal="fade"

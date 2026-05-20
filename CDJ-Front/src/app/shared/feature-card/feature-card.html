@@ -8,13 +8,13 @@
   <a [routerLink]="card.href" class="flex flex-1 flex-col overflow-hidden">
 
     <!-- Imagen -->
-    <div class="relative aspect-[16/10] w-full overflow-hidden">
-      <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+    <div class="relative aspect-[5/3] w-full overflow-hidden">
+      <div class="absolute inset-0">
         <app-editable-image
           [id]="card.id"
           [src]="card.imageUrl"
           [alt]="card.title"
-          [width]="1600" [height]="1000" aspectLabel="16:10"
+          [width]="1875" [height]="1125" aspectLabel="5:3"
           imgClass="h-full w-full object-cover"
           [theme]="card.audience"
           [scene]="card.illoScene || 'spark'">
