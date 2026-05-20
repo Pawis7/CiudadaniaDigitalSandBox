@@ -283,26 +283,19 @@ export class ContentService {
     if (Object.keys(changes).length === 0) return;
 
     // 1. Identificar si es una categoría de audiencia (kids, teens, families, teachers)
-    const audienceSlugMap: Record<string, string> = {
-      kids: 'ninas-y-ninos',
-      teens: 'adolescentes',
-      families: 'familias',
-      teachers: 'docentes'
-    };
+    const category = this._categoriesRaw().find((c) => c.id === cardId);
+    const isAudience = !!category;
 
-    const isAudience = !!audienceSlugMap[cardId];
     // 2. Identificar si es una serie (edutips, casi, familias)
-    const seriesIds = new Set(['edutips', 'casi', 'familias']);
-    const isSeries = seriesIds.has(cardId);
+    const isSeries = this.videoSeries().some((s) => s.id === cardId);
 
     // 3. Identificar si es una feature card real en BD (edutips, casi, ayuda)
-    const dbFeatureCardIds = new Set(['edutips', 'casi', 'ayuda']);
-    const isDbFeatureCard = dbFeatureCardIds.has(cardId);
+    const isDbFeatureCard = this._featureCardsRaw().some((f) => f.id === cardId);
 
     try {
       // Si es audiencia, actualiza tabla Audience
-      if (isAudience) {
-        const slug = audienceSlugMap[cardId];
+      if (isAudience && category) {
+        const slug = category.slug;
         await this.api.patch(`/content/audiences/${slug}`, {
           title: changes.title,
           description: changes.description,
