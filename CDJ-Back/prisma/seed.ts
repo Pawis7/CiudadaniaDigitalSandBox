@@ -53,10 +53,10 @@ async function main() {
 
   // === Audiences ===
   const audiences = [
-    { slug: 'ninas-y-ninos', name: 'Niñas y niños', description: 'Jugar, descubrir y cuidarse en línea con calma.', audience: 'kids',     illoScene: 'play',    ageRange: '5 a 11 años',                imageUrl: '/assets/img/category-ninas-y-ninos.svg', accentClass: 'from-teal-400/0 via-teal-500/20 to-teal-600/40',    sortOrder: 1 },
-    { slug: 'adolescentes',  name: 'Adolescentes',  description: 'Información directa para tu vida en redes.',     audience: 'teens',    illoScene: 'connect', ageRange: '12 a 17 años',               imageUrl: '/assets/img/category-adolescentes.svg',  accentClass: 'from-violet-400/0 via-violet-500/20 to-violet-600/40', sortOrder: 2 },
-    { slug: 'familias',      name: 'Familias',      description: 'Conversaciones y acuerdos que sí ayudan.',       audience: 'families', illoScene: 'connect', ageRange: 'Todas las edades',           imageUrl: '/assets/img/category-familias.svg',      accentClass: 'from-orange-400/0 via-orange-500/20 to-orange-600/40', sortOrder: 3 },
-    { slug: 'docentes',      name: 'Docentes',      description: 'Recursos listos para llevar al aula.',           audience: 'teachers', illoScene: 'study',   ageRange: 'Preescolar a preparatoria',  imageUrl: '/assets/img/category-docentes.svg',      accentClass: 'from-emerald-400/0 via-emerald-500/20 to-emerald-600/40', sortOrder: 4 },
+    { slug: 'ninas-y-ninos', name: 'Niñas y niños', description: 'Jugar, descubrir y cuidarse en línea con calma.', audience: 'kids',     illoScene: 'play',    ageRange: '5 a 11 años',                imageUrl: '/Categorias/CIUDADANIA_NinasYNinos.png', accentClass: 'from-teal-400/0 via-teal-500/20 to-teal-600/40',    sortOrder: 1 },
+    { slug: 'adolescentes',  name: 'Adolescentes',  description: 'Información directa para tu vida en redes.',     audience: 'teens',    illoScene: 'connect', ageRange: '12 a 17 años',               imageUrl: '/Categorias/CIUDADANIA_Adolescentes.png',  accentClass: 'from-violet-400/0 via-violet-500/20 to-violet-600/40', sortOrder: 2 },
+    { slug: 'familias',      name: 'Familias',      description: 'Conversaciones y acuerdos que sí ayudan.',       audience: 'families', illoScene: 'connect', ageRange: 'Todas las edades',           imageUrl: '/Categorias/CIUDADANIA_Familia.png',      accentClass: 'from-orange-400/0 via-orange-500/20 to-orange-600/40', sortOrder: 3 },
+    { slug: 'docentes',      name: 'Docentes',      description: 'Recursos listos para llevar al aula.',           audience: 'teachers', illoScene: 'study',   ageRange: 'Preescolar a preparatoria',  imageUrl: '/Categorias/CIUDADANIA_Maestros.png',      accentClass: 'from-emerald-400/0 via-emerald-500/20 to-emerald-600/40', sortOrder: 4 },
   ] as const;
   for (const a of audiences) {
     await prisma.audience.upsert({ where: { slug: a.slug }, create: a, update: a });
