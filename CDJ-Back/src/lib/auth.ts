@@ -26,11 +26,17 @@ export interface SessionPayload {
  */
 export function verifySession(request: NextRequest | Request): SessionPayload | null {
   try {
-    const cookieHeader = request.headers.get('cookie') ?? '';
-    const cookie = parseCookie(cookieHeader, SESSION_COOKIE);
-    if (!cookie) return null;
+    let token = '';
+    const authHeader = request.headers.get('authorization') ?? '';
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else {
+      const cookieHeader = request.headers.get('cookie') ?? '';
+      token = parseCookie(cookieHeader, SESSION_COOKIE) ?? '';
+    }
+    if (!token) return null;
 
-    const payload = verifyToken(cookie, JWT_SECRET) as unknown as SessionPayload;
+    const payload = verifyToken(token, JWT_SECRET) as unknown as SessionPayload;
     if (!payload) return null;
 
     const now = Math.floor(Date.now() / 1000);

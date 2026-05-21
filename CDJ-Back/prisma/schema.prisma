@@ -206,21 +206,49 @@ model AudienceTopic {
   sortOrder     Int      @default(0)
 }
 
+// === Destinos válidos de tarjetas destacadas ================================
+//
+// Solo se puede enlazar a rutas existentes en la app.
+// Agrega aquí cuando se creen nuevas secciones.
+//
+enum CardDestination {
+  series          // /series
+  series_edutips  // /series/edutips
+  series_casi     // /series/el-dia-que-casi
+  series_familias // /series/familias
+  series_kids     // /series/kids
+  series_teens    // /series/teens
+  cursos          // /cursos
+  juegos          // /juegos
+  recursos        // /recursos
+  ayuda           // /ayuda
+  edutips         // /edutips
+  notebooks_ia    // /notebooks-ia
+  ninas_y_ninos   // /audiencia/ninas-y-ninos
+  adolescentes    // /audiencia/adolescentes
+  familias        // /audiencia/familias
+  docentes        // /audiencia/docentes
+  quienes_somos   // /quienes-somos
+  inicio          // /
+}
+
 // === Cards y banners ========================================================
 
 model FeatureCard {
-  id              String      @id
+  id              String          @id @default(cuid())
   title           String
   description     String
-  icon            String
-  iconBgClass     String
-  iconShadowClass String
-  imageUrl        String
-  href            String
-  audience        AudienceKey
+  icon            String          @default("play_arrow")
+  iconBgClass     String          @default("bg-amber-600")
+  iconShadowClass String          @default("shadow-amber-200")
+  imageUrl        String          @default("")
+  destination     CardDestination @default(series)
+  audience        AudienceKey     @default(cdj)
   illoScene       IlloScene?
   badge           String?
-  sortOrder       Int         @default(0)
+  sortOrder       Int             @default(0)
+  sections        String[]        @default([])
+  updatedAt       DateTime        @updatedAt
 }
 
 model Banner {

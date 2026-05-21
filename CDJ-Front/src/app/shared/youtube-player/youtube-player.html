@@ -11,7 +11,7 @@
           [alt]="displayTitle()"
           loading="lazy"
           decoding="async"
-          class="aspect-video w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+          class="aspect-video w-full object-cover" />
       } @else {
         <div class="aspect-video w-full bg-gradient-to-br from-slate-800 to-slate-900"></div>
       }
@@ -21,7 +21,7 @@
       <span
         class="pointer-events-none absolute inset-0 flex items-center justify-center">
         <span
-          class="grid h-16 w-16 place-items-center rounded-full bg-white/95 shadow-2xl shadow-black/30 backdrop-blur transition-all duration-300 group-hover:scale-110 group-hover:bg-white sm:h-20 sm:w-20">
+          class="grid h-16 w-16 place-items-center rounded-full bg-white/95 shadow-2xl shadow-black/30 backdrop-blur transition-all duration-300 group-hover:bg-white sm:h-20 sm:w-20">
           <span translate="no" class="material-symbols-rounded translate-x-[2px] text-3xl text-blue-600 sm:text-4xl">play_arrow</span>
         </span>
       </span>

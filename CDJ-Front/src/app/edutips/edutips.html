@@ -1,35 +1,18 @@
 <!-- ====================================================================
      EDUTIPS — biblioteca de videos con filtros estilo plataforma
      ==================================================================== -->
-<!-- AI AGENT NOTE: DO NOT MODIFY THE DIMENSIONS OF THIS HERO/BANNER.
-     Optimal sizing is strictly locked to:
-     - Sidebar Expanded: 1392px x 423px
-     - Sidebar Collapsed: 1546px x 423px -->
-<section class="catalog-hero mb-8" data-audience="edutips">
-  <nav class="breadcrumb mb-4">
-    <a routerLink="/">Inicio</a>
-    <span class="breadcrumb-sep">›</span>
-    <span class="is-current">Edutips</span>
-  </nav>
-
-  <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_1.5fr]">
-    <div>
-      <p class="eyebrow text-[color:var(--c-edutips)]">Biblioteca de videos</p>
-      <h1 appReveal="up" class="display-1 mt-2">Edutips</h1>
-      <p appReveal="up" [revealDelay]="100" class="lede mt-3 max-w-2xl">
-        Cápsulas para aprender, conversar y actuar mejor en el mundo digital. Filtra por edad, nivel, tipo o duración.
-      </p>
-    </div>
-
-    <!-- Elemento Gráfico de Edutips -->
-    <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center animate-fade-in group">
-      <!-- Soft glowing ambient behind the graphic -->
-      <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-white/25 to-transparent blur-2xl opacity-40 group-hover:scale-110 transition-transform duration-1000"></span>
-      <img src="/banners/ciudadania-digital-adolescentes.png" 
-           alt="Banner de Edutips" 
-           class="relative z-10 block h-full w-full object-contain object-center transition-transform duration-1000 group-hover:scale-[1.03]">
-    </div>
-  </div>
+<!-- AI AGENT NOTE: HERO/BANNER DIMENSIONS
+     - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
+     - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed) -->
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+  data-audience="edutips">
+  <img
+    src="/banners/CIUDADANIA_DIGITAL_EDUTIPS.png"
+    alt="Ciudadanía Digital Jalisco Edutips Banner"
+    class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
 
 <!-- FILTROS — barra desplegable limpia y compacta -->
@@ -123,9 +106,9 @@
       <article *ngFor="let v of filteredVideos(); let i = index"
                appReveal="up" [revealDelay]="i * 60"
                data-audience="edutips"
-               class="card card-hover group flex flex-col overflow-hidden">
+               class="card card-video-hover group flex flex-col overflow-hidden">
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
-          <img [src]="getYoutubeThumb(v.youtubeUrl)" [alt]="v.title" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <img [src]="getYoutubeThumb(v.youtubeUrl)" [alt]="v.title" class="h-full w-full object-cover">
           <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
             <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--c-edutips)] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
               <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
@@ -198,19 +181,9 @@
   </div>
 </section>
 
-<!-- VENTANA EMERGENTE DE VIDEO (MODAL) -->
+<!-- VENTANA EMERGENTE DE VIDEO -->
 @if (activeVideo(); as active) {
-  <div class="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-fade-in" (click)="activeVideo.set(null)">
-    <div class="relative w-full max-w-4xl rounded-2xl bg-[color:var(--surface-inverse)] overflow-hidden shadow-2xl border border-white/20" (click)="$event.stopPropagation()">
-      <div class="flex items-center justify-between bg-black/40 px-4 py-3 text-white border-b border-white/10">
-        <h3 class="text-sm font-bold tracking-tight truncate pr-4">{{ active.title }}</h3>
-        <button type="button" (click)="activeVideo.set(null)" class="grid h-8 w-8 place-items-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
-          <span translate="no" class="material-symbols-rounded text-base">close</span>
-        </button>
-      </div>
-      <div class="aspect-[16/9] w-full">
-        <app-youtube-player [url]="active.youtubeUrl" [title]="active.title" quality="hq" class="block w-full h-full"></app-youtube-player>
-      </div>
-    </div>
-  </div>
+  <app-video-modal
+    [video]="{ youtubeUrl: active.youtubeUrl, title: active.title, description: active.description, durationLabel: active.durationLabel, tags: active.tags, seriesTitle: 'Edutips' }"
+    (close)="activeVideo.set(null)" />
 }

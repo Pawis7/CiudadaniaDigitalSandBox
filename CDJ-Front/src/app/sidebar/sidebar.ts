@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { ContentService } from '../core/services/content.service';
 import { CdjLogoComponent } from '../shared/cdj-logo/cdj-logo';
+import { ImageEditService } from '../core/services/image-edit.service';
 
 interface SidebarItem {
   id: string;
@@ -40,11 +41,18 @@ export class SidebarComponent {
   private auth = inject(AuthService);
   isAuthenticated = this.auth.isLogged;
 
+  private imgEdit = inject(ImageEditService);
+  editMode = this.imgEdit.isEditActive;   // ← siempre auth-gated
+
   private content = inject(ContentService);
   branding = this.content.branding;
 
   collapsed = signal<boolean>(this.readCollapsed());
   openedAudience = signal<string | null>(null);
+
+  toggleEdit() {
+    this.imgEdit.toggleEdit();
+  }
 
   constructor() {
     effect(() => {

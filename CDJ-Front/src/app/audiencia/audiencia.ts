@@ -9,6 +9,8 @@ import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive
 import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
 import { AudienceSlug } from '../core/models/content.models';
+import { FeatureCardComponent } from '../shared/feature-card/feature-card';
+import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 
 const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
   'ninas-y-ninos': 'kids',
@@ -153,28 +155,30 @@ const LEVEL_RESOURCES: LevelResource[] = [
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })
 export class AudienciaComponent {
-  private route = inject(ActivatedRoute);
+  private route   = inject(ActivatedRoute);
   private content = inject(ContentService);
 
-  private slug = toSignal(
+  slug = toSignal(
     this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')),
     { initialValue: '' },
   );
 
-  page = computed(() => AUDIENCE_PAGES.find((a) => a.slug === this.slug()));
+  page          = computed(() => AUDIENCE_PAGES.find((a) => a.slug === this.slug()));
   audienceTheme = computed<AudienceSlug>(() => SLUG_TO_AUDIENCE[this.slug()] ?? 'cdj');
 
-  recommendedSeries = computed(() => {
-    const p = this.page();
-    if (!p) return [];
-    return this.content
-      .videoSeries()
-      .filter((s) => p.recommendedSeriesSlugs.includes(s.slug));
+  /** Tarjetas destacadas seleccionadas por el administrador desde base de datos */
+  recommendedCards = computed(() => {
+    const aud = this.audienceTheme();
+    if (aud === 'kids') return this.content.kidsFeatureCards();
+    if (aud === 'teens') return this.content.teensFeatureCards();
+    if (aud === 'families') return this.content.familiesFeatureCards();
+    if (aud === 'teachers') return this.content.teachersFeatureCards();
+    return [];
   });
 
   isTeenAudience = computed(() => this.slug() === 'adolescentes');
@@ -241,3 +245,4 @@ export class AudienciaComponent {
     }
   }
 }
+

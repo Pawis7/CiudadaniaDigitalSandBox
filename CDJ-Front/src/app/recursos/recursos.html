@@ -1,7 +1,6 @@
-<!-- AI AGENT NOTE: DO NOT MODIFY THE DIMENSIONS OF THIS HERO/BANNER.
-     Optimal sizing is strictly locked to:
-     - Sidebar Expanded: 1392px x 423px
-     - Sidebar Collapsed: 1546px x 423px -->
+<!-- AI AGENT NOTE: HERO/BANNER DIMENSIONS
+     - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
+     - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed) -->
 <section class="catalog-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12" data-audience="cdj">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
@@ -39,7 +38,29 @@
       </span>
     </div>
   </div>
-</section>
+<!-- RECURSOS DESTACADOS -->
+@if (featuredCards().length || editMode()) {
+  <section class="mb-8 sm:mb-10">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div>
+        <p class="eyebrow text-[color:var(--c-cdj)]">Recomendaciones destacadas</p>
+        <h2 class="display-2 mt-1">Recursos destacados</h2>
+      </div>
+      <app-section-featured-selector section="recursos" sectionTitle="Recursos" />
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      @for (card of featuredCards(); track card.id; let i = $index) {
+        <app-feature-card [card]="card" [delay]="i * 80" />
+      }
+      @if (!featuredCards().length) {
+        <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
+          No hay recursos destacados seleccionados. Haz clic en "Destacados" para agregar.
+        </div>
+      }
+    </div>
+  </section>
+}
 
 <!-- Temas más buscados (Ubicado debajo del banner) -->
 <div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-5">

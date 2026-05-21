@@ -34,7 +34,7 @@ export class App implements AfterViewInit {
   branding = this.content.branding;
   socialLinks = this.content.socialLinks;
   footerColumns = this.content.footerColumns;
-  editMode = this.imgEdit.editMode;
+  editMode = this.imgEdit.isEditActive;   // computed: editMode && isLogged
   hasOverrides = computed(() => Object.keys(this.imgEdit.overrides()).length > 0);
 
   drawerOpen = signal(false);
@@ -73,8 +73,8 @@ export class App implements AfterViewInit {
         this.searchOpen.set(false);
       });
 
-    // Verificar sesión al arrancar (restaura estado si hay cookie válida)
-    this.auth.checkSession();
+    // Verificar sesión al arrancar; después restaurar editMode si había sesión activa
+    this.auth.checkSession().then(() => this.imgEdit.restoreEditMode());
 
     // Activar/desactivar modo admin con ?admin=1 / ?admin=0 en la URL
     this.route.queryParamMap.pipe(take(1)).subscribe((params) => {

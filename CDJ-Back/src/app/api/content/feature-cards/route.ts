@@ -1,50 +1,64 @@
 /**
- * GET  /api/content/feature-cards            — lista feature cards del home
- * PUT  /api/content/feature-cards            — actualiza una (admin)
- *      body: { id, title?, description?, ... }
+ * GET    /api/content/feature-cards            — lista todas las feature cards
+ * POST   /api/content/feature-cards            — crea una nueva (admin)
+ * GET    /api/content/feature-cards/destinations — opciones válidas de destino
  */
 import { NextRequest } from 'next/server';
-import { ok, badRequest, notFound, serverError } from '@/lib/responses';
+import { ok, badRequest, serverError } from '@/lib/responses';
 import { isAdmin, unauthorized } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { CARD_DESTINATIONS, resolveDestination } from '@/lib/card-destinations';
 
 export const dynamic = 'force-dynamic';
+
+/** Enriquece la card de BD añadiendo el href resuelto y las opciones de UI. */
+function enrichCard(card: Awaited<ReturnType<typeof prisma.featureCard.findFirstOrThrow>>) {
+  return {
+    ...card,
+    href: resolveDestination(card.destination),
+  };
+}
 
 export async function GET() {
   try {
     const cards = await prisma.featureCard.findMany({ orderBy: { sortOrder: 'asc' } });
-    return ok(cards);
+    return ok(cards.map(enrichCard));
   } catch (err) {
     return serverError(err);
   }
 }
 
-export async function PUT(req: NextRequest) {
+export async function POST(req: NextRequest) {
   if (!isAdmin(req)) return unauthorized();
   try {
     const body = await req.json();
-    if (!body?.id) return badRequest('Falta el campo "id".');
-    const updated = await prisma.featureCard.update({
-      where: { id: body.id },
+
+    // Validar destination (debe ser una clave conocida)
+    if (!body?.destination || !CARD_DESTINATIONS[body.destination]) {
+      return badRequest(`Destino inválido. Opciones válidas: ${Object.keys(CARD_DESTINATIONS).join(', ')}`);
+    }
+    if (!body?.title?.trim()) return badRequest('El título es obligatorio.');
+
+    const maxOrder = await prisma.featureCard.aggregate({ _max: { sortOrder: true } });
+    const nextOrder = (maxOrder._max.sortOrder ?? 0) + 1;
+
+    const card = await prisma.featureCard.create({
       data: {
-        title: body.title,
-        description: body.description,
-        icon: body.icon,
-        iconBgClass: body.iconBgClass,
-        iconShadowClass: body.iconShadowClass,
-        imageUrl: body.imageUrl,
-        href: body.href,
-        audience: body.audience,
-        illoScene: body.illoScene,
-        badge: body.badge,
-        sortOrder: body.sortOrder,
+        title:       body.title.trim(),
+        description: body.description?.trim() ?? '',
+        imageUrl:    body.imageUrl?.trim() ?? '',
+        destination: body.destination,
+        audience:    body.audience ?? 'cdj',
+        illoScene:   body.illoScene ?? null,
+        badge:       body.badge?.trim() ?? null,
+        icon:        body.icon ?? 'play_arrow',
+        iconBgClass: body.iconBgClass ?? 'bg-amber-600',
+        iconShadowClass: body.iconShadowClass ?? 'shadow-amber-200',
+        sortOrder:   nextOrder,
       },
     });
-    return ok(updated);
-  } catch (err: unknown) {
-    if (err && typeof err === 'object' && 'code' in err && err.code === 'P2025') {
-      return notFound('Feature card no encontrada.');
-    }
+    return ok(enrichCard(card), 201);
+  } catch (err) {
     return serverError(err);
   }
 }

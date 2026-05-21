@@ -1,38 +1,77 @@
-import { Injectable, signal, effect, inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, signal, effect, inject, PLATFORM_ID, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './auth.service';
+import { ApiClient } from './api.client';
 
-const STORAGE_KEY = 'cdj_image_overrides_v1';
+const STORAGE_KEY   = 'cdj_image_overrides_v1';
 const EDIT_MODE_KEY = 'cdj_edit_mode_v1';
 
 /**
- * Persistencia local de imágenes "modificadas" desde la UI.
- * El usuario presiona "Modificar" → se guarda un dataURL en localStorage
- * bajo el id del slot. Al renderizar, el componente prefiere el override
- * a la URL original. Útil para previsualizar cómo quedaría el sitio
- * sin tocar código ni backend.
+ * Gestiona el modo de edición y los overrides locales de imágenes.
+ *
+ * REGLA DE SEGURIDAD:
+ *   `editMode` es la señal interna (puede ser true/false).
+ *   `isEditActive` es el computed que deben usar los componentes:
+ *     = editMode() && auth.isLogged()
+ *   Si el usuario cierra sesión → isEditActive cae a false automáticamente.
+ *   `toggleEdit()` es un no-op si el usuario no está logueado.
  */
 @Injectable({ providedIn: 'root' })
 export class ImageEditService {
   private platformId = inject(PLATFORM_ID);
-  private isBrowser = isPlatformBrowser(this.platformId);
+  private isBrowser  = isPlatformBrowser(this.platformId);
+  private auth       = inject(AuthService);
+  private api        = inject(ApiClient);
 
-  readonly editMode = signal<boolean>(this.readEditMode());
+  /** Estado interno del lápiz. No usar directamente en templates. */
+  readonly editMode  = signal<boolean>(false);
+
+  /** ← Usar ESTE en templates y componentes: garantiza auth + lápiz */
+  readonly isEditActive = computed(() => this.editMode() && this.auth.isLogged());
+
   readonly overrides = signal<Record<string, string>>(this.readOverrides());
 
   constructor() {
     if (!this.isBrowser) return;
-    effect(() => {
-      const v = this.editMode();
-      try { localStorage.setItem(EDIT_MODE_KEY, v ? '1' : '0'); } catch {}
-    });
+
+    // Persistir overrides
     effect(() => {
       const v = this.overrides();
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(v)); } catch {}
     });
+
+    // Auth guard reactivo:
+    // - Si se desloguea con el lápiz activo → editMode = false
+    // - Si se loguea y tenía el lápiz activo antes → restaurar
+    effect(() => {
+      const logged = this.auth.isLogged();
+      if (!logged) {
+        this.editMode.set(false);
+        try { localStorage.setItem(EDIT_MODE_KEY, '0'); } catch {}
+      }
+    });
   }
 
+  /**
+   * Activa/desactiva el lápiz. No-op si el usuario no está logueado.
+   */
   toggleEdit() {
-    this.editMode.update((v) => !v);
+    if (!this.auth.isLogged()) {
+      this.editMode.set(false);
+      return;
+    }
+    this.editMode.update((v) => {
+      const next = !v;
+      try { localStorage.setItem(EDIT_MODE_KEY, next ? '1' : '0'); } catch {}
+      return next;
+    });
+  }
+
+  /** Restaura el lápiz desde localStorage. Llamar solo después de checkSession(). */
+  restoreEditMode() {
+    if (!this.isBrowser || !this.auth.isLogged()) return;
+    const saved = this.readEditMode();
+    if (saved) this.editMode.set(true);
   }
 
   setOverride(id: string, dataUrl: string) {
@@ -46,25 +85,41 @@ export class ImageEditService {
     });
   }
 
-  clearAll() {
-    this.overrides.set({});
+  async uploadImage(id: string, file: File): Promise<void> {
+    const form = new FormData();
+    form.append('file', file);
+    try {
+      const res = await this.api.putMultipart<any>(`/images/${id}`, form);
+      const url = res.data?.url ?? res.url;
+      if (url) {
+        this.setOverride(id, url);
+      }
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      throw err;
+    }
   }
+
+  async deleteOverride(id: string): Promise<void> {
+    try {
+      await this.api.del(`/images/${id}`);
+      this.clearOverride(id);
+    } catch (err) {
+      console.error('Error deleting image override:', err);
+      throw err;
+    }
+  }
+
+  clearAll() { this.overrides.set({}); }
 
   getOverride(id: string): string | undefined {
     return this.overrides()[id];
   }
 
-  /**
-   * Merge no-destructivo de overrides que vienen del backend.
-   * Si el usuario tiene un override local (dataURL en localStorage), gana
-   * — para que pueda previsualizar cambios sin tocar el server. Cuando
-   * confirme la subida, el backend devuelve la URL real y la guardamos.
-   */
   mergeBackendOverrides(serverMap: Record<string, string>) {
     if (!serverMap || typeof serverMap !== 'object') return;
     this.overrides.update((current) => {
       const merged: Record<string, string> = { ...serverMap };
-      // Preferir overrides locales (dataURL del editor) sobre los del server
       for (const [id, val] of Object.entries(current)) {
         if (val?.startsWith('data:')) merged[id] = val;
       }
@@ -77,17 +132,11 @@ export class ImageEditService {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       return raw ? JSON.parse(raw) : {};
-    } catch {
-      return {};
-    }
+    } catch { return {}; }
   }
 
   private readEditMode(): boolean {
     if (!this.isBrowser) return false;
-    try {
-      return localStorage.getItem(EDIT_MODE_KEY) === '1';
-    } catch {
-      return false;
-    }
+    try { return localStorage.getItem(EDIT_MODE_KEY) === '1'; } catch { return false; }
   }
 }

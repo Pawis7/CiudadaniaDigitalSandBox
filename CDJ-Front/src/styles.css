@@ -329,15 +329,52 @@ button:hover .icon-interactive,
 }
 
 .card-hover {
+  cursor: pointer;
   transition:
-    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 280ms ease;
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 220ms ease,
+    opacity 220ms ease;
 }
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 30%, var(--border));
+
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-6px) scale(1.04) !important;
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 40%, var(--border));
+    z-index: 10;
+    opacity: 1 !important;
+  }
+
+  /* Sibling focus effect: When a card in a grid is hovered, dim and shrink its siblings */
+  .grid:has(.card-hover:hover) .card-hover {
+    opacity: 0.7 !important;
+    transform: scale(0.96) !important;
+  }
+  .grid:has(.card-hover:hover) .card-hover:hover {
+    opacity: 1 !important;
+    transform: translateY(-6px) scale(1.04) !important;
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 40%, var(--border));
+    z-index: 10;
+  }
+}
+
+.card-video-hover {
+  cursor: pointer;
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 220ms ease;
+}
+
+@media (hover: hover) {
+  .card-video-hover:hover {
+    transform: translateY(-4px) scale(1.025) !important;
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 30%, var(--border));
+    z-index: 10;
+  }
 }
 
 /* === Course card — la unidad central de la plataforma === */
@@ -354,10 +391,12 @@ button:hover .icon-interactive,
     box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
     border-color 260ms ease;
 }
-.course-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-  border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 35%, var(--border));
+@media (hover: hover) {
+  .course-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: var(--shadow-lg);
+    border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 35%, var(--border));
+  }
 }
 .course-card .course-thumb {
   position: relative;
@@ -651,18 +690,16 @@ button:hover .icon-interactive,
 }
 
 /* ========================================================================
-   GLOBAL HERO BANNER DIMENSIONS (1392 x 423 / 1546 x 423 collapsed)
-   AI AGENT NOTE: DO NOT CHANGE THESE DIMENSIONS.
-   The optimal design requires strict dimensions:
-   - Sidebar Expanded: 1392px width
-   - Sidebar Collapsed: 1546px width
+   GLOBAL HERO BANNER DIMENSIONS
+   - Base design deliverable: 1392 x 423 / 1546 x 423 (collapsed)
+   - Large screen / 1080p scale: 1604 x 423 / 1788 x 423 (collapsed)
+     (CSS scales the base image using object-cover to fit larger viewports)
    - Desktop Height (>= 1024px): Exactly 423px height.
-   These dimensions are locked to prevent visual inconsistency.
    ======================================================================== */
 .main-hero,
 .hero-aud,
 .catalog-hero {
-  max-width: 1392px !important;
+  max-width: 1604px !important;
   width: 100% !important;
   margin-left: auto !important;
   margin-right: auto !important;
@@ -680,19 +717,27 @@ button:hover .icon-interactive,
 }
 
 .main-hero img {
-  object-position: 20% 50% !important;
-  transition: object-position 240ms cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: object-position;
+  object-position: center !important;
 }
 
-body.sidebar-collapsed .main-hero img {
-  object-position: 50% 50% !important;
+@media (min-width: 1700px) {
+  .main-hero img {
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 1788px !important;
+    min-width: 1788px !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
 }
 
 body.sidebar-collapsed .main-hero,
 body.sidebar-collapsed .hero-aud,
 body.sidebar-collapsed .catalog-hero {
-  max-width: 1546px !important;
+  max-width: 1788px !important;
 }
 
 @media (min-width: 768px) {
@@ -1067,4 +1112,10 @@ body.sidebar-collapsed .catalog-hero {
   }
   .card-hover, .course-card { transition: none !important; }
   html { scroll-behavior: auto; }
+}
+
+/* utility to lock scroll */
+.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
 }

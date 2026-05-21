@@ -53,17 +53,21 @@ export interface Pillar {
 }
 
 export interface FeatureCard {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  iconBgClass: string;
+  id:              string;
+  title:           string;
+  description:     string;
+  icon:            string;
+  iconBgClass:     string;
   iconShadowClass: string;
-  imageUrl: string;
-  href: string;
-  audience: AudienceSlug;
-  illoScene?: 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
-  badge?: string;
+  imageUrl:        string;
+  /** Clave del enum CardDestination — se resuelve a href por resolveDestination() */
+  destination?:    string;
+  /** href resuelto (lo añade el backend o ContentService al hidratar) */
+  href:            string;
+  audience:        AudienceSlug;
+  illoScene?:      'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
+  badge?:          string;
+  sections?:       string[];
 }
 
 export interface VideoItem {

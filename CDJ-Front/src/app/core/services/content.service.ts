@@ -1,4 +1,5 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { ContentEditService } from './content-edit.service';
 import {
   Banner,
   Category,
@@ -42,16 +43,132 @@ export class ContentService {
   private api = inject(ApiClient);
   private imgEdit = inject(ImageEditService);
 
+  private contentEdit = inject(ContentEditService);
+
   readonly branding = signal<SiteBranding>(BRANDING);
   readonly hero = signal<Hero>(HERO);
-  readonly categories = signal<Category[]>(CATEGORIES);
-  readonly featureCards = signal<FeatureCard[]>(FEATURE_CARDS);
+  private _categoriesRaw = signal<Category[]>(CATEGORIES);
+
+  /**
+   * Categorías con parches locales aplicados.
+   */
+  readonly categories = computed(() => {
+    const raw = this._categoriesRaw();
+    const patches = this.contentEdit.seriesPatches();
+    return raw.map((cat) => {
+      const p = patches[cat.id];
+      return p
+        ? {
+            ...cat,
+            name:        p.title ?? cat.name,
+            description: p.description ?? cat.description,
+            imageUrl:    p.coverImageUrl ?? cat.imageUrl,
+          }
+        : cat;
+    });
+  });
+
   readonly pillars = signal<Pillar[]>(PILLARS);
   readonly secondaryBanner = signal<Banner>(SECONDARY_BANNER);
-  readonly videoSeries = signal<VideoSeries[]>(VIDEO_SERIES);
   readonly navSections = signal<NavSection[]>(NAV_SECTIONS);
   readonly socialLinks = signal<SocialLink[]>(SOCIAL_LINKS);
   readonly footerColumns = signal<FooterColumn[]>(FOOTER_COLUMNS);
+
+  /**
+   * Datos crudos: base estática o payload del backend.
+   * Solo se usan dentro del computed — nunca los consumen los componentes directamente.
+   */
+  private _featureCardsRaw = signal<FeatureCard[]>(FEATURE_CARDS);
+  private _videoSeriesRaw  = signal<VideoSeries[]>(VIDEO_SERIES);
+
+  /**
+   * VideoSeries con parches locales aplicados.
+   * Es la ÚNICA fuente de verdad para título, descripción e imagen de cualquier
+   * contenido que también se muestra como FeatureCard.
+   */
+  readonly videoSeries = computed(() =>
+    this.contentEdit.applySeriesPatches(this._videoSeriesRaw())
+  );
+
+  /**
+   * FeatureCards derivadas automáticamente.
+   *
+   * Regla: si una FeatureCard tiene el mismo ID que una VideoSeries, HEREDA
+   * título, descripción e imagen de esa serie — nunca duplica la data.
+   * FEATURE_CARDS solo aporta config de display: badge, href, icon, iconBgClass.
+   *
+   * → Editar "Edutips" en el catálogo de series actualiza su Feature Card
+   *   en inicio, audiencias y cualquier otro lugar automáticamente.
+   * → Las cards sin serie (ej. "ayuda") siguen usando su propia data.
+   */
+  readonly featureCards = computed((): FeatureCard[] => {
+    const rawCards = this._featureCardsRaw();
+    // videoSeries ya tiene los parches de series aplicados
+    const seriesMap = new Map(this.videoSeries().map((s) => [s.id, s]));
+    // Parches de card para campos exclusivos de FeatureCard (badge, href)
+    const cardPatches = this.contentEdit.cardPatches();
+
+    return rawCards.map((card) => {
+      const serie = seriesMap.get(card.id);
+      const base: FeatureCard = serie
+        ? {
+            ...card,
+            // Hereda los campos de contenido de la serie (fuente de verdad)
+            title:       serie.title,
+            description: serie.description,
+            imageUrl:    serie.coverImageUrl,
+            icon:        serie.icon,
+            iconBgClass: serie.iconBgClass,
+          }
+        : card; // Card standalone (ayuda): usa su propia data
+
+      // Parches de card solo para campos que no existen en VideoSeries (badge, href)
+      const cp = cardPatches[card.id];
+      return cp ? { ...base, ...cp } : base;
+    });
+  });
+
+  readonly homeFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('inicio')).slice(0, 3)
+  );
+
+  readonly kidsFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('kids')).slice(0, 3)
+  );
+
+  readonly teensFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('teens')).slice(0, 3)
+  );
+
+  readonly familiesFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('families')).slice(0, 3)
+  );
+
+  readonly teachersFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('teachers')).slice(0, 3)
+  );
+
+  readonly seriesFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('series')).slice(0, 3)
+  );
+
+  readonly recursosFeatureCards = computed(() =>
+    this.featureCards().filter((c) => c.sections?.includes('recursos')).slice(0, 3)
+  );
+
+  /**
+   * Actualiza la lista de FeatureCards seleccionadas para una sección.
+   * Máximo 3 cards por sección.
+   */
+  async updateSectionFeaturedCards(section: string, cardIds: string[]): Promise<void> {
+    try {
+      await this.api.patch(`/content/sections/${section}`, { cardIds });
+      await this.refreshFromBackend();
+    } catch (err) {
+      console.error(`Error al actualizar destacados de la sección ${section}:`, err);
+      throw err;
+    }
+  }
 
   readonly loading = signal(false);
   readonly source = signal<'static' | 'backend'>('static');
@@ -64,6 +181,67 @@ export class ContentService {
 
   getSeriesBySlug(slug: string): VideoSeries | undefined {
     return this.videoSeries().find((s) => s.slug === slug);
+  }
+
+  /**
+   * Convierte una VideoSeries al shape FeatureCard para poder usar
+   * <app-feature-card> en cualquier página (audiencia, series-list, series-detail).
+   * Usar el array ya reactivo (videoSeries()) garantiza que los parches
+   * de ContentEditService ya están aplicados.
+   */
+  seriesAsCard(serie: VideoSeries): FeatureCard {
+    return {
+      id:             serie.id,
+      title:          serie.title,
+      description:    serie.description,
+      icon:           serie.icon,
+      iconBgClass:    serie.iconBgClass,
+      iconShadowClass: '',
+      imageUrl:       serie.coverImageUrl,
+      href:           serie.slug === 'edutips' ? '/edutips' : `/series/${serie.slug}`,
+      audience:       serie.audience,
+      illoScene:      serie.illoScene,
+      badge:          `${serie.episodeCount} episodios`,
+    };
+  }
+
+  /**
+   * Convierte una Category al shape FeatureCard para poder usar
+   * <app-feature-card> en la página de inicio u otras listas.
+   */
+  categoryAsCard(cat: Category): FeatureCard {
+    const iconMap: Record<string, string> = {
+      kids: 'face',
+      teens: 'smartphone',
+      families: 'groups',
+      teachers: 'school',
+    };
+    const bgMap: Record<string, string> = {
+      kids: 'bg-teal-600',
+      teens: 'bg-violet-600',
+      families: 'bg-orange-600',
+      teachers: 'bg-emerald-600',
+    };
+    const destMap: Record<string, string> = {
+      kids: 'ninas_y_ninos',
+      teens: 'adolescentes',
+      families: 'familias',
+      teachers: 'docentes',
+    };
+    return {
+      id:             cat.id,
+      title:          cat.name,
+      description:    cat.description ?? '',
+      icon:           iconMap[cat.audience] ?? 'person',
+      iconBgClass:    bgMap[cat.audience] ?? 'bg-slate-600',
+      iconShadowClass: '',
+      imageUrl:       cat.imageUrl,
+      destination:    destMap[cat.audience] ?? 'inicio',
+      href:           `/p/${cat.slug}`,
+      audience:       cat.audience,
+      illoScene:      cat.illoScene,
+      badge:          cat.ageRange,
+    };
   }
 
   /**
@@ -85,6 +263,69 @@ export class ContentService {
       console.info('[ContentService] backend no disponible, usando data estática.', msg);
     } finally {
       this.loading.set(false);
+    }
+  }
+
+  /**
+   * Guarda los cambios de una card en la base de datos (admin).
+   * Determina automáticamente qué tabla(s) del backend actualizar según el ID de la card.
+   */
+  async saveCardToDatabase(
+    cardId: string,
+    patch: { title?: string; description?: string; imageUrl?: string; destination?: string }
+  ): Promise<void> {
+    const changes: { title?: string; description?: string; imageUrl?: string; destination?: string } = {};
+    if (patch.title !== undefined) changes.title = patch.title;
+    if (patch.description !== undefined) changes.description = patch.description;
+    if (patch.imageUrl !== undefined) changes.imageUrl = patch.imageUrl;
+    if (patch.destination !== undefined) changes.destination = patch.destination;
+
+    if (Object.keys(changes).length === 0) return;
+
+    // 1. Identificar si es una categoría de audiencia (kids, teens, families, teachers)
+    const category = this._categoriesRaw().find((c) => c.id === cardId);
+    const isAudience = !!category;
+
+    // 2. Identificar si es una serie (edutips, casi, familias)
+    const isSeries = this.videoSeries().some((s) => s.id === cardId);
+
+    // 3. Identificar si es una feature card real en BD (edutips, casi, ayuda)
+    const isDbFeatureCard = this._featureCardsRaw().some((f) => f.id === cardId);
+
+    try {
+      // Si es audiencia, actualiza tabla Audience
+      if (isAudience && category) {
+        const slug = category.slug;
+        await this.api.patch(`/content/audiences/${slug}`, {
+          title: changes.title,
+          description: changes.description,
+          imageUrl: changes.imageUrl
+        });
+      }
+
+      // Si es serie, actualiza tabla VideoSeries
+      if (isSeries) {
+        await this.api.patch(`/content/series/${cardId}`, {
+          title: changes.title,
+          description: changes.description,
+          imageUrl: changes.imageUrl
+        });
+      }
+
+      // Si es una feature card real, actualiza tabla FeatureCard
+      if (isDbFeatureCard) {
+        await this.api.patch(`/content/feature-cards/${cardId}`, changes);
+      }
+
+      // Limpiar los parches locales de localStorage una vez guardado en base de datos
+      this.contentEdit.confirmSeriesPatch(cardId);
+      this.contentEdit.confirmCardPatch(cardId);
+
+      // Refrescar datos desde el backend para pintar lo que guardamos
+      await this.refreshFromBackend();
+    } catch (err) {
+      console.error('Error al guardar en base de datos:', err);
+      throw err;
     }
   }
 
@@ -128,7 +369,7 @@ export class ContentService {
     }
 
     if (b.categories?.length) {
-      this.categories.set(b.categories.map((c) => ({
+      this._categoriesRaw.set(b.categories.map((c) => ({
         id: c.audience, slug: c.slug, name: c.name, description: c.description ?? undefined,
         imageUrl: c.imageUrl, accent: c.accentClass,
         audience: c.audience, illoScene: c.illoScene ?? undefined,
@@ -137,16 +378,18 @@ export class ContentService {
     }
 
     if (b.featureCards?.length) {
-      this.featureCards.set(b.featureCards.map((f) => ({
+      this._featureCardsRaw.set(b.featureCards.map((f) => ({
         id: f.id, title: f.title, description: f.description, icon: f.icon,
         iconBgClass: f.iconBgClass, iconShadowClass: f.iconShadowClass,
         imageUrl: f.imageUrl, href: f.href,
+        destination: f.destination,
         audience: f.audience, illoScene: f.illoScene ?? undefined, badge: f.badge ?? undefined,
+        sections: f.sections ?? [],
       })));
     }
 
     if (b.videoSeries?.length) {
-      this.videoSeries.set(b.videoSeries.map((s) => ({
+      this._videoSeriesRaw.set(b.videoSeries.map((s) => ({
         id: s.id, slug: s.slug, title: s.title, tagline: s.tagline,
         description: s.description, coverImageUrl: s.coverImageUrl,
         accentClass: s.accentClass, iconBgClass: s.iconBgClass, icon: s.icon,
@@ -225,7 +468,9 @@ interface BackendAudience {
 interface BackendFeatureCard {
   id: string; title: string; description: string; icon: string;
   iconBgClass: string; iconShadowClass: string; imageUrl: string; href: string;
+  destination?: string;
   audience: BackendAudience['audience']; illoScene: BackendAudience['illoScene']; badge: string | null;
+  sections?: string[];
 }
 interface BackendSeries {
   id: string; slug: string; title: string; tagline: string; description: string;

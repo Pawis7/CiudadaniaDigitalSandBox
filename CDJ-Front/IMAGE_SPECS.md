@@ -11,23 +11,26 @@ Dimensiones reales implementadas en el frontend. _18 de mayo de 2026_
 El banner cubre toda la sección. Diseño debe entregar una imagen que llene el área completa.  
 Aplica a: **Inicio**, **Niñas y niños**, **Adolescentes**, **Familias**, **Docentes**, **Ayuda Digital**, **Edutips**, **Notebooks IA**, **Cursos**, **Recursos**, **Series**, **Juegos**, **Quiénes somos**.
 
-| Estado del sidebar | Ancho del banner | Alto del banner (desktop ≥ 1024 px) |
-| ------------------ | ---------------- | ----------------------------------- |
-| **Expandida**      | **1392 px**      | **423 px**                          |
-| **Contraída**      | **1546 px**      | **423 px**                          |
+**Dimensiones base (Entrega de diseño — Pantalla base tipo Mac M1 13"):**
 
-> **Sidebar reactivo:** La clase `body.sidebar-collapsed` se inyecta/remueve automáticamente con transición `300ms`.  
-> En móvil y tablet (< 1024 px) el alto es fluido — sin restricción fija.
+| Estado del sidebar | Ancho del banner | Alto del banner (desktop ≥ 1024 px) | Aspect ratio |
+| ------------------ | ---------------- | ----------------------------------- | ------------ |
+| **Expandida**      | **1392 px**      | **423 px**                          | ~3.3:1       |
+| **Contraída**      | **1546 px**      | **423 px**                          | ~3.65:1      |
 
-**Dimensiones de imagen recomendadas por estado:**
+> **Entrega base:** Entregar en la medida del sidebar **expandida** (`1392 × 423 px`) como base. El sistema escala automáticamente a `1546 × 423 px` al contraer la barra lateral.
 
-| Estado del sidebar | Imagen a entregar | Aspect ratio |
-| ------------------ | ----------------- | ------------ |
-| **Expandida**      | **1392 × 423 px** | ~3.3:1       |
-| **Contraída**      | **1546 × 423 px** | ~3.65:1      |
+**Adaptación a pantallas grandes (Monitores 1080p y superiores):**
 
-> Entregar en la medida del sidebar **expandida** (`1392 × 423 px`) como base.  
-> El sistema escala automáticamente al contraer la barra.
+| Estado del sidebar | Ancho del contenedor | Alto del banner (desktop ≥ 1024 px) |
+| ------------------ | -------------------- | ----------------------------------- |
+| **Expandida**      | **1604 px**          | **423 px**                          |
+| **Contraída**      | **1788 px**          | **423 px**                          |
+
+> [!NOTE]
+> **Escalado automático por CSS:** Para pantallas grandes (como monitores 1080p), el contenedor se ensancha a `1604 px` / `1788 px`. **No es necesario entregar imágenes con estas dimensiones ultra-anchas**. El navegador escalará y adaptará automáticamente la imagen base de diseño (`1392 × 423 px` / `1546 × 423 px`) mediante CSS (`object-cover`) para cubrir el área del contenedor.
+
+> **Sidebar reactivo:** La clase `body.sidebar-collapsed` se inyecta/remueve automáticamente con transición `300ms`. En móvil y tablet (< 1024 px) el alto es fluido — sin restricción fija.
 
 ---
 
