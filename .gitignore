@@ -9,6 +9,8 @@
 .skills/
 .claude/
 gpt-skills/
+.CLAUDE.md
+CLAUDE.md
 
 # ----- Playwright / MCP -----
 .playwright-mcp/
