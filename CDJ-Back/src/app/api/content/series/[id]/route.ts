@@ -22,6 +22,11 @@ export async function PATCH(
     if (body.title       !== undefined) data.title       = body.title.trim();
     if (body.description !== undefined) data.description = body.description.trim();
     if (body.imageUrl    !== undefined) data.coverImageUrl = body.imageUrl.trim();
+    if (body.youtubePlaylistId !== undefined) {
+      // permite vaciar mandando "" o null
+      const raw = body.youtubePlaylistId;
+      data.youtubePlaylistId = raw === null || raw === '' ? null : String(raw).trim();
+    }
 
     if (Object.keys(data).length === 0) {
       return badRequest('Sin campos para actualizar.');

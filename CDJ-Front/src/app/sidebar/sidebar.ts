@@ -84,7 +84,7 @@ export class SidebarComponent {
       ],
     },
     {
-      id: 'teens', label: 'Adolescentes', icon: 'smartphone',
+      id: 'teens', label: 'Adolescentes', icon: 'forum',
       routerLink: ['/p', 'adolescentes'], audience: 'teens',
       subItems: [
         { label: 'Secundaria',  href: '/p/adolescentes#secundaria' },

@@ -58,7 +58,7 @@
   @for (b of [
     { id: 'todos',    label: 'Para todos',    icon: 'apps' },
     { id: 'kids',     label: 'Niñas y niños', icon: 'child_care' },
-    { id: 'teens',    label: 'Adolescentes',  icon: 'smartphone' },
+    { id: 'teens',    label: 'Adolescentes',  icon: 'forum' },
     { id: 'familias', label: 'En familia',    icon: 'family_restroom' }
   ]; track b.id) {
     <button type="button" (click)="ageBucket.set($any(b.id))"

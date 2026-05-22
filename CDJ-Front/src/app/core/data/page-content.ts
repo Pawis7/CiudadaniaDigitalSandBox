@@ -76,7 +76,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     accentClass: 'from-violet-500 via-fuchsia-500 to-pink-500',
     pillBgClass: 'bg-violet-500',
     iconBgClass: 'bg-violet-500',
-    icon: 'smartphone',
+    icon: 'forum',
     ageRange: '12 a 17 años',
     subLevels: [
       { id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años', imageUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=900', imageId: 'sub-teens-sec', bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 15 },

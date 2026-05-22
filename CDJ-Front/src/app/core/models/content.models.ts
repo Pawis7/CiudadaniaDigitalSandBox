@@ -78,6 +78,12 @@ export interface VideoItem {
   durationLabel?: string;
   publishedAt?: string;
   tags?: string[];
+  /** Canal/autor que publica el video. */
+  author?: string;
+  /** Handle del canal en YouTube (@usuario). */
+  authorHandle?: string;
+  /** URL al canal de YouTube (para el botón "ver canal"). */
+  authorUrl?: string;
 }
 
 export interface VideoSeries {
@@ -94,6 +100,10 @@ export interface VideoSeries {
   videos: VideoItem[];
   audience: AudienceSlug;
   illoScene?: 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
+  /** ID de playlist de YouTube asociada (admin sync). */
+  youtubePlaylistId?: string | null;
+  /** Última vez que el admin sincronizó la playlist. */
+  lastSyncedAt?: string | null;
 }
 
 export interface NavSection {

@@ -7,9 +7,9 @@
   <!-- ── ENLACE PRINCIPAL ──────────────────────────────────────────────── -->
   <a [routerLink]="card.href" class="flex flex-1 flex-col overflow-hidden">
 
-    <!-- Imagen -->
-    <div class="relative aspect-[5/3] w-full overflow-hidden">
-      <div class="absolute inset-0">
+    <!-- ── Imagen (proporción 16:10 → se ve completa, sin recorte fuerte) ── -->
+    <div class="relative aspect-[16/10] w-full overflow-hidden">
+      <div class="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]">
         <app-editable-image
           [id]="card.id"
           [src]="card.imageUrl"
@@ -20,29 +20,46 @@
           [scene]="card.illoScene || 'spark'">
         </app-editable-image>
       </div>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none"></div>
 
-      <!-- Badge -->
-      @if (card.badge) {
-        <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold text-slate-900 pointer-events-none">
-          <span class="grid h-4 w-4 place-items-center rounded-full text-white shadow-sm" [ngClass]="card.iconBgClass">
-            <span translate="no" class="material-symbols-rounded text-[10px] icon-fill">{{ card.icon }}</span>
-          </span>
-          {{ card.badge }}
+      <!-- Gradient base + viñeta sutil para profundidad -->
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+      <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100"
+           style="background: radial-gradient(120% 80% at 50% 100%, color-mix(in srgb, var(--aud, var(--c-cdj)) 30%, transparent) 0%, transparent 60%);"></div>
+
+
+      <!-- Play button: button-in-button con magnetic hover -->
+      <div class="pointer-events-none absolute bottom-3.5 right-3.5">
+        <span class="relative grid h-11 w-11 place-items-center rounded-full bg-white/95 text-slate-900 ring-1 ring-black/5 shadow-[0_6px_18px_-6px_rgba(0,0,0,0.45)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:h-12 group-hover:w-12 group-hover:bg-[color:var(--aud,var(--c-cdj))] group-hover:text-white group-hover:-translate-y-0.5 group-hover:shadow-[0_10px_24px_-8px_color-mix(in_srgb,var(--aud,var(--c-cdj))_55%,transparent)]">
+          <span translate="no" class="material-symbols-rounded text-[22px] icon-fill transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-[1px]">play_arrow</span>
         </span>
-      }
-
-      <!-- Play button -->
-      <span class="absolute bottom-4 right-4 grid h-12 w-12 place-items-center rounded-full bg-white text-slate-900 shadow-2xl shadow-black/30 transition-all duration-300 group-hover:scale-110 group-hover:bg-[color:var(--aud)] group-hover:text-white pointer-events-none">
-        <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
-      </span>
+      </div>
     </div>
 
-    <!-- Texto -->
-    <div class="p-5 flex-1">
-      <h3 class="text-lg font-black tracking-tight text-[color:var(--text-primary)] sm:text-xl">{{ card.title }}</h3>
+    <!-- ── Texto + icono · compacto ──────────────────────────────────── -->
+    <div class="flex flex-1 flex-col gap-2.5 p-4 sm:p-5">
+      <div class="flex items-start gap-3">
+        <!-- Icono "perrón": gradient + inner highlight + glow del color audience -->
+        <span class="relative grid h-10 w-10 shrink-0 place-items-center rounded-[12px] text-white ring-1 ring-black/5 shadow-[0_6px_16px_-6px_color-mix(in_srgb,var(--aud,var(--c-cdj))_55%,transparent),inset_0_1px_0_rgba(255,255,255,0.3),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:rotate-[-4deg] group-hover:shadow-[0_12px_24px_-8px_color-mix(in_srgb,var(--aud,var(--c-cdj))_70%,transparent),inset_0_1px_0_rgba(255,255,255,0.4)]"
+              [ngClass]="card.iconBgClass">
+          <span translate="no" class="material-symbols-rounded text-[20px] leading-none icon-fill drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">{{ card.icon }}</span>
+        </span>
+
+        <div class="min-w-0 flex-1">
+          @if (card.badge) {
+            <p class="text-[9.5px] font-black uppercase tracking-[0.14em] text-[color:var(--aud,var(--c-cdj))]">
+              {{ card.badge }}
+            </p>
+          }
+          <h3 class="mt-0.5 line-clamp-1 text-[16px] font-black leading-tight tracking-tight text-[color:var(--text-primary)] sm:text-[17px]">
+            {{ card.title }}
+          </h3>
+        </div>
+      </div>
+
       @if (showDescription) {
-        <p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">{{ card.description }}</p>
+        <p class="line-clamp-2 min-h-[2.7em] text-[13px] leading-relaxed text-[color:var(--text-soft)]">
+          {{ card.description }}
+        </p>
       }
     </div>
 

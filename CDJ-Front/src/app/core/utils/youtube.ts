@@ -42,9 +42,13 @@ export function youtubeThumbnail(id: string, quality: 'hq' | 'maxres' = 'hq'): s
 
 export function youtubeEmbedUrl(id: string, autoplay = true): string {
   const params = new URLSearchParams({
-    rel: '0',
-    modestbranding: '1',
-    playsinline: '1',
+    rel: '0',              // videos relacionados solo del mismo canal
+    modestbranding: '1',   // reduce el branding de YouTube
+    playsinline: '1',      // reproduce inline en iOS
+    iv_load_policy: '3',   // desactiva anotaciones legacy
+    cc_load_policy: '0',   // no carga subtítulos por defecto
+    controls: '1',         // controles visibles (se ocultan auto al reproducir sin hover)
+    fs: '1',               // permite fullscreen
   });
   if (autoplay) params.set('autoplay', '1');
   return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;

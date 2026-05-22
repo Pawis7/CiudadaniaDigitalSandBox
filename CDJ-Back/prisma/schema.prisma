@@ -267,19 +267,21 @@ model Banner {
 // === Series y videos ========================================================
 
 model VideoSeries {
-  id              String      @id
-  slug            String      @unique
-  title           String
-  tagline         String
-  description     String
-  coverImageUrl   String
-  accentClass     String
-  iconBgClass     String
-  icon            String
-  audience        AudienceKey
-  illoScene       IlloScene?
-  sortOrder       Int         @default(0)
-  videos          Video[]
+  id                  String      @id
+  slug                String      @unique
+  title               String
+  tagline             String
+  description         String
+  coverImageUrl       String
+  accentClass         String
+  iconBgClass         String
+  icon                String
+  audience            AudienceKey
+  illoScene           IlloScene?
+  sortOrder           Int         @default(0)
+  youtubePlaylistId   String?     // ID de playlist de YouTube para sync admin
+  lastSyncedAt        DateTime?   // última vez que se importó la playlist
+  videos              Video[]
 }
 
 model Video {

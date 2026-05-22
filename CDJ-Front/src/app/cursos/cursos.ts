@@ -110,7 +110,7 @@ export class CursosComponent {
 
   protected audienceIcon(aud: string): string {
     const map: Record<string, string> = {
-      kids: 'child_care', teens: 'smartphone', families: 'family_restroom',
+      kids: 'child_care', teens: 'forum', families: 'family_restroom',
       teachers: 'school', cdj: 'public', help: 'shield', edutips: 'play_circle',
     };
     return map[aud] ?? 'public';

@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { ContentService } from '../../core/services/content.service';
+import { ApiClient } from '../../core/services/api.client';
 import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 import { YoutubePlayerComponent } from '../../shared/youtube-player/youtube-player';
 import { EditableImageComponent } from '../../shared/editable-image/editable-image';
@@ -12,10 +14,18 @@ import { AuthService } from '../../core/services/auth.service';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
 import { VideoModalComponent } from '../../shared/video-modal/video-modal';
 
+interface SyncResult {
+  added: number;
+  skipped: number;
+  total: number;
+  playlistId: string;
+  syncedAt: string;
+}
+
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, FeatureCardComponent, VideoModalComponent],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, FeatureCardComponent, VideoModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })
@@ -24,6 +34,7 @@ export class SeriesDetailComponent {
   private content = inject(ContentService);
   private imgEdit = inject(ImageEditService);
   private auth    = inject(AuthService);
+  private api     = inject(ApiClient);
 
   /** editMode del hero cover también requiere login — isEditActive ya lo garantiza */
   editMode = this.imgEdit.isEditActive;
@@ -81,4 +92,53 @@ export class SeriesDetailComponent {
       .slice(0, 3)
       .map((s) => this.content.seriesAsCard(s));
   });
+
+  // ─── Sync de Playlist de YouTube (admin) ──────────────────────────────────
+  /** Input controlado del URL de la playlist en el panel admin. */
+  playlistInput = signal<string>('');
+  /** Estado de la última sincronización. */
+  syncing       = signal(false);
+  syncError     = signal<string | null>(null);
+  syncResult    = signal<SyncResult | null>(null);
+
+  constructor() {
+    // Precarga el input con el playlistId guardado de la serie cuando cambia
+    effect(() => {
+      const s = this.serie();
+      const current = this.playlistInput();
+      const saved = s?.youtubePlaylistId ?? '';
+      // Solo precarga si el usuario no ha empezado a escribir
+      if (!current && saved) {
+        const url = saved.startsWith('http')
+          ? saved
+          : `https://www.youtube.com/playlist?list=${saved}`;
+        this.playlistInput.set(url);
+      }
+    });
+  }
+
+  async syncPlaylist() {
+    const s = this.serie();
+    if (!s) return;
+    const input = this.playlistInput().trim();
+    if (!input && !s.youtubePlaylistId) {
+      this.syncError.set('Pega un URL o ID de playlist primero.');
+      return;
+    }
+    this.syncing.set(true);
+    this.syncError.set(null);
+    this.syncResult.set(null);
+    try {
+      const res = await this.api.post<SyncResult>(
+        `/content/series/${s.id}/sync-playlist`,
+        input ? { playlistUrl: input } : {},
+      );
+      this.syncResult.set(res);
+      await this.content.refreshFromBackend();
+    } catch (err: any) {
+      this.syncError.set(err?.message ?? 'Error al sincronizar.');
+    } finally {
+      this.syncing.set(false);
+    }
+  }
 }

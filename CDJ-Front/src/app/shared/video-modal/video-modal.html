@@ -38,38 +38,38 @@
       }
     </div>
 
-    <!-- ── Metadata ───────────────────────────────────────── -->
+    <!-- ── Metadata (compacto) ────────────────────────────── -->
     @if (data(); as v) {
       <div class="vm-meta" #meta>
 
-        <!-- Fila principal: título + duración -->
-        <div class="vm-meta-header">
-          <div class="vm-title-block">
-            <!-- Serie de origen (etiqueta pequeña encima del título) -->
-            @if (v.seriesTitle) {
-              <p class="vm-eyebrow">
-                <span translate="no" class="material-symbols-rounded vm-eyebrow-icon">play_circle</span>
-                {{ v.seriesTitle }}
-              </p>
-            }
-            <h2 class="vm-title">{{ v.title }}</h2>
-          </div>
-
-          <!-- Solo duración, ya no hay X aquí -->
+        <!-- Cabecera: eyebrow + duración inline -->
+        <div class="flex items-center justify-between gap-3">
+          @if (v.seriesTitle) {
+            <p class="vm-eyebrow">
+              <span translate="no" class="material-symbols-rounded vm-eyebrow-icon">play_circle</span>
+              {{ v.seriesTitle }}
+            </p>
+          }
           @if (v.durationLabel) {
-            <span class="vm-pill vm-pill--right">{{ v.durationLabel }}</span>
+            <span class="inline-flex items-center gap-1 rounded-full bg-[color:var(--surface-soft)] px-2.5 py-0.5 text-[11px] font-bold text-[color:var(--text-secondary)] border border-[color:var(--border-soft)]">
+              <span translate="no" class="material-symbols-rounded text-[12px] text-[color:var(--text-mute)]">schedule</span>
+              {{ v.durationLabel }}
+            </span>
           }
         </div>
+
+        <!-- Título -->
+        <h2 class="vm-title">{{ v.title }}</h2>
 
         <!-- Descripción -->
         @if (v.description) {
           <p class="vm-description">{{ v.description }}</p>
         }
 
-        <!-- Tags -->
+        <!-- Tags inline -->
         @if (v.tags?.length) {
           <div class="vm-tags">
-            <span *ngFor="let t of v.tags" class="meta-pill">#{{ t }}</span>
+            <span *ngFor="let t of v.tags" class="vm-tag">#{{ t }}</span>
           </div>
         }
 

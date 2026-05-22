@@ -60,7 +60,7 @@ export class EdutipsComponent {
   ageOptions: FilterChip[]      = [
     { id: 'todos', label: 'Todas las edades' },
     { id: 'k',     label: '5-11 años', icon: 'face' },
-    { id: 't',     label: '12-17 años', icon: 'smartphone' },
+    { id: 't',     label: '12-17 años', icon: 'forum' },
     { id: 'a',     label: 'Familias / 18+', icon: 'groups' },
   ];
   levelOptions: FilterChip[]    = [

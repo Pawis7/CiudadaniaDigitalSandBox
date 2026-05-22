@@ -23,6 +23,12 @@ export interface VideoModalData {
   tags?: string[];
   /** Nombre de la colección: serie, edutip, etc. */
   seriesTitle?: string;
+  /** Canal/autor del video. */
+  author?: string;
+  /** URL del canal en YouTube. */
+  authorUrl?: string;
+  /** Fecha de publicación (ISO o legible). */
+  publishedAt?: string;
 }
 
 /**
