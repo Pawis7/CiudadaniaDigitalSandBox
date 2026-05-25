@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 function enrichCard(card: Awaited<ReturnType<typeof prisma.featureCard.findFirstOrThrow>>) {
   return {
     ...card,
-    href: resolveDestination(card.destination),
+    href: card.destination === 'series' && card.id !== 'series'
+      ? `/series/${card.id}`
+      : resolveDestination(card.destination),
   };
 }
 
@@ -39,11 +41,20 @@ export async function POST(req: NextRequest) {
     }
     if (!body?.title?.trim()) return badRequest('El título es obligatorio.');
 
+    const finalId = body.id?.trim();
+    if (finalId) {
+      const existing = await prisma.featureCard.findUnique({ where: { id: finalId } });
+      if (existing) {
+        return badRequest(`Ya existe una tarjeta o serie destacada con el identificador "${finalId}" (generado a partir del título). Por favor, elige un título diferente.`);
+      }
+    }
+
     const maxOrder = await prisma.featureCard.aggregate({ _max: { sortOrder: true } });
     const nextOrder = (maxOrder._max.sortOrder ?? 0) + 1;
 
     const card = await prisma.featureCard.create({
       data: {
+        id:          body.id?.trim() || undefined,
         title:       body.title.trim(),
         description: body.description?.trim() ?? '',
         imageUrl:    body.imageUrl?.trim() ?? '',
