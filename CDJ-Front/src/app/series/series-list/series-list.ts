@@ -21,25 +21,37 @@ export class SeriesListComponent {
   private imgEdit = inject(ImageEditService);
 
   query = signal('');
-  featuredCards = this.content.seriesFeatureCards;
   editMode = this.imgEdit.isEditActive;
 
-  /** Series filtradas y convertidas a FeatureCard para usar app-feature-card */
+  /** Series filtradas que el usuario ha seleccionado para mostrar en el catálogo */
   cards = computed(() => {
     const q = this.query().trim().toLowerCase();
-    const all = this.content.videoSeries();
+    const all = this.content.seriesFeatureCards();
 
-    const filtered = !q ? all : all.filter((s) =>
-      s.title.toLowerCase().includes(q) ||
-      s.tagline.toLowerCase().includes(q) ||
-      s.description.toLowerCase().includes(q) ||
-      s.videos.some((v) =>
-        v.title.toLowerCase().includes(q) ||
-        v.description?.toLowerCase().includes(q) ||
-        (v.tags ?? []).some((t) => t.toLowerCase().includes(q))
-      )
-    );
+    if (!q) return all;
 
-    return filtered.map((s) => this.content.seriesAsCard(s));
+    const seriesMap = new Map(this.content.videoSeries().map((s) => [s.id, s]));
+
+    return all.filter((card) => {
+      const matchesCard =
+        card.title.toLowerCase().includes(q) ||
+        card.description.toLowerCase().includes(q);
+      if (matchesCard) return true;
+
+      // Buscar también dentro de los metadatos y videos de la serie sincronizada
+      const serie = seriesMap.get(card.id);
+      if (serie) {
+        return (
+          (serie.tagline ?? '').toLowerCase().includes(q) ||
+          (serie.description ?? '').toLowerCase().includes(q) ||
+          serie.videos.some((v) =>
+            v.title.toLowerCase().includes(q) ||
+            (v.description ?? '').toLowerCase().includes(q) ||
+            (v.tags ?? []).some((t) => t.toLowerCase().includes(q))
+          )
+        );
+      }
+      return false;
+    });
   });
 }

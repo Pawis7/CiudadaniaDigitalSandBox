@@ -114,6 +114,16 @@
     <!-- Footer del sidebar -->
     <div class="sidebar-foot">
       @if (isAuthenticated()) {
+        <a routerLink="/AlfaAdminPanel" (click)="onNavigate()"
+           routerLinkActive="is-active"
+           class="sidebar-item mb-2 w-full cursor-pointer bg-blue-500/5 text-blue-600 dark:text-blue-400 hover:bg-blue-500/10"
+           title="Panel de Administración">
+          <span class="sidebar-icon">
+            <span translate="no" class="material-symbols-rounded text-[20px]">dashboard</span>
+          </span>
+          <span class="sidebar-label font-bold">Panel Admin</span>
+        </a>
+
         <button type="button" (click)="toggleEdit()"
            class="sidebar-item mb-2 w-full cursor-pointer border-none transition-colors"
            [class.bg-amber-500/10]="editMode()"

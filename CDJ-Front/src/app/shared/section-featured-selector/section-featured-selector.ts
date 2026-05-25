@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContentService } from '../../core/services/content.service';
 import { ImageEditService } from '../../core/services/image-edit.service';
-import { FeatureCard } from '../../core/models/content.models';
 
 @Component({
   selector: 'app-section-featured-selector',
@@ -79,8 +78,8 @@ export class SectionFeaturedSelectorComponent {
       current.splice(idx, 1);
       this.selectedIds.set(current);
     } else {
-      // Agregar si no excede el límite de 3
-      if (current.length >= 3) {
+      // Agregar si no excede el límite de 3 (excepto para series)
+      if (this.section !== 'series' && current.length >= 3) {
         alert('Solo puedes seleccionar un máximo de 3 elementos destacados para esta sección.');
         return;
       }

@@ -29,10 +29,16 @@ export class RevealDirective implements AfterViewInit, OnDestroy {
   @Input() revealDuration = 700;
   @Input() revealThreshold = 0.05;
   @Input() revealOnce = true;
+  @Input() disableReveal = false;
 
   ngAfterViewInit(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     const element = this.el.nativeElement;
+
+    if (this.disableReveal) {
+      element.classList.add('reveal-in');
+      return;
+    }
 
     const reduceMotion =
       typeof window.matchMedia === 'function' &&

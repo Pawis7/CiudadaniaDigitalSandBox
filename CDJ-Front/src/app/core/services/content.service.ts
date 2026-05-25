@@ -155,7 +155,7 @@ export class ContentService {
   );
 
   readonly seriesFeatureCards = computed(() =>
-    this.featureCards().filter((c) => c.sections?.includes('series')).slice(0, 3)
+    this.featureCards().filter((c) => c.sections?.includes('series'))
   );
 
   readonly recursosFeatureCards = computed(() =>
@@ -186,7 +186,29 @@ export class ContentService {
   }
 
   getSeriesBySlug(slug: string): VideoSeries | undefined {
-    return this.videoSeries().find((s) => s.slug === slug);
+    const found = this.videoSeries().find((s) => s.slug === slug);
+    if (found) return found;
+
+    // Fallback: look up in featureCards if destination is series
+    const card = this.featureCards().find((c) => c.id === slug && c.destination === 'series');
+    if (card) {
+      return {
+        id: card.id,
+        slug: card.id,
+        title: card.title,
+        tagline: card.description || '',
+        description: card.description || '',
+        coverImageUrl: card.imageUrl || '',
+        accentClass: 'from-slate-800 to-slate-900', // default neutral dark gradient
+        iconBgClass: card.iconBgClass || 'bg-slate-650',
+        icon: card.icon || 'play_circle',
+        episodeCount: 0,
+        audience: card.audience || 'kids',
+        illoScene: card.illoScene || undefined,
+        videos: [],
+      };
+    }
+    return undefined;
   }
 
   /**

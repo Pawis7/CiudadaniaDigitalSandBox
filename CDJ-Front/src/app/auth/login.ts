@@ -354,7 +354,7 @@ export class LoginComponent {
 
     try {
       await this.auth.login(this.email, this.password);
-      this.router.navigate(['/']);
+      this.router.navigate(['/AlfaAdminPanel']);
     } catch (err: any) {
       this.error.set(err.message || 'Error al iniciar sesión. Inténtalo de nuevo.');
     } finally {

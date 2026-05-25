@@ -158,6 +158,15 @@
   width: 100%;
   flex-shrink: 0;
 }
+button.sidebar-item {
+  font-family: inherit;
+  text-align: left;
+  justify-content: flex-start;
+  border: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
 .sidebar-item:hover {
   background: var(--surface-soft);
   color: var(--text-primary);

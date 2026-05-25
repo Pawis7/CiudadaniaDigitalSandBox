@@ -27,11 +27,36 @@ export async function POST(
     const { id } = await params;
     const body = await req.json().catch(() => ({}));
 
-    const series = await prisma.videoSeries.findUnique({
+    let series = await prisma.videoSeries.findUnique({
       where: { id },
       include: { videos: { select: { id: true, sortOrder: true } } },
     });
-    if (!series) return notFound(`Serie "${id}" no encontrada.`);
+
+    if (!series) {
+      const card = await prisma.featureCard.findUnique({ where: { id } });
+      if (!card) return notFound(`Serie "${id}" no encontrada.`);
+
+      await prisma.videoSeries.create({
+        data: {
+          id:            card.id,
+          slug:          card.id,
+          title:         card.title,
+          tagline:       card.description,
+          description:   card.description,
+          coverImageUrl: card.imageUrl,
+          accentClass:   'from-blue-500 to-cyan-500',
+          iconBgClass:   card.iconBgClass,
+          icon:          card.icon,
+          audience:      card.audience,
+          illoScene:     card.illoScene,
+        }
+      });
+
+      series = await prisma.videoSeries.findUnique({
+        where: { id },
+        include: { videos: { select: { id: true, sortOrder: true } } },
+      }) as any;
+    }
 
     // Resolver playlistId: el del body (URL o ID) o el ya guardado
     let playlistId = series.youtubePlaylistId ?? null;

@@ -49,34 +49,13 @@
   </div>
 </section>
 
-<!-- SECCIÓN DESTACADA (SERIES) -->
-@if (featuredCards().length || editMode()) {
-  <section class="mb-10 sm:mb-12">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-      <div>
-        <p class="eyebrow text-[color:var(--c-casi)]">Recomendaciones destacadas</p>
-        <h2 class="display-2 mt-1">Series recomendadas</h2>
-      </div>
-      <app-section-featured-selector section="series" sectionTitle="Series" />
-    </div>
-
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-      @for (card of featuredCards(); track card.id; let i = $index) {
-        <app-feature-card [card]="card" [delay]="i * 80" />
-      }
-      @if (!featuredCards().length) {
-        <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
-          No hay series destacadas seleccionadas. Haz clic en "Destacados" para agregar.
-        </div>
-      }
-    </div>
-  </section>
-}
-
 <section class="mb-12">
-  <div class="mb-6">
-    <p class="eyebrow text-[color:var(--text-mute)]">Colección completa</p>
-    <h2 class="display-2 mt-1">Todas las colecciones</h2>
+  <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    <div>
+      <p class="eyebrow text-[color:var(--text-mute)]">Colección completa</p>
+      <h2 class="display-2 mt-1">Todas las colecciones</h2>
+    </div>
+    <app-section-featured-selector section="series" sectionTitle="Series" />
   </div>
 
   <div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">

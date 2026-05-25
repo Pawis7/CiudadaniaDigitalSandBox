@@ -23,8 +23,12 @@
 
     <!-- Subtitle / Limit indicator -->
     <div class="featured-modal-meta">
-      <p class="meta-desc">Selecciona hasta 3 tarjetas del catálogo de la base de datos para mostrarlas en esta sección.</p>
-      <span class="limit-badge" [class.is-max]="selectedIds().length === 3">
+      <p class="meta-desc" *ngIf="section === 'series'">Selecciona las tarjetas del catálogo para mostrarlas como colecciones en esta sección (sin límite de elementos).</p>
+      <p class="meta-desc" *ngIf="section !== 'series'">Selecciona hasta 3 tarjetas del catálogo de la base de datos para mostrarlas en esta sección.</p>
+      <span class="limit-badge" *ngIf="section === 'series'">
+        {{ selectedIds().length }} seleccionadas
+      </span>
+      <span class="limit-badge" *ngIf="section !== 'series'" [class.is-max]="selectedIds().length === 3">
         {{ selectedIds().length }} / 3 seleccionadas
       </span>
     </div>

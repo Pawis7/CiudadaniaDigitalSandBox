@@ -57,6 +57,17 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       const oldCard = await prisma.featureCard.findUnique({ where: { id: params.id } });
       if (!oldCard) return notFound('Feature card no encontrada.');
 
+      // Si existe una VideoSeries correspondiente, renombrar su clave primaria en cascada
+      const hasSeries = await prisma.videoSeries.findUnique({ where: { id: params.id } });
+      if (hasSeries) {
+        await prisma.$executeRawUnsafe(
+          'UPDATE "VideoSeries" SET "id" = $1, "slug" = $2 WHERE "id" = $3',
+          body.id,
+          body.id,
+          params.id
+        );
+      }
+
       // Eliminar antigua
       await prisma.featureCard.delete({ where: { id: params.id } });
 
@@ -84,6 +95,12 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 export async function DELETE(req: NextRequest, { params }: Params) {
   if (!isAdmin(req)) return unauthorized();
   try {
+    // También eliminar la VideoSeries si existe y tiene el mismo ID
+    const series = await prisma.videoSeries.findUnique({ where: { id: params.id } });
+    if (series) {
+      await prisma.videoSeries.delete({ where: { id: params.id } });
+    }
+
     await prisma.featureCard.delete({ where: { id: params.id } });
     return ok({ deleted: params.id });
   } catch (err: unknown) {

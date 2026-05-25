@@ -68,6 +68,36 @@ export async function POST(req: NextRequest) {
         sortOrder:   nextOrder,
       },
     });
+
+    if (card.destination === 'series' && card.id !== 'series') {
+      await prisma.videoSeries.upsert({
+        where: { id: card.id },
+        update: {
+          title: card.title,
+          description: card.description,
+          tagline: card.description,
+          coverImageUrl: card.imageUrl,
+          iconBgClass: card.iconBgClass,
+          icon: card.icon,
+          audience: card.audience,
+          illoScene: card.illoScene,
+        },
+        create: {
+          id: card.id,
+          slug: card.id,
+          title: card.title,
+          tagline: card.description,
+          description: card.description,
+          coverImageUrl: card.imageUrl,
+          accentClass: 'from-blue-500 to-cyan-500',
+          iconBgClass: card.iconBgClass,
+          icon: card.icon,
+          audience: card.audience,
+          illoScene: card.illoScene,
+        }
+      });
+    }
+
     return ok(enrichCard(card), 201);
   } catch (err) {
     return serverError(err);
