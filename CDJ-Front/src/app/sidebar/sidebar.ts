@@ -68,7 +68,6 @@ export class SidebarComponent {
     { id: 'home',      label: 'Inicio',         icon: 'home',             routerLink: ['/'],            audience: 'cdj' },
     { id: 'cursos',    label: 'Cursos',         icon: 'menu_book',        routerLink: ['/cursos'],      audience: 'teachers' },
     { id: 'recursos',  label: 'Recursos',       icon: 'auto_stories',     routerLink: ['/recursos'],    audience: 'cdj' },
-    { id: 'edutips',   label: 'Edutips',        icon: 'play_circle',      routerLink: ['/edutips'],     audience: 'edutips' },
     { id: 'series',    label: 'Series',         icon: 'movie',            routerLink: ['/series'],      audience: 'casi' },
   ];
 

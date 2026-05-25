@@ -4,14 +4,40 @@
 <section
   appReveal="fade"
   [revealDuration]="700"
-  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-xl)] sm:mb-10"
+  style="background: #E9004C; height: clamp(180px, 22vw, 380px);"
   data-audience="cdj">
 
   <img
     src="/banners/CIUDADANIA_DIGITAL_Principal.png"
     alt="Ciudadanía Digital Jalisco Banner Principal"
-    class="block w-full h-auto lg:h-full lg:object-cover">
+    class="block w-full h-full object-contain object-center">
+
+  <!-- Texto superpuesto -->
+  <div class="absolute inset-0 flex items-start">
+    <div class="hero-welcome
+                pl-[clamp(1rem,3.5vw,5.5rem)]
+                pr-[clamp(0.5rem,1.5vw,2rem)]
+                pt-[clamp(0.85rem,2.2vw,2.5rem)]
+                pb-[clamp(0.5rem,1.5vw,1.5rem)]
+                max-w-[64%] sm:max-w-[60%] md:max-w-[58%] lg:max-w-[55%] xl:max-w-[54%]">
+      <span class="hero-welcome__eyebrow">Plataforma educativa · SEJ</span>
+      <h1 class="hero-welcome__title">
+        <span class="hero-welcome__line">Bienvenidos</span>
+        <span class="hero-welcome__line hero-welcome__line--accent">y bienvenidas a</span>
+        <span class="hero-welcome__line hero-welcome__line--brand">
+          Ciudadanía Digital
+          <span class="hero-welcome__sej">SEJ</span>
+        </span>
+      </h1>
+    </div>
+  </div>
 </section>
+
+<!-- SLIDER HERO (PROPUESTA EMBEDDED) -->
+<div class="mb-10 sm:mb-12">
+  <app-propuesta [embedded]="true" />
+</div>
 
 <!-- CONTENIDO DESTACADO SEJ -->
 <section class="mb-10 sm:mb-12">

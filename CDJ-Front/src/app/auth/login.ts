@@ -18,7 +18,7 @@ import { CdjLogoComponent } from '../shared/cdj-logo/cdj-logo';
 
       <div class="login-card glass">
         <div class="login-header">
-          <app-cdj-logo containerClass="h-14 w-14 rounded-2xl bg-white/10 text-white shadow-xl"></app-cdj-logo>
+          <app-cdj-logo variant="white" containerClass="h-16 w-auto shrink-0"></app-cdj-logo>
           <h1 class="login-title">Acceso Alfa</h1>
           <p class="login-subtitle">Panel de administración · CDJ</p>
         </div>

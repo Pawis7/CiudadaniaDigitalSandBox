@@ -24,6 +24,11 @@ export const routes: Routes = [
     title: 'Edutips · Ciudadanía Digital',
   },
   {
+    path: 'propuesta',
+    loadComponent: () => import('./propuesta/propuesta').then((m) => m.PropuestaComponent),
+    title: 'Propuesta · Slider hero',
+  },
+  {
     path: 'recurso/:slug',
     loadComponent: () => import('./recurso/recurso-detail').then((m) => m.RecursoDetailComponent),
     title: 'Recurso · Ciudadanía Digital',

@@ -14,9 +14,9 @@ import { resolveDestination } from './card-destinations';
 
 export const BRANDING: SiteBranding = {
   logoText: { line1: 'Ciudadanía', line2: 'Digital' },
-  logoGradientFrom: 'from-teal-500',
-  logoGradientVia: 'via-emerald-500',
-  logoGradientTo: 'to-teal-600',
+  logoGradientFrom: 'from-rose-500',
+  logoGradientVia: 'via-rose-500',
+  logoGradientTo: 'to-rose-600',
   siteName: 'Ciudadanía Digital Jalisco',
   tagline:
     'Promovemos el uso ético y responsable de la tecnología para una ciudadanía digital activa y consciente en Jalisco.',
@@ -41,7 +41,7 @@ export const CATEGORIES: Category[] = [
     name: 'Niñas y niños',
     description: 'Jugar, descubrir y cuidarse en línea con calma.',
     imageUrl: '/Categorias/CIUDADANIA_NinasYNinos.png',
-    accent: 'from-teal-400/0 via-teal-500/20 to-teal-600/40',
+    accent: 'from-rose-400/0 via-rose-500/20 to-rose-600/40',
     audience: 'kids',
     illoScene: 'play',
     ageRange: '5 a 11 años',
@@ -74,7 +74,7 @@ export const CATEGORIES: Category[] = [
     name: 'Docentes',
     description: 'Recursos listos para llevar al aula.',
     imageUrl: '/Categorias/CIUDADANIA_Maestros.png',
-    accent: 'from-emerald-400/0 via-emerald-500/20 to-emerald-600/40',
+    accent: 'from-rose-400/0 via-rose-500/20 to-rose-600/40',
     audience: 'teachers',
     illoScene: 'study',
     ageRange: 'Preescolar a preparatoria',
@@ -135,8 +135,8 @@ export const PILLARS: Pillar[] = [
     title: 'Aprender',
     description: 'Desarrolla habilidades digitales para la vida.',
     icon: 'school',
-    bgClass: 'bg-[#0D9488]',
-    shadowClass: 'shadow-teal-100',
+    bgClass: 'bg-[#E9004C]',
+    shadowClass: 'shadow-rose-100',
   },
   {
     id: 'convivir',
@@ -473,8 +473,8 @@ export const NAV_SECTIONS: NavSection[] = [
     id: 'kids',
     title: 'Niñas y niños',
     icon: 'face',
-    bgClass: 'bg-[#0D9488]',
-    textClass: 'text-teal-700',
+    bgClass: 'bg-[#FF3366]',
+    textClass: 'text-rose-700',
     expanded: true,
     items: [
       { label: 'Preescolar', href: '/p/ninas-y-ninos#preescolar' },
@@ -512,8 +512,8 @@ export const NAV_SECTIONS: NavSection[] = [
     id: 'teachers',
     title: 'Docentes',
     icon: 'school',
-    bgClass: 'bg-[#059669]',
-    textClass: 'text-emerald-700',
+    bgClass: 'bg-[#C5003F]',
+    textClass: 'text-rose-800',
     expanded: false,
     items: [
       { label: 'Preescolar', href: '/p/docentes#doc-pre' },

@@ -76,6 +76,6 @@ export class RecursosComponent {
   highlightedTopics: { title: string; copy: string; icon: UiIconName; tone: string }[] = [
     { title: 'Privacidad', copy: 'Cuidar datos, cuentas y reputación digital.', icon: 'lock', tone: 'bg-sky-600' },
     { title: 'Convivencia', copy: 'Hablar, responder y poner límites con criterio.', icon: 'community', tone: 'bg-violet-600' },
-    { title: 'Bienestar', copy: 'Usar tecnología con más equilibrio y claridad.', icon: 'spark', tone: 'bg-emerald-600' },
+    { title: 'Bienestar', copy: 'Usar tecnología con más equilibrio y claridad.', icon: 'spark', tone: 'bg-rose-600' },
   ];
 }

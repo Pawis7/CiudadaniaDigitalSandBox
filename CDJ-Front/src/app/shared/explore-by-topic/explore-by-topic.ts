@@ -11,10 +11,10 @@ export interface TopicItem {
 export const DEFAULT_TOPICS: TopicItem[] = [
   { id: 'seguridad',     label: 'Seguridad y privacidad', icon: 'lock',          bgClass: 'bg-blue-500' },
   { id: 'convivencia',   label: 'Convivencia digital',    icon: 'forum',         bgClass: 'bg-violet-500' },
-  { id: 'bienestar',     label: 'Bienestar digital',      icon: 'spa',           bgClass: 'bg-emerald-500' },
+  { id: 'bienestar',     label: 'Bienestar digital',      icon: 'spa',           bgClass: 'bg-rose-500' },
   { id: 'pensamiento',   label: 'Pensamiento crítico',    icon: 'psychology',    bgClass: 'bg-amber-500' },
   { id: 'creatividad',   label: 'Creatividad y creación', icon: 'palette',       bgClass: 'bg-pink-500' },
-  { id: 'uso',           label: 'Uso responsable',        icon: 'eco',           bgClass: 'bg-teal-500' },
+  { id: 'uso',           label: 'Uso responsable',        icon: 'eco',           bgClass: 'bg-rose-500' },
 ];
 
 @Component({

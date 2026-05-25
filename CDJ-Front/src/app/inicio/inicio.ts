@@ -6,11 +6,12 @@ import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
+import { PropuestaComponent } from '../propuesta/propuesta';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent, PropuestaComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
@@ -38,7 +39,7 @@ export class InicioComponent {
       copy: 'Recorridos más estructurados para aprender por tema.',
       href: '/cursos',
       icon: 'course',
-      tone: 'bg-emerald-600',
+      tone: 'bg-rose-600',
     },
     {
       title: 'Recursos',

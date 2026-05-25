@@ -1,37 +1,49 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Logo de Ciudadanía Digital Jalisco.
+ *
+ * - variant="normal" → logo oficial con texto integrado (sobre fondos claros)
+ * - variant="white"  → logo blanco con texto (sobre fondos oscuros / crimson)
+ * - variant="icon"   → SOLO el icono crimson, sin texto. Útil cuando el texto
+ *                      se pone aparte en HTML (sidebar header).
+ * - variant="auto"   → cambia automáticamente entre normal y white con
+ *                      [data-theme="dark"] en <html>
+ */
 @Component({
   selector: 'app-cdj-logo',
   standalone: true,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span class="grid place-items-center" [class]="containerClass">
-      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-full w-full">
-        <!-- conexiones -->
-        <path
-          d="M14 18 L24 26 L34 16 M24 26 L26 38"
-          stroke="currentColor"
-          stroke-width="2.4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          opacity="0.85" />
-        <!-- nodo verde principal -->
-        <circle cx="14" cy="18" r="6" fill="#0E9F6E"/>
-        <circle cx="14" cy="18" r="2.4" fill="#fff"/>
-        <!-- nodo derecho -->
-        <circle cx="34" cy="16" r="5" fill="#10B981"/>
-        <circle cx="34" cy="16" r="1.8" fill="#fff"/>
-        <!-- nodo abajo -->
-        <circle cx="26" cy="38" r="4.5" fill="#34D399"/>
-        <circle cx="26" cy="38" r="1.6" fill="#fff"/>
-        <!-- pista decorativa -->
-        <circle cx="24" cy="26" r="2" fill="#F59E0B"/>
-      </svg>
+    <span class="cdj-logo grid place-items-center overflow-hidden" [class]="containerClass">
+      @if (variant === 'icon') {
+        <img src="/CiudadaniaLogo.png" alt="Ciudadanía Digital Jalisco"
+             class="h-full w-full object-contain" loading="eager">
+      } @else if (variant === 'white') {
+        <img src="/Ciudadania_logo_blanco.png" alt="Ciudadanía Digital Jalisco"
+             class="h-full w-full object-contain" loading="eager">
+      } @else if (variant === 'normal') {
+        <img src="/Ciudadania_logo.png" alt="Ciudadanía Digital Jalisco"
+             class="h-full w-full object-contain" loading="eager">
+      } @else {
+        <img src="/Ciudadania_logo.png" alt="Ciudadanía Digital Jalisco"
+             class="cdj-logo__light h-full w-full object-contain" loading="eager">
+        <img src="/Ciudadania_logo_blanco.png" alt="Ciudadanía Digital Jalisco"
+             class="cdj-logo__dark h-full w-full object-contain" loading="eager">
+      }
     </span>
   `,
+  styles: [`
+    :host { display: inline-block; }
+    .cdj-logo { position: relative; }
+    .cdj-logo__dark { display: none; }
+    :host-context([data-theme='dark']) .cdj-logo__light { display: none; }
+    :host-context([data-theme='dark']) .cdj-logo__dark  { display: block; }
+  `],
 })
 export class CdjLogoComponent {
-  @Input() containerClass: string = 'h-10 w-10 rounded-xl bg-white text-teal-600 shadow-sm';
+  @Input() containerClass: string = 'h-10 w-10';
+  @Input() variant: 'auto' | 'normal' | 'white' | 'icon' = 'auto';
 }

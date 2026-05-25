@@ -177,6 +177,18 @@
   background: var(--aud, var(--c-cdj));
   border-radius: 0 3px 3px 0;
 }
+.sidebar-item.is-active:not(:has(.sidebar-chevron))::after {
+  content: '';
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translateY(-50%);
+  background: var(--aud, var(--c-cdj));
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--aud, var(--c-cdj)) 18%, transparent);
+}
 
 .sidebar-icon {
   display: grid;
@@ -185,6 +197,19 @@
   height: 1.5rem;
   flex-shrink: 0;
   color: inherit;
+}
+
+.sidebar-item .sidebar-icon .icon-interactive {
+  color: var(--text-mute);
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+.sidebar-item:hover .sidebar-icon .icon-interactive {
+  color: var(--aud, var(--c-cdj));
+  font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+.sidebar-item.is-active .sidebar-icon .icon-interactive {
+  color: var(--aud, var(--c-cdj));
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
 }
 
 .sidebar-label {
@@ -208,6 +233,9 @@
 }
 .sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-item.is-active::before {
   left: 0;
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-item.is-active::after {
+  display: none;
 }
 
 .sidebar-chevron {
