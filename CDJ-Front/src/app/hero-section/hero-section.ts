@@ -23,14 +23,14 @@ interface Slide {
 }
 
 @Component({
-  selector: 'app-propuesta',
+  selector: 'app-hero-section',
   standalone: true,
   imports: [CommonModule, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './propuesta.html',
-  styleUrl: './propuesta.css',
+  templateUrl: './hero-section.html',
+  styleUrl: './hero-section.css',
 })
-export class PropuestaComponent implements OnInit, OnDestroy {
+export class HeroSectionComponent implements OnInit, OnDestroy {
   @Input() embedded = false;
 
   slides: Slide[] = [
