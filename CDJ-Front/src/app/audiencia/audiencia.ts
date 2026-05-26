@@ -86,7 +86,7 @@ const LEVEL_RESOURCES: LevelResource[] = [
     icon: 'description',
     badge: 'Descargable',
     duration: '4 páginas',
-    colorClass: 'from-emerald-400 to-teal-600',
+    colorClass: 'from-rose-400 to-rose-600',
     actionLabel: 'Descargar PDF',
     link: '#',
     level: 'secundaria'
@@ -144,7 +144,7 @@ const LEVEL_RESOURCES: LevelResource[] = [
     icon: 'spa',
     badge: 'Descargable',
     duration: '6 páginas',
-    colorClass: 'from-teal-400 to-emerald-500',
+    colorClass: 'from-rose-400 to-rose-500',
     actionLabel: 'Descargar Guía',
     link: '#',
     level: 'preparatoria'

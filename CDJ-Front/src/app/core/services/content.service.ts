@@ -119,8 +119,14 @@ export class ContentService {
             imageUrl:    serie.coverImageUrl,
             icon:        serie.icon,
             iconBgClass: serie.iconBgClass,
+            href:        serie.slug === 'edutips' ? '/edutips' : `/series/${serie.slug}`,
           }
-        : card; // Card standalone (ayuda): usa su propia data
+        : {
+            ...card,
+            href: card.destination === 'series' && card.id !== 'series'
+              ? `/series/${card.id}`
+              : card.href,
+          }; // Card standalone (ayuda): usa su propia data
 
       // Parches de card solo para campos que no existen en VideoSeries (badge, href)
       const cp = cardPatches[card.id];
@@ -149,7 +155,7 @@ export class ContentService {
   );
 
   readonly seriesFeatureCards = computed(() =>
-    this.featureCards().filter((c) => c.sections?.includes('series')).slice(0, 3)
+    this.featureCards().filter((c) => c.sections?.includes('series'))
   );
 
   readonly recursosFeatureCards = computed(() =>
@@ -180,7 +186,29 @@ export class ContentService {
   }
 
   getSeriesBySlug(slug: string): VideoSeries | undefined {
-    return this.videoSeries().find((s) => s.slug === slug);
+    const found = this.videoSeries().find((s) => s.slug === slug);
+    if (found) return found;
+
+    // Fallback: look up in featureCards if destination is series
+    const card = this.featureCards().find((c) => c.id === slug && c.destination === 'series');
+    if (card) {
+      return {
+        id: card.id,
+        slug: card.id,
+        title: card.title,
+        tagline: card.description || '',
+        description: card.description || '',
+        coverImageUrl: card.imageUrl || '',
+        accentClass: 'from-slate-800 to-slate-900', // default neutral dark gradient
+        iconBgClass: card.iconBgClass || 'bg-slate-650',
+        icon: card.icon || 'play_circle',
+        episodeCount: 0,
+        audience: card.audience || 'kids',
+        illoScene: card.illoScene || undefined,
+        videos: [],
+      };
+    }
+    return undefined;
   }
 
   /**
@@ -217,10 +245,10 @@ export class ContentService {
       teachers: 'school',
     };
     const bgMap: Record<string, string> = {
-      kids: 'bg-teal-600',
+      kids: 'bg-rose-600',
       teens: 'bg-violet-600',
       families: 'bg-orange-600',
-      teachers: 'bg-emerald-600',
+      teachers: 'bg-rose-600',
     };
     const destMap: Record<string, string> = {
       kids: 'ninas_y_ninos',
@@ -272,13 +300,20 @@ export class ContentService {
    */
   async saveCardToDatabase(
     cardId: string,
-    patch: { title?: string; description?: string; imageUrl?: string; destination?: string }
+    patch: Partial<FeatureCard>
   ): Promise<void> {
-    const changes: { title?: string; description?: string; imageUrl?: string; destination?: string } = {};
+    const changes: any = {};
+    if (patch.id !== undefined) changes.id = patch.id;
     if (patch.title !== undefined) changes.title = patch.title;
     if (patch.description !== undefined) changes.description = patch.description;
     if (patch.imageUrl !== undefined) changes.imageUrl = patch.imageUrl;
     if (patch.destination !== undefined) changes.destination = patch.destination;
+    if (patch.icon !== undefined) changes.icon = patch.icon;
+    if (patch.iconBgClass !== undefined) changes.iconBgClass = patch.iconBgClass;
+    if (patch.iconShadowClass !== undefined) changes.iconShadowClass = patch.iconShadowClass;
+    if (patch.illoScene !== undefined) changes.illoScene = patch.illoScene;
+    if (patch.badge !== undefined) changes.badge = patch.badge;
+    if (patch.audience !== undefined) changes.audience = patch.audience;
 
     if (Object.keys(changes).length === 0) return;
 
@@ -330,6 +365,32 @@ export class ContentService {
   }
 
   /**
+   * Crea una nueva FeatureCard en la base de datos (admin).
+   */
+  async createCardInDatabase(card: Omit<FeatureCard, 'id' | 'href'>): Promise<void> {
+    try {
+      await this.api.post('/content/feature-cards', card);
+      await this.refreshFromBackend();
+    } catch (err) {
+      console.error('Error al crear tarjeta en base de datos:', err);
+      throw err;
+    }
+  }
+
+  /**
+   * Elimina una FeatureCard de la base de datos (admin).
+   */
+  async deleteCardFromDatabase(cardId: string): Promise<void> {
+    try {
+      await this.api.del(`/content/feature-cards/${cardId}`);
+      await this.refreshFromBackend();
+    } catch (err) {
+      console.error('Error al eliminar tarjeta en base de datos:', err);
+      throw err;
+    }
+  }
+
+  /**
    * Mapea la respuesta del backend (formas Prisma con relations) a las
    * formas que esperan los componentes del front. La idea es absorber
    * cambios del backend sin tocar componentes.
@@ -338,9 +399,9 @@ export class ContentService {
     if (b.branding) {
       this.branding.set({
         logoText: { line1: b.branding.logoLine1, line2: b.branding.logoLine2 },
-        logoGradientFrom: 'from-teal-500',
-        logoGradientVia: 'via-emerald-500',
-        logoGradientTo: 'to-teal-600',
+        logoGradientFrom: 'from-rose-500',
+        logoGradientVia: 'via-rose-500',
+        logoGradientTo: 'to-rose-600',
         siteName: b.branding.siteName,
         tagline: b.branding.tagline,
       });

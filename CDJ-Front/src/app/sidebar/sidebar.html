@@ -12,11 +12,10 @@
     <!-- Header con logo + toggle -->
     <div class="sidebar-head">
       <a routerLink="/" (click)="onNavigate()" class="sidebar-brand">
-        <app-cdj-logo containerClass="h-9 w-9 shrink-0 rounded-xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
-        <div class="sidebar-brand-text">
-          {{ branding().logoText.line1 }}<br>
-          {{ branding().logoText.line2 }}
-          <span class="text-[color:var(--c-cdj)]">Jalisco</span>
+        <app-cdj-logo variant="icon" containerClass="h-10 w-10 shrink-0"></app-cdj-logo>
+        <div class="sidebar-brand-text font-display">
+          Ciudadanía<br>
+          Digital <span class="text-[color:var(--c-cdj)]">SEJ</span>
         </div>
       </a>
 
@@ -65,8 +64,7 @@
              class="sidebar-item"
              [title]="item.label">
             <span class="sidebar-icon">
-              <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive"
-                [style.color]="'var(--c-' + item.audience + ')'">{{ item.icon }}</span>
+              <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span>
             </span>
             <span class="sidebar-label">{{ item.label }}</span>
             @if (item.subItems?.length) {
@@ -114,6 +112,16 @@
     <!-- Footer del sidebar -->
     <div class="sidebar-foot">
       @if (isAuthenticated()) {
+        <a routerLink="/AlfaAdminPanel" (click)="onNavigate()"
+           routerLinkActive="is-active"
+           class="sidebar-item mb-2 w-full cursor-pointer bg-blue-500/5 text-blue-600 dark:text-blue-400 hover:bg-blue-500/10"
+           title="Panel de Administración">
+          <span class="sidebar-icon">
+            <span translate="no" class="material-symbols-rounded text-[20px]">dashboard</span>
+          </span>
+          <span class="sidebar-label font-bold">Panel Admin</span>
+        </a>
+
         <button type="button" (click)="toggleEdit()"
            class="sidebar-item mb-2 w-full cursor-pointer border-none transition-colors"
            [class.bg-amber-500/10]="editMode()"

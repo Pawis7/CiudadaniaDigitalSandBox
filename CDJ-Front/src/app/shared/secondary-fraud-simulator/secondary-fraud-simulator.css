@@ -5,7 +5,7 @@
 .sim-shell {
   background:
     radial-gradient(circle at top left, rgba(124, 58, 237, 0.08), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(233, 0, 76, 0.08), transparent 32%),
     var(--surface-card);
 }
 
@@ -72,8 +72,8 @@
   min-height: 580px;
   background-color: #efeae2;
   background-image: 
-    radial-gradient(rgba(7, 94, 84, 0.04) 1px, transparent 1px),
-    radial-gradient(rgba(7, 94, 84, 0.03) 1px, #efeae2 1px);
+    radial-gradient(rgba(197, 0, 63, 0.04) 1px, transparent 1px),
+    radial-gradient(rgba(197, 0, 63, 0.03) 1px, #efeae2 1px);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
   border-radius: 34px;
@@ -136,7 +136,7 @@
   width: 130px;
   height: 26px;
   background: #09090b;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(233, 0, 76, 0.3);
 }
 
 .dynamic-island.is-alert {
@@ -149,8 +149,8 @@
 .dynamic-island.is-success {
   width: 130px;
   height: 26px;
-  background: #022c22;
-  border: 1px solid rgba(52, 211, 153, 0.4);
+  background: #450012;
+  border: 1px solid rgba(255, 51, 102, 0.4);
 }
 
 /* Camera Lens Reflex in Dynamic Island */
@@ -274,7 +274,7 @@
   justify-content: center;
   padding: 2rem 1.4rem 2.2rem;
   background:
-    linear-gradient(180deg, rgba(7, 94, 84, 0.96), rgba(14, 116, 144, 0.94)),
+    linear-gradient(180deg, rgba(197, 0, 63, 0.96), rgba(233, 0, 76, 0.94)),
     linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 65%);
   color: #fff;
 }
@@ -339,7 +339,7 @@
 .phone-cta--full {
   width: 100%;
   margin-top: 1rem;
-  background: linear-gradient(135deg, #128c7e, #0f766e);
+  background: linear-gradient(135deg, #E9004C, #C5003F);
   color: #fff;
 }
 
@@ -351,7 +351,7 @@
   justify-content: space-between;
   gap: 0.75rem;
   padding: 3.2rem 1rem 0.95rem;
-  background: #075e54;
+  background: #C5003F;
   color: #fff;
 }
 
@@ -381,7 +381,7 @@
   height: 2.45rem;
   place-items: center;
   border-radius: 999px;
-  background: linear-gradient(135deg, #25d366, #128c7e);
+  background: linear-gradient(135deg, #FF3366, #E9004C);
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.06em;
@@ -420,7 +420,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid rgba(7, 94, 84, 0.1);
+  border-bottom: 1px solid rgba(197, 0, 63, 0.1);
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(14px);
 }
@@ -455,11 +455,11 @@
 }
 
 .phone-casebar__progress span.is-active {
-  background: linear-gradient(90deg, #7c3aed, #0f766e);
+  background: linear-gradient(90deg, #7c3aed, #C5003F);
 }
 
 .phone-casebar__progress span.is-done {
-  background: #128c7e;
+  background: #E9004C;
 }
 
 .wa-chat {
@@ -509,7 +509,7 @@
 
 .wa-bubble--me {
   border-radius: 1.05rem 1.05rem 0.3rem 1.05rem;
-  background: #dcf8c6;
+  background: #FFE0E9;
 }
 
 .wa-bubble--system {
@@ -558,8 +558,8 @@
 }
 
 .wa-feedback__pill--good {
-  background: #dcfce7;
-  color: #166534;
+  background: #FFE0E9;
+  color: #C5003F;
 }
 
 .wa-feedback__pill--warn {
@@ -650,7 +650,7 @@
 
 .phone-result {
   background:
-    linear-gradient(180deg, rgba(7, 94, 84, 1), rgba(248, 250, 252, 1) 22%);
+    linear-gradient(180deg, rgba(197, 0, 63, 1), rgba(248, 250, 252, 1) 22%);
 }
 
 @media (max-width: 640px) {

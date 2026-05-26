@@ -24,7 +24,7 @@ export async function PATCH(
       return badRequest('cardIds debe ser un array.');
     }
 
-    if (cardIds.length > 3) {
+    if (section !== 'series' && cardIds.length > 3) {
       return badRequest('No puedes seleccionar más de 3 elementos destacados por sección.');
     }
 

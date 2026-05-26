@@ -138,11 +138,11 @@
            class="card card-hover group relative flex flex-col cursor-pointer transition-all duration-300"
            [class.ring-4]="selectedLevel() === sub.id"
            [class.ring-violet-500]="selectedLevel() === sub.id && isTeenAudience()"
-           [class.ring-teal-500]="selectedLevel() === sub.id && !isTeenAudience()"
+           [class.ring-rose-500]="selectedLevel() === sub.id && !isTeenAudience()"
            [class.shadow-2xl]="selectedLevel() === sub.id"
            [class.scale-[1.03]]="selectedLevel() === sub.id"
            [class.border-violet-300]="selectedLevel() === sub.id && isTeenAudience()"
-           [class.border-teal-300]="selectedLevel() === sub.id && !isTeenAudience()">
+           [class.border-rose-300]="selectedLevel() === sub.id && !isTeenAudience()">
 
           <!-- Active Selection Badge -->
           <span *ngIf="selectedLevel() === sub.id" 
@@ -262,13 +262,13 @@
         <button type="button" 
                 (click)="activeFilter.set('guide')" 
                 class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
-                [class.bg-emerald-600]="activeFilter() === 'guide'"
+                [class.bg-rose-600]="activeFilter() === 'guide'"
                 [class.text-white]="activeFilter() === 'guide'"
                 [class.bg-[color:var(--surface-card)]]="activeFilter() !== 'guide'"
-                [class.text-emerald-700]="activeFilter() !== 'guide'"
+                [class.text-rose-700]="activeFilter() !== 'guide'"
                 [class.border]="activeFilter() !== 'guide'"
                 [class.border-[color:var(--border-soft)]]="activeFilter() !== 'guide'"
-                [class.hover:bg-emerald-50]="activeFilter() !== 'guide'">
+                [class.hover:bg-rose-50]="activeFilter() !== 'guide'">
           <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">description</span>
           Guías y PDFs 📝
         </button>
@@ -291,7 +291,7 @@
                 <span class="rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider shadow-sm"
                       [class.bg-violet-100]="item.type === 'game'" [class.text-violet-700]="item.type === 'game'"
                       [class.bg-sky-100]="item.type === 'video'" [class.text-sky-700]="item.type === 'video'"
-                      [class.bg-emerald-100]="item.type === 'guide'" [class.text-emerald-700]="item.type === 'guide'">
+                      [class.bg-rose-100]="item.type === 'guide'" [class.text-rose-700]="item.type === 'guide'">
                   {{ item.typeLabel }}
                 </span>
               </div>

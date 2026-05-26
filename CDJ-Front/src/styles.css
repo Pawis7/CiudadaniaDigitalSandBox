@@ -30,15 +30,15 @@
   --font-sans: 'Inter', 'Garet', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Garet', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-  --color-cdj-50: #F0FDFA;
-  --color-cdj-100: #CCFBF1;
-  --color-cdj-200: #99F6E4;
-  --color-cdj-300: #5EEAD4;
-  --color-cdj-400: #2DD4BF;
-  --color-cdj-500: #14B8A6;
-  --color-cdj-600: #0F766E;
-  --color-cdj-700: #115E59;
-  --color-cdj-800: #134E4A;
+  --color-cdj-50: #FFF1F5;
+  --color-cdj-100: #FFE0E9;
+  --color-cdj-200: #FFC2D4;
+  --color-cdj-300: #FF8FAD;
+  --color-cdj-400: #FF4D7A;
+  --color-cdj-500: #E9004C;
+  --color-cdj-600: #C5003F;
+  --color-cdj-700: #9E0033;
+  --color-cdj-800: #7A0028;
 
   --color-primary-variable: var(--text-primary-variable);
 }
@@ -51,17 +51,17 @@
    ======================================================================== */
 :root {
   /* === Marca institucional (constante en ambos temas) === */
-  --c-cdj: #0F766E;
-  --c-cdj-soft: #14B8A6;
-  --c-cdj-tint: #CCFBF1;
-  --c-cdj-cream: #F0FDFA;
-  --c-cdj-deep: #115E59;
+  --c-cdj: #E9004C;
+  --c-cdj-soft: #FF3366;
+  --c-cdj-tint: #FFE0E9;
+  --c-cdj-cream: #FFF1F5;
+  --c-cdj-deep: #C5003F;
 
   /* Audiencias (acentos) */
-  --c-kids: #0D9488;
-  --c-kids-soft: #14B8A6;
-  --c-kids-tint: #CCFBF1;
-  --c-kids-cream: #ECFDF5;
+  --c-kids: #FF3366;
+  --c-kids-soft: #FF6285;
+  --c-kids-tint: #FFD6E0;
+  --c-kids-cream: #FFF1F5;
   --c-teens: #7C3AED;
   --c-teens-soft: #8B5CF6;
   --c-teens-tint: #EDE9FE;
@@ -70,10 +70,10 @@
   --c-families-soft: #F97316;
   --c-families-tint: #FFEDD5;
   --c-families-cream: #FFF7ED;
-  --c-teachers: #059669;
-  --c-teachers-soft: #10B981;
-  --c-teachers-tint: #D1FAE5;
-  --c-teachers-cream: #ECFDF5;
+  --c-teachers: #C5003F;
+  --c-teachers-soft: #E9004C;
+  --c-teachers-tint: #FFCFDC;
+  --c-teachers-cream: #FFF1F5;
   --c-help: #E11D48;
   --c-help-soft: #F43F5E;
   --c-help-tint: #FFE4E6;
@@ -488,48 +488,15 @@ button:hover .icon-interactive,
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 220ms ease,
     opacity 220ms ease;
 }
 
 @media (hover: hover) {
   .card-hover:hover {
-    transform: translateY(-3px) scale(1.012) !important;
+    transform: translateY(-3px) scale(1.015) !important;
     box-shadow: var(--shadow-card-hover);
-    border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 32%, var(--border-soft));
     z-index: 10;
     opacity: 1 !important;
-  }
-
-  /* Sibling focus effect: oscurece a los hermanos pero sin shrink agresivo.
-     IMPORTANTE: opacity/filter se aplican SOLO al contenido (>*), no al
-     contenedor .card-hover. Si los aplicamos al card raíz, también se
-     desvanece su box-shadow → la sombra se vuelve translúcida y el fondo
-     blanco se ve como "halo blanco". Manteniéndola en .card-hover, la
-     sombra negra se conserva opaca. */
-  .grid:has(.card-hover:hover) .card-hover {
-    transform: scale(0.995) !important;
-    box-shadow: var(--shadow-card-sibling) !important;
-    border-color: var(--border-soft) !important;
-  }
-
-  /* Atenuación REAL (oscura, no translúcida).
-     `opacity` haría ver el fondo blanco del card → halo blancuzco.
-     `filter: brightness()` oscurece los píxeles sin transparencia. */
-  .grid:has(.card-hover:hover) .card-hover>* {
-    filter: brightness(0.6) saturate(0.95);
-    transition: filter 220ms ease;
-  }
-
-  .grid:has(.card-hover:hover) .card-hover:hover {
-    transform: translateY(-3px) scale(1.012) !important;
-    box-shadow: var(--shadow-card-hover);
-    border-color: color-mix(in srgb, var(--aud, var(--c-cdj)) 32%, var(--border-soft));
-    z-index: 10;
-  }
-
-  .grid:has(.card-hover:hover) .card-hover:hover>* {
-    filter: none;
   }
 }
 
@@ -661,7 +628,7 @@ button:hover .icon-interactive,
 }
 
 .meta-pill.is-success {
-  background: color-mix(in srgb, #10B981 12%, var(--surface-card));
+  background: color-mix(in srgb, #E9004C 12%, var(--surface-card));
   color: #047857;
 }
 
@@ -671,7 +638,7 @@ button:hover .icon-interactive,
 }
 
 [data-theme='dark'] .meta-pill.is-success {
-  background: color-mix(in srgb, #10B981 22%, var(--surface-card));
+  background: color-mix(in srgb, #E9004C 22%, var(--surface-card));
   color: #34D399;
 }
 
@@ -942,15 +909,10 @@ button:hover .icon-interactive,
 
 @media (min-width: 1700px) {
   .main-hero img {
-    position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 1788px !important;
-    min-width: 1788px !important;
-    max-width: none !important;
-    height: auto !important;
-    min-height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
   }
 }
 
@@ -982,9 +944,9 @@ body.sidebar-collapsed .catalog-hero {
   }
 
   .main-hero {
-    height: 423px !important;
-    min-height: 423px !important;
-    max-height: 423px !important;
+    height: clamp(260px, 22vw, 360px) !important;
+    min-height: clamp(260px, 22vw, 360px) !important;
+    max-height: clamp(260px, 22vw, 360px) !important;
     display: block !important;
   }
 }
