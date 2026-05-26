@@ -49,9 +49,9 @@
           </span>
         </button>
         <a routerLink="/" class="flex items-center gap-2">
-          <app-cdj-logo containerClass="h-8 w-8 rounded-lg bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"></app-cdj-logo>
-          <span class="text-[12px] font-black leading-[1.05] tracking-tight text-[color:var(--text-primary)]">
-            Ciudadanía<br>Digital <span class="text-[color:var(--c-cdj)]">Jalisco</span>
+          <app-cdj-logo variant="icon" containerClass="h-9 w-9 shrink-0"></app-cdj-logo>
+          <span class="font-display text-[12px] font-black leading-[1.05] tracking-tight text-[color:var(--text-primary)]">
+            Ciudadanía<br>Digital <span class="text-[color:var(--c-cdj)]">SEJ</span>
           </span>
         </a>
       </div>
@@ -160,7 +160,7 @@
       <div class="grid grid-cols-1 gap-10 md:grid-cols-5 lg:gap-12">
         <div class="md:col-span-2">
           <a routerLink="/" class="mb-5 flex items-center gap-3">
-            <app-cdj-logo containerClass="h-11 w-11 rounded-2xl bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)] shadow-sm"></app-cdj-logo>
+            <app-cdj-logo variant="auto" containerClass="h-12 w-auto shrink-0"></app-cdj-logo>
             <div class="text-lg font-black leading-tight text-[color:var(--text-primary)]">
               {{ branding().siteName }}
             </div>
@@ -201,7 +201,7 @@
       <div class="mt-10 flex flex-col gap-3 border-t border-[color:var(--border-soft)] pt-8 text-center text-xs text-[color:var(--text-mute)] sm:mt-12 sm:flex-row sm:items-center sm:justify-between sm:text-left">
         <span>© {{ year }} {{ branding().siteName }} · Gobierno de Jalisco</span>
         <span class="inline-flex items-center justify-center gap-2">
-          <span class="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+          <span class="inline-flex h-1.5 w-1.5 rounded-full bg-rose-500"></span>
           Plataforma activa
         </span>
       </div>

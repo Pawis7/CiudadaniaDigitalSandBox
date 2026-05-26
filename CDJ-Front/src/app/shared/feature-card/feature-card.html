@@ -8,24 +8,23 @@
   <!-- ── ENLACE PRINCIPAL ──────────────────────────────────────────────── -->
   <a [routerLink]="card.href" class="flex flex-1 flex-col overflow-hidden">
 
-    <!-- ── Imagen (proporción 16:10 → se ve completa, sin recorte fuerte) ── -->
-    <div class="relative aspect-[16/10] w-full overflow-hidden">
+    <!-- ── Imagen (5:3 nativo de portadas, completa sin recorte) ── -->
+    <div class="relative aspect-[5/3] w-full overflow-hidden bg-[color:var(--surface-soft)]">
       <div class="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]">
         <app-editable-image
           [id]="card.id"
           [src]="card.imageUrl"
           [alt]="card.title"
           [width]="1875" [height]="1125" aspectLabel="5:3"
-          imgClass="h-full w-full object-cover"
+          imgClass="h-full w-full object-contain"
           [theme]="card.audience"
           [scene]="card.illoScene || 'spark'">
         </app-editable-image>
       </div>
 
-      <!-- Gradient base + viñeta sutil para profundidad -->
-      <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+      <!-- Halo audience sutil solo en hover -->
       <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100"
-           style="background: radial-gradient(120% 80% at 50% 100%, color-mix(in srgb, var(--aud, var(--c-cdj)) 30%, transparent) 0%, transparent 60%);"></div>
+           style="background: radial-gradient(120% 80% at 50% 100%, color-mix(in srgb, var(--aud, var(--c-cdj)) 22%, transparent) 0%, transparent 65%);"></div>
 
 
       <!-- Play button: button-in-button con magnetic hover -->

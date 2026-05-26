@@ -245,10 +245,10 @@ export class ContentService {
       teachers: 'school',
     };
     const bgMap: Record<string, string> = {
-      kids: 'bg-teal-600',
+      kids: 'bg-rose-600',
       teens: 'bg-violet-600',
       families: 'bg-orange-600',
-      teachers: 'bg-emerald-600',
+      teachers: 'bg-rose-600',
     };
     const destMap: Record<string, string> = {
       kids: 'ninas_y_ninos',
@@ -399,9 +399,9 @@ export class ContentService {
     if (b.branding) {
       this.branding.set({
         logoText: { line1: b.branding.logoLine1, line2: b.branding.logoLine2 },
-        logoGradientFrom: 'from-teal-500',
-        logoGradientVia: 'via-emerald-500',
-        logoGradientTo: 'to-teal-600',
+        logoGradientFrom: 'from-rose-500',
+        logoGradientVia: 'via-rose-500',
+        logoGradientTo: 'to-rose-600',
         siteName: b.branding.siteName,
         tagline: b.branding.tagline,
       });
