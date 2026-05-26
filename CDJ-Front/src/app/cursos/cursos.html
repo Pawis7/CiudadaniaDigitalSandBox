@@ -1,49 +1,16 @@
 <!-- AI AGENT NOTE: HERO/BANNER DIMENSIONS
      - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
      - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed) -->
-<section class="catalog-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12" data-audience="teachers">
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-rose-500/10 blur-3xl"></div>
-    <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-sky-500/8 blur-3xl"></div>
-  </div>
-
-  <div class="relative z-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-center">
-    <div>
-      <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-[color:var(--text-mute)]">
-        <a routerLink="/" class="transition-colors hover:text-[color:var(--text-primary)]">Inicio</a>
-        <span>›</span>
-        <span class="text-[color:var(--text-primary)]">Cursos</span>
-      </nav>
-
-      <p class="eyebrow text-[color:var(--c-teachers)]">Aprendizaje estructurado</p>
-      <h1 class="display-1 mt-3 text-[color:var(--text-primary)]">Cursos para aprender con más orden</h1>
-      <p class="mt-4 max-w-2xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-lg">
-        Aquí viven los recorridos más completos del portal. Son materiales pensados para estudiar con más calma, avanzar por unidades y aplicar lo aprendido.
-      </p>
-
-      <div class="mt-6 flex flex-wrap gap-2.5">
-        <span class="meta-pill is-accent">
-          <span class="h-[14px] w-[14px]"><app-ui-icon name="course"></app-ui-icon></span>
-          {{ courses().length }} cursos publicados
-        </span>
-        <span class="meta-pill is-warning">
-          <span class="h-[14px] w-[14px]"><app-ui-icon name="check"></app-ui-icon></span>
-          Constancia opcional
-        </span>
-        <span class="meta-pill is-success">100% gratuito</span>
-      </div>
-    </div>
-
-    <!-- Elemento Gráfico de Cursos -->
-    <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center animate-fade-in group">
-      <!-- Soft glowing ambient behind the graphic -->
-      <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-[color:var(--c-teachers)] to-transparent blur-2xl opacity-20 group-hover:scale-110 transition-transform duration-1000"></span>
-      <!-- Placeholder Oficial para Cursos -->
-      <span class="relative z-10 grid h-24 w-24 place-items-center rounded-3xl bg-[color:var(--c-teachers)] text-white shadow-xl backdrop-blur-sm border border-white/30 transition-transform duration-1000 group-hover:scale-[1.03]">
-        <span class="h-[40px] w-[40px] text-white"><app-ui-icon name="course"></app-ui-icon></span>
-      </span>
-    </div>
-  </div>
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+  data-audience="teachers">
+  <h1 class="sr-only">Cursos - Ciudadanía Digital</h1>
+  <img
+    src="/banners/CIUDADANIA_CURSOS.jpg"
+    alt="Ciudadanía Digital Jalisco Cursos"
+    class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
 
 <!-- Lo que distingue a la sección (Ubicado debajo del banner) -->

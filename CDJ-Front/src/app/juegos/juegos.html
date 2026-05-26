@@ -4,53 +4,16 @@
 <!-- AI AGENT NOTE: HERO/BANNER DIMENSIONS
      - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
      - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed) -->
-<section class="catalog-hero mb-8" data-audience="families">
-  <nav class="breadcrumb mb-4">
-    <a routerLink="/">Inicio</a>
-    <span class="breadcrumb-sep">›</span>
-    <span class="is-current">Juegos</span>
-  </nav>
-
-  <div class="grid grid-cols-1 items-end gap-6 lg:grid-cols-[1.4fr_1fr]">
-    <div>
-      <p class="eyebrow text-[color:var(--c-families)]">Aprende jugando</p>
-      <h1 appReveal="up" class="display-1 mt-2">Juegos para jugar y aprender</h1>
-      <p appReveal="up" [revealDelay]="100" class="lede mt-3 max-w-2xl">
-        Quizzes, simuladores y juegos de cartas para familias, niños y adolescentes. Algunos para imprimir, otros para jugar online — todos enseñan algo.
-      </p>
-
-      <div class="mt-5 flex flex-wrap gap-2 text-[12px]">
-        <span class="meta-pill">
-          <span translate="no" class="material-symbols-rounded text-[14px]">sports_esports</span>
-          {{ games().length }} juegos
-        </span>
-        <span class="meta-pill is-success">
-          <span translate="no" class="material-symbols-rounded text-[14px]">group</span>
-          Multijugador
-        </span>
-        <span class="meta-pill is-warning">
-          <span translate="no" class="material-symbols-rounded text-[14px]">print</span>
-          Imprimibles
-        </span>
-      </div>
-    </div>
-
-    <!-- Cluster decorativo de íconos divertidos -->
-    <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center animate-fade-in group" data-audience="families">
-      <!-- Soft glowing ambient behind the icons -->
-      <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-white/20 to-transparent blur-2xl opacity-40 group-hover:scale-110 transition-transform duration-1000"></span>
-      
-      <span class="absolute left-1/4 -translate-x-1/2 top-4 grid h-16 w-16 place-items-center rounded-2xl bg-amber-300 text-orange-900 shadow-xl anim-float-slow rotate-6 group-hover:scale-105 transition-transform duration-500">
-        <span translate="no" class="material-symbols-rounded text-3xl icon-fill">extension</span>
-      </span>
-      <span class="absolute left-1/2 -translate-x-1/2 top-16 grid h-14 w-14 place-items-center rounded-2xl bg-white text-[color:var(--c-families)] shadow-xl border border-[color:var(--border-soft)] anim-float-fast -rotate-6 group-hover:scale-105 transition-transform duration-500">
-        <span translate="no" class="material-symbols-rounded text-2xl icon-fill">quiz</span>
-      </span>
-      <span class="absolute left-3/4 -translate-x-1/2 top-8 grid h-12 w-12 place-items-center rounded-2xl bg-rose-400 text-white shadow-xl anim-float-slow rotate-12 group-hover:scale-105 transition-transform duration-500">
-        <span translate="no" class="material-symbols-rounded text-xl icon-fill">style</span>
-      </span>
-    </div>
-  </div>
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+  data-audience="families">
+  <h1 class="sr-only">Juegos - Ciudadanía Digital</h1>
+  <img
+    src="/banners/CIUDADANIA_JUEGOS.jpg"
+    alt="Ciudadanía Digital Jalisco Juegos"
+    class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
 
 <!-- BUCKETS DE EDAD -->

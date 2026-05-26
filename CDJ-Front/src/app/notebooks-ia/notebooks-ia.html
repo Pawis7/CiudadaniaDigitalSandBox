@@ -4,49 +4,16 @@
 <!-- AI AGENT NOTE: HERO/BANNER DIMENSIONS
      - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
      - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed) -->
-<section class="catalog-hero mb-8" data-audience="teens">
-  <nav class="breadcrumb mb-4">
-    <a routerLink="/">Inicio</a>
-    <span class="breadcrumb-sep">›</span>
-    <span class="is-current">Notebooks IA</span>
-  </nav>
-
-  <div class="grid grid-cols-1 items-end gap-6 lg:grid-cols-[1.5fr_1fr]">
-    <div>
-      <p class="eyebrow text-[color:var(--c-teens)]">Asistentes inteligentes</p>
-      <h1 appReveal="up" class="display-1 mt-2">
-        IA que sabe de
-        <span class="block text-[color:var(--c-teens)]">ciudadanía digital</span>
-      </h1>
-      <p appReveal="up" [revealDelay]="100" class="lede mt-3 max-w-2xl">
-        Notebooks de Google NotebookLM, Gems de Gemini y GPTs entrenados con los recursos oficiales del portal. Pregúntales lo que quieras: te responden citando las fuentes y con el contexto del programa.
-      </p>
-
-      <div class="mt-5 flex flex-wrap gap-2 text-[12px]">
-        <span class="meta-pill is-success">
-          <span translate="no" class="material-symbols-rounded text-[14px]">verified</span>
-          Fuentes oficiales
-        </span>
-        <span class="meta-pill is-accent">
-          <span translate="no" class="material-symbols-rounded text-[14px]">language</span>
-          En español
-        </span>
-        <span class="meta-pill">
-          <span translate="no" class="material-symbols-rounded text-[14px]">free_cancellation</span>
-          Sin registro
-        </span>
-      </div>
-    </div>
-
-    <!-- Elemento Gráfico de IA -->
-    <div class="relative w-full aspect-[16/10] h-auto overflow-hidden rounded-[2rem] bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl flex items-center justify-center animate-fade-in group">
-      <!-- Soft glowing ambient behind the graphic -->
-      <span aria-hidden="true" class="absolute -inset-10 bg-gradient-to-tr from-white/25 to-transparent blur-2xl opacity-40 group-hover:scale-110 transition-transform duration-1000"></span>
-      <img src="/banners/ciudadania-digital-ia-principal.png" 
-           alt="Banner de Jalisco Aprende IA" 
-           class="relative z-10 block h-full w-full object-contain object-center transition-transform duration-1000 group-hover:scale-[1.03]">
-    </div>
-  </div>
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+  data-audience="teens">
+  <h1 class="sr-only">Notebooks IA - Ciudadanía Digital</h1>
+  <img
+    src="/banners/CIUDADANIA_NOTEBOOK.jpg"
+    alt="Ciudadanía Digital Jalisco Notebooks IA"
+    class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
 
 <!-- FILTRO POR KIND -->
