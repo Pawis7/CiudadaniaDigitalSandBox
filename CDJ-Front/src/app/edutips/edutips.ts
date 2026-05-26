@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
-import { YoutubePlayerComponent } from '../shared/youtube-player/youtube-player';
 import { ExploreByTopicComponent } from '../shared/explore-by-topic/explore-by-topic';
 import { VideoModalComponent } from '../shared/video-modal/video-modal';
 
@@ -21,8 +19,8 @@ interface VideoMeta {
   selector: 'app-edutips',
   standalone: true,
   imports: [
-    CommonModule, FormsModule, RouterLink,
-    RevealDirective, YoutubePlayerComponent, ExploreByTopicComponent, VideoModalComponent,
+    CommonModule, FormsModule,
+    RevealDirective, ExploreByTopicComponent, VideoModalComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './edutips.html',

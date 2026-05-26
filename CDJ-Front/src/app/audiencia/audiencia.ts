@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { AUDIENCE_PAGES } from '../core/data/page-content';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
-import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
 import { AudienceSlug } from '../core/models/content.models';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
@@ -155,7 +154,7 @@ const LEVEL_RESOURCES: LevelResource[] = [
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, SecondaryFraudSimulatorComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, SecondaryFraudSimulatorComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })

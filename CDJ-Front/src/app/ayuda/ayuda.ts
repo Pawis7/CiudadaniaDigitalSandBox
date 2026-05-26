@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { HELP_CHANNELS, HELP_SITUATIONS } from '../core/data/page-content';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
-import { AudIllustrationComponent } from '../shared/aud-illustration/aud-illustration';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 
 @Component({
   selector: 'app-ayuda',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, AudIllustrationComponent, UiIconComponent],
+  imports: [CommonModule, RevealDirective, UiIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ayuda.html',
 })

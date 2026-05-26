@@ -7,7 +7,6 @@ import { map } from 'rxjs/operators';
 import { ContentService } from '../../core/services/content.service';
 import { ApiClient } from '../../core/services/api.client';
 import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
-import { YoutubePlayerComponent } from '../../shared/youtube-player/youtube-player';
 import { EditableImageComponent } from '../../shared/editable-image/editable-image';
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -25,7 +24,7 @@ interface SyncResult {
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, YoutubePlayerComponent, EditableImageComponent, FeatureCardComponent, VideoModalComponent],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, EditableImageComponent, FeatureCardComponent, VideoModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })
