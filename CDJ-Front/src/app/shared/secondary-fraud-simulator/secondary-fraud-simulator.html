@@ -43,16 +43,16 @@
             A lo largo de este ejercicio te enfrentarás a 3 casos reales que miles de estudiantes en México reciben todos los días por WhatsApp o SMS.
           </p>
           <div class="grid gap-3 sm:grid-cols-3 pt-2">
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-              <strong class="block font-black text-sm text-violet-700">Caso 1</strong>
+            <div class="p-3 bg-[color:var(--surface-soft)] rounded-xl border border-[color:var(--border-soft)]">
+              <strong class="block font-black text-sm text-violet-700 dark:text-violet-400">Caso 1</strong>
               <span class="text-xs text-[color:var(--text-soft)]">Promoción inesperada</span>
             </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-              <strong class="block font-black text-sm text-amber-600">Caso 2</strong>
+            <div class="p-3 bg-[color:var(--surface-soft)] rounded-xl border border-[color:var(--border-soft)]">
+              <strong class="block font-black text-sm text-amber-600 dark:text-amber-400">Caso 2</strong>
               <span class="text-xs text-[color:var(--text-soft)]">Paquete pendiente</span>
             </div>
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100">
-              <strong class="block font-black text-sm text-rose-600">Caso 3</strong>
+            <div class="p-3 bg-[color:var(--surface-soft)] rounded-xl border border-[color:var(--border-soft)]">
+              <strong class="block font-black text-sm text-rose-600 dark:text-rose-400">Caso 3</strong>
               <span class="text-xs text-[color:var(--text-soft)]">Apoyo en riesgo</span>
             </div>
           </div>
@@ -67,28 +67,37 @@
         <div
           class="rounded-[1.9rem] border p-6 shadow-[var(--shadow-lg)] space-y-4"
           [class.border-rose-200]="result().tone === 'solid'"
+          [class.dark:border-rose-900/40]="result().tone === 'solid'"
           [class.bg-rose-50]="result().tone === 'solid'"
+          [class.dark:bg-rose-950/20]="result().tone === 'solid'"
           [class.border-amber-200]="result().tone === 'medium'"
+          [class.dark:border-amber-900/40]="result().tone === 'medium'"
           [class.bg-amber-50]="result().tone === 'medium'"
+          [class.dark:bg-amber-950/20]="result().tone === 'medium'"
           [class.border-rose-200]="result().tone === 'risk'"
-          [class.bg-rose-50]="result().tone === 'risk'">
+          [class.dark:border-rose-900/40]="result().tone === 'risk'"
+          [class.bg-rose-50]="result().tone === 'risk'"
+          [class.dark:bg-rose-950/20]="result().tone === 'risk'">
           <p class="text-[11px] font-black uppercase tracking-[0.18em]"
              [class.text-rose-700]="result().tone === 'solid'"
+             [class.dark:text-rose-400]="result().tone === 'solid'"
              [class.text-amber-700]="result().tone === 'medium'"
-             [class.text-rose-700]="result().tone === 'risk'">
+             [class.dark:text-amber-400]="result().tone === 'medium'"
+             [class.text-rose-700]="result().tone === 'risk'"
+             [class.dark:text-rose-400]="result().tone === 'risk'">
             Resultado final del simulador
           </p>
           <h3 class="text-2xl font-black tracking-tight text-[color:var(--text-primary)]">{{ result().title }}</h3>
           <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ result().description }}</p>
 
-          <div class="rounded-[1.25rem] bg-white/90 p-4 shadow-sm border border-white">
+          <div class="rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4 shadow-sm border border-[color:var(--border-soft)]">
             <p class="text-xs font-black uppercase tracking-[0.16em] text-[color:var(--text-mute)] mb-1">Mensaje modelo</p>
             <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ result().message }}</p>
           </div>
 
           <div class="grid gap-2.5 pt-2">
             @for (item of result().checklist; track item) {
-              <div class="flex items-center gap-3 rounded-xl border border-white/70 bg-white/80 px-4 py-3 shadow-sm">
+              <div class="flex items-center gap-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] px-4 py-3 shadow-sm">
                 <span translate="no" class="material-symbols-rounded text-[color:var(--aud)] shrink-0">check_circle</span>
                 <p class="text-sm font-medium leading-relaxed text-[color:var(--text-primary)]">{{ item }}</p>
               </div>
@@ -138,10 +147,10 @@
           <h4 class="text-lg font-black text-[color:var(--text-primary)]">{{ currentStep().question }}</h4>
           <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ currentStep().text }}</p>
 
-          <div class="rounded-2xl bg-violet-50/80 border border-violet-100 p-4 flex gap-3 text-violet-950 shadow-sm">
-            <span translate="no" class="material-symbols-rounded text-xl text-violet-700 shrink-0">tips_and_updates</span>
+          <div class="rounded-2xl bg-violet-50/80 border border-violet-100 dark:bg-violet-950/20 dark:border-violet-900/30 p-4 flex gap-3 text-violet-950 dark:text-violet-200 shadow-sm">
+            <span translate="no" class="material-symbols-rounded text-xl text-violet-700 dark:text-violet-400 shrink-0">tips_and_updates</span>
             <div class="space-y-0.5">
-              <strong class="block text-xs font-black uppercase tracking-wider text-violet-800">Señal de alerta</strong>
+              <strong class="block text-xs font-black uppercase tracking-wider text-violet-800 dark:text-violet-300">Señal de alerta</strong>
               <p class="text-xs leading-relaxed font-medium">{{ currentStep().hint }}</p>
             </div>
           </div>
@@ -162,17 +171,23 @@
                 [class.hover:border-[color:var(--aud)]]="selectedChoiceIndex() === null && !isTyping()"
                 [class.hover:shadow-md]="selectedChoiceIndex() === null && !isTyping()"
                 [class.border-rose-500]="selectedChoiceIndex() === idx && choice.type === 'good'"
+                [class.dark:border-rose-900/40]="selectedChoiceIndex() === idx && choice.type === 'good'"
                 [class.bg-rose-50]="selectedChoiceIndex() === idx && choice.type === 'good'"
+                [class.dark:bg-rose-950/20]="selectedChoiceIndex() === idx && choice.type === 'good'"
                 [class.border-amber-500]="selectedChoiceIndex() === idx && choice.type === 'warn'"
+                [class.dark:border-amber-900/40]="selectedChoiceIndex() === idx && choice.type === 'warn'"
                 [class.bg-amber-50]="selectedChoiceIndex() === idx && choice.type === 'warn'"
+                [class.dark:bg-amber-950/20]="selectedChoiceIndex() === idx && choice.type === 'warn'"
                 [class.border-rose-500]="selectedChoiceIndex() === idx && choice.type === 'bad'"
-                [class.bg-rose-50]="selectedChoiceIndex() === idx && choice.type === 'bad'">
+                [class.dark:border-rose-900/40]="selectedChoiceIndex() === idx && choice.type === 'bad'"
+                [class.bg-rose-50]="selectedChoiceIndex() === idx && choice.type === 'bad'"
+                [class.dark:bg-rose-950/20]="selectedChoiceIndex() === idx && choice.type === 'bad'">
                 <span class="text-sm leading-snug text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors pr-3">{{ choice.title }}</span>
                 <span
                   class="shrink-0 rounded-full px-3 py-1 text-[10px] font-black tracking-wider uppercase shadow-sm"
-                  [class.bg-rose-100]="choice.type === 'good'" [class.text-rose-800]="choice.type === 'good'"
-                  [class.bg-amber-100]="choice.type === 'warn'" [class.text-amber-800]="choice.type === 'warn'"
-                  [class.bg-rose-100]="choice.type === 'bad'" [class.text-rose-800]="choice.type === 'bad'">
+                  [class.bg-rose-100]="choice.type === 'good'" [class.dark:bg-rose-950/40]="choice.type === 'good'" [class.text-rose-800]="choice.type === 'good'" [class.dark:text-rose-300]="choice.type === 'good'"
+                  [class.bg-amber-100]="choice.type === 'warn'" [class.dark:bg-amber-950/40]="choice.type === 'warn'" [class.text-amber-800]="choice.type === 'warn'" [class.dark:text-amber-300]="choice.type === 'warn'"
+                  [class.bg-rose-100]="choice.type === 'bad'" [class.dark:bg-rose-950/40]="choice.type === 'bad'" [class.text-rose-800]="choice.type === 'bad'" [class.dark:text-rose-300]="choice.type === 'bad'">
                   {{ choiceTone(choice.type) }}
                 </span>
               </button>
@@ -186,16 +201,16 @@
             <div class="flex items-center justify-between">
               <span class="text-xs font-black uppercase tracking-wider text-[color:var(--text-mute)]">Retroalimentación</span>
               <span class="inline-flex items-center gap-1 text-xs font-black uppercase px-2.5 py-0.5 rounded-full"
-                [class.bg-rose-100]="answer.type === 'good'" [class.text-rose-800]="answer.type === 'good'"
-                [class.bg-amber-100]="answer.type === 'warn'" [class.text-amber-800]="answer.type === 'warn'"
-                [class.bg-rose-100]="answer.type === 'bad'" [class.text-rose-800]="answer.type === 'bad'">
+                [class.bg-rose-100]="answer.type === 'good'" [class.dark:bg-rose-950/40]="answer.type === 'good'" [class.text-rose-800]="answer.type === 'good'" [class.dark:text-rose-300]="answer.type === 'good'"
+                [class.bg-amber-100]="answer.type === 'warn'" [class.dark:bg-amber-950/40]="answer.type === 'warn'" [class.text-amber-800]="answer.type === 'warn'" [class.dark:text-amber-300]="answer.type === 'warn'"
+                [class.bg-rose-100]="answer.type === 'bad'" [class.dark:bg-rose-950/40]="answer.type === 'bad'" [class.text-rose-800]="answer.type === 'bad'" [class.dark:text-rose-300]="answer.type === 'bad'">
                 {{ choiceTone(answer.type) }}
               </span>
             </div>
             <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ answer.feedback }}</p>
 
             @if (currentStepIndex() === currentCase().steps.length - 1) {
-              <div class="rounded-xl bg-slate-50 border border-slate-100 p-4 mt-3 flex items-start gap-3">
+              <div class="rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-4 mt-3 flex items-start gap-3">
                 <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">task_alt</span>
                 <div class="space-y-0.5">
                   <strong class="block text-xs font-black text-[color:var(--text-primary)] uppercase tracking-wider">Cierre del caso</strong>

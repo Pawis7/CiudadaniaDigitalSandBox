@@ -904,16 +904,10 @@ button:hover .icon-interactive,
 }
 
 .main-hero img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover !important;
   object-position: center !important;
-}
-
-@media (min-width: 1700px) {
-  .main-hero img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    object-position: center !important;
-  }
 }
 
 body.sidebar-collapsed .main-hero,
@@ -944,9 +938,9 @@ body.sidebar-collapsed .catalog-hero {
   }
 
   .main-hero {
-    height: clamp(260px, 22vw, 360px) !important;
-    min-height: clamp(260px, 22vw, 360px) !important;
-    max-height: clamp(260px, 22vw, 360px) !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
     display: block !important;
   }
 }

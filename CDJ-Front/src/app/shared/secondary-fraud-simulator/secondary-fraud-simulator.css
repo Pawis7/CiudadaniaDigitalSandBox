@@ -71,6 +71,7 @@
   width: 100%;
   min-height: 580px;
   background-color: #efeae2;
+  color: #0f172a !important;
   background-image: 
     radial-gradient(rgba(197, 0, 63, 0.04) 1px, transparent 1px),
     radial-gradient(rgba(197, 0, 63, 0.03) 1px, #efeae2 1px);
