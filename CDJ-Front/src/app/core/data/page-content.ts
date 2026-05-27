@@ -51,9 +51,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'face',
     ageRange: '5 a 11 años',
     subLevels: [
-      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pre', bgClass: 'from-rose-400 to-rose-500', icon: 'child_care', resourceCount: 12 },
-      { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: 'https://images.unsplash.com/photo-1522661067900-ab829854a57f?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18 },
-      { id: 'primaria-alta',  title: 'Primaria alta', subtitle: '9 a 11 años', imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=900', imageId: 'sub-kids-pa',  bgClass: 'from-cyan-400 to-blue-500',    icon: 'auto_stories', resourceCount: 22 },
+      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: '/ninosyninas_portadas/PREESCOLAR.jpg', imageId: 'sub-kids-pre', bgClass: 'from-rose-400 to-rose-500', icon: 'child_care', resourceCount: 12 },
+      { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18 },
+      { id: 'primaria-alta',  title: 'Primaria alta', subtitle: '9 a 11 años', imageUrl: '/ninosyninas_portadas/PRIMARIA ALTA.jpg', imageId: 'sub-kids-pa',  bgClass: 'from-cyan-400 to-blue-500',    icon: 'auto_stories', resourceCount: 22 },
     ],
     topics: [
       { icon: 'shield_person',  title: 'Cuidado en línea',     description: 'Saber qué compartir y qué no.',    bgClass: 'bg-rose-500' },
@@ -79,8 +79,8 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'forum',
     ageRange: '12 a 17 años',
     subLevels: [
-      { id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años', imageUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=900', imageId: 'sub-teens-sec', bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 15 },
-      { id: 'preparatoria', title: 'Preparatoria', subtitle: '15 a 17 años', imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=900', imageId: 'sub-teens-prep', bgClass: 'from-fuchsia-500 to-pink-500', icon: 'school', resourceCount: 17 },
+      { id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años', imageUrl: '/adolescentes_portadas/SECUNDARIA.jpg', imageId: 'sub-teens-sec', bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 15 },
+      { id: 'preparatoria', title: 'Preparatoria', subtitle: '15 a 17 años', imageUrl: '/adolescentes_portadas/PREPARATORIA.jpg', imageId: 'sub-teens-prep', bgClass: 'from-fuchsia-500 to-pink-500', icon: 'school', resourceCount: 17 },
     ],
     topics: [
       { icon: 'visibility_off', title: 'Privacidad real',         description: 'Configurar bien tus cuentas.',      bgClass: 'bg-violet-500' },
@@ -106,10 +106,10 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'groups',
     ageRange: 'Todas las edades',
     subLevels: [
-      { id: 'fam-0-5',   title: '0 - 5 años',   subtitle: 'Primera infancia',           imageUrl: 'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?auto=format&fit=crop&q=80&w=900', imageId: 'sub-fam-05',  bgClass: 'from-amber-400 to-orange-500',  icon: 'child_care',     resourceCount: 9 },
-      { id: 'fam-6-11',  title: '6 - 11 años',  subtitle: 'Niñez',                      imageUrl: 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=900', imageId: 'sub-fam-611', bgClass: 'from-orange-500 to-rose-500',   icon: 'family_restroom',resourceCount: 11 },
-      { id: 'fam-12-14', title: '12 - 14 años', subtitle: 'Adolescencia temprana',      imageUrl: 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80&w=900', imageId: 'sub-fam-1214',bgClass: 'from-rose-500 to-pink-600',     icon: 'forum',          resourceCount: 14 },
-      { id: 'fam-15-22', title: '15 - 22 años', subtitle: 'Adolescencia tardía y juventud', imageUrl: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=900', imageId: 'sub-fam-1522',bgClass: 'from-pink-600 to-red-600',      icon: 'volunteer_activism', resourceCount: 12 },
+      { id: 'fam-0-5',   title: '0 - 5 años',   subtitle: 'Primera infancia',           imageUrl: '/familias_portadas/0-5.jpg', imageId: 'sub-fam-05',  bgClass: 'from-amber-400 to-orange-500',  icon: 'child_care',     resourceCount: 9 },
+      { id: 'fam-6-11',  title: '6 - 11 años',  subtitle: 'Niñez',                      imageUrl: '/familias_portadas/6-11.jpg', imageId: 'sub-fam-611', bgClass: 'from-orange-500 to-rose-500',   icon: 'family_restroom',resourceCount: 11 },
+      { id: 'fam-12-14', title: '12 - 14 años', subtitle: 'Adolescencia temprana',      imageUrl: '/familias_portadas/12-14.jpg', imageId: 'sub-fam-1214',bgClass: 'from-rose-500 to-pink-600',     icon: 'forum',          resourceCount: 14 },
+      { id: 'fam-15-22', title: '15 - 22 años', subtitle: 'Adolescencia tardía y juventud', imageUrl: '/familias_portadas/15-22.jpg', imageId: 'sub-fam-1522',bgClass: 'from-pink-600 to-red-600',      icon: 'volunteer_activism', resourceCount: 12 },
     ],
     topics: [
       { icon: 'handshake',       title: 'Acuerdos en casa',     description: 'Reglas claras sin pelear.',         bgClass: 'bg-orange-500' },
@@ -135,11 +135,11 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'school',
     ageRange: 'Preescolar a preparatoria',
     subLevels: [
-      { id: 'doc-pre',  title: 'Preescolar',     subtitle: '3 a 5 años',   imageUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=900', imageId: 'sub-doc-pre', bgClass: 'from-rose-500 to-rose-500', icon: 'child_friendly', resourceCount: 8 },
-      { id: 'doc-pb',   title: 'Primaria baja',  subtitle: '6 a 8 años',   imageUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=900', imageId: 'sub-doc-pb',  bgClass: 'from-rose-500 to-cyan-500',    icon: 'menu_book',      resourceCount: 14 },
-      { id: 'doc-pa',   title: 'Primaria alta',  subtitle: '9 a 11 años',  imageUrl: 'https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?auto=format&fit=crop&q=80&w=900', imageId: 'sub-doc-pa',  bgClass: 'from-cyan-500 to-blue-500',    icon: 'edit_note',      resourceCount: 16 },
-      { id: 'doc-sec',  title: 'Secundaria',     subtitle: '12 a 14 años', imageUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=900', imageId: 'sub-doc-sec', bgClass: 'from-blue-500 to-indigo-500',  icon: 'science',        resourceCount: 13 },
-      { id: 'doc-prep', title: 'Preparatoria',   subtitle: '15 a 17 años', imageUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=900', imageId: 'sub-doc-prep',bgClass: 'from-indigo-500 to-violet-500',icon: 'computer',       resourceCount: 11 },
+      { id: 'doc-pre',  title: 'Preescolar',     subtitle: '3 a 5 años',   imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-29.jpg', imageId: 'sub-doc-pre', bgClass: 'from-rose-500 to-rose-500', icon: 'child_friendly', resourceCount: 8 },
+      { id: 'doc-pb',   title: 'Primaria baja',  subtitle: '6 a 8 años',   imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-30.jpg', imageId: 'sub-doc-pb',  bgClass: 'from-rose-500 to-cyan-500',    icon: 'menu_book',      resourceCount: 14 },
+      { id: 'doc-pa',   title: 'Primaria alta',  subtitle: '9 a 11 años',  imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-31.jpg', imageId: 'sub-doc-pa',  bgClass: 'from-cyan-500 to-blue-500',    icon: 'edit_note',      resourceCount: 16 },
+      { id: 'doc-sec',  title: 'Secundaria',     subtitle: '12 a 14 años', imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-32.jpg', imageId: 'sub-doc-sec', bgClass: 'from-blue-500 to-indigo-500',  icon: 'science',        resourceCount: 13 },
+      { id: 'doc-prep', title: 'Preparatoria',   subtitle: '15 a 17 años', imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-33.jpg', imageId: 'sub-doc-prep',bgClass: 'from-indigo-500 to-violet-500',icon: 'computer',       resourceCount: 11 },
     ],
     topics: [
       { icon: 'menu_book',  title: 'Secuencias didácticas', description: 'Planeaciones por nivel.',           bgClass: 'bg-rose-500' },
