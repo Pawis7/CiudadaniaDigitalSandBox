@@ -34,7 +34,8 @@
     <!-- Topbar — fijo arriba (position: fixed → siempre visible al scroll) -->
     <header
       class="topbar flex items-center gap-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-2.5 shadow-sm sm:px-4 lg:gap-4 lg:px-5 lg:py-3"
-      [class.shadow-md]="scrolled()">
+      [class.shadow-md]="scrolled()"
+      [class.is-hidden]="headerHidden()">
 
       <!-- Mobile: hamburger + logo compacto -->
       <div class="flex items-center gap-2.5 lg:hidden">
@@ -56,14 +57,14 @@
         </a>
       </div>
 
-      <!-- Desktop nav primario (chips de catálogo) -->
-      <nav class="hidden items-center gap-0.5 lg:flex">
+      <!-- Desktop nav primario (barra inferior activa) -->
+      <nav class="hidden items-center gap-4 lg:flex">
         <a *ngFor="let link of topNav"
            [routerLink]="link.href.startsWith('/') ? link.href : null"
            [href]="!link.href.startsWith('/') ? link.href : null"
            [routerLinkActiveOptions]="{ exact: link.exact }"
-           routerLinkActive="bg-[color:var(--c-cdj-cream)] text-[color:var(--c-cdj)]"
-           class="rounded-lg px-3 py-1.5 text-[13.5px] font-semibold text-[color:var(--text-secondary)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]">
+           routerLinkActive="!border-[color:var(--c-cdj)] !text-[color:var(--text-primary)]"
+           class="rounded-none px-1 py-2 text-[13.5px] font-semibold text-[color:var(--text-secondary)] transition-all hover:text-[color:var(--text-primary)] border-b-2 border-transparent hover:border-[color:var(--text-mute)]">
           {{ link.label }}
         </a>
       </nav>

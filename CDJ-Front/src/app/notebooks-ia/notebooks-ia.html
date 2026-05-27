@@ -11,7 +11,7 @@
   data-audience="teens">
   <h1 class="sr-only">Notebooks IA - Ciudadanía Digital</h1>
   <img
-    src="/banners/CIUDADANIA_NOTEBOOK.jpg"
+    src="/banners/CIUDADANIA_NotebookHero.png"
     alt="Ciudadanía Digital Jalisco Notebooks IA"
     class="block w-full h-auto lg:h-full lg:object-cover">
 </section>
@@ -36,38 +36,48 @@
 <!-- DESTACADO -->
 @if (featured(); as f) {
   <section appReveal="up" class="mb-6" data-audience="teens">
-    <a [href]="f.externalUrl" target="_blank" rel="noopener noreferrer"
-       class="group relative block overflow-hidden rounded-2xl border border-[color:var(--border)] shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl">
-      <div class="absolute inset-0 bg-gradient-to-br from-violet-600 via-fuchsia-600 to-cyan-600"></div>
-      <div class="absolute inset-0 opacity-25 bg-[linear-gradient(rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+    @if (kindFilter() === 'todos') {
+      <a [href]="f.externalUrl" target="_blank" rel="noopener noreferrer"
+         class="group relative block overflow-hidden rounded-2xl border border-[color:var(--border)] shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl">
+        <img
+          src="/banners/CIUDADANIA_NOTEBOOK.jpg"
+          alt="Tutor de Ciudadanía Digital"
+          class="block w-full h-auto object-cover">
+      </a>
+    } @else {
+      <a [href]="f.externalUrl" target="_blank" rel="noopener noreferrer"
+         class="group relative block overflow-hidden rounded-2xl border border-[color:var(--border)] shadow-xl transition-all hover:-translate-y-1 hover:shadow-2xl">
+        <div class="absolute inset-0 bg-gradient-to-br from-violet-600 via-fuchsia-600 to-cyan-600"></div>
+        <div class="absolute inset-0 opacity-25 bg-[linear-gradient(rgba(255,255,255,0.15)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-      <div class="relative grid grid-cols-1 items-center gap-6 p-6 text-white sm:p-8 lg:grid-cols-[1.5fr_1fr]">
-        <div class="space-y-3">
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[10px] font-black uppercase tracking-wider backdrop-blur">
-            <span translate="no" class="material-symbols-rounded text-[12px] icon-fill">whatshot</span>
-            Destacado · {{ kindMeta[f.kind].label }}
-          </span>
-          <h2 class="text-2xl font-black tracking-tight sm:text-3xl">{{ f.title }}</h2>
-          <p class="max-w-xl text-sm leading-relaxed text-white/90">{{ f.description }}</p>
-          <div class="flex flex-wrap gap-2 pt-1">
-            @for (t of f.topics; track t) {
-              <span class="rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold backdrop-blur">#{{ t }}</span>
-            }
-          </div>
-          <div class="pt-3">
-            <span class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-violet-700 shadow-lg transition-all group-hover:gap-3">
-              Abrir asistente
-              <span translate="no" class="material-symbols-rounded text-[18px]">open_in_new</span>
+        <div class="relative grid grid-cols-1 items-center gap-6 p-6 text-white sm:p-8 lg:grid-cols-[1.5fr_1fr]">
+          <div class="space-y-3">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-[10px] font-black uppercase tracking-wider backdrop-blur">
+              <span translate="no" class="material-symbols-rounded text-[12px] icon-fill">whatshot</span>
+              Destacado · {{ kindMeta[f.kind].label }}
             </span>
+            <h2 class="text-2xl font-black tracking-tight sm:text-3xl">{{ f.title }}</h2>
+            <p class="max-w-xl text-sm leading-relaxed text-white/90">{{ f.description }}</p>
+            <div class="flex flex-wrap gap-2 pt-1">
+              @for (t of f.topics; track t) {
+                <span class="rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-bold backdrop-blur">#{{ t }}</span>
+              }
+            </div>
+            <div class="pt-3">
+              <span class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-violet-700 shadow-lg transition-all group-hover:gap-3">
+                Abrir asistente
+                <span translate="no" class="material-symbols-rounded text-[18px]">open_in_new</span>
+              </span>
+            </div>
+          </div>
+          <div class="hidden justify-center lg:flex">
+            <div class="grid h-32 w-32 place-items-center rounded-3xl bg-white/15 text-white backdrop-blur border border-white/20 shadow-2xl">
+              <span translate="no" class="material-symbols-rounded text-7xl icon-fill">{{ kindMeta[f.kind].icon }}</span>
+            </div>
           </div>
         </div>
-        <div class="hidden justify-center lg:flex">
-          <div class="grid h-32 w-32 place-items-center rounded-3xl bg-white/15 text-white backdrop-blur border border-white/20 shadow-2xl">
-            <span translate="no" class="material-symbols-rounded text-7xl icon-fill">{{ kindMeta[f.kind].icon }}</span>
-          </div>
-        </div>
-      </div>
-    </a>
+      </a>
+    }
   </section>
 }
 

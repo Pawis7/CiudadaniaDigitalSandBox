@@ -57,7 +57,7 @@ export class App implements AfterViewInit {
   @ViewChild('inlineSearch') inlineSearch?: ElementRef<HTMLInputElement>;
 
   topNav: { label: string; href: string; exact: boolean }[] = [
-    { label: 'Perfiles',  href: '/p/adolescentes', exact: false },
+    { label: 'Inicio',    href: '/',               exact: true },
     { label: 'Cursos',    href: '/cursos',         exact: false },
     { label: 'Recursos',  href: '/recursos',       exact: false },
     { label: 'Ayuda',     href: '/ayuda',          exact: false },
@@ -148,9 +148,36 @@ export class App implements AfterViewInit {
     else document.documentElement.removeAttribute('data-theme');
   }
 
+  private lastScrollY = 0;
+  headerHidden = signal(false);
+  private scrollThreshold = 60; // Se oculta temprano, poco después de iniciar el scroll
+  private scrollDelta = 15; // Exige un movimiento ligeramente más deliberado para evitar nerviosismo
+
   @HostListener('window:scroll')
   onScroll() {
-    this.scrolled.set(window.scrollY > 8);
+    const currentScrollY = window.scrollY;
+    this.scrolled.set(currentScrollY > 8);
+
+    // Si estamos arriba, siempre visible
+    if (currentScrollY <= 20) {
+      this.headerHidden.set(false);
+      this.lastScrollY = currentScrollY;
+      return;
+    }
+
+    const diff = currentScrollY - this.lastScrollY;
+
+    // Solo reacciona si el movimiento supera el delta
+    if (Math.abs(diff) > this.scrollDelta) {
+      if (diff > 0 && currentScrollY > this.scrollThreshold) {
+        // Scroll hacia abajo y después del threshold -> ocultar
+        this.headerHidden.set(true);
+      } else if (diff < 0) {
+        // Scroll hacia arriba -> mostrar
+        this.headerHidden.set(false);
+      }
+      this.lastScrollY = currentScrollY;
+    }
   }
 
   @HostListener('document:keydown.escape')
