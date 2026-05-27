@@ -94,11 +94,12 @@ export async function fetchPlaylistItems(
   playlistId: string,
   apiKey: string = process.env.YOUTUBE_API_KEY ?? '',
 ): Promise<YouTubePlaylistItem[]> {
-  if (!apiKey) {
-    throw new Error('Falta YOUTUBE_API_KEY en variables de entorno.');
-  }
   if (!playlistId) {
     throw new Error('playlistId requerido.');
+  }
+  if (!apiKey) {
+    console.info(`[YouTube API] YOUTUBE_API_KEY no configurada. Usando fallback de raspado público para la playlist: ${playlistId}`);
+    return fetchPlaylistItemsScraper(playlistId);
   }
 
   const collected: YouTubePlaylistItem[] = [];
@@ -165,4 +166,95 @@ export async function fetchPlaylistItems(
   }
 
   return collected;
+}
+
+/**
+ * Raspador fallback público que descarga el HTML de la playlist de YouTube
+ * y extrae la variable ytInitialData para parsear los videos.
+ * Se activa automáticamente cuando no hay YOUTUBE_API_KEY configurada.
+ */
+async function fetchPlaylistItemsScraper(playlistId: string): Promise<YouTubePlaylistItem[]> {
+  const url = `https://www.youtube.com/playlist?list=${playlistId}`;
+  const res = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36',
+      'Accept-Language': 'es-ES,es;q=0.9',
+    },
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error(`YouTube scraping falló con estado ${res.status}`);
+  }
+
+  const html = await res.text();
+  const marker = 'var ytInitialData = ';
+  const index = html.indexOf(marker);
+  if (index === -1) {
+    throw new Error('No se pudo encontrar ytInitialData en la respuesta pública de YouTube. La playlist podría ser privada.');
+  }
+
+  const start = index + marker.length;
+  let end = html.indexOf(';</script>', start);
+  if (end === -1) {
+    end = html.indexOf('};', start);
+    if (end !== -1) end += 1;
+  }
+
+  if (end === -1) {
+    throw new Error('No se pudo encontrar el delimitador de datos en la página de YouTube.');
+  }
+
+  const jsonStr = html.substring(start, end).trim();
+  let data: any;
+  try {
+    data = JSON.parse(jsonStr);
+  } catch (err) {
+    throw new Error('Error al parsear el JSON de la playlist pública.');
+  }
+
+  let playlistVideoList = null;
+
+  // Estructura estándar de dos columnas
+  const tabs = data?.contents?.twoColumnBrowseResultsRenderer?.tabs;
+  const content = tabs?.[0]?.tabRenderer?.content;
+  const sectionList = content?.sectionListRenderer?.contents;
+  const itemSection = sectionList?.[0]?.itemSectionRenderer?.contents;
+  playlistVideoList = itemSection?.[0]?.playlistVideoListRenderer?.contents;
+
+  // Estructura de columna única
+  if (!playlistVideoList) {
+    const singleContent = data?.contents?.singleColumnBrowseResultsRenderer?.tabs?.[0]?.tabRenderer?.content;
+    const singleSection = singleContent?.sectionListRenderer?.contents;
+    const singleItem = singleSection?.[0]?.itemSectionRenderer?.contents;
+    playlistVideoList = singleItem?.[0]?.playlistVideoListRenderer?.contents;
+  }
+
+  if (!playlistVideoList) {
+    throw new Error('No se encontraron videos en la estructura pública de la playlist. Asegúrate de que no esté vacía o sea pública.');
+  }
+
+  const items: YouTubePlaylistItem[] = [];
+  for (const item of playlistVideoList) {
+    const v = item.playlistVideoRenderer;
+    if (!v) continue;
+
+    const videoId = v.videoId;
+    if (!videoId) continue;
+
+    const title = v.title?.runs?.[0]?.text || v.title?.simpleText || 'Sin título';
+    const description = v.descriptionSnippet?.runs?.map((r: any) => r.text).join('') || '';
+    const durationLabel = v.lengthText?.simpleText || v.lengthText?.runs?.[0]?.text || null;
+
+    items.push({
+      videoId,
+      title,
+      description,
+      publishedAt: null,
+      durationLabel,
+      position: v.index?.simpleText ? parseInt(v.index.simpleText, 10) : items.length,
+    });
+  }
+
+  return items;
 }
