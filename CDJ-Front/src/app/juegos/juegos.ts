@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { GAMES } from '../core/data/special-sections.data';
 import { Game, GameKind } from '../core/models/special-sections.models';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-juegos',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective],
+  imports: [CommonModule, RouterLink, RevealDirective, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './juegos.html',
 })

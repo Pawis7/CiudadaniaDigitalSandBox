@@ -7,11 +7,12 @@ import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 import { HeroSectionComponent } from '../hero-section/hero-section';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent, HeroSectionComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent, HeroSectionComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',

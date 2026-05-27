@@ -7,12 +7,16 @@
       [class]="imgClass$">
     </app-aud-illustration>
   }
+  @if (!imgLoaded() && !showFallback()) {
+    <div class="absolute inset-0 bg-slate-200 dark:bg-slate-800 animate-pulse"></div>
+  }
   <img
     [src]="resolvedSrc()"
     [alt]="alt$"
     [class]="imgClass$"
     [attr.loading]="loadingAttr"
-    [class.opacity-0]="showFallback()"
+    class="transition-opacity duration-300"
+    [class.opacity-0]="!imgLoaded() || showFallback()"
     [class.absolute]="showFallback()"
     [class.inset-0]="showFallback()"
     decoding="async"

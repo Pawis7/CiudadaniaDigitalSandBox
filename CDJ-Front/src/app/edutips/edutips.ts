@@ -5,6 +5,7 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { ExploreByTopicComponent } from '../shared/explore-by-topic/explore-by-topic';
 import { VideoModalComponent } from '../shared/video-modal/video-modal';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 interface FilterChip { id: string; label: string; icon?: string; }
 interface VideoMeta {
@@ -20,7 +21,7 @@ interface VideoMeta {
   standalone: true,
   imports: [
     CommonModule, FormsModule,
-    RevealDirective, ExploreByTopicComponent, VideoModalComponent,
+    RevealDirective, ExploreByTopicComponent, VideoModalComponent, ImageLoaderDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './edutips.html',

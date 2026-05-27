@@ -10,6 +10,7 @@ import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simu
 import { AudienceSlug } from '../core/models/content.models';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 const SLUG_TO_AUDIENCE: Record<string, AudienceSlug> = {
   'ninas-y-ninos': 'kids',
@@ -154,7 +155,7 @@ const LEVEL_RESOURCES: LevelResource[] = [
 @Component({
   selector: 'app-audiencia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, SecondaryFraudSimulatorComponent, FeatureCardComponent, SectionFeaturedSelectorComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, SecondaryFraudSimulatorComponent, FeatureCardComponent, SectionFeaturedSelectorComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })

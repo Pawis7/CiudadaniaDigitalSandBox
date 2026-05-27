@@ -6,6 +6,7 @@ import { COURSES } from '../core/data/special-sections.data';
 import { Course, CourseLevel } from '../core/models/special-sections.models';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 type SortKey = 'popular' | 'recent' | 'duration_asc' | 'duration_desc';
 type DurationKey = 'todos' | 'corto' | 'medio' | 'largo';
@@ -13,7 +14,7 @@ type DurationKey = 'todos' | 'corto' | 'medio' | 'largo';
 @Component({
   selector: 'app-cursos',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, UiIconComponent],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, UiIconComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cursos.html',
 })

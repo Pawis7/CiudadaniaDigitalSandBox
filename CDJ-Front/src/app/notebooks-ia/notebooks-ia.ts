@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { NOTEBOOKS_IA } from '../core/data/special-sections.data';
 import { AINotebook, AINotebookKind } from '../core/models/special-sections.models';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-notebooks-ia',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective],
+  imports: [CommonModule, RouterLink, RevealDirective, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './notebooks-ia.html',
 })

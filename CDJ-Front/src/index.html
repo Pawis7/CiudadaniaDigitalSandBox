@@ -26,8 +26,90 @@
       } catch (e) {}
     })();
   </script>
+  <style>
+    /* Global preloader */
+    #global-preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      background: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease-out, visibility 0.4s ease-out;
+    }
+    
+    html[data-theme='dark'] #global-preloader {
+      background: #0A0F1C;
+    }
+    
+    #global-preloader.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
+    .preloader-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+    
+    .preloader-logo {
+      font-family: 'Garet', 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: #0F172A;
+      animation: pulse-grow 2s infinite ease-in-out;
+    }
+    
+    html[data-theme='dark'] .preloader-logo {
+      color: #F8FAFC;
+    }
+    
+    .preloader-logo span {
+      color: #E9004C;
+    }
+    
+    .preloader-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3.5px solid rgba(233, 0, 76, 0.15);
+      border-radius: 50%;
+      border-top-color: #E9004C;
+      animation: spin-premium 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+    
+    @keyframes spin-premium {
+      to { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse-grow {
+      0%, 100% {
+        transform: scale(0.97);
+        opacity: 0.85;
+      }
+      50% {
+        transform: scale(1.03);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body class="text-slate-800">
+  <!-- Global Preloader -->
+  <div id="global-preloader">
+    <div class="preloader-content">
+      <div class="preloader-logo">
+        Ciudadanía <span>Digital</span>
+      </div>
+      <div class="preloader-spinner"></div>
+    </div>
+  </div>
   <app-root></app-root>
 </body>
 </html>

@@ -91,6 +91,15 @@ export class App implements AfterViewInit {
         this.openSearch();
       }
     });
+
+    // Fade out and remove the initial global preloader once bootstrapped
+    const preloader = document.getElementById('global-preloader');
+    if (preloader) {
+      preloader.classList.add('fade-out');
+      setTimeout(() => {
+        preloader.remove();
+      }, 450); // Matches transition duration
+    }
   }
 
   toggleDrawer() {

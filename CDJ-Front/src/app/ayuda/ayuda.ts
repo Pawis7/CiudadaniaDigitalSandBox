@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HELP_CHANNELS, HELP_SITUATIONS } from '../core/data/page-content';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-ayuda',
   standalone: true,
-  imports: [CommonModule, RevealDirective, UiIconComponent],
+  imports: [CommonModule, RevealDirective, UiIconComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './ayuda.html',
 })

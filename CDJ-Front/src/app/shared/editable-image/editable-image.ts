@@ -33,7 +33,10 @@ export class EditableImageComponent {
   private _scene = signal<AudScene>('hero');
 
   @Input({ required: true }) set id(v: string) { this._id.set(v); }
-  @Input({ required: true }) set src(v: string) { this._src.set(v); }
+  @Input({ required: true }) set src(v: string) { 
+    this._src.set(v); 
+    this.imgLoaded.set(false);
+  }
   @Input() set alt(v: string) { this._alt.set(v); }
   @Input() set imgClass(v: string) { this._imgClass.set(v); }
   @Input() set width(v: number | undefined) { this._width.set(v); }
@@ -44,6 +47,7 @@ export class EditableImageComponent {
   @Input() set scene(v: AudScene) { this._scene.set(v); }
 
   imgFailed = signal(false);
+  imgLoaded = signal(false);
  
   resolvedSrc = computed(() => this.svc.getOverride(this._id()) ?? this._src());
   hasOverride = computed(() => !!this.svc.getOverride(this._id()));
@@ -63,6 +67,12 @@ export class EditableImageComponent {
   get themeVal(): AudTheme { return this._theme(); }
   get sceneVal(): AudScene { return this._scene(); }
  
-  onImgLoad() { this.imgFailed.set(false); }
-  onImgError() { this.imgFailed.set(true); }
+  onImgLoad() { 
+    this.imgFailed.set(false); 
+    this.imgLoaded.set(true);
+  }
+  onImgError() { 
+    this.imgFailed.set(true); 
+    this.imgLoaded.set(false);
+  }
 }

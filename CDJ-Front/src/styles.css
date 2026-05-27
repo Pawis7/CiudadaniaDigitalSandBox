@@ -894,6 +894,7 @@ button:hover .icon-interactive,
 
 .main-hero {
   width: 100% !important;
+  aspect-ratio: 1546 / 423 !important;
   height: auto !important;
   min-height: auto !important;
   max-height: none !important;
@@ -910,7 +911,7 @@ button:hover .icon-interactive,
 
 .main-hero img {
   width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
 }
