@@ -894,18 +894,18 @@ button:hover .icon-interactive,
 
 .main-hero {
   width: 100% !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  padding: 0 !important;
+  display: block !important;
 }
 
 .hero-aud,
 .catalog-hero {
   padding: 1.5rem !important;
-}
-
-.main-hero {
-  padding: 0 !important;
-  display: block !important;
 }
 
 .main-hero img {
@@ -939,13 +939,6 @@ body.sidebar-collapsed .catalog-hero {
     display: grid !important;
     align-content: center !important;
     justify-content: stretch !important;
-  }
-
-  .main-hero {
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    display: block !important;
   }
 }
 
