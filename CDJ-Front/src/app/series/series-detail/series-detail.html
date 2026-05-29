@@ -4,42 +4,87 @@
     appReveal="fade"
     [revealDuration]="700"
     [attr.data-audience]="s.audience"
+    [ngClass]="resolvedCoverUrl() ? 'main-hero' : ''"
     class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-[color:var(--border-soft)] bg-slate-900 text-white shadow-sm sm:mb-12 sm:rounded-[2rem]">
     
-    <!-- Controles de Edición para el Cover del Hero -->
-    <div *ngIf="editMode()" class="absolute right-4 top-4 z-20 flex items-center gap-1.5 rounded-xl bg-slate-900/90 p-2.5 shadow-lg backdrop-blur">
-      <span class="text-[9px] font-extrabold uppercase tracking-wider text-white/70">Cover: {{ s.id }}</span>
-      <input #fileInputHero type="file" accept="image/*" class="hidden" (change)="onFileSelected($event, s.id)">
-      <button
-        type="button"
-        (click)="fileInputHero.click()"
-        class="inline-flex items-center gap-1 rounded-lg bg-blue-600 px-2.5 py-1 text-[11px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 border-none cursor-pointer">
-        <span translate="no" class="material-symbols-rounded text-xs">edit</span>
-        <span>Modificar</span>
-      </button>
-      <button
-        *ngIf="hasOverride(s.id)"
-        type="button"
-        (click)="resetOverride(s.id)"
-        class="inline-flex items-center gap-1 rounded-lg bg-slate-850 px-2.5 py-1 text-[11px] font-bold text-white/80 shadow hover:bg-rose-600 hover:text-white active:scale-95 border-none cursor-pointer">
-        <span translate="no" class="material-symbols-rounded text-xs">restart_alt</span>
-        <span>Restablecer</span>
-      </button>
+    <!-- Controles de Edición de Imágenes -->
+    <div *ngIf="editMode()" class="absolute right-4 top-4 z-20 flex flex-col gap-2 rounded-xl bg-slate-900/90 p-3 shadow-lg backdrop-blur border border-white/10">
+      <span class="text-[10px] font-black uppercase tracking-wider text-white border-b border-white/15 pb-1.5 mb-1 text-center">Imágenes de Serie</span>
+      
+      <!-- Fila Banner -->
+      <div class="flex items-center justify-between gap-4 text-[11px]">
+        <span class="text-white/80 font-semibold">Banner Hero:</span>
+        <div class="flex items-center gap-1">
+          <input #fileInputBanner type="file" accept="image/*" class="hidden" (change)="onFileSelected($event, s.id + '-banner')">
+          <button
+            type="button"
+            (click)="fileInputBanner.click()"
+            class="inline-flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1 text-[10px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 border-none cursor-pointer">
+            <span translate="no" class="material-symbols-rounded text-[11px]">upload</span>
+            <span>Subir</span>
+          </button>
+          <button
+            *ngIf="hasOverride(s.id + '-banner')"
+            type="button"
+            (click)="resetOverride(s.id + '-banner')"
+            class="inline-flex items-center justify-center rounded bg-slate-800 p-1 text-[10px] text-white/80 hover:bg-rose-600 hover:text-white active:scale-95 border-none cursor-pointer"
+            title="Restablecer">
+            <span translate="no" class="material-symbols-rounded text-xs">restart_alt</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Fila Portada -->
+      <div class="flex items-center justify-between gap-4 text-[11px]">
+        <span class="text-white/80 font-semibold">Portada Card:</span>
+        <div class="flex items-center gap-1">
+          <input #fileInputCard type="file" accept="image/*" class="hidden" (change)="onFileSelected($event, s.id)">
+          <button
+            type="button"
+            (click)="fileInputCard.click()"
+            class="inline-flex items-center gap-1 rounded bg-blue-600 px-2.5 py-1 text-[10px] font-bold text-white shadow hover:bg-blue-700 active:scale-95 border-none cursor-pointer">
+            <span translate="no" class="material-symbols-rounded text-[11px]">upload</span>
+            <span>Subir</span>
+          </button>
+          <button
+            *ngIf="hasOverride(s.id)"
+            type="button"
+            (click)="resetOverride(s.id)"
+            class="inline-flex items-center justify-center rounded bg-slate-800 p-1 text-[10px] text-white/80 hover:bg-rose-600 hover:text-white active:scale-95 border-none cursor-pointer"
+            title="Restablecer">
+            <span translate="no" class="material-symbols-rounded text-xs">restart_alt</span>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="absolute inset-0 opacity-50">
-      <app-editable-image
-        [id]="s.id"
-        [src]="s.coverImageUrl"
+    <!-- Fondo de Imagen (si tiene o se ha editado) -->
+    <div *ngIf="resolvedCoverUrl()" class="absolute inset-0">
+      <img
+        appImageLoader
+        [src]="resolvedCoverUrl()"
         [alt]="s.title"
-        [width]="1600" [height]="1000" aspectLabel="16:10"
-        imgClass="h-full w-full object-cover">
-      </app-editable-image>
+        class="h-full w-full object-cover">
     </div>
-    <div class="absolute inset-0 bg-gradient-to-tr opacity-60" [ngClass]="s.accentClass"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent pointer-events-none"></div>
 
-    <div class="relative z-10 p-6 sm:p-12 lg:p-14">
+    <!-- Fondo de Color Autogenerado / Gradiente Rojo Vibrante (si no tiene imagen) -->
+    <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0"
+         style="background: radial-gradient(circle at 80% 20%, var(--c-cdj-soft, #FF3366) 0%, var(--c-cdj, #E9004C) 100%);">
+      <!-- Decoración sutil de fondo para darle "vida" (patrón de puntos y brillos flotantes) -->
+      <span aria-hidden="true" class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-pulse" style="animation-duration: 6s;"></span>
+      <span aria-hidden="true" class="absolute left-[10%] bottom-[-10%] h-64 w-64 rounded-full bg-black/15 blur-2xl"></span>
+      <div class="absolute inset-0 opacity-[0.06]"
+           style="background-image: radial-gradient(circle, white 2px, transparent 2px); background-size: 24px 24px;"></div>
+    </div>
+
+    <!-- Capa de oscurecimiento global para asegurar que las letras blancas se lean perfectamente (Solo si hay texto) -->
+    <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0 bg-slate-950/40 pointer-events-none"></div>
+
+    <!-- Oscurecimiento inferior para contraste de texto (Solo si hay texto) -->
+    <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
+
+    <!-- Contenido del texto (Solo si NO hay banner personalizado) -->
+    <div *ngIf="!resolvedCoverUrl()" class="relative z-10 p-6 sm:p-12 lg:p-14">
       <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-white/70 sm:mb-6">
         <a routerLink="/" class="transition-colors hover:text-white">Inicio</a>
         <span class="text-white/50">›</span>
@@ -56,26 +101,15 @@
         Serie · {{ s.episodeCount }} episodios
       </span>
 
-      <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-4 text-white">
+      <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-4 !text-white" style="color: #ffffff !important;">
         {{ s.title }}
       </h1>
-      <p appReveal="up" [revealDelay]="160" class="mt-2 text-base font-semibold text-white/85 sm:text-lg">
+      <p appReveal="up" [revealDelay]="160" class="mt-2 text-base font-semibold !text-white/85 sm:text-lg" style="color: rgba(255, 255, 255, 0.85) !important;">
         {{ s.tagline }}
       </p>
-      <p appReveal="up" [revealDelay]="220" class="mt-4 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
+      <p appReveal="up" [revealDelay]="220" class="mt-4 max-w-2xl text-sm leading-relaxed !text-white/85 sm:text-base" style="color: rgba(255, 255, 255, 0.85) !important;">
         {{ s.description }}
       </p>
-
-      <div appReveal="up" [revealDelay]="280" class="mt-6 flex flex-wrap gap-3">
-        <button class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-slate-900 shadow-md transition-all hover:-translate-y-0.5">
-          <span translate="no" class="material-symbols-rounded text-base icon-fill">play_arrow</span>
-          Empezar serie
-        </button>
-        <button class="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-bold text-white backdrop-blur transition-all hover:bg-white/20">
-          <span translate="no" class="material-symbols-rounded text-base">bookmark</span>
-          Guardar
-        </button>
-      </div>
     </div>
   </section>
 
@@ -165,9 +199,12 @@
 
         <!-- Thumbnail clicable -->
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
-          <img [src]="getYoutubeThumb(v.youtubeUrl)" [alt]="v.title"
-               class="h-full w-full object-cover">
-          <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+          <img
+            appImageLoader
+            [src]="getYoutubeThumb(v.youtubeUrl)"
+            [alt]="v.title"
+            class="h-full w-full object-cover">
+          <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/25 transition-colors">
             <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud,var(--c-edutips))] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
               <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
             </span>

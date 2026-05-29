@@ -117,7 +117,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       { icon: 'security',        title: 'Riesgos comunes',      description: 'Reconocer y prevenir.',             bgClass: 'bg-red-500' },
       { icon: 'volunteer_activism', title: 'Cuando algo pasa',  description: 'Dónde acudir si necesitas ayuda.',  bgClass: 'bg-amber-500' },
     ],
-    recommendedSeriesSlugs: ['familias-conectadas', 'el-dia-que-casi'],
+    recommendedSeriesSlugs: ['el-dia-que-casi'],
   },
   {
     slug: 'docentes',

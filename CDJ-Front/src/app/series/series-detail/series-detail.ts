@@ -38,6 +38,12 @@ export class SeriesDetailComponent {
   /** editMode del hero cover también requiere login — isEditActive ya lo garantiza */
   editMode = this.imgEdit.isEditActive;
 
+  resolvedCoverUrl = computed(() => {
+    const s = this.serie();
+    if (!s) return '';
+    return this.imgEdit.getOverride(s.id + '-banner') ?? s.bannerImageUrl ?? '';
+  });
+
   hasOverride(id: string): boolean { return !!this.imgEdit.getOverride(id); }
   async resetOverride(id: string) {
     try {
@@ -76,9 +82,27 @@ export class SeriesDetailComponent {
 
   /** Extrae la URL del thumbnail de alta calidad de YouTube */
   getYoutubeThumb(url: string): string {
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|\/watch\?v=))([\w-]{11})/);
-    const vid = match ? match[1] : '';
-    return `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+    if (!url) return '';
+    const trimmed = url.trim();
+    if (trimmed.length === 11 && /^[\w-]{11}$/.test(trimmed)) {
+      return `https://img.youtube.com/vi/${trimmed}/hqdefault.jpg`;
+    }
+    let vid = '';
+    try {
+      const urlObj = new URL(trimmed.startsWith('http') ? trimmed : `https://${trimmed}`);
+      if (urlObj.hostname.includes('youtube.com')) {
+        vid = urlObj.searchParams.get('v') || '';
+      }
+    } catch (e) {}
+    if (!vid) {
+      const match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|\/watch\?v=))([\w-]{11})/);
+      vid = match ? match[1] : '';
+    }
+    if (!vid) {
+      const match = trimmed.match(/(?:\/|vi\/|v=)([\w-]{11})(?:[?&]|$)/);
+      vid = match ? match[1] : '';
+    }
+    return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : '';
   }
 
   /** Otras series como FeatureCard para usar app-feature-card */

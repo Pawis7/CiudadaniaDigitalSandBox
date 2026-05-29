@@ -114,8 +114,26 @@ export class EdutipsComponent {
   activeVideo = signal<any>(null);
 
   getYoutubeThumb(url: string): string {
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|\/watch\?v=))([\w-]{11})/);
-    const vid = match ? match[1] : '';
-    return `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+    if (!url) return '';
+    const trimmed = url.trim();
+    if (trimmed.length === 11 && /^[\w-]{11}$/.test(trimmed)) {
+      return `https://img.youtube.com/vi/${trimmed}/hqdefault.jpg`;
+    }
+    let vid = '';
+    try {
+      const urlObj = new URL(trimmed.startsWith('http') ? trimmed : `https://${trimmed}`);
+      if (urlObj.hostname.includes('youtube.com')) {
+        vid = urlObj.searchParams.get('v') || '';
+      }
+    } catch (e) {}
+    if (!vid) {
+      const match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|\/watch\?v=))([\w-]{11})/);
+      vid = match ? match[1] : '';
+    }
+    if (!vid) {
+      const match = trimmed.match(/(?:\/|vi\/|v=)([\w-]{11})(?:[?&]|$)/);
+      vid = match ? match[1] : '';
+    }
+    return vid ? `https://img.youtube.com/vi/${vid}/hqdefault.jpg` : '';
   }
 }

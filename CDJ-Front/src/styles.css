@@ -512,6 +512,12 @@ button:hover .icon-interactive,
     z-index: 10;
     opacity: 1 !important;
   }
+
+  /* Sibling hover: encoge ligeramente las demás tarjetas en el mismo contenedor */
+  :is(.grid, .card-hover-group):has(.card-hover:hover) .card-hover:not(:hover) {
+    transform: scale(0.975) !important;
+    opacity: 0.75;
+  }
 }
 
 /* Touch / mobile: feedback al presionar (no hay hover) */

@@ -104,6 +104,7 @@ export interface VideoSeries {
   youtubePlaylistId?: string | null;
   /** Última vez que el admin sincronizó la playlist. */
   lastSyncedAt?: string | null;
+  bannerImageUrl?: string;
 }
 
 export interface NavSection {

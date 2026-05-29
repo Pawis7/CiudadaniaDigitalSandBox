@@ -10,7 +10,7 @@
 
     <!-- ── Imagen (5:3 nativo de portadas, completa sin recorte) ── -->
     <div class="relative aspect-[5/3] w-full overflow-hidden bg-[color:var(--surface-soft)]">
-      <div class="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]">
+      <div class="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.32,0.72,0,1)]">
         <app-editable-image
           [id]="card.id"
           [src]="card.imageUrl"
@@ -39,7 +39,7 @@
     <div class="flex flex-1 flex-col gap-2.5 p-4 sm:p-5">
       <div class="flex items-start gap-3">
         <!-- Icono "perrón": gradient + inner highlight + glow del color audience -->
-        <span class="relative grid h-10 w-10 shrink-0 place-items-center rounded-[12px] text-white ring-1 ring-black/5 shadow-[0_6px_16px_-6px_color-mix(in_srgb,var(--aud,var(--c-cdj))_55%,transparent),inset_0_1px_0_rgba(255,255,255,0.3),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:rotate-[-4deg] group-hover:shadow-[0_12px_24px_-8px_color-mix(in_srgb,var(--aud,var(--c-cdj))_70%,transparent),inset_0_1px_0_rgba(255,255,255,0.4)]"
+        <span class="relative grid h-10 w-10 shrink-0 place-items-center rounded-[12px] text-white ring-1 ring-black/5 shadow-[0_6px_16px_-6px_color-mix(in_srgb,var(--aud,var(--c-cdj))_55%,transparent),inset_0_1px_0_rgba(255,255,255,0.3),inset_0_-1px_0_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:shadow-[0_12px_24px_-8px_color-mix(in_srgb,var(--aud,var(--c-cdj))_70%,transparent),inset_0_1px_0_rgba(255,255,255,0.4)]"
               [ngClass]="card.iconBgClass">
           <span translate="no" class="material-symbols-rounded text-[20px] leading-none icon-fill drop-shadow-[0_1px_1px_rgba(0,0,0,0.2)]">{{ card.icon }}</span>
         </span>

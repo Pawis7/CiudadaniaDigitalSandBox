@@ -450,18 +450,22 @@ export class ContentService {
     }
 
     if (b.videoSeries?.length) {
-      this._videoSeriesRaw.set(b.videoSeries.map((s) => ({
-        id: s.id, slug: s.slug, title: s.title, tagline: s.tagline,
-        description: s.description, coverImageUrl: s.coverImageUrl,
-        accentClass: s.accentClass, iconBgClass: s.iconBgClass, icon: s.icon,
-        episodeCount: s.videos?.length ?? 0,
-        audience: s.audience, illoScene: s.illoScene ?? undefined,
-        videos: (s.videos ?? []).map((v) => ({
-          id: v.id, title: v.title, description: v.description ?? undefined,
-          youtubeUrl: v.youtubeUrl, durationLabel: v.durationLabel ?? undefined,
-          publishedAt: v.publishedAt ?? undefined, tags: v.tags ?? undefined,
-        })),
-      })));
+      this._videoSeriesRaw.set(b.videoSeries.map((s) => {
+        const local = VIDEO_SERIES.find((vs) => vs.id === s.id);
+        return {
+          id: s.id, slug: s.slug, title: s.title, tagline: s.tagline,
+          description: s.description, coverImageUrl: s.coverImageUrl,
+          accentClass: s.accentClass, iconBgClass: s.iconBgClass, icon: s.icon,
+          episodeCount: s.videos?.length ?? 0,
+          audience: s.audience, illoScene: s.illoScene ?? undefined,
+          bannerImageUrl: local?.bannerImageUrl,
+          videos: (s.videos ?? []).map((v) => ({
+            id: v.id, title: v.title, description: v.description ?? undefined,
+            youtubeUrl: v.youtubeUrl, durationLabel: v.durationLabel ?? undefined,
+            publishedAt: v.publishedAt ?? undefined, tags: v.tags ?? undefined,
+          })),
+        };
+      }));
     }
 
     if (b.secondaryBanner) {

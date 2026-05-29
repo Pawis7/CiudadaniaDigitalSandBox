@@ -109,8 +109,12 @@
                data-audience="edutips"
                class="card card-video-hover group flex flex-col overflow-hidden">
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
-          <img [src]="getYoutubeThumb(v.youtubeUrl)" [alt]="v.title" class="h-full w-full object-cover">
-          <div class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
+          <img
+            appImageLoader
+            [src]="getYoutubeThumb(v.youtubeUrl)"
+            [alt]="v.title"
+            class="h-full w-full object-cover">
+          <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/25 transition-colors">
             <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--c-edutips)] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
               <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
             </span>

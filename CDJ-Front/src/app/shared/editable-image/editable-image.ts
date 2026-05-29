@@ -52,7 +52,7 @@ export class EditableImageComponent {
   resolvedSrc = computed(() => this.svc.getOverride(this._id()) ?? this._src());
   hasOverride = computed(() => !!this.svc.getOverride(this._id()));
   isEditActive = this.svc.isEditActive;
-  showFallback = computed(() => this.imgFailed() && !this.hasOverride());
+  showFallback = computed(() => (!this.resolvedSrc() || this.imgFailed()) && !this.hasOverride());
  
   get displayId() { return this._id(); }
   get alt$() { return this._alt(); }

@@ -125,22 +125,7 @@
         </button>
 
 
-        <!-- Mi cuenta / Login -->
-        @if (!isAuthenticated()) {
-          <a routerLink="/AlfaAdminLogin"
-            class="hidden h-9 items-center gap-2 rounded-lg border border-[color:var(--border)] px-3 text-[13px] font-semibold text-[color:var(--text-primary)] transition-all hover:bg-[color:var(--surface-soft)] sm:inline-flex"
-            title="Iniciar sesión">
-            <span translate="no" class="material-symbols-rounded text-[18px]">person</span>
-            <span>Acceder</span>
-          </a>
-        } @else {
-          <button type="button" (click)="onLogout()"
-            class="hidden h-9 cursor-pointer items-center gap-2 rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-3 text-[13px] font-semibold text-rose-500 transition-all hover:bg-rose-500/10 sm:inline-flex"
-            title="Cerrar sesión">
-            <span translate="no" class="material-symbols-rounded text-[18px]">logout</span>
-            <span>Salir</span>
-          </button>
-        }
+
 
         <!-- CTA primary -->
         <a routerLink="/cursos" class="inline-flex h-9 items-center gap-2 rounded-xl bg-[color:var(--c-cdj)] px-4 text-[13px] font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[color:var(--c-cdj-deep)] hover:shadow-md">
