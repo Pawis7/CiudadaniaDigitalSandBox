@@ -1,120 +1,20 @@
 @if (page(); as p) {
   <!-- ====================================================================
-       HERO de audiencia con identidad de su tema
-        AI AGENT NOTE: HERO/BANNER DIMENSIONS
-        - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
-        - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed)
+       HERO: Banner de audiencia.
+       Para cambiar la imagen o el tema: editar audiencia-config.ts.
        ==================================================================== -->
-  @if (slug() === 'ninas-y-ninos') {
+  @if (config(); as cfg) {
     <section
       appReveal="fade"
       [revealDuration]="700"
       class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
-      data-audience="kids">
-      <h1 class="sr-only">Niñas y niños - Ciudadanía Digital</h1>
+      [attr.data-audience]="cfg.theme">
+      <h1 class="sr-only">{{ p.title }} - Ciudadânía Digital</h1>
       <img
         appImageLoader
-        src="/banners/CIUDADANIA_NINASYNINOS.png"
-        alt="Ciudadanía Digital Jalisco Niñas y Niños"
+        [src]="cfg.bannerSrc"
+        [alt]="cfg.bannerAlt"
         class="block w-full h-auto lg:h-full lg:object-cover">
-    </section>
-  } @else if (slug() === 'adolescentes') {
-    <section
-      appReveal="fade"
-      [revealDuration]="700"
-      class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
-      data-audience="teens">
-      <h1 class="sr-only">Adolescentes - Ciudadanía Digital</h1>
-      <img
-        appImageLoader
-        src="/banners/CIUDADANIA_Adolescentes.png"
-        alt="Ciudadanía Digital Jalisco Adolescentes"
-        class="block w-full h-auto lg:h-full lg:object-cover">
-    </section>
-  } @else if (slug() === 'familias') {
-    <section
-      appReveal="fade"
-      [revealDuration]="700"
-      class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
-      data-audience="families">
-      <h1 class="sr-only">Familias - Ciudadanía Digital</h1>
-      <img
-        appImageLoader
-        src="/banners/CIUDADANIA_Familias.png"
-        alt="Ciudadanía Digital Jalisco Familias"
-        class="block w-full h-auto lg:h-full lg:object-cover">
-    </section>
-  } @else if (slug() === 'docentes') {
-    <section
-      appReveal="fade"
-      [revealDuration]="700"
-      class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
-      data-audience="teachers">
-      <h1 class="sr-only">Docentes - Ciudadanía Digital</h1>
-      <img
-        appImageLoader
-        src="/banners/CIUDADANIADOCENTESDIGITAL.png"
-        alt="Ciudadanía Digital Jalisco Docentes"
-        class="block w-full h-auto lg:h-full lg:object-cover">
-    </section>
-  } @else {
-    <section
-      appReveal="fade"
-      [revealDuration]="700"
-      [attr.data-audience]="audienceTheme()"
-      class="hero-aud relative mb-8 overflow-hidden text-primary-variable sm:mb-10">
-
-      <span aria-hidden="true" class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl"></span>
-
-      <div class="relative z-10 grid grid-cols-1 items-center gap-10 p-6 sm:p-12 lg:grid-cols-[1.4fr_1fr] lg:p-14">
-        <div>
-          <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-primary-variable opacity-80">
-            <a routerLink="/" class="transition-colors hover:text-primary-variable">Inicio</a>
-            <span translate="no" class="material-symbols-rounded text-sm">chevron_right</span>
-            <span class="text-primary-variable">{{ p.title }}</span>
-          </nav>
-
-          <span appReveal="up"
-                class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest backdrop-blur">
-            <span class="grid h-5 w-5 place-items-center rounded-full bg-white/25 text-primary-variable">
-              <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">{{ p.icon }}</span>
-            </span>
-            {{ p.eyebrow }}
-          </span>
-
-          <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-4 text-primary-variable">
-            {{ p.title }}
-          </h1>
-          <p appReveal="up" [revealDelay]="160" class="mt-3 text-base font-semibold text-primary-variable opacity-90 sm:text-lg">
-            {{ p.tagline }}
-          </p>
-          <p appReveal="up" [revealDelay]="220" class="mt-4 max-w-2xl text-sm leading-relaxed text-primary-variable opacity-85 sm:text-base">
-            {{ p.description }}
-          </p>
-
-          <div appReveal="up" [revealDelay]="280" class="mt-6 flex flex-wrap items-center gap-2">
-            @if (p.ageRange) {
-              <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
-                <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">cake</span>
-                Edad: {{ p.ageRange }}
-              </span>
-            }
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
-              <span translate="no" class="material-symbols-rounded text-[14px]">layers</span>
-              {{ p.subLevels.length }} niveles
-            </span>
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur">
-              <span translate="no" class="material-symbols-rounded text-[14px]">auto_stories</span>
-              {{ p.topics.length }} temas
-            </span>
-          </div>
-        </div>
-
-        <!-- Fotografía de la audiencia -->
-        <div class="relative hidden h-72 lg:block overflow-hidden rounded-3xl bg-[color:var(--surface-soft)] shadow-md">
-          <img [src]="p.heroImage" [alt]="p.title" class="block h-full w-full object-cover object-center transition-transform duration-700 hover:scale-105">
-        </div>
-      </div>
     </section>
   }
 
@@ -141,12 +41,12 @@
            [revealDelay]="i * 70"
            class="card card-hover group relative flex flex-col cursor-pointer transition-all duration-300"
            [class.ring-4]="selectedLevel() === sub.id"
-           [class.ring-violet-500]="selectedLevel() === sub.id && isTeenAudience()"
-           [class.ring-rose-500]="selectedLevel() === sub.id && !isTeenAudience()"
+           [class.ring-violet-500]="selectedLevel() === sub.id && audienceTheme() === 'teens'"
+           [class.ring-rose-500]="selectedLevel() === sub.id && audienceTheme() !== 'teens'"
            [class.shadow-2xl]="selectedLevel() === sub.id"
            [class.scale-[1.03]]="selectedLevel() === sub.id"
-           [class.border-violet-300]="selectedLevel() === sub.id && isTeenAudience()"
-           [class.border-rose-300]="selectedLevel() === sub.id && !isTeenAudience()">
+           [class.border-violet-300]="selectedLevel() === sub.id && audienceTheme() === 'teens'"
+           [class.border-rose-300]="selectedLevel() === sub.id && audienceTheme() !== 'teens'">
 
           <!-- Active Selection Badge -->
           <span *ngIf="selectedLevel() === sub.id" 
@@ -247,7 +147,7 @@
                 [class.border-[color:var(--border-soft)]]="activeFilter() !== 'game'"
                 [class.hover:bg-violet-50]="activeFilter() !== 'game'">
           <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">sports_esports</span>
-          Minijuegos 🎮
+          Minijuegos
         </button>
 
         <button type="button" 
@@ -261,7 +161,7 @@
                 [class.border-[color:var(--border-soft)]]="activeFilter() !== 'video'"
                 [class.hover:bg-sky-50]="activeFilter() !== 'video'">
           <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">play_circle</span>
-          Videos 📺
+          Videos
         </button>
 
         <button type="button" 
@@ -275,7 +175,7 @@
                 [class.border-[color:var(--border-soft)]]="activeFilter() !== 'guide'"
                 [class.hover:bg-rose-50]="activeFilter() !== 'guide'">
           <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">description</span>
-          Guías y PDFs 📝
+          Guías y PDFs
         </button>
       </div>
 
@@ -351,48 +251,41 @@
       </div>
       
       <!-- ====================================================================
-           NIDADO DEL SIMULADOR DE FRAUDES DENTRO DE SECUNDARIA
+           WIDGET DEL NIVEL (renderizado dinámico).
+           Para cambiar qué widget aparece en cada nivel: editar audiencia-config.ts.
+           Para registrar un widget nuevo: editar widget-registry.ts.
+           La plantilla no requiere ningún cambio adicional.
            ==================================================================== -->
-      <div id="simulador-fraudes-anchor" 
-           *ngIf="selectedLevel() === 'secundaria' && isTeenAudience()" 
-           class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6">
-        
-        <!-- Featured simulator header banner inside workspace -->
-        <div class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="space-y-2">
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
-              <span translate="no" class="material-symbols-rounded text-sm">sports_esports</span> Laboratorio de Phishing · En Vivo
-            </span>
-            <h3 class="text-2xl sm:text-3xl font-black tracking-tight">¡Simulador de Fraudes en Vivo!</h3>
-            <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">Aprende a detectar trampas, premios falsos y extorsiones interactuando con un chat simulado. Pon a prueba tus reflejos digitales ahora.</p>
+      @if (activeWidget(); as widget) {
+        <div id="simulador-fraudes-anchor" class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6">
+          <div class="pt-4">
+            <ng-container [ngComponentOutlet]="widget" />
           </div>
-          <button (click)="scrollToAnchor('dispositivo-simulador')" class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black text-violet-700 shadow-lg hover:bg-violet-50 hover:scale-105 transition-all whitespace-nowrap">
-            <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span> Probar Simulador Móvil
-          </button>
         </div>
+      }
 
-        <!-- The actual fraud simulator component -->
-        <div id="dispositivo-simulador" class="pt-4">
-          <app-secondary-fraud-simulator></app-secondary-fraud-simulator>
-        </div>
-      </div>
-
-      <!-- Feature showcase for Preparatoria when active -->
-      <div *ngIf="selectedLevel() === 'preparatoria' && isTeenAudience()" 
-           class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6 animate-fade-in">
-        <div class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-fuchsia-600 to-pink-600 p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div class="space-y-2">
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
-              <span translate="no" class="material-symbols-rounded text-sm">3d_rotation</span> Laboratorio de Huella Digital
-            </span>
-            <h3 class="text-2xl sm:text-3xl font-black tracking-tight">Próximamente: Simulador de Huella Digital 3D</h3>
-            <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">Un simulador de decisiones avanzadas en la preparatoria para entender cómo tus datos e historial de navegación alimentan los perfiles algorítmicos comerciales.</p>
+      <!-- TEASER DE PRÓXIMAMENTE -->
+      <!-- Configurado en page-content.ts → subLevel.comingSoonTeaser -->
+      @if (activeSubLevel()?.comingSoonTeaser; as teaser) {
+        <div class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6 animate-fade-in">
+          <div class="overflow-hidden rounded-[2rem] p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6"
+               [ngClass]="teaser.gradientClass">
+            <div class="space-y-2">
+              <span class="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider backdrop-blur">
+                <span translate="no" class="material-symbols-rounded text-sm">{{ teaser.badgeIcon }}</span>
+                {{ teaser.badgeLabel }}
+              </span>
+              <h3 class="text-2xl sm:text-3xl font-black tracking-tight">{{ teaser.title }}</h3>
+              <p class="text-white/90 max-w-xl text-sm sm:text-base leading-relaxed">{{ teaser.description }}</p>
+            </div>
+            <button class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black shadow-lg hover:scale-105 transition-all whitespace-nowrap opacity-75 cursor-not-allowed"
+                    [ngClass]="teaser.buttonColorClass">
+              <span translate="no" class="material-symbols-rounded text-xl">hourglass_empty</span>
+              Próximamente
+            </button>
           </div>
-          <button class="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-4 text-sm font-black text-pink-700 shadow-lg hover:bg-pink-50 hover:scale-105 transition-all whitespace-nowrap opacity-75 cursor-not-allowed">
-            <span translate="no" class="material-symbols-rounded text-xl">hourglass_empty</span> Próximamente
-          </button>
         </div>
-      </div>
+      }
     </section>
   }
 

@@ -47,6 +47,30 @@ export class SecondaryFraudSimulatorComponent {
     return choiceIndex === null ? null : this.currentStep().choices[choiceIndex] ?? null;
   });
 
+  readonly clickedChoices = signal<Set<number>>(new Set());
+  readonly activeFeedbackChoiceIndex = signal<number | null>(null);
+
+  readonly isTutorialStep = computed(() => this.currentCaseIndex() === 0 && this.currentStepIndex() === 0);
+  readonly tutorialStepCompleted = computed(() => {
+    const totalChoices = this.currentStep().choices.length;
+    const clickedCount = this.clickedChoices().size;
+    return clickedCount === totalChoices;
+  });
+  readonly activeChoice = computed<SimulatorChoice | null>(() => {
+    const idx = this.activeFeedbackChoiceIndex();
+    return idx === null ? null : this.currentStep().choices[idx] ?? null;
+  });
+  readonly canContinue = computed(() => {
+    const choice = this.activeChoice();
+    if (!choice) return false;
+    const isGood = choice.type === 'good';
+    if (!isGood) return false;
+    if (this.isTutorialStep()) {
+      return this.tutorialStepCompleted();
+    }
+    return true;
+  });
+
   readonly answeredSteps = computed(() => this.selections().reduce((sum, values) => sum + values.filter((value) => value !== undefined).length, 0));
   readonly progressPercent = computed(() => Math.round((this.answeredSteps() / this.totalSteps) * 100));
   readonly totalSafeScore = computed(() => this.sumAll('safe'));
@@ -117,6 +141,8 @@ export class SecondaryFraudSimulatorComponent {
     this.started.set(true);
     this.finished.set(false);
     this.copied.set(false);
+    this.clickedChoices.set(new Set());
+    this.activeFeedbackChoiceIndex.set(null);
   }
 
   restart(): void {
@@ -126,24 +152,35 @@ export class SecondaryFraudSimulatorComponent {
     this.currentStepIndex.set(0);
     this.selections.set(this.createEmptySelections());
     this.copied.set(false);
+    this.clickedChoices.set(new Set());
+    this.activeFeedbackChoiceIndex.set(null);
   }
 
   readonly isTyping = signal(false);
 
   choose(choiceIndex: number): void {
-    if (this.selectedChoiceIndex() !== null || this.finished() || this.isTyping()) return;
+    if (this.finished() || this.isTyping()) return;
 
     this.isTyping.set(true);
     setTimeout(() => {
       this.isTyping.set(false);
-      const next = this.selections().map((caseSelections) => [...caseSelections]);
-      next[this.currentCaseIndex()][this.currentStepIndex()] = choiceIndex;
-      this.selections.set(next);
+      
+      const clicked = new Set(this.clickedChoices());
+      clicked.add(choiceIndex);
+      this.clickedChoices.set(clicked);
+      this.activeFeedbackChoiceIndex.set(choiceIndex);
+
+      const choice = this.currentStep().choices[choiceIndex];
+      if (choice.type === 'good') {
+        const next = this.selections().map((caseSelections) => [...caseSelections]);
+        next[this.currentCaseIndex()][this.currentStepIndex()] = choiceIndex;
+        this.selections.set(next);
+      }
     }, 1000);
   }
 
   continueFlow(): void {
-    if (this.selectedChoiceIndex() === null) return;
+    if (!this.canContinue()) return;
 
     const caseIndex = this.currentCaseIndex();
     const stepIndex = this.currentStepIndex();
@@ -154,6 +191,9 @@ export class SecondaryFraudSimulatorComponent {
       this.finished.set(true);
       return;
     }
+
+    this.clickedChoices.set(new Set());
+    this.activeFeedbackChoiceIndex.set(null);
 
     if (caseIsDone) {
       this.currentCaseIndex.set(caseIndex + 1);

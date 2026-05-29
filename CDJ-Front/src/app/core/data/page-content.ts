@@ -5,6 +5,40 @@ export interface AudienceTopic {
   bgClass: string;
 }
 
+/**
+ * Recurso interactivo (minijuego, video, guía) asociado a un sub-nivel.
+ * Para agregar o editar recursos: busca el subLevel correspondiente
+ * en AUDIENCE_PAGES y edita su propiedad `levelResources`.
+ */
+export interface LevelResource {
+  id:          string;
+  title:       string;
+  description: string;
+  type:        'game' | 'video' | 'guide';
+  typeLabel:   string;
+  icon:        string;
+  badge:       string;
+  duration:    string;
+  colorClass:  string;
+  actionLabel: string;
+  link:        string;
+}
+
+/**
+ * Tarjeta de "Próximamente" que se muestra debajo del portal de recursos
+ * cuando un sub-nivel tiene contenido en producción.
+ */
+export interface ComingSoonTeaser {
+  badgeIcon:        string;
+  badgeLabel:       string;
+  title:            string;
+  description:      string;
+  /** Clases de Tailwind completas incluyendo dirección, ej. 'bg-gradient-to-r from-fuchsia-600 to-pink-600' */
+  gradientClass:    string;
+  /** Clase de color del texto del botón, ej. 'text-pink-700' */
+  buttonColorClass: string;
+}
+
 export interface AudienceSubLevel {
   id: string;
   title: string;
@@ -14,6 +48,10 @@ export interface AudienceSubLevel {
   bgClass: string;
   icon: string;
   resourceCount: number;
+  /** Recursos interactivos disponibles en este sub-nivel. */
+  levelResources?:   LevelResource[];
+  /** Si existe, muestra un teaser de contenido próximo debajo del portal. */
+  comingSoonTeaser?: ComingSoonTeaser;
 }
 
 export interface AudiencePage {
@@ -79,8 +117,100 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'forum',
     ageRange: '12 a 17 años',
     subLevels: [
-      { id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años', imageUrl: '/adolescentes_portadas/SECUNDARIA.jpg', imageId: 'sub-teens-sec', bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 15 },
-      { id: 'preparatoria', title: 'Preparatoria', subtitle: '15 a 17 años', imageUrl: '/adolescentes_portadas/PREPARATORIA.jpg', imageId: 'sub-teens-prep', bgClass: 'from-fuchsia-500 to-pink-500', icon: 'school', resourceCount: 17 },
+      {
+        id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años',
+        imageUrl: '/adolescentes_portadas/SECUNDARIA.jpg', imageId: 'sub-teens-sec',
+        bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 15,
+        levelResources: [
+          {
+            id: 'simulador-fraudes',
+            title: 'Simulador de Fraudes por Chat',
+            description: 'Enfréntate a chats sospechosos simulados en un entorno virtual realista. Aprende a detectar enlaces trampa, cobros falsos y extorsiones de forma segura.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'sports_esports',
+            badge: 'Simulación Móvil', duration: '5 min',
+            colorClass: 'from-violet-600 to-indigo-700',
+            actionLabel: 'Iniciar Simulación', link: '#simulador-fraudes-anchor',
+          },
+          {
+            id: 'detective-fraudes',
+            title: 'Detective de Fraudes Digitales',
+            description: 'Examina capturas de pantalla de correos, analiza enlaces dudosos y sube de nivel desenmascarando estafadores en la red.',
+            type: 'game', typeLabel: 'Quiz Interactivo', icon: 'psychology',
+            badge: 'Popular', duration: '8 min',
+            colorClass: 'from-fuchsia-500 to-pink-500',
+            actionLabel: 'Jugar Ahora', link: 'https://example.com/games/detective',
+          },
+          {
+            id: 'video-huella',
+            title: 'Cápsula: La huella digital de Sofía',
+            description: 'Video animado que muestra de manera divertida y reflexiva cómo tus publicaciones actuales definen tu reputación digital del mañana.',
+            type: 'video', typeLabel: 'Video Animado', icon: 'play_circle',
+            badge: 'Multimedia', duration: '3 min',
+            colorClass: 'from-sky-400 to-blue-600',
+            actionLabel: 'Ver Video', link: '#',
+          },
+          {
+            id: 'guia-seguridad',
+            title: 'Guía: Checklist de Privacidad en Redes',
+            description: 'Pasos rápidos en formato interactivo para configurar TikTok, Instagram y WhatsApp con máxima privacidad y seguridad.',
+            type: 'guide', typeLabel: 'Guía PDF', icon: 'description',
+            badge: 'Descargable', duration: '4 páginas',
+            colorClass: 'from-rose-400 to-rose-600',
+            actionLabel: 'Descargar PDF', link: '#',
+          },
+        ],
+      },
+      {
+        id: 'preparatoria', title: 'Preparatoria', subtitle: '15 a 17 años',
+        imageUrl: '/adolescentes_portadas/PREPARATORIA.jpg', imageId: 'sub-teens-prep',
+        bgClass: 'from-fuchsia-500 to-pink-500', icon: 'school', resourceCount: 17,
+        comingSoonTeaser: {
+          badgeIcon: '3d_rotation',
+          badgeLabel: 'Laboratorio de Huella Digital',
+          title: 'Próximamente: Simulador de Huella Digital 3D',
+          description: 'Un simulador de decisiones avanzadas en la preparatoria para entender cómo tus datos e historial de navegación alimentan los perfiles algorítmicos comerciales.',
+          gradientClass: 'bg-gradient-to-r from-fuchsia-600 to-pink-600',
+          buttonColorClass: 'text-pink-700',
+        },
+        levelResources: [
+          {
+            id: 'simulador-huella-3d',
+            title: 'Simulador 3D: Huella Digital Permanente',
+            description: 'Toma decisiones cruciales a lo largo de una semana de vida digital y visualiza quién y cómo rastrea tu actividad en internet.',
+            type: 'game', typeLabel: 'Simulador 3D', icon: '3d_rotation',
+            badge: 'Avanzado', duration: '12 min',
+            colorClass: 'from-purple-600 to-pink-600',
+            actionLabel: 'Explorar Simulador', link: '#',
+          },
+          {
+            id: 'fake-news-academy',
+            title: 'Academia de Desinformación',
+            description: 'Juego interactivo para aprender a detectar fake news, imágenes generadas por IA y deepfakes en redes sociales.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'fact_check',
+            badge: 'Nuevo', duration: '10 min',
+            colorClass: 'from-amber-500 to-orange-600',
+            actionLabel: 'Comenzar Reto', link: '#',
+          },
+          {
+            id: 'video-algoritmo',
+            title: 'Cápsula: La burbuja del filtro y los algoritmos',
+            description: 'Descubre cómo las redes sociales seleccionan el contenido que ves y aprende hacks sencillos para salir de su bucle infinito.',
+            type: 'video', typeLabel: 'Video Animado', icon: 'smart_screen',
+            badge: 'Recomendado', duration: '5 min',
+            colorClass: 'from-cyan-400 to-blue-500',
+            actionLabel: 'Ver Video', link: '#',
+          },
+          {
+            id: 'guia-bienestar',
+            title: 'Guía: Hacks de Desintoxicación Digital',
+            description: 'Estrategias y trucos validados por expertos para reducir el uso excesivo de pantallas y mejorar tu sueño sin desconectarte de tus amigos.',
+            type: 'guide', typeLabel: 'Guía PDF', icon: 'spa',
+            badge: 'Descargable', duration: '6 páginas',
+            colorClass: 'from-rose-400 to-rose-500',
+            actionLabel: 'Descargar Guía', link: '#',
+          },
+        ],
+      },
     ],
     topics: [
       { icon: 'visibility_off', title: 'Privacidad real',         description: 'Configurar bien tus cuentas.',      bgClass: 'bg-violet-500' },
