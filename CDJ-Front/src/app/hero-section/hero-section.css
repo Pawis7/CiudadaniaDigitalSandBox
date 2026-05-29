@@ -14,9 +14,10 @@
 /* Background tinted del slider (gradients complejos que Tailwind arbitrary haría ilegible) */
 .hero-section-bg {
   background:
-    radial-gradient(80% 90% at 0% 50%, color-mix(in srgb, var(--c-cdj) 14%, transparent), transparent 60%),
-    linear-gradient(135deg, var(--c-cdj-cream), color-mix(in srgb, var(--c-cdj-tint) 55%, var(--surface-card)));
-  border-color: color-mix(in srgb, var(--c-cdj) 18%, var(--border-soft));
+    radial-gradient(900px 500px at 88% -10%, color-mix(in srgb, var(--c-cdj-soft) 38%, transparent), transparent 60%),
+    radial-gradient(640px 380px at 8% 110%, color-mix(in srgb, var(--c-cdj) 48%, transparent), transparent 60%),
+    color-mix(in srgb, var(--c-cdj) 92%, black);
+  border-color: color-mix(in srgb, var(--c-cdj) 60%, black 25%);
 }
 
 /* Stack de slides (todos en la misma celda del grid) + animación de entrada */

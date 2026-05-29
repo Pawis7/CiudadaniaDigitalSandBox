@@ -1,7 +1,7 @@
 <!-- AI AGENT NOTE: HERO/BANNER DIMENSIONS
      - Base design deliverable: 1392px x 423px / 1546px x 423px (collapsed)
      - Adaptive 1080p scale: 1604px x 423px / 1788px x 423px (collapsed) -->
-<section class="catalog-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12" data-audience="cdj">
+<section class="catalog-hero relative mb-8 overflow-hidden rounded-[2rem] p-6 shadow-[var(--shadow-xl)] sm:mb-10 sm:p-10 lg:p-12" data-audience="cdj">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
     <div class="absolute left-0 bottom-0 h-56 w-56 rounded-full bg-violet-500/8 blur-3xl"></div>
@@ -9,15 +9,15 @@
 
   <div class="relative z-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-center">
     <div>
-      <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-[color:var(--text-mute)]">
-        <a routerLink="/" class="transition-colors hover:text-[color:var(--text-primary)]">Inicio</a>
-        <span>›</span>
-        <span class="text-[color:var(--text-primary)]">Recursos</span>
+      <nav class="breadcrumb mb-4">
+        <a routerLink="/">Inicio</a>
+        <span class="breadcrumb-sep">›</span>
+        <span class="is-current">Recursos</span>
       </nav>
 
-      <p class="eyebrow text-[color:var(--c-cdj)]">Biblioteca del portal</p>
-      <h1 class="display-1 mt-3 text-[color:var(--text-primary)]">Recursos para consultar, descargar y usar</h1>
-      <p class="mt-4 max-w-2xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-lg">
+      <p class="eyebrow text-white/80">Biblioteca del portal</p>
+      <h1 class="display-1 mt-3">Recursos para consultar, descargar y usar</h1>
+      <p class="mt-4 max-w-2xl text-base leading-relaxed sm:text-lg">
         Aquí están las piezas más rápidas y prácticas: guías, cápsulas, materiales descargables y apoyos para orientar conversaciones o resolver dudas concretas.
       </p>
 
