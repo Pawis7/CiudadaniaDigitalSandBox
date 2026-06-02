@@ -134,73 +134,77 @@
           </div>
         </div>
 
-        <!-- Tarjeta de Pregunta y Señal de Alerta -->
-        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-md space-y-4">
-          <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3">
-            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">
-              <span translate="no" class="material-symbols-rounded text-base">help</span>
-              Tu decisión
-            </span>
-            <span class="text-xs font-semibold text-[color:var(--text-mute)]">Hora recibida: {{ currentStep().time }}</span>
-          </div>
+        @if (currentStep(); as step) {
+          <!-- Tarjeta de Pregunta y Señal de Alerta -->
+          @for (stepKey of [currentCaseIndex() + '-' + currentStepIndex()]; track stepKey) {
+            <div class="animate-question rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-md space-y-4">
+              <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3">
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">
+                  <span translate="no" class="material-symbols-rounded text-base">help</span>
+                  Tu decisión
+                </span>
+                <span class="text-xs font-semibold text-[color:var(--text-mute)]">Hora recibida: {{ step.time }}</span>
+              </div>
 
-          <h4 class="text-lg font-bold text-[color:var(--text-primary)]">{{ currentStep().question }}</h4>
-          <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ currentStep().text }}</p>
+              <h4 class="text-lg font-bold text-[color:var(--text-primary)]">{{ step.question }}</h4>
+              <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ step.text }}</p>
 
-          <div class="rounded-2xl bg-[color:var(--aud-cream)] border border-[color:var(--border-soft)] p-3.5 flex gap-3 shadow-sm">
-            <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">tips_and_updates</span>
-            <div class="space-y-0.5">
-              <strong class="block text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">Señal de alerta</strong>
-              <p class="text-xs leading-relaxed font-semibold text-[color:var(--text-primary)]">{{ currentStep().hint }}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Opciones de Respuesta o Retroalimentación -->
-        @if (!activeChoice()) {
-          <div class="space-y-3">
-            <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Elige qué harías en este chat:</p>
-            <div class="grid gap-2.5">
-              @for (choice of currentStep().choices; track choice.title; let idx = $index) {
-                <button
-                  type="button"
-                  [disabled]="isTyping()"
-                  (click)="choose(idx)"
-                  class="flex items-center justify-between p-4 rounded-2xl text-left font-bold transition-all duration-200 cursor-pointer choice-idle">
-                  <span class="text-sm leading-snug text-[color:var(--text-primary)] transition-colors pr-3">{{ choice.title }}</span>
-                </button>
-              }
-            </div>
-          </div>
-        } @else {
-          <!-- Retroalimentación y botón Continuar -->
-          <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-lg animate-fade-in space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-[color:var(--text-mute)]">Retroalimentación</span>
-              <span class="wa-feedback__pill"
-                [class.wa-feedback__pill--good]="activeChoice()!.type === 'good'"
-                [class.wa-feedback__pill--warn]="activeChoice()!.type === 'warn'"
-                [class.wa-feedback__pill--bad]="activeChoice()!.type === 'bad'">
-                {{ choiceTone(activeChoice()!.type) }}
-              </span>
-            </div>
-            <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ activeChoice()!.feedback }}</p>
-
-            @if (currentStepIndex() === currentCase().steps.length - 1) {
-              <div class="rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-3.5 mt-3 flex items-start gap-3">
-                <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">task_alt</span>
+              <div class="rounded-2xl bg-[color:var(--aud-cream)] border border-[color:var(--border-soft)] p-3.5 flex gap-3 shadow-sm">
+                <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">tips_and_updates</span>
                 <div class="space-y-0.5">
-                  <strong class="block text-xs font-bold text-[color:var(--text-primary)] uppercase tracking-wider">Cierre del caso</strong>
-                  <p class="text-xs font-medium text-[color:var(--text-soft)] leading-relaxed">{{ currentCaseSummary() }}</p>
+                  <strong class="block text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">Señal de alerta</strong>
+                  <p class="text-xs leading-relaxed font-semibold text-[color:var(--text-primary)]">{{ step.hint }}</p>
                 </div>
               </div>
-            }
+            </div>
+          }
 
-            <button type="button" class="btn-primary w-full py-4 font-bold shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
-              <span>{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'Ver resultado final' : currentStepIndex() === currentCase().steps.length - 1 ? 'Siguiente caso' : 'Continuar conversación' }}</span>
-              <span translate="no" class="material-symbols-rounded text-lg">{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'verified' : 'arrow_forward' }}</span>
-            </button>
-          </div>
+          <!-- Opciones de Respuesta o Retroalimentación -->
+          @if (!activeChoice()) {
+            <div class="animate-choices space-y-3">
+              <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Elige qué harías en este chat:</p>
+              <div class="grid gap-2.5">
+                @for (choice of step.choices; track choice.title; let idx = $index) {
+                  <button
+                    type="button"
+                    [disabled]="isTyping()"
+                    (click)="choose(idx)"
+                    class="flex items-center justify-between p-4 rounded-2xl text-left font-bold transition-all duration-200 cursor-pointer choice-idle">
+                    <span class="text-sm leading-snug text-[color:var(--text-primary)] transition-colors pr-3">{{ choice.title }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          } @else {
+            <!-- Retroalimentación y botón Continuar -->
+            <div class="animate-feedback rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-lg space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-[color:var(--text-mute)]">Retroalimentación</span>
+                <span class="wa-feedback__pill"
+                  [class.wa-feedback__pill--good]="activeChoice()!.type === 'good'"
+                  [class.wa-feedback__pill--warn]="activeChoice()!.type === 'warn'"
+                  [class.wa-feedback__pill--bad]="activeChoice()!.type === 'bad'">
+                  {{ choiceTone(activeChoice()!.type) }}
+                </span>
+              </div>
+              <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ activeChoice()!.feedback }}</p>
+
+              @if (currentStepIndex() === currentCase().steps.length - 1) {
+                <div class="rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-3.5 mt-3 flex items-start gap-3">
+                  <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">task_alt</span>
+                  <div class="space-y-0.5">
+                    <strong class="block text-xs font-bold text-[color:var(--text-primary)] uppercase tracking-wider">Cierre del caso</strong>
+                    <p class="text-xs font-medium text-[color:var(--text-soft)] leading-relaxed">{{ currentCaseSummary() }}</p>
+                  </div>
+                </div>
+              }
+
+              <button type="button" class="btn-primary w-full py-4 font-bold shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
+                <span>{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'Ver resultado final' : currentStepIndex() === currentCase().steps.length - 1 ? 'Siguiente caso' : 'Continuar conversación' }}</span>
+                <span translate="no" class="material-symbols-rounded text-lg">{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'verified' : 'arrow_forward' }}</span>
+              </button>
+            </div>
+          }
         }
       }
     </div>
