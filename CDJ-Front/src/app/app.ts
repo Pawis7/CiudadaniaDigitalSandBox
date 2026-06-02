@@ -58,8 +58,7 @@ export class App implements AfterViewInit {
 
   topNav: { label: string; href: string; exact: boolean }[] = [
     { label: 'Inicio',    href: '/',               exact: true },
-    { label: 'Cursos',    href: '/cursos',         exact: false },
-    { label: 'Recursos',  href: '/recursos',       exact: false },
+    { label: 'Series',    href: '/series',         exact: false },
     { label: 'Ayuda',     href: '/ayuda',          exact: false },
   ];
 

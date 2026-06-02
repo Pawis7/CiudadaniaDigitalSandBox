@@ -89,14 +89,10 @@ async function main() {
     { id: 'casi',           title: 'El día que casi',     description: 'Serie animada con historias que evitaron un riesgo digital.',       icon: 'star',       iconBgClass: 'bg-amber-500',  iconShadowClass: 'shadow-amber-100',  imageUrl: '/Portadas/EDQCasi_Portada.png',          destination: 'series_casi',   audience: 'casi',     illoScene: 'play',    badge: 'Serie animada', sortOrder: 2,  sections: ['inicio', 'series'] },
     { id: 'ayuda',          title: 'Ayuda Digital',       description: 'Si recibiste un fraude, acoso o algo no está bien, no estás solo.', icon: 'shield',     iconBgClass: 'bg-rose-500',   iconShadowClass: 'shadow-rose-100',   imageUrl: '/assets/img/feature-ayuda.svg',          destination: 'ayuda',          audience: 'help',     illoScene: 'shield',  badge: 'Orientación',   sortOrder: 3,  sections: ['inicio'] },
     { id: 'familias',       title: 'Familias conectadas', description: 'Diálogos y guías en video para acompañar la vida digital de tus hijos.', icon: 'groups',     iconBgClass: 'bg-orange-500',  iconShadowClass: 'shadow-orange-100',  imageUrl: '/assets/img/series-cover-familias.svg',  destination: 'series',         audience: 'families', illoScene: 'connect', badge: 'Serie videos',  sortOrder: 4,  sections: ['series'] },
-    { id: 'cursos',         title: 'Cursos en línea',     description: 'Rutas estructuradas para educar en ciudadanía digital con validez.',icon: 'school',     iconBgClass: 'bg-emerald-600', iconShadowClass: 'shadow-emerald-100', imageUrl: '/assets/img/sub-kids-pa.svg',             destination: 'cursos',         audience: 'cdj',      illoScene: 'study',   badge: 'Formación',     sortOrder: 5,  sections: [] },
-    { id: 'juegos',         title: 'Juegos interactivos', description: 'Retos interactivos y videojuegos educativos para aprender jugando.',icon: 'sports_esports', iconBgClass: 'bg-teal-500', iconShadowClass: 'shadow-teal-100',    imageUrl: '/assets/img/sub-kids-pb.svg',             destination: 'juegos',         audience: 'kids',     illoScene: 'play',    badge: 'Videojuego',    sortOrder: 6,  sections: [] },
-    { id: 'recursos',       title: 'Biblioteca escolar',  description: 'Descarga infografías, checklists y guías para llevar al aula.',    icon: 'folder_open',iconBgClass: 'bg-indigo-600', iconShadowClass: 'shadow-indigo-100',  imageUrl: '/assets/img/sub-doc-sec.svg',            destination: 'recursos',       audience: 'teachers', illoScene: 'study',   badge: 'Materiales',    sortOrder: 7,  sections: [] },
     { id: 'kids-perfil',    title: 'Perfil Niños',        description: 'Material diseñado especialmente para niñas y niños de 6 a 11 años.',icon: 'face',       iconBgClass: 'bg-teal-600',   iconShadowClass: 'shadow-teal-100',    imageUrl: '/assets/img/category-ninas-y-ninos.svg', destination: 'ninas_y_ninos',  audience: 'kids',     illoScene: 'play',    badge: 'Perfil 5-11',   sortOrder: 8,  sections: [] },
     { id: 'teens-perfil',   title: 'Perfil Adolescentes', description: 'Todo lo que necesitas saber sobre privacidad, redes y ciberseguridad.',icon: 'smartphone', iconBgClass: 'bg-violet-600', iconShadowClass: 'shadow-violet-100',  imageUrl: '/assets/img/category-adolescentes.svg',  destination: 'adolescentes',   audience: 'teens',    illoScene: 'connect', badge: 'Perfil 12-17',  sortOrder: 9,  sections: [] },
     { id: 'familias-perfil',title: 'Perfil Familias',     description: 'Acompañamiento, mediación y acuerdos de pantallas en el hogar.',    icon: 'groups',     iconBgClass: 'bg-orange-600',  iconShadowClass: 'shadow-orange-100',  imageUrl: '/assets/img/category-familias.svg',      destination: 'familias',       audience: 'families', illoScene: 'connect', badge: 'Padres/Tutores',sortOrder: 10, sections: [] },
     { id: 'docentes-perfil',title: 'Perfil Docentes',     description: 'Recursos educativos y planeaciones para el desarrollo digital.',    icon: 'co_present', iconBgClass: 'bg-emerald-600', iconShadowClass: 'shadow-emerald-100', imageUrl: '/assets/img/category-docentes.svg',      destination: 'docentes',       audience: 'teachers', illoScene: 'study',   badge: 'Docentes',      sortOrder: 11, sections: [] },
-    { id: 'notebooks-ia',   title: 'Notebooks IA',        description: 'Resuelve tus dudas en base a la documentación oficial con nuestra IA.',icon: 'psychology', iconBgClass: 'bg-fuchsia-600', iconShadowClass: 'shadow-fuchsia-100', imageUrl: '/assets/img/sub-teens-prep.svg',         destination: 'notebooks_ia',   audience: 'cdj',      illoScene: 'spark',   badge: 'Asistente IA',  sortOrder: 12, sections: [] },
   ] as const;
   for (const f of featureCards) {
     await prisma.featureCard.upsert({ where: { id: f.id }, create: f, update: f });
@@ -111,11 +107,13 @@ async function main() {
       description: 'Cada acción en línea tiene impacto. Elige informarte, respetar y participar para construir una comunidad mejor.',
       imageUrl: '/assets/img/cta-banner.svg',
       ctaLabel: 'Conoce más',
-      ctaHref: '#mas',
+      ctaHref: '/series',
       audience: 'cdj',
       slot: 'home_secondary',
     },
-    update: {},
+    update: {
+      ctaHref: '/series',
+    },
   });
 
   // === Series + Videos ===
@@ -175,17 +173,17 @@ async function main() {
   }
 
   const footerCols = [
-    { id: 'recursos',     title: 'Recursos',     sortOrder: 1, links: [
-      { label: 'Videos animados',    href: '/recursos' },
-      { label: 'Audiocuentos',       href: '/recursos' },
-      { label: 'Microlecciones',     href: '/recursos' },
-      { label: 'Guías y checklist',  href: '/recursos' },
+    { id: 'audiencias',     title: 'Audiencias',     sortOrder: 1, links: [
+      { label: 'Niñas y niños', href: '/p/ninas-y-ninos' },
+      { label: 'Adolescentes', href: '/p/adolescentes' },
+      { label: 'Familias', href: '/p/familias' },
+      { label: 'Docentes', href: '/p/docentes' },
     ]},
     { id: 'aprender',     title: 'Para aprender', sortOrder: 2, links: [
       { label: 'Edutips',                href: '/edutips' },
       { label: 'El día que casi',        href: '/series/el-dia-que-casi' },
-      { label: 'Rutas guiadas',          href: '/recursos' },
-      { label: 'Tutoriales imprimibles', href: '/recursos' },
+      { label: 'Series',                 href: '/series' },
+      { label: 'Ayuda Digital',          href: '/ayuda' },
     ]},
     { id: 'institucional', title: 'Institucional', sortOrder: 3, links: [
       { label: 'Quiénes somos', href: '/quienes-somos' },

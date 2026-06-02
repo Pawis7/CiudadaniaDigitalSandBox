@@ -29,9 +29,9 @@
     </div>
   </div>
 
-  <div class="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-center">
+  <div class="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-start">
     <!-- COLUMNA IZQUIERDA: Contexto, Pregunta y Opciones de Respuesta -->
-    <div class="lg:col-span-7 space-y-6 flex flex-col justify-center">
+    <div class="lg:col-span-7 space-y-5 flex flex-col">
       @if (!started()) {
         <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-md space-y-4">
           <span class="inline-flex items-center gap-2 rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] px-3 py-1.5 text-[color:var(--text-secondary)] font-bold text-xs">
@@ -135,7 +135,7 @@
         </div>
 
         <!-- Tarjeta de Pregunta y Señal de Alerta -->
-        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-md space-y-4">
+        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-md space-y-4">
           <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3">
             <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">
               <span translate="no" class="material-symbols-rounded text-base">help</span>
@@ -147,7 +147,7 @@
           <h4 class="text-lg font-bold text-[color:var(--text-primary)]">{{ currentStep().question }}</h4>
           <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ currentStep().text }}</p>
 
-          <div class="rounded-2xl bg-[color:var(--aud-cream)] border border-[color:var(--border-soft)] p-4 flex gap-3 shadow-sm">
+          <div class="rounded-2xl bg-[color:var(--aud-cream)] border border-[color:var(--border-soft)] p-3.5 flex gap-3 shadow-sm">
             <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">tips_and_updates</span>
             <div class="space-y-0.5">
               <strong class="block text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">Señal de alerta</strong>
@@ -156,42 +156,38 @@
           </div>
         </div>
 
-        <!-- Opciones de Respuesta -->
-        <div class="space-y-3">
-          <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Elige qué harías en este chat:</p>
-          <div class="grid gap-3">
-            @for (choice of currentStep().choices; track choice.title; let idx = $index) {
-              <button
-                type="button"
-                [disabled]="isTyping()"
-                (click)="choose(idx)"
-                class="flex items-center justify-between p-4 rounded-2xl text-left font-bold transition-all duration-200 cursor-pointer"
-                [class.opacity-60]="activeFeedbackChoiceIndex() !== null && activeFeedbackChoiceIndex() !== idx"
-                [class.choice-idle]="activeFeedbackChoiceIndex() !== idx"
-                [class.choice-active-good]="activeFeedbackChoiceIndex() === idx && choice.type === 'good'"
-                [class.choice-active-warn]="activeFeedbackChoiceIndex() === idx && choice.type === 'warn'"
-                [class.choice-active-bad]="activeFeedbackChoiceIndex() === idx && choice.type === 'bad'">
-                <span class="text-sm leading-snug text-[color:var(--text-primary)] transition-colors pr-3">{{ choice.title }}</span>
-              </button>
-            }
+        <!-- Opciones de Respuesta o Retroalimentación -->
+        @if (!activeChoice()) {
+          <div class="space-y-3">
+            <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Elige qué harías en este chat:</p>
+            <div class="grid gap-2.5">
+              @for (choice of currentStep().choices; track choice.title; let idx = $index) {
+                <button
+                  type="button"
+                  [disabled]="isTyping()"
+                  (click)="choose(idx)"
+                  class="flex items-center justify-between p-4 rounded-2xl text-left font-bold transition-all duration-200 cursor-pointer choice-idle">
+                  <span class="text-sm leading-snug text-[color:var(--text-primary)] transition-colors pr-3">{{ choice.title }}</span>
+                </button>
+              }
+            </div>
           </div>
-        </div>
-        <!-- Retroalimentación y botón Continuar -->
-        @if (activeChoice(); as answer) {
-          <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-lg animate-fade-in space-y-4">
+        } @else {
+          <!-- Retroalimentación y botón Continuar -->
+          <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-lg animate-fade-in space-y-4">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-[color:var(--text-mute)]">Retroalimentación</span>
               <span class="wa-feedback__pill"
-                [class.wa-feedback__pill--good]="answer.type === 'good'"
-                [class.wa-feedback__pill--warn]="answer.type === 'warn'"
-                [class.wa-feedback__pill--bad]="answer.type === 'bad'">
-                {{ choiceTone(answer.type) }}
+                [class.wa-feedback__pill--good]="activeChoice()!.type === 'good'"
+                [class.wa-feedback__pill--warn]="activeChoice()!.type === 'warn'"
+                [class.wa-feedback__pill--bad]="activeChoice()!.type === 'bad'">
+                {{ choiceTone(activeChoice()!.type) }}
               </span>
             </div>
-            <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ answer.feedback }}</p>
+            <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ activeChoice()!.feedback }}</p>
 
-            @if (canContinue() && currentStepIndex() === currentCase().steps.length - 1) {
-              <div class="rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-4 mt-3 flex items-start gap-3">
+            @if (currentStepIndex() === currentCase().steps.length - 1) {
+              <div class="rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-3.5 mt-3 flex items-start gap-3">
                 <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">task_alt</span>
                 <div class="space-y-0.5">
                   <strong class="block text-xs font-bold text-[color:var(--text-primary)] uppercase tracking-wider">Cierre del caso</strong>
@@ -200,37 +196,17 @@
               </div>
             }
 
-            @if (canContinue()) {
-              <button type="button" class="btn-primary w-full py-4 font-bold shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
-                <span>{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'Ver resultado final' : currentStepIndex() === currentCase().steps.length - 1 ? 'Siguiente caso' : 'Continuar conversación' }}</span>
-                <span translate="no" class="material-symbols-rounded text-lg">{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'verified' : 'arrow_forward' }}</span>
-              </button>
-            } @else {
-              @if (isTutorialStep() && !tutorialStepCompleted()) {
-                <div class="sim-alert sim-alert--warn">
-                  <span translate="no" class="material-symbols-rounded sim-alert__icon">info</span>
-                  <div class="sim-alert__content">
-                    <strong class="sim-alert__title">Modo Tutorial</strong>
-                    <span class="sim-alert__text">Para aprender cómo funciona el simulador, debes explorar las 3 respuestas antes de continuar. (Has probado {{ clickedChoices().size }} de 3).</span>
-                  </div>
-                </div>
-              } @else {
-                <div class="sim-alert sim-alert--danger">
-                  <span translate="no" class="material-symbols-rounded sim-alert__icon">warning</span>
-                  <div class="sim-alert__content">
-                    <strong class="sim-alert__title">Respuesta incorrecta o de riesgo</strong>
-                    <span class="sim-alert__text">Esta decisión tiene consecuencias negativas. Por favor, selecciona una opción segura (verde) para poder continuar.</span>
-                  </div>
-                </div>
-              }
-            }
+            <button type="button" class="btn-primary w-full py-4 font-bold shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
+              <span>{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'Ver resultado final' : currentStepIndex() === currentCase().steps.length - 1 ? 'Siguiente caso' : 'Continuar conversación' }}</span>
+              <span translate="no" class="material-symbols-rounded text-lg">{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'verified' : 'arrow_forward' }}</span>
+            </button>
           </div>
         }
       }
     </div>
 
     <!-- COLUMNA DERECHA: El Dispositivo Mockup y Animación de Chat (iPhone 17) -->
-    <div class="lg:col-span-5 flex justify-center lg:justify-end">
+    <div class="lg:col-span-5 flex justify-center lg:justify-end lg:sticky lg:top-8">
       <div class="iphone-17-container">
         <!-- Titanium Edge Chassis -->
         <div class="iphone-17-chassis">

@@ -28,7 +28,7 @@ export const HERO: Hero = {
   titleHighlight: 'Ciudadanía Digital',
   description:
     'Aprendemos, convivimos y participamos en entornos digitales de forma segura, responsable y respetuosa. Para niñas, niños, adolescentes, familias y docentes.',
-  primaryCta: { label: 'Explorar contenidos', href: '/cursos' },
+  primaryCta: { label: 'Explorar series', href: '/series' },
   secondaryCta: { label: 'Entrar por perfil', href: '/p/adolescentes' },
   imageUrl: '/assets/img/hero-main.svg',
   imageAlt: 'Comunidad aprendiendo en entornos digitales',
@@ -163,7 +163,7 @@ export const SECONDARY_BANNER: Banner = {
     'Cada acción en línea tiene impacto. Elige informarte, respetar y participar para construir una comunidad mejor.',
   imageUrl: '/assets/img/cta-banner.svg',
   ctaLabel: 'Conoce más',
-  ctaHref: '/recursos',
+  ctaHref: '/series',
   audience: 'cdj',
 };
 
@@ -502,12 +502,12 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const FOOTER_COLUMNS: FooterColumn[] = [
   {
-    title: 'Recursos',
+    title: 'Audiencias',
     links: [
-      { label: 'Videos animados', href: '/recursos' },
-      { label: 'Audiocuentos', href: '/recursos' },
-      { label: 'Microlecciones', href: '/recursos' },
-      { label: 'Guías y checklist', href: '/recursos' },
+      { label: 'Niñas y niños', href: '/p/ninas-y-ninos' },
+      { label: 'Adolescentes', href: '/p/adolescentes' },
+      { label: 'Familias', href: '/p/familias' },
+      { label: 'Docentes', href: '/p/docentes' },
     ],
   },
   {
@@ -515,8 +515,8 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Edutips', href: '/edutips' },
       { label: 'El día que casi', href: '/series/el-dia-que-casi' },
-      { label: 'Rutas guiadas', href: '/recursos' },
-      { label: 'Tutoriales imprimibles', href: '/recursos' },
+      { label: 'Series', href: '/series' },
+      { label: 'Ayuda Digital', href: '/ayuda' },
     ],
   },
   {

@@ -24,31 +24,6 @@ export const routes: Routes = [
     title: 'Edutips · Ciudadanía Digital',
   },
   {
-    path: 'recurso/:slug',
-    loadComponent: () => import('./recurso/recurso-detail').then((m) => m.RecursoDetailComponent),
-    title: 'Recurso · Ciudadanía Digital',
-  },
-  {
-    path: 'recursos',
-    loadComponent: () => import('./recursos/recursos').then((m) => m.RecursosComponent),
-    title: 'Recursos · Ciudadanía Digital',
-  },
-  {
-    path: 'cursos',
-    loadComponent: () => import('./cursos/cursos').then((m) => m.CursosComponent),
-    title: 'Cursos · Ciudadanía Digital',
-  },
-  {
-    path: 'juegos',
-    loadComponent: () => import('./juegos/juegos').then((m) => m.JuegosComponent),
-    title: 'Juegos · Ciudadanía Digital',
-  },
-  {
-    path: 'notebooks-ia',
-    loadComponent: () => import('./notebooks-ia/notebooks-ia').then((m) => m.NotebooksIaComponent),
-    title: 'Notebooks IA · Ciudadanía Digital',
-  },
-  {
     path: 'quienes-somos',
     loadComponent: () => import('./quienes-somos/quienes-somos').then((m) => m.QuienesSomosComponent),
     title: 'Quiénes somos · Ciudadanía Digital',

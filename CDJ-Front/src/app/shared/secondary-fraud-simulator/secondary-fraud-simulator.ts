@@ -50,26 +50,11 @@ export class SecondaryFraudSimulatorComponent {
   readonly clickedChoices = signal<Set<number>>(new Set());
   readonly activeFeedbackChoiceIndex = signal<number | null>(null);
 
-  readonly isTutorialStep = computed(() => this.currentCaseIndex() === 0 && this.currentStepIndex() === 0);
-  readonly tutorialStepCompleted = computed(() => {
-    const totalChoices = this.currentStep().choices.length;
-    const clickedCount = this.clickedChoices().size;
-    return clickedCount === totalChoices;
-  });
   readonly activeChoice = computed<SimulatorChoice | null>(() => {
     const idx = this.activeFeedbackChoiceIndex();
     return idx === null ? null : this.currentStep().choices[idx] ?? null;
   });
-  readonly canContinue = computed(() => {
-    const choice = this.activeChoice();
-    if (!choice) return false;
-    const isGood = choice.type === 'good';
-    if (!isGood) return false;
-    if (this.isTutorialStep()) {
-      return this.tutorialStepCompleted();
-    }
-    return true;
-  });
+  readonly canContinue = computed(() => !!this.activeChoice());
 
   readonly answeredSteps = computed(() => this.selections().reduce((sum, values) => sum + values.filter((value) => value !== undefined).length, 0));
   readonly progressPercent = computed(() => Math.round((this.answeredSteps() / this.totalSteps) * 100));
@@ -170,12 +155,9 @@ export class SecondaryFraudSimulatorComponent {
       this.clickedChoices.set(clicked);
       this.activeFeedbackChoiceIndex.set(choiceIndex);
 
-      const choice = this.currentStep().choices[choiceIndex];
-      if (choice.type === 'good') {
-        const next = this.selections().map((caseSelections) => [...caseSelections]);
-        next[this.currentCaseIndex()][this.currentStepIndex()] = choiceIndex;
-        this.selections.set(next);
-      }
+      const next = this.selections().map((caseSelections) => [...caseSelections]);
+      next[this.currentCaseIndex()][this.currentStepIndex()] = choiceIndex;
+      this.selections.set(next);
     }, 1000);
   }
 

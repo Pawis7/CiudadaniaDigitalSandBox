@@ -15,7 +15,7 @@
 .iphone-17-container {
   position: relative;
   width: 100%;
-  max-width: 320px;
+  max-width: 360px; /* Increased from 320px */
   margin: 0 auto;
   perspective: 1200px;
   z-index: 10;
@@ -25,8 +25,8 @@
 /* Metallic Space Black Titanium Chassis */
 .iphone-17-chassis {
   position: relative;
-  border-radius: 46px;
-  padding: 8px; /* Bezel edge spacing */
+  border-radius: 52px; /* Increased */
+  padding: 10px; /* Bezel edge spacing increased */
   background: linear-gradient(135deg, #38383a 0%, #1c1c1e 30%, #2c2c2e 50%, #1c1c1e 70%, #38383a 100%);
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.5),
@@ -38,7 +38,7 @@
   content: '';
   position: absolute;
   inset: 1px;
-  border-radius: 45px;
+  border-radius: 51px; /* Increased */
   background: #111115;
   z-index: 0;
 }
@@ -47,7 +47,7 @@
 .iphone-17-highlight {
   position: absolute;
   inset: -1.5px;
-  border-radius: 47.5px;
+  border-radius: 53.5px; /* Increased */
   border: 1.5px solid rgba(255, 255, 255, 0.15);
   pointer-events: none;
   z-index: 3;
@@ -58,8 +58,8 @@
   position: relative;
   z-index: 2;
   background: #000000;
-  border-radius: 38px;
-  padding: 4px; /* Real iPhone 17 thin bezel */
+  border-radius: 44px; /* Increased */
+  padding: 5px; /* Real iPhone 17 thin bezel */
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
   overflow: hidden;
 }
@@ -69,7 +69,7 @@
   position: relative;
   z-index: 4;
   width: 100%;
-  min-height: 580px;
+  min-height: 640px; /* Increased from 580px */
   background-color: #efeae2;
   color: #0f172a !important;
   background-image: 
@@ -77,7 +77,7 @@
     radial-gradient(rgba(197, 0, 63, 0.03) 1px, #efeae2 1px);
   background-size: 20px 20px;
   background-position: 0 0, 10px 10px;
-  border-radius: 34px;
+  border-radius: 40px; /* Increased */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -107,7 +107,7 @@
 /* Dynamic Island Container */
 .dynamic-island-container {
   position: absolute;
-  top: 11px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 45;
@@ -116,8 +116,8 @@
 
 /* Dynamic Island capsule cutout */
 .dynamic-island {
-  width: 82px;
-  height: 22px;
+  width: 96px;
+  height: 26px;
   background: #000000;
   border-radius: 20px;
   display: flex;
@@ -128,13 +128,13 @@
   transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   overflow: hidden;
   position: relative;
-  padding: 0 8px;
+  padding: 0 10px;
 }
 
 /* Active states representing iPhone interactive feedback */
 .dynamic-island.is-typing {
-  width: 130px;
-  height: 26px;
+  width: 140px;
+  height: 30px;
   background: #000000;
   border: 0.5px solid rgba(233, 0, 76, 0.35);
   box-shadow: 
@@ -143,8 +143,8 @@
 }
 
 .dynamic-island.is-alert {
-  width: 142px; /* Slightly wider to easily accommodate 'Riesgo detectado' */
-  height: 26px;
+  width: 152px; /* Slightly wider to easily accommodate 'Riesgo detectado' */
+  height: 30px;
   background: #000000;
   border: 0.5px solid rgba(239, 68, 68, 0.5);
   box-shadow: 
@@ -153,8 +153,8 @@
 }
 
 .dynamic-island.is-success {
-  width: 138px; /* Slightly wider to easily accommodate 'Conexión segura' */
-  height: 26px;
+  width: 148px; /* Slightly wider to easily accommodate 'Conexión segura' */
+  height: 30px;
   background: #000000;
   border: 0.5px solid rgba(16, 185, 129, 0.5);
   box-shadow: 
@@ -175,11 +175,11 @@
 /* Camera Lens Reflex in Dynamic Island */
 .dynamic-island-lens {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 5.5px;
-  height: 5.5px;
+  width: 6.5px;
+  height: 6.5px;
   background: radial-gradient(circle, #0e121e 0%, #030406 100%);
   border: 0.5px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
@@ -203,13 +203,13 @@
   right: 0;
   width: 100%;
   z-index: 40;
-  height: 44px; /* Perfectly centered with Dynamic Island */
+  height: 52px; /* Increased from 44px */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 21px; /* Standard iOS status bar padding */
+  padding: 0 24px; /* Standard iOS status bar padding */
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   pointer-events: none;
   background: transparent;
@@ -221,7 +221,7 @@
 
 .status-time {
   letter-spacing: -0.15px;
-  width: 54px;
+  width: 60px;
   display: flex;
   align-items: center;
 }
@@ -229,8 +229,8 @@
 .status-icons {
   display: flex;
   align-items: center;
-  gap: 5.5px;
-  width: 54px;
+  gap: 6px;
+  width: 60px;
   justify-content: flex-end;
   flex-shrink: 0;
 }
@@ -239,27 +239,27 @@
 .status-signal {
   display: flex;
   align-items: flex-end;
-  gap: 1.2px;
-  height: 9px;
+  gap: 1.5px;
+  height: 11px;
   flex-shrink: 0;
 }
 
 .status-signal .bar {
-  width: 2.2px;
+  width: 2.5px;
   background-color: currentColor;
   border-radius: 0.6px;
   flex-shrink: 0;
 }
 
-.status-signal .bar-1 { height: 3px; }
-.status-signal .bar-2 { height: 5px; }
-.status-signal .bar-3 { height: 7px; }
-.status-signal .bar-4 { height: 9px; }
+.status-signal .bar-1 { height: 4px; }
+.status-signal .bar-2 { height: 6px; }
+.status-signal .bar-3 { height: 9px; }
+.status-signal .bar-4 { height: 11px; }
 
 /* Custom iOS Wifi SVG style */
 .status-wifi {
-  width: 14px;
-  height: 11px;
+  width: 16px;
+  height: 13px;
   stroke-width: 1.6;
   flex-shrink: 0;
   color: currentColor;
@@ -268,8 +268,8 @@
 /* Custom Battery Icon (Non-squishable, iOS 17 style) */
 .status-battery {
   position: relative;
-  width: 19px;
-  height: 10px;
+  width: 22px;
+  height: 11px;
   border: 1px solid currentColor;
   border-radius: 2.7px;
   padding: 1px;
@@ -286,7 +286,7 @@
   top: 50%;
   transform: translateY(-50%);
   width: 1.5px;
-  height: 3.5px;
+  height: 4px;
   background: currentColor;
   border-radius: 0 1px 1px 0;
 }
@@ -301,7 +301,7 @@
 /* iOS Bottom Homebar */
 .iphone-homebar-container {
   width: 100%;
-  height: 16px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -313,7 +313,7 @@
 
 .iphone-homebar {
   width: 32%;
-  height: 3.5px;
+  height: 4.5px;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.4);
 }
@@ -322,7 +322,7 @@
 .phone-result {
   position: relative;
   z-index: 10;
-  min-height: 520px;
+  min-height: 560px;
 }
 
 .phone-intro {
@@ -409,9 +409,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
-  /* 52px pushes content just below the 44px absolute status bar */
-  padding: 52px 0.85rem 11px;
+  gap: 0.6rem;
+  /* 60px pushes content just below the 52px absolute status bar */
+  padding: 60px 1rem 14px;
   background: #C5003F;
   color: #fff;
   box-shadow: 0 1px 4px rgba(0,0,0,0.18);
@@ -420,7 +420,7 @@
 .wa-header__contact {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -428,11 +428,11 @@
 
 .wa-header__avatar {
   display: grid;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   place-items: center;
   border-radius: 50%;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
   flex-shrink: 0;
@@ -455,7 +455,7 @@
 
 .wa-header__name {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.2;
   color: #fff;
@@ -467,9 +467,9 @@
 .wa-header__status {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   margin-top: 1px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
   color: rgba(255,255,255,0.82);
   white-space: nowrap;
@@ -653,15 +653,15 @@
 
 .wa-bubble span {
   display: block;
-  font-size: 0.84rem;
-  line-height: 1.45;
+  font-size: 15px; /* Increased from 0.84rem (~12px) */
+  line-height: 1.5;
   color: #0f172a;
 }
 
 .wa-bubble small {
   display: block;
-  margin-top: 0.3rem;
-  font-size: 0.64rem;
+  margin-top: 0.35rem;
+  font-size: 11px; /* Increased from 0.64rem (~9px) */
   text-align: right;
   color: #64748b;
 }
@@ -675,12 +675,12 @@
   max-width: 90%;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
-  padding: 0.42rem 0.85rem;
+  padding: 0.5rem 1rem;
   box-shadow: none;
 }
 
 .wa-bubble--system span {
-  font-size: 0.72rem;
+  font-size: 12px; /* Increased from 0.72rem (~10px) */
   color: #475569;
   text-align: center;
 }

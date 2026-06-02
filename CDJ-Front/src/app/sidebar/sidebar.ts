@@ -66,8 +66,6 @@ export class SidebarComponent {
   /** Sección APRENDER — los espacios de contenido educativo */
   learnSections: SidebarItem[] = [
     { id: 'home',      label: 'Inicio',         icon: 'home',             routerLink: ['/'],            audience: 'cdj' },
-    { id: 'cursos',    label: 'Cursos',         icon: 'menu_book',        routerLink: ['/cursos'],      audience: 'teachers' },
-    { id: 'recursos',  label: 'Recursos',       icon: 'auto_stories',     routerLink: ['/recursos'],    audience: 'cdj' },
     { id: 'series',    label: 'Series',         icon: 'movie',            routerLink: ['/series'],      audience: 'casi' },
   ];
 
@@ -116,8 +114,6 @@ export class SidebarComponent {
   /** Sección AYUDA Y COMUNIDAD */
   helpSections: SidebarItem[] = [
     { id: 'ayuda',   label: 'Ayuda Digital',  icon: 'shield',  routerLink: ['/ayuda'],         audience: 'help' },
-    { id: 'juegos',  label: 'Juegos',         icon: 'sports_esports',   routerLink: ['/juegos'],      audience: 'families' },
-    { id: 'notebooks', label: 'Notebooks IA', icon: 'auto_awesome',     routerLink: ['/notebooks-ia'], audience: 'teens' },
     { id: 'quienes', label: 'Quiénes somos',  icon: 'groups',  routerLink: ['/quienes-somos'], audience: 'cdj' },
   ];
 

@@ -29,26 +29,10 @@ export class InicioComponent {
   videoSeries = this.content.videoSeries;
 
   stats = [
-    { value: '120+', label: 'Recursos' },
-    { value: '12',   label: 'Cursos' },
     { value: '8',    label: 'Series' },
   ];
 
   quickAccess: { title: string; copy: string; href: string; icon: UiIconName; tone: string }[] = [
-    {
-      title: 'Cursos',
-      copy: 'Recorridos más estructurados para aprender por tema.',
-      href: '/cursos',
-      icon: 'course',
-      tone: 'bg-rose-600',
-    },
-    {
-      title: 'Recursos',
-      copy: 'Materiales concretos para prevenir, hablar y actuar.',
-      href: '/recursos',
-      icon: 'library',
-      tone: 'bg-violet-600',
-    },
     {
       title: 'Ayuda Digital',
       copy: 'Orientación para fraude, acoso o situaciones de riesgo.',
@@ -66,14 +50,6 @@ export class InicioComponent {
   ];
 
   featuredSpaces: { title: string; description: string; href: string; audience: string; icon: UiIconName; kicker: string }[] = [
-    {
-      title: 'Cursos',
-      description: 'Programas más completos para trabajar ciudadanía digital con continuidad y propósito.',
-      href: '/cursos',
-      audience: 'teachers',
-      icon: 'course',
-      kicker: 'Aprender',
-    },
     {
       title: 'Edutips',
       description: 'Piezas breves y directas para resolver dudas del día a día digital sin saturarte.',
