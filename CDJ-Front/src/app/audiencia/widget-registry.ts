@@ -9,12 +9,14 @@
  */
 import { Type } from '@angular/core';
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
+import { CandadoRapidoComponent } from '../shared/candado-rapido/candado-rapido';
 
 export type WidgetId =
-  | 'fraud-simulator';
-  // | 'footprint-3d'           // futuro
-  // | 'acuerdos-digitales'     // futuro
+  | 'fraud-simulator'
+  | 'candado-rapido';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
+  'candado-rapido': CandadoRapidoComponent,
 };
+

@@ -11,7 +11,7 @@ import { FeatureCardComponent } from '../shared/feature-card/feature-card';
 import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 import { AUDIENCE_CONFIG } from './audiencia-config';
-import { WIDGET_REGISTRY } from './widget-registry';
+import { WIDGET_REGISTRY, WidgetId } from './widget-registry';
 
 @Component({
   selector: 'app-audiencia',
@@ -61,6 +61,9 @@ export class AudienciaComponent {
   searchQuery   = signal<string>('');
   activeFilter  = signal<'todos' | 'game' | 'video' | 'guide'>('todos');
 
+  // Widget activo en el nivel (permite cambiar dinámicamente)
+  activeWidgetId = signal<WidgetId | null>(null);
+
   constructor() {
     // Al cambiar de audiencia, resetea el nivel al default de esa audiencia.
     effect(() => {
@@ -69,6 +72,16 @@ export class AudienciaComponent {
         this.selectedLevel.set(cfg?.defaultLevel ?? '');
         this.searchQuery.set('');
         this.activeFilter.set('todos');
+      });
+    });
+
+    // Sincronizar widget por defecto cuando cambia el nivel.
+    effect(() => {
+      const lvl = this.selectedLevel();
+      const cfg = this.config();
+      untracked(() => {
+        const defaultWidget = cfg?.levelWidgets[lvl] ?? null;
+        this.activeWidgetId.set(defaultWidget);
       });
     });
   }
@@ -85,12 +98,11 @@ export class AudienciaComponent {
 
   /**
    * Componente Angular a renderizar en la sección de widget del nivel activo.
-   * Resuelto desde WIDGET_REGISTRY + audiencia-config.ts.
-   * null = no hay widget para este nivel.
+   * Resuelto desde WIDGET_REGISTRY.
+   * null = no hay widget activo.
    */
   activeWidget = computed<Type<unknown> | null>(() => {
-    const levelWidgets = this.config()?.levelWidgets ?? {};
-    const widgetId = levelWidgets[this.selectedLevel()] ?? null;
+    const widgetId = this.activeWidgetId();
     return widgetId ? (WIDGET_REGISTRY[widgetId] ?? null) : null;
   });
 

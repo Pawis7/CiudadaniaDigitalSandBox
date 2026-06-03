@@ -120,8 +120,17 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       {
         id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años',
         imageUrl: '/adolescentes_portadas/SECUNDARIA.jpg', imageId: 'sub-teens-sec',
-        bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 15,
+        bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 16,
         levelResources: [
+          {
+            id: 'candado-rapido',
+            title: 'Candado Rápido v2.2',
+            description: 'Audita el perfil ficticio de Ana, detecta la exposición de datos y prioriza 3 candados de privacidad para protegerla.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'lock',
+            badge: 'Auditoría Visual', duration: '8 min',
+            colorClass: 'from-violet-600 to-fuchsia-700',
+            actionLabel: 'Iniciar Auditoría', link: '#simulador-fraudes-anchor',
+          },
           {
             id: 'simulador-fraudes',
             title: 'Simulador de Fraudes por Chat',

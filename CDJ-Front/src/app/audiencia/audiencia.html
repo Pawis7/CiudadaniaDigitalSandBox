@@ -223,8 +223,8 @@
 
           <!-- Bottom Button -->
           <div class="px-5 pb-5">
-            <a *ngIf="item.id === 'simulador-fraudes'; else normalLink"
-               (click)="scrollToAnchor('simulador-fraudes-anchor')" 
+            <a *ngIf="item.id === 'simulador-fraudes' || item.id === 'candado-rapido'; else normalLink"
+               (click)="activeWidgetId.set(item.id === 'simulador-fraudes' ? 'fraud-simulator' : 'candado-rapido'); scrollToAnchor('widget-seccion-anchor')" 
                class="btn-primary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none">
               <span translate="no" class="material-symbols-rounded text-sm">play_arrow</span>
               {{ item.actionLabel }}
@@ -257,7 +257,7 @@
            La plantilla no requiere ningún cambio adicional.
            ==================================================================== -->
       @if (activeWidget(); as widget) {
-        <div id="simulador-fraudes-anchor" class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6">
+        <div id="widget-seccion-anchor" class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6">
           <div class="pt-4">
             <ng-container [ngComponentOutlet]="widget" />
           </div>
