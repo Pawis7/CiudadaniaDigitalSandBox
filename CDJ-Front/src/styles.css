@@ -411,35 +411,36 @@ button:hover .icon-interactive,
    TIPOGRAFÍA — escala fluida estilo plataforma de cursos
    ======================================================================== */
 .display-1 {
-  font-size: clamp(2rem, 3vw + 0.75rem, 3.5rem);
+  font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
   font-weight: 900;
   letter-spacing: -0.025em;
-  line-height: 1.02;
+  line-height: 1.1;
   text-wrap: balance;
 }
 
 .display-2 {
-  font-size: clamp(1.5rem, 1.8vw + 0.75rem, 2.375rem);
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.375rem);
   font-weight: 900;
   letter-spacing: -0.022em;
-  line-height: 1.08;
-  text-wrap: balance;
-}
-
-.display-3 {
-  font-size: clamp(1.25rem, 0.9vw + 0.75rem, 1.625rem);
-  font-weight: 800;
-  letter-spacing: -0.018em;
   line-height: 1.15;
   text-wrap: balance;
 }
 
-.eyebrow {
-  font-size: 0.7rem;
+.display-3 {
+  font-size: clamp(1.35rem, 1.2vw + 1rem, 1.625rem);
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--aud, var(--c-cdj));
+  margin-bottom: 0.5rem;
 }
 
 .eyebrow-ink {
@@ -514,12 +515,6 @@ button:hover .icon-interactive,
     box-shadow: var(--shadow-card-hover);
     z-index: 10;
     opacity: 1 !important;
-  }
-
-  /* Sibling hover: encoge ligeramente las demás tarjetas en el mismo contenedor */
-  :is(.grid, .card-hover-group):has(.card-hover:hover) .card-hover:not(:hover) {
-    transform: scale(0.975) !important;
-    opacity: 0.75;
   }
 }
 
@@ -755,14 +750,25 @@ button:hover .icon-interactive,
 .btn-aud {
   background: var(--aud, var(--c-cdj));
   color: var(--text-on-accent);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 4px 12px -2px color-mix(in srgb, var(--aud, var(--c-cdj)) 40%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .btn-primary:hover,
 .btn-aud:hover {
-  transform: translateY(-1px);
-  background: color-mix(in srgb, var(--aud, var(--c-cdj)) 88%, black);
-  box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--aud, var(--c-cdj)) 50%, transparent);
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--aud, var(--c-cdj)) 92%, black);
+  box-shadow: 
+    0 8px 20px -4px color-mix(in srgb, var(--aud, var(--c-cdj)) 45%, transparent),
+    0 4px 8px -2px color-mix(in srgb, var(--aud, var(--c-cdj)) 25%, transparent);
+}
+
+.btn-primary:active,
+.btn-aud:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary,
@@ -770,12 +776,40 @@ button:hover .icon-interactive,
   background: var(--surface-card);
   color: var(--text-primary);
   border: 1px solid var(--border);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .btn-secondary:hover,
 .btn-ghost-aud:hover {
-  background: var(--surface-soft);
+  background: var(--surface-card);
   border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 16px -4px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.btn-secondary:active,
+.btn-ghost-aud:active {
+  transform: translateY(0);
+  background: var(--surface-soft);
+}
+
+.btn-lg {
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 640px) {
+  .btn-lg {
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .btn-ghost {
@@ -959,16 +993,22 @@ button:hover .icon-interactive,
   display: block !important;
 }
 
-.hero-aud,
-.catalog-hero {
-  padding: 1.5rem !important;
-}
-
 .main-hero img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
+}
+
+@media (max-width: 640px) {
+  .main-hero {
+    aspect-ratio: 1546 / 423 !important; /* Volvemos al original */
+  }
+}
+
+.hero-aud,
+.catalog-hero {
+  padding: 1.5rem !important;
 }
 
 body.sidebar-collapsed .hero-aud,

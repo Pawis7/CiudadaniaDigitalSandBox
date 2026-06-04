@@ -48,10 +48,18 @@ export interface AudienceSubLevel {
   bgClass: string;
   icon: string;
   resourceCount: number;
+  description?: string;
   /** Recursos interactivos disponibles en este sub-nivel. */
   levelResources?:   LevelResource[];
   /** Si existe, muestra un teaser de contenido próximo debajo del portal. */
   comingSoonTeaser?: ComingSoonTeaser;
+}
+
+export interface AudienceBottomBanner {
+  title: string;
+  description: string;
+  buttonLabel: string;
+  buttonHref: string;
 }
 
 export interface AudiencePage {
@@ -60,6 +68,7 @@ export interface AudiencePage {
   eyebrow: string;
   tagline: string;
   description: string;
+  explanatoryText?: string;
   heroImage: string;
   heroImageId: string;
   accentClass: string;
@@ -70,6 +79,7 @@ export interface AudiencePage {
   subLevels: AudienceSubLevel[];
   topics: AudienceTopic[];
   recommendedSeriesSlugs: string[];
+  bottomBanner?: AudienceBottomBanner;
 }
 
 export const AUDIENCE_PAGES: AudiencePage[] = [
@@ -79,7 +89,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para los más pequeños',
     tagline: 'Aprender jugando, con calma y compañía',
     description:
-      'Cápsulas, audiocuentos y videos cortos para descubrir el mundo digital con seguridad y curiosidad.',
+      'Recursos para aprender a convivir, jugar y participar de forma segura en el mundo digital para niñas y niños de preescolar, primaria baja y primaria alta.',
+    explanatoryText:
+      'La ciudadanía digital comienza desde las primeras experiencias con pantallas, juegos, videos y aplicaciones. En esta sección niñas y niños encontrarán historias, actividades y recursos visuales para aprender a cuidarse, pedir ayuda, respetar a otras personas y equilibrar el uso de la tecnología con juego, descanso y convivencia.',
     heroImage:
       'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-kids-hero',
@@ -89,9 +101,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'face',
     ageRange: '5 a 11 años',
     subLevels: [
-      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: '/ninosyninas_portadas/PREESCOLAR.jpg', imageId: 'sub-kids-pre', bgClass: 'from-rose-400 to-rose-500', icon: 'child_care', resourceCount: 12 },
-      { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18 },
-      { id: 'primaria-alta',  title: 'Primaria alta', subtitle: '9 a 11 años', imageUrl: '/ninosyninas_portadas/PRIMARIA ALTA.jpg', imageId: 'sub-kids-pa',  bgClass: 'from-cyan-400 to-blue-500',    icon: 'auto_stories', resourceCount: 22 },
+      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: '/ninosyninas_portadas/PREESCOLAR.jpg', imageId: 'sub-kids-pre', bgClass: 'from-rose-400 to-rose-500', icon: 'child_care', resourceCount: 12, description: 'Descubre y juega en el mundo digital con actividades sencillas, cuentos y personajes amigables.' },
+      { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18, description: 'Aprende, crea y cuida tu mundo digital con videos, juegos y actividades breves.' },
+      { id: 'primaria-alta',  title: 'Primaria alta', subtitle: '9 a 11 años', imageUrl: '/ninosyninas_portadas/PRIMARIA ALTA.jpg', imageId: 'sub-kids-pa',  bgClass: 'from-cyan-400 to-blue-500',    icon: 'auto_stories', resourceCount: 22, description: 'Piensa, participa y toma mejores decisiones en línea con retos, historias y recursos interactivos.' },
     ],
     topics: [
       { icon: 'shield_person',  title: 'Cuidado en línea',     description: 'Saber qué compartir y qué no.',    bgClass: 'bg-rose-500' },
@@ -100,6 +112,12 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       { icon: 'schedule',       title: 'Tiempo en pantalla',    description: 'Equilibrio entre jugar y descansar.', bgClass: 'bg-sky-500' },
     ],
     recommendedSeriesSlugs: ['edutips', 'el-dia-que-casi'],
+    bottomBanner: {
+      title: 'Aprender también puede ser divertido.',
+      description: 'Actividades, juegos y retos para seguir explorando y aprendiendo cada día.',
+      buttonLabel: 'Ver actividades',
+      buttonHref: '#portal-recursos-anchor'
+    }
   },
   {
     slug: 'adolescentes',
@@ -107,7 +125,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para ti que ya andas en redes',
     tagline: 'Información directa, sin sermones',
     description:
-      'Privacidad, salud digital, redes sociales, ciberbullying y herramientas para ser creador, no solo consumidor.',
+      'Recursos para explorar tu vida digital con criterio, creatividad y seguridad dirigidos a adolescentes de nivel secundaria y preparatoria.',
+    explanatoryText:
+      'Tu vida digital también habla de ti: lo que publicas, compartes, consumes, comentas y decides puede abrir oportunidades o generar problemas. Esta sección reúne recursos para pensar antes de publicar, cuidar tu privacidad, convivir mejor, detectar engaños y participar con responsabilidad.',
     heroImage:
       'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-teens-hero',
@@ -121,6 +141,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
         id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años',
         imageUrl: '/adolescentes_portadas/SECUNDARIA.jpg', imageId: 'sub-teens-sec',
         bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 16,
+        description: 'Recursos para comprender tu mundo digital, construir relaciones sanas y tomar decisiones informadas.',
         levelResources: [
           {
             id: 'candado-rapido',
@@ -140,39 +161,13 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-violet-600 to-indigo-700',
             actionLabel: 'Iniciar Simulación', link: '#simulador-fraudes-anchor',
           },
-          {
-            id: 'detective-fraudes',
-            title: 'Detective de Fraudes Digitales',
-            description: 'Examina capturas de pantalla de correos, analiza enlaces dudosos y sube de nivel desenmascarando estafadores en la red.',
-            type: 'game', typeLabel: 'Quiz Interactivo', icon: 'psychology',
-            badge: 'Popular', duration: '8 min',
-            colorClass: 'from-fuchsia-500 to-pink-500',
-            actionLabel: 'Jugar Ahora', link: 'https://example.com/games/detective',
-          },
-          {
-            id: 'video-huella',
-            title: 'Cápsula: La huella digital de Sofía',
-            description: 'Video animado que muestra de manera divertida y reflexiva cómo tus publicaciones actuales definen tu reputación digital del mañana.',
-            type: 'video', typeLabel: 'Video Animado', icon: 'play_circle',
-            badge: 'Multimedia', duration: '3 min',
-            colorClass: 'from-sky-400 to-blue-600',
-            actionLabel: 'Ver Video', link: '#',
-          },
-          {
-            id: 'guia-seguridad',
-            title: 'Guía: Checklist de Privacidad en Redes',
-            description: 'Pasos rápidos en formato interactivo para configurar TikTok, Instagram y WhatsApp con máxima privacidad y seguridad.',
-            type: 'guide', typeLabel: 'Guía PDF', icon: 'description',
-            badge: 'Descargable', duration: '4 páginas',
-            colorClass: 'from-rose-400 to-rose-600',
-            actionLabel: 'Descargar PDF', link: '#',
-          },
         ],
       },
       {
         id: 'preparatoria', title: 'Preparatoria', subtitle: '15 a 17 años',
         imageUrl: '/adolescentes_portadas/PREPARATORIA.jpg', imageId: 'sub-teens-prep',
         bgClass: 'from-fuchsia-500 to-pink-500', icon: 'school', resourceCount: 17,
+        description: 'Herramientas para profundizar, participar y prepararte para los retos del mundo digital y real.',
         comingSoonTeaser: {
           badgeIcon: '3d_rotation',
           badgeLabel: 'Laboratorio de Huella Digital',
@@ -181,44 +176,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
           gradientClass: 'bg-gradient-to-r from-fuchsia-600 to-pink-600',
           buttonColorClass: 'text-pink-700',
         },
-        levelResources: [
-          {
-            id: 'simulador-huella-3d',
-            title: 'Simulador 3D: Huella Digital Permanente',
-            description: 'Toma decisiones cruciales a lo largo de una semana de vida digital y visualiza quién y cómo rastrea tu actividad en internet.',
-            type: 'game', typeLabel: 'Simulador 3D', icon: '3d_rotation',
-            badge: 'Avanzado', duration: '12 min',
-            colorClass: 'from-purple-600 to-pink-600',
-            actionLabel: 'Explorar Simulador', link: '#',
-          },
-          {
-            id: 'fake-news-academy',
-            title: 'Academia de Desinformación',
-            description: 'Juego interactivo para aprender a detectar fake news, imágenes generadas por IA y deepfakes en redes sociales.',
-            type: 'game', typeLabel: 'Minijuego', icon: 'fact_check',
-            badge: 'Nuevo', duration: '10 min',
-            colorClass: 'from-amber-500 to-orange-600',
-            actionLabel: 'Comenzar Reto', link: '#',
-          },
-          {
-            id: 'video-algoritmo',
-            title: 'Cápsula: La burbuja del filtro y los algoritmos',
-            description: 'Descubre cómo las redes sociales seleccionan el contenido que ves y aprende hacks sencillos para salir de su bucle infinito.',
-            type: 'video', typeLabel: 'Video Animado', icon: 'smart_screen',
-            badge: 'Recomendado', duration: '5 min',
-            colorClass: 'from-cyan-400 to-blue-500',
-            actionLabel: 'Ver Video', link: '#',
-          },
-          {
-            id: 'guia-bienestar',
-            title: 'Guía: Hacks de Desintoxicación Digital',
-            description: 'Estrategias y trucos validados por expertos para reducir el uso excesivo de pantallas y mejorar tu sueño sin desconectarte de tus amigos.',
-            type: 'guide', typeLabel: 'Guía PDF', icon: 'spa',
-            badge: 'Descargable', duration: '6 páginas',
-            colorClass: 'from-rose-400 to-rose-500',
-            actionLabel: 'Descargar Guía', link: '#',
-          },
-        ],
+        levelResources: [],
       },
     ],
     topics: [
@@ -228,6 +186,12 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       { icon: 'edit_note',      title: 'Crear contenido',         description: 'Pasar de consumir a producir.',     bgClass: 'bg-purple-500' },
     ],
     recommendedSeriesSlugs: ['edutips'],
+    bottomBanner: {
+      title: 'Tu voz también construye ciudadanía digital.',
+      description: 'Comparte ideas, participa y transforma tu comunidad digital.',
+      buttonLabel: 'Conoce más',
+      buttonHref: '/series'
+    }
   },
   {
     slug: 'familias',
@@ -235,7 +199,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para acompañar en casa',
     tagline: 'Conversaciones que sí ayudan',
     description:
-      'Guías por edad, acuerdos familiares, y herramientas concretas para entender qué hacen y cómo apoyarles.',
+      'Herramientas para acompañar a niñas, niños y adolescentes en su vida digital con confianza y claridad en las etapas de crianza desde 0 hasta los 22 años.',
+    explanatoryText:
+      'Acompañar la vida digital no significa saberlo todo ni controlar cada paso. Significa abrir conversaciones, construir acuerdos, reconocer riesgos y ayudar a niñas, niños y adolescentes a desarrollar autonomía con cuidado. Aquí encontrarás recursos para acompañar sin miedo, sin invadir y con herramientas concretas.',
     heroImage:
       'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-families-hero',
@@ -245,10 +211,10 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'groups',
     ageRange: 'Todas las edades',
     subLevels: [
-      { id: 'fam-0-5',   title: '0 - 5 años',   subtitle: 'Primera infancia',           imageUrl: '/familias_portadas/0-5.jpg', imageId: 'sub-fam-05',  bgClass: 'from-amber-400 to-orange-500',  icon: 'child_care',     resourceCount: 9 },
-      { id: 'fam-6-11',  title: '6 - 11 años',  subtitle: 'Niñez',                      imageUrl: '/familias_portadas/6-11.jpg', imageId: 'sub-fam-611', bgClass: 'from-orange-500 to-rose-500',   icon: 'family_restroom',resourceCount: 11 },
-      { id: 'fam-12-14', title: '12 - 14 años', subtitle: 'Adolescencia temprana',      imageUrl: '/familias_portadas/12-14.jpg', imageId: 'sub-fam-1214',bgClass: 'from-rose-500 to-pink-600',     icon: 'forum',          resourceCount: 14 },
-      { id: 'fam-15-22', title: '15 - 22 años', subtitle: 'Adolescencia tardía y juventud', imageUrl: '/familias_portadas/15-22.jpg', imageId: 'sub-fam-1522',bgClass: 'from-pink-600 to-red-600',      icon: 'volunteer_activism', resourceCount: 12 },
+      { id: 'fam-0-5',   title: '0 - 5 años',   subtitle: 'Primera infancia',           imageUrl: '/familias_portadas/0-5.jpg', imageId: 'sub-fam-05',  bgClass: 'from-amber-400 to-orange-500',  icon: 'child_care',     resourceCount: 9, description: 'Primeros pasos en el mundo digital. Hábitos saludables desde pequeños.' },
+      { id: 'fam-6-11',  title: '6 - 11 años',  subtitle: 'Niñez',                      imageUrl: '/familias_portadas/6-11.jpg', imageId: 'sub-fam-611', bgClass: 'from-orange-500 to-rose-500',   icon: 'family_restroom',resourceCount: 11, description: 'Exploran, aprenden y se conectan. Acompáñalos con límites y confianza.' },
+      { id: 'fam-12-14', title: '12 - 14 años', subtitle: 'Adolescencia temprana',      imageUrl: '/familias_portadas/12-14.jpg', imageId: 'sub-fam-1214',bgClass: 'from-rose-500 to-pink-600',     icon: 'forum',          resourceCount: 14, description: 'Más independencia, nuevos retos. Dialogar es la mejor herramienta.' },
+      { id: 'fam-15-22', title: '15 - 22 años', subtitle: 'Adolescencia tardía y juventud', imageUrl: '/familias_portadas/15-22.jpg', imageId: 'sub-fam-1522',bgClass: 'from-pink-600 to-red-600',      icon: 'volunteer_activism', resourceCount: 12, description: 'Autonomía digital responsable. Acompáña sin invadir su privacidad.' },
     ],
     topics: [
       { icon: 'handshake',       title: 'Acuerdos en casa',     description: 'Reglas claras sin pelear.',         bgClass: 'bg-orange-500' },
@@ -257,6 +223,12 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       { icon: 'volunteer_activism', title: 'Cuando algo pasa',  description: 'Dónde acudir si necesitas ayuda.',  bgClass: 'bg-amber-500' },
     ],
     recommendedSeriesSlugs: ['el-dia-que-casi'],
+    bottomBanner: {
+      title: 'Acompañamos a quienes cuidan.',
+      description: 'Encuentra apoyo, orientación y recursos para acompañar con confianza.',
+      buttonLabel: 'Conoce más',
+      buttonHref: '/ayuda'
+    }
   },
   {
     slug: 'docentes',
@@ -264,7 +236,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para llevar al aula',
     tagline: 'Recursos listos para clase',
     description:
-      'Secuencias didácticas, proyectos por nivel y materiales descargables para integrar ciudadanía digital en cualquier asignatura.',
+      'Recursos y estrategias para trabajar ciudadanía digital en el aula de forma segura, crítica y responsable para todos los niveles básica y superior.',
+    explanatoryText:
+      'La ciudadanía digital también se aprende en la escuela. Esta sección reúne recursos para abrir conversaciones, trabajar casos, prevenir riesgos, fortalecer la convivencia y actuar con claridad cuando surge una situación digital que afecta al grupo o a la comunidad escolar.',
     heroImage:
       'https://images.unsplash.com/photo-1544717297-fa154ddad021?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-teachers-hero',
@@ -274,11 +248,11 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'school',
     ageRange: 'Preescolar a preparatoria',
     subLevels: [
-      { id: 'doc-pre',  title: 'Preescolar',     subtitle: '3 a 5 años',   imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-29.jpg', imageId: 'sub-doc-pre', bgClass: 'from-rose-500 to-rose-500', icon: 'child_friendly', resourceCount: 8 },
-      { id: 'doc-pb',   title: 'Primaria baja',  subtitle: '6 a 8 años',   imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-30.jpg', imageId: 'sub-doc-pb',  bgClass: 'from-rose-500 to-cyan-500',    icon: 'menu_book',      resourceCount: 14 },
-      { id: 'doc-pa',   title: 'Primaria alta',  subtitle: '9 a 11 años',  imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-31.jpg', imageId: 'sub-doc-pa',  bgClass: 'from-cyan-500 to-blue-500',    icon: 'edit_note',      resourceCount: 16 },
-      { id: 'doc-sec',  title: 'Secundaria',     subtitle: '12 a 14 años', imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-32.jpg', imageId: 'sub-doc-sec', bgClass: 'from-blue-500 to-indigo-500',  icon: 'science',        resourceCount: 13 },
-      { id: 'doc-prep', title: 'Preparatoria',   subtitle: '15 a 17 años', imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-33.jpg', imageId: 'sub-doc-prep',bgClass: 'from-indigo-500 to-violet-500',icon: 'computer',       resourceCount: 11 },
+      { id: 'doc-pre',  title: 'Preescolar',     subtitle: '3 a 5 años',   imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-29.jpg', imageId: 'sub-doc-pre', bgClass: 'from-rose-500 to-rose-500', icon: 'child_friendly', resourceCount: 8, description: 'Actividades sencillas para iniciar hábitos digitales seguros desde edades tempranas.' },
+      { id: 'doc-pb',   title: 'Primaria baja',  subtitle: '6 a 8 años',   imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-30.jpg', imageId: 'sub-doc-pb',  bgClass: 'from-rose-500 to-cyan-500',    icon: 'menu_book',      resourceCount: 14, description: 'Recursos breves para conversar, jugar y aprender sobre cuidado digital.' },
+      { id: 'doc-pa',   title: 'Primaria alta',  subtitle: '9 a 11 años',  imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-31.jpg', imageId: 'sub-doc-pa',  bgClass: 'from-cyan-500 to-blue-500',    icon: 'edit_note',      resourceCount: 16, description: 'Materiales para fortalecer decisiones responsables y convivencia en línea.' },
+      { id: 'doc-sec',  title: 'Secundaria',     subtitle: '12 a 14 años', imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-32.jpg', imageId: 'sub-doc-sec', bgClass: 'from-blue-500 to-indigo-500',  icon: 'science',        resourceCount: 13, description: 'Herramientas para dialogar sobre identidad, privacidad, riesgos y participación digital.' },
+      { id: 'doc-prep', title: 'Preparatoria',   subtitle: '15 a 17 años', imageUrl: '/docentes_portadas/CIUDADANIA DOCENTES DIGITAL-33.jpg', imageId: 'sub-doc-prep',bgClass: 'from-indigo-500 to-violet-500',icon: 'computer',       resourceCount: 11, description: 'Recursos para analizar, crear, participar y actuar con criterio en entornos digitales.' },
     ],
     topics: [
       { icon: 'menu_book',  title: 'Secuencias didácticas', description: 'Planeaciones por nivel.',           bgClass: 'bg-rose-500' },
@@ -287,6 +261,12 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       { icon: 'auto_stories', title: 'Para tu formación',    description: 'Microcursos y lecturas.',          bgClass: 'bg-cyan-500' },
     ],
     recommendedSeriesSlugs: ['edutips'],
+    bottomBanner: {
+      title: 'Herramientas listas para usar en el aula.',
+      description: 'Materiales prácticos, actualizados y alineados para ahorrar tiempo.',
+      buttonLabel: 'Ver secuencias',
+      buttonHref: '#portal-recursos-anchor'
+    }
   },
 ];
 

@@ -57,3 +57,18 @@ Invoca con `/<nombre-skill>`. Las marcadas con ⭐ son las que más sirven en es
 - **NO** introducir Supabase (replicar stack de Harisco/Recreacademy).
 - Banner hero principal (`.main-hero`): altura fluida `clamp(260px, 22vw, 360px)` con `object-contain` + fondo crimson `#E9004C` matching para que no se recorte la imagen. (La regla previa de altura fija 423px del commit `b0d8d645` fue relajada el 2026-05-25.) Otros heroes (`.hero-aud`, `.catalog-hero`) sí siguen en 423px estrictos.
 - Tipografía: **Garet** (reemplazó a Work Sans en commits `81037a25` / `6e8ce183`).
+
+## Especificaciones de Diseño y Secciones Pendientes
+
+### 5. Detalle de producto (Ficha de Recurso)
+- **Propósito de la sección**: Explicar de forma clara qué contiene cada recurso, qué aprenderá la persona y cómo puede usarlo en casa, aula o sitio web.
+- **Componentes y Textos Sugeridos**:
+  - **Título**: (Ejemplo: *¿Qué cosas no se comparten ni por juego?*)
+  - **Descripción breve**: (Ejemplo: *Aprende qué información personal no debemos compartir en internet, incluso en juegos, redes sociales o aplicaciones.*)
+  - **Lo que aprenderás**: (Ejemplo: *Al finalizar este recurso podrás identificar información personal que no debe compartirse, reconocer situaciones de riesgo y tomar decisiones más seguras para proteger tu privacidad.*)
+  - **Botones de acción**:
+    - *Iniciar recurso*
+    - *Guardar*
+    - *Descargar materiales*
+    - *Compartir*
+

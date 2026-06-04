@@ -28,6 +28,18 @@ export class InicioComponent {
   secondaryBanner = this.content.secondaryBanner;
   videoSeries = this.content.videoSeries;
 
+  editorial = {
+    heroExplanatory: 'La vida digital forma parte de la escuela, la familia, las amistades, el juego, la información y la participación pública. Este sitio reúne recursos para entender mejor ese mundo, tomar decisiones con criterio y construir relaciones digitales más seguras, humanas y respetuosas.',
+    featuredResourcesTitle: 'Recursos destacados',
+    featuredResourcesGuide: 'Explora lo más reciente del portal: una selección de nuestras series, videos, cuentos y microlecciones diseñadas para aprender sobre ciudadanía digital de forma amena y directa.',
+    profilesTitle: 'Contenido por perfil',
+    profilesGuide: 'Al elegir tu perfil, accederás a una biblioteca completa diseñada para tu edad y rol. Aquí es donde encontrarás los simuladores interactivos, guías de acción, checklist y materiales específicos para aprender a navegar con seguridad en situaciones reales.',
+    institutionalTitle: 'Cada acción en línea tiene impacto',
+    institutionalText: 'Informarnos, respetar, proteger y participar nos ayuda a construir un mundo digital más seguro, justo e inclusivo.',
+    explanatoryComplementary: 'Ser ciudadanía digital no significa usar más tecnología, sino usarla mejor: con seguridad, criterio, empatía, responsabilidad y sentido de comunidad.',
+    finalCtaTitle: 'Elige tu ruta y comienza hoy',
+  };
+
   stats = [
     { value: '8',    label: 'Series' },
   ];

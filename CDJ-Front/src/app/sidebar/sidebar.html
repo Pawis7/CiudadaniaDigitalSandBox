@@ -79,7 +79,8 @@
             <div class="sidebar-sub-wrapper" [class.is-open]="openedAudience() === item.id">
               <div class="sidebar-sub" [attr.data-audience]="item.audience">
                 <a *ngFor="let sub of item.subItems"
-                   [href]="sub.href"
+                   [routerLink]="item.routerLink"
+                   [fragment]="sub.fragment"
                    (click)="onSubitemClick()"
                    class="sidebar-subitem">
                   <span class="sidebar-subitem-dot"></span>

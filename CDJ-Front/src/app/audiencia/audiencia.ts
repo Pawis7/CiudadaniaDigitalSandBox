@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, untracked, Type } from '@angular/core';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
-import { AUDIENCE_PAGES } from '../core/data/page-content';
+import { AUDIENCE_PAGES, LevelResource } from '../core/data/page-content';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { AudienceSlug } from '../core/models/content.models';
@@ -12,6 +12,7 @@ import { SectionFeaturedSelectorComponent } from '../shared/section-featured-sel
 import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 import { AUDIENCE_CONFIG } from './audiencia-config';
 import { WIDGET_REGISTRY, WidgetId } from './widget-registry';
+import { ResourceCardComponent } from '../shared/resource-card/resource-card';
 
 @Component({
   selector: 'app-audiencia',
@@ -24,18 +25,22 @@ import { WIDGET_REGISTRY, WidgetId } from './widget-registry';
     FeatureCardComponent,
     SectionFeaturedSelectorComponent,
     ImageLoaderDirective,
+    ResourceCardComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './audiencia.html',
 })
 export class AudienciaComponent {
   private route   = inject(ActivatedRoute);
+  private router  = inject(Router);
   private content = inject(ContentService);
 
   slug = toSignal(
     this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')),
     { initialValue: '' },
   );
+
+  fragment = toSignal(this.route.fragment);
 
   /** Metadatos de la audiencia (títulos, sub-niveles, temas). */
   page = computed(() => AUDIENCE_PAGES.find((a) => a.slug === this.slug()));
@@ -65,13 +70,21 @@ export class AudienciaComponent {
   activeWidgetId = signal<WidgetId | null>(null);
 
   constructor() {
-    // Al cambiar de audiencia, resetea el nivel al default de esa audiencia.
+    // Al cambiar de audiencia o fragmento, sincroniza el nivel seleccionado (priorizando fragmento si es válido)
     effect(() => {
       const cfg = this.config();
+      const frag = this.fragment();
       untracked(() => {
-        this.selectedLevel.set(cfg?.defaultLevel ?? '');
+        const p = this.page();
+        const hasValidFragment = frag && p && p.subLevels.some((s) => s.id === frag);
+        this.selectedLevel.set(hasValidFragment ? frag : (cfg?.defaultLevel ?? ''));
         this.searchQuery.set('');
         this.activeFilter.set('todos');
+        if (hasValidFragment) {
+          setTimeout(() => {
+            this.scrollToAnchor('portal-recursos-anchor');
+          }, 150);
+        }
       });
     });
 
@@ -132,6 +145,32 @@ export class AudienciaComponent {
     const el = document.getElementById(anchorId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  onResourceActionClicked(item: LevelResource): void {
+    if (item.id === 'simulador-fraudes' || item.id === 'candado-rapido') {
+      this.activeWidgetId.set(item.id === 'simulador-fraudes' ? 'fraud-simulator' : 'candado-rapido');
+      this.scrollToAnchor('widget-seccion-anchor');
+    }
+  }
+
+  onBannerActionClicked(banner: any, event: Event): void {
+    if (banner.buttonHref && banner.buttonHref.startsWith('#')) {
+      event.preventDefault();
+      this.scrollToAnchor(banner.buttonHref.substring(1));
+    }
+  }
+
+  selectLevelAndScroll(levelId: string): void {
+    if (this.selectedLevel() === levelId) {
+      this.scrollToAnchor('portal-recursos-anchor');
+    } else {
+      this.router.navigate([], {
+        fragment: levelId,
+        relativeTo: this.route,
+        replaceUrl: true
+      });
     }
   }
 }

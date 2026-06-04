@@ -12,7 +12,7 @@ interface SidebarItem {
   icon: string;
   routerLink: string[];
   audience: string;
-  subItems?: { label: string; href: string }[];
+  subItems?: { label: string; fragment: string }[];
 }
 
 const COLLAPSE_KEY = 'cdj_sidebar_collapsed';
@@ -75,38 +75,38 @@ export class SidebarComponent {
       id: 'kids',  label: 'Niñas y niños',  icon: 'child_care',
       routerLink: ['/p', 'ninas-y-ninos'], audience: 'kids',
       subItems: [
-        { label: 'Preescolar',     href: '/p/ninas-y-ninos#preescolar' },
-        { label: 'Primaria baja',  href: '/p/ninas-y-ninos#primaria-baja' },
-        { label: 'Primaria alta',  href: '/p/ninas-y-ninos#primaria-alta' },
+        { label: 'Preescolar',     fragment: 'preescolar' },
+        { label: 'Primaria baja',  fragment: 'primaria-baja' },
+        { label: 'Primaria alta',  fragment: 'primaria-alta' },
       ],
     },
     {
       id: 'teens', label: 'Adolescentes', icon: 'forum',
       routerLink: ['/p', 'adolescentes'], audience: 'teens',
       subItems: [
-        { label: 'Secundaria',  href: '/p/adolescentes#secundaria' },
-        { label: 'Preparatoria', href: '/p/adolescentes#preparatoria' },
+        { label: 'Secundaria',  fragment: 'secundaria' },
+        { label: 'Preparatoria', fragment: 'preparatoria' },
       ],
     },
     {
       id: 'families', label: 'Familias', icon: 'family_restroom',
       routerLink: ['/p', 'familias'], audience: 'families',
       subItems: [
-        { label: '0–5 años',   href: '/p/familias#fam-0-5' },
-        { label: '6–11 años',  href: '/p/familias#fam-6-11' },
-        { label: '12–14 años', href: '/p/familias#fam-12-14' },
-        { label: '15–22 años', href: '/p/familias#fam-15-22' },
+        { label: '0–5 años',   fragment: 'fam-0-5' },
+        { label: '6–11 años',  fragment: 'fam-6-11' },
+        { label: '12–14 años', fragment: 'fam-12-14' },
+        { label: '15–22 años', fragment: 'fam-15-22' },
       ],
     },
     {
       id: 'teachers', label: 'Docentes', icon: 'school',
       routerLink: ['/p', 'docentes'], audience: 'teachers',
       subItems: [
-        { label: 'Preescolar',    href: '/p/docentes#doc-pre' },
-        { label: 'Primaria baja', href: '/p/docentes#doc-pb' },
-        { label: 'Primaria alta', href: '/p/docentes#doc-pa' },
-        { label: 'Secundaria',    href: '/p/docentes#doc-sec' },
-        { label: 'Preparatoria',  href: '/p/docentes#doc-prep' },
+        { label: 'Preescolar',    fragment: 'doc-pre' },
+        { label: 'Primaria baja', fragment: 'doc-pb' },
+        { label: 'Primaria alta', fragment: 'doc-pa' },
+        { label: 'Secundaria',    fragment: 'doc-sec' },
+        { label: 'Preparatoria',  fragment: 'doc-prep' },
       ],
     },
   ];
