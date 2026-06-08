@@ -17,7 +17,12 @@ export class ResourceCardComponent {
   @Output() actionClicked = new EventEmitter<LevelResource>();
 
   isWidgetAction(): boolean {
-    return this.item.id === 'simulador-fraudes' || this.item.id === 'candado-rapido';
+    return (
+      this.item.id === 'simulador-fraudes' ||
+      this.item.id === 'candado-rapido' ||
+      this.item.id === 'presion-pares' ||
+      this.item.id === 'limites-chats'
+    );
   }
 
   onAction(): void {

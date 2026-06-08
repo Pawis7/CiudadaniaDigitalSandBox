@@ -140,7 +140,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
       {
         id: 'secundaria',  title: 'Secundaria',  subtitle: '12 a 14 años',
         imageUrl: '/adolescentes_portadas/SECUNDARIA.jpg', imageId: 'sub-teens-sec',
-        bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 16,
+        bgClass: 'from-violet-500 to-fuchsia-500', icon: 'backpack', resourceCount: 18,
         description: 'Recursos para comprender tu mundo digital, construir relaciones sanas y tomar decisiones informadas.',
         levelResources: [
           {
@@ -160,6 +160,24 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             badge: 'Simulación Móvil', duration: '5 min',
             colorClass: 'from-violet-600 to-indigo-700',
             actionLabel: 'Iniciar Simulación', link: '#simulador-fraudes-anchor',
+          },
+          {
+            id: 'presion-pares',
+            title: 'Simulador de Presión de Pares',
+            description: 'Entra a una escena de chat y decide cómo responder sin seguir la corriente, sin atacar y sin dejar sola a la persona afectada.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'groups',
+            badge: 'Presión Social', duration: '8–12 min',
+            colorClass: 'from-orange-500 to-rose-700',
+            actionLabel: 'Iniciar Simulación', link: '#simulador-fraudes-anchor',
+          },
+          {
+            id: 'limites-chats',
+            title: '¿Cómo pongo límites sin bronca en chats y redes?',
+            description: 'Afronta situaciones reales de presión o burla en chats grupales y privados. Toma decisiones y obtén tu perfil de límites personalizado.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'chat',
+            badge: 'Dos casos interactivos', duration: '12 min',
+            colorClass: 'from-orange-500 to-rose-700',
+            actionLabel: 'Iniciar Actividad', link: '#simulador-fraudes-anchor',
           },
         ],
       },

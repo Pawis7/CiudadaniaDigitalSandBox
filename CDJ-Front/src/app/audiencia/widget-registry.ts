@@ -10,13 +10,19 @@
 import { Type } from '@angular/core';
 import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simulator/secondary-fraud-simulator';
 import { CandadoRapidoComponent } from '../shared/candado-rapido/candado-rapido';
+import { SecondaryPeerPressureSimulatorComponent } from '../shared/secondary-peer-pressure-simulator/secondary-peer-pressure-simulator';
+import { LimitesChatsComponent } from '../shared/limites-chats/limites-chats';
 
 export type WidgetId =
   | 'fraud-simulator'
-  | 'candado-rapido';
+  | 'candado-rapido'
+  | 'peer-pressure'
+  | 'limites-chats';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
   'candado-rapido': CandadoRapidoComponent,
+  'peer-pressure': SecondaryPeerPressureSimulatorComponent,
+  'limites-chats': LimitesChatsComponent,
 };
 

@@ -1,0 +1,515 @@
+:host {
+  display: block;
+}
+
+.sim-shell {
+  background:
+    radial-gradient(circle at top left, rgba(251, 131, 0, 0.05), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(181, 0, 56, 0.05), transparent 32%),
+    var(--surface-base);
+}
+
+/* ====================================================================
+   IPHONE 17 HIGH-FIDELITY CSS MOCKUP
+   ==================================================================== */
+.iphone-17-container {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  perspective: 1200px;
+  z-index: 10;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25));
+}
+
+.iphone-17-chassis {
+  position: relative;
+  border-radius: 52px;
+  padding: 10px;
+  background: linear-gradient(135deg, #38383a 0%, #1c1c1e 30%, #2c2c2e 50%, #1c1c1e 70%, #38383a 100%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.iphone-17-chassis::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 51px;
+  background: #111115;
+  z-index: 0;
+}
+
+.iphone-17-highlight {
+  position: absolute;
+  inset: -1.5px;
+  border-radius: 53.5px;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.iphone-17-bezel {
+  position: relative;
+  z-index: 2;
+  background: #000000;
+  border-radius: 44px;
+  padding: 5px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+}
+
+.iphone-17-screen {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  min-height: 640px;
+  background-color: #efeae2;
+  color: #0f172a !important;
+  border-radius: 40px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.12);
+}
+
+.iphone-17-screen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    115deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(255, 255, 255, 0.05) 24%, 
+    rgba(255, 255, 255, 0) 24.1%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 35;
+}
+
+.dynamic-island-container {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 45;
+  pointer-events: none;
+}
+
+.dynamic-island {
+  width: 96px;
+  height: 26px;
+  background: #000000;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0.5px 1px rgba(255, 255, 255, 0.15);
+  border: 0.5px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  overflow: hidden;
+  position: relative;
+  padding: 0 10px;
+}
+
+.dynamic-island.is-typing {
+  width: 140px;
+  height: 30px;
+  background: #000000;
+  border: 0.5px solid rgba(251, 131, 0, 0.35);
+  box-shadow: 
+    inset 0 0.5px 1px rgba(255, 255, 255, 0.1),
+    0 4px 12px rgba(251, 131, 0, 0.15);
+}
+
+.dynamic-island.is-alert {
+  width: 152px;
+  height: 30px;
+  background: #000000;
+  border: 0.5px solid rgba(239, 68, 68, 0.5);
+  box-shadow: 
+    inset 0 0.5px 1px rgba(255, 255, 255, 0.1),
+    0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+.dynamic-island.is-success {
+  width: 148px;
+  height: 30px;
+  background: #000000;
+  border: 0.5px solid rgba(16, 185, 129, 0.5);
+  box-shadow: 
+    inset 0 0.5px 1px rgba(255, 255, 255, 0.1),
+    0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.dynamic-island > div {
+  animation: islandContentFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes islandContentFadeIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.dynamic-island-lens {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6.5px;
+  height: 6.5px;
+  background: radial-gradient(circle, #0e121e 0%, #030406 100%);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.dynamic-island.is-typing .dynamic-island-lens,
+.dynamic-island.is-alert .dynamic-island-lens,
+.dynamic-island.is-success .dynamic-island-lens {
+  opacity: 0.1;
+}
+
+.iphone-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 40;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  background: transparent;
+}
+
+.iphone-status-bar.dark-mode {
+  color: #ffffff;
+}
+
+.status-time {
+  letter-spacing: -0.15px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 60px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.status-signal {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.status-signal .bar {
+  width: 2.5px;
+  background-color: currentColor;
+  border-radius: 0.6px;
+  flex-shrink: 0;
+}
+
+.status-signal .bar-1 { height: 4px; }
+.status-signal .bar-2 { height: 6px; }
+.status-signal .bar-3 { height: 9px; }
+.status-signal .bar-4 { height: 11px; }
+
+.status-wifi {
+  width: 16px;
+  height: 13px;
+  stroke-width: 1.6;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.status-battery {
+  position: relative;
+  width: 22px;
+  height: 11px;
+  border: 1px solid currentColor;
+  border-radius: 2.7px;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+.status-battery::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5px;
+  height: 4px;
+  background: currentColor;
+  border-radius: 0 1px 1px 0;
+}
+
+.status-battery-level {
+  height: 100%;
+  width: 85%;
+  background: currentColor;
+  border-radius: 1.2px;
+}
+
+.iphone-homebar-container {
+  width: 100%;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  pointer-events: none;
+  z-index: 40;
+  margin-top: auto;
+}
+
+.iphone-homebar {
+  width: 32%;
+  height: 4.5px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.phone-intro,
+.phone-result {
+  position: relative;
+  z-index: 10;
+  min-height: 560px;
+}
+
+.phone-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3.5rem 1.4rem 2.2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 131, 0, 0.96), rgba(181, 0, 56, 0.94)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 65%);
+  color: #fff;
+}
+
+.phone-intro h3 {
+  margin: 0.9rem 0 0;
+  font-size: 2rem;
+  line-height: 1.05;
+  color: #fff;
+}
+
+.phone-intro p {
+  margin: 0.9rem 0 0;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.wa-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 60px 1rem 14px;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+
+.wa-header__contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.wa-header__avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 4px rgba(0,0,0,0.2);
+  color: #fff;
+}
+
+.wa-header__info {
+  min-width: 0;
+}
+
+.wa-header__name {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-header__status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.8);
+  white-space: nowrap;
+}
+
+.wa-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Choice Buttons */
+.choice-idle {
+  border: 1.5px solid var(--border-soft, #e2e8f0);
+  background-color: var(--surface-card, #ffffff);
+}
+
+.choice-idle:not([disabled]):hover {
+  border-color: var(--aud, #7c3aed);
+  background-color: #fffaf3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.wa-feedback__pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.wa-feedback__pill--good {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.wa-feedback__pill--bad {
+  background-color: #fff5f5;
+  color: #9f1239;
+  border: 1px solid rgba(244, 63, 94, 0.2);
+}
+
+.wa-chat {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 18rem;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1rem 0.9rem 0.8rem;
+}
+
+/* Animations and Transitions */
+.animate-question {
+  animation: pop 0.25s ease-out;
+}
+
+.animate-choices {
+  animation: pop 0.25s ease-out 0.08s backwards;
+}
+
+.animate-feedback {
+  animation: pop 0.25s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(16px);
+  background: #263238;
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-weight: 800;
+  font-size: 0.82rem;
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Printing styles compatibility */
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .sim-shell {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .iphone-17-container,
+  .btn,
+  .toast,
+  .eyebrow,
+  .display-2 {
+    display: none !important;
+  }
+  #secundaria-presion {
+    padding: 0 !important;
+  }
+}
