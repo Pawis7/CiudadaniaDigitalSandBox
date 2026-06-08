@@ -1,0 +1,478 @@
+:host {
+  display: block;
+  --orange: #FF8300;
+  --orange-light: #FFF2E4;
+  --orange-dark: #CC6900;
+  --purple: #7C3AED;
+  --purple-light: #F5F3FF;
+  --purple-dark: #6D28D9;
+  
+  --green-border: #10B981;
+  --green-bg: #ECFDF5;
+  --green-text: #065F46;
+  
+  --yellow-border: #F59E0B;
+  --yellow-bg: #FFFBEB;
+  --yellow-text: #92400E;
+  
+  --red-border: #EF4444;
+  --red-bg: #FEF2F2;
+  --red-text: #991B1B;
+}
+
+/* Base shell styling with dynamic gradients */
+.sim-shell {
+  background:
+    radial-gradient(circle at top left, rgba(255, 131, 0, 0.08), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.06), transparent 35%),
+    var(--surface-base);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+:host-context([data-theme='dark']) .sim-shell {
+  background:
+    radial-gradient(circle at top left, rgba(255, 131, 0, 0.05), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.04), transparent 35%),
+    var(--surface-base);
+}
+
+/* Micro-animations */
+.card {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chip style */
+.chip-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--surface-soft);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-xs);
+  transition: all 0.2s ease;
+}
+
+/* Option Buttons Grid */
+.option-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.75rem;
+  min-height: 80px;
+  border-radius: 0.875rem;
+  border: 1.5px solid var(--border-soft);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-xs);
+}
+
+@media (min-width: 640px) {
+  .option-btn {
+    padding: 1rem;
+    min-height: 92px;
+  }
+}
+
+.option-btn:hover:not(.is-selected) {
+  border-color: var(--orange) !important;
+  background-color: var(--surface-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.option-btn.is-selected {
+  border-color: var(--orange) !important;
+  background-color: var(--orange-light) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 131, 0, 0.2), var(--shadow-md) !important;
+  color: #7C2D12 !important; /* Keep text legible on light orange bg */
+}
+
+:host-context([data-theme='dark']) .option-btn.is-selected {
+  background-color: rgba(255, 131, 0, 0.15) !important;
+  color: #FFedd5 !important;
+  box-shadow: inset 0 0 0 1.5px var(--orange), var(--shadow-md) !important;
+}
+
+.option-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background-color: var(--surface-soft);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.option-btn:hover:not(.is-selected) .option-badge {
+  background-color: var(--orange);
+  color: #ffffff;
+}
+
+/* Results Bands */
+.result-header {
+  border-width: 2px;
+}
+
+.result-header.rb1 {
+  border-color: var(--green-border) !important;
+  background-color: var(--green-bg) !important;
+}
+.result-header.rb1 h3 {
+  color: var(--green-text) !important;
+}
+
+.result-header.rb2 {
+  border-color: var(--yellow-border) !important;
+  background-color: var(--yellow-bg) !important;
+}
+.result-header.rb2 h3 {
+  color: var(--yellow-text) !important;
+}
+
+.result-header.rb3 {
+  border-color: var(--red-border) !important;
+  background-color: var(--red-bg) !important;
+}
+.result-header.rb3 h3 {
+  color: var(--red-text) !important;
+}
+
+/* Dark mode result header adjustments */
+:host-context([data-theme='dark']) .result-header.rb1 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  border-color: #34D399 !important;
+}
+:host-context([data-theme='dark']) .result-header.rb1 h3 {
+  color: #34D399 !important;
+}
+:host-context([data-theme='dark']) .result-header.rb1 span {
+  color: #A7F3D0 !important;
+}
+
+:host-context([data-theme='dark']) .result-header.rb2 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: #FBBF24 !important;
+}
+:host-context([data-theme='dark']) .result-header.rb2 h3 {
+  color: #FBBF24 !important;
+}
+:host-context([data-theme='dark']) .result-header.rb2 span {
+  color: #FDE68A !important;
+}
+
+:host-context([data-theme='dark']) .result-header.rb3 {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-color: #F87171 !important;
+}
+:host-context([data-theme='dark']) .result-header.rb3 h3 {
+  color: #F87171 !important;
+}
+:host-context([data-theme='dark']) .result-header.rb3 span {
+  color: #FECACA !important;
+}
+
+/* Workbook and reflective fields */
+.field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 0.375rem;
+}
+
+.field-input,
+.refl-field {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1.5px solid var(--border-soft);
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-input:focus,
+.refl-field:focus {
+  border-color: var(--orange) !important;
+  box-shadow: 0 0 0 3px rgba(255, 131, 0, 0.2) !important;
+  outline: none !important;
+}
+
+/* 7-day Tracker styles */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .day-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .day-grid {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 0.75rem !important;
+    padding: 0.25rem 0.25rem 0.75rem !important;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.day-col {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+@media (max-width: 640px) {
+  .day-col {
+    flex: 0 0 82% !important;
+    scroll-snap-align: start !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+}
+
+.day-chk {
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.day-chk:hover {
+  color: var(--text-primary);
+}
+
+.day-chk input[type="checkbox"] {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+/* Navigation button overrides */
+.btn-nav-primary {
+  background: var(--orange);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-nav-primary:not(.disabled):hover {
+  background: var(--orange-dark);
+  transform: translateY(-1px);
+}
+
+.btn-nav-primary.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Toast alert notification style */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%) translateY(16px);
+  background: #1E293B;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  font-weight: 800;
+  font-size: 13px;
+  opacity: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 999;
+  box-shadow: var(--shadow-xl);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+:host-context([data-theme='dark']) .toast {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+/* Print Warning styles */
+.print-warning-message {
+  display: none;
+}
+
+/* ====================================================================
+   PRINT MEDIA STYLES
+   ==================================================================== */
+@media print {
+  /* Hide all elements on the page by default to prevent random prints */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Specifically force display: none on parent layout wrappers to avoid blank pages and extra margins */
+  app-sidebar,
+  .topbar,
+  header,
+  footer,
+  .breadcrumb,
+  .banner,
+  .portal-header,
+  .tabs-container,
+  .section-featured-selector,
+  .no-print,
+  button,
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .btn-nav,
+  .btn-nav-primary,
+  .toast,
+  .pointer-events-none,
+  .result-card,
+  .intro-card,
+  .step-card {
+    display: none !important;
+  }
+
+  /* Make only the adult presence workbook and tracker cards visible */
+  #adulto-presencia,
+  #adulto-presencia .workbook-card,
+  #adulto-presencia .workbook-card *,
+  #adulto-presencia .tracker-card,
+  #adulto-presencia .tracker-card * {
+    visibility: visible !important;
+  }
+
+  .print-warning-message {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  .print-warning-message * {
+    visibility: visible !important;
+  }
+
+  .hide-on-incomplete-print {
+    display: none !important;
+  }
+
+  /* Position our printable content at the top left of the print viewport */
+  #adulto-presencia {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  .sim-shell {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin-bottom: 2rem !important;
+    page-break-inside: avoid;
+  }
+
+  /* Make textareas styled as clean printed forms with answers readable */
+  textarea.field-input,
+  textarea.refl-field {
+    border: none !important;
+    border-bottom: 1.5px solid #000000 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #000000 !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    padding: 0.5rem 0 !important;
+    font-size: 0.95rem !important;
+    resize: none !important;
+  }
+
+  /* Ensure the 7-day tracker is full width (7 columns) on standard paper */
+  .day-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.25rem !important;
+    width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  .day-col {
+    border: 1px solid #000000 !important;
+    background: #ffffff !important;
+    padding: 0.375rem !important;
+  }
+
+  .day-chk {
+    color: #000000 !important;
+  }
+
+  .day-chk input[type="checkbox"] {
+    border: 1px solid #000000 !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 10px !important;
+    height: 10px !important;
+    background-color: transparent !important;
+    position: relative;
+  }
+
+  .day-chk input[type="checkbox"]:checked::after {
+    content: "X" !important;
+    font-size: 8px !important;
+    font-weight: 950 !important;
+    position: absolute;
+    top: -1px;
+    left: 1px;
+    color: #000000 !important;
+  }
+}

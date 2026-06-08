@@ -1,0 +1,409 @@
+<section
+  id="adulto-presencia"
+  class="sim-shell relative overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] px-4 py-5 shadow-[var(--shadow-xl)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
+  data-audience="families">
+
+  <!-- Background decorative elements -->
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute -left-20 top-12 h-56 w-56 rounded-full bg-orange-500/10 blur-3xl"></div>
+    <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-rose-500/10 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto">
+
+    <!-- Print Warning Message (Only visible when printing and workbook is incomplete) -->
+    @if (!isWorkbookComplete()) {
+      <div class="print-warning-message">
+        <div class="text-center p-8 bg-rose-50 dark:bg-rose-950/20 border border-rose-300 dark:border-rose-900 rounded-2xl text-rose-700 dark:text-rose-400 mb-6">
+          <span class="text-4xl block mb-2">⚠️</span>
+          <h4 class="text-lg font-black mb-1">Workbook Incompleto</h4>
+          <p class="text-sm">Por favor, completa todos los campos requeridos (*) del workbook antes de imprimir.</p>
+        </div>
+      </div>
+    }
+
+    <!-- 1. INTRO / START SCREEN -->
+    @if (!started()) {
+      <div class="card intro-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
+        
+        <div class="text-center space-y-3">
+          <div class="inline-flex h-16 w-16 items-center justify-center rounded-full bg-orange-100 text-[#FF8300] text-3xl shadow-sm">
+            📱
+          </div>
+          <h2 class="text-3xl font-black tracking-tight text-[color:var(--text-primary)] leading-tight">
+            {{ data.metadata.product_title }}
+          </h2>
+          <p class="text-sm sm:text-base text-[color:var(--text-secondary)] max-w-2xl mx-auto">
+            Autochequeo breve para personas adultas que acompañan a niñas y niños de 6 a 11 años.
+          </p>
+        </div>
+
+        <!-- Chips -->
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="chip-item">⏱ Aprox. {{ data.metadata.duration_minutes }} minutos</span>
+          <span class="chip-item">📋 {{ questions.length }} preguntas</span>
+          <span class="chip-item">👨‍👩‍👧 {{ data.metadata.segment }}</span>
+          <span class="chip-item">🎒 {{ data.metadata.subsegment }}</span>
+        </div>
+
+        <!-- Info boxes -->
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-xl border border-violet-200 dark:border-violet-900 bg-violet-50/50 dark:bg-violet-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
+            <strong class="text-violet-700 dark:text-violet-400 font-bold block">No es para culparte</strong>
+            <p class="text-[color:var(--text-secondary)]">
+              Es una herramienta para revisar si tu uso digital ya se mete en momentos donde tu atención importa.
+            </p>
+          </div>
+          <div class="rounded-xl border border-orange-200 dark:border-orange-900 bg-orange-50/50 dark:bg-orange-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
+            <strong class="text-orange-700 dark:text-orange-400 font-bold block">¿Cómo responder?</strong>
+            <p class="text-[color:var(--text-secondary)]">
+              Elige la opción que más se parezca a tu realidad hoy, respondiendo como realmente pasa en casa.
+            </p>
+          </div>
+          <div class="rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
+            <strong class="text-emerald-700 dark:text-emerald-400 font-bold block">¿Qué recibirás?</strong>
+            <p class="text-[color:var(--text-secondary)]">
+              Un diagnóstico de perfil, virtud a practicar y un workbook con seguimiento para 7 días.
+            </p>
+          </div>
+        </div>
+
+        <!-- Start Button -->
+        <div class="pt-3">
+          <button
+            type="button"
+            (click)="start()"
+            class="btn-primary w-full py-4 text-base font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+            <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
+            Comenzar autochequeo
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Methodological Note -->
+      <div class="mt-6 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 text-xs leading-relaxed text-[color:var(--text-soft)]">
+        <strong>Nota metodológica:</strong> esta prueba no es un diagnóstico clínico ni sustituye orientación profesional. Su propósito es ayudar a las personas adultas del hogar a observar si el celular ya se está metiendo en rutinas, reglas y conversaciones importantes de la niñez media, y traducir ese hallazgo en cambios concretos.
+      </div>
+    }
+
+    <!-- 2. QUIZ SCREEN -->
+    @else if (started() && !finished()) {
+      <div class="space-y-6">
+
+        <!-- Progress wrap -->
+        <div class="bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-2xl p-4 shadow-sm">
+          <div class="flex items-center justify-between text-xs font-bold text-[color:var(--text-secondary)] mb-2">
+            <span>Pregunta {{ currentQuestionIndex() + 1 }} de {{ questions.length }}</span>
+            <span>{{ progressPercent() }}%</span>
+          </div>
+          <div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-orange-500 to-rose-600 rounded-full transition-all duration-300"
+                 [style.width.%]="progressPercent()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
+          
+          <div class="flex items-center gap-2.5">
+            <span class="inline-flex items-center gap-2 rounded-xl bg-orange-50 dark:bg-[#2A1E15] border border-orange-100 dark:border-orange-950 px-3 py-1.5 text-[#FF8300] font-black text-[10px] uppercase tracking-wider">
+              {{ currentQuestion().block }}
+            </span>
+          </div>
+
+          <h3 class="text-xl font-black text-[color:var(--text-primary)] leading-snug">
+            {{ currentQuestion().text }}
+          </h3>
+
+          <p class="text-xs text-[color:var(--text-soft)] leading-relaxed italic bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-xl px-3.5 py-2">
+            Pista: {{ currentQuestion().hint }}
+          </p>
+
+          <!-- Scale Options Grid -->
+          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            @for (opt of scale; track opt.value) {
+              <button
+                type="button"
+                (click)="setAnswer(opt.value)"
+                class="option-btn flex flex-col items-center justify-center text-center p-4 min-h-[92px] rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] text-[color:var(--text-primary)] cursor-pointer transition-all duration-200"
+                [class.is-selected]="selectedAnswer() === opt.value">
+                <span class="option-badge !rounded-full text-base mb-1"
+                      [class.bg-orange-500]="selectedAnswer() === opt.value"
+                      [class.text-white]="selectedAnswer() === opt.value">
+                  {{ opt.icon }}
+                </span>
+                <span class="text-xs font-bold leading-normal">{{ opt.label }}</span>
+              </button>
+            }
+          </div>
+
+          <!-- Navigation Row -->
+          <div class="pt-4 flex items-center justify-between border-t border-[color:var(--border-soft)]">
+            <button
+              type="button"
+              (click)="prevQuestion()"
+              [disabled]="currentQuestionIndex() === 0"
+              class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+              <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
+              Anterior
+            </button>
+
+            <button
+              type="button"
+              [disabled]="selectedAnswer() === null"
+              (click)="nextQuestion()"
+              class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all"
+              [class.disabled]="selectedAnswer() === null">
+              <span>{{ currentQuestionIndex() === questions.length - 1 ? 'Ver resultado' : 'Siguiente' }}</span>
+              <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    }
+
+    <!-- 3. RESULTS & WORKBOOK SCREEN -->
+    @else if (finished()) {
+      <div class="space-y-6">
+
+        <!-- Result Card -->
+        <div class="card result-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
+          
+          <!-- Colored Status Header -->
+          <div class="result-header text-center p-6 rounded-2xl border-2 transition-colors duration-300"
+               [class.rb1]="result().band === 'rb1'"
+               [class.rb2]="result().band === 'rb2'"
+               [class.rb3]="result().band === 'rb3'">
+            <span class="result-icon text-4xl block mb-2">{{ result().icon }}</span>
+            <h3 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)] mb-1">
+              {{ result().label }}
+            </h3>
+            <span class="text-xs font-bold text-[color:var(--text-secondary)]">Puntaje: {{ score() }} de 24 puntos</span>
+          </div>
+
+          <p class="text-sm sm:text-base leading-relaxed text-[color:var(--text-secondary)]">
+            {{ result().summary }}
+          </p>
+
+          <div class="key-msg bg-[color:var(--surface-inverse)] text-[color:var(--surface-card)] p-4 rounded-xl font-bold text-xs sm:text-sm leading-relaxed">
+            💡 {{ result().key }}
+          </div>
+
+          <!-- Virtue Box -->
+          <div class="virtue-box bg-violet-50/50 dark:bg-violet-950/20 border-2 border-[#C8BBF0] dark:border-[#5B21B6] rounded-xl p-5 space-y-2">
+            <span class="text-[10px] font-black uppercase tracking-widest text-[#7C3AED] dark:text-[#A78BFA] block">Virtud a fortalecer esta semana</span>
+            <h4 class="text-xl font-black text-[#7C3AED] dark:text-[#A78BFA]">{{ result().virtue.name }}</h4>
+            <p class="text-xs sm:text-sm text-[color:var(--text-secondary)] font-medium leading-relaxed">{{ result().virtue.why }}</p>
+            <p class="text-[11px] sm:text-xs text-[color:var(--text-soft)] italic">“{{ result().virtue.def }}”</p>
+          </div>
+
+          <!-- Responses summary list -->
+          <div class="space-y-3">
+            <strong class="text-xs font-black uppercase tracking-wider text-[#FF8300] block">
+              Lo que muestran tus respuestas:
+            </strong>
+            <ul class="check-list space-y-2.5 text-xs sm:text-sm text-[color:var(--text-secondary)]">
+              @for (sig of result().signals; track sig) {
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-[#FF8300] text-white text-[10px] font-bold">✓</span>
+                  <span>{{ sig }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Action list -->
+          <div class="space-y-3 pt-2">
+            <strong class="text-xs font-black uppercase tracking-wider text-[#B50038] dark:text-[#FCA5A5] block">
+              Ajustes sugeridos para esta semana:
+            </strong>
+            <ul class="arrow-list space-y-2.5 text-xs sm:text-sm text-[color:var(--text-secondary)]">
+              @for (act of result().actions; track act) {
+                <li class="flex items-start gap-2 italic">
+                  <span class="text-[#B50038] dark:text-[#FCA5A5] font-black shrink-0">→</span>
+                  <span>{{ act }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <!-- Virtue Commitments list -->
+          <div class="space-y-3 pt-2">
+            <strong class="text-xs font-black uppercase tracking-wider text-[#7C3AED] dark:text-[#A78BFA] block">
+              Compromisos de virtud:
+            </strong>
+            <ul class="virtue-acts space-y-2 text-xs sm:text-sm text-[color:var(--text-secondary)]">
+              @for (vact of result().virtueActions; track vact) {
+                <li class="p-3 bg-violet-50/30 dark:bg-violet-950/10 border-l-4 border-[#7C3AED] rounded-r-xl">
+                  {{ vact }}
+                </li>
+              }
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Printable Workbook Section -->
+        <div class="card workbook-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6"
+             [class.hide-on-incomplete-print]="!isWorkbookComplete()">
+          <h3 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)] pb-3 border-b border-[color:var(--border-soft)]">
+            Mi workbook de 7 días
+          </h3>
+          <p class="text-xs sm:text-sm text-[color:var(--text-secondary)] leading-relaxed">
+            No busques cambiar todo de golpe. Elige dos o tres ajustes visibles que sí puedas sostener esta semana.
+          </p>
+
+          <!-- Guide Steps -->
+          <div class="plan-steps bg-[color:var(--surface-soft)] p-5 rounded-2xl space-y-3">
+            <ol class="list-decimal pl-5 text-xs sm:text-sm text-[color:var(--text-secondary)] space-y-2">
+              <li>Elige una rutina o momento donde quieres estar más presente.</li>
+              <li>Define dos cambios concretos que sí puedas cumplir.</li>
+              <li>Haz visible una regla que también sigas tú como persona adulta.</li>
+              <li>Revisa cada noche si sí cuidaste mejor tu atención y tu ejemplo.</li>
+              <li>Ajusta sin abandonar todo por un mal día.</li>
+            </ol>
+          </div>
+
+          <!-- Inputs -->
+          <div class="space-y-4 pt-2">
+            <div>
+              <label class="field-label" for="routine">Rutina o momento que voy a proteger <span class="text-rose-500 font-bold">*</span></label>
+              <textarea id="routine" class="field-input" placeholder="Ejemplo: comida, tarea, trayecto, conversación al final del día o rutina de sueño."
+                        [ngModel]="routine()" (ngModelChange)="routine.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="trigger">Momento en que más agarro el celular por reflejo <span class="text-rose-500 font-bold">*</span></label>
+              <textarea id="trigger" class="field-input" placeholder="Ejemplo: mientras mi hija o hijo hace tarea, cuando me canso, cuando hay discusión o cuando estoy haciendo muchas cosas a la vez."
+                        [ngModel]="trigger()" (ngModelChange)="trigger.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="adj1">Mi ajuste 1 <span class="text-rose-500 font-bold">*</span></label>
+              <textarea id="adj1" class="field-input" placeholder="Ejemplo: no revisar el celular mientras mi hija o hijo me habla."
+                        [ngModel]="adj1()" (ngModelChange)="adj1.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="adj2">Mi ajuste 2 <span class="text-rose-500 font-bold">*</span></label>
+              <textarea id="adj2" class="field-input" placeholder="Ejemplo: dejar el teléfono fuera de la comida o de la tarea."
+                        [ngModel]="adj2()" (ngModelChange)="adj2.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="adj3">Mi ajuste 3 (opcional)</label>
+              <textarea id="adj3" class="field-input" placeholder="Ejemplo: cumplir la misma regla de pantallas que le pido a mi hija o hijo."
+                        [ngModel]="adj3()" (ngModelChange)="adj3.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="virtue-practice">La virtud que más voy a practicar esta semana <span class="text-rose-500 font-bold">*</span></label>
+              <textarea id="virtue-practice" class="field-input" placeholder="Ejemplo: autocontrol para no revisar el celular por impulso, o responsabilidad para dar mejor ejemplo."
+                        [ngModel]="virtuePractice()" (ngModelChange)="virtuePractice.set($event)"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 7-day Tracker Section -->
+        <div class="card tracker-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6"
+             [class.hide-on-incomplete-print]="!isWorkbookComplete()">
+          <h3 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)] pb-3 border-b border-[color:var(--border-soft)]">
+            Mi seguimiento de 7 días
+          </h3>
+
+          <!-- Mobile Swipe Indicator -->
+          <div class="flex items-center justify-between no-print sm:hidden pb-1 text-[11px] text-[color:var(--text-soft)] font-bold">
+            <span class="flex items-center gap-1">🗓️ Desliza para registrar tus días</span>
+            <span class="inline-flex items-center gap-0.5 text-[#FF8300]">
+              Deslizar
+              <span translate="no" class="material-symbols-rounded text-[14px]">arrow_forward</span>
+            </span>
+          </div>
+
+          <div class="day-grid">
+            @for (day of [0, 1, 2, 3, 4, 5, 6]; track day; let dayIdx = $index) {
+              <div class="day-col p-3 border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] rounded-xl space-y-2">
+                <h5 class="text-xs font-black text-[#FF8300] text-center uppercase tracking-wider">Día {{ dayIdx + 1 }}</h5>
+                <div class="flex flex-col gap-2 pt-1">
+                  @for (item of trackerItems; track item; let itemIdx = $index) {
+                    <label class="day-chk flex items-start gap-1.5 cursor-pointer text-[10px] font-semibold text-[color:var(--text-secondary)] leading-tight">
+                      <input type="checkbox" class="mt-0.5 accent-[#FF8300]"
+                             [checked]="trackerState()[dayIdx][itemIdx]"
+                             (change)="toggleTrackerCheck(dayIdx, itemIdx)" />
+                      <span>{{ item }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Reflective questions -->
+          <div class="space-y-4 pt-2">
+            <div>
+              <label class="field-label" for="helped">¿Qué sí me ayudó esta semana?</label>
+              <textarea id="helped" class="refl-field" placeholder="Escribe aquí..."
+                        [ngModel]="helped()" (ngModelChange)="helped.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="hard">¿Qué me costó más?</label>
+              <textarea id="hard" class="refl-field" placeholder="Escribe aquí..."
+                        [ngModel]="hard()" (ngModelChange)="hard.set($event)"></textarea>
+            </div>
+
+            <div>
+              <label class="field-label" for="keep">¿Qué voy a mantener la próxima semana?</label>
+              <textarea id="keep" class="refl-field" placeholder="Escribe aquí..."
+                        [ngModel]="keep()" (ngModelChange)="keep.set($event)"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Printing / Restart actions -->
+        <div class="flex flex-col gap-3 no-print">
+          @if (!isWorkbookComplete()) {
+            <div class="p-4 rounded-xl border border-rose-200 dark:border-rose-950 bg-rose-50/50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400 text-xs sm:text-sm font-bold flex items-center gap-2">
+              <span>⚠️</span>
+              <span>Completa los campos obligatorios (*) para poder imprimir tu workbook.</span>
+            </div>
+          }
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button
+              type="button"
+              class="btn-secondary flex-1 py-4 font-bold flex items-center justify-center gap-2 bg-white dark:bg-slate-900 border border-[color:var(--border-soft)] disabled:opacity-50 disabled:cursor-not-allowed"
+              [disabled]="!isWorkbookComplete()"
+              (click)="printWorkbook()">
+              <span translate="no" class="material-symbols-rounded text-base">print</span>
+              Imprimir workbook
+            </button>
+            <button
+              type="button"
+              (click)="restart()"
+              class="btn-outline py-4 px-6 font-bold flex items-center justify-center gap-2 rounded-xl border border-[color:var(--border-soft)] text-[color:var(--text-primary)] hover:bg-[color:var(--surface-soft)]">
+              <span translate="no" class="material-symbols-rounded text-base">refresh</span>
+              Volver a empezar
+            </button>
+          </div>
+        </div>
+
+        <!-- Footnote References -->
+        <div class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 text-[11px] leading-relaxed text-[color:var(--text-soft)]">
+          <strong>Referencias base:</strong> UNICEF sobre crianza digital y modelado adulto; y Common Sense Media sobre hábitos digitales saludables en familia. Este producto retoma la lógica del autochequeo PF-04 sobre uso digital adulto en casa y la adapta al acompañamiento de niñas y niños de 6 a 11 años.
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+</section>
+
+<!-- Toast alert indicator -->
+<div class="toast" [class.show]="copied()">Compromiso copiado al portapapeles</div>
