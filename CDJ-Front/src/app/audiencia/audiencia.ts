@@ -149,11 +149,12 @@ export class AudienciaComponent {
   }
 
   onResourceActionClicked(item: LevelResource): void {
-    if (item.id === 'simulador-fraudes' || item.id === 'candado-rapido' || item.id === 'presion-pares' || item.id === 'limites-chats') {
+    if (item.id === 'simulador-fraudes' || item.id === 'candado-rapido' || item.id === 'presion-pares' || item.id === 'limites-chats' || item.id === 'presencia-adulta') {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
         item.id === 'candado-rapido' ? 'candado-rapido' :
-        item.id === 'presion-pares' ? 'peer-pressure' : 'limites-chats'
+        item.id === 'presion-pares' ? 'peer-pressure' :
+        item.id === 'limites-chats' ? 'limites-chats' : 'adult-presence'
       );
       this.scrollToAnchor('widget-seccion-anchor');
     }

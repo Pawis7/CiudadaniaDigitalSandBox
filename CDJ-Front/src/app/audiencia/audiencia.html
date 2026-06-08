@@ -7,7 +7,7 @@
     <section
       appReveal="fade"
       [revealDuration]="700"
-      class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10"
+      class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10 no-print"
       [attr.data-audience]="cfg.theme">
       <h1 class="sr-only">{{ p.title }} - Ciudadânía Digital</h1>
       <img
@@ -20,7 +20,7 @@
 
   <!-- TEXTO EXPLICATIVO AUDIENCIA -->
   @if (p.explanatoryText) {
-    <section appReveal="up" class="mb-12 py-4 sm:mb-16" [attr.data-audience]="audienceTheme()">
+    <section appReveal="up" class="mb-12 py-4 sm:mb-16 no-print" [attr.data-audience]="audienceTheme()">
       <div class="max-w-4xl">
         <p class="text-base leading-relaxed text-[color:var(--text-soft)] sm:text-xl">
           {{ p.explanatoryText }}
@@ -38,7 +38,7 @@
        SUB-NIVELES — cards más limpios
        ==================================================================== -->
   @if (p.subLevels.length) {
-    <section id="sub-niveles-anchor" class="mb-8 sm:mb-10 animate-fade-in" [attr.data-audience]="audienceTheme()">
+    <section id="sub-niveles-anchor" class="mb-8 sm:mb-10 animate-fade-in no-print" [attr.data-audience]="audienceTheme()">
       <div appReveal="up" class="section-head">
         <div>
           <p class="eyebrow text-[color:var(--aud)]">Por nivel</p>
@@ -109,7 +109,7 @@
     <section id="portal-recursos-anchor" class="mb-10 p-6 sm:p-8 rounded-[2rem] border border-[color:var(--border-soft)] bg-gradient-to-b from-[color:var(--surface-soft)] to-[color:var(--surface-card)] shadow-lg animate-fade-in">
       
       <!-- Encabezado del Portal de Aprendizaje Activo -->
-      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[color:var(--border-soft)] pb-6">
+      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[color:var(--border-soft)] pb-6 no-print">
         <div>
           <span class="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--aud-cream)] px-3 py-1 text-[11px] font-black uppercase tracking-widest text-[color:var(--aud)] mb-2 shadow-sm">
             <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">school</span>
@@ -139,7 +139,7 @@
       </div>
 
       <!-- Filtro por categoría (Chips) -->
-      <div class="mb-6 flex flex-wrap items-center gap-2">
+      <div class="mb-6 flex flex-wrap items-center gap-2 no-print">
         <span class="text-xs font-black uppercase tracking-wider text-[color:var(--text-mute)] mr-2">Filtrar por:</span>
         <button type="button" 
                 (click)="activeFilter.set('todos')" 
@@ -199,7 +199,7 @@
       </div>
 
       <!-- Grid de recursos filtrados -->
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-h-[180px]">
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 min-h-[180px] no-print">
         <app-resource-card 
           *ngFor="let item of filteredResources(); let idx = index"
           [item]="item"
@@ -212,7 +212,10 @@
           <span translate="no" class="material-symbols-rounded text-5xl text-slate-300">search_off</span>
           <h4 class="mt-3 text-lg font-black text-[color:var(--text-primary)]">No encontramos recursos</h4>
           <p class="text-xs text-[color:var(--text-soft)] mt-1 max-w-xs leading-relaxed">No hay actividades que coincidan con tu búsqueda en este filtro de categoría. Intenta otra combinación.</p>
-          <button type="button" (click)="searchQuery.set(''); activeFilter.set('todos')" class="btn-secondary mt-4 py-2 px-4 text-xs font-black">Limpiar filtros</button>
+          <button type="button" (click)="searchQuery.set(''); activeFilter.set('todos')" class="btn-secondary mt-4 py-2 px-4.5 text-xs font-bold rounded-xl inline-flex items-center gap-1.5">
+            <span translate="no" class="material-symbols-rounded text-base">filter_alt_off</span>
+            Limpiar filtros
+          </button>
         </div>
       </div>
       
@@ -233,7 +236,7 @@
       <!-- TEASER DE PRÓXIMAMENTE -->
       <!-- Configurado en page-content.ts → subLevel.comingSoonTeaser -->
       @if (activeSubLevel()?.comingSoonTeaser; as teaser) {
-        <div class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6 animate-fade-in">
+        <div class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6 animate-fade-in no-print">
           <div class="overflow-hidden rounded-[2rem] p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6"
                [ngClass]="teaser.gradientClass">
             <div class="space-y-2">
@@ -256,7 +259,7 @@
   }
 
   <!-- TOPICS -->
-  <section class="mb-8" [attr.data-audience]="audienceTheme()">
+  <section class="mb-8 no-print" [attr.data-audience]="audienceTheme()">
     <div appReveal="up" class="section-head">
       <div>
         <p class="eyebrow text-[color:var(--text-mute)]">Lo que vas a encontrar</p>
@@ -280,7 +283,7 @@
   </section>
 
   <!-- CONTENIDO DESTACADO PERFIL -->
-  <section class="mb-8 sm:mb-10">
+  <section class="mb-8 sm:mb-10 no-print">
     <div appReveal="up" class="section-head flex flex-wrap items-center justify-between gap-4">
       <div>
         <p class="eyebrow text-[color:var(--c-edutips)]">Contenido destacado</p>
@@ -303,7 +306,7 @@
 
   <!-- BANNER INFERIOR -->
   @if (p.bottomBanner; as banner) {
-    <section appReveal="up" class="mb-12 sm:mb-16">
+    <section appReveal="up" class="mb-12 sm:mb-16 no-print">
       <div class="overflow-hidden rounded-[2rem] p-8 sm:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-[color:var(--aud)] to-slate-900">
         <div class="space-y-3">
           <h3 class="text-2xl sm:text-3xl font-black tracking-tight">{{ banner.title }}</h3>

@@ -12,17 +12,20 @@ import { SecondaryFraudSimulatorComponent } from '../shared/secondary-fraud-simu
 import { CandadoRapidoComponent } from '../shared/candado-rapido/candado-rapido';
 import { SecondaryPeerPressureSimulatorComponent } from '../shared/secondary-peer-pressure-simulator/secondary-peer-pressure-simulator';
 import { LimitesChatsComponent } from '../shared/limites-chats/limites-chats';
+import { AdultPresenceComponent } from '../shared/adult-presence/adult-presence';
 
 export type WidgetId =
   | 'fraud-simulator'
   | 'candado-rapido'
   | 'peer-pressure'
-  | 'limites-chats';
+  | 'limites-chats'
+  | 'adult-presence';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
   'candado-rapido': CandadoRapidoComponent,
   'peer-pressure': SecondaryPeerPressureSimulatorComponent,
   'limites-chats': LimitesChatsComponent,
+  'adult-presence': AdultPresenceComponent,
 };
 

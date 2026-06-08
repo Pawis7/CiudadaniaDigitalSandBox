@@ -1,7 +1,7 @@
 <div class="relative flex min-h-[100dvh] gap-4 p-3 sm:p-4 lg:gap-5 lg:p-5">
 
   <!-- Sidebar desktop persistente -->
-  <div class="relative isolate hidden shrink-0 lg:block" style="z-index: 60;">
+  <div class="relative isolate hidden shrink-0 lg:block no-print" style="z-index: 60;">
     <div class="sticky top-5 h-[calc(100dvh-2.5rem)]">
       <app-sidebar variant="desktop" (logout)="onLogout()"></app-sidebar>
     </div>
@@ -9,7 +9,7 @@
 
   <!-- Mobile drawer -->
   <div
-    class="fixed inset-0 z-[80] lg:hidden"
+    class="fixed inset-0 z-[80] lg:hidden no-print"
     [class.pointer-events-none]="!drawerOpen()"
     aria-modal="true"
     role="dialog">
@@ -33,7 +33,7 @@
 
     <!-- Topbar — fijo arriba (position: fixed → siempre visible al scroll) -->
     <header
-      class="topbar flex items-center gap-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-2.5 shadow-sm sm:px-4 lg:gap-4 lg:px-5 lg:py-3"
+      class="topbar no-print flex items-center gap-3 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] px-3 py-2.5 shadow-sm sm:px-4 lg:gap-4 lg:px-5 lg:py-3"
       [class.shadow-md]="scrolled()"
       [class.is-hidden]="headerHidden()">
 
@@ -142,7 +142,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-10 lg:p-12">
+    <footer class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-10 lg:p-12 no-print">
       <div class="grid grid-cols-1 gap-10 md:grid-cols-5 lg:gap-12">
         <div class="md:col-span-2">
           <a routerLink="/" class="mb-5 flex items-center gap-3">

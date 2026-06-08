@@ -230,7 +230,28 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     ageRange: 'Todas las edades',
     subLevels: [
       { id: 'fam-0-5',   title: '0 - 5 años',   subtitle: 'Primera infancia',           imageUrl: '/familias_portadas/0-5.jpg', imageId: 'sub-fam-05',  bgClass: 'from-amber-400 to-orange-500',  icon: 'child_care',     resourceCount: 9, description: 'Primeros pasos en el mundo digital. Hábitos saludables desde pequeños.' },
-      { id: 'fam-6-11',  title: '6 - 11 años',  subtitle: 'Niñez',                      imageUrl: '/familias_portadas/6-11.jpg', imageId: 'sub-fam-611', bgClass: 'from-orange-500 to-rose-500',   icon: 'family_restroom',resourceCount: 11, description: 'Exploran, aprenden y se conectan. Acompáñalos con límites y confianza.' },
+      {
+        id: 'fam-6-11',
+        title: '6 - 11 años',
+        subtitle: 'Niñez',
+        imageUrl: '/familias_portadas/6-11.jpg',
+        imageId: 'sub-fam-611',
+        bgClass: 'from-orange-500 to-rose-500',
+        icon: 'family_restroom',
+        resourceCount: 12,
+        description: 'Exploran, aprenden y se conectan. Acompáñalos con límites y confianza.',
+        levelResources: [
+          {
+            id: 'presencia-adulta',
+            title: 'Autochequeo: Presencia digital adulta en casa',
+            description: '¿Tu uso del celular te quita atención con tus hijos de 6 a 11 años? Evalúa tus hábitos y obtén tu plan y workbook de seguimiento de 7 días.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'volunteer_activism',
+            badge: 'Autochequeo + Workbook', duration: '5 min',
+            colorClass: 'from-orange-500 to-rose-700',
+            actionLabel: 'Iniciar Autochequeo', link: '#widget-seccion-anchor',
+          }
+        ]
+      },
       { id: 'fam-12-14', title: '12 - 14 años', subtitle: 'Adolescencia temprana',      imageUrl: '/familias_portadas/12-14.jpg', imageId: 'sub-fam-1214',bgClass: 'from-rose-500 to-pink-600',     icon: 'forum',          resourceCount: 14, description: 'Más independencia, nuevos retos. Dialogar es la mejor herramienta.' },
       { id: 'fam-15-22', title: '15 - 22 años', subtitle: 'Adolescencia tardía y juventud', imageUrl: '/familias_portadas/15-22.jpg', imageId: 'sub-fam-1522',bgClass: 'from-pink-600 to-red-600',      icon: 'volunteer_activism', resourceCount: 12, description: 'Autonomía digital responsable. Acompáña sin invadir su privacidad.' },
     ],

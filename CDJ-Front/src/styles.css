@@ -241,6 +241,14 @@
     0 1px 2px rgba(0, 0, 0, 0.55),
     0 14px 28px -14px rgba(0, 0, 0, 0.70),
     0 28px 52px -18px color-mix(in srgb, var(--aud, var(--c-cdj)) 50%, rgba(0, 0, 0, 0.75));
+
+  /* Override inset button highlight in dark mode */
+  .btn-secondary,
+  .btn-ghost-aud {
+    box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
 }
 
 /* ========================================================================
@@ -1613,4 +1621,38 @@ body.sidebar-collapsed .catalog-hero {
 .no-scroll {
   overflow: hidden !important;
   height: 100vh !important;
+}
+
+/* ========================================================================
+   GLOBAL PRINT MEDIA STYLES (Hide layout elements for clean prints)
+   ======================================================================== */
+@media print {
+  /* Hide all app layouts like sidebars, headers, and footers globally */
+  app-sidebar,
+  .topbar,
+  header,
+  footer,
+  .no-print,
+  .banner,
+  .portal-header,
+  .tabs-container,
+  .section-featured-selector {
+    display: none !important;
+  }
+
+  /* Reset layout structure of portal-recursos-anchor and active widget container for printing */
+  #portal-recursos-anchor {
+    border: none !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+  
+  #widget-seccion-anchor {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
 }

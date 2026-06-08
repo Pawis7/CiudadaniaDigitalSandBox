@@ -48,7 +48,9 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
     bannerSrc:    '/banners/CIUDADANIA_Familias.png',
     bannerAlt:    'Ciudadanía Digital Jalisco — Familias',
     defaultLevel: 'fam-6-11',
-    levelWidgets: {},
+    levelWidgets: {
+      'fam-6-11': 'adult-presence',
+    },
   },
   'docentes': {
     theme:        'teachers',

@@ -21,7 +21,8 @@ export class ResourceCardComponent {
       this.item.id === 'simulador-fraudes' ||
       this.item.id === 'candado-rapido' ||
       this.item.id === 'presion-pares' ||
-      this.item.id === 'limites-chats'
+      this.item.id === 'limites-chats' ||
+      this.item.id === 'presencia-adulta'
     );
   }
 
