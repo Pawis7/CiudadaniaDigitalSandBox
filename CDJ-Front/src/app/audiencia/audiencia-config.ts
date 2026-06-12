@@ -50,6 +50,8 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
     defaultLevel: 'fam-6-11',
     levelWidgets: {
       'fam-6-11': 'adult-presence',
+      'fam-12-14': 'riesgos-reales',
+      'fam-15-22': 'presencia-jovenes',
     },
   },
   'docentes': {

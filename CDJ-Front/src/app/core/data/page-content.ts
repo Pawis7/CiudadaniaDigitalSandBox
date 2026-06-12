@@ -252,8 +252,54 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
           }
         ]
       },
-      { id: 'fam-12-14', title: '12 - 14 años', subtitle: 'Adolescencia temprana',      imageUrl: '/familias_portadas/12-14.jpg', imageId: 'sub-fam-1214',bgClass: 'from-rose-500 to-pink-600',     icon: 'forum',          resourceCount: 14, description: 'Más independencia, nuevos retos. Dialogar es la mejor herramienta.' },
-      { id: 'fam-15-22', title: '15 - 22 años', subtitle: 'Adolescencia tardía y juventud', imageUrl: '/familias_portadas/15-22.jpg', imageId: 'sub-fam-1522',bgClass: 'from-pink-600 to-red-600',      icon: 'volunteer_activism', resourceCount: 12, description: 'Autonomía digital responsable. Acompáña sin invadir su privacidad.' },
+      {
+        id: 'fam-12-14',
+        title: '12 - 14 años',
+        subtitle: 'Adolescencia temprana',
+        imageUrl: '/familias_portadas/12-14.jpg',
+        imageId: 'sub-fam-1214',
+        bgClass: 'from-rose-500 to-pink-600',
+        icon: 'forum',
+        resourceCount: 15,
+        description: 'Más independencia, nuevos retos. Dialogar es la mejor herramienta.',
+        levelResources: [
+          {
+            id: 'riesgos-reales',
+            title: 'Autochequeo: ¿Tu casa está lista para acompañar riesgos reales en línea?',
+            description: 'Chequeo rápido para revisar la preparación familiar ante situaciones de presión, ciberacoso y exposición en línea de adolescentes de 12 a 15 años.',
+            type: 'game', typeLabel: 'Minijuego', icon: 'shield',
+            badge: 'Autochequeo + Planner', duration: '5–6 min',
+            colorClass: 'from-rose-500 to-pink-600',
+            actionLabel: 'Iniciar Autochequeo', link: '#widget-seccion-anchor',
+          }
+        ]
+      },
+      {
+        id: 'fam-15-22',
+        title: '15 - 22 años',
+        subtitle: 'Adolescencia tardía y juventud',
+        imageUrl: '/familias_portadas/15-22.jpg',
+        imageId: 'sub-fam-1522',
+        bgClass: 'from-pink-600 to-red-600',
+        icon: 'volunteer_activism',
+        resourceCount: 12,
+        description: 'Autonomía digital responsable. Acompáña sin invadir su privacidad.',
+        levelResources: [
+          {
+            id: 'presencia-jovenes',
+            title: 'Autochequeo: ¿Tu uso digital en casa te está ayudando o te está quitando presencia?',
+            description: 'Revisa si tu propio uso del celular afecta la escucha, el respeto y la calidad de presencia que necesita una persona de 15 a 22 años.',
+            type: 'game',
+            typeLabel: 'Minijuego',
+            icon: 'volunteer_activism',
+            badge: 'Autochequeo + Workbook',
+            duration: '5–6 min',
+            colorClass: 'from-pink-500 to-red-600',
+            actionLabel: 'Iniciar Autochequeo',
+            link: '#widget-seccion-anchor',
+          }
+        ]
+      },
     ],
     topics: [
       { icon: 'handshake',       title: 'Acuerdos en casa',     description: 'Reglas claras sin pelear.',         bgClass: 'bg-orange-500' },

@@ -22,7 +22,9 @@ export class ResourceCardComponent {
       this.item.id === 'candado-rapido' ||
       this.item.id === 'presion-pares' ||
       this.item.id === 'limites-chats' ||
-      this.item.id === 'presencia-adulta'
+      this.item.id === 'presencia-adulta' ||
+      this.item.id === 'riesgos-reales' ||
+      this.item.id === 'presencia-jovenes'
     );
   }
 
