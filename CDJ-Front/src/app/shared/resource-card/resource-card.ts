@@ -24,7 +24,8 @@ export class ResourceCardComponent {
       this.item.id === 'limites-chats' ||
       this.item.id === 'presencia-adulta' ||
       this.item.id === 'riesgos-reales' ||
-      this.item.id === 'presencia-jovenes'
+      this.item.id === 'presencia-jovenes' ||
+      this.item.id === 'privacidad-dinero'
     );
   }
 

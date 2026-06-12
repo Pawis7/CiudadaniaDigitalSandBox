@@ -1,0 +1,434 @@
+:host {
+  display: block;
+}
+
+.sim-shell {
+  background:
+    radial-gradient(circle at top left, rgba(234, 88, 12, 0.04), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(181, 0, 56, 0.04), transparent 32%),
+    var(--surface-base);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ====================================================================
+   CARDS AND LAYOUT
+   ==================================================================== */
+.card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-card,
+.result-card,
+.kit-card,
+.planner-card,
+.step-card {
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+/* Start screen chips */
+.chip-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 750;
+  color: var(--text-secondary);
+  background: var(--surface-card);
+  padding: 6px 14px;
+  border-radius: 99px;
+  border: 1.5px solid var(--border-soft);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Info box defaults */
+.instruction-box {
+  background: var(--surface-soft);
+  border-color: var(--border-soft);
+}
+
+/* ====================================================================
+   BUTTONS
+   ==================================================================== */
+.btn-primary {
+  background: linear-gradient(135deg, #B50038 0%, #8A0027 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(181, 0, 56, 0.15);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(181, 0, 56, 0.25);
+  background: linear-gradient(135deg, #EA580C 0%, #B50038 100%);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-secondary {
+  background: var(--surface-card);
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--surface-soft);
+  border-color: var(--border);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1.5px solid var(--border-soft);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: var(--surface-soft);
+  border-color: var(--border);
+}
+
+/* ====================================================================
+   DECISIONS & OPTIONS
+   ==================================================================== */
+.option-btn {
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1.5px solid var(--border-soft);
+  background-color: var(--surface-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.option-btn:hover {
+  border-color: #EA580C;
+  background-color: var(--surface-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.option-badge {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 14px;
+  background-color: var(--surface-soft);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.option-btn:hover .option-badge {
+  background-color: #EA580C;
+  color: #ffffff;
+}
+
+.option-btn.is-selected {
+  border-color: #B50038;
+  background-color: color-mix(in srgb, #B50038 8%, var(--surface-card));
+  box-shadow: var(--shadow-md);
+}
+
+:host-context([data-theme='dark']) .option-btn.is-selected {
+  border-color: #FCA5A5;
+  background-color: color-mix(in srgb, #B50038 18%, var(--surface-card));
+}
+
+.option-btn.is-selected .option-badge {
+  background-color: #B50038;
+  color: #ffffff;
+}
+
+:host-context([data-theme='dark']) .option-btn.is-selected .option-badge {
+  background-color: #FCA5A5;
+  color: #111827;
+}
+
+/* Navigation button styling */
+.btn-nav-primary {
+  background: #B50038;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+:host-context([data-theme='dark']) .btn-nav-primary {
+  background: #C5003F;
+}
+
+.btn-nav-primary:not(.disabled):hover {
+  background: #EA580C;
+  transform: translateY(-1px);
+}
+
+.btn-nav-primary.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ====================================================================
+   RESULTS BANDS
+   ==================================================================== */
+.result-header {
+  border-radius: 20px;
+}
+
+.result-header.rb1 {
+  border-color: #10B981;
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.result-header.rb2 {
+  border-color: #F59E0B;
+  background-color: rgba(245, 158, 11, 0.08);
+}
+
+.result-header.rb3 {
+  border-color: #EF4444;
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+:host-context([data-theme='dark']) .result-header.rb1 {
+  background-color: rgba(16, 185, 129, 0.15);
+}
+
+:host-context([data-theme='dark']) .result-header.rb2 {
+  background-color: rgba(245, 158, 11, 0.15);
+}
+
+:host-context([data-theme='dark']) .result-header.rb3 {
+  background-color: rgba(239, 68, 68, 0.15);
+}
+
+.check-list li span:first-child {
+  background-color: #B50038;
+}
+
+/* ====================================================================
+   TOOL CARDS
+   ==================================================================== */
+.tool-card {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.tool-card:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.signature-line {
+  border-bottom: 1px dashed var(--border) !important;
+}
+
+:host-context([data-theme='dark']) .signature-line {
+  border-bottom-color: var(--border-strong) !important;
+}
+
+/* ====================================================================
+   PLANNER & INPUTS
+   ==================================================================== */
+.field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.field-input {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-soft);
+  background-color: var(--surface-soft);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.field-input:focus {
+  border-color: #B50038;
+  background-color: var(--surface-card);
+}
+
+:host-context([data-theme='dark']) .field-input:focus {
+  border-color: #FCA5A5;
+}
+
+/* ====================================================================
+   DAY GRID (WEEKLY TRACKER)
+   ==================================================================== */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.day-col {
+  transition: border-color 0.2s ease;
+}
+
+.day-col:hover {
+  border-color: var(--border-strong);
+}
+
+.day-chk input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .day-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 12px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .day-col {
+    flex: 0 0 82%;
+    scroll-snap-align: center;
+  }
+}
+
+/* ====================================================================
+   DARK MODE OVERRIDES (BOX SHADOW SPECIFIC)
+   ==================================================================== */
+:host-context([data-theme='dark']) .btn-secondary {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ====================================================================
+   PRINT MEDIA QUERY
+   ==================================================================== */
+@media print {
+  /* Setup page settings */
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .sim-shell {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide elements we don't want printed */
+  .no-print,
+  button,
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .btn-nav,
+  .btn-nav-primary,
+  .intro-card,
+  .step-card,
+  .instruction-box,
+  .pointer-events-none {
+    display: none !important;
+  }
+
+  /* Make containers print-friendly */
+  .result-card,
+  .kit-card,
+  .planner-card {
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    margin-bottom: 24px !important;
+    padding: 24px !important;
+    border-radius: 16px !important;
+    page-break-inside: avoid;
+  }
+
+  .result-header {
+    border-width: 1px !important;
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+  }
+
+  .result-header.rb1 { border-color: #10B981 !important; }
+  .result-header.rb2 { border-color: #F59E0B !important; }
+  .result-header.rb3 { border-color: #EF4444 !important; }
+
+  /* Format tools list nicely */
+  .tool-card {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    page-break-inside: avoid;
+  }
+
+  /* Form and Inputs */
+  .field-input,
+  textarea {
+    border: 1px solid #cbd5e1 !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    resize: none !important;
+  }
+
+  .day-col {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+
+  .signature-line {
+    border-bottom: 1px dashed #94a3b8 !important;
+  }
+
+  input[type="checkbox"] {
+    accent-color: #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Incomplete print logic */
+  .hide-on-incomplete-print {
+    display: none !important;
+  }
+
+  .print-warning-message {
+    display: block !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* Hide warning message in normal screen display */
+.print-warning-message {
+  display: none;
+}

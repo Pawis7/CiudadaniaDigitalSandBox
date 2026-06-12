@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { CommonModule } from '@angular/common';
 import {
   PEER_PRESSURE_SIMULATOR_DATA,
-  PeerPressureNode,
-  PeerPressureChoice,
+  PeerPressureMoment,
+  PeerPressureOption,
   PeerPressureResult
 } from '../../core/data/secondary-peer-pressure-simulator.data';
 
@@ -17,41 +17,31 @@ import {
 })
 export class SecondaryPeerPressureSimulatorComponent {
   readonly data = PEER_PRESSURE_SIMULATOR_DATA;
-  readonly nodes = this.data.nodes;
+  readonly moments = this.data.momentos_interactivos;
 
   readonly started = signal(false);
   readonly finished = signal(false);
-  readonly currentNodeId = signal<string>('N1');
+  readonly currentMomentIndex = signal(0);
   readonly copied = signal(false);
-  
-  // Track selected choices by Node ID
-  readonly answers = signal<Record<string, PeerPressureChoice>>({});
-  
+
+  // Track selected choice by Moment ID
+  readonly answers = signal<Record<string, PeerPressureOption>>({});
+
   // Track temporary clicked state for visual feedback
   readonly isTyping = signal(false);
-  readonly activeFeedbackChoice = signal<PeerPressureChoice | null>(null);
+  readonly activeFeedbackChoice = signal<PeerPressureOption | null>(null);
 
   // Computations
-  readonly currentNodeIndex = computed(() => {
-    const idx = this.nodes.findIndex((n) => n.node_id === this.currentNodeId());
-    return idx >= 0 ? idx : 0;
-  });
-
-  readonly currentNode = computed(() => {
-    return this.nodes[this.currentNodeIndex()];
+  readonly currentMoment = computed(() => {
+    return this.moments[this.currentMomentIndex()];
   });
 
   readonly progressPercent = computed(() => {
-    const completed = Object.keys(this.answers()).length;
-    return Math.round((completed / this.nodes.length) * 100);
+    return Math.round((this.currentMomentIndex() / this.moments.length) * 100);
   });
 
-  readonly totalSafeScore = computed(() => {
-    return Object.values(this.answers()).reduce((sum, ans) => sum + ans.safe, 0);
-  });
-
-  readonly totalRiskScore = computed(() => {
-    return Object.values(this.answers()).reduce((sum, ans) => sum + ans.risk, 0);
+  readonly totalScore = computed(() => {
+    return Object.values(this.answers()).reduce((sum, ans) => sum + ans.puntos, 0);
   });
 
   // Dynamic status messages in the simulated dynamic island
@@ -59,27 +49,27 @@ export class SecondaryPeerPressureSimulatorComponent {
     if (this.isTyping()) return 'typing';
     const active = this.activeFeedbackChoice();
     if (active) {
-      return active.safe > active.risk ? 'success' : 'alert';
+      return active.puntos >= 3 ? 'success' : 'alert';
     }
     return 'idle';
   });
 
   readonly result = computed<PeerPressureResult>(() => {
-    const safe = this.totalSafeScore();
-    const possibleResults = this.data.results;
-    
+    const scoreVal = this.totalScore();
+    const possibleResults = this.data.resultados_finales;
+
     // Find matching result by range
     const matched = possibleResults.find(
-      (r) => safe >= r.range.min && safe <= r.range.max
+      (r) => scoreVal >= r.min && scoreVal <= r.max
     );
-    
+
     return matched || possibleResults[1]; // fallback to middle one
   });
 
   start(): void {
     this.started.set(true);
     this.finished.set(false);
-    this.currentNodeId.set('N1');
+    this.currentMomentIndex.set(0);
     this.answers.set({});
     this.activeFeedbackChoice.set(null);
     this.isTyping.set(false);
@@ -90,17 +80,17 @@ export class SecondaryPeerPressureSimulatorComponent {
     this.start();
   }
 
-  choose(choice: PeerPressureChoice): void {
+  choose(choice: PeerPressureOption): void {
     if (this.finished() || this.isTyping()) return;
 
     this.isTyping.set(true);
     setTimeout(() => {
       this.isTyping.set(false);
       this.activeFeedbackChoice.set(choice);
-      
+
       this.answers.update((curr) => ({
         ...curr,
-        [this.currentNodeId()]: choice
+        [this.currentMoment().id]: choice
       }));
     }, 1000);
   }
@@ -109,12 +99,12 @@ export class SecondaryPeerPressureSimulatorComponent {
     const active = this.activeFeedbackChoice();
     if (!active) return;
 
-    if (active.next_node === 'RESULT') {
+    if (this.currentMomentIndex() === this.moments.length - 1) {
       this.finished.set(true);
       return;
     }
 
-    this.currentNodeId.set(active.next_node);
+    this.currentMomentIndex.update((idx) => idx + 1);
     this.activeFeedbackChoice.set(null);
   }
 
@@ -126,5 +116,9 @@ export class SecondaryPeerPressureSimulatorComponent {
     } catch {
       this.copied.set(false);
     }
+  }
+
+  printResults(): void {
+    window.print();
   }
 }

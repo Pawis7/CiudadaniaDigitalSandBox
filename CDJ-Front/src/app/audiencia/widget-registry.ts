@@ -15,6 +15,7 @@ import { LimitesChatsComponent } from '../shared/limites-chats/limites-chats';
 import { AdultPresenceComponent } from '../shared/adult-presence/adult-presence';
 import { RiesgosRealesComponent } from '../shared/riesgos-reales/riesgos-reales';
 import { PresenciaJovenesComponent } from '../shared/presencia-jovenes/presencia-jovenes';
+import { PrivacidadDineroComponent } from '../shared/privacidad-dinero/privacidad-dinero';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -23,7 +24,8 @@ export type WidgetId =
   | 'limites-chats'
   | 'adult-presence'
   | 'riesgos-reales'
-  | 'presencia-jovenes';
+  | 'presencia-jovenes'
+  | 'privacidad-dinero';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -33,5 +35,7 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'adult-presence': AdultPresenceComponent,
   'riesgos-reales': RiesgosRealesComponent,
   'presencia-jovenes': PresenciaJovenesComponent,
+  'privacidad-dinero': PrivacidadDineroComponent,
 };
+
 

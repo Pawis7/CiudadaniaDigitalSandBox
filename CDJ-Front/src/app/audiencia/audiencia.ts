@@ -156,7 +156,8 @@ export class AudienciaComponent {
       item.id === 'limites-chats' ||
       item.id === 'presencia-adulta' ||
       item.id === 'riesgos-reales' ||
-      item.id === 'presencia-jovenes'
+      item.id === 'presencia-jovenes' ||
+      item.id === 'privacidad-dinero'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -164,7 +165,8 @@ export class AudienciaComponent {
         item.id === 'presion-pares' ? 'peer-pressure' :
         item.id === 'limites-chats' ? 'limites-chats' :
         item.id === 'presencia-adulta' ? 'adult-presence' :
-        item.id === 'presencia-jovenes' ? 'presencia-jovenes' : 'riesgos-reales'
+        item.id === 'presencia-jovenes' ? 'presencia-jovenes' :
+        item.id === 'privacidad-dinero' ? 'privacidad-dinero' : 'riesgos-reales'
       );
       this.scrollToAnchor('widget-seccion-anchor');
     }

@@ -282,7 +282,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
         imageId: 'sub-fam-1522',
         bgClass: 'from-pink-600 to-red-600',
         icon: 'volunteer_activism',
-        resourceCount: 12,
+        resourceCount: 13,
         description: 'Autonomía digital responsable. Acompáña sin invadir su privacidad.',
         levelResources: [
           {
@@ -293,6 +293,19 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             typeLabel: 'Minijuego',
             icon: 'volunteer_activism',
             badge: 'Autochequeo + Workbook',
+            duration: '5–6 min',
+            colorClass: 'from-pink-500 to-red-600',
+            actionLabel: 'Iniciar Autochequeo',
+            link: '#widget-seccion-anchor',
+          },
+          {
+            id: 'privacidad-dinero',
+            title: 'Autochequeo: ¿Tu casa está lista para acompañar privacidad y dinero en la vida digital?',
+            description: 'Ayuda a familias y cuidadores a revisar si en casa existe una base suficiente para acompañar decisiones sobre privacidad, pagos, fraudes y uso de datos en jóvenes de 15 a 22 años.',
+            type: 'game',
+            typeLabel: 'Minijuego',
+            icon: 'shield',
+            badge: 'Autochequeo + Kit',
             duration: '5–6 min',
             colorClass: 'from-pink-500 to-red-600',
             actionLabel: 'Iniciar Autochequeo',

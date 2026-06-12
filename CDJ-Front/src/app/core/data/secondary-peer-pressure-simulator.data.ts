@@ -1,413 +1,498 @@
-export interface PeerPressureMeta {
-  product_id: string;
-  project: string;
-  segment: string;
-  subsegment: string;
-  dimension: string;
-  verb: string;
-  axis: string;
-  format: string;
-  duration: string;
-  virtue: string;
-}
-
-export interface PeerPressureIntro {
-  title: string;
-  subtitle: string;
-  support_chips: string[];
-  disclaimer_box: {
-    title: string;
-    text: string;
-  };
-  cta_button: {
-    label_primary: string;
-    label_alternative: string;
-  };
-}
-
-export interface PeerPressureSignalGroup {
-  label: string;
-  signals: string[];
-}
-
-export interface PeerPressureSignals {
-  title: string;
-  green: PeerPressureSignalGroup;
-  yellow: PeerPressureSignalGroup;
-  red: PeerPressureSignalGroup;
-}
-
-export interface PeerPressureScenario {
-  id: string;
-  title: string;
-  setting: string;
-  synopsis: string;
-  main_dilemma: string;
-  risk_without_action: string[];
-}
-
 export interface PeerPressureChatMessage {
-  sender: string;
-  message: string;
+  from: 'me' | 'other' | 'system';
+  name: string;
+  text: string;
+  time: string;
 }
 
-export interface PeerPressureChoice {
-  choice_id: string;
-  label: string;
-  safe: number;
-  risk: number;
-  feedback_title: string;
+export interface PeerPressureOption {
+  id: string;
+  texto_visible: string;
+  puntos: number;
   feedback: string;
-  next_node: string;
+  microaccion: string;
+  tags: string[];
 }
 
-export interface PeerPressureNode {
-  node_id: string;
-  order: number;
-  title: string;
-  context: string;
-  question: string;
-  signals: string[];
-  hint: string;
-  chat_messages: PeerPressureChatMessage[];
-  choices: PeerPressureChoice[];
+export interface PeerPressureMoment {
+  id: string;
+  orden: number;
+  momento: string;
+  pressure_level: number;
+  contexto: string;
+  chat: PeerPressureChatMessage[];
+  evidencias_neutrales: string[];
+  pregunta: string;
+  opciones: PeerPressureOption[];
+  pregunta_generadora_posterior: string;
 }
 
 export interface PeerPressureResult {
-  id: string;
-  label: string;
-  range: {
-    min: number;
-    max: number;
+  min: number;
+  max: number;
+  titulo: string;
+  mensaje: string;
+  fortalezas: string[];
+  punto_ciego: string;
+}
+
+export interface PeerPressureStep {
+  paso: string;
+  pregunta: string;
+}
+
+export interface PeerPressureCard {
+  titulo: string;
+  descripcion: string;
+  pasos: PeerPressureStep[];
+}
+
+export interface PeerPressureData {
+  metadata: {
+    project: string;
+    product_id: string;
+    version: string;
+    audience: string;
+    subsegment: string;
+    age_range: string;
   };
-  message: string;
-  virtue_focus: string;
-  next_action: string;
+  proposito: {
+    titulo_publico: string;
+    subtitulo: string;
+  };
+  clasificacion: {
+    formato: string;
+    duracion_sugerida_minutos: string;
+  };
+  termometro_de_presion: {
+    nivel: number;
+    nombre: string;
+    senal: string;
+    pregunta: string;
+  }[];
+  tarjeta_paro_pienso_decido: PeerPressureCard;
+  momentos_interactivos: PeerPressureMoment[];
+  resultados_finales: PeerPressureResult[];
+  preguntas_generadoras_para_aula: string[];
 }
 
-export interface PeerPressureGuide {
-  title: string;
-  core_rule: string;
-  safe_route: string[];
-  copyable_responses: string[];
-  do_not_do: string[];
-}
-
-export interface PeerPressureSimulatorData {
-  meta: PeerPressureMeta;
-  intro: PeerPressureIntro;
-  signals: PeerPressureSignals;
-  scenario: PeerPressureScenario;
-  nodes: PeerPressureNode[];
-  results: PeerPressureResult[];
-  guide: PeerPressureGuide;
-}
-
-export const PEER_PRESSURE_SIMULATOR_DATA: PeerPressureSimulatorData = {
-  meta: {
-    product_id: "CDJ-123",
+export const PEER_PRESSURE_SIMULATOR_DATA: PeerPressureData = {
+  metadata: {
     project: "Ciudadanía Digital Jalisco",
-    segment: "Estudiantes",
+    product_id: "CDJ-253",
+    version: "v3.0_mejora_pedagogica_ux",
+    audience: "Estudiantes",
     subsegment: "Secundaria",
-    dimension: "D2",
-    verb: "Reconocer",
-    axis: "Relaciones y comunicación",
-    format: "Caso + simulador + guía breve",
-    duration: "8–12",
-    virtue: "Fortaleza"
+    age_range: "12 a 15 años"
   },
-  intro: {
-    title: "¿El grupo te está empujando a escribir algo que no dirías en persona?",
-    subtitle: "Entra a una escena de chat y decide cómo responder sin seguir la corriente, sin atacar y sin dejar sola a la persona afectada.",
-    support_chips: ["Secundaria", "8–12 minutos", "Caso + simulador", "Relaciones y comunicación"],
-    disclaimer_box: {
-      title: "Este simulador no busca juzgarte.",
-      text: "Sirve para practicar decisiones reales: pausar, poner límite, apoyar y pedir ayuda cuando el chat se sale de control."
-    },
-    cta_button: {
-      label_primary: "Entrar al chat simulado",
-      label_alternative: "Practicar qué responder"
-    }
+  proposito: {
+    titulo_publico: "El chat como corriente",
+    subtitulo: "Decide cómo responder en el grupo sin sumarte al daño, sin atacar y sin dejar sola a la persona afectada."
   },
-  signals: {
-    title: "Semáforo rápido del chat",
-    green: {
-      label: "Verde · convivencia sana",
-      signals: [
-        "La broma no expone datos, cuerpo, errores o vida privada.",
-        "Si alguien dice que pare, el grupo respeta.",
-        "Nadie queda presionado a escribir o reenviar."
-      ]
-    },
-    yellow: {
-      label: "Amarillo · presión o incomodidad",
-      signals: [
-        "Te dicen “no seas aguado”, “solo es broma” o “todos le estamos siguiendo”.",
-        "Alguien pide que reacciones aunque no quieras.",
-        "El grupo insiste en que escribas algo más pesado."
-      ]
-    },
-    red: {
-      label: "Rojo · daño o riesgo",
-      signals: [
-        "Se comparte una foto, captura o meme para humillar.",
-        "Hay amenazas de subirlo a historias o mandarlo a otros grupos.",
-        "Alguien pide datos, expone secretos o empuja a atacar a una persona.",
-        "La persona afectada pide que paren y el grupo sigue."
-      ]
-    }
+  clasificacion: {
+    formato: "Caso interactivo con chat simulado + termómetro de presión + tarjeta Paro · Pienso · Decido",
+    duracion_sugerida_minutos: "12 a 15"
   },
-  scenario: {
-    id: "CASE_01",
-    title: "El comentario que se salió del chat",
-    setting: "Chat grupal ficticio de secundaria después de una exposición en clase.",
-    synopsis: "En el grupo de 2.º B empiezan a burlarse de Leo porque se equivocó al exponer. Alguien convierte el momento en meme y presiona a los demás para escribir comentarios más pesados. Tú decides si sigues la corriente, pones límite, apoyas o pides ayuda.",
-    main_dilemma: "¿Qué haces cuando el grupo te empuja a participar en algo que puede dañar a otra persona?",
-    risk_without_action: [
-      "La burla puede crecer y convertirse en humillación pública.",
-      "Una captura puede circular fuera del grupo.",
-      "La persona afectada puede sentirse aislada.",
-      "Tú puedes quedar asociado a una agresión que no querías apoyar."
-    ]
-  },
-  nodes: [
+  termometro_de_presion: [
     {
-      node_id: "N1",
-      order: 1,
-      title: "El grupo empieza a burlarse",
-      context: "En el chat de 2.º B, Dani sube un sticker sobre Leo después de que se equivocó en una exposición. Varias personas reaccionan con risa. Luego Dani escribe: “A ver, tú también ponle algo, no te hagas”.",
-      question: "¿Qué respondes primero?",
-      signals: [
-        "Te están pidiendo participar aunque no estés seguro.",
-        "La burla se dirige a una persona específica.",
-        "El grupo usa la risa como presión."
-      ],
-      hint: "Antes de escribir, pregúntate: ¿esto ayuda, divierte sin dañar o humilla a alguien?",
-      chat_messages: [
-        { sender: "Dani", message: "Jajaja, Leo se trabó horrible en la exposición." },
-        { sender: "Sofi", message: "No inventes, todos lo vieron." },
-        { sender: "Dani", message: "Tú también ponle algo, no te hagas." }
-      ],
-      choices: [
-        {
-          choice_id: "N1_A",
-          label: "Seguir la corriente y escribir un comentario más pesado.",
-          safe: 0,
-          risk: 5,
-          feedback_title: "Eso aumenta el daño.",
-          feedback: "Cuando el grupo presiona, seguirle puede convertir una broma en humillación. Aunque no lo hayas iniciado, participas en el daño.",
-          next_node: "N2"
-        },
-        {
-          choice_id: "N1_B",
-          label: "No escribir nada, pero reaccionar con risa para no verte mal.",
-          safe: 2,
-          risk: 2,
-          feedback_title: "Evitas escribir, pero sigues empujando la burla.",
-          feedback: "Una reacción también comunica apoyo. Si algo incomoda, el silencio con risa puede hacer que la persona afectada se sienta más sola.",
-          next_node: "N2"
-        },
-        {
-          choice_id: "N1_C",
-          label: "Poner un límite breve: “Ya, no lo hagamos más grande”.",
-          safe: 5,
-          risk: 0,
-          feedback_title: "Buena primera respuesta.",
-          feedback: "No atacas a nadie y sí bajas el tono. Un límite corto puede romper la presión del grupo sin escalar el conflicto.",
-          next_node: "N2"
-        }
-      ]
+      nivel: 1,
+      nombre: "Risa inicial",
+      senal: "Aparecen reacciones y comentarios sueltos.",
+      pregunta: "¿Esto puede cambiar de tono si otros se suman?"
     },
     {
-      node_id: "N2",
-      order: 2,
-      title: "La presión se dirige contra ti",
-      context: "Después de que dudas o intentas poner límite, Dani responde: “Ay, qué sensible. Solo es broma. Si no le sigues, mejor ni estés en el grupo”. Algunas personas empiezan a mandar emojis de risa.",
-      question: "¿Cómo sostienes tu decisión?",
-      signals: [
-        "Usan la vergüenza para que participes.",
-        "Te amenazan con excluirte del grupo.",
-        "La frase “solo es broma” está tapando el daño."
-      ],
-      hint: "Poner límite no significa pelear. Puedes ser firme sin insultar.",
-      chat_messages: [
-        { sender: "Dani", message: "Ay, qué sensible." },
-        { sender: "Dani", message: "Solo es broma. Si no le sigues, mejor ni estés." },
-        { sender: "Grupo", message: "😂😂😂" }
-      ],
-      choices: [
-        {
-          choice_id: "N2_A",
-          label: "Responder con insultos para que dejen de molestarte.",
-          safe: 1,
-          risk: 4,
-          feedback_title: "Eso sube la temperatura del chat.",
-          feedback: "Aunque quieras defenderte, insultar cambia el foco y puede volver el conflicto más grande. El objetivo es bajar el daño, no ganar una pelea.",
-          next_node: "N3"
-        },
-        {
-          choice_id: "N2_B",
-          label: "Sostener el límite: “No me late burlarme. Mejor cambiemos de tema”.",
-          safe: 5,
-          risk: 0,
-          feedback_title: "Firme y sin agresión.",
-          feedback: "Nombras tu límite sin humillar a nadie. Eso practica fortaleza: no hacer algo dañino solo por quedar bien.",
-          next_node: "N3"
-        },
-        {
-          choice_id: "N2_C",
-          label: "Salirte del grupo sin decir nada.",
-          safe: 3,
-          risk: 1,
-          feedback_title: "Puede protegerte, pero no siempre resuelve.",
-          feedback: "Salir puede ser útil si el chat se vuelve inseguro. Pero si hay daño hacia alguien, conviene también guardar evidencia o pedir apoyo.",
-          next_node: "N3"
-        }
-      ]
+      nivel: 2,
+      nombre: "Empuje del grupo",
+      senal: "Te etiquetan, retan o presionan para participar.",
+      pregunta: "¿Estoy decidiendo por criterio o por presión?"
     },
     {
-      node_id: "N3",
-      order: 3,
-      title: "La persona afectada te escribe",
-      context: "Leo te manda mensaje privado: “¿Tú también te estás burlando de mí?”. Se nota que le dolió lo que pasó, aunque en el grupo había mandado un emoji de risa.",
-      question: "¿Qué le respondes a Leo?",
-      signals: [
-        "Una risa no siempre significa que alguien está bien.",
-        "La persona afectada busca saber si está sola.",
-        "Responder con calma puede reparar parte del daño."
-      ],
-      hint: "Apoyar no es hablar por la persona. Es escuchar, validar y ofrecer acompañamiento.",
-      chat_messages: [
-        { sender: "Leo", message: "¿Tú también te estás burlando de mí?" },
-        { sender: "Leo", message: "Puse risa para que no se notara, pero sí me dio pena." }
-      ],
-      choices: [
-        {
-          choice_id: "N3_A",
-          label: "Decirle: “No exageres, era broma”.",
-          safe: 0,
-          risk: 5,
-          feedback_title: "Eso minimiza lo que siente.",
-          feedback: "Decir “no exageres” puede hacer que la persona afectada se sienta culpable por sentirse mal. La empatía empieza por tomar en serio lo que dice.",
-          next_node: "N4"
-        },
-        {
-          choice_id: "N3_B",
-          label: "Responder: “No estoy de acuerdo con la burla. ¿Quieres que lo hablemos o pedimos apoyo?”.",
-          safe: 5,
-          risk: 0,
-          feedback_title: "Apoyo claro y respetuoso.",
-          feedback: "Validas a Leo, no expones más la situación y ofreces acompañamiento. Esa es una respuesta de convivencia digital responsable.",
-          next_node: "N4"
-        },
-        {
-          choice_id: "N3_C",
-          label: "No contestar para no meterte más.",
-          safe: 1,
-          risk: 2,
-          feedback_title: "Evitas conflicto, pero dejas sola a la persona afectada.",
-          feedback: "No tienes que resolverlo todo, pero un mensaje breve de apoyo puede cambiar mucho: “No estoy de acuerdo, no estás solo”.",
-          next_node: "N4"
-        }
-      ]
+      nivel: 3,
+      nombre: "Circulación",
+      senal: "Aparecen stickers, reenvíos, capturas o más grupos.",
+      pregunta: "¿Mi acción reduce o aumenta la exposición?"
     },
     {
-      node_id: "N4",
-      order: 4,
-      title: "El chat escala",
-      context: "Dani escribe en el grupo: “Si Leo se queja, subimos el sticker a historias”. Ahora ya no es solo broma: hay amenaza de exposición pública.",
-      question: "¿Qué haces para cerrar de forma segura?",
-      signals: [
-        "Hay amenaza de difundir contenido.",
-        "La situación puede salir del grupo.",
-        "Ya conviene pedir apoyo y conservar evidencia."
-      ],
-      hint: "Cuando hay amenaza o exposición, no intentes resolverlo solo en el chat.",
-      chat_messages: [
-        { sender: "Dani", message: "Si Leo se queja, subimos el sticker a historias." },
-        { sender: "Sofi", message: "Ya bájenle, esto se está pasando." },
-        { sender: "Dani", message: "Nadie diga nada afuera." }
-      ],
-      choices: [
-        {
-          choice_id: "N4_A",
-          label: "Guardar evidencia, no reenviar, reportar y pedir apoyo a una persona adulta de confianza.",
-          safe: 5,
-          risk: 0,
-          feedback_title: "Ruta segura completa.",
-          feedback: "No difundes más el daño, conservas evidencia y buscas apoyo. Cuando hay amenaza, pedir ayuda no es exagerar: es cuidar.",
-          next_node: "RESULT"
-        },
-        {
-          choice_id: "N4_B",
-          label: "Mandar la captura a otro grupo para que vean lo mal que está Dani.",
-          safe: 0,
-          risk: 5,
-          feedback_title: "Eso también puede difundir el daño.",
-          feedback: "Aunque tu intención sea denunciar, reenviar la captura puede exponer más a Leo y agrandar el conflicto. Guarda evidencia, pero no la circules.",
-          next_node: "RESULT"
-        },
-        {
-          choice_id: "N4_C",
-          label: "Escribir “ya paren” en el grupo, pero no hacer nada más.",
-          safe: 3,
-          risk: 2,
-          feedback_title: "Ayuda, pero puede quedarse corto.",
-          feedback: "Pedir que paren es bueno. Pero si ya hay amenaza de exposición, también conviene guardar evidencia y pedir apoyo.",
-          next_node: "RESULT"
-        }
-      ]
+      nivel: 4,
+      nombre: "Necesidad de apoyo",
+      senal: "El contenido sale del grupo, afecta a alguien o puede seguir circulando.",
+      pregunta: "¿Qué evidencia guardo y a quién pido apoyo?"
     }
   ],
-  results: [
+  tarjeta_paro_pienso_decido: {
+    titulo: "Paro · Pienso · Decido",
+    descripcion: "Herramienta breve para usar antes de responder, reenviar, capturar, hacer sticker o seguir una burla.",
+    pasos: [
+      {
+        paso: "Paro",
+        pregunta: "¿Estoy respondiendo por presión o por criterio propio?"
+      },
+      {
+        paso: "Pienso",
+        pregunta: "¿Esto expone, humilla o puede seguir circulando?"
+      },
+      {
+        paso: "Decido",
+        pregunta: "¿Qué acción corta, firme y respetuosa puedo hacer ahora?"
+      }
+    ]
+  },
+  momentos_interactivos: [
     {
-      id: "RESULT_1",
-      label: "Criterio fuerte ante la presión",
-      range: { min: 15, max: 20 },
-      message: "Supiste pausar, poner límite y cuidar a la persona afectada sin escalar el conflicto.",
-      virtue_focus: "Fortaleza",
-      next_action: "Comparte una regla útil con tu grupo: si no lo dirías en persona, no lo escribas en el chat."
+      id: "D1",
+      orden: 1,
+      momento: "Momento 1 · La corriente empieza",
+      pressure_level: 1,
+      contexto: "Alguien comparte un audio de una compañera equivocándose durante una exposición. El chat empieza con risas y luego aparecen ideas para usar el audio como burla.",
+      chat: [
+        { from: "other", name: "Grupo 2B", text: "Nooo, escuchen cómo se trabó en la exposición 😂", time: "14:21" },
+        { from: "other", name: "Grupo 2B", text: "Pásenlo otra vez, está buenísimo", time: "14:22" },
+        { from: "other", name: "Grupo 2B", text: "Con eso hacemos sticker para el grupo", time: "14:23" },
+        { from: "other", name: "Grupo 2B", text: "@tú no seas aburrido, ponle algo bueno", time: "14:24" }
+      ],
+      evidencias_neutrales: [
+        "El audio muestra un error durante una actividad escolar.",
+        "La persona del audio no está participando en la conversación.",
+        "La conversación pasa de risa a propuesta de sticker.",
+        "Te etiquetan para que participes aunque no iniciaste la burla."
+      ],
+      pregunta: "¿Qué está cambiando en el chat?",
+      opciones: [
+        {
+          id: "A",
+          texto_visible: "Todavía parece algo interno del grupo; el problema real empezaría si lo mandan fuera.",
+          puntos: 2,
+          feedback: "Es verdad que salir del grupo agrava la situación, pero el cambio ya empezó antes: convertir un error en material de burla prepara la circulación.",
+          microaccion: "Observa no solo dónde está el contenido, sino para qué lo están usando.",
+          tags: ["detecta_parcial"]
+        },
+        {
+          id: "B",
+          texto_visible: "El grupo está convirtiendo el error de una persona en contenido para reírse de ella, y además te presiona a participar.",
+          puntos: 4,
+          feedback: "Buena lectura. Identificas dos señales clave: exposición de alguien que no puede responder y presión para que otros se sumen.",
+          microaccion: "Antes de escribir, nombra la presión: ‘me están jalando a participar’.",
+          tags: ["reconoce_presion_y_exposicion"]
+        },
+        {
+          id: "C",
+          texto_visible: "Lo central es que te etiquetaron; conviene responder algo rápido para que dejen de insistir.",
+          puntos: 2,
+          feedback: "La etiqueta sí presiona, pero responder rápido puede meterte en la corriente. Primero conviene leer qué efecto tendría tu mensaje.",
+          microaccion: "No respondas solo para quitarte presión de encima.",
+          tags: ["prioriza_quedar_bien"]
+        },
+        {
+          id: "D",
+          texto_visible: "Si la mayoría se está riendo, probablemente la compañera también lo tomaría como broma.",
+          puntos: 1,
+          feedback: "Cuidado: la risa del grupo no confirma consentimiento. En digital, una mayoría riéndose puede normalizar una exposición injusta.",
+          microaccion: "No uses la reacción de la mayoría como brújula automática.",
+          tags: ["minimiza_danio"]
+        }
+      ],
+      pregunta_generadora_posterior: "¿Qué cambia cuando una risa del chat empieza a convertirse en presión para participar?"
     },
     {
-      id: "RESULT_2",
-      label: "Vas en proceso",
-      range: { min: 6, max: 14 },
-      message: "Reconociste parte del problema, pero hubo momentos donde la presión del grupo pudo empujarte.",
-      virtue_focus: "Prudencia",
-      next_action: "Practica un mensaje de límite corto para usarlo antes de que el chat suba de tono."
+      id: "D2",
+      orden: 2,
+      momento: "Momento 2 · Te etiquetan",
+      pressure_level: 2,
+      contexto: "Varios compañeros esperan tu respuesta. Nadie quiere verse exagerado ni quedar fuera del grupo.",
+      chat: [
+        { from: "other", name: "Grupo 2B", text: "@tú di algo, siempre tienes buenos memes", time: "14:25" },
+        { from: "other", name: "Grupo 2B", text: "Si no contestas es porque eres su abogado jajaja", time: "14:25" },
+        { from: "me", name: "Tú", text: "...", time: "14:26" }
+      ],
+      evidencias_neutrales: [
+        "La etiqueta te coloca frente al grupo.",
+        "La frase convierte el silencio en motivo de burla.",
+        "Responder por impulso puede aumentar el problema.",
+        "Todavía puede frenarse sin exhibir más a nadie."
+      ],
+      pregunta: "¿Qué haces con esa presión?",
+      opciones: [
+        {
+          id: "A",
+          texto_visible: "Mandar un emoji neutro y ya no escribir más, para no verte intenso ni alimentar demasiado la burla.",
+          puntos: 2,
+          feedback: "Puede sentirse como salida intermedia, pero sigue siendo una señal de participación. En chats acelerados, hasta un emoji puede empujar la corriente.",
+          microaccion: "Si vas a participar, que sea para reducir el daño, no para sobrevivir socialmente.",
+          tags: ["cede_suave"]
+        },
+        {
+          id: "B",
+          texto_visible: "Escribirle en privado a alguien con influencia en el grupo: ‘¿paramos esto? Ya se está pasando’.",
+          puntos: 3,
+          feedback: "Es una ruta útil si te cuesta enfrentar solo al grupo. No es la más directa, pero puede ayudar a crear apoyo antes de intervenir.",
+          microaccion: "Buscar aliado puede ser fortaleza, no cobardía, si ayuda a cortar el daño.",
+          tags: ["busca_aliado"]
+        },
+        {
+          id: "C",
+          texto_visible: "Responder en el chat: ‘No hagamos sticker de ella; mejor sigamos con el trabajo’.",
+          puntos: 4,
+          feedback: "Buena decisión. Es breve, concreta y no insulta. Pone límite y redirige al propósito del grupo.",
+          microaccion: "Una frase límite funciona mejor cuando no ataca: nombra la acción y propone salida.",
+          tags: ["pone_limite_breve"]
+        },
+        {
+          id: "D",
+          texto_visible: "No escribir nada y cerrar la app; si no participas, no eres parte del problema.",
+          puntos: 2,
+          feedback: "Pausar te protege del impulso, pero si la burla ya crece, solo irte puede dejar la corriente avanzando sin límite.",
+          microaccion: "Pausar sirve más cuando después decides qué acción proporcional toca.",
+          tags: ["pausa_sin_accion"]
+        }
+      ],
+      pregunta_generadora_posterior: "¿Qué diferencia hay entre no participar y ayudar a que algo se detenga?"
     },
     {
-      id: "RESULT_3",
-      label: "El grupo te está ganando terreno",
-      range: { min: -20, max: 5 },
-      message: "La presión del grupo puede llevarte a participar en algo que no querías. Lo importante es reconocerlo y cambiar la siguiente decisión.",
-      virtue_focus: "Respeto",
-      next_action: "Repite el simulador y busca elegir opciones que no humillen, no reenvíen y sí pidan apoyo."
+      id: "D3",
+      orden: 3,
+      momento: "Momento 3 · El grupo reacciona",
+      pressure_level: 2,
+      contexto: "Después de poner límite, algunos se burlan de ti. Otros ya no escriben, pero siguen leyendo.",
+      chat: [
+        { from: "other", name: "Grupo 2B", text: "Ay, ya llegó el serio del salón 🙄", time: "14:27" },
+        { from: "other", name: "Grupo 2B", text: "Era broma, tampoco exageres", time: "14:27" },
+        { from: "other", name: "Grupo 2B", text: "Bueno ya, manden otra cosa", time: "14:28" }
+      ],
+      evidencias_neutrales: [
+        "El grupo intenta bajarle importancia.",
+        "Tu respuesta incomodó a quienes querían seguir.",
+        "También hay señales de que el tema podría cambiar.",
+        "Insistir demasiado puede abrir otra pelea."
+      ],
+      pregunta: "¿Cómo sostienes el límite sin echarle más gasolina?",
+      opciones: [
+        {
+          id: "A",
+          texto_visible: "Responder una vez más: ‘No es exagerar; solo no quiero sumarme a eso’. Y dejar de discutir.",
+          puntos: 4,
+          feedback: "Buena ruta. Reafirmas tu postura sin convertir el chat en juicio público. A veces sostener el límite también es no justificarte de más.",
+          microaccion: "Una segunda frase corta puede cerrar mejor que diez explicaciones.",
+          tags: ["sostiene_limite"]
+        },
+        {
+          id: "B",
+          texto_visible: "Explicar con detalle por qué todos estuvieron mal, para que entiendan la gravedad.",
+          puntos: 2,
+          feedback: "La intención es buena, pero en un chat encendido los mensajes largos se vuelven material para seguir discutiendo o burlarse.",
+          microaccion: "Guarda la explicación larga para una conversación con docente, tutoría o grupo guiado.",
+          tags: ["sobreexplica"]
+        },
+        {
+          id: "C",
+          texto_visible: "Contestar con sarcasmo para que también les dé pena: ‘sí, qué maduros todos’.",
+          puntos: 1,
+          feedback: "El sarcasmo puede sentirse justo, pero suele mover el conflicto de la burla original a una pelea contigo.",
+          microaccion: "No necesitas humillar al grupo para marcar que algo no va.",
+          tags: ["escala_conflicto"]
+        },
+        {
+          id: "D",
+          texto_visible: "Borrar tus mensajes para que no te sigan molestando y dejar que el tema se enfríe.",
+          puntos: 2,
+          feedback: "Borrar puede bajar tu exposición, pero no resuelve si el audio o sticker sigue circulando. Además puede parecer que el límite no se sostuvo.",
+          microaccion: "Si decides retirarte, hazlo después de una frase breve o busca apoyo fuera del chat.",
+          tags: ["se_retira_sin_cierre"]
+        }
+      ],
+      pregunta_generadora_posterior: "¿Cuándo conviene explicar y cuándo conviene solo sostener una frase breve?"
+    },
+    {
+      id: "D4",
+      orden: 4,
+      momento: "Momento 4 · El sticker aparece",
+      pressure_level: 3,
+      contexto: "Más tarde ves que alguien ya hizo el sticker y lo mandó a otro grupo. No sabes cuántas personas lo recibieron.",
+      chat: [
+        { from: "other", name: "Otro grupo", text: "Miren el sticker nuevo del 2B 😂", time: "16:08" },
+        { from: "other", name: "Otro grupo", text: "Pásenlo para guardarlo", time: "16:09" },
+        { from: "me", name: "Tú", text: "...", time: "16:10" }
+      ],
+      evidencias_neutrales: [
+        "El contenido ya salió del grupo original.",
+        "No se sabe hasta dónde llegará.",
+        "Reenviar para pedir ayuda también puede ampliar la circulación.",
+        "Todavía hay acciones para documentar y pedir apoyo."
+      ],
+      pregunta: "¿Qué paso conviene seguir si el contenido ya empezó a circular?",
+      opciones: [
+        {
+          id: "A",
+          texto_visible: "Guardar evidencia sin reenviar, pedir que lo bajen y avisar a tutoría/orientación si sigue circulando.",
+          puntos: 4,
+          feedback: "Esta ruta cuida dos cosas: no amplía la burla y sí deja evidencia para pedir apoyo si el grupo no se detiene.",
+          microaccion: "Evidencia no significa reenviar: puede ser captura cuidada, fecha, grupo y contexto.",
+          tags: ["pide_apoyo_sin_amplificar"]
+        },
+        {
+          id: "B",
+          texto_visible: "Reenviarlo a una persona de confianza para que vea exactamente qué está pasando.",
+          puntos: 1,
+          feedback: "Aunque la intención sea pedir ayuda, reenviar el sticker puede ampliar el daño. Hay formas de pedir apoyo sin circular más el contenido.",
+          microaccion: "Describe lo ocurrido o muestra evidencia solo a quien corresponda, sin redistribuir.",
+          tags: ["amplifica_con_buena_intencion"]
+        },
+        {
+          id: "C",
+          texto_visible: "Borrarlo de tu celular y evitar volver a verlo.",
+          puntos: 2,
+          feedback: "Evitas guardarlo, pero si ya circula, borrar solo tu copia puede no bastar. Falta una acción para frenar o canalizar.",
+          microaccion: "Cuidarte importa, pero también puede hacer falta avisar si el daño continúa.",
+          tags: ["se_protege_sin_canalizar"]
+        },
+        {
+          id: "D",
+          texto_visible: "Mandarlo al grupo original con el mensaje: ‘vean lo que causaron’.",
+          puntos: 1,
+          feedback: "Eso puede aumentar la exposición y reactivar la burla. Nombrar el problema no requiere volver a mover el contenido.",
+          microaccion: "Habla del hecho sin convertir el contenido en espectáculo otra vez.",
+          tags: ["amplifica_para_demostrar"]
+        }
+      ],
+      pregunta_generadora_posterior: "¿Por qué pedir ayuda no es lo mismo que reenviar el contenido a más personas?"
+    },
+    {
+      id: "D5",
+      orden: 5,
+      momento: "Momento 5 · Apoyar sin exhibir",
+      pressure_level: 4,
+      contexto: "Piensas en escribirle a la compañera, pero no quieres hacerla sentir peor ni presionarla para explicar lo ocurrido.",
+      chat: [
+        { from: "system", name: "Nota", text: "La compañera afectada no ha escrito en el grupo desde que empezó la burla.", time: "16:20" },
+        { from: "me", name: "Tú", text: "¿Le digo algo?", time: "16:21" }
+      ],
+      evidencias_neutrales: [
+        "La persona afectada no tiene obligación de reaccionar frente al grupo.",
+        "Pedirle explicaciones puede aumentar la carga emocional.",
+        "Apoyar puede ser ofrecer compañía y opciones, no decidir por ella.",
+        "No reenviar el contenido también es una forma de cuidado."
+      ],
+      pregunta: "¿Qué mensaje de apoyo sería más cuidadoso?",
+      opciones: [
+        {
+          id: "A",
+          texto_visible: "‘Vi que están circulando cosas del grupo. No voy a reenviarlas. Si quieres, te acompaño a pedir que las bajen o hablar con alguien’.",
+          puntos: 4,
+          feedback: "Este mensaje cuida, no presiona y ofrece una acción concreta. Además deja claro que no seguirás circulando el contenido.",
+          microaccion: "Apoyar es abrir una puerta, no empujar a alguien a actuar como tú actuarías.",
+          tags: ["apoya_sin_exhibir"]
+        },
+        {
+          id: "B",
+          texto_visible: "‘No hagas caso, mañana se les olvida’.",
+          puntos: 2,
+          feedback: "Intenta calmar, pero puede minimizar. En digital, lo que circula no siempre se olvida rápido y la persona puede necesitar apoyo real.",
+          microaccion: "Evita frases que suenan tranquilizadoras pero cierran la conversación.",
+          tags: ["minimiza_emocion"]
+        },
+        {
+          id: "C",
+          texto_visible: "‘¿Por qué no te defendiste? Yo sí les habría contestado’.",
+          puntos: 1,
+          feedback: "Aunque parezca preocupación, puede sonar a juicio. La persona afectada no está obligada a reaccionar como otros esperan.",
+          microaccion: "No evalúes su reacción; ofrece apoyo.",
+          tags: ["juzga_reaccion"]
+        },
+        {
+          id: "D",
+          texto_visible: "‘Si quieres, puedo ir contigo con tutoría. Tú decides si hablamos o no’.",
+          puntos: 3,
+          feedback: "Es una buena opción: ofrece compañía y respeta decisión. Le falta aclarar que no reenviarás ni pedirás ver el contenido.",
+          microaccion: "Acompañar + no circular contenido es una combinación fuerte.",
+          tags: ["acompanamiento_parcial"]
+        }
+      ],
+      pregunta_generadora_posterior: "¿Qué diferencia hay entre acompañar y presionar a alguien para que actúe?"
+    },
+    {
+      id: "D6",
+      orden: 6,
+      momento: "Momento 6 · Acuerdo de pausa",
+      pressure_level: 4,
+      contexto: "El grupo necesita una regla simple para evitar que algo parecido vuelva a crecer por impulso.",
+      chat: [
+        { from: "other", name: "Grupo 2B", text: "Ok, entonces ¿qué regla ponemos para que no vuelva a pasar?", time: "18:03" },
+        { from: "me", name: "Tú", text: "...", time: "18:04" }
+      ],
+      evidencias_neutrales: [
+        "El acuerdo debe servir antes de que el daño empiece.",
+        "No debe poner toda la carga en quien se siente afectado.",
+        "Debe ser fácil de recordar en un chat acelerado.",
+        "Debe incluir capturas, reenvíos, stickers y burlas."
+      ],
+      pregunta: "¿Cuál acuerdo de pausa sería más útil para el grupo?",
+      opciones: [
+        {
+          id: "A",
+          texto_visible: "‘Si alguien pide que paremos, paramos y no preguntamos más’.",
+          puntos: 3,
+          feedback: "Es un acuerdo útil para detener una situación, pero todavía reacciona cuando alguien ya tuvo que pedir que paren.",
+          microaccion: "Buen acuerdo de contención; combínalo con una pausa antes de publicar.",
+          tags: ["acuerdo_util_incompleto"]
+        },
+        {
+          id: "B",
+          texto_visible: "‘Antes de reenviar, capturar o hacer sticker, paramos 10 segundos: ¿expone, humilla o puede seguir circulando?’",
+          puntos: 4,
+          feedback: "Es preventivo, concreto y fácil de aplicar. Convierte el impulso del chat en una pausa de criterio.",
+          microaccion: "Una buena regla cabe en una frase y se puede usar justo antes del clic.",
+          tags: ["acuerdo_preventivo"]
+        },
+        {
+          id: "C",
+          texto_visible: "‘Si a la mayoría le da risa, se vale; si a la mayoría no, lo borramos’.",
+          puntos: 1,
+          feedback: "La mayoría también puede presionar o equivocarse. La cantidad de risas no determina si algo cuida o daña.",
+          microaccion: "No confundas popularidad con criterio.",
+          tags: ["mayoria_como_brujula"]
+        },
+        {
+          id: "D",
+          texto_visible: "‘Cada quien se hace responsable de lo que manda; si alguien se ofende, que lo diga’.",
+          puntos: 2,
+          feedback: "Parece justo, pero pone toda la carga en quien se siente afectado. Un buen acuerdo ayuda a pensar antes, no solo después.",
+          microaccion: "La responsabilidad digital no empieza cuando alguien reclama; empieza antes de publicar.",
+          tags: ["responsabilidad_tardia"]
+        }
+      ],
+      pregunta_generadora_posterior: "¿Qué tendría que pasar para que este acuerdo no se quede solo en frase bonita?"
     }
   ],
-  guide: {
-    title: "Guía breve: qué hacer cuando el grupo presiona",
-    core_rule: "Pausa antes de responder: si no lo dirías en persona, no lo escribas ni lo reenvíes.",
-    "safe_route": [
-      "Pausa: no respondas por impulso.",
-      "Lee la señal: ¿es broma, presión, humillación o amenaza?",
-      "Pon límite breve: “No me late seguirle”.",
-      "Apoya sin exponer: escribe en privado a quien fue afectado.",
-      "Guarda evidencia si hay amenaza, insultos o exposición.",
-      "Pide apoyo a una persona adulta de confianza si el conflicto escala."
-    ],
-    "copyable_responses": [
-      "No me late burlarme de alguien. Mejor cambiemos de tema.",
-      "Ya estuvo, no lo hagamos más grande.",
-      "Eso ya puede lastimar. Yo no le voy a seguir.",
-      "Si necesitas apoyo, aquí estoy. No estoy de acuerdo con lo que pasó.",
-      "No voy a reenviar eso. Mejor pidamos ayuda."
-    ],
-    "do_not_do": [
-      "No reenvíes capturas para “denunciar” si eso expone más a la persona.",
-      "No respondas con insultos para defenderte.",
-      "No minimices con frases como “era broma” o “no exageres”.",
-      "No entregues el control del chat a la presión del grupo."
-    ]
-  }
+  resultados_finales: [
+    {
+      min: 21,
+      max: 24,
+      titulo: "Criterio firme ante la corriente",
+      mensaje: "Tus decisiones tienden a frenar la presión del grupo sin atacar. Tu reto es sostener ese criterio incluso cuando otros intenten ridiculizar el límite.",
+      fortalezas: ["Lees señales de presión", "Pones límites breves", "Buscas apoyo sin ampliar el daño"],
+      punto_ciego: "Cuidar que tu explicación no se vuelva una pelea nueva."
+    },
+    {
+      min: 15,
+      max: 20,
+      titulo: "Criterio en construcción",
+      mensaje: "Identificas parte del problema, pero a veces puedes quedarte en la pausa sin pasar a una acción clara o depender de que otros actúen primero.",
+      fortalezas: ["No reaccionas tan rápido", "Notas cuando algo se empieza a pasar", "Puedes buscar aliados"],
+      punto_ciego: "Pasar de ‘esto no está bien’ a una frase o acción concreta."
+    },
+    {
+      min: 6,
+      max: 14,
+      titulo: "Necesitas más pausa antes de responder",
+      mensaje: "La presión del grupo puede empujarte a minimizar, seguir la corriente o dejar pasar situaciones que sí pueden dañar.",
+      fortalezas: ["Puedes empezar por pausar", "Puedes usar frases preparadas", "Puedes pedir apoyo si el chat escala"],
+      punto_ciego: "No usar la risa del grupo como única señal para decidir."
+    }
+  ],
+  preguntas_generadoras_para_aula: [
+    "¿Qué señales muestran que el grupo está presionando y no solo bromeando?",
+    "¿Por qué un sticker, captura o audio puede seguir dañando aunque la persona no esté en el chat?",
+    "¿Qué diferencia hay entre pausar, callar, poner límite y pedir apoyo?",
+    "¿Cómo se puede apoyar a alguien sin exponerlo más?",
+    "¿Qué significa Fortaleza en un chat donde todos empujan a seguir la corriente?"
+  ]
 };
