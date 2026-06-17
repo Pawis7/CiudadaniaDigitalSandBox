@@ -179,6 +179,15 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-orange-500 to-rose-700',
             actionLabel: 'Iniciar Actividad', link: '#simulador-fraudes-anchor',
           },
+          {
+            id: 'sticker-control',
+            title: 'El sticker que se salió de control',
+            description: 'Un taller interactivo de reparación digital. Toma decisiones ante la difusión de una foto sin consentimiento y diseña un mapa para frenar el daño.',
+            type: 'game', typeLabel: 'Caso interactivo', icon: 'safety_check',
+            badge: 'Reparación Digital v3', duration: '10 a 15 min',
+            colorClass: 'from-blue-600 to-indigo-700',
+            actionLabel: 'Iniciar Taller', link: '#widget-seccion-anchor',
+          },
         ],
       },
       {

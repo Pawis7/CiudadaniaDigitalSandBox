@@ -219,19 +219,7 @@
         </div>
       </div>
       
-      <!-- ====================================================================
-           WIDGET DEL NIVEL (renderizado dinámico).
-           Para cambiar qué widget aparece en cada nivel: editar audiencia-config.ts.
-           Para registrar un widget nuevo: editar widget-registry.ts.
-           La plantilla no requiere ningún cambio adicional.
-           ==================================================================== -->
-      @if (activeWidget(); as widget) {
-        <div id="widget-seccion-anchor" class="mt-8 pt-8 border-t border-[color:var(--border-soft)] space-y-6">
-          <div class="pt-4">
-            <ng-container [ngComponentOutlet]="widget" />
-          </div>
-        </div>
-      }
+      
 
       <!-- TEASER DE PRÓXIMAMENTE -->
       <!-- Configurado en page-content.ts → subLevel.comingSoonTeaser -->
@@ -319,6 +307,35 @@
         </a>
       </div>
     </section>
+  }
+
+  <!-- Modal Overlay para Widgets Activos -->
+  @if (activeWidget(); as widget) {
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 widget-modal-overlay no-print"
+         role="dialog"
+         aria-modal="true">
+      <!-- Backdrop con clic para cerrar -->
+      <div class="absolute inset-0 bg-black/60 cursor-pointer" (click)="closeWidgetModal()"></div>
+      
+      <!-- Modal Card -->
+      <div class="relative z-10 w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] flex flex-col bg-[color:var(--surface-card)] rounded-[2rem] border border-[color:var(--border-soft)] shadow-2xl overflow-hidden widget-modal-panel">
+        <!-- Header del Modal -->
+        <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] px-6 py-4 shrink-0 bg-[color:var(--surface-soft)]">
+          <span class="text-xs font-black uppercase tracking-wider text-[color:var(--text-soft)]">Recurso Interactivo</span>
+          <button type="button" 
+                  (click)="closeWidgetModal()" 
+                  class="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] text-[color:var(--text-primary)] hover:bg-[color:var(--surface-soft)] hover:scale-105 transition-all shadow-sm cursor-pointer"
+                  aria-label="Cerrar">
+            <span translate="no" class="material-symbols-rounded text-lg">close</span>
+          </button>
+        </div>
+        
+        <!-- Contenedor del Componente (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-5 sm:p-6 md:p-8">
+          <ng-container [ngComponentOutlet]="widget" />
+        </div>
+      </div>
+    </div>
   }
 } @else {
   <section class="surface mb-12 p-12 text-center">

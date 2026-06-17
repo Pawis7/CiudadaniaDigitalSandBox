@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, untracked, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, effect, untracked, Type, HostListener } from '@angular/core';
 import { CommonModule, NgComponentOutlet } from '@angular/common';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -88,13 +88,11 @@ export class AudienciaComponent {
       });
     });
 
-    // Sincronizar widget por defecto cuando cambia el nivel.
+    // Al cambiar el nivel, cerramos cualquier widget activo
     effect(() => {
-      const lvl = this.selectedLevel();
-      const cfg = this.config();
+      this.selectedLevel();
       untracked(() => {
-        const defaultWidget = cfg?.levelWidgets[lvl] ?? null;
-        this.activeWidgetId.set(defaultWidget);
+        this.closeWidgetModal();
       });
     });
   }
@@ -157,7 +155,8 @@ export class AudienciaComponent {
       item.id === 'presencia-adulta' ||
       item.id === 'riesgos-reales' ||
       item.id === 'presencia-jovenes' ||
-      item.id === 'privacidad-dinero'
+      item.id === 'privacidad-dinero' ||
+      item.id === 'sticker-control'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -166,9 +165,26 @@ export class AudienciaComponent {
         item.id === 'limites-chats' ? 'limites-chats' :
         item.id === 'presencia-adulta' ? 'adult-presence' :
         item.id === 'presencia-jovenes' ? 'presencia-jovenes' :
-        item.id === 'privacidad-dinero' ? 'privacidad-dinero' : 'riesgos-reales'
+        item.id === 'privacidad-dinero' ? 'privacidad-dinero' :
+        item.id === 'sticker-control' ? 'sticker-control' : 'riesgos-reales'
       );
-      this.scrollToAnchor('widget-seccion-anchor');
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'hidden';
+      }
+    }
+  }
+
+  closeWidgetModal(): void {
+    this.activeWidgetId.set(null);
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscKey() {
+    if (this.activeWidgetId()) {
+      this.closeWidgetModal();
     }
   }
 
