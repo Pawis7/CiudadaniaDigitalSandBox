@@ -154,6 +154,24 @@ export class RiesgosRealesComponent {
     });
   }
 
+  getCategoryHue(block: string): string {
+    switch (block) {
+      case 'Conversación abierta': return 'blue';
+      case 'Confianza y reacción': return 'gold';
+      case 'Límites de privacidad': return 'orange';
+      case 'Exposición a contactos': return 'teal';
+      case 'Hablar de presiones': return 'purple';
+      case 'Detección temprana': return 'pink';
+      case 'Involucramiento adulto': return 'blue';
+      case 'Autonomía supuesta': return 'gold';
+      case 'Plan de acción': return 'orange';
+      case 'Ruta de respuesta': return 'teal';
+      case 'Ejemplo adulto': return 'purple';
+      case 'Gestión de crisis': return 'pink';
+      default: return 'blue';
+    }
+  }
+
   private createEmptyTracker(): boolean[][] {
     return Array.from({ length: 4 }, () => new Array(5).fill(false));
   }

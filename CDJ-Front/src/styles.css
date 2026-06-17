@@ -1654,6 +1654,25 @@ body.sidebar-collapsed .catalog-hero {
   animation: modalPanelIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Unify modal and widget backgrounds to prevent duplicate card frames */
+.widget-modal-panel .sim-shell {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Flatten inner question cards to sit directly on the modal card background */
+.widget-modal-panel .step-card,
+.widget-modal-panel .intro-card,
+.widget-modal-panel .question-card,
+.widget-modal-panel .situation-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
 /* ========================================================================
    GLOBAL PRINT MEDIA STYLES (Hide layout elements for clean prints)
    ======================================================================== */
@@ -1686,4 +1705,208 @@ body.sidebar-collapsed .catalog-hero {
     margin: 0 !important;
     box-shadow: none !important;
   }
+}
+
+/* ========================================================================
+   QUESTIONNAIRE REDESIGN STYLES
+   ======================================================================== */
+.progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.bar {
+  height: 10px;
+  background: var(--surface-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+}
+
+.bar > i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #FF3D97, #FB4D2A);
+  border-radius: 999px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qblock {
+  padding: 6px 0;
+}
+
+.qmeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 8px;
+}
+
+.qmeta .num {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-primary);
+  opacity: 0.5;
+}
+
+.qmeta .blk {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #15130F;
+  background: #F4B321;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.qtext {
+  font-size: clamp(16px, 3.2vw, 21px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0 0 14px;
+  color: var(--text-primary);
+}
+
+.opts {
+  display: grid;
+  gap: 8px;
+  --opt-bg: #DCEBFF;
+  --opt-bgh: #CFE3FF;
+  --opt-bd: #B6D5FB;
+  --opt-radio: #8FBEF6;
+  --opt-solid: #5FA8F5;
+}
+
+.opt {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  background: var(--surface-card); /* Neutral background */
+  border: 2px solid var(--border-soft); /* Neutral border */
+  border-radius: 14px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary); /* Theme's primary text when unselected */
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.opt:hover {
+  background: var(--surface-soft); /* Subtle neutral hover */
+  border-color: var(--border); /* Slightly darker border */
+  transform: translateY(-1px);
+}
+
+.opt:active {
+  transform: scale(0.985);
+}
+
+.opt:focus-visible {
+  outline: 3px solid rgba(21, 19, 15, 0.45);
+  outline-offset: 2px;
+}
+
+/* Solid radial expand */
+.opt::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 30px;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--opt-solid);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.opt .tick {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2.5px solid var(--opt-radio); /* Neon/colored circle even when unselected */
+  flex: none;
+  display: grid;
+  place-items: center;
+  transition: border-color 0.2s;
+}
+
+.opt .tick::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #15130F;
+  transform: scale(0);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.opt[aria-checked="true"] {
+  color: var(--opt-text-selected, #15130F);
+  border-color: var(--opt-text-selected, #15130F);
+  background: var(--opt-bg);
+  transition: background 0s 0.4s, border-color 0.2s ease;
+  box-shadow: 0 16px 28px -12px rgba(21, 19, 15, 0.15);
+}
+
+.opt[aria-checked="true"]::before {
+  transform: translate(-50%, -50%) scale(80);
+}
+
+.opt[aria-checked="true"] .tick {
+  border-color: var(--opt-text-selected, #15130F);
+}
+
+.opt[aria-checked="true"] .tick::after {
+  transform: scale(1);
+  background: var(--opt-text-selected, #15130F);
+}
+
+.opt[aria-checked="true"]:hover {
+  transform: none;
+  background: var(--opt-solid); /* Deeper pastel background on hover when selected */
+}
+
+@keyframes optPop {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.opt.just {
+  animation: optPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Palette per theme block - updated to use clean pastel colors for expand animations and neon-glow details */
+.opts[data-hue="blue"]   { --opt-bg: #DCEBFF; --opt-bgh: #CDE2FF; --opt-bd: #B6D5FB; --opt-radio: #5FA8F5; --opt-solid: #DCEBFF; --opt-text-selected: #1E40AF; }
+.opts[data-hue="gold"]   { --opt-bg: #FCF0CC; --opt-bgh: #FBE9B4; --opt-bd: #F2DD96; --opt-radio: #F4B321; --opt-solid: #FCF0CC; --opt-text-selected: #854D0E; }
+.opts[data-hue="orange"] { --opt-bg: #FEE0D7; --opt-bgh: #FDD2C4; --opt-bd: #F9B9A6; --opt-radio: #FB4D2A; --opt-solid: #FEE0D7; --opt-text-selected: #C2410C; }
+.opts[data-hue="teal"]   { --opt-bg: #D2F3EC; --opt-bgh: #BEEDE2; --opt-bd: #94DECE; --opt-radio: #14B8A6; --opt-solid: #D2F3EC; --opt-text-selected: #0F766E; }
+.opts[data-hue="purple"] { --opt-bg: #E9E1FC; --opt-bgh: #DDD1FA; --opt-bd: #C7B4F5; --opt-radio: #8B5CF6; --opt-solid: #E9E1FC; --opt-text-selected: #6D28D9; }
+.opts[data-hue="pink"]   { --opt-bg: #FFDDED; --opt-bgh: #FFCBE2; --opt-bd: #FBAACF; --opt-radio: #FF3D97; --opt-solid: #FFDDED; --opt-text-selected: #BE185D; }
+
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 12px;
 }

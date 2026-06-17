@@ -151,6 +151,20 @@ export class AdultPresenceComponent {
     }
   }
 
+  getCategoryHue(block: string): string {
+    switch (block) {
+      case 'Presencia y escucha': return 'blue';
+      case 'Rutinas importantes': return 'gold';
+      case 'Pantalla para resolver rápido': return 'orange';
+      case 'Reglas visibles': return 'teal';
+      case 'Coherencia adulta': return 'purple';
+      case 'Uso por reflejo': return 'pink';
+      case 'Entrada y salida del teléfono': return 'blue';
+      case 'Cambio posible': return 'teal';
+      default: return 'blue';
+    }
+  }
+
   private createEmptyTracker(): boolean[][] {
     return Array.from({ length: 7 }, () => new Array(5).fill(false));
   }

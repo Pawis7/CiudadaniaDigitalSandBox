@@ -147,4 +147,8 @@ export class LimitesChatsComponent {
       this.copied.set(false);
     }
   }
+
+  getCategoryHue(): string {
+    return this.currentCaseIndex() === 0 ? 'blue' : 'purple';
+  }
 }

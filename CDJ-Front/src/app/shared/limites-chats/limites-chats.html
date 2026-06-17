@@ -236,19 +236,16 @@
           </h4>
 
           <!-- Options -->
-          <div class="grid gap-3">
+          <div class="opts" [attr.data-hue]="getCategoryHue()" role="radiogroup" [attr.aria-label]="currentStep().pregunta">
             @for (opt of currentStep().opciones; track opt.option_id) {
               <button
                 type="button"
                 (click)="selectOption(opt)"
-                class="option-btn"
-                [class.is-selected]="selectedOption()?.option_id === opt.option_id">
-                <span class="option-badge">
-                  {{ opt.option_id }}
-                </span>
-                <span class="option-text">
-                  {{ opt.texto_visible }}
-                </span>
+                class="opt"
+                role="radio"
+                [attr.aria-checked]="selectedOption()?.option_id === opt.option_id ? 'true' : 'false'">
+                <span class="tick" aria-hidden="true"></span>
+                <span>{{ opt.texto_visible }}</span>
               </button>
             }
           </div>

@@ -314,11 +314,11 @@
     <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-8 widget-modal-overlay no-print"
          role="dialog"
          aria-modal="true">
-      <!-- Backdrop con clic para cerrar -->
-      <div class="absolute inset-0 bg-black/60 cursor-pointer" (click)="closeWidgetModal()"></div>
+      <!-- Backdrop (cierre por clic afuera deshabilitado para evitar pérdida de progreso) -->
+      <div class="absolute inset-0 bg-black/60"></div>
       
       <!-- Modal Card -->
-      <div class="relative z-10 w-full max-w-6xl max-h-[90vh] md:max-h-[85vh] flex flex-col bg-[color:var(--surface-card)] rounded-[2rem] border border-[color:var(--border-soft)] shadow-2xl overflow-hidden widget-modal-panel">
+      <div class="relative z-10 w-full max-w-2xl max-h-[90vh] md:max-h-[85vh] flex flex-col bg-[color:var(--surface-card)] rounded-[2rem] border border-[color:var(--border-soft)] shadow-2xl overflow-hidden widget-modal-panel">
         <!-- Header del Modal -->
         <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] px-6 py-4 shrink-0 bg-[color:var(--surface-soft)]">
           <span class="text-xs font-black uppercase tracking-wider text-[color:var(--text-soft)]">Recurso Interactivo</span>
@@ -331,7 +331,7 @@
         </div>
         
         <!-- Contenedor del Componente (Scrollable) -->
-        <div class="flex-1 overflow-y-auto p-5 sm:p-6 md:p-8">
+        <div class="flex-1 overflow-y-auto p-0">
           <ng-container [ngComponentOutlet]="widget" />
         </div>
       </div>

@@ -159,6 +159,18 @@ export class PrivacidadDineroComponent {
     });
   }
 
+  getCategoryHue(block: string): string {
+    switch (block) {
+      case 'Privacidad y datos': return 'blue';
+      case 'Compras y pagos': return 'gold';
+      case 'Fraudes y engaños': return 'orange';
+      case 'Autonomía con criterio': return 'teal';
+      case 'Ruta de acción': return 'purple';
+      case 'Coherencia adulta': return 'pink';
+      default: return 'blue';
+    }
+  }
+
   private createEmptyTracker(): boolean[][] {
     return Array.from({ length: 4 }, () => new Array(5).fill(false));
   }

@@ -151,6 +151,20 @@ export class PresenciaJovenesComponent {
     }
   }
 
+  getCategoryHue(block: string): string {
+    switch (block) {
+      case 'Escucha y respeto': return 'blue';
+      case 'Presencia interrumpida': return 'gold';
+      case 'Ejemplo adulto': return 'orange';
+      case 'Reglas visibles': return 'teal';
+      case 'Disponibilidad adulta': return 'purple';
+      case 'Uso por reflejo': return 'pink';
+      case 'Escuchar antes de cortar': return 'blue';
+      case 'Cambio posible': return 'teal';
+      default: return 'blue';
+    }
+  }
+
   private createEmptyTracker(): boolean[][] {
     return Array.from({ length: 7 }, () => new Array(5).fill(false));
   }

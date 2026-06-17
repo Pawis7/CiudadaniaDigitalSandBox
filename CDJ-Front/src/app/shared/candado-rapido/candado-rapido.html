@@ -152,26 +152,16 @@
               </p>
 
               <!-- Option buttons -->
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div class="opts pt-2" [attr.data-hue]="getCategoryHue(currentElement().zone)" role="radiogroup" [attr.aria-label]="currentElement().prompt">
                 <button
                   *ngFor="let opt of currentElement().options"
                   type="button"
                   (click)="chooseOption(currentElement().id, opt.id)"
-                  class="flex items-start justify-between p-4 sm:p-5 rounded-2xl text-left font-bold border transition-all duration-150 text-sm sm:text-base leading-relaxed cursor-pointer h-full"
-                  [class.border-[color:var(--aud)]]="readings()[currentElement().id] === opt.id"
-                  [class.bg-[color:var(--aud-cream)]]="readings()[currentElement().id] === opt.id"
-                  [class.border-slate-200]="readings()[currentElement().id] !== opt.id"
-                  [class.bg-white]="readings()[currentElement().id] !== opt.id"
-                  [class.hover:bg-slate-50]="readings()[currentElement().id] !== opt.id">
-                  <span class="text-[color:var(--text-primary)] pr-2">{{ opt.text }}</span>
-                  
-                  <span 
-                    class="h-5 w-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5"
-                    [class.border-[color:var(--aud)]]="readings()[currentElement().id] === opt.id"
-                    [class.bg-[color:var(--aud)]]="readings()[currentElement().id] === opt.id"
-                    [class.border-slate-300]="readings()[currentElement().id] !== opt.id">
-                    <span *ngIf="readings()[currentElement().id] === opt.id" class="block h-2 w-2 rounded-full bg-white"></span>
-                  </span>
+                  class="opt"
+                  role="radio"
+                  [attr.aria-checked]="readings()[currentElement().id] === opt.id ? 'true' : 'false'">
+                  <span class="tick" aria-hidden="true"></span>
+                  <span>{{ opt.text }}</span>
                 </button>
               </div>
             </div>

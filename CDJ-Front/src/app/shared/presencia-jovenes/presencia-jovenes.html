@@ -91,73 +91,65 @@
     @else if (started() && !finished()) {
       <div class="space-y-6">
 
-        <!-- Progress wrap -->
-        <div class="bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-2xl p-4 shadow-sm">
-          <div class="flex items-center justify-between text-xs font-bold text-[color:var(--text-secondary)] mb-2">
-            <span>Pregunta {{ currentQuestionIndex() + 1 }} de {{ questions.length }}</span>
-            <span>{{ progressPercent() }}%</span>
-          </div>
-          <div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-orange-500 to-rose-600 rounded-full transition-all duration-300"
-                 [style.width.%]="progressPercent()">
-            </div>
-          </div>
+        <!-- Progress head and bar -->
+        <div class="progress-head">
+          <span id="progressLabel">Pregunta {{ currentQuestionIndex() + 1 }} de {{ questions.length }}</span>
+          <span id="blockLabel">{{ currentQuestion().block }}</span>
+        </div>
+        <div class="bar" role="progressbar" aria-valuemin="0" [attr.aria-valuemax]="questions.length" [attr.aria-valuenow]="currentQuestionIndex()">
+          <i id="progressFill" [style.width.%]="progressPercent()"></i>
         </div>
 
-        <!-- Question Card -->
-        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
-          
-          <div class="flex items-center gap-2.5">
-            <span class="inline-flex items-center gap-2 rounded-xl bg-orange-50 dark:bg-[#2A1E15] border border-orange-100 dark:border-orange-950 px-3 py-1.5 text-[#FF8300] font-black text-[10px] uppercase tracking-wider">
-              {{ currentQuestion().block }}
-            </span>
-          </div>
+        <!-- Question Card (qblock) -->
+        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md">
+          <div class="qblock">
+            <div class="qmeta">
+              <span class="num">Q{{ currentQuestionIndex() + 1 }}</span>
+              <span class="blk">{{ currentQuestion().block }}</span>
+            </div>
+            <h3 class="qtext">{{ currentQuestion().text }}</h3>
 
-          <h3 class="text-xl font-black text-[color:var(--text-primary)] leading-snug">
-            {{ currentQuestion().text }}
-          </h3>
-
-          <p class="text-xs text-[color:var(--text-soft)] leading-relaxed italic bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-xl px-3.5 py-2">
-            Pista: {{ currentQuestion().hint }}
-          </p>
-
-          <!-- Scale Options Grid -->
-          <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            @for (opt of scale; track opt.value) {
-              <button
-                type="button"
-                (click)="setAnswer(opt.value)"
-                class="option-btn flex flex-col items-center justify-center text-center p-4 min-h-[92px] rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] text-[color:var(--text-primary)] cursor-pointer transition-all duration-200"
-                [class.is-selected]="selectedAnswer() === opt.value">
-                <span class="option-badge !rounded-full text-base mb-1"
-                      [class.bg-orange-500]="selectedAnswer() === opt.value"
-                      [class.text-white]="selectedAnswer() === opt.value">
-                  {{ opt.icon }}
-                </span>
-                <span class="text-xs font-bold leading-normal">{{ opt.label }}</span>
-              </button>
+            @if (currentQuestion().hint) {
+              <p class="text-xs text-[color:var(--text-soft)] leading-relaxed italic mt-[-10px] mb-6">
+                Pista: {{ currentQuestion().hint }}
+              </p>
             }
+
+            <!-- Scale Options Grid -->
+            <div class="opts" [attr.data-hue]="getCategoryHue(currentQuestion().block)" role="radiogroup" [attr.aria-label]="currentQuestion().text">
+              @for (opt of scale; track opt.value) {
+                <button
+                  type="button"
+                  (click)="setAnswer(opt.value)"
+                  class="opt"
+                  role="radio"
+                  [attr.aria-checked]="selectedAnswer() === opt.value ? 'true' : 'false'">
+                  <span class="tick" aria-hidden="true"></span>
+                  <span>{{ opt.label }}</span>
+                </button>
+              }
+            </div>
           </div>
 
-          <!-- Navigation Row -->
-          <div class="pt-4 flex items-center justify-between border-t border-[color:var(--border-soft)]">
+          <!-- Navigation Row (quiz-nav) -->
+          <div class="quiz-nav border-t border-[color:var(--border-soft)] pt-4">
             <button
               type="button"
               (click)="prevQuestion()"
               [disabled]="currentQuestionIndex() === 0"
-              class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-              <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
-              Anterior
+              class="btn btn-secondary flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4.5 h-4.5"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+              Atrás
             </button>
 
             <button
               type="button"
               [disabled]="selectedAnswer() === null"
               (click)="nextQuestion()"
-              class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all"
-              [class.disabled]="selectedAnswer() === null">
+              class="btn btn-primary flex items-center gap-2"
+              [class.opacity-50]="selectedAnswer() === null">
               <span>{{ currentQuestionIndex() === questions.length - 1 ? 'Ver resultado' : 'Siguiente' }}</span>
-              <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4.5 h-4.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
           </div>
 

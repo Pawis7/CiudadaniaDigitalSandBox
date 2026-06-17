@@ -187,4 +187,27 @@ export class CandadoRapidoComponent {
   printPlan(): void {
     window.print();
   }
+
+  getCategoryHue(zone: string): string {
+    switch (zone) {
+      case 'Perfil':
+      case 'Bio':
+        return 'blue';
+      case 'Historia':
+      case 'Publicación antigua':
+        return 'gold';
+      case 'Etiqueta':
+      case 'Publicación':
+        return 'orange';
+      case 'Solicitud':
+        return 'teal';
+      case 'Mensaje':
+        return 'purple';
+      case 'Ajuste':
+      case 'Repost':
+        return 'pink';
+      default:
+        return 'blue';
+    }
+  }
 }
