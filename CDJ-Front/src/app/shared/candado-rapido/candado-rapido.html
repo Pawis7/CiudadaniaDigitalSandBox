@@ -10,7 +10,7 @@
   </div>
 
   <!-- Header -->
-  <div class="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--border-soft)] pb-5">
+  <div *ngIf="step() === 'start'" class="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--border-soft)] pb-5">
     <div>
       <p class="eyebrow text-xs uppercase font-bold tracking-widest text-[color:var(--aud)]">Secundaria · Privacidad y seguridad</p>
       <h2 class="text-2xl sm:text-3xl font-black text-[color:var(--text-primary)] mt-1">CDJ-148 · Candado rápido</h2>
@@ -24,7 +24,7 @@
         <span translate="no" class="material-symbols-rounded text-sm">schedule</span>
         {{ data.metadata.duration_minutes }} minutos
       </span>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3.5 py-2 text-rose-700">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 dark:bg-rose-950/30 px-3.5 py-2 text-rose-700 dark:text-rose-400 border border-transparent dark:border-rose-900/50">
         <span translate="no" class="material-symbols-rounded text-sm">shield_lock</span>
         Auditoría ficticia
       </span>
@@ -84,42 +84,19 @@
 
 
       <!-- STEP 2: QUESTIONNAIRE (Single Paginated Card Flow) -->
-      <div *ngIf="step() === 'read'" class="space-y-4 animate-fade-in">
+      <div *ngIf="step() === 'read'" class="space-y-6 animate-fade-in">
         
-        <!-- Navigation Pills/Grid -->
-        <div class="bg-[color:var(--surface-card)] rounded-[1.75rem] border border-[color:var(--border-soft)] p-4.5 shadow-sm">
-          <div class="flex flex-col sm:flex-row justify-between items-center gap-2 mb-3.5">
-            <div>
-              <h3 class="text-base sm:text-lg font-black text-[color:var(--text-primary)]">Diagnóstico Contextual</h3>
-              <p class="text-xs sm:text-sm text-[color:var(--text-soft)] mt-0.5">Analiza cada elemento de la cuenta de Ana. Responde las 12 preguntas.</p>
-            </div>
-            <span class="text-xs font-black uppercase text-emerald-700 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-full shrink-0">
-              Respondidas: {{ answeredCount() }}/12
-            </span>
-          </div>
-          
-          <div class="flex flex-wrap gap-2 justify-center">
-            <button 
-              *ngFor="let el of elements; let idx = index"
-              type="button"
-              (click)="activeElementId.set(el.id)"
-              class="h-9 w-9 rounded-xl font-bold text-xs transition-all flex items-center justify-center border cursor-pointer select-none"
-              [class.bg-[color:var(--aud)]]="activeElementId() === el.id"
-              [class.text-white]="activeElementId() === el.id"
-              [class.border-[color:var(--aud)]]="activeElementId() === el.id"
-              [class.bg-emerald-50]="activeElementId() !== el.id && readings()[el.id]"
-              [class.text-emerald-700]="activeElementId() !== el.id && readings()[el.id]"
-              [class.border-emerald-200]="activeElementId() !== el.id && readings()[el.id]"
-              [class.bg-white]="activeElementId() !== el.id && !readings()[el.id]"
-              [class.text-slate-500]="activeElementId() !== el.id && !readings()[el.id]"
-              [class.border-slate-200]="activeElementId() !== el.id && !readings()[el.id]">
-              {{ idx + 1 }}
-            </button>
-          </div>
+        <!-- Progress head and bar -->
+        <div class="progress-head">
+          <span id="progressLabel">Pregunta {{ currentElementIndex() + 1 }} de 12</span>
+          <span id="blockLabel">{{ currentElement().zone }}</span>
+        </div>
+        <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="12" [attr.aria-valuenow]="currentElementIndex()">
+          <i id="progressFill" [style.width.%]="(currentElementIndex() / 12) * 100"></i>
         </div>
 
         <!-- Single Active Question Card -->
-        <div class="question-card bg-[color:var(--surface-card)] rounded-[1.75rem] border border-[color:var(--border-soft)] p-5 sm:p-7 shadow-md">
+        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-7 shadow-md">
           
           <!-- Card Header -->
           <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3 shrink-0">
@@ -127,32 +104,32 @@
               <span translate="no" class="material-symbols-rounded text-base">help</span>
               Pregunta {{ currentElementIndex() + 1 }} de 12
             </span>
-            <span class="text-xs sm:text-sm font-black uppercase text-slate-500 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-full">
+            <span class="text-xs sm:text-sm font-black uppercase text-[color:var(--text-soft)] bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] px-2.5 py-1 rounded-full">
               {{ currentElement().zone }}
             </span>
           </div>
 
           <!-- Scrollable Card Body -->
-          <div class="question-card-body mt-4 space-y-4">
+          <div class="question-card-body mt-3 space-y-3">
             <!-- Evidence text -->
-            <div class="space-y-2">
-              <h4 class="text-base sm:text-lg font-black text-[color:var(--text-primary)]">
+            <div class="space-y-1.5">
+              <h4 class="text-sm font-black text-[color:var(--text-primary)]">
                 {{ currentElement().public_title }}
               </h4>
-              <div class="text-sm sm:text-base leading-relaxed text-[color:var(--text-soft)] bg-slate-50 border border-slate-100 p-4 rounded-2xl font-medium">
-                <strong class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Evidencia expuesta:</strong>
+              <div class="text-xs leading-relaxed text-[color:var(--text-soft)] bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-3 rounded-xl font-medium">
+                <strong class="block text-[10px] uppercase tracking-wider text-[color:var(--text-mute)] mb-0.5">Evidencia expuesta:</strong>
                 "{{ currentElement().visible_text }}"
               </div>
             </div>
 
             <!-- Prompt & Options -->
-            <div class="space-y-3.5 pt-2">
-              <p class="text-sm sm:text-base font-black text-[color:var(--text-primary)]">
+            <div class="space-y-2.5 pt-1">
+              <p class="text-xs font-bold text-[color:var(--text-primary)]">
                 {{ currentElement().prompt }}
               </p>
 
               <!-- Option buttons -->
-              <div class="opts pt-2" [attr.data-hue]="getCategoryHue(currentElement().zone)" role="radiogroup" [attr.aria-label]="currentElement().prompt">
+              <div class="opts pt-1" [attr.data-hue]="getCategoryHue(currentElement().zone)" role="radiogroup" [attr.aria-label]="currentElement().prompt">
                 <button
                   *ngFor="let opt of currentElement().options"
                   type="button"
@@ -168,11 +145,11 @@
 
             <!-- Inline expert feedback -->
             @if (readings()[currentElement().id]) {
-              <div class="rounded-2xl border border-purple-200 bg-purple-50/50 p-4 flex gap-3 shadow-sm animate-fade-in">
+              <div class="rounded-2xl border border-purple-200 dark:border-purple-900 bg-purple-50/50 dark:bg-purple-950/20 p-4 flex gap-3 shadow-sm animate-fade-in">
                 <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0 mt-0.5">tips_and_updates</span>
                 <div class="space-y-1">
-                  <strong class="block text-xs sm:text-sm font-black uppercase tracking-wider text-purple-900">Explicación técnica</strong>
-                  <p class="text-xs sm:text-sm leading-relaxed text-purple-950">
+                  <strong class="block text-xs font-black uppercase tracking-wider text-purple-900 dark:text-purple-300">Explicación técnica</strong>
+                  <p class="text-xs leading-relaxed text-purple-950 dark:text-purple-200">
                     {{ currentElement().expert_note }}
                   </p>
                 </div>
@@ -181,7 +158,7 @@
           </div>
 
           <!-- Bottom Navigation Footer -->
-          <div class="flex items-center justify-between border-t border-[color:var(--border-soft)] pt-4 mt-4 bg-[color:var(--surface-card)] shrink-0 gap-2">
+          <div class="flex items-center justify-between border-t border-[color:var(--border-soft)] pt-4 mt-4 shrink-0 gap-2">
             <button 
               type="button" 
               (click)="prevElement()"
@@ -216,6 +193,7 @@
               *ngIf="currentElementIndex() < 11 && !isAllAnswered()"
               type="button"
               (click)="nextElement()"
+              [disabled]="!readings()[currentElement().id]"
               class="btn-primary py-3 px-5 sm:py-3.5 sm:px-6 font-bold flex items-center gap-2 justify-center text-xs sm:text-sm">
               <span class="hidden xs:inline">Siguiente</span>
               <span class="xs:hidden">Sig.</span>
@@ -225,13 +203,7 @@
 
         </div>
 
-        <!-- Section controls -->
-        <div class="flex justify-start pt-2">
-          <button type="button" (click)="restart()" class="btn-secondary py-3 px-5 font-bold flex items-center gap-1.5 text-xs sm:text-sm">
-            <span translate="no" class="material-symbols-rounded text-sm">refresh</span>
-            Reiniciar auditoría
-          </button>
-        </div>
+
       </div>
 
       <!-- STEP 3: MAP (Exposición) -->
@@ -252,33 +224,37 @@
           <div class="grid gap-4 md:grid-cols-2 pt-2">
             <div 
               *ngFor="let el of elements" 
-              class="p-5 rounded-2xl border border-slate-200 bg-slate-50 space-y-3 flex flex-col justify-between">
+              class="p-5 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] space-y-3 flex flex-col justify-between">
               <div>
                 <div class="flex justify-between items-start gap-2 mb-1.5">
                   <strong class="text-xs sm:text-sm text-[color:var(--text-primary)]">{{ el.id }} · {{ el.public_title }}</strong>
                   <span 
                     class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full"
                     [class.bg-emerald-100]="el.options.find(o => o.id === readings()[el.id])?.accepted"
+                    [class.dark:bg-emerald-950/40]="el.options.find(o => o.id === readings()[el.id])?.accepted"
                     [class.text-emerald-700]="el.options.find(o => o.id === readings()[el.id])?.accepted"
+                    [class.dark:text-emerald-400]="el.options.find(o => o.id === readings()[el.id])?.accepted"
                     [class.bg-rose-100]="!el.options.find(o => o.id === readings()[el.id])?.accepted"
-                    [class.text-rose-700]="!el.options.find(o => o.id === readings()[el.id])?.accepted">
+                    [class.dark:bg-rose-950/40]="!el.options.find(o => o.id === readings()[el.id])?.accepted"
+                    [class.text-rose-700]="!el.options.find(o => o.id === readings()[el.id])?.accepted"
+                    [class.dark:text-rose-400]="!el.options.find(o => o.id === readings()[el.id])?.accepted">
                     {{ el.options.find(o => o.id === readings()[el.id])?.accepted ? 'Aceptado' : 'Incorrecto' }}
                   </span>
                 </div>
                 
                 <p class="text-xs sm:text-sm leading-relaxed text-[color:var(--text-soft)] mb-2.5">
-                  <span class="font-bold text-slate-500">Respuesta elegida:</span> 
+                  <span class="font-bold text-slate-500 dark:text-slate-400">Respuesta elegida:</span> 
                   "{{ el.options.find(o => o.id === readings()[el.id])?.text }}"
                 </p>
                 
-                <p class="text-xs sm:text-sm leading-relaxed text-[color:var(--text-primary)] italic bg-white p-3.5 rounded-2xl border border-slate-100 shadow-sm">
+                <p class="text-xs sm:text-sm leading-relaxed text-[color:var(--text-primary)] italic bg-[color:var(--surface-card)] p-3.5 rounded-2xl border border-[color:var(--border-soft)] shadow-sm">
                   <strong class="block text-[10px] uppercase tracking-wider text-[color:var(--aud)] not-italic mb-0.5">Comentario pedagógico:</strong>
                   {{ el.expert_note }}
                 </p>
               </div>
               
-              <div class="flex flex-wrap gap-1.5 mt-3 pt-2.5 border-t border-slate-200">
-                <span *ngFor="let tag of el.tags" class="text-[9px] sm:text-[10px] font-black uppercase bg-white border border-slate-200 text-slate-500 px-2.5 py-0.5 rounded-lg">
+              <div class="flex flex-wrap gap-1.5 mt-3 pt-2.5 border-t border-[color:var(--border-soft)]">
+                <span *ngFor="let tag of el.tags" class="text-[9px] sm:text-[10px] font-black uppercase bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] text-[color:var(--text-soft)] px-2.5 py-0.5 rounded-lg">
                   {{ cleanTag(tag) }}
                 </span>
               </div>
@@ -316,11 +292,11 @@
               *ngFor="let lock of locks"
               type="button"
               (click)="toggleLock(lock.id)"
-              class="flex flex-col items-start p-4.5 rounded-2xl border text-left transition-all duration-150 text-xs sm:text-sm w-full cursor-pointer bg-white"
+              class="flex flex-col items-start p-4.5 rounded-2xl border border-[color:var(--border-soft)] text-left transition-all duration-150 text-xs sm:text-sm w-full cursor-pointer bg-[color:var(--surface-card)]"
               [class.border-[color:var(--aud)]]="selectedLocks().includes(lock.id)"
               [class.bg-[color:var(--aud-cream)]]="selectedLocks().includes(lock.id)"
-              [class.border-slate-200]="!selectedLocks().includes(lock.id)"
-              [class.hover:bg-slate-50]="!selectedLocks().includes(lock.id)"
+              [class.border-[color:var(--border-soft)]]="!selectedLocks().includes(lock.id)"
+              [class.hover:bg-[color:var(--surface-soft)]]="!selectedLocks().includes(lock.id)"
               [class.opacity-60]="selectedLocks().length >= 3 && !selectedLocks().includes(lock.id)">
               
               <div class="flex items-center justify-between w-full mb-1.5">
@@ -332,10 +308,10 @@
                   {{ selectedLocks().includes(lock.id) ? 'lock' : 'lock_open' }}
                 </span>
               </div>
-              <span class="text-slate-500 leading-relaxed mb-3 flex-grow text-xs sm:text-sm">{{ lock.description }}</span>
+              <span class="text-[color:var(--text-soft)] leading-relaxed mb-3 flex-grow text-xs sm:text-sm">{{ lock.description }}</span>
               
               <div class="flex flex-wrap gap-1 mt-auto">
-                <span *ngFor="let tag of lock.covers" class="text-[9px] sm:text-[10px] font-black uppercase bg-slate-100 text-slate-500 px-2 py-0.5 rounded-lg">
+                <span *ngFor="let tag of lock.covers" class="text-[9px] sm:text-[10px] font-black uppercase bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] border border-[color:var(--border-soft)] px-2.5 py-0.5 rounded-lg">
                   Cubre: {{ cleanTag(tag) }}
                 </span>
               </div>
@@ -353,7 +329,7 @@
               [ngModel]="justification()"
               (ngModelChange)="justification.set($event)"
               placeholder="Ej: Prioricé bio, mensajes y fotos grupales porque en los mensajes directos se mostraba un contacto de acoso inminente reuniendo esos datos..."
-              class="w-full text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[color:var(--aud)] focus:border-transparent min-h-[85px] bg-slate-50 border border-slate-200 rounded-xl p-3.5"></textarea>
+              class="w-full text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[color:var(--aud)] focus:border-transparent min-h-[85px] bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] text-[color:var(--text-primary)] rounded-xl p-3.5"></textarea>
           </div>
         </div>
 
@@ -378,16 +354,25 @@
         <div 
           class="rounded-[1.9rem] border p-5 sm:p-8 shadow-[var(--shadow-lg)] space-y-5"
           [class.border-emerald-200]="feedbackBand().min >= 10"
+          [class.dark:border-emerald-900]="feedbackBand().min >= 10"
           [class.bg-emerald-50]="feedbackBand().min >= 10"
+          [class.dark:bg-emerald-950/20]="feedbackBand().min >= 10"
           [class.border-amber-200]="feedbackBand().min >= 6 && feedbackBand().min <= 9"
+          [class.dark:border-amber-900]="feedbackBand().min >= 6 && feedbackBand().min <= 9"
           [class.bg-amber-50]="feedbackBand().min >= 6 && feedbackBand().min <= 9"
+          [class.dark:bg-amber-950/20]="feedbackBand().min >= 6 && feedbackBand().min <= 9"
           [class.border-rose-200]="feedbackBand().min <= 5"
-          [class.bg-rose-50]="feedbackBand().min <= 5">
+          [class.dark:border-rose-900]="feedbackBand().min <= 5"
+          [class.bg-rose-50]="feedbackBand().min <= 5"
+          [class.dark:bg-rose-950/20]="feedbackBand().min <= 5">
           
           <p class="text-xs font-black uppercase tracking-[0.18em]"
              [class.text-emerald-700]="feedbackBand().min >= 10"
+             [class.dark:text-emerald-400]="feedbackBand().min >= 10"
              [class.text-amber-700]="feedbackBand().min >= 6 && feedbackBand().min <= 9"
-             [class.text-rose-700]="feedbackBand().min <= 5">
+             [class.dark:text-amber-400]="feedbackBand().min >= 6 && feedbackBand().min <= 9"
+             [class.text-rose-700]="feedbackBand().min <= 5"
+             [class.dark:text-rose-400]="feedbackBand().min <= 5">
             Plan de Privacidad Generado
           </p>
           
@@ -402,7 +387,7 @@
           <div class="grid gap-4 sm:grid-cols-2 pt-2 print:grid-cols-2">
             
             <!-- Chosen locks -->
-            <div class="rounded-xl bg-white border border-slate-200 p-4 shadow-sm">
+            <div class="rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-4 shadow-sm">
               <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-[color:var(--aud)] mb-2 flex items-center gap-1.5">
                 <span translate="no" class="material-symbols-rounded text-sm">lock</span>
                 Ajustes Prioritarios
@@ -415,24 +400,24 @@
             </div>
 
             <!-- Coverage achieved -->
-            <div class="rounded-xl bg-white border border-slate-200 p-4 shadow-sm">
-              <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-700 mb-2 flex items-center gap-1.5">
+            <div class="rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-4 shadow-sm">
+              <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2 flex items-center gap-1.5">
                 <span translate="no" class="material-symbols-rounded text-sm">shield</span>
                 Datos Protegidos
               </h4>
               <div class="flex flex-wrap gap-1.5">
-                <span *ngFor="let tag of lockCoverage()" class="text-[9px] sm:text-[10px] font-black uppercase bg-emerald-50 text-emerald-700 border border-emerald-100 px-2.5 py-0.5 rounded-lg">
+                <span *ngFor="let tag of lockCoverage()" class="text-[9px] sm:text-[10px] font-black uppercase bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/50 px-2.5 py-0.5 rounded-lg">
                   {{ cleanTag(tag) }}
                 </span>
-                <span *ngIf="lockCoverage().size === 0" class="text-xs sm:text-sm text-slate-400 italic">Ninguna cobertura registrada</span>
+                <span *ngIf="lockCoverage().size === 0" class="text-xs sm:text-sm text-slate-400 dark:text-slate-500 italic">Ninguna cobertura registrada</span>
               </div>
             </div>
 
           </div>
 
           <!-- Risks left uncovered -->
-          <div *ngIf="criticalMissing().length > 0" class="rounded-xl bg-white border border-slate-200 p-4 shadow-sm">
-            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-rose-700 mb-2 flex items-center gap-1.5">
+          <div *ngIf="criticalMissing().length > 0" class="rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-4 shadow-sm">
+            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-rose-700 dark:text-rose-400 mb-2 flex items-center gap-1.5">
               <span translate="no" class="material-symbols-rounded text-sm">warning</span>
               Vulnerabilidades Pendientes (Huecos)
             </h4>
@@ -440,15 +425,15 @@
               Al activar solo 3 candados, quedaron expuestas estas categorías críticas:
             </p>
             <div class="flex flex-wrap gap-1.5">
-              <span *ngFor="let tag of criticalMissing()" class="text-[9px] sm:text-[10px] font-black uppercase bg-rose-50 text-rose-700 border border-rose-100 px-2.5 py-0.5 rounded-lg">
+              <span *ngFor="let tag of criticalMissing()" class="text-[9px] sm:text-[10px] font-black uppercase bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-100 dark:border-rose-900/50 px-2.5 py-0.5 rounded-lg">
                 {{ cleanTag(tag) }}
               </span>
             </div>
           </div>
 
           <!-- Justification review -->
-          <div class="rounded-xl bg-white border border-slate-200 p-4 shadow-sm">
-            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-1.5">
+          <div class="rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-4 shadow-sm">
+            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
               <span translate="no" class="material-symbols-rounded text-sm">rate_review</span>
               Tu Fundamentación
             </h4>
