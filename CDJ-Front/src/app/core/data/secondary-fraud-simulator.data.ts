@@ -1,552 +1,259 @@
-export type SimulatorChoiceType = 'good' | 'warn' | 'bad';
-export type SimulatorChatRole = 'system' | 'other' | 'me';
-
-export interface SimulatorMetadata {
-  project: string;
-  productId: string;
-  version: string;
-  audience: string;
-  subsegment: string;
-  dimension: string;
-  publicAxis: string;
-  format: string;
-  estimatedDuration: string;
-}
-
-export interface SimulatorStatRow {
+export interface FraudCase {
+  id: string;
+  name: string;
   icon: string;
-  title: string;
-  subtitle: string;
-}
-
-export interface SimulatorCaseStats {
-  headerTag: string;
-  title: string;
-  bigStat: {
-    value: string;
-    label: string;
+  grad: string;
+  contact: {
+    name: string;
+    avatar: string;
+    avGrad: string;
   };
-  rows: SimulatorStatRow[];
-  source: string;
+  intro: { t: string; link?: boolean }[];
+  turns: {
+    options: {
+      txt: string;
+      level: 'safe' | 'careful' | 'risky' | 'danger';
+      reply: { t: string; link?: boolean }[];
+      alert: {
+        type: 'safe' | 'warn' | 'danger';
+        title: string;
+        text: string;
+      };
+    }[];
+  }[];
+  finalTip: string;
 }
 
-export interface SimulatorChatMessage {
-  role: SimulatorChatRole;
-  text: string;
-  time?: string;
-  tone?: 'alert';
-}
-
-export interface SimulatorChoice {
-  title: string;
-  safe: number;
-  risk: number;
-  type: SimulatorChoiceType;
-  feedback: string;
-}
-
-export interface SimulatorStep {
-  avatar: 'brand-app' | 'brand-shipping' | 'brand-gov' | 'me';
-  name: string;
-  verified: boolean;
-  status: string;
-  time: string;
-  question: string;
-  text: string;
-  hint: string;
-  chat: SimulatorChatMessage[];
-  choices: SimulatorChoice[];
-}
-
-export interface SimulatorCase {
-  id: number;
-  name: string;
-  description: string;
-  difficulty: string;
-  difficultyClass: 'd1' | 'd2' | 'd3';
-  successText: string;
-  failText: string;
-  stats: SimulatorCaseStats;
-  steps: SimulatorStep[];
-}
-
-export interface SecondaryFraudSimulatorData {
-  metadata: SimulatorMetadata;
-  cases: SimulatorCase[];
-}
-
-export const SECONDARY_FRAUD_SIMULATOR_DATA: SecondaryFraudSimulatorData = {
-  metadata: {
-    project: 'Ciudadanía Digital Jalisco',
-    productId: 'CDJ-154',
-    version: 'v6_3casos',
-    audience: 'Estudiantes',
-    subsegment: 'Secundaria',
-    dimension: 'D2',
-    publicAxis: 'Privacidad y seguridad',
-    format: 'Simulador ramificado de decisiones',
-    estimatedDuration: '8 a 12 min',
+export const SECONDARY_FRAUD_SIMULATOR_DATA: FraudCase[] = [
+  {
+    id: "premio", name: "Premio inesperado", icon: "🎁", grad: "linear-gradient(145deg,#a855f7,#7c3aed)",
+    contact: { name: "¡Felicidades! 🎉", avatar: "🎁", avGrad: "linear-gradient(145deg,#f472b6,#a855f7)" },
+    intro: [
+      { t: "¡Hola! 👋" },
+      { t: "Has sido seleccionado como GANADOR de un iPhone 15 😍" },
+      { t: "Para recibir tu premio solo llena tus datos en este enlace:" },
+      { t: "www.ganaste-premio-gratis.com", link: true }
+    ],
+    turns: [
+      { options: [
+        { txt: "¡Wow! ¿En serio? 😮", level: "careful",
+          reply: [{ t: "¡Claro que sí! Eres muy afortunado 🍀 date prisa, es por tiempo limitado ⏰" }],
+          alert: { type: "warn", title: "Ojo con la prisa", text: "\"Por tiempo limitado\" y \"date prisa\" sirven para que no pienses. Un premio real no te apura." } },
+        { txt: "Yo nunca me inscribí a ningún sorteo 🤔", level: "safe",
+          reply: [{ t: "Fuiste elegido al azar por tu número 😎 ¡aprovecha antes de que se lo den a otro!" }],
+          alert: { type: "safe", title: "¡Bien pensado!", text: "No puedes ganar un sorteo en el que nunca participaste. Esa pregunta desarma casi cualquier estafa de premios." } },
+        { txt: "Va, le doy clic al enlace 👆", level: "danger",
+          reply: [{ t: "¡Perfecto! Solo pon tu nombre, dirección y los datos de la tarjeta para el envío 💳" }],
+          alert: { type: "danger", title: "¡Alto! No abras el enlace", text: "Los enlaces de desconocidos pueden robar tus datos o meter virus a tu teléfono. Nunca des clic si no sabes quién lo manda." } }
+      ]},
+      { options: [
+        { txt: "¿Cómo consiguieron mi número?", level: "safe",
+          reply: [{ t: "Eh… el sistema lo eligió 🤖 ya no preguntes tanto y mete tus datos 😅" }],
+          alert: { type: "safe", title: "Pregunta incómoda = buena señal", text: "Cuando pides explicaciones, los estafadores se molestan o se contradicen. La gente honesta no." } },
+        { txt: "Te paso mi nombre y dirección 🏠", level: "danger",
+          reply: [{ t: "Genial ✍️ ahora los 16 dígitos de tu tarjeta para pagar el \"envío\" 💳" }],
+          alert: { type: "danger", title: "Datos personales en riesgo", text: "Tu nombre, dirección o escuela no se comparten con desconocidos. Con eso pueden hacerte daño o engañar a tu familia." } },
+        { txt: "Esto es una estafa, no caigo 🚫", level: "safe",
+          reply: [{ t: "😡 te lo pierdes, era de verdad" }],
+          alert: { type: "safe", title: "¡Lo descubriste!", text: "Detectaste el fraude. Lo mejor ahora: no responder más, bloquear el contacto y contarle a un adulto." } }
+      ]},
+      { options: [
+        { txt: "Voy a contarle a mi mamá o papá 👨‍👩‍👧", level: "safe",
+          reply: [{ t: "No no, mejor no le digas a nadie, es entre tú y yo 🤫" }],
+          alert: { type: "safe", title: "Avisar a un adulto: lo correcto", text: "Hablar con un adulto de confianza es tu mejor escudo. Y si alguien te pide \"no decirle a nadie\", eso es una alarma enorme." } },
+        { txt: "Pago el envío para que llegue rápido 💳", level: "danger",
+          reply: [{ t: "Listo, en 24h llega tu iPhone 📦 (spoiler: nunca llega)" }],
+          alert: { type: "danger", title: "Un premio nunca se paga", text: "Si para recibir un \"premio gratis\" te piden pagar algo, es 100% estafa. Lo gratis no cuesta." } },
+        { txt: "Bloquear y reportar 🚷", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Cierre perfecto", text: "Bloquear y reportar corta el contacto y avisa a la app. Hiciste lo más seguro." } }
+      ]}
+    ],
+    finalTip: "Un premio que no pediste, con prisa y que te pide datos o dinero, siempre es un fraude."
   },
-  cases: [
-    {
-      id: 1,
-      name: 'La promoción inesperada',
-      description: 'Un mensaje te ofrece algo demasiado bueno',
-      difficulty: 'Fácil',
-      difficultyClass: 'd1',
-      successText: '¡Bien! Detectaste el patrón clásico del "premio sin haber participado".',
-      failText: 'Caíste en el patrón clásico: prometen algo gratis y piden datos a cambio.',
-      stats: {
-        headerTag: 'Caso 1 · Promoción inesperada',
-        title: '¿Qué tan común es este fraude?',
-        bigStat: {
-          value: '34%',
-          label: 'de los mexicanos recibió mensajes sospechosos pidiendo datos',
-        },
-        rows: [
-          {
-            icon: '📱',
-            title: '8 de cada 10 fraudes',
-            subtitle: 'empiezan con un mensaje de "premio" o "promoción"',
-          },
-          {
-            icon: '👥',
-            title: 'Edad más afectada: 18-34 años',
-            subtitle: 'Los jóvenes son el grupo principal en redes',
-          },
-          {
-            icon: '🔗',
-            title: 'Ligas falsas',
-            subtitle: 'Suplantan marcas conocidas para robar contraseñas',
-          },
-        ],
-        source: 'Fuente: The CIU · Análisis sobre Phishing en México 2025',
-      },
-      steps: [
-        {
-          avatar: 'brand-app',
-          name: 'WhatzApp Plus',
-          verified: true,
-          status: 'mensaje oficial',
-          time: '15:42',
-          question: '¿Qué haces con el mensaje?',
-          text: 'Recibes un WhatsApp de un número con check azul. Dice que ganaste por ser usuario "premium".',
-          hint: 'WhatsApp NO regala dinero ni iPhones por usar la app. El check azul también puede ser una imagen falsa pegada en el avatar.',
-          chat: [
-            { role: 'system', text: 'Hoy · 15:42' },
-            { role: 'other', text: '🎉 ¡FELICIDADES! Has sido seleccionado como usuario PREMIUM', time: '15:42' },
-            { role: 'other', text: 'Por usar WhatsApp >5 años, ganaste un iPhone 16 Pro Max + $5,000 USD', time: '15:42' },
-            { role: 'other', text: 'Solo confirma tu identidad aquí 👇', time: '15:43' },
-            { role: 'other', text: 'https://whatsapp-premios2025.online/claim', time: '15:43', tone: 'alert' },
-          ],
-          choices: [
-            {
-              title: 'Borrar y bloquear el número',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: 'Excelente. La regla de oro: si no entraste a un sorteo, no hay premio. Bloquear es la respuesta correcta.',
-            },
-            {
-              title: 'Entrar a la liga para reclamar el premio',
-              safe: 0,
-              risk: 5,
-              type: 'bad',
-              feedback: 'Cayó. WhatsApp jamás regala dinero. La liga termina pidiendo datos bancarios "para enviar el premio".',
-            },
-            {
-              title: 'Reenviarlo a 5 amigos como pide otro mensaje',
-              safe: 0,
-              risk: 3,
-              type: 'bad',
-              feedback: 'Mala idea. Multiplicar el fraude pone en riesgo a tus amigos. Y nunca llegará premio.',
-            },
-          ],
-        },
-        {
-          avatar: 'brand-app',
-          name: '+57 312 8843201',
-          verified: false,
-          status: 'insistiendo',
-          time: '15:48',
-          question: '¿Qué haces ahora?',
-          text: 'Vuelve a llegar otro mensaje del MISMO contacto, esta vez con tu nombre completo.',
-          hint: 'Que sepa tu nombre no significa que sea oficial. Tu nombre puede sacarse de redes sociales públicas.',
-          chat: [
-            { role: 'other', text: 'Hola Diego, ¿no viste el mensaje? Solo quedan 2 hrs', time: '15:48', tone: 'alert' },
-            { role: 'other', text: 'Eres el usuario #847 seleccionado de Jalisco', time: '15:48', tone: 'alert' },
-            { role: 'other', text: 'Si no contestas, pasa al siguiente 😢', time: '15:49', tone: 'alert' },
-          ],
-          choices: [
-            {
-              title: 'Bloquear inmediatamente sin responder',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: 'Perfecto. No respondas para no validar tu número. Bloquea y reporta como spam en WhatsApp.',
-            },
-            {
-              title: 'Responder solo "¿quién eres?"',
-              safe: 1,
-              risk: 3,
-              type: 'warn',
-              feedback: 'Mala señal: al responder ya saben que tu número está activo. Te van a meter en más listas de spam y fraude.',
-            },
-            {
-              title: 'Tomar captura para enseñarle a alguien',
-              safe: 4,
-              risk: 0,
-              type: 'good',
-              feedback: 'Muy buena. La captura sirve si quieres reportar al 088 o avisar a tu familia. Después bloquea sin contestar.',
-            },
-          ],
-        },
-        {
-          avatar: 'me',
-          name: 'Tu cierre',
-          verified: false,
-          status: 'protegiendo a otros',
-          time: '15:55',
-          question: '¿Qué haces para proteger a más gente?',
-          text: 'Bloqueaste el contacto. Ahora piensa en tus amigos que también pueden recibir este mensaje.',
-          hint: 'Reportar es ciudadanía digital activa. Un reporte tuyo puede frenar miles de mensajes a otros.',
-          chat: [
-            { role: 'system', text: 'Bloqueaste el número 🚫' },
-            { role: 'system', text: 'Pero el mismo grupo manda miles de mensajes diarios' },
-          ],
-          choices: [
-            {
-              title: 'Solo decirle a un amigo cercano',
-              safe: 3,
-              risk: 0,
-              type: 'warn',
-              feedback: 'Bien, pero es solo una persona. Un reporte oficial al 088 puede frenar a cientos. Tarda 2 minutos.',
-            },
-            {
-              title: 'Reportar al 088 + WhatsApp + avisar al grupo familiar',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: '¡Eso es! 088 es Guardia Nacional. WhatsApp también permite reportar números. Y avisar a tu familia evita que tu mamá o abuela caigan.',
-            },
-            {
-              title: 'No hacer nada más, ya bloqueaste',
-              safe: 1,
-              risk: 1,
-              type: 'warn',
-              feedback: 'Bloquear te protege a ti, pero el estafador sigue libre. Reportar al 088 toma poco y ayuda a muchos.',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: 'El paquete pendiente',
-      description: 'Un aviso te pide resolver un supuesto envío',
-      difficulty: 'Medio',
-      difficultyClass: 'd2',
-      successText: '¡Bien! Reconociste el "cargo de cinco pesitos" como anzuelo para clonar tarjeta.',
-      failText: 'Te enganchó la promesa de "solo cinco pesos". Es la trampa más usada en 2025 en México.',
-      stats: {
-        headerTag: 'Caso 2 · Paquete pendiente',
-        title: 'El fraude de los "5 pesitos"',
-        bigStat: {
-          value: '$2,700',
-          label: 'es el cargo promedio que aparece después del cobro mínimo',
-        },
-        rows: [
-          {
-            icon: '📦',
-            title: 'Suplantan Estafeta, FedEx, DHL',
-            subtitle: 'Diseños idénticos al sitio oficial',
-          },
-          {
-            icon: '💳',
-            title: 'Pides "5 pesos de envío"',
-            subtitle: 'Y luego cobran cientos o miles',
-          },
-          {
-            icon: '⚖️',
-            title: 'Banco no reembolsa',
-            subtitle: 'Marca la operación como "autorizada por ti"',
-          },
-        ],
-        source: 'Fuente: El Sol de Sinaloa · CONDUSEF · Casos reportados 2025',
-      },
-      steps: [
-        {
-          avatar: 'brand-shipping',
-          name: 'Estaf3ta MX',
-          verified: true,
-          status: 'sistema automático',
-          time: '09:15',
-          question: '¿Qué haces con el mensaje?',
-          text: 'Te llega un SMS que parece de paquetería. Sí estás esperando un paquete que pediste hace 3 días.',
-          hint: 'Las paqueterías reales nunca te cobran "ajustes" por SMS. El cobro va siempre a quien envió o al destinatario al recibir.',
-          chat: [
-            { role: 'system', text: 'SMS · 09:15' },
-            { role: 'other', text: '📦 Estafeta: Su paquete EST-7783410MX está retenido', time: '09:15' },
-            { role: 'other', text: 'Falta ajuste de envío de $5.00. Sin este pago será devuelto', time: '09:16', tone: 'alert' },
-            { role: 'other', text: 'Paga aquí: https://estafeta-rastreo.com/pago', time: '09:16', tone: 'alert' },
-          ],
-          choices: [
-            {
-              title: 'Entrar a la liga para "ver el rastreo"',
-              safe: 0,
-              risk: 4,
-              type: 'bad',
-              feedback: 'Mala idea. Solo abrir la liga puede instalar código en tu cel o pedir login con tu cuenta de Google.',
-            },
-            {
-              title: 'Ir al sitio oficial estafeta.com a rastrear con tu guía',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: 'Excelente. Si tienes guía, el sitio oficial te dirá la verdad. Si no aparece, era trampa.',
-            },
-            {
-              title: 'Pagar los $5, total no es nada',
-              safe: 0,
-              risk: 5,
-              type: 'bad',
-              feedback: 'Cayó. El "ajuste de $5" es para clonar tu tarjeta. En segundos cobran cientos o miles más. Ningún paquete se "devuelve" por $5.',
-            },
-          ],
-        },
-        {
-          avatar: 'brand-shipping',
-          name: 'Estaf3ta MX',
-          verified: false,
-          status: 'siguiente intento',
-          time: '10:22',
-          question: '¿Qué haces?',
-          text: 'Verificaste en estafeta.com. Tu paquete real va en camino y NO requiere pagos extra. Pero llega otro SMS más insistente.',
-          hint: 'Cuando confirmas que algo es fraude, el siguiente mensaje del mismo origen es más fraude.',
-          chat: [
-            { role: 'other', text: '📦 ÚLTIMO AVISO: Su paquete será destruido en 6 hrs', time: '10:22', tone: 'alert' },
-            { role: 'other', text: 'Para evitar pérdida, pague AHORA: https://estafeta-recover.online', time: '10:22', tone: 'alert' },
-            { role: 'other', text: 'Si no paga, no podrá reclamar reembolso al vendedor', time: '10:23', tone: 'alert' },
-          ],
-          choices: [
-            {
-              title: 'Capturar evidencia, bloquear y reportar al 088',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: 'Perfecto. La evidencia ayuda a la Guardia Nacional a rastrear el grupo. Bloquear evita más mensajes.',
-            },
-            {
-              title: 'Pagar para no perder el paquete real',
-              safe: 0,
-              risk: 5,
-              type: 'bad',
-              feedback: 'Trampa de duda. Tu paquete REAL ya viene en camino, lo confirmaste. Estos mensajes son de otro origen pretendiendo ser de Estafeta.',
-            },
-            {
-              title: 'Bloquear y borrar todos los mensajes',
-              safe: 4,
-              risk: 1,
-              type: 'warn',
-              feedback: 'Bloqueas, pero pierdes la evidencia. Mejor toma captura antes para reportar.',
-            },
-          ],
-        },
-        {
-          avatar: 'me',
-          name: 'Tu cierre',
-          verified: false,
-          status: 'protección activa',
-          time: '10:30',
-          question: '¿Qué le dices a tu mamá que está esperando otro paquete?',
-          text: 'Recuerdas que tu mamá pidió algo por internet. Le quieres avisar para que no caiga.',
-          hint: 'La mejor forma de proteger a otros es darles una regla simple, no un susto.',
-          chat: [
-            { role: 'system', text: 'Tu mamá también espera un paquete 📦' },
-            { role: 'system', text: '¿Cómo le explicas la regla?' },
-          ],
-          choices: [
-            {
-              title: 'Mostrarle solo el SMS para que vea',
-              safe: 3,
-              risk: 1,
-              type: 'warn',
-              feedback: 'Ayuda, pero sin la regla puede confundirse cuando reciba uno diferente. Dale el principio, no solo el ejemplo.',
-            },
-            {
-              title: '"Nunca pagues por SMS o WhatsApp. Solo desde la app o sitio oficial."',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: 'Excelente. Una regla simple y memorable es más útil que asustarla. Las paqueterías reales solo cobran al inicio o al recibir.',
-            },
-            {
-              title: 'Decirle "no abras nada que llegue"',
-              safe: 1,
-              risk: 1,
-              type: 'warn',
-              feedback: 'Demasiado vago. Necesita saber distinguir entre lo real (app oficial) y lo falso (SMS con liga).',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      id: 3,
-      name: 'Actualización urgente',
-      description: 'Te piden confirmar datos para no perder un apoyo',
-      difficulty: 'Difícil',
-      difficultyClass: 'd3',
-      successText: '¡Bien! Detectaste la suplantación oficial sin caer en la presión.',
-      failText: 'La presión por "perder la beca" te empujó a entregar datos. Es la trampa real más reportada en 2025.',
-      stats: {
-        headerTag: 'Caso 3 · Actualización urgente',
-        title: 'Suplantación de apoyos: alerta',
-        bigStat: {
-          value: '12 instituciones',
-          label: 'fueron suplantadas oficialmente solo en julio de 2025',
-        },
-        rows: [
-          {
-            icon: '🏛️',
-            title: 'Becas Bienestar nunca usa WhatsApp',
-            subtitle: 'Solo gob.mx/becasbenitojuarez',
-          },
-          {
-            icon: '🎓',
-            title: 'Estudiantes 12-18 años',
-            subtitle: 'Son el blanco principal de este fraude',
-          },
-          {
-            icon: '📋',
-            title: 'CURP + INE + tarjeta',
-            subtitle: '= robo de identidad y créditos a tu nombre',
-          },
-          {
-            icon: '💰',
-            title: '$8,750 pesos promedio',
-            subtitle: 'es lo que pierde cada víctima',
-          },
-        ],
-        source: 'Fuente: CONDUSEF · Coordinación Nacional de Becas Bienestar 2025',
-      },
-      steps: [
-        {
-          avatar: 'brand-gov',
-          name: 'Becas Bienestar Oficial',
-          verified: true,
-          status: 'comunicado urgente',
-          time: '08:30',
-          question: '¿Qué haces con el mensaje?',
-          text: 'Recibes un WhatsApp con escudo nacional. Tú SÍ tienes Beca Benito Juárez. Y el mensaje habla de cosas reales como "tu plantel" y "monto bimestral".',
-          hint: 'Que mencione datos reales (plantel, monto) no significa que sea oficial. Esa información se filtra de bases de datos hackeadas.',
-          chat: [
-            { role: 'system', text: 'Hoy · 8:30 a.m.' },
-            { role: 'other', text: 'GOBIERNO DE MÉXICO 🇲🇽', time: '8:30' },
-            { role: 'other', text: 'Estimado(a) becario(a): Detectamos inconsistencia en tu plantel registrado', time: '8:30' },
-            { role: 'other', text: 'Para mantener tu apoyo bimestral de $1,900 debes validar tus datos en 24 hrs', time: '8:31', tone: 'alert' },
-            { role: 'other', text: 'Acceso oficial: https://gob-mx-becas.com/validar', time: '8:31', tone: 'alert' },
-          ],
-          choices: [
-            {
-              title: 'Preguntarle a tu maestro de tutoría primero',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: 'Excelente. Tu escuela tiene el contacto real con la Coordinación. Ningún maestro te dirá que es por WhatsApp.',
-            },
-            {
-              title: 'Entrar al link, dice "gob-mx-becas.com"',
-              safe: 0,
-              risk: 5,
-              type: 'bad',
-              feedback: 'Trampa. El sitio OFICIAL es gob.mx (con punto, no guion). "gob-mx-becas.com" es totalmente falso aunque suene parecido.',
-            },
-            {
-              title: 'Buscar en Google "becas Benito Juárez gob.mx" e ir tú',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: '¡Perfecto! Este es el filtro maestro. NUNCA uses ligas que llegan; busca tú el sitio oficial. El real no pide validar datos por WhatsApp.',
-            },
-          ],
-        },
-        {
-          avatar: 'brand-gov',
-          name: 'Becas Bienestar Oficial',
-          verified: false,
-          status: 'segundo intento',
-          time: '13:45',
-          question: '¿Qué haces?',
-          text: 'Verificaste en gob.mx oficial. No hay tal "validación". Pero llega otro mensaje con el nombre de tu escuela real.',
-          hint: 'Cuando un fraude usa información personal correcta, es porque ya tiene tus datos parciales. No te asustes: significa que necesitan más datos para completar el robo.',
-          chat: [
-            { role: 'other', text: 'Becario de Sec. 38 "Ramón López Velarde": último aviso', time: '13:45', tone: 'alert' },
-            { role: 'other', text: 'Tu beca será cancelada hoy 6 pm si no validas', time: '13:45', tone: 'alert' },
-            { role: 'other', text: 'Solo necesitamos: CURP, foto INE y los 16 dígitos de tu tarjeta para depósito', time: '13:46', tone: 'alert' },
-          ],
-          choices: [
-            {
-              title: 'Mandar la info, no quieres perder $1,900 al bimestre',
-              safe: 0,
-              risk: 5,
-              type: 'bad',
-              feedback: 'Cayó la trampa. CURP + INE + 16 dígitos = robo de identidad completo. Pueden vaciar tu tarjeta Y abrir créditos a tu nombre.',
-            },
-            {
-              title: 'Reportar al 088 con captura y bloquear',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: '¡Excelente! El 088 (Guardia Nacional) tiene unidad cibernética. Cada reporte ayuda a desmantelar la red.',
-            },
-            {
-              title: 'Capturar evidencia y bloquear sin responder',
-              safe: 4,
-              risk: 0,
-              type: 'good',
-              feedback: 'Bien. Sin respuesta no validan tu número. La captura sirve para denunciar.',
-            },
-          ],
-        },
-        {
-          avatar: 'me',
-          name: 'Conversación con tu mamá',
-          verified: false,
-          status: 'compartiendo el aprendizaje',
-          time: '19:00',
-          question: '¿Cómo le explicas la regla a tu mamá?',
-          text: 'Tu mamá tampoco sabía. Te pregunta cómo distinguir un mensaje real del gobierno.',
-          hint: 'La regla más simple: gobierno y banca real NUNCA usan WhatsApp para pedir datos. Punto.',
-          chat: [
-            { role: 'me', text: 'Mamá, hay un fraude muy común con becas falsas', time: '19:00' },
-            { role: 'system', text: 'Tu mamá: "¿Y cómo sé si es real?"' },
-          ],
-          choices: [
-            {
-              title: '"Pregúntame cuando recibas algo así"',
-              safe: 3,
-              risk: 1,
-              type: 'warn',
-              feedback: 'Bien, pero no siempre estarás. Mejor enséñale la regla para que sea autónoma.',
-            },
-            {
-              title: '"Si te llega por WhatsApp y pide datos, NO es del gobierno"',
-              safe: 5,
-              risk: 0,
-              type: 'good',
-              feedback: '¡Esa es! Es la regla más útil. Gobierno y banca usan SMS o app oficial, nunca WhatsApp para pedir datos sensibles.',
-            },
-            {
-              title: '"Verifica en Google que el dominio termine en .gob.mx"',
-              safe: 4,
-              risk: 0,
-              type: 'good',
-              feedback: 'Buena, pero algo técnica. Combínala con "no des datos por WhatsApp aunque parezca oficial".',
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+
+  {
+    id: "cuenta", name: "Cuenta suspendida", icon: "⚠️", grad: "linear-gradient(145deg,#f59e0b,#ea580c)",
+    contact: { name: "Soporte de Seguridad", avatar: "⚠️", avGrad: "linear-gradient(145deg,#fbbf24,#ea580c)" },
+    intro: [
+      { t: "⚠️ AVISO IMPORTANTE" },
+      { t: "Detectamos un acceso extraño a tu cuenta. Será BLOQUEADA en 1 hora ⏳" },
+      { t: "Para evitarlo, verifica tu identidad aquí:" },
+      { t: "www.verifica-tu-cuenta-ahora.net", link: true }
+    ],
+    turns: [
+      { options: [
+        { txt: "¡No! ¿Qué hago? 😰 dime rápido", level: "risky",
+          reply: [{ t: "Tranquilo, solo escribe aquí tu usuario y contraseña para protegerte 🔐" }],
+          alert: { type: "warn", title: "El miedo es el anzuelo", text: "Te asustan para que actúes sin pensar. Respira: una cuenta no se bloquea por un mensaje así." } },
+        { txt: "¿De qué cuenta hablas exactamente?", level: "safe",
+          reply: [{ t: "De… tu cuenta principal 😅 entra al enlace y verifica ya" }],
+          alert: { type: "safe", title: "Pides detalles, no caes", text: "Una empresa real sabe de qué cuenta habla y te llama por tu nombre. La vaguedad delata al estafador." } },
+        { txt: "Le doy clic para arreglarlo 👆", level: "danger",
+          reply: [{ t: "Bien. Inicia sesión con tu correo y contraseña en la página 🔓" }],
+          alert: { type: "danger", title: "No entres por ese enlace", text: "Es una página falsa que copia el diseño real para robar tu contraseña. Esto se llama phishing." } }
+      ]},
+      { options: [
+        { txt: "Aquí tienes mi contraseña: ...", level: "danger",
+          reply: [{ t: "¡Recibido! Ya tenemos el control de tu cuenta 😈" }],
+          alert: { type: "danger", title: "Nunca compartas contraseñas", text: "Ningún soporte real te pide tu contraseña. Jamás se escribe en un chat ni en un enlace que te mandaron." } },
+        { txt: "Voy a entrar yo mismo a la app oficial", level: "safe",
+          reply: [{ t: "No, hazlo desde mi enlace, es más rápido ⚡" }],
+          alert: { type: "safe", title: "Entrar por tu cuenta = seguro", text: "Si dudas, abre tú mismo la app o el sitio oficial escribiéndolo tú. Nunca uses el enlace que te enviaron." } },
+        { txt: "Voy a llamar al número oficial para confirmar 📞", level: "safe",
+          reply: [{ t: "No hace falta llamar, confía en mí 🙏" }],
+          alert: { type: "safe", title: "Verificar por otro canal", text: "Confirmar por el número oficial (no el que te dan) es la forma más segura de saber si un aviso es real." } }
+      ]},
+      { options: [
+        { txt: "Le aviso a un adulto y reporto el mensaje 🛡️", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Decisión de experto", text: "Avisar a un adulto y reportar es lo mejor. Acabas de bloquear un intento de robo de cuenta." } },
+        { txt: "Mejor mando mi correo y teléfono", level: "risky",
+          reply: [{ t: "Perfecto, con eso seguimos 😏" }],
+          alert: { type: "warn", title: "Cada dato suma para ellos", text: "Aunque parezca poco, tu correo y teléfono ayudan al estafador a engañarte mejor después. No los entregues." } },
+        { txt: "Bloquear y seguir con mi día 🚫", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Cierre limpio", text: "Ignorar, bloquear y no responder es totalmente válido. No le debes explicaciones a un estafador." } }
+      ]}
+    ],
+    finalTip: "Nadie de \"soporte\" real te pide tu contraseña ni te apura con bloqueos. Verifica siempre por el sitio oficial."
+  },
+
+  {
+    id: "amor", name: "Amistad falsa", icon: "💛", grad: "linear-gradient(145deg,#fb7185,#e11d48)",
+    contact: { name: "Alex_nuevo", avatar: "🙂", avGrad: "linear-gradient(145deg,#fb7185,#be185d)" },
+    intro: [
+      { t: "Hola 😊 vi tu perfil y pareces súper buena onda" },
+      { t: "Tengo tu misma edad, también me gustan los videojuegos 🎮" },
+      { t: "¿Podemos ser amigos y platicar solo tú y yo? 😄" }
+    ],
+    turns: [
+      { options: [
+        { txt: "¡Claro! ¿Tú quién eres? ¿Te conozco?", level: "safe",
+          reply: [{ t: "Eh… soy nuevo en la escuela 😅 mejor no preguntes y platicamos" }],
+          alert: { type: "safe", title: "Verificar quién es: correcto", text: "En internet cualquiera puede decir que tiene tu edad. Está bien preguntar y desconfiar si las respuestas son raras." } },
+        { txt: "Ok, pero ¿por qué solo tú y yo en secreto?", level: "safe",
+          reply: [{ t: "Porque los demás no entienden lo nuestro 🤫 será nuestro secreto" }],
+          alert: { type: "danger", title: "Señal de alarma: el secreto", text: "Cuando alguien pide que sea \"un secreto\" y que no le digas a tus papás, es una de las señales más peligrosas. Cuéntale a un adulto." } },
+        { txt: "Sí, eres mi mejor amigo ya 🥰", level: "risky",
+          reply: [{ t: "¡Yo igual! Oye… ¿me pasas una foto tuya? 📸" }],
+          alert: { type: "warn", title: "Confianza demasiado rápido", text: "Alguien que te quiere muchísimo en minutos puede estar fingiendo para ganarse tu confianza. Ve con calma." } }
+      ]},
+      { options: [
+        { txt: "Te paso una foto 📸", level: "danger",
+          reply: [{ t: "Qué linda 😍 ¿y dónde vives? ¿a qué escuela vas?" }],
+          alert: { type: "danger", title: "No envíes fotos tuyas", text: "Nunca mandes fotos a alguien que no conoces en persona. No sabes a dónde llegan ni qué harán con ellas." } },
+        { txt: "No mando fotos ni doy mi escuela 🚫", level: "safe",
+          reply: [{ t: "Ándale, no seas así 😢 si somos amigos…" }],
+          alert: { type: "safe", title: "Límite firme: excelente", text: "Tu dirección, escuela y fotos son privadas. Que insistan o te hagan sentir mal no te obliga a nada." } },
+        { txt: "¿Para qué quieres saber dónde vivo? 🤨", level: "safe",
+          reply: [{ t: "Solo para conocernos en persona un día 😉 no le digas a nadie" }],
+          alert: { type: "danger", title: "Quiere ubicarte: peligro real", text: "Pedir tu ubicación y proponer verse en secreto es gravísimo. Habla YA con un adulto de confianza." } }
+      ]},
+      { options: [
+        { txt: "Voy a contarle a mis papás sobre ti 👨‍👩‍👧", level: "safe",
+          reply: [{ t: "¡No! Si les dices ya no seremos amigos 😠" }],
+          alert: { type: "safe", title: "Hablar con un adulto: lo más valiente", text: "Si alguien se enoja porque le cuentas a un adulto, confirma que algo anda mal. Contarlo es lo correcto, siempre." } },
+        { txt: "Mejor quedamos de vernos solos 🤐", level: "danger",
+          reply: [{ t: "¡Sí! No le digas a nadie, va a ser nuestro secreto 🤫" }],
+          alert: { type: "danger", title: "Nunca te veas a solas", text: "Jamás quedes de ver a solas a alguien que conociste en línea, ni guardes ese secreto. Avisa a un adulto de inmediato." } },
+        { txt: "Te bloqueo y reporto el perfil 🚷", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Te protegiste muy bien", text: "Bloquear, reportar y contarle a un adulto es exactamente lo que debes hacer. Tu seguridad va primero." } }
+      ]}
+    ],
+    finalTip: "Un desconocido que te apura, te pide fotos o secretos y quiere verte a solas es un peligro. Cuéntale siempre a un adulto de confianza."
+  },
+
+  {
+    id: "compra", name: "Compra fraudulenta", icon: "🛍️", grad: "linear-gradient(145deg,#38bdf8,#2563eb)",
+    contact: { name: "VentasGamer_MX", avatar: "🎮", avGrad: "linear-gradient(145deg,#38bdf8,#1d4ed8)" },
+    intro: [
+      { t: "¡Vendo consola nueva, sellada, súper barata! 🎮🔥" },
+      { t: "Normal cuesta 8000, te la dejo en 1500 💸 ¡última pieza!" },
+      { t: "Solo aparta con el pago YA y te la mando hoy mismo 📦" }
+    ],
+    turns: [
+      { options: [
+        { txt: "¡Qué barata! La quiero ya 🤑", level: "risky",
+          reply: [{ t: "¡Genial! Pásame el pago por transferencia y guardo la tuya 💳" }],
+          alert: { type: "warn", title: "Demasiado barata = sospechoso", text: "Un precio increíble suele ser el anzuelo. Si es muy barato para ser verdad, casi siempre lo es." } },
+        { txt: "¿Por qué tan barata si es nueva? 🤔", level: "safe",
+          reply: [{ t: "Porque necesito el dinero urgente, pero apúrate o se va 🏃" }],
+          alert: { type: "safe", title: "Buena duda", text: "Pedir el porqué del precio y notar la prisa te protege. Las ofertas \"urgentes\" suelen ser trampas." } },
+        { txt: "¿Puedo pagar al recibirla en persona?", level: "safe",
+          reply: [{ t: "No, primero el pago, luego te la mando 😅 confía" }],
+          alert: { type: "safe", title: "Pagar al recibir: lo seguro", text: "Quien no acepta pago contra entrega ni verse en un lugar público suele estar mintiendo." } }
+      ]},
+      { options: [
+        { txt: "Te transfiero todo de una vez 💸", level: "danger",
+          reply: [{ t: "¡Recibido! Te aviso cuando la mande 😈 (y desaparece)" }],
+          alert: { type: "danger", title: "No pagues por adelantado", text: "Pagar antes a un desconocido es como regalar tu dinero. Si te bloquea, no recuperas nada." } },
+        { txt: "Pásame fotos reales con la fecha de hoy 📸", level: "safe",
+          reply: [{ t: "Ehh… las fotos están en mi otro cel 📱 confía en mí" }],
+          alert: { type: "safe", title: "Pides pruebas: muy bien", text: "Pedir pruebas frescas (foto con la fecha) descubre a quien copió imágenes de internet." } },
+        { txt: "Voy a buscar opiniones de este vendedor 🔍", level: "safe",
+          reply: [{ t: "No hace falta, soy de confianza 🙏 mejor apúrate" }],
+          alert: { type: "safe", title: "Investigar al vendedor", text: "Revisar reseñas y reputación antes de pagar es básico. Un vendedor real no le teme a que lo investigues." } }
+      ]},
+      { options: [
+        { txt: "No pago nada hasta verla. Le aviso a un adulto 🛡️", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Compra inteligente", text: "No pagar por adelantado y consultar con un adulto antes de gastar es justo lo que hace alguien seguro." } },
+        { txt: "Le mando la mitad para apartar 💰", level: "risky",
+          reply: [{ t: "Va, mándala y guardo la consola 😏" }],
+          alert: { type: "warn", title: "Ni un peso por adelantado", text: "\"Apartar\" con dinero a un desconocido es el mismo riesgo: puede quedarse con tu anticipo y desaparecer." } },
+        { txt: "Reporto la publicación como fraude 🚩", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Ayudas a más personas", text: "Reportar la estafa protege a otros que podrían caer. Gran decisión." } }
+      ]}
+    ],
+    finalTip: "Precio increíble + prisa + pago por adelantado = fraude. Paga solo al recibir y consulta con un adulto."
+  },
+
+  {
+    id: "familiar", name: "Familiar falso", icon: "📱", grad: "linear-gradient(145deg,#34d399,#0d9488)",
+    contact: { name: "Número desconocido", avatar: "❓", avGrad: "linear-gradient(145deg,#34d399,#0f766e)" },
+    intro: [
+      { t: "Hola, soy tu primo 😊 cambié de número, guárdalo" },
+      { t: "Oye, tengo una emergencia y no puedo entrar a mi banco 😩" },
+      { t: "¿Me ayudas con algo urgente porfa?" }
+    ],
+    turns: [
+      { options: [
+        { txt: "¡Claro primo! ¿Qué necesitas?", level: "risky",
+          reply: [{ t: "Te va a llegar un código por SMS, pásamelo rápido porfa 🙏" }],
+          alert: { type: "warn", title: "\"Soy tu primo\" sin probarlo", text: "Que alguien diga ser tu familiar desde un número nuevo no lo confirma. Verifica antes de ayudar." } },
+        { txt: "¿Cuál primo? ¿Cómo se llama tu mamá? 🤨", level: "safe",
+          reply: [{ t: "Ash, ya no preguntes, es urgente 😤 solo pásame el código" }],
+          alert: { type: "safe", title: "Prueba de identidad: bien hecho", text: "Pedir un dato que solo el familiar real sabría desenmascara al impostor al instante." } },
+        { txt: "Te marco a tu número de siempre para confirmar 📞", level: "safe",
+          reply: [{ t: "No, ese cel ya no sirve 📵 mejor por aquí" }],
+          alert: { type: "safe", title: "Confirmar por otro canal", text: "Llamar al número de siempre o preguntar a la familia es la forma segura de saber si de verdad es quien dice." } }
+      ]},
+      { options: [
+        { txt: "Aquí está el código que me llegó: 4821", level: "danger",
+          reply: [{ t: "¡Gracias! (ahora controlan tu cuenta de WhatsApp) 😈" }],
+          alert: { type: "danger", title: "Nunca compartas códigos", text: "Los códigos que llegan por SMS son llaves de TUS cuentas. Nadie real te los pide; compartirlos es regalar tu cuenta." } },
+        { txt: "No comparto códigos con nadie 🔐", level: "safe",
+          reply: [{ t: "Pero si soy tu primo 😢 ándale" }],
+          alert: { type: "safe", title: "Regla de oro cumplida", text: "Un código de verificación NO se comparte jamás, ni con \"familiares\". Lo tienes clarísimo." } },
+        { txt: "Necesito que me prestes $500 a este número 💸", level: "danger",
+          reply: [{ t: "¡Sí! Mándalos a esta cuenta porfa 🙏" }],
+          alert: { type: "danger", title: "Dinero urgente: clásico fraude", text: "Pedir dinero \"urgente\" haciéndose pasar por un familiar es de los engaños más comunes. Confirma siempre antes." } }
+      ]},
+      { options: [
+        { txt: "Le voy a preguntar a mis papás si es real 👨‍👩‍👧", level: "safe",
+          reply: [{ t: "No les digas, es entre nosotros 🤫" }],
+          alert: { type: "safe", title: "Consultar a la familia: correcto", text: "Antes de dar códigos o dinero, pregunta a un adulto de tu familia. Y si piden \"no decir\", desconfía." } },
+        { txt: "Mando el dinero para ayudar rápido 💸", level: "danger",
+          reply: [{ t: "¡Eres el mejor! (y nunca vuelves a saber de él) 👋" }],
+          alert: { type: "danger", title: "Dinero perdido", text: "Una vez que envías dinero a un estafador, no vuelve. Por eso siempre se confirma primero quién es." } },
+        { txt: "Bloqueo el número y aviso a la familia 🚫", level: "safe",
+          reply: [{ t: "—" }],
+          alert: { type: "safe", title: "Cierre de experto", text: "Bloquear y avisar a la familia evita que el estafador lo intente con otros parientes. Perfecto." } }
+      ]}
+    ],
+    finalTip: "Verifica siempre quién es antes de dar códigos o dinero. Los códigos de SMS no se comparten con nadie, nunca."
+  }
+];

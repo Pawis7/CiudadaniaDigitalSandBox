@@ -1,403 +1,222 @@
-<section
-  id="secundaria-privacidad"
-  class="sim-shell relative overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] px-5 py-6 shadow-[var(--shadow-xl)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
-  data-audience="teens">
+<!-- Layout: phone (left) + coach panel (right, visible when in a case) -->
+<div class="sim-layout">
 
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute -left-20 top-12 h-56 w-56 rounded-full bg-violet-500/12 blur-3xl"></div>
-    <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-rose-500/12 blur-3xl"></div>
-  </div>
+  <!-- ─── PHONE ─────────────────────────────── -->
+  <div class="phone-wrap">
+    <div class="phone">
 
-  <div class="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border-soft)] pb-5">
-    <div>
-      <p class="eyebrow text-[color:var(--aud)]">Secundaria · Privacidad y seguridad</p>
-      <h2 class="display-2 mt-1">Simulador de fraudes por chat</h2>
-      <p class="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--text-soft)]">
-        Aprende a identificar urgencia, ligas falsas y robo de datos en tiempo real. Elige tus respuestas y observa la simulación en el dispositivo.
-      </p>
-    </div>
+      <!-- iPhone 17 hardware details -->
+      <div class="hw-vol-top"></div>
+      <div class="hw-vol-bot"></div>
+      <div class="hw-power"></div>
+      <div class="hw-action"></div>
 
-    <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--aud-cream)] px-3 py-1.5 text-[color:var(--aud)]">
-        <span translate="no" class="material-symbols-rounded text-sm">schedule</span>
-        {{ data.metadata.estimatedDuration }}
-      </span>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1.5 text-rose-700">
-        <span translate="no" class="material-symbols-rounded text-sm">shield_lock</span>
-        Sin capturar datos
-      </span>
-    </div>
-  </div>
+      <!-- Screen -->
+      <div class="screen"
+           [class.flash-danger]="lastChoiceLevel() === 'danger'"
+           [class.flash-warn]="lastChoiceLevel() === 'risky'"
+           [class.flash-safe]="lastChoiceLevel() === 'safe'">
 
-  <div class="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-start">
-    <!-- COLUMNA IZQUIERDA: Contexto, Pregunta y Opciones de Respuesta -->
-    <div class="lg:col-span-7 space-y-5 flex flex-col">
-      @if (!started()) {
-        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-md space-y-4">
-          <span class="inline-flex items-center gap-2 rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] px-3 py-1.5 text-[color:var(--text-secondary)] font-bold text-xs">
-            <span translate="no" class="material-symbols-rounded text-sm text-[color:var(--aud)] icon-fill">psychology</span>
-            Entrenamiento interactivo
-          </span>
-          <h3 class="text-xl font-black tracking-tight text-[color:var(--text-primary)]">¿Estás listo para poner a prueba tu criterio?</h3>
-          <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">
-            A lo largo de este ejercicio te enfrentarás a 3 casos reales que miles de estudiantes en México reciben todos los días por WhatsApp o SMS.
-          </p>
-          <div class="grid gap-3 sm:grid-cols-3 pt-2">
-            <div class="p-3 bg-[color:var(--surface-soft)] rounded-xl border border-[color:var(--border-soft)]">
-              <strong class="block font-bold text-sm text-[color:var(--aud)]">Caso 1</strong>
-              <span class="text-xs text-[color:var(--text-soft)]">Promoción inesperada</span>
-            </div>
-            <div class="p-3 bg-[color:var(--surface-soft)] rounded-xl border border-[color:var(--border-soft)]">
-              <strong class="block font-bold text-sm text-amber-700 dark:text-amber-400">Caso 2</strong>
-              <span class="text-xs text-[color:var(--text-soft)]">Paquete pendiente</span>
-            </div>
-            <div class="p-3 bg-[color:var(--surface-soft)] rounded-xl border border-[color:var(--border-soft)]">
-              <strong class="block font-bold text-sm text-rose-700 dark:text-rose-400">Caso 3</strong>
-              <span class="text-xs text-[color:var(--text-soft)]">Apoyo en riesgo</span>
-            </div>
-          </div>
-          <div class="pt-4">
-            <button type="button" (click)="start()" class="btn-primary w-full py-4 text-base shadow-lg hover:shadow-xl transition-all">
-              <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
-              Comenzar simulador
-            </button>
-          </div>
+        <!-- Dynamic Island -->
+        <div class="dynamic-island"></div>
+
+        <!-- Status bar -->
+        <div class="statusbar">
+          <span>{{ nowTime() }}</span>
+          <span class="icons">📶 🔋</span>
         </div>
-      } @else if (finished()) {
-        <div
-          class="rounded-[1.9rem] border p-6 shadow-[var(--shadow-lg)] space-y-4"
-          [class.border-emerald-200]="result().tone === 'solid'"
-          [class.dark:border-emerald-900/40]="result().tone === 'solid'"
-          [class.bg-emerald-50]="result().tone === 'solid'"
-          [class.dark:bg-emerald-950/20]="result().tone === 'solid'"
-          [class.border-amber-200]="result().tone === 'medium'"
-          [class.dark:border-amber-900/40]="result().tone === 'medium'"
-          [class.bg-amber-50]="result().tone === 'medium'"
-          [class.dark:bg-amber-950/20]="result().tone === 'medium'"
-          [class.border-rose-200]="result().tone === 'risk'"
-          [class.dark:border-rose-900/40]="result().tone === 'risk'"
-          [class.bg-rose-50]="result().tone === 'risk'"
-          [class.dark:bg-rose-950/20]="result().tone === 'risk'">
-          <p class="text-[11px] font-black uppercase tracking-[0.18em]"
-             [class.text-emerald-700]="result().tone === 'solid'"
-             [class.dark:text-emerald-400]="result().tone === 'solid'"
-             [class.text-amber-700]="result().tone === 'medium'"
-             [class.dark:text-amber-400]="result().tone === 'medium'"
-             [class.text-rose-700]="result().tone === 'risk'"
-             [class.dark:text-rose-400]="result().tone === 'risk'">
-            Resultado final del simulador
-          </p>
-          <h3 class="text-2xl font-black tracking-tight text-[color:var(--text-primary)]">{{ result().title }}</h3>
-          <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ result().description }}</p>
 
-          <div class="rounded-[1.25rem] bg-[color:var(--surface-soft)] p-4 shadow-sm border border-[color:var(--border-soft)]">
-            <p class="text-xs font-black uppercase tracking-[0.16em] text-[color:var(--text-mute)] mb-1">Mensaje modelo</p>
-            <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ result().message }}</p>
+        @if (!currentCase()) {
+          <!-- HOME / INBOX -->
+          <div class="wa-inbox">
+            <div class="wa-inbox-header">
+              <span class="title">Chats</span>
+              <button class="inbox-mute-btn" type="button" (click)="toggleSound()">
+                {{ soundOn() ? '🔊 Sonido' : '🔇 Silencio' }}
+              </button>
+            </div>
+            <div class="wa-inbox-search">
+              <div class="search-box">🔍 Buscar chats</div>
+            </div>
+            <div class="wa-chat-list">
+              @for (c of cases; track c.id) {
+                <div class="wa-chat-item" [class.done]="isCaseDone(c.id)" (click)="startCase(c)">
+                  <div class="wa-avatar-circle" [style.background]="c.contact.avGrad">{{ c.contact.avatar }}</div>
+                  <div class="wa-chat-body">
+                    <div class="wa-chat-row">
+                      <span class="wa-chat-name">{{ c.name }}</span>
+                      <span class="wa-chat-stars">{{ getStarsString(c.id) }}</span>
+                    </div>
+                    <div class="wa-chat-preview">{{ c.contact.name }}</div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        } @else {
+          <!-- ACTIVE CHAT -->
+          @let c = currentCase()!;
+          <div class="wa-head">
+            <button class="wa-back" type="button" aria-label="Volver" (click)="goHome()">‹</button>
+            <div class="wa-av" [style.background]="c.contact.avGrad">{{ c.contact.avatar }}</div>
+            <div class="wa-meta">
+              <div class="nm">{{ c.contact.name }}</div>
+              <div class="st">
+                <span class="dot"></span>
+                <span>{{ isTyping() ? 'escribiendo…' : 'en línea' }}</span>
+              </div>
+            </div>
+            <span class="dots">⋮</span>
           </div>
 
-          <div class="grid gap-2.5 pt-2">
-            @for (item of result().checklist; track item) {
-              <div class="flex items-center gap-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] px-4 py-3 shadow-sm">
-                <span translate="no" class="material-symbols-rounded text-[color:var(--aud)] shrink-0">check_circle</span>
-                <p class="text-sm font-medium leading-relaxed text-[color:var(--text-primary)]">{{ item }}</p>
+          <div class="sim-banner">⚠️ Simulador · Nada de esto es real</div>
+
+          <!-- Mobile game HUD: hearts + shield (only visible on mobile via CSS) -->
+          <div class="mobile-hud">
+            <div class="mhud-hearts">
+              @for (i of [1,2,3]; track i) {
+                <span class="mhud-heart" [class.lost]="livesLost() >= i">❤️</span>
+              }
+            </div>
+            <div class="mhud-shield-bar">
+              <div class="mhud-fill"
+                   [style.width]="shieldPercent() + '%'"
+                   [class.bar-danger]="shieldPercent() < 40"
+                   [class.bar-warn]="shieldPercent() >= 40 && shieldPercent() < 70"
+                   [class.bar-safe]="shieldPercent() >= 70">
+              </div>
+            </div>
+            <span class="mhud-pct">{{ shieldPercent() }}%</span>
+            @if (coachAlerts()[0]; as last) {
+              <span class="mhud-badge" [class]="last.type">{{ last.em }}</span>
+            }
+          </div>
+
+          <div class="msgs" #msgsContainer>
+            @for (msg of chatMessages(); track $index) {
+              <div class="row" [class.in]="msg.side === 'in'" [class.out]="msg.side === 'out'">
+                <div class="bubble" [class.link]="msg.link">
+                  @if (msg.link) {
+                    <a href="#" (click)="$event.preventDefault()">{{ msg.text }}</a>
+                  } @else {
+                    {{ msg.text }}
+                  }
+                  <span class="tm">
+                    {{ msg.time }}
+                    @if (msg.side === 'out') { <span class="ck">✓✓</span> }
+                  </span>
+                </div>
+              </div>
+            }
+            @if (isTyping()) {
+              <div class="row in">
+                <div class="typing"><span></span><span></span><span></span></div>
               </div>
             }
           </div>
 
-          <div class="pt-4 flex flex-wrap gap-3">
-            <button type="button" class="btn-primary py-3.5 px-6 font-bold flex items-center gap-2" (click)="copyMessage()">
-              <span translate="no" class="material-symbols-rounded text-base">content_copy</span>
-              {{ copied() ? '¡Copiado!' : 'Copiar mensaje' }}
-            </button>
-            <button type="button" class="btn-secondary py-3.5 px-6 font-bold flex items-center gap-2" (click)="restart()">
-              <span translate="no" class="material-symbols-rounded text-base">refresh</span>
-              Volver a jugar
-            </button>
-          </div>
-        </div>
-      } @else {
-        <!-- Encabezado del caso actual y progreso -->
-        <div class="flex items-center justify-between bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-2xl p-4 shadow-sm">
-          <div>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-[color:var(--aud)]">Caso {{ currentCaseIndex() + 1 }} de {{ cases.length }}</span>
-            <h3 class="text-base font-bold text-[color:var(--text-primary)]">{{ currentCase().name }}</h3>
-          </div>
-          <div class="text-right">
-            <span class="text-xs font-bold text-[color:var(--text-mute)]">Paso {{ currentStepIndex() + 1 }} de {{ currentCase().steps.length }}</span>
-            <div class="flex gap-1 mt-1">
-              @for (step of currentCase().steps; track step.question; let idx = $index) {
-                <span class="h-1.5 w-4 rounded-full bg-slate-200"
-                  [class.bg-[color:var(--aud)]]="idx === currentStepIndex()"
-                  [class.bg-rose-500]="idx < currentStepIndex()"></span>
+          @if (!awaiting() && turnIndex() < c.turns.length) {
+            <div class="options">
+              @for (opt of currentOptions(); track opt.txt) {
+                <button class="opt" type="button" (click)="chooseOption(opt)">
+                  <span>{{ opt.txt }}</span>
+                  <span class="go">➤</span>
+                </button>
               }
-            </div>
-          </div>
-        </div>
-
-        @if (currentStep(); as step) {
-          <!-- Tarjeta de Pregunta y Señal de Alerta -->
-          @for (stepKey of [currentCaseIndex() + '-' + currentStepIndex()]; track stepKey) {
-            <div class="animate-question rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-md space-y-4">
-              <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3">
-                <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">
-                  <span translate="no" class="material-symbols-rounded text-base">help</span>
-                  Tu decisión
-                </span>
-                <span class="text-xs font-semibold text-[color:var(--text-mute)]">Hora recibida: {{ step.time }}</span>
-              </div>
-
-              <h4 class="text-lg font-bold text-[color:var(--text-primary)]">{{ step.question }}</h4>
-              <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ step.text }}</p>
-
-              <div class="rounded-2xl bg-[color:var(--aud-cream)] border border-[color:var(--border-soft)] p-3.5 flex gap-3 shadow-sm">
-                <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">tips_and_updates</span>
-                <div class="space-y-0.5">
-                  <strong class="block text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">Señal de alerta</strong>
-                  <p class="text-xs leading-relaxed font-semibold text-[color:var(--text-primary)]">{{ step.hint }}</p>
-                </div>
-              </div>
             </div>
           }
 
-          <!-- Opciones de Respuesta o Retroalimentación -->
-          @if (!activeChoice()) {
-            <div class="animate-choices space-y-3">
-              <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Elige qué harías en este chat:</p>
-              <div class="grid gap-2.5">
-                @for (choice of step.choices; track choice.title; let idx = $index) {
-                  <button
-                    type="button"
-                    [disabled]="isTyping()"
-                    (click)="choose(idx)"
-                    class="flex items-center justify-between p-4 rounded-2xl text-left font-bold transition-all duration-200 cursor-pointer choice-idle">
-                    <span class="text-sm leading-snug text-[color:var(--text-primary)] transition-colors pr-3">{{ choice.title }}</span>
-                  </button>
-                }
+          <div class="inputbar" [class.hidden]="!awaiting() && turnIndex() < c.turns.length">
+            <span class="plus">＋</span>
+            <div class="field">
+              <span [class.ph]="isFieldPlaceholder()">{{ fieldText() }}</span>
+              @if (!isFieldPlaceholder() && awaiting()) { <span class="caret"></span> }
+            </div>
+            <button class="send" type="button" aria-label="Enviar">➤</button>
+          </div>
+        }
+
+        <!-- Result overlay — absolute inside screen -->
+        <div class="result-scrim-overlay" [class.on]="resultOpen()">
+          <div class="result-card">
+            <div class="res-hero" [style.background]="grad()">
+              <div class="face">{{ face() }}</div>
+              <h2>{{ currentCase()?.name }} superado</h2>
+              <div class="tier">{{ tier() }}</div>
+              <div class="res-score">
+                <span class="star" [class.on]="stars() >= 1">⭐</span>
+                <span class="star" [class.on]="stars() >= 2">⭐</span>
+                <span class="star" [class.on]="stars() >= 3">⭐</span>
               </div>
             </div>
-          } @else {
-            <!-- Retroalimentación y botón Continuar -->
-            <div class="animate-feedback rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-lg space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-[color:var(--text-mute)]">Retroalimentación</span>
-                <span class="wa-feedback__pill"
-                  [class.wa-feedback__pill--good]="activeChoice()!.type === 'good'"
-                  [class.wa-feedback__pill--warn]="activeChoice()!.type === 'warn'"
-                  [class.wa-feedback__pill--bad]="activeChoice()!.type === 'bad'">
-                  {{ choiceTone(activeChoice()!.type) }}
-                </span>
-              </div>
-              <p class="text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ activeChoice()!.feedback }}</p>
-
-              @if (currentStepIndex() === currentCase().steps.length - 1) {
-                <div class="rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] p-3.5 mt-3 flex items-start gap-3">
-                  <span translate="no" class="material-symbols-rounded text-xl text-[color:var(--aud)] shrink-0">task_alt</span>
-                  <div class="space-y-0.5">
-                    <strong class="block text-xs font-bold text-[color:var(--text-primary)] uppercase tracking-wider">Cierre del caso</strong>
-                    <p class="text-xs font-medium text-[color:var(--text-soft)] leading-relaxed">{{ currentCaseSummary() }}</p>
+            <div class="takeaway">
+              <span class="em">💡</span>
+              <p>{{ finalTip() }}</p>
+            </div>
+            <div class="res-body">
+              <p class="res-label">Tus decisiones</p>
+              @for (row of resultBreakdown(); track row.title) {
+                <div class="res-row">
+                  <div class="ic" [class]="row.cls">{{ row.ic }}</div>
+                  <div class="tx">
+                    <h4>{{ row.title }}</h4>
+                    <p>{{ row.text }}</p>
                   </div>
                 </div>
               }
+            </div>
+            <div class="res-actions">
+              <button class="btn btn-ghost" type="button" (click)="goHome()">Otros casos</button>
+              <button class="btn btn-primary" type="button" (click)="replay()">Repetir</button>
+            </div>
+          </div>
+        </div>
 
-              <button type="button" class="btn-primary w-full py-4 font-bold shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
-                <span>{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'Ver resultado final' : currentStepIndex() === currentCase().steps.length - 1 ? 'Siguiente caso' : 'Continuar conversación' }}</span>
-                <span translate="no" class="material-symbols-rounded text-lg">{{ currentCaseIndex() === cases.length - 1 && currentStepIndex() === currentCase().steps.length - 1 ? 'verified' : 'arrow_forward' }}</span>
-              </button>
+      </div><!-- /screen -->
+
+      <!-- Home bar -->
+      <div class="home-bar"></div>
+
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+
+  <!-- ─── COACH PANEL (beside phone, only when case active) ──── -->
+  @if (currentCase() && !resultOpen()) {
+    <aside class="coach-side">
+      <div class="coach-head">
+        <h2>🧠 Tu detector</h2>
+        <p>Cada decisión cuenta. Mira por qué.</p>
+      </div>
+
+      <div class="shield">
+        <div class="lab">
+          <span>Escudo de seguridad</span>
+          <span class="val">{{ shieldPercent() }}%</span>
+        </div>
+        <div class="meter">
+          <i [style.width]="shieldPercent() + '%'"
+             [style.background]="shieldPercent() >= 70 ? 'linear-gradient(90deg,#22c55e,#86efac)' : (shieldPercent() >= 45 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,#ef4444,#fca5a5)')">
+          </i>
+        </div>
+      </div>
+
+      <div class="alert-stack">
+        @if (coachAlerts().length === 0) {
+          <div class="coach-empty">
+            <div class="big">👀</div>
+            <p>Lee bien cada mensaje y elige cómo responder. Aquí te explico qué tan segura fue tu decisión.</p>
+          </div>
+        } @else {
+          @for (alert of coachAlerts(); track alert.title) {
+            <div class="alert" [class]="alert.type">
+              <span class="badge">{{ alert.badge }}</span>
+              <div class="ah"><span class="em">{{ alert.em }}</span>{{ alert.title }}</div>
+              <p>{{ alert.text }}</p>
             </div>
           }
         }
-      }
-    </div>
-
-    <!-- COLUMNA DERECHA: El Dispositivo Mockup y Animación de Chat (iPhone 17) -->
-    <div class="lg:col-span-5 flex justify-center lg:justify-end lg:sticky lg:top-8">
-      <div class="iphone-17-container">
-        <!-- Titanium Edge Chassis -->
-        <div class="iphone-17-chassis">
-          <!-- Glass Glare Highlight Ring -->
-          <div class="iphone-17-highlight"></div>
-          
-          <!-- Screen Outer Bezel -->
-          <div class="iphone-17-bezel">
-            <!-- Screen Content Wrapper -->
-            <div class="iphone-17-screen">
-              
-              <!-- Dynamic Island cut-out with camera lens details -->
-              <div class="dynamic-island-container">
-                <div class="dynamic-island"
-                     [class.is-typing]="isTyping()"
-                     [class.is-alert]="activeChoice() && !isTyping() && activeChoice()!.type === 'bad'"
-                     [class.is-success]="activeChoice() && !isTyping() && activeChoice()!.type === 'good'">
-                  @if (isTyping()) {
-                    <div class="flex items-center gap-1.5 animate-pulse">
-                      <span translate="no" class="material-symbols-rounded text-[10px] text-rose-400">chat_bubble</span>
-                      <span class="text-[8px] text-rose-400 font-semibold tracking-wider">Escribiendo...</span>
-                    </div>
-                  } @else if (activeChoice() && !isTyping() && activeChoice()!.type === 'bad') {
-                    <div class="flex items-center gap-1.5">
-                      <span translate="no" class="material-symbols-rounded text-[10px] text-rose-400">error</span>
-                      <span class="text-[8px] text-rose-200 font-semibold tracking-wider">Riesgo detectado</span>
-                    </div>
-                  } @else if (activeChoice() && !isTyping() && activeChoice()!.type === 'good') {
-                    <div class="flex items-center gap-1.5">
-                      <span translate="no" class="material-symbols-rounded text-[10px] text-emerald-400">verified_user</span>
-                      <span class="text-[8px] text-emerald-200 font-semibold tracking-wider">Conexión segura</span>
-                    </div>
-                  } @else {
-                    <!-- Completely empty in idle state for clean, premium hardware realism -->
-                  }
-                  <div class="dynamic-island-lens"></div>
-                </div>
-              </div>
-
-              <!-- iOS Status Bar -->
-              <div class="iphone-status-bar dark-mode">
-                <span class="status-time">09:41</span>
-                <div class="status-icons">
-                  <div class="status-signal">
-                    <span class="bar bar-1"></span>
-                    <span class="bar bar-2"></span>
-                    <span class="bar bar-3"></span>
-                    <span class="bar bar-4"></span>
-                  </div>
-                  <svg class="status-wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 3.5c4-3.3 10-3.3 14 0" />
-                    <path d="M3.5 6.2c2.5-2 6.5-2 9 0" />
-                    <path d="M6 9c1-0.8 3-0.8 4 0" />
-                    <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none" />
-                  </svg>
-                  <div class="status-battery">
-                    <div class="status-battery-level"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Inner Device State Templates -->
-              @if (!started()) {
-                <div class="phone-intro flex-1 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-slate-900 to-violet-950 text-white">
-                  <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur text-white shadow-xl mb-4 animate-bounce">
-                    <span translate="no" class="material-symbols-rounded text-3xl text-violet-300">mark_chat_unread</span>
-                  </span>
-                  <h3 class="text-xl font-black tracking-tight">Chat en Vivo</h3>
-                  <p class="text-xs text-white/80 mt-2 max-w-xs leading-relaxed">
-                    Aquí verás los mensajes simulados en tiempo real. ¡Elige tu respuesta a la izquierda!
-                  </p>
-                </div>
-              } @else if (finished()) {
-                <div class="phone-result flex-1 flex flex-col items-center justify-center text-center p-6 bg-rose-950 text-white">
-                  <span class="grid h-16 w-16 place-items-center rounded-full bg-rose-500/20 border border-rose-400/30 backdrop-blur text-rose-300 shadow-lg mb-4 animate-pulse">
-                    <span translate="no" class="material-symbols-rounded text-4xl">verified_user</span>
-                  </span>
-                  <h3 class="text-2xl font-black">¡Completado!</h3>
-                  <p class="text-xs text-white/80 mt-2 max-w-xs leading-relaxed">
-                    Revisa tu retroalimentación y nivel de radar digital en el panel izquierdo.
-                  </p>
-                </div>
-              } @else {
-                <!-- Cabecera de WhatsApp / SMS -->
-                <div class="wa-header shrink-0">
-                  <div class="wa-header__contact">
-                    <span class="wa-header__avatar"
-                      [class.wa-header__avatar--shipping]="currentStep().avatar === 'brand-shipping'"
-                      [class.wa-header__avatar--gov]="currentStep().avatar === 'brand-gov'">
-                      {{ avatarLabel(currentStep().avatar) }}
-                    </span>
-                    <div class="wa-header__info">
-                      <strong class="wa-header__name">{{ currentStep().name }}</strong>
-                      <span class="wa-header__status">
-                        {{ currentStep().status }}
-                        @if (currentStep().verified) {
-                          <!-- Tiny SVG verified badge — no rendering surprises from icon fonts -->
-                          <svg class="wa-verified-badge" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <circle cx="7" cy="7" r="7" fill="#38bdf8"/>
-                            <path d="M4.5 7.5L6.5 9.5L9.5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                        }
-                      </span>
-                    </div>
-                  </div>
-                  <div class="wa-header__actions">
-                    <span translate="no" class="material-symbols-rounded text-lg text-white/90">videocam</span>
-                    <span translate="no" class="material-symbols-rounded text-lg text-white/90">call</span>
-                  </div>
-                </div>
-
-                <!-- Barra de caso en el teléfono -->
-                <div class="bg-white/95 backdrop-blur border-b border-slate-200 px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-700 shadow-sm shrink-0">
-                  <span class="truncate text-[9px] text-slate-500">Tema: {{ currentCase().name }}</span>
-                  <span class="text-[9px] font-semibold text-violet-700 shrink-0 ml-1">Paso {{ currentStepIndex() + 1 }}</span>
-                </div>
-
-                <!-- Historial de Chat -->
-                <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col justify-end">
-                  <div class="space-y-2.5 flex flex-col">
-                    @for (message of currentStep().chat; track $index) {
-                      <div class="flex animate-slide-up [animation-fill-mode:backwards]" [style.animation-delay]="$index * 150 + 'ms'" [class.justify-center]="message.role === 'system'" [class.justify-end]="message.role === 'me'">
-                        <div class="rounded-2xl px-3 py-2 max-w-[85%] shadow-sm text-[11px] leading-relaxed font-medium"
-                          [class.bg-white]="message.role === 'other' && message.tone !== 'alert'" [class.text-slate-800]="message.role === 'other' && message.tone !== 'alert'"
-                          [class.bg-rose-50]="message.tone === 'alert'" [class.border]="message.tone === 'alert'" [class.border-rose-200]="message.tone === 'alert'" [class.text-rose-950]="message.tone === 'alert'"
-                          [class.bg-[#e2f7cb]]="message.role === 'me'" [class.text-slate-900]="message.role === 'me'"
-                          [class.bg-slate-800/60]="message.role === 'system'" [class.text-white]="message.role === 'system'" [class.text-[9px]]="message.role === 'system'" [class.rounded-full]="message.role === 'system'">
-                          <span>{{ message.text }}</span>
-                          @if (message.time && message.role !== 'system') {
-                            <small class="block text-[8px] text-right text-slate-400 mt-0.5">{{ message.time }}</small>
-                          }
-                        </div>
-                      </div>
-                    }
-
-                    <!-- Animación de Bloqueo / Reporte -->
-                    @if (activeChoice() && !isTyping() && (activeChoice()!.title.toLowerCase().includes('bloquear') || activeChoice()!.title.toLowerCase().includes('reportar'))) {
-                      <div class="my-2 flex justify-center animate-block-pulse">
-                        <div class="rounded-xl bg-rose-600 px-3 py-1.5 text-white font-black text-[10px] shadow-md flex items-center gap-1 border border-rose-400">
-                          <span translate="no" class="material-symbols-rounded text-xs">block</span>
-                          Contacto Bloqueado
-                        </div>
-                      </div>
-                    }
-
-                    <!-- Animación de escritura "Escribiendo..." -->
-                    @if (isTyping()) {
-                      <div class="flex justify-start animate-fade-in">
-                        <div class="rounded-2xl rounded-tl-sm bg-white border border-slate-100 px-3.5 py-2.5 shadow-sm flex items-center gap-1">
-                          <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce"></span>
-                          <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
-                          <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
-                        </div>
-                      </div>
-                    }
-
-                    <!-- Respuesta seleccionada -->
-                    @if (activeChoice() && !isTyping() && !activeChoice()!.title.toLowerCase().includes('bloquear')) {
-                      <div class="flex justify-end animate-slide-up">
-                        <div class="rounded-2xl rounded-tr-sm bg-[#e2f7cb] px-3 py-2 max-w-[85%] shadow-sm text-[11px] font-bold text-slate-900">
-                          <span>{{ activeChoice()!.title }}</span>
-                          <small class="block text-[8px] text-right text-sky-500 mt-0.5">✓✓ Justo ahora</small>
-                        </div>
-                      </div>
-                    }
-                  </div>
-                </div>
-
-                <!-- Footer del teléfono mockup -->
-                <div class="bg-[#f0f0f0] border-t border-slate-300 p-2 flex items-center gap-1.5 shrink-0">
-                  <span translate="no" class="material-symbols-rounded text-slate-500 text-lg">add_circle</span>
-                  <div class="flex-1 rounded-full bg-white px-3 py-1 text-[10px] text-slate-400 font-medium border border-slate-200 truncate">
-                    {{ selectedChoiceIndex() !== null ? 'Mensaje enviado' : 'Elige una opción...' }}
-                  </div>
-                  <span translate="no" class="material-symbols-rounded text-slate-500 text-lg">mic</span>
-                </div>
-              }
-
-              <!-- Home Indicator Bar at bottom -->
-              <div class="iphone-homebar-container">
-                <div class="iphone-homebar"></div>
-              </div>
-
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </aside>
+  }
+
+</div><!-- /sim-layout -->
