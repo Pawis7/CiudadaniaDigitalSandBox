@@ -18,6 +18,7 @@ import { PresenciaJovenesComponent } from '../shared/presencia-jovenes/presencia
 import { PrivacidadDineroComponent } from '../shared/privacidad-dinero/privacidad-dinero';
 import { StickerControlComponent } from '../shared/sticker-control/sticker-control';
 import { AppNoSeAcabaComponent } from '../shared/app-no-se-acaba/app-no-se-acaba';
+import { ElCarinoNoPideContrasenasComponent } from '../shared/el-carino-no-pide-contrasenas/el-carino-no-pide-contrasenas';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -29,7 +30,8 @@ export type WidgetId =
   | 'presencia-jovenes'
   | 'privacidad-dinero'
   | 'sticker-control'
-  | 'app-no-se-acaba';
+  | 'app-no-se-acaba'
+  | 'el-carino-no-pide-contrasenas';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -42,6 +44,7 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'privacidad-dinero': PrivacidadDineroComponent,
   'sticker-control': StickerControlComponent,
   'app-no-se-acaba': AppNoSeAcabaComponent,
+  'el-carino-no-pide-contrasenas': ElCarinoNoPideContrasenasComponent,
 };
 
 

@@ -197,6 +197,15 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-blue-600 to-indigo-700',
             actionLabel: 'Iniciar Taller', link: '#widget-seccion-anchor',
           },
+          {
+            id: 'el-carino-no-pide-contrasenas',
+            title: 'El cariño no pide contraseñas',
+            description: 'Caso interactivo para reconocer control digital, cuidar tu privacidad y poner límites claros en tus relaciones digitales.',
+            type: 'activity', typeLabel: 'Caso interactivo', icon: 'lock_person',
+            badge: 'Límites y Pareja', duration: '12 a 18 min',
+            colorClass: 'from-orange-500 to-red-600',
+            actionLabel: 'Iniciar Caso', link: '#widget-seccion-anchor',
+          },
         ],
       },
       {

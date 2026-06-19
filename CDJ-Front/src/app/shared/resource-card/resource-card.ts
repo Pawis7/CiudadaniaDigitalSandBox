@@ -27,7 +27,8 @@ export class ResourceCardComponent {
       this.item.id === 'presencia-jovenes' ||
       this.item.id === 'privacidad-dinero' ||
       this.item.id === 'sticker-control' ||
-      this.item.id === 'app-no-se-acaba'
+      this.item.id === 'app-no-se-acaba' ||
+      this.item.id === 'el-carino-no-pide-contrasenas'
     );
   }
 
