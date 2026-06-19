@@ -8,7 +8,6 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { AudienceSlug } from '../core/models/content.models';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
-import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 import { AUDIENCE_CONFIG } from './audiencia-config';
 import { WIDGET_REGISTRY, WidgetId } from './widget-registry';
@@ -23,7 +22,6 @@ import { ResourceCardComponent } from '../shared/resource-card/resource-card';
     RouterLink,
     RevealDirective,
     FeatureCardComponent,
-    SectionFeaturedSelectorComponent,
     ImageLoaderDirective,
     ResourceCardComponent,
   ],
@@ -64,7 +62,7 @@ export class AudienciaComponent {
   // Selección de nivel y filtros del portal de recursos
   selectedLevel = signal<string>('');
   searchQuery   = signal<string>('');
-  activeFilter  = signal<'todos' | 'game' | 'video' | 'guide'>('todos');
+  activeFilter  = signal<'todos' | 'game' | 'activity' | 'video' | 'guide'>('todos');
 
   // Widget activo en el nivel (permite cambiar dinámicamente)
   activeWidgetId = signal<WidgetId | null>(null);

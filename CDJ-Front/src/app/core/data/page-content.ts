@@ -14,7 +14,7 @@ export interface LevelResource {
   id:          string;
   title:       string;
   description: string;
-  type:        'game' | 'video' | 'guide';
+  type:        'game' | 'video' | 'guide' | 'activity';
   typeLabel:   string;
   icon:        string;
   badge:       string;
@@ -147,7 +147,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'candado-rapido',
             title: 'Candado Rápido v2.2',
             description: 'Audita el perfil ficticio de Ana, detecta la exposición de datos y prioriza 3 candados de privacidad para protegerla.',
-            type: 'game', typeLabel: 'Minijuego', icon: 'lock',
+            type: 'activity', typeLabel: 'Cuestionario', icon: 'lock',
             badge: 'Auditoría Visual', duration: '8 min',
             colorClass: 'from-violet-600 to-fuchsia-700',
             actionLabel: 'Iniciar Auditoría', link: '#simulador-fraudes-anchor',
@@ -174,7 +174,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'limites-chats',
             title: '¿Cómo pongo límites sin bronca en chats y redes?',
             description: 'Afronta situaciones reales de presión o burla en chats grupales y privados. Toma decisiones y obtén tu perfil de límites personalizado.',
-            type: 'game', typeLabel: 'Minijuego', icon: 'chat',
+            type: 'activity', typeLabel: 'Cuestionario', icon: 'chat',
             badge: 'Dos casos interactivos', duration: '12 min',
             colorClass: 'from-orange-500 to-rose-700',
             actionLabel: 'Iniciar Actividad', link: '#simulador-fraudes-anchor',
@@ -183,7 +183,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'sticker-control',
             title: 'El sticker que se salió de control',
             description: 'Un taller interactivo de reparación digital. Toma decisiones ante la difusión de una foto sin consentimiento y diseña un mapa para frenar el daño.',
-            type: 'game', typeLabel: 'Caso interactivo', icon: 'safety_check',
+            type: 'activity', typeLabel: 'Caso interactivo', icon: 'safety_check',
             badge: 'Reparación Digital v3', duration: '10 a 15 min',
             colorClass: 'from-blue-600 to-indigo-700',
             actionLabel: 'Iniciar Taller', link: '#widget-seccion-anchor',
@@ -254,7 +254,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'presencia-adulta',
             title: 'Autochequeo: Presencia digital adulta en casa',
             description: '¿Tu uso del celular te quita atención con tus hijos de 6 a 11 años? Evalúa tus hábitos y obtén tu plan y workbook de seguimiento de 7 días.',
-            type: 'game', typeLabel: 'Minijuego', icon: 'volunteer_activism',
+            type: 'activity', typeLabel: 'Autochequeo', icon: 'volunteer_activism',
             badge: 'Autochequeo + Workbook', duration: '5 min',
             colorClass: 'from-orange-500 to-rose-700',
             actionLabel: 'Iniciar Autochequeo', link: '#widget-seccion-anchor',
@@ -276,7 +276,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'riesgos-reales',
             title: 'Autochequeo: ¿Tu casa está lista para acompañar riesgos reales en línea?',
             description: 'Chequeo rápido para revisar la preparación familiar ante situaciones de presión, ciberacoso y exposición en línea de adolescentes de 12 a 15 años.',
-            type: 'game', typeLabel: 'Minijuego', icon: 'shield',
+            type: 'activity', typeLabel: 'Autochequeo', icon: 'shield',
             badge: 'Autochequeo + Planner', duration: '5–6 min',
             colorClass: 'from-rose-500 to-pink-600',
             actionLabel: 'Iniciar Autochequeo', link: '#widget-seccion-anchor',
@@ -298,8 +298,8 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'presencia-jovenes',
             title: 'Autochequeo: ¿Tu uso digital en casa te está ayudando o te está quitando presencia?',
             description: 'Revisa si tu propio uso del celular afecta la escucha, el respeto y la calidad de presencia que necesita una persona de 15 a 22 años.',
-            type: 'game',
-            typeLabel: 'Minijuego',
+            type: 'activity',
+            typeLabel: 'Autochequeo',
             icon: 'volunteer_activism',
             badge: 'Autochequeo + Workbook',
             duration: '5–6 min',
@@ -311,8 +311,8 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'privacidad-dinero',
             title: 'Autochequeo: ¿Tu casa está lista para acompañar privacidad y dinero en la vida digital?',
             description: 'Ayuda a familias y cuidadores a revisar si en casa existe una base suficiente para acompañar decisiones sobre privacidad, pagos, fraudes y uso de datos en jóvenes de 15 a 22 años.',
-            type: 'game',
-            typeLabel: 'Minijuego',
+            type: 'activity',
+            typeLabel: 'Autochequeo',
             icon: 'shield',
             badge: 'Autochequeo + Kit',
             duration: '5–6 min',

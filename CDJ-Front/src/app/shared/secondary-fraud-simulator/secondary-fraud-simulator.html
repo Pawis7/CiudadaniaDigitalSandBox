@@ -22,8 +22,22 @@
 
         <!-- Status bar -->
         <div class="statusbar">
-          <span>{{ nowTime() }}</span>
-          <span class="icons">📶 🔋</span>
+          <span class="statusbar-time">{{ nowTime() }}</span>
+          <div class="icons">
+            <div class="signal">
+              <span class="b b1"></span>
+              <span class="b b2"></span>
+              <span class="b b3"></span>
+              <span class="b b4"></span>
+            </div>
+            <svg class="wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M1 3.5c4-3.3 10-3.3 14 0"/>
+              <path d="M3.5 6.2c2.5-2 6.5-2 9 0"/>
+              <path d="M6 9c1-0.8 3-0.8 4 0"/>
+              <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+            <div class="battery"><div class="batt-level"></div></div>
+          </div>
         </div>
 
         @if (!currentCase()) {
@@ -71,26 +85,7 @@
 
           <div class="sim-banner">⚠️ Simulador · Nada de esto es real</div>
 
-          <!-- Mobile game HUD: hearts + shield (only visible on mobile via CSS) -->
-          <div class="mobile-hud">
-            <div class="mhud-hearts">
-              @for (i of [1,2,3]; track i) {
-                <span class="mhud-heart" [class.lost]="livesLost() >= i">❤️</span>
-              }
-            </div>
-            <div class="mhud-shield-bar">
-              <div class="mhud-fill"
-                   [style.width]="shieldPercent() + '%'"
-                   [class.bar-danger]="shieldPercent() < 40"
-                   [class.bar-warn]="shieldPercent() >= 40 && shieldPercent() < 70"
-                   [class.bar-safe]="shieldPercent() >= 70">
-              </div>
-            </div>
-            <span class="mhud-pct">{{ shieldPercent() }}%</span>
-            @if (coachAlerts()[0]; as last) {
-              <span class="mhud-badge" [class]="last.type">{{ last.em }}</span>
-            }
-          </div>
+
 
           <div class="msgs" #msgsContainer>
             @for (msg of chatMessages(); track $index) {
@@ -172,6 +167,19 @@
           </div>
         </div>
 
+        <!-- Mobile feedback overlay — absolute inside screen -->
+        @if (activeMobileFeedback(); as fb) {
+          <div class="mobile-feedback-panel">
+            <div class="m-fb-pill" [class.good]="fb.level === 'safe' || fb.level === 'careful'" [class.bad]="fb.level === 'risky' || fb.level === 'danger'">
+              {{ fb.level === 'safe' || fb.level === 'careful' ? '✅ Asertiva' : '⚠️ Poco recomendada' }}
+            </div>
+            <p class="m-fb-text">{{ fb.alert.text }}</p>
+            <button type="button" class="m-continue-btn" (click)="continueMobileFlow()">
+              Continuar →
+            </button>
+          </div>
+        }
+
       </div><!-- /screen -->
 
       <!-- Home bar -->
@@ -188,17 +196,7 @@
         <p>Cada decisión cuenta. Mira por qué.</p>
       </div>
 
-      <div class="shield">
-        <div class="lab">
-          <span>Escudo de seguridad</span>
-          <span class="val">{{ shieldPercent() }}%</span>
-        </div>
-        <div class="meter">
-          <i [style.width]="shieldPercent() + '%'"
-             [style.background]="shieldPercent() >= 70 ? 'linear-gradient(90deg,#22c55e,#86efac)' : (shieldPercent() >= 45 ? 'linear-gradient(90deg,#f59e0b,#fcd34d)' : 'linear-gradient(90deg,#ef4444,#fca5a5)')">
-          </i>
-        </div>
-      </div>
+
 
       <div class="alert-stack">
         @if (coachAlerts().length === 0) {

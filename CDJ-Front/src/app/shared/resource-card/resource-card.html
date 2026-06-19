@@ -11,6 +11,7 @@
         
         <span class="rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider shadow-sm"
               [class.bg-violet-100]="item.type === 'game'" [class.text-violet-700]="item.type === 'game'"
+              [class.bg-amber-100]="item.type === 'activity'" [class.text-amber-700]="item.type === 'activity'"
               [class.bg-sky-100]="item.type === 'video'" [class.text-sky-700]="item.type === 'video'"
               [class.bg-rose-100]="item.type === 'guide'" [class.text-rose-700]="item.type === 'guide'">
           {{ item.typeLabel }}

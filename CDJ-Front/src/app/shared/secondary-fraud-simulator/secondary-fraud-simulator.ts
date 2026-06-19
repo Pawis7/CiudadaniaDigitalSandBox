@@ -42,6 +42,7 @@ export class SecondaryFraudSimulatorComponent {
 
   // Mobile game HUD
   readonly lastChoiceLevel = signal<string>('');
+  readonly activeMobileFeedback = signal<any | null>(null);
   readonly livesLost = computed(() =>
     Math.min(3, this.history().filter(h => h.level === 'danger').length)
   );
@@ -137,17 +138,19 @@ export class SecondaryFraudSimulatorComponent {
     this.turnIndex.set(0);
     this.score.set(0);
     this.maxScore.set(c.turns.length * 2);
-    this.awaiting.set(false);
+    this.awaiting.set(true);
     this.history.set([]);
     this.coachAlerts.set([]);
     this.chatMessages.set([]);
     this.resultOpen.set(false);
     this.coachDrawerOpen.set(false);
+    this.activeMobileFeedback.set(null);
     this.resetField();
 
     await this.sleep(400);
     await this.botSays(c.intro);
     this.renderOptions();
+    this.awaiting.set(false);
   }
 
   renderOptions(): void {
@@ -175,9 +178,9 @@ export class SecondaryFraudSimulatorComponent {
       if (this.soundOn() && Math.random() < 0.5) {
         this.playBeep(900 + Math.random() * 200, 0.015, "square", 0.015);
       }
-      await this.sleep(26 + Math.random() * 30);
+      await this.sleep(6 + Math.random() * 8);
     }
-    await this.sleep(200);
+    await this.sleep(60);
     this.fieldText.set(text);
   }
 
@@ -217,7 +220,37 @@ export class SecondaryFraudSimulatorComponent {
     }
 
     await this.sleep(400);
-    await this.botSays(o.reply);
+    const isMobile = window.innerWidth <= 680;
+    if (isMobile) {
+      this.activeMobileFeedback.set({
+        alert: o.alert,
+        level: o.level,
+        reply: o.reply
+      });
+      // Awaiting remains true to block options rendering while feedback is open
+    } else {
+      await this.botSays(o.reply);
+
+      const nextTurn = this.turnIndex() + 1;
+      this.turnIndex.set(nextTurn);
+      this.awaiting.set(false);
+
+      const c = this.currentCase();
+      if (c && nextTurn >= c.turns.length) {
+        this.finish();
+      } else {
+        this.renderOptions();
+      }
+    }
+  }
+
+  async continueMobileFlow(): Promise<void> {
+    const fb = this.activeMobileFeedback();
+    if (!fb) return;
+
+    this.activeMobileFeedback.set(null);
+    await this.sleep(200);
+    await this.botSays(fb.reply);
 
     const nextTurn = this.turnIndex() + 1;
     this.turnIndex.set(nextTurn);
@@ -250,7 +283,7 @@ export class SecondaryFraudSimulatorComponent {
   async botSays(list: any[]): Promise<void> {
     for (const m of list) {
       if (m.t === "—") continue;
-      await this.showTyping(700 + Math.min(m.t.length * 16, 1400));
+      await this.showTyping(200 + Math.min(m.t.length * 5, 400));
       this.chatMessages.update(msgs => [...msgs, {
         side: 'in',
         text: m.t,

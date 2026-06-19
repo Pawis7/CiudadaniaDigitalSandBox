@@ -9,30 +9,32 @@
     <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl"></div>
   </div>
 
-  <!-- Header -->
-  <div *ngIf="step() === 'start'" class="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--border-soft)] pb-5">
+  <div class="relative z-10 max-w-4xl mx-auto">
+
+    <!-- Header -->
+    <div *ngIf="step() === 'start'" class="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--border-soft)] pb-5">
+      <div>
+        <p class="eyebrow text-xs uppercase font-bold tracking-widest text-[color:var(--aud)]">Secundaria · Privacidad y seguridad</p>
+        <h2 class="text-2xl sm:text-3xl font-black text-[color:var(--text-primary)] mt-1">CDJ-148 · Candado rápido</h2>
+        <p class="mt-2 max-w-2xl text-sm sm:text-base leading-relaxed text-[color:var(--text-soft)]">
+          Audita el perfil ficticio de Ana, identifica riesgos en sus publicaciones and prioriza los 3 ajustes de privacidad más importantes para proteger sus datos.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--aud-cream)] px-3.5 py-2 text-[color:var(--aud)]">
+          <span translate="no" class="material-symbols-rounded text-sm">schedule</span>
+          {{ data.metadata.duration_minutes }} minutos
+        </span>
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 dark:bg-rose-950/30 px-3.5 py-2 text-rose-700 dark:text-rose-400 border border-transparent dark:border-rose-900/50">
+          <span translate="no" class="material-symbols-rounded text-sm">shield_lock</span>
+          Auditoría ficticia
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Game Workspace -->
     <div>
-      <p class="eyebrow text-xs uppercase font-bold tracking-widest text-[color:var(--aud)]">Secundaria · Privacidad y seguridad</p>
-      <h2 class="text-2xl sm:text-3xl font-black text-[color:var(--text-primary)] mt-1">CDJ-148 · Candado rápido</h2>
-      <p class="mt-2 max-w-2xl text-sm sm:text-base leading-relaxed text-[color:var(--text-soft)]">
-        Audita el perfil ficticio de Ana, identifica riesgos en sus publicaciones y prioriza los 3 ajustes de privacidad más importantes para proteger sus datos.
-      </p>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--aud-cream)] px-3.5 py-2 text-[color:var(--aud)]">
-        <span translate="no" class="material-symbols-rounded text-sm">schedule</span>
-        {{ data.metadata.duration_minutes }} minutos
-      </span>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-rose-50 dark:bg-rose-950/30 px-3.5 py-2 text-rose-700 dark:text-rose-400 border border-transparent dark:border-rose-900/50">
-        <span translate="no" class="material-symbols-rounded text-sm">shield_lock</span>
-        Auditoría ficticia
-      </span>
-    </div>
-  </div>
-
-  <!-- Main Game Workspace -->
-  <div class="relative z-10">
 
     <!-- STEP 1: INTRO / MISIÓN -->
     <div *ngIf="step() === 'start'" class="hero rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6 animate-fade-in">
@@ -480,5 +482,7 @@
     </div>
 
   </div>
+
+</div>
 
 </section>

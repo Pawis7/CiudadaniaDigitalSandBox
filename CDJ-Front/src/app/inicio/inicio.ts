@@ -5,14 +5,13 @@ import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
-import { SectionFeaturedSelectorComponent } from '../shared/section-featured-selector/section-featured-selector';
 import { HeroSectionComponent } from '../hero-section/hero-section';
 import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, SectionFeaturedSelectorComponent, HeroSectionComponent, ImageLoaderDirective],
+  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, HeroSectionComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',

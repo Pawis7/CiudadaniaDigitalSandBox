@@ -1651,6 +1651,9 @@ body.sidebar-collapsed .catalog-hero {
 }
 
 .widget-modal-panel {
+  background-color: var(--surface-base);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-xl);
   animation: modalPanelIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

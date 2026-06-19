@@ -25,7 +25,8 @@ export class ResourceCardComponent {
       this.item.id === 'presencia-adulta' ||
       this.item.id === 'riesgos-reales' ||
       this.item.id === 'presencia-jovenes' ||
-      this.item.id === 'privacidad-dinero'
+      this.item.id === 'privacidad-dinero' ||
+      this.item.id === 'sticker-control'
     );
   }
 

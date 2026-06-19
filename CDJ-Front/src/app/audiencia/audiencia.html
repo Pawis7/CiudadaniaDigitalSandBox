@@ -170,6 +170,20 @@
         </button>
 
         <button type="button" 
+                (click)="activeFilter.set('activity')" 
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
+                [class.bg-amber-600]="activeFilter() === 'activity'"
+                [class.text-white]="activeFilter() === 'activity'"
+                [class.bg-[color:var(--surface-card)]]="activeFilter() !== 'activity'"
+                [class.text-amber-700]="activeFilter() !== 'activity'"
+                [class.border]="activeFilter() !== 'activity'"
+                [class.border-[color:var(--border-soft)]]="activeFilter() !== 'activity'"
+                [class.hover:bg-amber-50]="activeFilter() !== 'activity'">
+          <span translate="no" class="material-symbols-rounded text-[13px] icon-fill">assignment</span>
+          Cuestionarios
+        </button>
+
+        <button type="button" 
                 (click)="activeFilter.set('video')" 
                 class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold transition-all"
                 [class.bg-sky-600]="activeFilter() === 'video'"
@@ -277,7 +291,6 @@
         <p class="eyebrow text-[color:var(--c-edutips)]">Contenido destacado</p>
         <h2 class="display-2 mt-1">Recomendados para este perfil</h2>
       </div>
-      <app-section-featured-selector [section]="audienceTheme()" [sectionTitle]="page()?.title ?? 'este perfil'" />
     </div>
 
     <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -292,29 +305,13 @@
     </div>
   </section>
 
-  <!-- BANNER INFERIOR -->
-  @if (p.bottomBanner; as banner) {
-    <section appReveal="up" class="mb-12 sm:mb-16 no-print">
-      <div class="overflow-hidden rounded-[2rem] p-8 sm:p-12 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-[color:var(--aud)] to-slate-900">
-        <div class="space-y-3">
-          <h3 class="text-2xl sm:text-3xl font-black tracking-tight">{{ banner.title }}</h3>
-          <p class="text-white/80 max-w-2xl text-sm sm:text-base leading-relaxed">{{ banner.description }}</p>
-        </div>
-        <a [href]="banner.buttonHref" 
-           (click)="onBannerActionClicked(banner, $event)"
-           class="btn btn-secondary btn-lg whitespace-nowrap bg-white text-[color:var(--aud)] hover:bg-white/90 border-transparent shadow-md cursor-pointer">
-          {{ banner.buttonLabel }}
-        </a>
-      </div>
-    </section>
-  }
 
   @if (activeWidget(); as widget) {
     <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 widget-modal-overlay no-print"
          role="dialog"
          aria-modal="true">
       <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" (click)="closeWidgetModal()"></div>
 
       <!-- Close button (floating top-right) -->
       <button
@@ -325,8 +322,8 @@
         <span translate="no" class="material-symbols-rounded text-lg">close</span>
       </button>
 
-      <!-- Phone component renders directly — no card wrapper -->
-      <div class="relative z-10">
+      <!-- Phone component renders directly — scroll inside card -->
+      <div class="relative z-10 max-h-[88vh] overflow-y-auto w-full max-w-4xl rounded-[2rem] scrollbar-thin widget-modal-panel">
         <ng-container [ngComponentOutlet]="widget" />
       </div>
     </div>

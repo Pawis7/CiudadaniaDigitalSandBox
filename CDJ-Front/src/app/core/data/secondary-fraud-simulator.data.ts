@@ -238,7 +238,7 @@ export const SECONDARY_FRAUD_SIMULATOR_DATA: FraudCase[] = [
         { txt: "No comparto códigos con nadie 🔐", level: "safe",
           reply: [{ t: "Pero si soy tu primo 😢 ándale" }],
           alert: { type: "safe", title: "Regla de oro cumplida", text: "Un código de verificación NO se comparte jamás, ni con \"familiares\". Lo tienes clarísimo." } },
-        { txt: "Necesito que me prestes $500 a este número 💸", level: "danger",
+        { txt: "Te transfiero los $500 pesos que me pides 💸", level: "danger",
           reply: [{ t: "¡Sí! Mándalos a esta cuenta porfa 🙏" }],
           alert: { type: "danger", title: "Dinero urgente: clásico fraude", text: "Pedir dinero \"urgente\" haciéndose pasar por un familiar es de los engaños más comunes. Confirma siempre antes." } }
       ]},

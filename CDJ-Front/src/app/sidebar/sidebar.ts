@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../core/services/auth.service';
 import { ContentService } from '../core/services/content.service';
 import { CdjLogoComponent } from '../shared/cdj-logo/cdj-logo';
-import { ImageEditService } from '../core/services/image-edit.service';
 
 interface SidebarItem {
   id: string;
@@ -32,27 +30,16 @@ const COLLAPSE_KEY = 'cdj_sidebar_collapsed';
   changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
-})
+ })
 export class SidebarComponent {
   @Input() variant: 'desktop' | 'mobile' = 'desktop';
   @Output() navigate = new EventEmitter<void>();
-  @Output() logout = new EventEmitter<void>();
-
-  private auth = inject(AuthService);
-  isAuthenticated = this.auth.isLogged;
-
-  private imgEdit = inject(ImageEditService);
-  editMode = this.imgEdit.isEditActive;   // ← siempre auth-gated
 
   private content = inject(ContentService);
   branding = this.content.branding;
 
   collapsed = signal<boolean>(this.readCollapsed());
   openedAudience = signal<string | null>(null);
-
-  toggleEdit() {
-    this.imgEdit.toggleEdit();
-  }
 
   constructor() {
     effect(() => {

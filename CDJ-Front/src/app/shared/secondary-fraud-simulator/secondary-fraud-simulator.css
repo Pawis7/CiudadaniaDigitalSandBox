@@ -172,10 +172,7 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 
 /* ─── STATUS BAR ─────────────────────────────────────── */
 .statusbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 22px 4px;
+  height: 44px;
   font-size: 12px;
   font-weight: 700;
   color: #0f172a;
@@ -183,9 +180,34 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   flex-shrink: 0;
   position: relative;
   z-index: 2;
+  width: 100%;
 }
 
-.statusbar .icons { display: flex; gap: 5px; align-items: center; font-size: 11px; }
+.statusbar-time {
+  position: absolute;
+  left: 20px;
+  top: 60%;
+  transform: translateY(-50%);
+}
+
+.statusbar .icons {
+  position: absolute;
+  right: 20px;
+  top: 60%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+/* status bar signal, wifi, battery icons styling */
+.statusbar .signal { display: flex; align-items: flex-end; gap: 1.5px; height: 11px; }
+.statusbar .b { width: 2.5px; background: currentColor; border-radius: 0.6px; }
+.statusbar .b1 { height: 4px; } .statusbar .b2 { height: 6px; } .statusbar .b3 { height: 9px; } .statusbar .b4 { height: 11px; }
+.statusbar .wifi { width: 16px; height: 13px; flex-shrink: 0; color: currentColor; }
+.statusbar .battery { position: relative; width: 22px; height: 11px; border: 1.5px solid currentColor; border-radius: 3px; padding: 1.5px; display: flex; align-items: center; }
+.statusbar .battery::after { content: ''; position: absolute; right: -3px; top: 50%; transform: translateY(-50%); width: 1.5px; height: 4px; background: currentColor; border-radius: 0 1px 1px 0; }
+.statusbar .batt-level { height: 100%; width: 80%; background: currentColor; border-radius: 1px; }
 
 /* ─── INBOX ──────────────────────────────────────────── */
 .wa-inbox { display: flex; flex-direction: column; flex: 1; overflow: hidden; background: #fff; }
@@ -458,6 +480,16 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   /* Hide the external coach panel entirely */
   .coach-side { display: none !important; }
 
+  .statusbar {
+    padding: 14px 16px 4px;
+  }
+  .statusbar-time {
+    left: 14px !important;
+  }
+  .statusbar .icons {
+    right: 14px !important;
+  }
+
   .sim-layout {
     flex-direction: column;
     align-items: center;
@@ -473,8 +505,8 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   }
 
   .phone {
-    width: 100%;
-    max-width: min(390px, 96vw);
+    width: 360px;
+    max-width: 96vw;
     border-radius: 44px;
   }
 
@@ -563,6 +595,66 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
     to   { transform: scale(1) rotate(0); }
   }
 }
+
+/* ─── MOBILE FEEDBACK PANEL — slides in from bottom inside screen ── */
+.mobile-feedback-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 16px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 60%;
+  overflow-y: auto;
+  box-shadow: 0 -8px 30px rgba(0,0,0,.18);
+  animation: mFeedIn .3s cubic-bezier(.2,.9,.3,1) both;
+}
+
+@keyframes mFeedIn {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+
+.m-fb-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 900;
+  align-self: flex-start;
+}
+
+.m-fb-pill.good { background: #dcfce7; color: #15803d; }
+.m-fb-pill.bad  { background: #fee2e2; color: #b91c1c; }
+
+.m-fb-text {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #374151;
+  font-weight: 600;
+}
+
+.m-continue-btn {
+  background: linear-gradient(145deg, #FF8300, #B50038);
+  color: #fff;
+  border-radius: 14px;
+  padding: 11px;
+  font-weight: 900;
+  font-size: 13px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(181,0,56,.35);
+  transition: transform .14s;
+  margin-top: 2px;
+  width: 100%;
+}
+.m-continue-btn:active { transform: scale(.97); }
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .001s !important; transition-duration: .05s !important; }

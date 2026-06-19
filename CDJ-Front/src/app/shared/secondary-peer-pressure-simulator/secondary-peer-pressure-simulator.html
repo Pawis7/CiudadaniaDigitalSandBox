@@ -1,192 +1,254 @@
-<div class="phone-wrap" id="secundaria-presion">
-  <div class="phone">
-    <div class="notch"></div>
-    <div class="screen">
+<div class="sim-layout">
 
-      <!-- iOS Status Bar -->
-      <div class="statusbar dark">
-        <span>14:21</span>
-        <div class="icons">
-          <div class="signal">
-            <span class="b b1"></span>
-            <span class="b b2"></span>
-            <span class="b b3"></span>
-            <span class="b b4"></span>
-          </div>
-          <svg class="wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round">
-            <path d="M1 3.5c4-3.3 10-3.3 14 0"/>
-            <path d="M3.5 6.2c2.5-2 6.5-2 9 0"/>
-            <path d="M6 9c1-0.8 3-0.8 4 0"/>
-            <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none"/>
-          </svg>
-          <div class="battery"><div class="batt-level"></div></div>
-        </div>
-      </div>
+  <div class="phone-wrap" id="secundaria-presion">
+    <div class="phone">
+      <!-- iPhone 17 hardware details -->
+      <div class="hw-vol-top"></div>
+      <div class="hw-vol-bot"></div>
+      <div class="hw-power"></div>
+      <div class="hw-action"></div>
 
-      <!-- === INTRO SCREEN === -->
-      @if (!started()) {
-        <div class="pp-intro">
-          <div class="pp-intro-icon">💬</div>
-          <h3>Grupo de Chat</h3>
-          <p>Aquí verás los mensajes del grupo <strong>2.º B</strong> en tiempo real. Practica cómo pausar la presión y decidir sin sumarte al daño.</p>
-          <div class="pp-chips">
-            <span>6 momentos</span>
-            <span>Sin datos reales</span>
-            <span>Fortaleza · Juicio</span>
-          </div>
-          <button type="button" class="pp-start-btn" (click)="start()">▶ Entrar al chat simulado</button>
-        </div>
-      }
+      <div class="screen">
 
-      <!-- === FINISHED SCREEN inside phone === -->
-      @else if (finished()) {
-        <div class="pp-done" [class.good]="result().min === 21" [class.mid]="result().min === 15" [class.bad]="result().min === 6">
-          <div class="pp-done-icon">👍</div>
-          <h3>{{ result().titulo }}</h3>
-          <p>{{ result().mensaje }}</p>
+        <!-- Dynamic Island -->
+        <div class="dynamic-island"></div>
 
-          <div class="pp-done-grid">
-            <div class="pp-done-card">
-              <strong>Fortalezas</strong>
-              <ul>
-                @for (f of result().fortalezas; track f) { <li>{{ f }}</li> }
-              </ul>
+        <!-- iOS Status Bar -->
+        <div class="statusbar dark">
+          <span class="statusbar-time">14:21</span>
+          <div class="icons">
+            <div class="signal">
+              <span class="b b1"></span>
+              <span class="b b2"></span>
+              <span class="b b3"></span>
+              <span class="b b4"></span>
             </div>
-            <div class="pp-done-card">
-              <strong>Punto a cuidar</strong>
-              <p>{{ result().punto_ciego }}</p>
+            <svg class="wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M1 3.5c4-3.3 10-3.3 14 0"/>
+              <path d="M3.5 6.2c2.5-2 6.5-2 9 0"/>
+              <path d="M6 9c1-0.8 3-0.8 4 0"/>
+              <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+            <div class="battery"><div class="batt-level"></div></div>
+          </div>
+        </div>
+
+        <!-- === INTRO SCREEN === -->
+        @if (!started()) {
+          <div class="pp-intro">
+            <div class="pp-intro-icon">💬</div>
+            <h3>Grupo de Chat</h3>
+            <p>Aquí verás los mensajes del grupo <strong>2.º B</strong> en tiempo real. Practica cómo pausar la presión y decidir sin sumarte al daño.</p>
+            <div class="pp-chips">
+              <span>6 momentos</span>
+              <span>Sin datos reales</span>
+              <span>Fortaleza · Juicio</span>
             </div>
-          </div>
-
-          <div class="pp-done-phrase">
-            <em>"Antes de reenviar, capturar o hacer sticker, paro 10 segundos: ¿expone, humilla o puede seguir circulando?"</em>
-          </div>
-
-          <div class="pp-done-actions">
-            <button type="button" class="pp-btn-ghost" (click)="restart()">↩ Reintentar</button>
-            <button type="button" class="pp-btn-primary" (click)="printResults()">⎙ Guardar cierre</button>
-          </div>
-        </div>
-      }
-
-      <!-- === ACTIVE GAME SCREEN === -->
-      @else {
-        <!-- WhatsApp Chat Header -->
-        <div class="pp-wa-head">
-          <div class="pp-av">2B</div>
-          <div class="pp-meta">
-            <span class="nm">Grupo 2.º B</span>
-            <span class="st">
-              <span class="dot"></span>
-              <span>{{ isTyping() ? 'escribiendo…' : 'Chat escolar ficticio' }}</span>
-            </span>
-          </div>
-          <span class="pp-dots">⋮</span>
-        </div>
-
-        <!-- Progress bar -->
-        <div class="pp-progress">
-          @for (moment of moments; track moment.id; let idx = $index) {
-            <span class="pp-pip" [class.active]="idx === currentMomentIndex()" [class.done]="idx < currentMomentIndex()"></span>
-          }
-          <span class="pp-step-label">Momento {{ currentMomentIndex() + 1 }}/{{ moments.length }}</span>
-        </div>
-
-        <!-- Chat bubbles -->
-        <div class="pp-msgs" #msgsContainer>
-          @if (currentMoment(); as step) {
-            @for (msg of step.chat; track $index) {
-              <div class="pp-row"
-                [class.pp-me]="msg.from === 'me'"
-                [class.pp-sys]="msg.from === 'system'"
-                [style.animation-delay]="$index * 150 + 'ms'">
-                @if (msg.from === 'system') {
-                  <div class="pp-sys-pill">{{ msg.text }}</div>
-                } @else {
-                  <div class="pp-bubble" [class.pp-mine]="msg.from === 'me'">
-                    @if (msg.from !== 'me') {
-                      <span class="pp-sender">{{ msg.name }}</span>
-                    }
-                    {{ msg.text }}
-                    <small class="pp-time">{{ msg.time }}</small>
-                  </div>
-                }
-              </div>
-            }
-
-            <!-- User sent message -->
-            @if (activeFeedbackChoice(); as chosen) {
-              <div class="pp-row pp-me">
-                <div class="pp-bubble pp-mine">
-                  {{ chosen.texto_visible }}
-                  <small class="pp-time">✓✓ Enviado</small>
-                </div>
-              </div>
-            }
-
-            @if (isTyping()) {
-              <div class="pp-row">
-                <div class="pp-typing">
-                  <span></span><span></span><span></span>
-                </div>
-              </div>
-            }
-          }
-        </div>
-
-        <!-- Options bar (when no choice made yet) -->
-        @if (!activeFeedbackChoice() && currentMoment(); as step) {
-          <div class="pp-options">
-            @for (choice of step.opciones; track choice.id) {
-              <button type="button" class="pp-opt" [disabled]="isTyping()" (click)="choose(choice)">
-                <span>{{ choice.texto_visible }}</span>
-                <span class="pp-go">➤</span>
-              </button>
-            }
+            <button type="button" class="pp-start-btn" (click)="start()">▶ Entrar al chat simulado</button>
           </div>
         }
 
-        <!-- Input bar placeholder -->
-        <div class="pp-inputbar" [class.hidden]="!activeFeedbackChoice()">
-          <span class="pp-plus">＋</span>
-          <div class="pp-field">
-            <span class="pp-ph">{{ activeFeedbackChoice() ? 'Mensaje enviado' : 'Elige una opción…' }}</span>
-          </div>
-          <span class="pp-mic">🎤</span>
-        </div>
+        <!-- === FINISHED SCREEN inside phone === -->
+        @else if (finished()) {
+          <div class="pp-done" [class.good]="result().min === 21" [class.mid]="result().min === 15" [class.bad]="result().min === 6">
+            <div class="pp-done-icon">👍</div>
+            <h3>{{ result().titulo }}</h3>
+            <p>{{ result().mensaje }}</p>
 
-        <!-- Feedback overlay (slides in from right inside phone) -->
-        @if (activeFeedbackChoice(); as chosen) {
-          <div class="pp-feedback-panel">
-            <div class="pp-fb-pill" [class.good]="chosen.puntos >= 3" [class.bad]="chosen.puntos < 3">
-              {{ chosen.puntos >= 3 ? '✅ Asertiva' : '⚠️ Poco recomendada' }}
+            <div class="pp-done-grid">
+              <div class="pp-done-card">
+                <strong>Fortalezas</strong>
+                <ul>
+                  @for (f of result().fortalezas; track f) { <li>{{ f }}</li> }
+                </ul>
+              </div>
+              <div class="pp-done-card">
+                <strong>Punto a cuidar</strong>
+                <p>{{ result().punto_ciego }}</p>
+              </div>
             </div>
-            <p class="pp-fb-text">{{ chosen.feedback }}</p>
-            <div class="pp-fb-micro">
-              <strong>Microacción útil</strong>
-              <span>{{ chosen.microaccion }}</span>
+
+            <div class="pp-done-phrase">
+              <em>"Antes de reenviar, capturar o hacer sticker, paro 10 segundos: ¿expone, humilla o puede seguir circulando?"</em>
             </div>
+
+            <div class="pp-done-actions">
+              <button type="button" class="pp-btn-ghost" (click)="restart()">↩ Reintentar</button>
+              <button type="button" class="pp-btn-primary" (click)="printResults()">⎙ Guardar cierre</button>
+            </div>
+          </div>
+        }
+
+        <!-- === ACTIVE GAME SCREEN === -->
+        @else {
+          <!-- WhatsApp Chat Header -->
+          <div class="pp-wa-head">
+            <div class="pp-av">2B</div>
+            <div class="pp-meta">
+              <span class="nm">Grupo 2.º B</span>
+              <span class="st">
+                <span class="dot"></span>
+                <span>{{ isTyping() ? 'escribiendo…' : 'Chat escolar ficticio' }}</span>
+              </span>
+            </div>
+            <span class="pp-dots">⋮</span>
+          </div>
+
+          <!-- Chat bubbles -->
+          <div class="pp-msgs" #msgsContainer>
             @if (currentMoment(); as step) {
-              @if (data.termometro_de_presion[step.pressure_level - 1]; as term) {
-                <div class="pp-fb-thermo">
-                  <strong>🌡️ Nivel {{ term.nivel }} · {{ term.nombre }}</strong>
-                  <span>{{ term.senal }}</span>
+              @for (msg of step.chat; track $index) {
+                <div class="pp-row"
+                  [class.pp-me]="msg.from === 'me'"
+                  [class.pp-sys]="msg.from === 'system'"
+                  [style.animation-delay]="$index * 150 + 'ms'">
+                  @if (msg.from === 'system') {
+                    <div class="pp-sys-pill">{{ msg.text }}</div>
+                  } @else {
+                    <div class="pp-bubble" [class.pp-mine]="msg.from === 'me'">
+                      @if (msg.from !== 'me') {
+                        <span class="pp-sender">{{ msg.name }}</span>
+                      }
+                      {{ msg.text }}
+                      <small class="pp-time">{{ msg.time }}</small>
+                    </div>
+                  }
                 </div>
               }
-              <div class="pp-fb-question">
-                <strong>💬 Para conversar en clase</strong>
-                <span>{{ step.pregunta_generadora_posterior }}</span>
+
+              <!-- User sent message -->
+              @if (activeFeedbackChoice(); as chosen) {
+                <div class="pp-row pp-me">
+                  <div class="pp-bubble pp-mine">
+                    {{ chosen.texto_visible }}
+                    <small class="pp-time">✓✓ Enviado</small>
+                  </div>
+                </div>
+              }
+
+              @if (isTyping()) {
+                <div class="pp-row">
+                  <div class="pp-typing">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+
+          <!-- Options bar (when no choice made yet) -->
+          @if (!activeFeedbackChoice() && currentMoment(); as step) {
+            <div class="pp-options">
+              @for (choice of step.opciones; track choice.id) {
+                <button type="button" class="pp-opt" [disabled]="isTyping()" (click)="choose(choice)">
+                  <span>{{ choice.texto_visible }}</span>
+                  <span class="pp-go">➤</span>
+                </button>
+              }
+            </div>
+          }
+
+          <!-- Input bar placeholder -->
+          <div class="pp-inputbar" [class.hidden]="!activeFeedbackChoice()">
+            <span class="pp-plus">＋</span>
+            <div class="pp-field">
+              <span class="pp-ph">{{ activeFeedbackChoice() ? 'Mensaje enviado' : 'Elige una opción…' }}</span>
+            </div>
+            <span class="pp-mic">🎤</span>
+          </div>
+
+          <!-- Feedback overlay (slides in from right inside phone - ONLY VISIBLE ON MOBILE VIA CSS) -->
+          @if (activeFeedbackChoice(); as chosen) {
+            <div class="pp-feedback-panel">
+              <div class="pp-fb-pill" [class.good]="chosen.puntos >= 3" [class.bad]="chosen.puntos < 3">
+                {{ chosen.puntos >= 3 ? '✅ Asertiva' : '⚠️ Poco recomendada' }}
+              </div>
+              <p class="pp-fb-text">{{ chosen.feedback }}</p>
+              <div class="pp-fb-micro">
+                <strong>Microacción útil</strong>
+                <span>{{ chosen.microaccion }}</span>
+              </div>
+              @if (currentMoment(); as step) {
+                @if (data.termometro_de_presion[step.pressure_level - 1]; as term) {
+                  <div class="pp-fb-thermo">
+                    <strong>🌡️ Nivel {{ term.nivel }} · {{ term.nombre }}</strong>
+                    <span>{{ term.senal }}</span>
+                  </div>
+                }
+                <div class="pp-fb-question">
+                  <strong>💬 Para conversar en clase</strong>
+                  <span>{{ step.pregunta_generadora_posterior }}</span>
+                </div>
+              }
+              <button type="button" class="pp-continue-btn" (click)="continueFlow()">
+                {{ currentMomentIndex() === moments.length - 1 ? 'Ver mi cierre' : 'Continuar' }} →
+              </button>
+            </div>
+          }
+        }
+
+      </div><!-- /screen -->
+
+      <!-- Home bar -->
+      <div class="home-bar"></div>
+
+    </div><!-- /phone -->
+  </div>
+
+  <!-- ─── COACH PANEL (beside phone, only when game active) ──── -->
+  @if (started() && !finished()) {
+    <aside class="coach-side">
+      <div class="coach-head">
+        <h2>🧠 Tu detector</h2>
+        <p>Cada decisión cuenta. Mira por qué.</p>
+      </div>
+
+      <div class="alert-stack">
+        @if (!activeFeedbackChoice()) {
+          <div class="coach-empty">
+            <div class="big">👀</div>
+            <p>Lee bien cada mensaje y elige cómo responder. Aquí te explicaré la asertividad y consecuencias de tu decisión.</p>
+          </div>
+        } @else {
+          @let chosen = activeFeedbackChoice()!;
+          <div class="alert" [class]="chosen.puntos >= 3 ? 'safe' : 'danger'">
+            <span class="badge">{{ chosen.puntos >= 3 ? 'Asertivo' : 'Cuidado' }}</span>
+            <div class="ah">
+              <span class="em">{{ chosen.puntos >= 3 ? '✅' : '⚠️' }}</span>
+              {{ chosen.puntos >= 3 ? 'Respuesta Asertiva' : 'Poco recomendada' }}
+            </div>
+            <p>{{ chosen.feedback }}</p>
+          </div>
+
+          <div class="alert tip">
+            <span class="badge">Tip</span>
+            <div class="ah"><span class="em">💡</span>Microacción útil</div>
+            <p>{{ chosen.microaccion }}</p>
+          </div>
+
+          @if (currentMoment(); as step) {
+            @if (data.termometro_de_presion[step.pressure_level - 1]; as term) {
+              <div class="alert danger">
+                <span class="badge">Nivel {{ term.nivel }}</span>
+                <div class="ah"><span class="em">🌡️</span>{{ term.nombre }}</div>
+                <p>{{ term.senal }}</p>
               </div>
             }
-            <button type="button" class="pp-continue-btn" (click)="continueFlow()">
-              {{ currentMomentIndex() === moments.length - 1 ? 'Ver mi cierre' : 'Continuar' }} →
-            </button>
-          </div>
-        }
-      }
+            <div class="alert tip">
+              <span class="badge">Conversar</span>
+              <div class="ah"><span class="em">💬</span>Para conversar en clase</div>
+              <p>{{ step.pregunta_generadora_posterior }}</p>
+            </div>
+          }
 
-    </div><!-- /screen -->
-  </div><!-- /phone -->
+          <button type="button" class="pp-side-continue-btn" (click)="continueFlow()">
+            {{ currentMomentIndex() === moments.length - 1 ? 'Ver mi cierre' : 'Continuar' }} →
+          </button>
+        }
+      </div>
+    </aside>
+  }
+
 </div>
 
 <!-- Toast -->

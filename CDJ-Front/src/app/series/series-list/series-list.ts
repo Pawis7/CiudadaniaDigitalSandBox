@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { ContentService } from '../../core/services/content.service';
 import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
-import { SectionFeaturedSelectorComponent } from '../../shared/section-featured-selector/section-featured-selector';
 import { ImageLoaderDirective } from '../../shared/image-loader/image-loader.directive';
 
 import { ImageEditService } from '../../core/services/image-edit.service';
@@ -13,7 +12,7 @@ import { ImageEditService } from '../../core/services/image-edit.service';
 @Component({
   selector: 'app-series-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, FeatureCardComponent, SectionFeaturedSelectorComponent, ImageLoaderDirective],
+  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, FeatureCardComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-list.html',
 })
