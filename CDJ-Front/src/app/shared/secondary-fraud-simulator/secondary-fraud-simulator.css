@@ -176,11 +176,16 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   font-size: 12px;
   font-weight: 700;
   color: #0f172a;
-  background: #fff;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 2;
-  width: 100%;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.statusbar.light {
+  color: #fff;
 }
 
 .statusbar-time {
@@ -215,6 +220,17 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 .wa-inbox-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 10px 14px 8px; background: var(--wa-green); color: #fff;
+  margin-top: 44px;
+  position: relative;
+}
+.wa-inbox-header::before {
+  content: '';
+  position: absolute;
+  top: -44px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: inherit;
 }
 .wa-inbox-header .title { font-size: 17px; font-weight: 800; font-family: var(--wa-font); }
 
@@ -256,6 +272,17 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   display: flex; align-items: center; gap: 11px;
   background: var(--wa-green); padding: 8px 12px;
   flex-shrink: 0; z-index: 5;
+  margin-top: 44px;
+  position: relative;
+}
+.wa-head::before {
+  content: '';
+  position: absolute;
+  top: -44px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: inherit;
 }
 .wa-back { font-size: 22px; color: #fff; padding: 2px 4px; line-height: 1; }
 .wa-av {

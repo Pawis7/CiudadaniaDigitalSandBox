@@ -1,527 +1,283 @@
-<section
-  id="secundaria-sticker"
-  class="sim-shell relative overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] px-5 py-6 shadow-[var(--shadow-xl)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
-  data-audience="teens">
+<div class="sim-layout">
 
-  <!-- Background decorative blur elements -->
-  <div class="pointer-events-none absolute inset-0">
-    <div class="absolute -left-20 top-12 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"></div>
-    <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl"></div>
-  </div>
+  <!-- ─── PHONE ─────────────────────────────── -->
+  <div class="phone-wrap" id="secundaria-sticker">
+    <div class="phone">
 
-  <!-- Component Header -->
-  <div class="relative z-10 mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--border-soft)] pb-5">
-    <div class="space-y-1">
-      <div class="flex items-center gap-2">
-        <app-cdj-logo containerClass="h-7 w-7" variant="icon"></app-cdj-logo>
-        <p class="eyebrow text-[color:var(--aud)] mb-0">Secundaria · {{ data.clasificacion.formato }}</p>
-      </div>
-      <h2 class="display-2 mt-1">{{ data.proposito.titulo_publico }}</h2>
-      <p class="mt-2 max-w-xl text-sm leading-relaxed text-[color:var(--text-soft)]">
-        {{ data.proposito.subtitulo }}
-      </p>
-    </div>
+      <!-- iPhone 17 hardware details -->
+      <div class="hw-vol-top"></div>
+      <div class="hw-vol-bot"></div>
+      <div class="hw-power"></div>
+      <div class="hw-action"></div>
 
-    <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-violet-50 px-3 py-1.5 text-violet-700 dark:bg-violet-950/20 dark:text-violet-300">
-        <span translate="no" class="material-symbols-rounded text-sm">schedule</span>
-        {{ data.clasificacion.duracion_sugerida_minutos }} minutos
-      </span>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1.5 text-indigo-700 dark:bg-indigo-950/20 dark:text-indigo-300">
-        <span translate="no" class="material-symbols-rounded text-sm">balance</span>
-        Justicia y Respeto
-      </span>
-      <span class="inline-flex items-center gap-1.5 rounded-full bg-pink-50 px-3 py-1.5 text-pink-700 dark:bg-pink-950/20 dark:text-pink-300">
-        <span translate="no" class="material-symbols-rounded text-sm">assignment_turned_in</span>
-        CDJ-254
-      </span>
-    </div>
-  </div>
+      <!-- Screen -->
+      <div class="screen">
 
-  <div class="relative z-10 grid gap-8 lg:grid-cols-12 lg:items-start">
-    <!-- LEFT COLUMN: Intro, Game Flow, or Results -->
-    <div class="lg:col-span-7 space-y-5 flex flex-col">
-      
-      <!-- 1. INTRO STATE -->
-      @if (!started()) {
-        <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 shadow-md space-y-6">
-          <div class="flex items-center gap-2.5">
-            <span class="inline-flex items-center gap-2 rounded-xl bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] px-3 py-1.5 text-[color:var(--text-secondary)] font-bold text-xs">
-              <span translate="no" class="material-symbols-rounded text-sm text-[color:var(--aud)] icon-fill">campaign</span>
-              Taller de Reparación Digital
-            </span>
-            <span class="rounded-full bg-violet-100 text-violet-800 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider dark:bg-violet-950/40 dark:text-violet-300">
-              Secundaria
-            </span>
-          </div>
+        <!-- Dynamic Island -->
+        <div class="dynamic-island"></div>
 
-          <div class="space-y-3">
-            <h3 class="text-2xl font-black tracking-tight text-[color:var(--text-primary)]">
-              ¿Cómo reparar el daño digital?
-            </h3>
-            <p class="text-sm leading-relaxed text-[color:var(--text-soft)]">
-              En el chat grupal se compartió un sticker con una foto de Dani durante una exposición. Al principio causó risas, pero el contenido se reenvió a otros grupos y Dani ha dejado de asistir a clases. Borrar la imagen de origen no soluciona lo que ya circula. ¿Cómo actuar colectivamente para frenar la cadena de acoso y reparar la convivencia?
-            </p>
-          </div>
-
-          <!-- Evidencias Box -->
-          <div class="space-y-3 pt-1">
-            <h4 class="text-xs font-black uppercase tracking-wider text-[color:var(--text-soft)] flex items-center gap-2">
-              <span translate="no" class="material-symbols-rounded text-base text-violet-500">folder_open</span>
-              Evidencias Neutrales del Caso
-            </h4>
-            <div class="grid gap-2 sm:grid-cols-1">
-              @for (ev of data.evidencias_generales; track ev) {
-                <div class="flex items-start gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 text-xs leading-relaxed text-[color:var(--text-secondary)] font-medium">
-                  <span translate="no" class="material-symbols-rounded text-base text-violet-600 shrink-0 mt-0.5">info</span>
-                  <span>{{ ev }}</span>
-                </div>
-              }
+        <!-- iOS Status Bar -->
+        <div class="statusbar" [class.light]="finished()">
+          <span class="statusbar-time">09:15</span>
+          <div class="icons">
+            <div class="signal">
+              <span class="b b1"></span>
+              <span class="b b2"></span>
+              <span class="b b3"></span>
+              <span class="b b4"></span>
             </div>
-          </div>
-
-          <div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-[#5c4716] text-xs leading-relaxed space-y-1 dark:bg-amber-950/20 dark:border-amber-900/40 dark:text-amber-200">
-            <b class="text-amber-950 font-black block text-sm dark:text-amber-100">Regla CDJ: Sin calificaciones previas</b>
-            <p>Este recurso te permite ensayar decisiones reales. No verás semáforos, colores evaluativos ni etiquetas de correcto/incorrecto antes de responder. Analiza las evidencias y decide con prudencia.</p>
-          </div>
-
-          <div class="pt-2">
-            <button type="button" (click)="start()" class="btn-primary w-full py-4 text-base shadow-lg hover:shadow-xl transition-all">
-              <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
-              Entrar al Taller de Reparación
-            </button>
+            <svg class="wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M1 3.5c4-3.3 10-3.3 14 0" />
+              <path d="M3.5 6.2c2.5-2 6.5-2 9 0" />
+              <path d="M6 9c1-0.8 3-0.8 4 0" />
+              <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none" />
+            </svg>
+            <div class="battery"><div class="batt-level"></div></div>
           </div>
         </div>
-      } 
-      
-      <!-- 2. RESULT STATE (FINISHED) -->
-      @else if (finished()) {
-        <div class="space-y-6 animate-feedback">
-          <!-- Final Diagnostic Alert -->
-          <div class="rounded-[1.9rem] border p-6 shadow-[var(--shadow-lg)] space-y-4 border-l-[6px]"
-               [class]="finalDiagnostic().claseColor">
-            
-            <span class="rounded-full bg-white/80 dark:bg-black/30 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[color:var(--text-primary)]">
-              Resultado del Taller
-            </span>
-            
-            <h3 class="text-2xl font-black tracking-tight">
-              {{ finalDiagnostic().titulo }}
-            </h3>
-            
-            <p class="text-sm leading-relaxed">
-              {{ finalDiagnostic().mensaje }}
-            </p>
-          </div>
 
-          <!-- 4-Dimension Repair Map -->
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-black tracking-tight text-[color:var(--text-primary)] flex items-center gap-2">
-                <span translate="no" class="material-symbols-rounded text-violet-600">map</span>
-                Mapa de Reparación Digital
-              </h3>
-              <span class="text-xs font-bold text-[color:var(--text-mute)]">CDJ-254 · Cierre personalizado</span>
+        <!-- 1. INTRO SCREEN (inside phone) -->
+        @if (!started()) {
+          <div class="phone-intro flex-1 flex flex-col justify-between p-6 text-white text-center">
+            <div class="space-y-4 pt-6">
+              <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur text-white shadow-xl mx-auto mb-2 animate-bounce">
+                <span translate="no" class="material-symbols-rounded text-3xl text-violet-300">chat_bubble_outline</span>
+              </span>
+              <h3 class="text-xl font-black tracking-tight">{{ data.proposito.titulo_publico }}</h3>
+              <p class="text-xs text-white/80 leading-relaxed max-w-xs mx-auto">
+                {{ data.proposito.subtitulo }}
+              </p>
+              <div class="flex flex-wrap justify-center gap-1.5 text-[10px] font-bold">
+                <span class="bg-white/15 px-3 py-1.5 rounded-full">6 momentos</span>
+                <span class="bg-white/15 px-3 py-1.5 rounded-full">Secundaria</span>
+                <span class="bg-white/15 px-3 py-1.5 rounded-full">CDJ-254</span>
+              </div>
+            </div>
+            <div class="pt-6">
+              <button type="button" class="start-btn w-full py-4 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-2xl shadow-lg transition-all text-xs" (click)="start()">
+                ▶ Entrar al chat simulado
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- 2. FINISHED SCREEN (inside phone) -->
+        @else if (finished()) {
+          <div class="phone-result flex-1 flex flex-col justify-between p-5 bg-white text-slate-800 overflow-y-auto">
+            <div class="space-y-4 pt-3 flex-grow">
+              <span class="grid h-16 w-16 place-items-center rounded-full bg-violet-500/20 border border-violet-400/30 backdrop-blur text-violet-700 shadow-lg mx-auto mb-2">
+                <span translate="no" class="material-symbols-rounded text-3xl">map</span>
+              </span>
+              <h3 class="text-lg font-black text-center text-slate-900 leading-tight">¡Mapa Construido!</h3>
+              <p class="text-xs text-slate-500 text-center leading-relaxed max-w-xs mx-auto">
+                Has terminado el taller y estructurado un Mapa de Reparación Digital. Compártelo con tu docente y tu salón.
+              </p>
+
+              <!-- Diagnostic Block -->
+              <div class="p-3.5 rounded-xl border text-xs leading-relaxed font-semibold bg-violet-50/50 border-violet-100 text-violet-950">
+                <strong class="block font-black text-xs text-violet-900 mb-1">Tu resultado:</strong>
+                {{ finalDiagnostic().mensaje }}
+              </div>
             </div>
 
-            <div class="grid gap-4 sm:grid-cols-2">
-              @for (dim of data.mapa_reparacion; track dim.id) {
-                <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-sm space-y-4 flex flex-col justify-between">
-                  <div class="space-y-2">
-                    <div class="flex items-center gap-2">
-                      <span class="grid h-8 w-8 place-items-center rounded-lg bg-violet-100 dark:bg-violet-950/40 text-violet-600">
-                        <span translate="no" class="material-symbols-rounded text-lg">{{ dim.icono }}</span>
-                      </span>
-                      <h4 class="font-black text-sm text-[color:var(--text-primary)]">{{ dim.titulo }}</h4>
+            <!-- Actions -->
+            <div class="space-y-2 pt-4">
+              <button type="button" class="w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-1.5 font-bold" (click)="copyRepairMap()">
+                <span translate="no" class="material-symbols-rounded text-sm">{{ copied() ? 'check' : 'content_copy' }}</span>
+                {{ copied() ? '¡Copiado!' : 'Copiar mi Mapa' }}
+              </button>
+              <button type="button" class="w-full py-3 border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-1.5 font-bold" (click)="restart()">
+                <span translate="no" class="material-symbols-rounded text-sm">refresh</span>
+                Reiniciar Taller
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- 3. ACTIVE GAME SCREEN (inside phone) -->
+        @else {
+          <!-- Chat Header -->
+          <div class="wa-header shrink-0 bg-violet-700">
+            <div class="wa-header__contact">
+              <span class="wa-header__avatar" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">
+                CD
+              </span>
+              <div class="wa-header__info">
+                <strong class="wa-header__name">
+                  {{ currentMomentIndex() === 2 ? 'Dani (Privado)' : (currentMomentIndex() === 3 ? 'Majo (Privado)' : 'Salón 2.º B') }}
+                </strong>
+                <span class="wa-header__status">Simulador CDJ-254</span>
+              </div>
+            </div>
+            <div class="wa-header__actions">
+              <span translate="no" class="material-symbols-rounded text-lg text-white/90">info</span>
+            </div>
+          </div>
+
+          <!-- Chat Case Tracker bar -->
+          <div class="bg-white/95 backdrop-blur border-b border-slate-200 px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-700 shadow-sm shrink-0">
+            <span class="truncate text-[9px] text-slate-500">Reparación Digital</span>
+            <span class="text-[9px] font-semibold text-violet-600 shrink-0 ml-1">Paso {{ currentMomentIndex() + 1 }} de 6</span>
+          </div>
+
+          <!-- Chat History / Bubbles -->
+          <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col justify-end" style="background-color: #f5f3ff;">
+            <div class="space-y-2.5 flex flex-col">
+              <!-- Historical / Current Node incoming messages -->
+              @for (msg of currentMoment().chat; track $index) {
+                <div class="flex animate-slide-up [animation-fill-mode:backwards]"
+                  [class.justify-end]="msg.from === 'me'"
+                  [class.justify-center]="msg.from === 'system'"
+                  [style.animation-delay]="$index * 120 + 'ms'">
+                  
+                  @if (msg.from === 'system') {
+                    <div class="rounded-lg px-2.5 py-1 text-[9px] text-slate-600 bg-violet-100/90 text-center font-bold">
+                      {{ msg.text }}
                     </div>
-                    <p class="text-[11px] leading-relaxed text-[color:var(--text-soft)]">
-                      {{ dim.descripcion }}
-                    </p>
-                  </div>
-
-                  <!-- Choices summary for this dimension -->
-                  <div class="pt-3 border-t border-[color:var(--border-soft)] space-y-2">
-                    <span class="text-[9px] font-black uppercase tracking-widest text-[color:var(--text-mute)]">Decisiones adoptadas:</span>
-                    
-                    @if (dim.id === 'reconocer') {
-                      @for (ans of [repairMapChoices().reconocer]; track $index) {
-                        @for (opt of ans; track opt.id) {
-                          <div class="p-2 rounded-lg bg-[color:var(--surface-soft)] text-[10px] leading-snug text-[color:var(--text-secondary)] font-medium">
-                            {{ opt.texto_visible }}
-                          </div>
-                        }
-                      }
-                    }
-
-                    @if (dim.id === 'detener') {
-                      @for (opt of repairMapChoices().detener; track opt.id) {
-                        <div class="p-2 rounded-lg bg-[color:var(--surface-soft)] text-[10px] leading-snug text-[color:var(--text-secondary)] font-medium">
-                          {{ opt.texto_visible }}
-                        </div>
-                      }
-                    }
-
-                    @if (dim.id === 'acompanar') {
-                      @for (opt of repairMapChoices().acompanar; track opt.id) {
-                        <div class="p-2 rounded-lg bg-[color:var(--surface-soft)] text-[10px] leading-snug text-[color:var(--text-secondary)] font-medium my-1">
-                          {{ opt.texto_visible }}
-                        </div>
-                      }
-                    }
-
-                    @if (dim.id === 'prevenir') {
-                      @for (opt of repairMapChoices().prevenir; track opt.id) {
-                        <div class="p-2 rounded-lg bg-[color:var(--surface-soft)] text-[10px] leading-snug text-[color:var(--text-secondary)] font-medium">
-                          {{ opt.texto_visible }}
-                        </div>
-                      }
-                    }
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-
-          <!-- Callout -->
-          <div class="rounded-2xl bg-violet-50 border border-violet-200 p-4 text-violet-900 text-xs leading-relaxed dark:bg-violet-950/10 dark:border-violet-900/40 dark:text-violet-200">
-            <b class="font-black block text-sm mb-1">¿Qué aprendimos con esto?</b>
-            <p>La reparación digital colectiva requiere entender que borrar una foto no borra las consecuencias. Debemos asumir la responsabilidad del daño (Reconocer), frenar los reenvíos de forma discreta (Detener), apoyar en privado a la persona expuesta (Acompañar) y construir límites claros basados en el consentimiento (Prevenir).</p>
-          </div>
-
-          <!-- Bottom Warning / Note -->
-          <p class="text-xs text-[color:var(--text-mute)] leading-relaxed">
-            Este recurso es un ejercicio pedagógico interactivo de simulación digital. No solicita ni almacena datos personales. Si experimentas una situación de acoso digital, busca apoyo inmediato de tus tutores o la dirección escolar.
-          </p>
-
-          <!-- Action Buttons -->
-          <div class="flex flex-col sm:flex-row gap-3 pt-2">
-            <button type="button" class="btn-primary flex-1 py-4 font-bold flex items-center justify-center gap-2" (click)="restart()">
-              <span translate="no" class="material-symbols-rounded text-base">refresh</span>
-              Reiniciar Taller
-            </button>
-            <button type="button" class="btn-secondary flex-1 py-4 font-bold flex items-center justify-center gap-2 bg-white dark:bg-slate-900" (click)="copyRepairMap()">
-              <span translate="no" class="material-symbols-rounded text-base">{{ copied() ? 'check' : 'content_copy' }}</span>
-              {{ copied() ? '¡Copiado!' : 'Copiar Mapa de Reparación' }}
-            </button>
-          </div>
-        </div>
-      } 
-      
-      <!-- 3. GAME RUNNING STATE -->
-      @else {
-        <!-- Context Card / Status bar -->
-        <div class="flex items-center justify-between bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-2xl p-4 shadow-sm">
-          <div>
-            <span class="text-[10px] font-bold uppercase tracking-widest text-[color:var(--aud)]">Taller en Curso</span>
-            <h3 class="text-base font-bold text-[color:var(--text-primary)]">{{ data.proposito.titulo_publico }}</h3>
-          </div>
-          <div class="text-right">
-            <span class="text-xs font-bold text-[color:var(--text-mute)]">Momento {{ currentMomentIndex() + 1 }} de {{ moments.length }}</span>
-            <div class="flex gap-1 mt-1 justify-end">
-              @for (moment of moments; track moment.id; let idx = $index) {
-                <span class="h-1.5 w-4 rounded-full bg-slate-200 dark:bg-slate-700"
-                  [class.bg-[color:var(--aud)]]="idx === currentMomentIndex()"
-                  [class.bg-violet-500]="idx < currentMomentIndex()"></span>
-              }
-            </div>
-          </div>
-        </div>
-
-        @if (currentMoment(); as step) {
-          <!-- Question & Context Box -->
-          @for (stepKey of [step.id]; track stepKey) {
-            <div class="animate-question rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-md space-y-4">
-              <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-3">
-                <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[color:var(--aud)]">
-                  <span translate="no" class="material-symbols-rounded text-base">explore</span>
-                  {{ step.momento }}
-                </span>
-                <span class="text-xs font-semibold text-[color:var(--text-mute)]">Auditoría de Caso</span>
-              </div>
-
-              <div class="space-y-1">
-                <span class="text-[10px] font-black uppercase tracking-widest text-violet-600 bg-violet-50 dark:bg-violet-950/30 px-2.5 py-1 rounded-md">Intención: {{ step.intencion }}</span>
-                <h4 class="text-lg font-black leading-snug text-[color:var(--text-primary)] pt-1.5">{{ step.pregunta }}</h4>
-              </div>
-              
-              <p class="text-xs leading-relaxed text-[color:var(--text-soft)] bg-[color:var(--surface-soft)] p-3 rounded-xl border border-[color:var(--border-soft)]">{{ step.contexto }}</p>
-
-              <!-- Evidencias Box -->
-              <div class="bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] rounded-xl p-3.5 space-y-2 shadow-xs">
-                <strong class="block text-xs font-black uppercase tracking-wider text-violet-700 dark:text-violet-400">Evidencias del Momento:</strong>
-                <div class="space-y-1.5">
-                  @for (ev of step.evidencias_neutrales; track ev) {
-                    <div class="flex items-center gap-2 text-xs text-[color:var(--text-secondary)] font-semibold">
-                      <span class="h-1.5 w-1.5 rounded-full bg-violet-500 shrink-0"></span>
-                      <span>{{ ev }}</span>
+                  } @else {
+                    <div class="rounded-2xl px-3 py-2 max-w-[85%] shadow-sm text-[11px] leading-relaxed font-medium"
+                      [class.rounded-tl-sm]="msg.from === 'other'"
+                      [class.bg-white]="msg.from === 'other'"
+                      [class.text-slate-800]="msg.from === 'other'"
+                      [class.rounded-tr-sm]="msg.from === 'me'"
+                      [class.bg-[#ede9fe]]="msg.from === 'me'"
+                      [class.text-slate-900]="msg.from === 'me'">
+                      <span class="block text-[8px] font-black mb-0.5 text-violet-800">{{ msg.name }}</span>
+                      <span>{{ msg.text }}</span>
+                      <small class="block text-[7px] text-right text-slate-400 mt-0.5">{{ msg.time }}</small>
                     </div>
                   }
                 </div>
-              </div>
+              }
+
+              <!-- User typing indicator -->
+              @if (isTyping()) {
+                <div class="flex justify-start animate-fade-in">
+                  <div class="rounded-2xl rounded-tl-sm bg-white border border-slate-100 px-3.5 py-2.5 shadow-sm flex items-center gap-1">
+                    <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce"></span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
+                  </div>
+                </div>
+              }
+
+              <!-- Chosen user response rendered in the chat bubbles -->
+              @if (activeFeedbackChoice(); as selectedChoice) {
+                <div class="flex justify-end animate-slide-up">
+                  <div class="rounded-2xl rounded-tr-sm bg-[#ede9fe] px-3 py-2 max-w-[85%] shadow-sm text-[11px] font-semibold text-slate-900">
+                    <span>{{ selectedChoice.texto_visible }}</span>
+                    <small class="block text-[8px] text-right text-violet-700 mt-0.5">✓✓ Enviado al plan</small>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Options list inside phone -->
+          @if (!activeFeedbackChoice()) {
+            <div class="sc-options bg-slate-100 border-t border-slate-200 p-2 flex flex-col gap-1.5 max-h-[44%] overflow-y-auto shrink-0">
+              @for (choice of currentOptions(); track choice.id) {
+                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt flex items-center justify-between gap-2.5 bg-white border border-slate-200 rounded-xl p-2.5 text-left text-[11px] font-bold text-slate-800 hover:border-violet-300 hover:bg-violet-50/50 transition-all cursor-pointer">
+                  <span>{{ choice.texto_visible }}</span>
+                  <span class="sc-go w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] shrink-0">➤</span>
+                </button>
+              }
             </div>
           }
 
-          <!-- Choices Block (Hidden when feedback is active) -->
-          @if (!activeFeedbackChoice()) {
-            <div class="animate-choices space-y-3">
-              <p class="text-xs font-black uppercase tracking-widest text-[color:var(--text-mute)] pl-1">Selecciona la mejor respuesta para tu mapa:</p>
-              <div class="grid gap-2.5">
-                @for (choice of currentOptions(); track choice.id) {
-                  <button
-                    type="button"
-                    [disabled]="isTyping()"
-                    (click)="choose(choice)"
-                    class="flex items-start justify-between p-4 rounded-2xl text-left font-bold transition-all duration-200 cursor-pointer choice-idle border border-[color:var(--border-soft)] hover:border-violet-400 bg-[color:var(--surface-card)]">
-                    <span class="text-xs leading-snug text-[color:var(--text-primary)] transition-colors pr-3">{{ choice.texto_visible }}</span>
-                  </button>
-                }
-              </div>
+          <!-- Phone input bar placeholder -->
+          <div class="bg-[#f3f4f6] border-t border-slate-200 p-2 flex items-center gap-1.5 shrink-0" [class.hidden]="!activeFeedbackChoice()">
+            <span translate="no" class="material-symbols-rounded text-slate-400 text-lg">add_circle</span>
+            <div class="flex-1 rounded-full bg-white px-3 py-1 text-[10px] text-slate-400 font-medium border border-slate-200 truncate">
+              Respuesta integrada
             </div>
-          } @else {
-            <!-- Formative Feedback Block -->
-            <div class="animate-feedback rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 shadow-lg space-y-4">
-              <div class="flex items-center justify-between border-b border-[color:var(--border-soft)] pb-2.5">
-                <span class="text-xs font-bold uppercase tracking-wider text-[color:var(--text-mute)]">Análisis de la decisión</span>
-                <span class="wa-feedback__pill bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300">
-                  Registrada en: {{ step.intencion }}
+            <span translate="no" class="material-symbols-rounded text-slate-400 text-lg">mic</span>
+          </div>
+
+          <!-- Mobile feedback overlay inside phone (when side panel is hidden on mobile) -->
+          @if (activeFeedbackChoice(); as chosen) {
+            <div class="sc-mobile-feedback-panel absolute bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 rounded-t-2xl p-4 flex flex-col gap-3 max-h-[60%] overflow-y-auto shadow-[0_-8px_30px_rgba(0,0,0,0.18)] animate-slide-up">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Análisis del paso</span>
+                <span class="bg-violet-100 text-violet-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {{ currentMoment().intencion }}
                 </span>
               </div>
-
-              <!-- Three Feedback Blocks -->
-              <div class="grid gap-3 sm:grid-cols-2">
-                <div class="p-3.5 rounded-xl border border-emerald-100 bg-emerald-50/50 dark:bg-emerald-950/20 dark:border-emerald-900/40">
-                  <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400 mb-1">
-                    <span translate="no" class="material-symbols-rounded text-sm">verified</span>
-                    Lo que cuida
-                  </span>
-                  <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-semibold">
-                    {{ activeFeedbackChoice()!.feedback_cuida }}
-                  </p>
-                </div>
-
-                <div class="p-3.5 rounded-xl border border-amber-100 bg-amber-50/50 dark:bg-amber-950/20 dark:border-amber-900/40">
-                  <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-amber-800 dark:text-amber-400 mb-1">
-                    <span translate="no" class="material-symbols-rounded text-sm">pending_actions</span>
-                    Lo que deja pendiente
-                  </span>
-                  <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-semibold">
-                    {{ activeFeedbackChoice()!.feedback_pendiente }}
-                  </p>
-                </div>
+              <p class="text-xs leading-relaxed text-slate-700 font-semibold">
+                <strong class="text-emerald-700 font-bold">✅ Lo que cuida:</strong> {{ chosen.feedback_cuida }}
+              </p>
+              <p class="text-xs leading-relaxed text-slate-700 font-semibold border-t border-slate-100 pt-2">
+                <strong class="text-amber-700 font-bold">⚠️ Lo que deja pendiente:</strong> {{ chosen.feedback_pendiente }}
+              </p>
+              <div class="bg-violet-50/50 rounded-xl p-3 border border-violet-100 space-y-1.5">
+                <strong class="text-[10px] text-violet-800 uppercase tracking-wider block font-black">Reflexión:</strong>
+                <p class="text-xs leading-relaxed text-violet-950 font-semibold italic">"{{ chosen.feedback_reflexion }}"</p>
               </div>
-
-              <!-- Reflection Card -->
-              <div class="p-3.5 rounded-xl border border-violet-100 bg-violet-50/50 dark:bg-violet-950/20 dark:border-violet-900/40 space-y-1">
-                <strong class="text-xs text-violet-800 dark:text-violet-400 font-black block">
-                  Pregunta de reflexión:
-                </strong>
-                <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-semibold italic">
-                  {{ activeFeedbackChoice()!.feedback_reflexion }}
-                </p>
-              </div>
-
-              <!-- Generative discussion prompt -->
-              <div class="p-3.5 rounded-xl border border-indigo-100 bg-indigo-50/40 dark:bg-indigo-950/10 dark:border-indigo-900/40">
-                <strong class="text-xs text-indigo-800 dark:text-indigo-400 font-black block mb-0.5">
-                  Pregunta para conversar en clase:
-                </strong>
-                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-semibold">
-                  {{ step.pregunta_reflexion }}
-                </p>
-              </div>
-
-              <button type="button" class="btn-primary w-full py-4 font-bold shadow-md hover:shadow-xl transition-all flex items-center justify-center gap-2" (click)="continueFlow()">
-                <span>{{ currentMomentIndex() === moments.length - 1 ? 'Ver mi Mapa de Reparación' : 'Continuar' }}</span>
-                <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+              <button type="button" class="w-full py-3.5 bg-gradient-to-r from-violet-600 to-indigo-700 text-white font-bold rounded-xl shadow-md transition-all text-xs" (click)="continueFlow()">
+                {{ currentMomentIndex() === moments.length - 1 ? 'Ver mi Mapa de Reparación' : 'Continuar' }} →
               </button>
             </div>
           }
         }
-      }
-    </div>
 
-    <!-- RIGHT COLUMN: iPhone Mockup and Simulated Chat History -->
-    <div class="lg:col-span-5 flex justify-center lg:justify-end lg:sticky lg:top-8 no-print">
-      <div class="iphone-17-container">
-        <!-- Titanium Edge Chassis -->
-        <div class="iphone-17-chassis">
-          <!-- Glass Glare Highlight Ring -->
-          <div class="iphone-17-highlight"></div>
-          
-          <!-- Screen Outer Bezel -->
-          <div class="iphone-17-bezel">
-            <!-- Screen Content Wrapper -->
-            <div class="iphone-17-screen">
-              
-              <!-- Dynamic Island cut-out with camera lens details -->
-              <div class="dynamic-island-container">
-                <div class="dynamic-island"
-                     [class.is-typing]="activeStatus() === 'typing'"
-                     [class.is-alert]="activeStatus() === 'alert'"
-                     [class.is-success]="activeStatus() === 'success'">
-                  @if (activeStatus() === 'typing') {
-                    <div class="flex items-center gap-1.5 animate-pulse">
-                      <span translate="no" class="material-symbols-rounded text-[10px] text-violet-400">chat_bubble</span>
-                      <span class="text-[8px] text-violet-400 font-semibold tracking-wider">Escribiendo...</span>
-                    </div>
-                  } @else if (activeStatus() === 'alert') {
-                    <div class="flex items-center gap-1.5">
-                      <span translate="no" class="material-symbols-rounded text-[10px] text-rose-400">warning</span>
-                      <span class="text-[8px] text-rose-200 font-semibold tracking-wider">Ajuste de plan</span>
-                    </div>
-                  } @else if (activeStatus() === 'success') {
-                    <div class="flex items-center gap-1.5">
-                      <span translate="no" class="material-symbols-rounded text-[10px] text-emerald-400">verified_user</span>
-                      <span class="text-[8px] text-emerald-200 font-semibold tracking-wider">Asertiva / Cuida</span>
-                    </div>
-                  }
-                  <div class="dynamic-island-lens"></div>
-                </div>
-              </div>
+        <!-- Home Bar Indicator -->
+        <div class="home-bar"></div>
 
-              <!-- iOS Status Bar -->
-              <div class="iphone-status-bar dark-mode">
-                <span class="status-time">09:15</span>
-                <div class="status-icons">
-                  <div class="status-signal">
-                    <span class="bar bar-1"></span>
-                    <span class="bar bar-2"></span>
-                    <span class="bar bar-3"></span>
-                    <span class="bar bar-4"></span>
-                  </div>
-                  <svg class="status-wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 3.5c4-3.3 10-3.3 14 0" />
-                    <path d="M3.5 6.2c2.5-2 6.5-2 9 0" />
-                    <path d="M6 9c1-0.8 3-0.8 4 0" />
-                    <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none" />
-                  </svg>
-                  <div class="status-battery">
-                    <div class="status-battery-level"></div>
-                  </div>
-                </div>
-              </div>
+      </div><!-- /screen -->
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
 
-              <!-- Inner Device State Templates -->
-              @if (!started()) {
-                <div class="phone-intro flex-1 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-b from-slate-900 to-indigo-950 text-white">
-                  <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur text-white shadow-xl mb-4 animate-bounce">
-                    <span translate="no" class="material-symbols-rounded text-3xl text-violet-300">chat_bubble_outline</span>
-                  </span>
-                  <h3 class="text-xl font-black tracking-tight">Taller de Reparación</h3>
-                  <p class="text-xs text-white/80 mt-2 max-w-xs leading-relaxed">
-                    Aquí verás cómo cambian los mensajes del salón de 2.º B y sus chats asociados según las decisiones que elijas.
-                  </p>
-                </div>
-              } @else if (finished()) {
-                <div class="phone-result flex-1 flex flex-col items-center justify-center text-center p-6 bg-indigo-950 text-white">
-                  <span class="grid h-16 w-16 place-items-center rounded-full bg-violet-500/20 border border-violet-400/30 backdrop-blur text-violet-300 shadow-lg mb-4 animate-pulse">
-                    <span translate="no" class="material-symbols-rounded text-4xl">map</span>
-                  </span>
-                  <h3 class="text-xl font-black">¡Mapa Construido!</h3>
-                  <p class="text-xs text-white/80 mt-2 max-w-xs leading-relaxed">
-                    Has terminado el taller y estructurado un Mapa de Reparación Digital. Compártelo con tu docente y tu salón.
-                  </p>
-                </div>
-              } @else {
-                <!-- Chat Header -->
-                <div class="wa-header shrink-0" style="background: #5b21b6;">
-                  <div class="wa-header__contact">
-                    <span class="wa-header__avatar" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">
-                      CD
-                    </span>
-                    <div class="wa-header__info">
-                      <strong class="wa-header__name">
-                        {{ currentMomentIndex() === 2 ? 'Dani (Privado)' : (currentMomentIndex() === 3 ? 'Majo (Privado)' : 'Salón 2.º B') }}
-                      </strong>
-                      <span class="wa-header__status">Simulador CDJ-254</span>
-                    </div>
-                  </div>
-                  <div class="wa-header__actions">
-                    <span translate="no" class="material-symbols-rounded text-lg text-white/90">info</span>
-                  </div>
-                </div>
-
-                <!-- Chat Case Tracker bar -->
-                <div class="bg-white/95 backdrop-blur border-b border-slate-200 px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-700 shadow-sm shrink-0">
-                  <span class="truncate text-[9px] text-slate-500">Reparación Digital</span>
-                  <span class="text-[9px] font-semibold text-violet-600 shrink-0 ml-1">Paso {{ currentMomentIndex() + 1 }} de 6</span>
-                </div>
-
-                <!-- Chat History / Bubbles -->
-                <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col justify-end" style="background-color: #f5f3ff;">
-                  <div class="space-y-2.5 flex flex-col">
-                    <!-- Historical / Current Node incoming messages -->
-                    @for (msg of currentMoment().chat; track $index) {
-                      <div class="flex animate-slide-up [animation-fill-mode:backwards]"
-                        [class.justify-end]="msg.from === 'me'"
-                        [class.justify-center]="msg.from === 'system'"
-                        [style.animation-delay]="$index * 120 + 'ms'">
-                        
-                        @if (msg.from === 'system') {
-                          <div class="rounded-lg px-2.5 py-1 text-[9px] text-slate-600 bg-violet-100/90 text-center font-bold">
-                            {{ msg.text }}
-                          </div>
-                        } @else {
-                          <div class="rounded-2xl px-3 py-2 max-w-[85%] shadow-sm text-[11px] leading-relaxed font-medium"
-                            [class.rounded-tl-sm]="msg.from === 'other'"
-                            [class.bg-white]="msg.from === 'other'"
-                            [class.text-slate-800]="msg.from === 'other'"
-                            [class.rounded-tr-sm]="msg.from === 'me'"
-                            [class.bg-[#ede9fe]]="msg.from === 'me'"
-                            [class.text-slate-900]="msg.from === 'me'">
-                            <span class="block text-[8px] font-black mb-0.5 text-violet-800">{{ msg.name }}</span>
-                            <span>{{ msg.text }}</span>
-                            <small class="block text-[7px] text-right text-slate-400 mt-0.5">{{ msg.time }}</small>
-                          </div>
-                        }
-                      </div>
-                    }
-
-                    <!-- User typing indicator -->
-                    @if (isTyping()) {
-                      <div class="flex justify-start animate-fade-in">
-                        <div class="rounded-2xl rounded-tl-sm bg-white border border-slate-100 px-3.5 py-2.5 shadow-sm flex items-center gap-1">
-                          <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce"></span>
-                          <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
-                          <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
-                        </div>
-                      </div>
-                    }
-
-                    <!-- Chosen user response rendered in the chat bubbles -->
-                    @if (activeFeedbackChoice(); as selectedChoice) {
-                      <div class="flex justify-end animate-slide-up">
-                        <div class="rounded-2xl rounded-tr-sm bg-[#dbeafe] px-3 py-2 max-w-[85%] shadow-sm text-[11px] font-semibold text-slate-900">
-                          <span>{{ selectedChoice.texto_visible }}</span>
-                          <small class="block text-[8px] text-right text-indigo-700 mt-0.5">✓✓ Enviado al plan</small>
-                        </div>
-                      </div>
-                    }
-                  </div>
-                </div>
-
-                <!-- Footer of simulated phone -->
-                <div class="bg-[#f3f4f6] border-t border-slate-200 p-2 flex items-center gap-1.5 shrink-0">
-                  <span translate="no" class="material-symbols-rounded text-slate-400 text-lg">add_circle</span>
-                  <div class="flex-1 rounded-full bg-white px-3 py-1 text-[10px] text-slate-400 font-medium border border-slate-200 truncate">
-                    {{ activeFeedbackChoice() ? 'Respuesta integrada' : 'Elige una opción a la izquierda...' }}
-                  </div>
-                  <span translate="no" class="material-symbols-rounded text-slate-400 text-lg">mic</span>
-                </div>
-              }
-
-              <!-- Home Bar Indicator -->
-              <div class="iphone-homebar-container">
-                <div class="iphone-homebar"></div>
-              </div>
-
-            </div>
-          </div>
-        </div>
+  <!-- ─── COACH SIDE PANEL (beside phone, only when game active) ──── -->
+  @if (started() && !finished()) {
+    <aside class="coach-side">
+      <div class="coach-head">
+        <h2>🧠 Tu detector</h2>
+        <p>Cada decisión cuenta. Mira por qué.</p>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- Toast alert indicator -->
+      <div class="alert-stack">
+        @if (!activeFeedbackChoice()) {
+          <div class="coach-empty">
+            <div class="big">👀</div>
+            <p>Lee bien cada mensaje y elige cómo responder en el celular. Aquí te explicaré la asertividad y consecuencias de tu decisión.</p>
+          </div>
+        } @else {
+          @let chosen = activeFeedbackChoice()!;
+          <div class="alert safe">
+            <span class="badge">Lo que cuida</span>
+            <div class="ah"><span class="em">✅</span>Cuida:</div>
+            <p>{{ chosen.feedback_cuida }}</p>
+          </div>
+
+          <div class="alert warn">
+            <span class="badge">Pendiente</span>
+            <div class="ah"><span class="em">⚠️</span>Deja pendiente:</div>
+            <p>{{ chosen.feedback_pendiente }}</p>
+          </div>
+
+          <div class="alert tip">
+            <span class="badge">Reflexión</span>
+            <div class="ah"><span class="em">💡</span>Pregunta de reflexión</div>
+            <p>{{ chosen.feedback_reflexion }}</p>
+          </div>
+
+          @if (currentMoment(); as step) {
+            <div class="alert tip">
+              <span class="badge">Conversar</span>
+              <div class="ah"><span class="em">💬</span>Para conversar en clase</div>
+              <p>{{ step.pregunta_reflexion }}</p>
+            </div>
+          }
+
+          <button type="button" class="sc-side-continue-btn w-full py-3 bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all text-xs flex items-center justify-center gap-1.5 mt-2 cursor-pointer" (click)="continueFlow()">
+            {{ currentMomentIndex() === moments.length - 1 ? 'Ver mi Mapa de Reparación' : 'Continuar' }} →
+          </button>
+        }
+      </div>
+    </aside>
+  }
+
+</div>
+
+<!-- Toast -->
 <div class="toast" [class.show]="copied()">Mapa copiado al portapapeles. ¡Listo para compartir!</div>

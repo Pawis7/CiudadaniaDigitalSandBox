@@ -166,10 +166,11 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   font-weight: 700;
   color: #fff;            /* dark status bar for dark intro bg */
   background: transparent;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 2;
-  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
 }
 
 .statusbar.light { color: #0f172a; }
@@ -367,7 +368,6 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   font-size: 12.5px;
 }
 
-/* ─── CHAT HEADER ───────────────────────────────────── */
 .pp-wa-head {
   display: flex;
   align-items: center;
@@ -376,6 +376,17 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   padding: 8px 12px;
   flex-shrink: 0;
   z-index: 5;
+  margin-top: 44px;
+  position: relative;
+}
+.pp-wa-head::before {
+  content: '';
+  position: absolute;
+  top: -44px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: inherit;
 }
 
 .pp-av {

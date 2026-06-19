@@ -1,0 +1,537 @@
+<section
+  id="secundaria-app-no-se-acaba"
+  class="sim-shell relative overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] px-5 py-6 shadow-[var(--shadow-xl)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
+  data-audience="teens">
+
+  <!-- Background decorative elements -->
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute -left-20 top-12 h-56 w-56 rounded-full bg-orange-500/10 blur-3xl"></div>
+    <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto pt-4">
+
+    <!-- 1. INTRO SCREEN -->
+    @if (currentScreen() === 'intro') {
+      <div class="card hero-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-8 shadow-md space-y-6">
+        
+        <div class="space-y-2 text-center">
+          <p class="text-[11px] font-black uppercase tracking-widest text-[#B50038]">
+            {{ data.metadata.project }} · Laboratorio de atención
+          </p>
+          <h2 class="text-3xl font-black tracking-tight text-[color:var(--text-primary)] leading-tight sm:text-4xl">
+            La app que <span class="bg-gradient-to-r from-[#FF8300] via-[#B50038] to-[#7549A9] bg-clip-text text-transparent">no se acaba</span>
+          </h2>
+          <p class="text-sm sm:text-base text-[color:var(--text-secondary)] max-w-2xl mx-auto pt-1">
+            {{ data.pantalla_inicio.subtitulo }}
+          </p>
+        </div>
+
+        <!-- Phone Art Graphic -->
+        <div class="flex justify-center py-4" aria-hidden="true">
+          <div class="w-48 bg-[#1f2528] rounded-[2.25rem] p-3 shadow-xl transform rotate-3 border-4 border-slate-700">
+            <div class="bg-white dark:bg-slate-900 rounded-[1.5rem] p-4 space-y-4">
+              <!-- Battery Indicator -->
+              <div class="h-14 border-[3.5px] border-slate-800 dark:border-slate-300 rounded-xl relative flex items-center p-0.5">
+                <div class="h-full w-[38%] bg-gradient-to-r from-orange-500 to-rose-600 rounded-lg"></div>
+                <div class="absolute -right-3 top-1/2 -translate-y-1/2 w-2 h-4 bg-slate-800 dark:bg-slate-300 rounded-r-sm"></div>
+              </div>
+              <!-- Mini Content Blocks -->
+              <div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full w-full"></div>
+              <div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full w-[70%]"></div>
+              <div class="h-2.5 bg-slate-200 dark:bg-slate-700 rounded-full w-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chips -->
+        <div class="flex flex-wrap justify-center gap-2.5 py-2">
+          @for (chip of data.pantalla_inicio.chips; track chip) {
+            <span class="chip-item">
+              {{ chip }}
+            </span>
+          }
+        </div>
+
+        <!-- Notice -->
+        <div class="bg-gradient-to-br from-[#FFF8F4] to-[#FFF0E2] dark:from-[#2B1B10] dark:to-[#26150A] border border-[#FFE0C4] dark:border-[#5C3214] rounded-2xl p-5 sm:p-6 space-y-3">
+          <strong class="text-xs font-black uppercase tracking-wider text-[#FF8300] block">
+            ¿Cómo funciona esta actividad?
+          </strong>
+          <ul class="space-y-2 text-xs sm:text-sm text-[#4A3B32] dark:text-[#E2D2C6]">
+            @for (ind of data.pantalla_inicio.indicaciones; track ind) {
+              <li class="flex items-start gap-2.5">
+                <span class="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#FF8300] text-white text-[10px] font-bold">✓</span>
+                <span>{{ ind }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- Start Button -->
+        <div class="pt-3">
+          <button
+            type="button"
+            (click)="start()"
+            class="btn-primary w-full py-4 text-base font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2">
+            <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
+            {{ data.pantalla_inicio.boton_inicio }}
+          </button>
+        </div>
+
+      </div>
+    }
+
+    <!-- 2. CASE INTRO SCREEN -->
+    @if (currentScreen() === 'caseIntro') {
+      <div class="card situation-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-8 shadow-md space-y-6">
+        
+        <div class="flex items-center gap-2.5">
+          <span class="inline-flex items-center gap-1.5 rounded-xl bg-orange-100 dark:bg-orange-950 border border-orange-200 dark:border-orange-900 px-3 py-1.5 text-orange-800 dark:text-orange-300 font-bold text-xs">
+            <span translate="no" class="material-symbols-rounded text-sm icon-fill">campaign</span>
+            Caso de Estudio
+          </span>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-[220px_1fr] items-center">
+          <!-- Graphic representation of the case -->
+          <div class="scene-art border border-[color:var(--border-soft)] bg-gradient-to-br from-[#FFF1DF] to-[#F2ECFF] rounded-2xl p-4 flex justify-center items-center min-h-[190px]">
+            <svg viewBox="0 0 240 180" class="w-full max-w-[200px]" aria-hidden="true">
+              <rect x="60" y="18" width="120" height="144" rx="22" fill="#263238"/>
+              <rect x="70" y="34" width="100" height="112" rx="14" fill="#fff"/>
+              <circle cx="120" cy="63" r="20" fill="#FF8300"/>
+              <rect x="88" y="94" width="64" height="12" rx="6" fill="#E9E3DA"/>
+              <rect x="88" y="116" width="48" height="12" rx="6" fill="#E9E3DA"/>
+              <path d="M36 88c18-22 34-22 52 0" fill="none" stroke="#7549A9" stroke-width="8" stroke-linecap="round"/>
+              <path d="M154 88c18-22 34-22 52 0" fill="none" stroke="#B50038" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <div class="space-y-4">
+            <h2 class="text-2xl font-black text-[color:var(--text-primary)]">
+              Leo solo iba a ver un video
+            </h2>
+            <p class="text-sm sm:text-base text-[color:var(--text-secondary)] leading-relaxed">
+              Leo entra a una app para ver un video que le mandaron sus amigos. Dice que serán cinco minutos. El video termina, aparece otro parecido, luego llega una notificación de racha y después un reto nuevo. Cuando deja el celular, ya pasó casi una hora.
+            </p>
+            <p class="text-sm text-[color:var(--text-secondary)] font-semibold">
+              Siente que no descansó, no avanzó con su tarea y ni siquiera recuerda bien qué vio.
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-4 flex items-center justify-between border-t border-[color:var(--border-soft)]">
+          <button
+            type="button"
+            (click)="previous()"
+            class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] transition-colors">
+            <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
+            Atrás
+          </button>
+          
+          <button
+            type="button"
+            (click)="goToDetector()"
+            class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all bg-[#263238] hover:bg-[#1a2327]">
+            <span>Revisar qué pasó</span>
+            <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+          </button>
+        </div>
+
+      </div>
+    }
+
+    <!-- 3. DETECTOR SCREEN -->
+    @if (currentScreen() === 'detector') {
+      <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-8 shadow-md space-y-6">
+        
+        <!-- Progress bar and Context -->
+        <div class="flex justify-between items-center border-b border-[color:var(--border-soft)] pb-4">
+          <div class="space-y-0.5">
+            <span class="text-[10px] font-black uppercase tracking-widest text-[#B50038]">
+              Parte 1 de 8
+            </span>
+            <h3 class="text-sm font-black text-[color:var(--text-primary)]">
+              Detector de ganchos
+            </h3>
+          </div>
+          <div class="w-1/3 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-500 to-rose-600 h-full rounded-full" style="width: 12.5%"></div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h2 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)]">
+            Marca hasta 4 elementos que pudieron jalar la atención de Leo
+          </h2>
+          <p class="text-xs sm:text-sm text-[color:var(--text-secondary)]">
+            No todo lo que aparece es un “gancho” de la app. Algunos elementos son contexto y otros son posibles frenos. Elige con cuidado.
+          </p>
+        </div>
+
+        <!-- Grid of detector items -->
+        <div class="grid gap-3 sm:grid-cols-2">
+          @for (item of shuffledDetectorItems(); track item.id) {
+            <button
+              type="button"
+              [disabled]="detectorChecked()"
+              (click)="toggleDetectorItem(item.id)"
+              class="w-full text-left p-4 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[90px] relative overflow-hidden"
+              [class.border-purple-600]="selectedDetectorIds().has(item.id) && !detectorChecked()"
+              [class.bg-purple-50/20]="selectedDetectorIds().has(item.id) && !detectorChecked()"
+              [class.border-slate-300]="!selectedDetectorIds().has(item.id) && !detectorChecked()"
+              [class.bg-[color:var(--surface-soft)]]="!selectedDetectorIds().has(item.id) && !detectorChecked()"
+              [class.border-emerald-600]="detectorChecked() && item.type === 'hook' && selectedDetectorIds().has(item.id)"
+              [class.border-slate-200]="detectorChecked() && (!selectedDetectorIds().has(item.id) || item.type !== 'hook')"
+              [class.opacity-70]="detectorChecked() && !selectedDetectorIds().has(item.id)">
+              
+              <span class="text-sm font-bold text-[color:var(--text-primary)] leading-snug">{{ item.label }}</span>
+              
+              @if (detectorChecked() && selectedDetectorIds().has(item.id)) {
+                <span class="mt-2 text-xs font-semibold" [class.text-emerald-700]="item.type === 'hook'" [class.text-slate-500]="item.type !== 'hook'">
+                  {{ item.type === 'hook' ? '✓ Gancho detectado' : 'ℹ No es un gancho técnico' }}
+                </span>
+              }
+            </button>
+          }
+        </div>
+
+        <!-- Limit reminder text -->
+        <p class="text-xs font-bold text-[color:var(--text-secondary)]">
+          {{ detectorLimitText() }}
+        </p>
+
+        <!-- Feedback details -->
+        @if (detectorChecked()) {
+          <div class="bg-gradient-to-br from-purple-50/40 to-indigo-50/40 dark:from-purple-950/20 dark:to-indigo-950/20 border border-purple-200 dark:border-purple-900 rounded-2xl p-5 space-y-4 animate-slide-up">
+            <h4 class="text-md font-black text-[#7549A9] dark:text-[#A78BFA] uppercase tracking-wider">
+              {{ detectorFeedbackTitle() }}
+            </h4>
+            <p class="text-xs sm:text-sm text-[color:var(--text-primary)] leading-relaxed">
+              {{ detectorFeedbackCopy() }}
+            </p>
+            <ul class="space-y-3 border-t border-purple-200/50 pt-3">
+              @for (item of selectedDetectorItems(); track item.id) {
+                <li class="text-xs sm:text-sm text-[color:var(--text-secondary)] leading-normal">
+                  <strong class="text-[color:var(--text-primary)] block mb-0.5">{{ item.label }}</strong>
+                  <span>{{ item.feedback }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        }
+
+        <div class="pt-4 flex items-center justify-between border-t border-[color:var(--border-soft)]">
+          <button
+            type="button"
+            (click)="previous()"
+            class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] transition-colors">
+            <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
+            Atrás
+          </button>
+          
+          @if (!detectorChecked()) {
+            <button
+              type="button"
+              (click)="checkDetector()"
+              class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all bg-[#263238] hover:bg-[#1a2327]">
+              <span>Revisar lectura</span>
+              <span translate="no" class="material-symbols-rounded text-lg">fact_check</span>
+            </button>
+          } @else {
+            <button
+              type="button"
+              (click)="goToMicro()"
+              class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all bg-[#7549A9] hover:bg-[#5f398c]">
+              <span>Continuar</span>
+              <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+            </button>
+          }
+        </div>
+
+      </div>
+    }
+
+    <!-- 4. MICRO IDEA SCREEN -->
+    @if (currentScreen() === 'micro') {
+      <div class="card situation-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-8 shadow-md space-y-6">
+        
+        <div class="space-y-2">
+          <span class="inline-flex items-center gap-1.5 rounded-xl bg-purple-100 dark:bg-purple-950 border border-purple-200 dark:border-purple-900 px-3 py-1.5 text-purple-800 dark:text-purple-300 font-bold text-xs">
+            <span translate="no" class="material-symbols-rounded text-sm icon-fill">lightbulb</span>
+            Mini idea antes de decidir
+          </span>
+          <h2 class="text-2xl font-black text-[color:var(--text-primary)]">
+            La economía de la atención en corto
+          </h2>
+          <p class="text-sm sm:text-base text-[color:var(--text-secondary)] leading-relaxed">
+            No todo depende de “tener fuerza de voluntad”. Muchas apps compiten por tiempo, clics y permanencia. Por eso usan señales como recomendaciones, notificaciones, rachas y reproducción automática.
+          </p>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+          <article class="p-5 border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] rounded-2xl space-y-2">
+            <strong class="text-md font-black text-[#B50038] block">Gancho</strong>
+            <p class="text-xs sm:text-sm text-[color:var(--text-secondary)] leading-relaxed">Algo que te invita a seguir sin decidirlo demasiado.</p>
+          </article>
+          <article class="p-5 border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] rounded-2xl space-y-2">
+            <strong class="text-md font-black text-[#FF8300] block">Freno</strong>
+            <p class="text-xs sm:text-sm text-[color:var(--text-secondary)] leading-relaxed">Una señal o ajuste que te ayuda a pausar y elegir.</p>
+          </article>
+          <article class="p-5 border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] rounded-2xl space-y-2">
+            <strong class="text-md font-black text-[#7549A9] block">Autocontrol digital</strong>
+            <p class="text-xs sm:text-sm text-[color:var(--text-secondary)] leading-relaxed">No es desaparecer: es decidir antes de que la app decida por ti.</p>
+          </article>
+        </div>
+
+        <div class="pt-4 flex items-center justify-between border-t border-[color:var(--border-soft)]">
+          <button
+            type="button"
+            (click)="previous()"
+            class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] transition-colors">
+            <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
+            Atrás
+          </button>
+          
+          <button
+            type="button"
+            (click)="goToDecisions()"
+            class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all bg-[#FF8300] hover:bg-[#e07300]">
+            <span>Tomar decisiones</span>
+            <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+          </button>
+        </div>
+
+      </div>
+    }
+
+    <!-- 5. DECISIONS SCREEN -->
+    @if (currentScreen() === 'decision') {
+      <div class="space-y-6">
+
+        <!-- Progress bar and Context -->
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-2xl p-4 shadow-sm">
+          <div>
+            <span class="text-[10px] font-black uppercase tracking-widest text-[#B50038]">
+              {{ totalStepsText() }}
+            </span>
+            <p class="text-xs text-[color:var(--text-secondary)] font-semibold">{{ currentDilemma().title }}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-[color:var(--text-secondary)]">Momento {{ currentDilemma().id }}</span>
+              <div class="w-16 bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-500 to-rose-600 h-full rounded-full" [style.width.%]="progressPercent()"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dilemma context and facts -->
+        <div class="card situation-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-6 shadow-sm space-y-4">
+          <span class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-[#B50038]">
+            <span translate="no" class="material-symbols-rounded text-sm icon-fill">help_center</span>
+            Situación de Dilema
+          </span>
+          <h3 class="text-lg font-black text-[color:var(--text-primary)] leading-snug">
+            {{ currentDilemma().title }}
+          </h3>
+          <p class="text-sm leading-relaxed text-[color:var(--text-secondary)]">
+            {{ currentDilemma().scene }}
+          </p>
+
+          <div class="bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-xl p-4 space-y-2">
+            <strong class="block text-xs font-black uppercase tracking-wider text-[#FF8300]">
+              Evidencias a considerar:
+            </strong>
+            <ul class="list-disc pl-5 text-xs text-[color:var(--text-secondary)] space-y-1.5 font-medium">
+              @for (ev of currentDilemma().evidence; track ev) {
+                <li>{{ ev }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Active Question and Options -->
+        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-6 shadow-md space-y-5">
+          
+          <h4 class="text-md font-black leading-snug text-[color:var(--text-primary)] pb-2 border-b border-[color:var(--border-soft)]">
+            {{ currentDilemma().question }}
+          </h4>
+
+          <!-- Options List -->
+          <div class="opts" data-hue="purple" role="radiogroup" [attr.aria-label]="currentDilemma().question">
+            @for (opt of currentDilemma().options; track opt.text; let idx = $index) {
+              <button
+                type="button"
+                (click)="selectOption(opt)"
+                class="opt"
+                role="radio"
+                [attr.aria-checked]="selectedOption()?.text === opt.text ? 'true' : 'false'">
+                <span class="tick" aria-hidden="true"></span>
+                <span class="text-xs font-bold leading-normal">{{ opt.text }}</span>
+              </button>
+            }
+          </div>
+
+          <!-- Dilemma feedback box - shown only after selection -->
+          @if (selectedOption()) {
+            <div class="think-card animate-slide-up rounded-2xl bg-[#F8F6FB] dark:bg-[#1E162A] border border-[#DED4EE] dark:border-[#523A73] p-5 space-y-4">
+              <strong class="block text-xs font-black uppercase tracking-wider text-[#7549A9] dark:text-[#A78BFA]">
+                Después de elegir:
+              </strong>
+              
+              <div class="grid gap-3 text-xs leading-normal">
+                <div class="p-3 bg-white dark:bg-slate-900 border border-[color:var(--border-soft)] rounded-xl">
+                  <strong class="text-[#B50038] block mb-0.5">Lo que cuida:</strong>
+                  <span class="text-[color:var(--text-secondary)]">{{ selectedOption()?.cares }}</span>
+                </div>
+                <div class="p-3 bg-white dark:bg-slate-900 border border-[color:var(--border-soft)] rounded-xl">
+                  <strong class="text-[#FF8300] block mb-0.5">Lo pendiente:</strong>
+                  <span class="text-[color:var(--text-secondary)]">{{ selectedOption()?.pending }}</span>
+                </div>
+                <div class="p-3 bg-white dark:bg-slate-900 border border-[color:var(--border-soft)] rounded-xl">
+                  <strong class="text-[#7549A9] dark:text-[#A78BFA] block mb-0.5">Para pensar:</strong>
+                  <span class="text-[color:var(--text-secondary)] italic">"{{ selectedOption()?.think }}"</span>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Navigation buttons -->
+          <div class="pt-3 flex items-center justify-between border-t border-[color:var(--border-soft)]">
+            <button
+              type="button"
+              (click)="previous()"
+              class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] transition-colors">
+              <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
+              Atrás
+            </button>
+
+            <button
+              type="button"
+              [disabled]="!selectedOption()"
+              (click)="next()"
+              class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all"
+              [class.disabled]="!selectedOption()">
+              <span>Continuar</span>
+              <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    }
+
+    <!-- 6. FINAL CLOSURE SCREEN -->
+    @if (currentScreen() === 'final') {
+      <div class="space-y-6">
+
+        <div class="card result-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-8 shadow-md space-y-6">
+          
+          <div class="text-center space-y-1">
+            <span class="rounded-full bg-[#FFF3E3] border border-[#FFE0C4] px-3.5 py-1.5 text-[10px] font-black uppercase tracking-widest text-[#FF8300]">
+              Tu ruta de atención
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-black tracking-tight text-[color:var(--text-primary)] pt-4 leading-tight">
+              {{ resultData().title }}
+            </h3>
+            <p class="text-sm sm:text-base text-[color:var(--text-secondary)] max-w-xl mx-auto pt-1">
+              {{ resultData().copy }}
+            </p>
+          </div>
+
+          <!-- Card: recupero mi atención -->
+          <div class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-5 space-y-3">
+            <strong class="text-xs font-black uppercase tracking-wider text-[color:var(--text-secondary)] block">
+              Tarjeta: recupero mi atención
+            </strong>
+            <div class="grid gap-3">
+              <div class="flex items-start gap-3 bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] rounded-xl px-4 py-3 shadow-sm">
+                <span translate="no" class="material-symbols-rounded text-emerald-600 shrink-0 mt-0.5">input</span>
+                <div class="space-y-0.5">
+                  <p class="text-xs sm:text-sm font-bold text-[color:var(--text-primary)]">Antes de entrar:</p>
+                  <p class="text-xs text-[color:var(--text-secondary)]">Digo para qué entro y cuánto tiempo. <span class="italic text-[color:var(--text-secondary)]">La intención debe existir antes del primer video.</span></p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] rounded-xl px-4 py-3 shadow-sm">
+                <span translate="no" class="material-symbols-rounded text-[#FF8300] shrink-0 mt-0.5">hourglass_empty</span>
+                <div class="space-y-0.5">
+                  <p class="text-xs sm:text-sm font-bold text-[color:var(--text-primary)]">Mientras uso:</p>
+                  <p class="text-xs text-[color:var(--text-secondary)]">Dejo una señal externa que me ayude a salir. <span class="italic text-[color:var(--text-secondary)]">Temporizador, modo concentración o app fuera de pantalla principal.</span></p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] rounded-xl px-4 py-3 shadow-sm">
+                <span translate="no" class="material-symbols-rounded text-[#B50038] shrink-0 mt-0.5">logout</span>
+                <div class="space-y-0.5">
+                  <p class="text-xs sm:text-sm font-bold text-[color:var(--text-primary)]">Para salir:</p>
+                  <p class="text-xs text-[color:var(--text-secondary)]">Cierro, descanso y vuelvo a lo que decidí cuidar. <span class="italic text-[color:var(--text-secondary)]">Tarea, sueño, convivencia o descanso real.</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7 Days Challenge -->
+          <div class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 space-y-4">
+            <strong class="text-xs font-black uppercase tracking-wider text-[color:var(--text-secondary)] block">
+              Reto de 7 días
+            </strong>
+            <div class="grid gap-3 text-xs sm:text-sm">
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 1:</strong>
+                <span class="text-[color:var(--text-secondary)]">Identifica la app que más interrumpe tu atención. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Entro por decisión o por impulso?</span></span>
+              </div>
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 2:</strong>
+                <span class="text-[color:var(--text-secondary)]">Silencia esa app durante una franja de tarea o descanso. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Qué cambió en mi concentración?</span></span>
+              </div>
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 3:</strong>
+                <span class="text-[color:var(--text-secondary)]">Mueve la app fuera de la pantalla principal. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Entré menos por costumbre?</span></span>
+              </div>
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 4:</strong>
+                <span class="text-[color:var(--text-secondary)]">Haz una pausa de 25 minutos con el celular lejos. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Me costó empezar o mantener la pausa?</span></span>
+              </div>
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 5:</strong>
+                <span class="text-[color:var(--text-secondary)]">Antes de abrir la app, decide para qué entrarás y cuánto tiempo. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Salí cuando se cumplió el tiempo?</span></span>
+              </div>
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 6:</strong>
+                <span class="text-[color:var(--text-secondary)]">Deja el celular fuera de la rutina de sueño. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Cómo estuvo mi descanso?</span></span>
+              </div>
+              <div class="p-3.5 bg-gradient-to-r from-orange-50/30 to-orange-100/10 border border-orange-100 rounded-xl">
+                <strong class="text-orange-800 dark:text-orange-300 block mb-0.5">Día 7:</strong>
+                <span class="text-[color:var(--text-secondary)]">Elige una regla que sí puedas mantener la siguiente semana. <span class="italic font-semibold text-[color:var(--text-primary)]">¿Qué límite me ayudó sin sentirse imposible?</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="pt-2 flex flex-col sm:flex-row gap-3">
+            <button
+              type="button"
+              (click)="restart()"
+              class="btn-primary flex-1 py-4 font-bold flex items-center justify-center gap-2">
+              <span translate="no" class="material-symbols-rounded text-base">refresh</span>
+              Volver a intentar
+            </button>
+            <button
+              type="button"
+              class="btn-secondary flex-1 py-4 font-bold flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-[color:var(--text-primary)] border border-[color:var(--border-soft)]"
+              onclick="window.print()">
+              <span translate="no" class="material-symbols-rounded text-base">print</span>
+              Imprimir mi resultado
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+</section>

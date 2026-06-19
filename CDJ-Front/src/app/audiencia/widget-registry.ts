@@ -17,6 +17,7 @@ import { RiesgosRealesComponent } from '../shared/riesgos-reales/riesgos-reales'
 import { PresenciaJovenesComponent } from '../shared/presencia-jovenes/presencia-jovenes';
 import { PrivacidadDineroComponent } from '../shared/privacidad-dinero/privacidad-dinero';
 import { StickerControlComponent } from '../shared/sticker-control/sticker-control';
+import { AppNoSeAcabaComponent } from '../shared/app-no-se-acaba/app-no-se-acaba';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -27,7 +28,8 @@ export type WidgetId =
   | 'riesgos-reales'
   | 'presencia-jovenes'
   | 'privacidad-dinero'
-  | 'sticker-control';
+  | 'sticker-control'
+  | 'app-no-se-acaba';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -39,6 +41,7 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'presencia-jovenes': PresenciaJovenesComponent,
   'privacidad-dinero': PrivacidadDineroComponent,
   'sticker-control': StickerControlComponent,
+  'app-no-se-acaba': AppNoSeAcabaComponent,
 };
 
 

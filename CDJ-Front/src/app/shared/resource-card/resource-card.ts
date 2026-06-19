@@ -26,11 +26,31 @@ export class ResourceCardComponent {
       this.item.id === 'riesgos-reales' ||
       this.item.id === 'presencia-jovenes' ||
       this.item.id === 'privacidad-dinero' ||
-      this.item.id === 'sticker-control'
+      this.item.id === 'sticker-control' ||
+      this.item.id === 'app-no-se-acaba'
     );
   }
 
   onAction(): void {
     this.actionClicked.emit(this.item);
+  }
+
+  onCardClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    // Don't intercept clicks that occurred directly on the buttons or links
+    if (target.closest('button') || target.closest('a')) {
+      return;
+    }
+
+    if (this.isWidgetAction()) {
+      this.onAction();
+    } else {
+      // Find the anchor element inside the card and trigger its click event
+      const element = event.currentTarget as HTMLElement;
+      const anchor = element.querySelector('a') as HTMLAnchorElement;
+      if (anchor) {
+        anchor.click();
+      }
+    }
   }
 }

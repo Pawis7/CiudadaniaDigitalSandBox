@@ -144,6 +144,15 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
         description: 'Recursos para comprender tu mundo digital, construir relaciones sanas y tomar decisiones informadas.',
         levelResources: [
           {
+            id: 'app-no-se-acaba',
+            title: 'La app que no se acaba',
+            description: 'Ayuda a Leo a descubrir por qué una app puede jalar su atención aunque ya quiera salir. No se trata de odiar la tecnología: se trata de usarla con más control.',
+            type: 'activity', typeLabel: 'Caso interactivo', icon: 'schedule',
+            badge: 'Laboratorio de atención', duration: '10 min',
+            colorClass: 'from-orange-500 to-rose-700',
+            actionLabel: 'Iniciar Laboratorio', link: '#widget-seccion-anchor',
+          },
+          {
             id: 'candado-rapido',
             title: 'Candado Rápido v2.2',
             description: 'Audita el perfil ficticio de Ana, detecta la exposición de datos y prioriza 3 candados de privacidad para protegerla.',

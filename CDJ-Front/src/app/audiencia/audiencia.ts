@@ -115,6 +115,11 @@ export class AudienciaComponent {
     return widgetId ? (WIDGET_REGISTRY[widgetId] ?? null) : null;
   });
 
+  isPhoneWidget = computed(() => {
+    const id = this.activeWidgetId();
+    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control';
+  });
+
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
   filteredResources = computed(() => {
     const resources = this.activeSubLevel()?.levelResources ?? [];
@@ -154,7 +159,8 @@ export class AudienciaComponent {
       item.id === 'riesgos-reales' ||
       item.id === 'presencia-jovenes' ||
       item.id === 'privacidad-dinero' ||
-      item.id === 'sticker-control'
+      item.id === 'sticker-control' ||
+      item.id === 'app-no-se-acaba'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -164,7 +170,8 @@ export class AudienciaComponent {
         item.id === 'presencia-adulta' ? 'adult-presence' :
         item.id === 'presencia-jovenes' ? 'presencia-jovenes' :
         item.id === 'privacidad-dinero' ? 'privacidad-dinero' :
-        item.id === 'sticker-control' ? 'sticker-control' : 'riesgos-reales'
+        item.id === 'sticker-control' ? 'sticker-control' :
+        item.id === 'app-no-se-acaba' ? 'app-no-se-acaba' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
         document.body.style.overflow = 'hidden';

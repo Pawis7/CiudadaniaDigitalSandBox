@@ -311,7 +311,7 @@
          role="dialog"
          aria-modal="true">
       <!-- Backdrop -->
-      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" (click)="closeWidgetModal()"></div>
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
       <!-- Close button (floating top-right) -->
       <button
@@ -322,10 +322,17 @@
         <span translate="no" class="material-symbols-rounded text-lg">close</span>
       </button>
 
-      <!-- Phone component renders directly — scroll inside card -->
-      <div class="relative z-10 max-h-[88vh] overflow-y-auto w-full max-w-4xl rounded-[2rem] scrollbar-thin widget-modal-panel">
-        <ng-container [ngComponentOutlet]="widget" />
-      </div>
+      @if (isPhoneWidget()) {
+        <!-- Phone component renders directly — no card wrapper -->
+        <div class="relative z-10">
+          <ng-container [ngComponentOutlet]="widget" />
+        </div>
+      } @else {
+        <!-- Questionnaire component wrapped in scrollable card modal -->
+        <div class="relative z-10 max-h-[88vh] overflow-y-auto w-full max-w-4xl rounded-[2rem] scrollbar-thin widget-modal-panel">
+          <ng-container [ngComponentOutlet]="widget" />
+        </div>
+      }
     </div>
   }
 } @else {
