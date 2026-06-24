@@ -28,7 +28,8 @@ export class ResourceCardComponent {
       this.item.id === 'privacidad-dinero' ||
       this.item.id === 'sticker-control' ||
       this.item.id === 'app-no-se-acaba' ||
-      this.item.id === 'el-carino-no-pide-contrasenas'
+      this.item.id === 'el-carino-no-pide-contrasenas' ||
+      this.item.id === 'chat-en-llamas'
     );
   }
 

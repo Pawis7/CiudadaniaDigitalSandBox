@@ -117,7 +117,7 @@ export class AudienciaComponent {
 
   isPhoneWidget = computed(() => {
     const id = this.activeWidgetId();
-    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas';
+    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas';
   });
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
@@ -161,7 +161,8 @@ export class AudienciaComponent {
       item.id === 'privacidad-dinero' ||
       item.id === 'sticker-control' ||
       item.id === 'app-no-se-acaba' ||
-      item.id === 'el-carino-no-pide-contrasenas'
+      item.id === 'el-carino-no-pide-contrasenas' ||
+      item.id === 'chat-en-llamas'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -173,7 +174,8 @@ export class AudienciaComponent {
         item.id === 'privacidad-dinero' ? 'privacidad-dinero' :
         item.id === 'sticker-control' ? 'sticker-control' :
         item.id === 'app-no-se-acaba' ? 'app-no-se-acaba' :
-        item.id === 'el-carino-no-pide-contrasenas' ? 'el-carino-no-pide-contrasenas' : 'riesgos-reales'
+        item.id === 'el-carino-no-pide-contrasenas' ? 'el-carino-no-pide-contrasenas' :
+        item.id === 'chat-en-llamas' ? 'chat-en-llamas' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
         document.body.style.overflow = 'hidden';

@@ -1,0 +1,321 @@
+<div class="sim-layout">
+
+  <!-- ─── PHONE ─────────────────────────────── -->
+  <div class="phone-wrap" id="secundaria-chat">
+    <div class="phone">
+
+      <!-- iPhone 17 hardware details -->
+      <div class="hw-vol-top"></div>
+      <div class="hw-vol-bot"></div>
+      <div class="hw-power"></div>
+      <div class="hw-action"></div>
+
+      <!-- Screen -->
+      <div class="screen">
+
+        <!-- Dynamic Island -->
+        <div class="dynamic-island"></div>
+
+        <!-- iOS Status Bar -->
+        <div class="statusbar" [class.light]="finished()">
+          <span class="statusbar-time">14:20</span>
+          <div class="icons">
+            <div class="signal">
+              <span class="b b1"></span>
+              <span class="b b2"></span>
+              <span class="b b3"></span>
+              <span class="b b4"></span>
+            </div>
+            <svg class="wifi" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M1 3.5c4-3.3 10-3.3 14 0" />
+              <path d="M3.5 6.2c2.5-2 6.5-2 9 0" />
+              <path d="M6 9c1-0.8 3-0.8 4 0" />
+              <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none" />
+            </svg>
+            <div class="battery"><div class="batt-level"></div></div>
+          </div>
+        </div>
+
+        <!-- 1. INTRO SCREEN (inside phone) -->
+        @if (!started()) {
+          <div class="phone-intro flex-1 flex flex-col justify-between p-6 text-white text-center">
+            <div class="space-y-4 pt-6">
+              <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur text-white shadow-xl mx-auto mb-2 animate-bounce">
+                <span translate="no" class="material-symbols-rounded text-3xl text-orange-300">local_fire_department</span>
+              </span>
+              <h3 class="text-xl font-black tracking-tight">{{ data.product.title }}</h3>
+              <p class="text-xs text-white/80 leading-relaxed max-w-xs mx-auto">
+                {{ data.product.subtitle }}
+              </p>
+              <div class="flex flex-wrap justify-center gap-1.5 text-[10px] font-bold">
+                <span class="bg-white/15 px-3 py-1.5 rounded-full">6 momentos</span>
+                <span class="bg-white/15 px-3 py-1.5 rounded-full">Secundaria</span>
+                <span class="bg-white/15 px-3 py-1.5 rounded-full">CDJ-263</span>
+              </div>
+            </div>
+            <div class="pt-6">
+              <button type="button" class="start-btn w-full py-4 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-2xl shadow-lg transition-all text-xs cursor-pointer" (click)="start()">
+                ▶ Iniciar caso interactivo
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- 2. FINISHED SCREEN (inside phone) -->
+        @else if (finished()) {
+          <div class="phone-result flex-1 flex flex-col justify-between p-5 bg-white text-slate-800 overflow-y-auto">
+            <div class="space-y-4 pt-3 flex-grow">
+              <span class="grid h-16 w-16 place-items-center rounded-full bg-orange-500/20 border border-orange-400/30 backdrop-blur text-orange-700 shadow-lg mx-auto mb-2">
+                <span translate="no" class="material-symbols-rounded text-3xl">verified_user</span>
+              </span>
+              <h3 class="text-lg font-black text-center text-slate-900 leading-tight">Ruta Final</h3>
+              <p class="text-xs text-slate-500 text-center leading-relaxed max-w-xs mx-auto">
+                Has completado la simulación digital de resolución de conflictos en chats.
+              </p>
+
+              <!-- Diagnostic Block -->
+              <div class="p-3.5 rounded-xl border text-xs leading-relaxed font-semibold bg-orange-50/50 border-orange-100 text-orange-950">
+                <strong class="block font-black text-xs text-orange-900 mb-1">Ruta: {{ finalDiagnostic().titulo }}</strong>
+                {{ finalDiagnostic().mensaje }}
+              </div>
+
+              <!-- Mini Radar Chart (horizontal bars) -->
+              <div class="space-y-2 pt-2 border-t border-slate-100">
+                <div>
+                  <div class="flex justify-between text-[9px] font-bold text-slate-500 uppercase">
+                    <span>Pausa</span>
+                    <span>{{ radarWidths()[0] }}%</span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden mt-0.5">
+                    <div class="h-full bg-orange-500 rounded-full" [style.width.%]="radarWidths()[0]"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[9px] font-bold text-slate-500 uppercase">
+                    <span>Contexto</span>
+                    <span>{{ radarWidths()[1] }}%</span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden mt-0.5">
+                    <div class="h-full bg-orange-500 rounded-full" [style.width.%]="radarWidths()[1]"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[9px] font-bold text-slate-500 uppercase">
+                    <span>Reparación</span>
+                    <span>{{ radarWidths()[2] }}%</span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden mt-0.5">
+                    <div class="h-full bg-orange-500 rounded-full" [style.width.%]="radarWidths()[2]"></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-[9px] font-bold text-slate-500 uppercase">
+                    <span>Autocontrol</span>
+                    <span>{{ radarWidths()[3] }}%</span>
+                  </div>
+                  <div class="h-2 w-full bg-slate-100 rounded-full overflow-hidden mt-0.5">
+                    <div class="h-full bg-orange-500 rounded-full" [style.width.%]="radarWidths()[3]"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Copiable Phrase -->
+              <div class="bg-orange-50/70 border border-dashed border-orange-300 rounded-xl p-3 text-center">
+                <p class="text-[10px] font-bold text-orange-800 uppercase tracking-wider mb-1">Frase útil recomendada:</p>
+                <blockquote class="text-[11px] leading-relaxed text-slate-800 font-semibold italic">
+                  "{{ data.closing.model_phrase }}"
+                </blockquote>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="space-y-2 pt-4">
+              <button type="button" class="w-full py-3 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer" (click)="copyPhrase()">
+                <span translate="no" class="material-symbols-rounded text-sm">{{ copied() ? 'check' : 'content_copy' }}</span>
+                {{ copied() ? '¡Copiado!' : 'Copiar frase útil' }}
+              </button>
+              <button type="button" class="w-full py-3 border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer" (click)="restart()">
+                <span translate="no" class="material-symbols-rounded text-sm">refresh</span>
+                Reiniciar simulador
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- 3. ACTIVE GAME SCREEN (inside phone) -->
+        @else {
+          <!-- Chat Header -->
+          <div class="wa-header shrink-0 bg-orange-700">
+            <div class="wa-header__contact">
+              <span class="wa-header__avatar" style="background: linear-gradient(135deg, #f97316, #ea580c);">
+                {{ avatarLetter() }}
+              </span>
+              <div class="wa-header__info">
+                <strong class="wa-header__name">
+                  {{ activeContactName() }}
+                </strong>
+                <span class="wa-header__status">48 participantes · mensajes rápidos</span>
+              </div>
+            </div>
+            <div class="wa-header__actions">
+              <span translate="no" class="material-symbols-rounded text-lg text-white/90">info</span>
+            </div>
+          </div>
+
+          <!-- Chat Case Tracker bar -->
+          <div class="bg-white/95 backdrop-blur border-b border-slate-200 px-3 py-1.5 flex items-center justify-between text-[10px] font-bold text-slate-700 shadow-sm shrink-0">
+            <span class="truncate text-[9px] text-slate-500">Pausa · Encuadra · Repara</span>
+            <span class="text-[9px] font-semibold text-orange-600 shrink-0 ml-1">Paso {{ currentMomentIndex() + 1 }} de 6</span>
+          </div>
+
+          <!-- Chat History / Bubbles -->
+          <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col justify-end" style="background-color: #fef8f3;">
+            <div class="space-y-2.5 flex flex-col">
+              <!-- Historical / Current Node incoming messages -->
+              @for (msg of currentMoment().chat; track $index) {
+                <div class="flex animate-slide-up [animation-fill-mode:backwards]"
+                  [class.justify-end]="msg.speaker === 'Tú'"
+                  [style.animation-delay]="$index * 120 + 'ms'">
+                  
+                  <div class="rounded-2xl px-3 py-2 max-w-[85%] shadow-sm text-[11px] leading-relaxed font-medium"
+                    [class.rounded-tl-sm]="msg.speaker !== 'Tú'"
+                    [class.bg-white]="msg.speaker !== 'Tú'"
+                    [class.text-slate-800]="msg.speaker !== 'Tú'"
+                    [class.rounded-tr-sm]="msg.speaker === 'Tú'"
+                    [class.bg-[#ffeecb]]="msg.speaker === 'Tú'"
+                    [class.text-slate-900]="msg.speaker === 'Tú'">
+                    <span class="block text-[8px] font-black mb-0.5"
+                      [class.text-purple-600]="msg.speaker === 'Sofía'"
+                      [class.text-teal-600]="msg.speaker === 'Diego'"
+                      [class.text-blue-600]="msg.speaker === 'Emiliano'"
+                      [class.text-orange-800]="msg.speaker === 'Tú'">{{ msg.speaker }}</span>
+                    <span>{{ msg.text }}</span>
+                    <small class="block text-[7px] text-right text-slate-400 mt-0.5">14:22</small>
+                  </div>
+                </div>
+              }
+
+              <!-- User typing indicator -->
+              @if (isTyping()) {
+                <div class="flex justify-start animate-fade-in">
+                  <div class="rounded-2xl rounded-tl-sm bg-white border border-slate-100 px-3.5 py-2.5 shadow-sm flex items-center gap-1">
+                    <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce"></span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
+                  </div>
+                </div>
+              }
+
+              <!-- Chosen user response rendered in the chat bubbles -->
+              @if (activeFeedbackChoice(); as selectedChoice) {
+                <div class="flex justify-end animate-slide-up">
+                  <div class="rounded-2xl rounded-tr-sm bg-[#ffeecb] px-3 py-2 max-w-[85%] shadow-sm text-[11px] font-semibold text-slate-900">
+                    <span class="block text-[8px] font-black mb-0.5 text-orange-800">Tú</span>
+                    <span>{{ selectedChoice.text }}</span>
+                    <small class="block text-[8px] text-right text-orange-700 mt-0.5">✓✓ Enviado</small>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Options list inside phone -->
+          @if (!activeFeedbackChoice()) {
+            <div class="sc-options bg-slate-100 border-t border-slate-200 p-2 flex flex-col gap-1.5 max-h-[44%] overflow-y-auto shrink-0">
+              @for (choice of currentOptions(); track choice.text) {
+                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt flex items-center justify-between gap-2.5 bg-white border border-slate-200 rounded-xl p-2.5 text-left text-[11px] font-bold text-slate-800 hover:border-orange-300 hover:bg-orange-50/50 transition-all cursor-pointer">
+                  <span>{{ choice.text }}</span>
+                  <span class="sc-go w-5 h-5 rounded-full bg-orange-600 text-white flex items-center justify-center text-[10px] shrink-0">➤</span>
+                </button>
+              }
+            </div>
+          }
+
+          <!-- Phone input bar placeholder -->
+          <div class="bg-[#f3f4f6] border-t border-slate-200 p-2 flex items-center gap-1.5 shrink-0" [class.hidden]="!activeFeedbackChoice()">
+            <span translate="no" class="material-symbols-rounded text-slate-400 text-lg">add_circle</span>
+            <div class="flex-1 rounded-full bg-white px-3 py-1 text-[10px] text-slate-400 font-medium border border-slate-200 truncate">
+              Respuesta enviada
+            </div>
+            <span translate="no" class="material-symbols-rounded text-slate-400 text-lg">mic</span>
+          </div>
+
+          <!-- Mobile feedback overlay inside phone (hidden on desktop, visible on mobile) -->
+          @if (activeFeedbackChoice(); as chosen) {
+            <div class="sc-mobile-feedback-panel absolute bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 rounded-t-2xl p-4 flex flex-col gap-3 max-h-[60%] overflow-y-auto shadow-[0_-8px_30px_rgba(0,0,0,0.18)] animate-slide-up">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                <span class="text-[9px] font-black uppercase tracking-wider text-slate-400">Análisis del paso</span>
+                <span class="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {{ currentMoment().title }}
+                </span>
+              </div>
+              <p class="text-xs leading-relaxed text-slate-700 font-semibold">
+                <strong class="text-emerald-700 font-bold">✅ Lectura de tu decisión:</strong> {{ chosen.feedback.what_it_protects }}
+              </p>
+              <p class="text-xs leading-relaxed text-slate-700 font-semibold border-t border-slate-100 pt-2">
+                <strong class="text-amber-700 font-bold">⚠️ Ajuste útil:</strong> {{ chosen.feedback.what_remains }}
+              </p>
+              <div class="bg-orange-50/50 rounded-xl p-3 border border-orange-100 space-y-1.5">
+                <strong class="text-[10px] text-orange-800 uppercase tracking-wider block font-black">Para afinar criterio:</strong>
+                <p class="text-xs leading-relaxed text-orange-950 font-semibold italic">"{{ chosen.feedback.reflection }}"</p>
+              </div>
+              <button type="button" class="w-full py-3.5 bg-gradient-to-r from-orange-600 to-amber-700 text-white font-bold rounded-xl shadow-md transition-all text-xs cursor-pointer" (click)="continueFlow()">
+                {{ currentMomentIndex() === moments.length - 1 ? 'Ver ruta final' : 'Continuar' }} →
+              </button>
+            </div>
+          }
+        }
+
+        <!-- Home Bar Indicator -->
+        <div class="home-bar"></div>
+
+      </div><!-- /screen -->
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+
+  <!-- ─── COACH SIDE PANEL (beside phone, only when game active) ──── -->
+  @if (started() && !finished()) {
+    <aside class="coach-side">
+      <div class="coach-head">
+        <h2>🧠 Tu detector</h2>
+        <p>Revisa la asertividad y consecuencias de tu decisión.</p>
+      </div>
+
+      <div class="alert-stack">
+        @if (!activeFeedbackChoice()) {
+          <div class="coach-empty">
+            <div class="big">👀</div>
+            <p>Lee bien cada mensaje y elige cómo responder en el celular. Analizaremos tu respuesta en tiempo real.</p>
+          </div>
+        } @else {
+          @let chosen = activeFeedbackChoice()!;
+          <div class="alert safe">
+            <span class="badge font-bold">Decisión</span>
+            <div class="ah"><span class="em">✅</span>Lectura de tu decisión:</div>
+            <p>{{ chosen.feedback.what_it_protects }}</p>
+          </div>
+
+          <div class="alert warn">
+            <span class="badge font-bold">Ajuste</span>
+            <div class="ah"><span class="em">⚠️</span>Ajuste útil:</div>
+            <p>{{ chosen.feedback.what_remains }}</p>
+          </div>
+
+          <div class="alert tip">
+            <span class="badge font-bold">Pregunta</span>
+            <div class="ah"><span class="em">💡</span>Para afinar criterio:</div>
+            <p>{{ chosen.feedback.reflection }}</p>
+          </div>
+
+          <button type="button" class="sc-side-continue-btn w-full py-3 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold rounded-xl shadow-lg transition-all text-xs flex items-center justify-center gap-1.5 mt-2 cursor-pointer" (click)="continueFlow()">
+            {{ currentMomentIndex() === moments.length - 1 ? 'Ver ruta final' : 'Continuar' }} →
+          </button>
+        }
+      </div>
+    </aside>
+  }
+
+</div>
+
+<!-- Toast -->
+<div class="toast" [class.show]="copied()">Copiado al portapapeles. ¡Listo!</div>

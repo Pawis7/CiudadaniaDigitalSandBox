@@ -206,6 +206,15 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-orange-500 to-red-600',
             actionLabel: 'Iniciar Caso', link: '#widget-seccion-anchor',
           },
+          {
+            id: 'chat-en-llamas',
+            title: 'Chat en llamas',
+            description: 'Práctica cómo bajar la tensión cuando una broma, captura o meme empieza a salirse de control en un chat grupal.',
+            type: 'activity', typeLabel: 'Caso interactivo', icon: 'local_fire_department',
+            badge: 'Bajar la tensión', duration: '15 min',
+            colorClass: 'from-orange-600 to-amber-700',
+            actionLabel: 'Iniciar Caso', link: '#widget-seccion-anchor',
+          },
         ],
       },
       {
