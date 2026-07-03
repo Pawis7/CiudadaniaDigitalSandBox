@@ -115,6 +115,14 @@ export class StickerControlComponent {
       if (this.started() && !this.finished()) {
         const moment = this.currentMoment();
         this.currentOptions.set(shuffleArray(moment.opciones));
+
+        // Scroll the chat container to top
+        setTimeout(() => {
+          const chatEl = document.querySelector('.wa-chat');
+          if (chatEl) {
+            chatEl.scrollTop = 0;
+          }
+        }, 50);
       }
     });
   }
@@ -167,7 +175,7 @@ export class StickerControlComponent {
 
     // Compilar el texto del Mapa final
     let textToCopy = `============================================\n`;
-    textToCopy += `   MAPA DE REPARACIÓN DIGITAL (CDJ-254)     \n`;
+    textToCopy += `   MAPA DE REPARACIÓN DIGITAL               \n`;
     textToCopy += `   Caso: El sticker que se salió de control \n`;
     textToCopy += `============================================\n\n`;
     textToCopy += `${diag.titulo.toUpperCase()}\n`;

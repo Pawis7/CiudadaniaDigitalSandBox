@@ -20,6 +20,9 @@ import { StickerControlComponent } from '../shared/sticker-control/sticker-contr
 import { AppNoSeAcabaComponent } from '../shared/app-no-se-acaba/app-no-se-acaba';
 import { ElCarinoNoPideContrasenasComponent } from '../shared/el-carino-no-pide-contrasenas/el-carino-no-pide-contrasenas';
 import { ChatEnLlamasComponent } from '../shared/chat-en-llamas/chat-en-llamas';
+import { LaVozEnElSquadComponent } from '../shared/la-voz-en-el-squad/la-voz-en-el-squad';
+import { NoLoHagasViralComponent } from '../shared/no-lo-hagas-viral/no-lo-hagas-viral';
+import { PerfilFantasmaComponent } from '../shared/perfil-fantasma/perfil-fantasma';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -33,7 +36,10 @@ export type WidgetId =
   | 'sticker-control'
   | 'app-no-se-acaba'
   | 'el-carino-no-pide-contrasenas'
-  | 'chat-en-llamas';
+  | 'chat-en-llamas'
+  | 'la-voz-en-el-squad'
+  | 'no-lo-hagas-viral'
+  | 'perfil-fantasma';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -48,6 +54,9 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'app-no-se-acaba': AppNoSeAcabaComponent,
   'el-carino-no-pide-contrasenas': ElCarinoNoPideContrasenasComponent,
   'chat-en-llamas': ChatEnLlamasComponent,
+  'la-voz-en-el-squad': LaVozEnElSquadComponent,
+  'no-lo-hagas-viral': NoLoHagasViralComponent,
+  'perfil-fantasma': PerfilFantasmaComponent,
 };
 
 

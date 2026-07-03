@@ -145,20 +145,13 @@
           </div>
 
           <!-- Actions -->
-          <div class="pt-2 flex flex-col sm:flex-row gap-3">
+          <div class="pt-2 flex justify-center">
             <button
               type="button"
               (click)="restart()"
-              class="btn-primary flex-1 py-4 font-bold flex items-center justify-center gap-2">
+              class="btn-primary w-full max-w-sm py-4 font-bold flex items-center justify-center gap-2">
               <span translate="no" class="material-symbols-rounded text-base">refresh</span>
               Volver a intentar
-            </button>
-            <button
-              type="button"
-              class="btn-secondary flex-1 py-4 font-bold flex items-center justify-center gap-2 bg-white dark:bg-slate-900 text-[color:var(--text-primary)] border border-[color:var(--border-soft)]"
-              onclick="window.print()">
-              <span translate="no" class="material-symbols-rounded text-base">print</span>
-              Imprimir mi resultado
             </button>
           </div>
 
@@ -193,97 +186,101 @@
           </div>
         </div>
 
-        <!-- Case Situation Card -->
-        <div class="card situation-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-6 shadow-sm space-y-4">
-          <div class="flex items-center gap-2.5">
-            <span class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-[#FFF4EA] to-[#FDF3F5] dark:from-[#2A1E15] dark:to-[#2A151C] border border-[#FFE0C4] dark:border-[#521E18] px-3 py-1.5 text-[color:var(--text-primary)] font-bold text-xs">
-              <span translate="no" class="material-symbols-rounded text-sm text-[#B50038] dark:text-[#FCA5A5] icon-fill">menu_book</span>
-              Caso Contexto
-            </span>
-          </div>
-
-          <h3 class="text-sm font-black text-[color:var(--text-primary)] leading-snug">
-            {{ currentCase().titulo }}
-          </h3>
-          <p class="text-xs leading-relaxed text-[color:var(--text-secondary)] font-medium">
-            {{ currentCase().situacion }}
-          </p>
-
-          <!-- Neutral Evidences -->
-          <div class="bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-xl p-4 space-y-2.5">
-            <strong class="block text-xs font-black uppercase tracking-wider text-[#FF8300]">
-              Evidencias del caso:
-            </strong>
-            <ul class="list-disc pl-5 text-xs text-[color:var(--text-secondary)] space-y-1.5 font-medium">
-              @for (ev of currentCase().evidencias_neutrales_del_caso; track ev) {
-                <li>{{ ev }}</li>
-              }
-            </ul>
-          </div>
-        </div>
-
-        <!-- Active Question Card -->
-        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-6 shadow-md space-y-5">
+        <!-- Grid layout for case context and options side-by-side on desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
           
-          <div class="border-b border-[color:var(--border-soft)] pb-3">
-            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#B50038] dark:text-[#FCA5A5]">
-              {{ currentStep().titulo }}
-            </span>
+          <!-- Case Situation Card -->
+          <div class="card situation-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-6 shadow-sm space-y-4 md:col-span-5">
+            <div class="flex items-center gap-2.5">
+              <span class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-br from-[#FFF4EA] to-[#FDF3F5] dark:from-[#2A1E15] dark:to-[#2A151C] border border-[#FFE0C4] dark:border-[#521E18] px-3 py-1.5 text-[color:var(--text-primary)] font-bold text-xs">
+                <span translate="no" class="material-symbols-rounded text-sm text-[#B50038] dark:text-[#FCA5A5] icon-fill">menu_book</span>
+                Caso Contexto
+              </span>
+            </div>
+
+            <h3 class="text-sm font-black text-[color:var(--text-primary)] leading-snug">
+              {{ currentCase().titulo }}
+            </h3>
+            <p class="text-sm leading-relaxed text-[color:var(--text-secondary)] font-medium">
+              {{ currentCase().situacion }}
+            </p>
+
+            <!-- Neutral Evidences -->
+            <div class="bg-[color:var(--surface-soft)] border border-[color:var(--border-soft)] rounded-xl p-4 space-y-2.5">
+              <strong class="block text-xs font-black uppercase tracking-wider text-[#FF8300]">
+                Evidencias del caso:
+              </strong>
+              <ul class="list-disc pl-5 text-xs text-[color:var(--text-secondary)] space-y-1.5 font-medium">
+                @for (ev of currentCase().evidencias_neutrales_del_caso; track ev) {
+                  <li>{{ ev }}</li>
+                }
+              </ul>
+            </div>
           </div>
 
-          <h4 class="text-sm font-black leading-snug text-[color:var(--text-primary)]">
-            {{ currentStep().pregunta }}
-          </h4>
+          <!-- Active Question Card -->
+          <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-6 shadow-md space-y-5 md:col-span-7">
+            
+            <div class="border-b border-[color:var(--border-soft)] pb-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#B50038] dark:text-[#FCA5A5]">
+                {{ currentStep().titulo }}
+              </span>
+            </div>
 
-          <!-- Options -->
-          <div class="opts" [attr.data-hue]="getCategoryHue()" role="radiogroup" [attr.aria-label]="currentStep().pregunta">
-            @for (opt of currentStep().opciones; track opt.option_id) {
+            <h4 class="text-sm font-black leading-snug text-[color:var(--text-primary)]">
+              {{ currentStep().pregunta }}
+            </h4>
+
+            <!-- Options -->
+            <div class="opts" [attr.data-hue]="getCategoryHue()" role="radiogroup" [attr.aria-label]="currentStep().pregunta">
+              @for (opt of currentStep().opciones; track opt.option_id) {
+                <button
+                  type="button"
+                  (click)="selectOption(opt)"
+                  class="opt"
+                  role="radio"
+                  [attr.aria-checked]="selectedOption()?.option_id === opt.option_id ? 'true' : 'false'">
+                  <span class="tick" aria-hidden="true"></span>
+                  <span>{{ opt.texto_visible }}</span>
+                </button>
+              }
+            </div>
+
+            <!-- Question to think about (pregunta para pensar) - shown only after choice -->
+            @if (selectedOption()) {
+              <div class="think-card animate-slide-up rounded-2xl bg-[#FFF8F4] dark:bg-[#2B1B10] border border-[#FFE0C4] dark:border-[#5C3214] p-4 flex gap-3">
+                <span translate="no" class="material-symbols-rounded text-xl text-[#FF8300] shrink-0">tips_and_updates</span>
+                <div class="space-y-0.5">
+                  <strong class="block text-xs font-black uppercase tracking-wider text-[#FF8300]">Pregunta para pensar:</strong>
+                  <p class="text-xs leading-relaxed text-[#5C4716] dark:text-[#E2D2C6] font-semibold">
+                    {{ currentStep().pregunta_generadora_posterior }}
+                  </p>
+                </div>
+              </div>
+            }
+
+            <!-- Navigation buttons -->
+            <div class="pt-3 flex items-center justify-between border-t border-[color:var(--border-soft)]">
               <button
                 type="button"
-                (click)="selectOption(opt)"
-                class="opt"
-                role="radio"
-                [attr.aria-checked]="selectedOption()?.option_id === opt.option_id ? 'true' : 'false'">
-                <span class="tick" aria-hidden="true"></span>
-                <span>{{ opt.texto_visible }}</span>
+                (click)="previous()"
+                class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] transition-colors">
+                <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
+                Atrás
               </button>
-            }
-          </div>
 
-          <!-- Question to think about (pregunta para pensar) - shown only after choice -->
-          @if (selectedOption()) {
-            <div class="think-card animate-slide-up rounded-2xl bg-[#FFF8F4] dark:bg-[#2B1B10] border border-[#FFE0C4] dark:border-[#5C3214] p-4 flex gap-3">
-              <span translate="no" class="material-symbols-rounded text-xl text-[#FF8300] shrink-0">tips_and_updates</span>
-              <div class="space-y-0.5">
-                <strong class="block text-xs font-black uppercase tracking-wider text-[#FF8300]">Pregunta para pensar:</strong>
-                <p class="text-xs leading-relaxed text-[#5C4716] dark:text-[#E2D2C6] font-semibold">
-                  {{ currentStep().pregunta_generadora_posterior }}
-                </p>
-              </div>
+              <button
+                type="button"
+                [disabled]="!selectedOption()"
+                (click)="next()"
+                class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all"
+                [class.disabled]="!selectedOption()">
+                <span>Siguiente</span>
+                <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
+              </button>
             </div>
-          }
 
-          <!-- Navigation buttons -->
-          <div class="pt-3 flex items-center justify-between border-t border-[color:var(--border-soft)]">
-            <button
-              type="button"
-              (click)="previous()"
-              class="btn-nav flex items-center gap-1 text-xs sm:text-sm font-bold text-[color:var(--text-secondary)] py-2 px-4 rounded-xl border border-[color:var(--border-soft)] hover:bg-[color:var(--surface-soft)] transition-colors">
-              <span translate="no" class="material-symbols-rounded text-lg">arrow_back</span>
-              Atrás
-            </button>
-
-            <button
-              type="button"
-              [disabled]="!selectedOption()"
-              (click)="next()"
-              class="btn-nav-primary flex items-center gap-1 text-xs sm:text-sm font-black py-2.5 px-5 rounded-xl text-white shadow-md hover:shadow-lg transition-all"
-              [class.disabled]="!selectedOption()">
-              <span>Siguiente</span>
-              <span translate="no" class="material-symbols-rounded text-lg">arrow_forward</span>
-            </button>
           </div>
-
         </div>
 
       </div>

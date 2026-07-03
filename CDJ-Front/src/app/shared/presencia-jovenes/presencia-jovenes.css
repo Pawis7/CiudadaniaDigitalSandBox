@@ -340,11 +340,6 @@
    PRINT MEDIA STYLES
    ==================================================================== */
 @media print {
-  /* Hide all elements on the page by default to prevent random prints */
-  body * {
-    visibility: hidden !important;
-  }
-
   /* Specifically force display: none on parent layout wrappers to avoid blank pages and extra margins */
   app-sidebar,
   .topbar,
@@ -368,15 +363,6 @@
   .intro-card,
   .step-card {
     display: none !important;
-  }
-
-  /* Make only the adult presence workbook and tracker cards visible */
-  #adulto-presencia-jovenes,
-  #adulto-presencia-jovenes .workbook-card,
-  #adulto-presencia-jovenes .workbook-card *,
-  #adulto-presencia-jovenes .tracker-card,
-  #adulto-presencia-jovenes .tracker-card * {
-    visibility: visible !important;
   }
 
   .print-warning-message {

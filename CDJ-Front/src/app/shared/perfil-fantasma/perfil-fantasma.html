@@ -1,0 +1,463 @@
+<div class="sim-layout select-none">
+
+  <!-- ─── PHONE MOCKUP ───────────────────────────── -->
+  <div class="phone-wrap" id="preparatoria-ghost">
+    <div class="phone border border-white/10 shadow-2xl">
+
+      <!-- iPhone hardware details -->
+      <div class="hw-vol-top"></div>
+      <div class="hw-vol-bot"></div>
+      <div class="hw-power"></div>
+      <div class="hw-action"></div>
+
+      <!-- Screen -->
+      <div class="screen bg-[#141926]">
+
+        <!-- Dynamic Island -->
+        <div class="dynamic-island"></div>
+
+        <!-- iOS Status Bar -->
+        <div class="statusbar" [class.light]="finished()">
+          <span class="statusbar-time text-white/90">18:02</span>
+          <div class="icons flex items-center gap-1">
+            <div class="signal flex gap-0.5 items-end">
+              <span class="b b1 w-[2px] h-[3px] bg-white/80 rounded-full"></span>
+              <span class="b b2 w-[2px] h-[5px] bg-white/80 rounded-full"></span>
+              <span class="b b3 w-[2px] h-[7px] bg-white/80 rounded-full"></span>
+              <span class="b b4 w-[2px] h-[9px] bg-white/80 rounded-full"></span>
+            </div>
+            <svg class="wifi w-3 h-3 text-white/80" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-linecap="round">
+              <path d="M1 3.5c4-3.3 10-3.3 14 0" />
+              <path d="M3.5 6.2c2.5-2 6.5-2 9 0" />
+              <path d="M6 9c1-0.8 3-0.8 4 0" />
+              <circle cx="8" cy="11.2" r="0.8" fill="currentColor" stroke="none" />
+            </svg>
+            <div class="battery w-4 h-2 border border-white/60 rounded-sm p-[1px] flex"><div class="batt-level flex-grow bg-white/80 rounded-sm"></div></div>
+          </div>
+        </div>
+
+        <!-- 1. INTRO COVER SCREEN (inside phone) -->
+        <div *ngIf="!started() && !finished() && !profileSelectionActive()" class="phone-intro flex-grow flex flex-col justify-between p-5 text-center bg-gradient-to-b from-[#1a2233] to-[#0d1018] overflow-y-auto">
+          <div class="space-y-4 pt-10 flex-grow flex flex-col justify-center">
+            <span class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-teal-500 to-indigo-600 text-white shadow-lg mx-auto mb-2 select-none">
+              <span class="text-2xl">👤</span>
+            </span>
+            <span class="text-[9px] font-black text-teal-400 uppercase tracking-widest bg-teal-500/10 px-2.5 py-1 rounded-full w-max mx-auto">
+              Simulador Gamer
+            </span>
+            <h3 class="text-lg font-black tracking-tight text-white leading-snug">{{ data.metadata.product_title }}</h3>
+            <p class="text-xs text-[#9badc8] leading-relaxed max-w-[260px] mx-auto">
+              {{ data.metadata.subtitulo }}
+            </p>
+            <div class="flex flex-wrap justify-center gap-1 text-[9px] font-extrabold text-[#61708d]">
+              <span class="bg-white/5 px-2.5 py-1 rounded-full border border-white/5">6 escenas</span>
+              <span class="bg-white/5 px-2.5 py-1 rounded-full border border-white/5">Preparatoria</span>
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <button type="button" class="start-btn w-full py-3.5 bg-gradient-to-r from-teal-500 to-indigo-600 hover:from-teal-600 hover:to-indigo-750 text-white font-black rounded-xl shadow-lg transition-all text-xs tracking-wider uppercase cursor-pointer" (click)="start()">
+              ▶ Entrar al servidor
+            </button>
+            <div class="text-[9px] text-[#61708d] mt-2.5 font-medium italic">
+              Ciudadanía Digital Jalisco
+            </div>
+          </div>
+        </div>
+
+        <!-- 1.2 PROFILE SELECTOR SCREEN (inside phone) -->
+        <div *ngIf="!started() && !finished() && profileSelectionActive()" class="phone-intro flex-grow flex flex-col justify-between p-5 bg-gradient-to-b from-[#1a2233] to-[#0d1018] overflow-y-auto">
+          <div class="space-y-4 pt-10 flex-grow flex flex-col justify-center">
+            <h3 class="text-base font-black text-white text-center leading-tight">Elige cómo aparecerás</h3>
+            <p class="text-[11px] text-[#9badc8] text-center leading-relaxed max-w-[260px] mx-auto">
+              El perfil solo cambia tu nombre visual. Tu papel será el mismo: integrante del servidor que decide.
+            </p>
+
+            <div class="avatar-picks flex flex-col gap-2 pt-2">
+              <button type="button" class="pick p-3 text-left border border-white/5 rounded-xl bg-[#202a41] hover:border-teal-500/40 hover:bg-teal-500/5 transition-all flex items-center gap-3 cursor-pointer" (click)="confirmProfile('Tú', 'T')">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-indigo-500 flex items-center justify-center font-black text-xs text-slate-900 shrink-0">T</div>
+                <div>
+                  <b class="text-xs font-bold text-white block">Neutral</b>
+                  <span class="text-[9px] block text-[#61708d] mt-0.5">Observas y decides con prudencia.</span>
+                </div>
+              </button>
+
+              <button type="button" class="pick p-3 text-left border border-white/5 rounded-xl bg-[#202a41] hover:border-teal-500/40 hover:bg-teal-500/5 transition-all flex items-center gap-3 cursor-pointer" (click)="confirmProfile('Ghost', 'G')">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-indigo-500 flex items-center justify-center font-black text-xs text-slate-900 shrink-0">G</div>
+                <div>
+                  <b class="text-xs font-bold text-white block">Ghost</b>
+                  <span class="text-[9px] block text-[#61708d] mt-0.5">Perfil discreto para el servidor.</span>
+                </div>
+              </button>
+
+              <button type="button" class="pick p-3 text-left border border-white/5 rounded-xl bg-[#202a41] hover:border-teal-500/40 hover:bg-teal-500/5 transition-all flex items-center gap-3 cursor-pointer" (click)="confirmProfile('Nova', 'N')">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-indigo-500 flex items-center justify-center font-black text-xs text-slate-900 shrink-0">N</div>
+                <div>
+                  <b class="text-xs font-bold text-white block">Nova</b>
+                  <span class="text-[10px] block text-[#61708d] mt-0.5">Perfil activo y visible.</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. FINISHED SCREEN (inside phone) -->
+        <div *ngIf="finished()" class="phone-result flex-1 flex flex-col justify-between p-5 bg-[#141926] text-white overflow-y-auto">
+          <div class="space-y-4 pt-8 flex-grow">
+            <span class="grid h-14 w-14 place-items-center rounded-full bg-teal-500/10 border border-teal-500/25 text-teal-400 shadow-md mx-auto mb-1">
+              <span>{{ finalDiagnostic().icon }}</span>
+            </span>
+            <h3 class="text-base font-black text-center text-white leading-tight">Resultado Final</h3>
+            <div class="text-xs text-[#61708d] text-center font-bold uppercase tracking-wider">
+              Puntaje: <span class="text-teal-400 text-sm font-black">{{ totalScore() }}</span> / 24 XP
+            </div>
+
+            <!-- Diagnostic Block -->
+            <div class="p-3.5 rounded-xl border text-xs leading-relaxed font-semibold" [ngClass]="finalDiagnostic().colorClass">
+              <strong class="block font-black text-xs mb-1">Rango: {{ finalDiagnostic().title }}</strong>
+              {{ finalDiagnostic().desc }}
+            </div>
+
+            <!-- Dimension Progress bars -->
+            <div class="space-y-2 pt-2 border-t border-white/5">
+              <div>
+                <div class="flex justify-between text-[9px] font-bold text-[#61708d] uppercase">
+                  <span>Agencia</span>
+                  <span>{{ dimensionScores().agencia }}%</span>
+                </div>
+                <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mt-0.5">
+                  <div class="h-full bg-teal-500 rounded-full" [style.width.%]="dimensionScores().agencia"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[9px] font-bold text-[#61708d] uppercase">
+                  <span>Privacidad</span>
+                  <span>{{ dimensionScores().privacidad }}%</span>
+                </div>
+                <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mt-0.5">
+                  <div class="h-full bg-teal-500 rounded-full" [style.width.%]="dimensionScores().privacidad"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[9px] font-bold text-[#61708d] uppercase">
+                  <span>Apoyo</span>
+                  <span>{{ dimensionScores().apoyo }}%</span>
+                </div>
+                <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mt-0.5">
+                  <div class="h-full bg-teal-500 rounded-full" [style.width.%]="dimensionScores().apoyo"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[9px] font-bold text-[#61708d] uppercase">
+                  <span>Comunidad</span>
+                  <span>{{ dimensionScores().comunidad }}%</span>
+                </div>
+                <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden mt-0.5">
+                  <div class="h-full bg-teal-500 rounded-full" [style.width.%]="dimensionScores().comunidad"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ─── Interactive Debrief Panel inside Phone results ─── -->
+            <div class="debrief-panel bg-[#1a2233] border border-white/5 rounded-xl p-3 mt-4 space-y-2 text-left">
+              <strong class="text-[9px] text-teal-400 uppercase tracking-wider block font-black border-b border-white/5 pb-1">Cierre interactivo</strong>
+              
+              <!-- Tab body -->
+              <div class="deb-content min-h-[120px] flex flex-col justify-between">
+                <div [ngSwitch]="activeTab()">
+                  <!-- Tab 0: Idea central -->
+                  <div *ngSwitchCase="0" class="space-y-1 animate-slide-up">
+                    <b class="text-xs font-bold text-white block">La idea central</b>
+                    <p class="text-[10px] text-[#9badc8] leading-relaxed">
+                      Cambiar tu perfil o entrar con una cuenta alternativa son herramientas de cuidado válidas. El problema es cuando esconderse se vuelve la única forma de jugar tranquilo. La privacidad es para decidir, no para desaparecer.
+                    </p>
+                  </div>
+                  <!-- Tab 1: Servidor -->
+                  <div *ngSwitchCase="1" class="space-y-1 animate-slide-up">
+                    <b class="text-xs font-bold text-white block">Servidor: 4 cosas para mirar</b>
+                    <ul class="text-[9.5px] text-[#9badc8] space-y-1 leading-tight list-disc pl-3">
+                      <li><b>Perfil:</b> Avatar, nick, historial y datos visibles.</li>
+                      <li><b>Voz:</b> Push-to-talk, comentarios y presión.</li>
+                      <li><b>DMs:</b> Redes, nombre real, fotos o contacto externo.</li>
+                      <li><b>Reglas:</b> Qué se modera vs qué se deja a la suerte.</li>
+                    </ul>
+                  </div>
+                  <!-- Tab 2: Frases útiles -->
+                  <div *ngSwitchCase="2" class="space-y-1 animate-slide-up">
+                    <b class="text-xs font-bold text-white block">Frases útiles</b>
+                    <ul class="text-[9.5px] text-teal-300 space-y-1 leading-tight italic pl-3">
+                      <li>“Prefiero mantener esto dentro del servidor.”</li>
+                      <li>“Hablemos de la partida, no de mi voz.”</li>
+                      <li>“Para jugar no necesito compartir fotos o redes.”</li>
+                    </ul>
+                  </div>
+                  <!-- Tab 3: Recomendaciones -->
+                  <div *ngSwitchCase="3" class="space-y-1 animate-slide-up">
+                    <b class="text-xs font-bold text-white block">Recomendaciones rápidas</b>
+                    <p class="text-[10px] text-[#9badc8] leading-relaxed">
+                      Revisa menciones, perfil y voz antes de tener un problema. Usa privacidad como control fino: no todo tiene que estar abierto, pero tampoco tienes que borrar tu presencia. No juzgues cuentas discretas.
+                    </p>
+                  </div>
+                  <!-- Tab 4: Reflexión -->
+                  <div *ngSwitchCase="4" class="space-y-1 animate-slide-up">
+                    <b class="text-xs font-bold text-white block">Preguntas para cerrar</b>
+                    <p class="text-[9.5px] text-[#9badc8] leading-relaxed italic">
+                      ¿Qué parte de tu perfil digital quieres controlar mejor? ¿Qué regla debería tener una comunidad para que nadie tenga que esconderse para jugar?
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Tab navigation arrows / progress -->
+                <div class="flex justify-between items-center mt-3 pt-2 border-t border-white/5 select-none shrink-0">
+                  <span class="text-[8px] text-[#61708d] font-bold">Paso {{ activeTab() + 1 }} de 5</span>
+                  <div class="flex gap-1">
+                    <button type="button" *ngFor="let dot of [0,1,2,3,4]" (click)="setTab(dot)" class="w-1.5 h-1.5 rounded-full" [class.bg-teal-400]="activeTab() === dot" [class.bg-white/10]="activeTab() !== dot"></button>
+                  </div>
+                  <button type="button" class="py-1 px-2.5 bg-teal-500/10 text-teal-300 font-bold border border-teal-500/20 rounded-md text-[9px] hover:bg-teal-500/20" (click)="nextTab()">
+                    Siguiente →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Actions -->
+          <div class="space-y-2 pt-4">
+            <button type="button" class="w-full py-3 bg-gradient-to-r from-teal-500 to-indigo-600 hover:from-teal-600 hover:to-indigo-700 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer" (click)="copyQuickRules()">
+              <span>{{ copied() ? '✓' : '📋' }}</span>
+              {{ copied() ? '¡Copiado!' : 'Copiar reglas rápidas' }}
+            </button>
+            <button type="button" class="w-full py-3 border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer" (click)="restart()">
+              <span>↻</span>
+              Reiniciar Servidor
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. ACTIVE GAME PLAY SCREEN (inside phone) -->
+        <div *ngIf="started() && !finished()" class="phone-game flex-grow flex flex-col overflow-hidden bg-[#141926] text-white">
+
+          <!-- Chat Header inside Phone -->
+          <div class="wa-header shrink-0 bg-[#1a2233] border-b border-white/5 p-3.5 flex items-center gap-2.5 select-none pt-11">
+            <div class="avatar-small w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-indigo-500 flex items-center justify-center font-black text-sm text-white shrink-0">
+              PF
+            </div>
+            <div class="flex-grow min-w-0">
+              <strong class="wa-header-name text-xs font-black text-[#eaf1fb] block truncate">
+                #{{ currentMoment().channel }}
+              </strong>
+              <span class="wa-header-status text-[9px] text-[#61708d] block truncate mt-0.5">
+                Vortex Squad · Simulador
+              </span>
+            </div>
+
+            <button type="button" (click)="toggleMute()" class="mute border border-white/10 bg-[#202a41] text-[#9badc8] text-[9px] px-2.5 py-1 rounded-full font-bold transition-colors">
+              {{ muted() ? '🔇' : '🔊' }}
+            </button>
+          </div>
+
+          <!-- Brief context notice inside Phone -->
+          <div class="brief-notice bg-[#0f1624] border-b border-white/5 p-2 text-[10px] text-[#9badc8] leading-tight select-none">
+            <b>Rol:</b> {{ currentMoment().brief }}
+          </div>
+
+          <!-- Chat History Feed inside Phone -->
+          <div class="flex-grow min-h-0 relative flex flex-col">
+            <div class="wa-chat flex-grow overflow-y-auto p-3 space-y-3.5 flex flex-col" style="background-color: #141926;" (scroll)="onChatScroll($event)">
+              <div class="space-y-3.5 flex flex-col mt-auto">
+
+                <div *ngFor="let msg of activeFeed()" class="msg flex gap-2 animate-slide-up">
+
+                  <!-- System notice bubble -->
+                  <div *ngIf="msg.isSystem" class="system w-full flex justify-center py-1">
+                    <span class="text-[9px] bg-white/5 border border-white/5 rounded-full px-3 py-1 text-[#61708d] font-bold text-center">
+                      {{ msg.text }}
+                    </span>
+                  </div>
+
+                  <!-- Chat message layout -->
+                  <div *ngIf="!msg.isSystem" class="flex gap-2 w-full" [class.justify-end]="msg.isMe">
+
+                    <div *ngIf="!msg.isMe" class="msg-avatar w-8 h-8 rounded-full flex items-center justify-center font-black text-xs text-white shrink-0 select-none" [ngClass]="msg.avatarClass">
+                      {{ msg.letter }}
+                    </div>
+
+                    <div class="msg-body flex flex-col max-w-[78%]" [class.items-end]="msg.isMe">
+                      <div class="msg-meta flex gap-1.5 items-baseline text-[9px] text-[#61708d] mb-0.5 select-none" [class.flex-row-reverse]="msg.isMe">
+                        <span class="author font-black text-[#eaf1fb]">{{ msg.isMe ? selectedProfile().name : msg.name }}</span>
+                        <span class="time font-medium">{{ msg.time || 'hoy' }}</span>
+                      </div>
+
+                      <!-- Plain Text bubble -->
+                      <div *ngIf="!msg.isProfile && !msg.isSettings && !msg.isRule" class="bubble text-xs text-[#eaf1fb] bg-[#1a2233] border border-white/5 rounded-tr-xl rounded-b-xl px-2.5 py-2 leading-relaxed"
+                           [class.me]="msg.isMe"
+                           [ngClass]="msg.isMe ? 'bg-teal-500/10 border-teal-500/20 rounded-tl-xl rounded-tr-none rounded-b-xl' : ''">
+                        {{ msg.text }}
+                      </div>
+
+                      <!-- Profile card bubble layout -->
+                      <div *ngIf="msg.isProfile" class="profilecard bg-[#202a41] border border-white/10 rounded-xl overflow-hidden w-[220px] shadow-md">
+                        <div class="profilevis h-16 relative bg-gradient-to-br from-[#0f766e] via-[#1d4ed8] to-[#7c3aed] flex items-end p-2">
+                          <span class="profilebadge absolute top-2 right-2 bg-black/40 rounded-full px-2 py-0.5 text-[8px] font-black text-white">perfil</span>
+                        </div>
+                        <div class="cardbody p-2 bg-[#1a2233] space-y-0.5">
+                          <div class="ctitle text-[10px] font-bold text-white leading-tight">{{ msg.clipTitle }}</div>
+                          <div class="cap text-[9px] text-[#61708d] leading-normal">{{ msg.text }}</div>
+                        </div>
+                      </div>
+
+                      <!-- Settings panel toggle layout -->
+                      <div *ngIf="msg.isSettings" class="settings bg-[#202a41] border border-white/10 rounded-xl overflow-hidden w-[220px] shadow-md">
+                        <div class="cardbody p-2 bg-[#1a2233] space-y-0.5">
+                          <div class="ctitle text-[10px] font-bold text-white leading-tight">{{ msg.clipTitle }}</div>
+                          <div class="cap text-[9px] text-[#61708d] leading-normal pb-1 border-b border-white/5">{{ msg.text }}</div>
+                        </div>
+                        <div class="toggle flex justify-between items-center p-2 bg-[#1a2233] text-[9px] text-[#61708d]">
+                          <span>DMs</span>
+                          <span class="switch w-7 h-4 rounded-full bg-teal-500/20 relative block"><span class="absolute top-[2px] left-[2px] w-3 h-3 bg-teal-400 rounded-full"></span></span>
+                        </div>
+                        <div class="toggle flex justify-between items-center p-2 bg-[#1a2233] text-[9px] text-[#61708d]">
+                          <span>Menciones</span>
+                          <span class="switch w-7 h-4 rounded-full bg-white/10 relative block"><span class="absolute top-[2px] left-[14px] w-3 h-3 bg-slate-400 rounded-full"></span></span>
+                        </div>
+                      </div>
+
+                      <!-- Rule layout -->
+                      <div *ngIf="msg.isRule" class="rule-card bg-[#202a41] border border-white/10 rounded-xl p-2.5 w-[220px] shadow-md space-y-1 bg-[#1a2233]">
+                        <div class="rule-title text-[9px] font-black text-teal-400 uppercase tracking-wider leading-none">{{ msg.clipTitle }}</div>
+                        <div class="rule-text text-[10px] text-[#9badc8] leading-normal">{{ msg.text }}</div>
+                      </div>
+
+                    </div>
+
+                    <div *ngIf="msg.isMe" class="msg-avatar w-8 h-8 rounded-full bg-gradient-to-br from-teal-500 to-indigo-500 flex items-center justify-center font-black text-xs text-slate-900 shrink-0 select-none">
+                      {{ selectedProfile().avatar }}
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <!-- Typing indicator inside chat -->
+                <div *ngIf="isTyping()" class="typing flex gap-2 select-none">
+                  <div class="msg-avatar w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[10px] font-black text-[#61708d]">...</div>
+                  <div class="typing-bubble bg-[#1a2233] border border-white/5 rounded-xl px-3 py-2 flex gap-1 items-center">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div *ngIf="showScrollIndicator()" class="absolute bottom-3 left-1/2 -translate-x-1/2 z-40 bg-gradient-to-r from-teal-500 to-indigo-500 text-white text-[10px] font-black px-3.5 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 pointer-events-none animate-bounce">
+              <span>⬇ Desliza para leer el feed</span>
+            </div>
+          </div>
+
+          <!-- Bottom interactive choices overlay inside Phone -->
+          <div *ngIf="!activeFeedbackChoice()" class="sc-options bg-[#1a2233] p-3 flex flex-col gap-2 max-h-[47%] overflow-y-auto shrink-0 border-t border-white/5">
+            <button *ngFor="let choice of currentOptions()" type="button" [disabled]="isTyping()" (click)="choose(choice)"
+                    class="option text-left p-3 rounded-xl border border-white/10 bg-[#202a41] text-xs text-[#eaf1fb] font-semibold leading-relaxed hover:border-teal-500/40 hover:bg-teal-500/5 transition-all cursor-pointer">
+              {{ choice.text }}
+            </button>
+          </div>
+
+          <!-- Mobile feedback overlay inside phone (hidden on desktop panels) -->
+          <div *ngIf="activeFeedbackChoice() as active" class="sc-mobile-feedback-panel absolute bottom-0 left-0 right-0 z-50 bg-[#0d1018] border-t border-white/10 rounded-t-2xl p-4 flex flex-col gap-3 max-h-[60%] overflow-y-auto shadow-2xl animate-slide-up">
+            <div class="flex items-center justify-between border-b border-white/5 pb-2">
+              <span class="text-[9px] font-black uppercase tracking-wider text-teal-400">Análisis del paso</span>
+              <span class="bg-teal-500/10 border border-teal-500/25 text-teal-300 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                Misión {{ currentMomentIndex() + 1 }}
+              </span>
+            </div>
+
+            <p class="text-xs leading-relaxed text-[#9badc8] font-semibold">
+              <strong class="text-emerald-400 font-bold">✅ Lo acertado:</strong> {{ active.plus }}
+            </p>
+            <p class="text-xs leading-relaxed text-[#9badc8] font-semibold border-t border-white/5 pt-2">
+              <strong class="text-amber-400 font-bold">⚠️ Lo que faltó revisar:</strong> {{ active.watch }}
+            </p>
+            <div class="bg-white/5 rounded-xl p-3 border border-white/5 space-y-1">
+              <strong class="text-[9px] text-cyan-400 uppercase tracking-wider block font-black">Reflexión:</strong>
+              <p class="text-xs leading-relaxed text-[#bae6fd] font-semibold italic">"{{ active.real }}"</p>
+            </div>
+
+            <button type="button" class="w-full py-3 bg-gradient-to-r from-teal-500 to-indigo-500 text-white font-bold rounded-xl shadow-md transition-all text-xs cursor-pointer" (click)="continueFlow()">
+              {{ currentMomentIndex() === missions.length - 1 ? 'Ver resultados' : 'Continuar' }} →
+            </button>
+          </div>
+
+        </div><!-- /phone-game -->
+
+        <!-- Home Bar Indicator -->
+        <div class="home-bar"></div>
+
+      </div><!-- /screen -->
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+
+  <!-- ─── COACH SIDE PANEL (Beside phone on desktop) ─── -->
+  <aside *ngIf="started() && !finished()" class="coach-side">
+    <div class="coach-head">
+      <h2>🧠 perfil fantasma</h2>
+    </div>
+
+    <!-- Signals Radar (Always visible on desktop side panel) -->
+    <div class="signal-box bg-slate-950/40 border border-white/5 rounded-xl p-2.5">
+      <div class="signal-title text-[9px] font-extrabold text-[#61708d] tracking-wider uppercase mb-1.5">Radar de señales</div>
+      <div class="space-y-1">
+        <div *ngFor="let sig of unlockedSignals(); let i = index" class="signal-item flex items-center gap-1.5 py-1 px-2 rounded-md text-[11px] border border-transparent transition-all"
+             [class.found]="sig !== missions[i].signal_locked"
+             [ngClass]="sig !== missions[i].signal_locked ? 'bg-teal-500/5 border-teal-500/10 text-teal-200 font-semibold' : 'text-[#61708d]'">
+          <span class="sig-dot w-1 h-1 rounded-full bg-current shrink-0"></span>
+          <span class="truncate">{{ sig }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback alerts stack -->
+    <div class="alert-stack">
+
+      <!-- Empty state -->
+      <div *ngIf="!activeFeedbackChoice()" class="coach-empty">
+        <div class="big">🎮</div>
+        <p>Lee la conversación del canal en el celular y elige tu respuesta. Analizaremos tu criterio en tiempo real.</p>
+      </div>
+
+      <!-- Active feedback alerts -->
+      <div *ngIf="activeFeedbackChoice() as active" class="alert-stack-active space-y-2">
+
+        <div class="alert safe bg-[#1a2233]/70 border-l-4 border-emerald-500 rounded-xl p-3.5 text-xs leading-relaxed text-[#9badc8] shadow-lg relative">
+          <span class="badge absolute top-2 right-2 bg-emerald-500/15 text-emerald-400 text-[8px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Acierto</span>
+          <div class="ah flex items-center gap-1.5 text-xs font-black text-white mb-1"><span class="em">✅</span>Lo acertado:</div>
+          <p class="text-xs leading-relaxed text-[#9badc8] font-medium">{{ active.plus }}</p>
+        </div>
+
+        <div class="alert warn bg-[#1a2233]/70 border-l-4 border-amber-500 rounded-xl p-3.5 text-xs leading-relaxed text-[#9badc8] shadow-lg relative">
+          <span class="badge absolute top-2 right-2 bg-amber-500/15 text-amber-400 text-[8px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Observación</span>
+          <div class="ah flex items-center gap-1.5 text-xs font-black text-white mb-1"><span class="em">⚠️</span>Lo que faltó revisar:</div>
+          <p class="text-xs leading-relaxed text-[#9badc8] font-medium">{{ active.watch }}</p>
+        </div>
+
+        <div class="alert tip bg-[#1a2233]/70 border-l-4 border-cyan-500 rounded-xl p-3.5 text-xs leading-relaxed text-[#9badc8] shadow-lg relative">
+          <span class="badge absolute top-2 right-2 bg-cyan-500/15 text-cyan-400 text-[8px] font-extrabold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Reflexión</span>
+          <div class="ah flex items-center gap-1.5 text-xs font-black text-white mb-1"><span class="em">💡</span>Para la vida real:</div>
+          <p class="text-xs leading-relaxed text-[#9badc8] font-medium">{{ active.real }}</p>
+        </div>
+
+        <button type="button" (click)="continueFlow()" class="sc-side-continue-btn w-full py-3.5 bg-gradient-to-r from-teal-500 to-indigo-500 hover:from-teal-650 hover:to-indigo-600 text-white font-black rounded-xl shadow-lg transition-all text-xs flex items-center justify-center gap-1.5 mt-3 cursor-pointer">
+          {{ currentMomentIndex() === missions.length - 1 ? 'Ver tarjeta final' : 'Continuar' }} →
+        </button>
+
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Global Copy Toast -->
+<div class="toast text-xs leading-none bg-[#101520] border border-white/10 rounded-full px-4 py-2.5 font-bold shadow-lg" [class.show]="copied()">
+  Reglas de convivencia copiadas al portapapeles.
+</div>

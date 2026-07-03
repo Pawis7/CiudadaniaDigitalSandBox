@@ -67,7 +67,7 @@ export class SecondaryFraudSimulatorComponent {
   }
 
   // Audio synthesis helper
-  private playBeep(freq: number, dur: number = 0.07, type: OscillatorType = "sine", vol: number = 0.06): void {
+  private playBeep(freq: number, dur: number = 0.07, type: OscillatorType = "sine", vol: number = 0.20): void {
     if (!this.soundOn()) return;
     try {
       this.actx = this.actx || new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -84,21 +84,21 @@ export class SecondaryFraudSimulatorComponent {
     } catch (e) {}
   }
 
-  sndSend() { this.playBeep(660, 0.06, "triangle", 0.05); }
-  sndRecv() { this.playBeep(420, 0.08, "sine", 0.05); }
+  sndSend() { this.playBeep(660, 0.06, "triangle", 0.18); }
+  sndRecv() { this.playBeep(420, 0.08, "sine", 0.18); }
   sndSafe() {
-    this.playBeep(523, 0.08);
-    setTimeout(() => this.playBeep(784, 0.1), 70);
+    this.playBeep(523, 0.08, "sine", 0.20);
+    setTimeout(() => this.playBeep(784, 0.1, "sine", 0.20), 70);
   }
   sndBad() {
-    this.playBeep(200, 0.12, "square", 0.05);
-    setTimeout(() => this.playBeep(150, 0.14, "square", 0.05), 90);
+    this.playBeep(200, 0.12, "square", 0.12);
+    setTimeout(() => this.playBeep(150, 0.14, "square", 0.12), 90);
   }
 
   toggleSound(): void {
     this.soundOn.set(!this.soundOn());
     if (this.soundOn()) {
-      this.playBeep(660, 0.07);
+      this.playBeep(660, 0.07, "sine", 0.20);
     }
   }
 

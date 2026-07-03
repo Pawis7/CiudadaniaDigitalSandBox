@@ -129,6 +129,14 @@ export class ElCarinoNoPideContrasenasComponent {
       if (this.started() && !this.finished()) {
         const moment = this.currentMoment();
         this.currentOptions.set(shuffleArray(moment.options));
+
+        // Scroll the chat container to top
+        setTimeout(() => {
+          const chatEl = document.querySelector('.wa-chat');
+          if (chatEl) {
+            chatEl.scrollTop = 0;
+          }
+        }, 50);
       }
     });
   }

@@ -117,7 +117,7 @@ export class AudienciaComponent {
 
   isPhoneWidget = computed(() => {
     const id = this.activeWidgetId();
-    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas';
+    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma';
   });
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
@@ -162,7 +162,10 @@ export class AudienciaComponent {
       item.id === 'sticker-control' ||
       item.id === 'app-no-se-acaba' ||
       item.id === 'el-carino-no-pide-contrasenas' ||
-      item.id === 'chat-en-llamas'
+      item.id === 'chat-en-llamas' ||
+      item.id === 'la-voz-en-el-squad' ||
+      item.id === 'no-lo-hagas-viral' ||
+      item.id === 'perfil-fantasma'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -175,7 +178,10 @@ export class AudienciaComponent {
         item.id === 'sticker-control' ? 'sticker-control' :
         item.id === 'app-no-se-acaba' ? 'app-no-se-acaba' :
         item.id === 'el-carino-no-pide-contrasenas' ? 'el-carino-no-pide-contrasenas' :
-        item.id === 'chat-en-llamas' ? 'chat-en-llamas' : 'riesgos-reales'
+        item.id === 'chat-en-llamas' ? 'chat-en-llamas' :
+        item.id === 'la-voz-en-el-squad' ? 'la-voz-en-el-squad' :
+        item.id === 'no-lo-hagas-viral' ? 'no-lo-hagas-viral' :
+        item.id === 'perfil-fantasma' ? 'perfil-fantasma' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
         document.body.style.overflow = 'hidden';

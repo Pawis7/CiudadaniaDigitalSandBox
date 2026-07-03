@@ -154,7 +154,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
           },
           {
             id: 'candado-rapido',
-            title: 'Candado Rápido v2.2',
+            title: 'Candado Rápido',
             description: 'Audita el perfil ficticio de Ana, detecta la exposición de datos y prioriza 3 candados de privacidad para protegerla.',
             type: 'activity', typeLabel: 'Cuestionario', icon: 'lock',
             badge: 'Auditoría Visual', duration: '8 min',
@@ -230,7 +230,35 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
           gradientClass: 'bg-gradient-to-r from-fuchsia-600 to-pink-600',
           buttonColorClass: 'text-pink-700',
         },
-        levelResources: [],
+        levelResources: [
+          {
+            id: 'la-voz-en-el-squad',
+            title: 'La voz en el squad',
+            description: 'Audita el ambiente y decide cómo actuar ante sexismo, hostigamiento en voz y clips de burla dentro de un squad competitivo gamer.',
+            type: 'activity', typeLabel: 'Simulador Gamer', icon: 'sports_esports',
+            badge: 'Convivencia Digital', duration: '6–8 min',
+            colorClass: 'from-pink-600 to-purple-700',
+            actionLabel: 'Entrar al Servidor', link: '#widget-seccion-anchor',
+          },
+          {
+            id: 'no-lo-hagas-viral',
+            title: 'No lo hagas viral',
+            description: 'Recorre un feed con clips de burla, capturas y reposts de tu servidor gamer y decide cómo actuar para frenar la difusión y el ciberacoso.',
+            type: 'activity', typeLabel: 'Simulador Gamer', icon: 'sports_esports',
+            badge: 'Convivencia Digital', duration: '5–7 min',
+            colorClass: 'from-indigo-600 to-pink-700',
+            actionLabel: 'Entrar al Feed', link: '#widget-seccion-anchor',
+          },
+          {
+            id: 'perfil-fantasma',
+            title: 'Perfil fantasma',
+            description: 'Decide cómo presentarte, proteger tu privacidad, responder a presión sobre tu voz y fijar límites claros en tu servidor gamer.',
+            type: 'activity', typeLabel: 'Simulador Gamer', icon: 'sports_esports',
+            badge: 'Privacidad y Seguridad', duration: '5–7 min',
+            colorClass: 'from-teal-600 to-indigo-700',
+            actionLabel: 'Entrar al Servidor', link: '#widget-seccion-anchor',
+          }
+        ],
       },
     ],
     topics: [

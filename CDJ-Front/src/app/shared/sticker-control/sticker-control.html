@@ -50,7 +50,6 @@
               <div class="flex flex-wrap justify-center gap-1.5 text-[10px] font-bold">
                 <span class="bg-white/15 px-3 py-1.5 rounded-full">6 momentos</span>
                 <span class="bg-white/15 px-3 py-1.5 rounded-full">Secundaria</span>
-                <span class="bg-white/15 px-3 py-1.5 rounded-full">CDJ-254</span>
               </div>
             </div>
             <div class="pt-6">
@@ -106,7 +105,7 @@
                 <strong class="wa-header__name">
                   {{ currentMomentIndex() === 2 ? 'Dani (Privado)' : (currentMomentIndex() === 3 ? 'Majo (Privado)' : 'Salón 2.º B') }}
                 </strong>
-                <span class="wa-header__status">Simulador CDJ-254</span>
+                <span class="wa-header__status">En línea</span>
               </div>
             </div>
             <div class="wa-header__actions">
@@ -121,8 +120,8 @@
           </div>
 
           <!-- Chat History / Bubbles -->
-          <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col justify-end" style="background-color: #f5f3ff;">
-            <div class="space-y-2.5 flex flex-col">
+          <div class="wa-chat flex-1 overflow-y-auto p-3 space-y-2.5 flex flex-col" style="background-color: #f5f3ff;">
+            <div class="space-y-2.5 flex flex-col mt-auto">
               <!-- Historical / Current Node incoming messages -->
               @for (msg of currentMoment().chat; track $index) {
                 <div class="flex animate-slide-up [animation-fill-mode:backwards]"
@@ -175,9 +174,9 @@
 
           <!-- Options list inside phone -->
           @if (!activeFeedbackChoice()) {
-            <div class="sc-options bg-slate-100 border-t border-slate-200 p-2 flex flex-col gap-1.5 max-h-[44%] overflow-y-auto shrink-0">
+            <div class="sc-options bg-slate-100 border-t border-slate-200 p-2 flex flex-col gap-1.5 max-h-[47%] overflow-y-auto shrink-0">
               @for (choice of currentOptions(); track choice.id) {
-                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt flex items-center justify-between gap-2.5 bg-white border border-slate-200 rounded-xl p-2.5 text-left text-[11px] font-bold text-slate-800 hover:border-violet-300 hover:bg-violet-50/50 transition-all cursor-pointer">
+                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt flex items-center justify-between gap-2.5 bg-white border border-slate-200 rounded-xl py-2 px-2.5 text-left text-[11px] font-bold text-slate-800 hover:border-violet-300 hover:bg-violet-50/50 transition-all cursor-pointer">
                   <span>{{ choice.texto_visible }}</span>
                   <span class="sc-go w-5 h-5 rounded-full bg-violet-600 text-white flex items-center justify-center text-[10px] shrink-0">➤</span>
                 </button>
