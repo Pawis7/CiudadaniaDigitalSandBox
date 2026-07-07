@@ -117,7 +117,7 @@ export class AudienciaComponent {
 
   isPhoneWidget = computed(() => {
     const id = this.activeWidgetId();
-    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma';
+    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma' || id === 'monedas-gratis' || id === 'jugada-problema';
   });
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
@@ -165,7 +165,9 @@ export class AudienciaComponent {
       item.id === 'chat-en-llamas' ||
       item.id === 'la-voz-en-el-squad' ||
       item.id === 'no-lo-hagas-viral' ||
-      item.id === 'perfil-fantasma'
+      item.id === 'perfil-fantasma' ||
+      item.id === 'monedas-gratis' ||
+      item.id === 'jugada-problema'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -181,7 +183,9 @@ export class AudienciaComponent {
         item.id === 'chat-en-llamas' ? 'chat-en-llamas' :
         item.id === 'la-voz-en-el-squad' ? 'la-voz-en-el-squad' :
         item.id === 'no-lo-hagas-viral' ? 'no-lo-hagas-viral' :
-        item.id === 'perfil-fantasma' ? 'perfil-fantasma' : 'riesgos-reales'
+        item.id === 'perfil-fantasma' ? 'perfil-fantasma' :
+        item.id === 'monedas-gratis' ? 'monedas-gratis' :
+        item.id === 'jugada-problema' ? 'jugada-problema' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
         document.body.style.overflow = 'hidden';

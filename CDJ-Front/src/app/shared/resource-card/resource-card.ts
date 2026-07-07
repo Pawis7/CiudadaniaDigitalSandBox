@@ -32,7 +32,9 @@ export class ResourceCardComponent {
       this.item.id === 'chat-en-llamas' ||
       this.item.id === 'la-voz-en-el-squad' ||
       this.item.id === 'no-lo-hagas-viral' ||
-      this.item.id === 'perfil-fantasma'
+      this.item.id === 'perfil-fantasma' ||
+      this.item.id === 'monedas-gratis' ||
+      this.item.id === 'jugada-problema'
     );
   }
 

@@ -23,6 +23,8 @@ import { ChatEnLlamasComponent } from '../shared/chat-en-llamas/chat-en-llamas';
 import { LaVozEnElSquadComponent } from '../shared/la-voz-en-el-squad/la-voz-en-el-squad';
 import { NoLoHagasViralComponent } from '../shared/no-lo-hagas-viral/no-lo-hagas-viral';
 import { PerfilFantasmaComponent } from '../shared/perfil-fantasma/perfil-fantasma';
+import { MonedasGratisComponent } from '../shared/monedas-gratis/monedas-gratis';
+import { JugadaProblemaComponent } from '../shared/jugada-problema/jugada-problema';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -39,7 +41,9 @@ export type WidgetId =
   | 'chat-en-llamas'
   | 'la-voz-en-el-squad'
   | 'no-lo-hagas-viral'
-  | 'perfil-fantasma';
+  | 'perfil-fantasma'
+  | 'monedas-gratis'
+  | 'jugada-problema';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -57,6 +61,8 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'la-voz-en-el-squad': LaVozEnElSquadComponent,
   'no-lo-hagas-viral': NoLoHagasViralComponent,
   'perfil-fantasma': PerfilFantasmaComponent,
+  'monedas-gratis': MonedasGratisComponent,
+  'jugada-problema': JugadaProblemaComponent,
 };
 
 

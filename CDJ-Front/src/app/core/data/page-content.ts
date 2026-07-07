@@ -103,7 +103,33 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     subLevels: [
       { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: '/ninosyninas_portadas/PREESCOLAR.jpg', imageId: 'sub-kids-pre', bgClass: 'from-rose-400 to-rose-500', icon: 'child_care', resourceCount: 12, description: 'Descubre y juega en el mundo digital con actividades sencillas, cuentos y personajes amigables.' },
       { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18, description: 'Aprende, crea y cuida tu mundo digital con videos, juegos y actividades breves.' },
-      { id: 'primaria-alta',  title: 'Primaria alta', subtitle: '9 a 11 años', imageUrl: '/ninosyninas_portadas/PRIMARIA ALTA.jpg', imageId: 'sub-kids-pa',  bgClass: 'from-cyan-400 to-blue-500',    icon: 'auto_stories', resourceCount: 22, description: 'Piensa, participa y toma mejores decisiones en línea con retos, historias y recursos interactivos.' },
+      {
+        id: 'primaria-alta',
+        title: 'Primaria alta',
+        subtitle: '9 a 11 años',
+        imageUrl: '/ninosyninas_portadas/PRIMARIA ALTA.jpg',
+        imageId: 'sub-kids-pa',
+        bgClass: 'from-cyan-400 to-blue-500',
+        icon: 'auto_stories',
+        resourceCount: 22,
+        description: 'Piensa, participa y toma mejores decisiones en línea con retos, historias y recursos interactivos.',
+        levelResources: [
+          {
+            id: 'monedas-gratis',
+            title: 'Monedas gratis… ¿seguro?',
+            description: 'En Rubloox aparecieron mensajes, links, pantallas y solicitudes relacionadas con monedas o premios. Aprende a pausar cuando algo te pide datos o te presiona.',
+            type: 'game',
+            typeLabel: 'Minijuego',
+            icon: 'sports_esports',
+            badge: 'Simulación Gamer',
+            duration: '5 min',
+            colorClass: 'from-cyan-500 to-blue-600',
+            actionLabel: 'Iniciar Simulación',
+            link: '#widget-seccion-anchor'
+          }
+        ]
+      }
+
     ],
     topics: [
       { icon: 'shield_person',  title: 'Cuidado en línea',     description: 'Saber qué compartir y qué no.',    bgClass: 'bg-rose-500' },
@@ -222,14 +248,6 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
         imageUrl: '/adolescentes_portadas/PREPARATORIA.jpg', imageId: 'sub-teens-prep',
         bgClass: 'from-fuchsia-500 to-pink-500', icon: 'school', resourceCount: 17,
         description: 'Herramientas para profundizar, participar y prepararte para los retos del mundo digital y real.',
-        comingSoonTeaser: {
-          badgeIcon: '3d_rotation',
-          badgeLabel: 'Laboratorio de Huella Digital',
-          title: 'Próximamente: Simulador de Huella Digital 3D',
-          description: 'Un simulador de decisiones avanzadas en la preparatoria para entender cómo tus datos e historial de navegación alimentan los perfiles algorítmicos comerciales.',
-          gradientClass: 'bg-gradient-to-r from-fuchsia-600 to-pink-600',
-          buttonColorClass: 'text-pink-700',
-        },
         levelResources: [
           {
             id: 'la-voz-en-el-squad',
@@ -256,6 +274,15 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             type: 'activity', typeLabel: 'Simulador Gamer', icon: 'sports_esports',
             badge: 'Privacidad y Seguridad', duration: '5–7 min',
             colorClass: 'from-teal-600 to-indigo-700',
+            actionLabel: 'Entrar al Servidor', link: '#widget-seccion-anchor',
+          },
+          {
+            id: 'jugada-problema',
+            title: 'La jugada no era el problema',
+            description: 'Entras a Vortex Squad después de una partida intensa. Hay clips, DMs y decisiones de moderación. Elige cómo participar desde dentro de la comunidad.',
+            type: 'activity', typeLabel: 'Simulador Gamer', icon: 'sports_esports',
+            badge: 'Convivencia Digital', duration: '6–8 min',
+            colorClass: 'from-amber-500 to-pink-600',
             actionLabel: 'Entrar al Servidor', link: '#widget-seccion-anchor',
           }
         ],

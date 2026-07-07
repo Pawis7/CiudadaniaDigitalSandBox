@@ -1,0 +1,1038 @@
+/* ====================================================
+   CDJ-GAME-P06 · La jugada no era el problema
+   Discord dark — accent: gold / pink / purple
+   Mobile-first. Every rule prefixed with .jp-scope
+   ==================================================== */
+
+.jp-scope {
+  --bg:       #313338;
+  --bg-side:  #2b2d31;
+  --bg-dark:  #1e1f22;
+  --bg-input: #383a40;
+  --border:   rgba(255,255,255,0.06);
+
+  --text:   #dbdee1;
+  --muted:  #949ba4;
+  --muted2: #6d6f78;
+
+  --blurple: #5865f2;
+  --gold:    #f0b232;
+  --pink:    #ec4899;
+  --purple:  #8b5cf6;
+  --green:   #23a55a;
+  --red:     #f23f43;
+  --orange:  #f2930d;
+
+  /* Signature gradient for this game */
+  --accent: linear-gradient(135deg, #f0b232, #ec4899, #8b5cf6);
+
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+}
+
+.jp-scope *,
+.jp-scope *::before,
+.jp-scope *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.jp-scope ::-webkit-scrollbar { width: 6px; }
+.jp-scope ::-webkit-scrollbar-track { background: transparent; }
+.jp-scope ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+.jp-scope .screen { display: none; width: 100%; height: 100%; }
+.jp-scope .screen.active { display: flex; }
+
+/* ==================== INTRO ==================== */
+.jp-scope .intro-screen {
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg-dark);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  min-height: 100dvh;
+}
+
+.jp-scope .intro-inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jp-scope .top-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.jp-scope .top-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.78rem;
+  color: #111;
+  flex-shrink: 0;
+}
+
+.jp-scope .top-text b  { display: block; font-size: 0.82rem; color: #fff; }
+.jp-scope .top-text small { display: block; font-size: 0.70rem; color: var(--muted); }
+
+.jp-scope .live-badge {
+  margin-left: auto;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.jp-scope .hero-card {
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 24px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.jp-scope .hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.jp-scope .hero-emoji {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  display: block;
+  animation: jp-bounce 2s ease-in-out infinite;
+}
+
+@keyframes jp-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+.jp-scope h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.jp-scope h1 span {
+  background: var(--accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.jp-scope .hero-sub {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.jp-scope .how-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.jp-scope .how-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.jp-scope .chip-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.jp-scope .chip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.jp-scope .btn-start {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #111;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.jp-scope .btn-start:hover  { opacity: 0.88; }
+.jp-scope .btn-start:active { transform: scale(0.97); }
+
+/* ==================== GAME ==================== */
+.jp-scope .game-screen {
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* SIDEBAR — top horizontal strip on mobile */
+.jp-scope .side {
+  background: var(--bg-side);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.jp-scope .sidehead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.jp-scope .sidehead b     { font-size: 0.85rem; color: #fff; font-weight: 700; }
+.jp-scope .sidehead small { display: block; font-size: 0.68rem; color: var(--muted); }
+
+.jp-scope .side-xp {
+  margin-left: auto;
+  background: rgba(240,178,50,0.12);
+  border: 1px solid rgba(240,178,50,0.22);
+  color: var(--gold);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.jp-scope .prog { padding: 6px 14px; border-bottom: 1px solid var(--border); }
+.jp-scope .plabel { font-size: 0.68rem; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+.jp-scope .track { height: 4px; background: var(--bg-dark); border-radius: 999px; overflow: hidden; }
+.jp-scope .fill  { height: 100%; background: var(--accent); transition: width 0.3s ease; }
+
+.jp-scope .channels {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 10px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.jp-scope .ch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.jp-scope .ch.active { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); }
+.jp-scope .ch.done   { opacity: 0.5; }
+
+.jp-scope .ch-hash { color: var(--muted); font-size: 0.85rem; }
+.jp-scope .ch-name { font-size: 0.75rem; color: var(--text); font-weight: 600; }
+.jp-scope .ch-time { font-size: 0.65rem; color: var(--muted2); margin-left: 4px; }
+.jp-scope .ch-check { font-size: 0.65rem; color: var(--green); margin-left: 2px; }
+
+/* Radar & Profile — desktop only */
+.jp-scope .radar   { display: none; }
+.jp-scope .profile { display: none; }
+
+/* ==================== MAIN CHAT ==================== */
+.jp-scope .main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+
+.jp-scope .head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  height: 44px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.jp-scope .head-hash { color: var(--muted); font-size: 1rem; }
+.jp-scope .head b    { font-size: 0.88rem; color: #fff; font-weight: 700; }
+.jp-scope .head-sep  { color: var(--muted2); font-size: 0.75rem; }
+.jp-scope .head-desc {
+  color: var(--muted);
+  font-size: 0.75rem;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jp-scope .gamepill {
+  background: var(--bg-input);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.jp-scope .brief {
+  margin: 10px 12px 0;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.80rem;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.jp-scope .feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* System message */
+.jp-scope .sys-msg { text-align: center; padding: 4px 0 8px; }
+.jp-scope .sys-msg span {
+  font-size: 0.70rem;
+  color: var(--muted2);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Chat message */
+.jp-scope .msg {
+  display: flex;
+  gap: 12px;
+  padding: 4px 0;
+  align-items: flex-start;
+  animation: jp-in 0.18s ease both;
+}
+.jp-scope .msg:hover { background: rgba(0,0,0,0.05); border-radius: 4px; }
+
+.jp-scope .mav {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.82rem;
+  color: #fff;
+  flex-shrink: 0;
+  background: var(--bg-input);
+}
+
+.jp-scope .av-me     { background: var(--blurple); }
+.jp-scope .av-pink   { background: #9d174d; }
+.jp-scope .av-blue   { background: #1d4ed8; }
+.jp-scope .av-purple { background: #5b21b6; }
+.jp-scope .av-gold   { background: #92400e; }
+.jp-scope .av-cyan   { background: #0e7490; }
+.jp-scope .av-gray   { background: #374151; }
+
+.jp-scope .msg-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+
+.jp-scope .author { font-size: 0.88rem; font-weight: 700; color: #f2f3f5; }
+.jp-scope .role {
+  background: rgba(255,255,255,0.08);
+  color: var(--muted);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.60rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.jp-scope .msg-time { font-size: 0.65rem; color: var(--muted); }
+.jp-scope .bubble   { font-size: 0.88rem; color: var(--text); line-height: 1.45; }
+
+/* Discord Embeds */
+.jp-scope .embed {
+  display: flex;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 4px 0 4px 48px;
+  max-width: 420px;
+  animation: jp-in 0.18s ease both;
+}
+
+/* Clip embed — thumbnail left + info right */
+.jp-scope .embed-clip {
+  align-items: stretch;
+}
+
+.jp-scope .clip-thumb {
+  width: 110px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #312e81, #be185d, #f59e0b);
+  display: flex;
+  align-items: flex-end;
+  padding: 8px;
+  position: relative;
+}
+
+.jp-scope .clip-play {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.jp-scope .clip-tag {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0,0,0,0.5);
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Standard embeds with left accent bar */
+.jp-scope .embed-body-wrap {
+  display: flex;
+  width: 100%;
+}
+
+.jp-scope .embed-acc {
+  width: 4px;
+  flex-shrink: 0;
+}
+
+.jp-scope .acc-gold   { background: var(--gold); }
+.jp-scope .acc-blue   { background: #7289da; }
+.jp-scope .acc-yellow { background: var(--gold); }
+
+.jp-scope .embed-body { padding: 8px 12px; }
+.jp-scope .embed-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.jp-scope .embed-desc {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+.jp-scope .embed-fields {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #fff;
+}
+.jp-scope .embed-foot {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 0.68rem;
+  color: var(--muted2);
+}
+.jp-scope .epill {
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+/* Chat input area */
+.jp-scope .chat-input-area { padding: 6px 12px; flex-shrink: 0; }
+.jp-scope .chat-input-box {
+  background: var(--bg-input);
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  color: var(--muted2);
+}
+
+/* Options panel */
+.jp-scope .qpanel {
+  margin: 8px 12px;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  flex-shrink: 0;
+}
+
+.jp-scope .q-text {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.jp-scope .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+.jp-scope .opt {
+  background: var(--bg-input);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 10px;
+  font-size: 0.80rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+.jp-scope .opt:hover:not(:disabled) {
+  background: #4e5058;
+  border-color: rgba(240,178,50,0.3);
+  color: #fff;
+}
+.jp-scope .opt.picked { border-color: var(--gold) !important; background: rgba(240,178,50,0.12) !important; color: #fff !important; }
+.jp-scope .opt.faded  { opacity: 0.3; pointer-events: none; }
+.jp-scope .opt:disabled { cursor: not-allowed; }
+
+/* ==================== FEEDBACK (condensed) ==================== */
+.jp-scope .feedback {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg-side);
+  border-top: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.35);
+  animation: jp-slide-up 0.2s ease both;
+}
+
+@keyframes jp-slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.jp-scope .fb-main { display: flex; gap: 10px; align-items: center; }
+.jp-scope .fb-icon  { font-size: 1.5rem; flex-shrink: 0; }
+
+.jp-scope .fb-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.jp-scope .fb-best    { color: var(--green); }
+.jp-scope .fb-partial { color: var(--gold); }
+.jp-scope .fb-risk    { color: var(--orange); }
+.jp-scope .fb-danger  { color: var(--red); }
+
+.jp-scope .fb-xp {
+  background: rgba(35,165,90,0.12);
+  border: 1px solid rgba(35,165,90,0.2);
+  color: var(--green);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.70rem;
+  font-weight: 900;
+}
+
+.jp-scope .fb-exp { font-size: 0.80rem; color: var(--text); margin-top: 2px; line-height: 1.3; }
+
+.jp-scope .fb-signal {
+  background: rgba(240,178,50,0.08);
+  border: 1px solid rgba(240,178,50,0.18);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.jp-scope .fb-signal b { color: var(--gold); }
+
+.jp-scope .fb-actions { display: flex; justify-content: space-between; align-items: center; }
+.jp-scope .fb-scene   { font-size: 0.72rem; color: var(--muted2); font-weight: 600; }
+
+.jp-scope .btn-next {
+  background: var(--accent);
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+.jp-scope .btn-next:hover  { opacity: 0.88; }
+.jp-scope .btn-next:active { transform: scale(0.97); }
+
+/* Mute button */
+.jp-scope .mute-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 3px;
+}
+.jp-scope .mute-btn:hover { background: rgba(255,255,255,0.05); }
+
+/* ==================== RESULTS ==================== */
+.jp-scope .result-screen {
+  overflow-y: auto;
+  background: var(--bg-dark);
+  padding: 16px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.jp-scope .res-wrap {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.jp-scope .res-card {
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 20px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.jp-scope .res-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.jp-scope .res-icon  { font-size: 3rem; margin-bottom: 8px; }
+.jp-scope .res-rank  { font-size: 1.2rem; font-weight: 900; color: #fff; margin-bottom: 4px; }
+
+.jp-scope .res-score {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.jp-scope .res-score span { font-size: 0.9rem; color: var(--muted); font-weight: 600; }
+
+.jp-scope .dim-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.jp-scope .dim-pill {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.jp-scope .dim-pill b     { display: block; font-size: 1.2rem; font-weight: 900; color: var(--gold); }
+.jp-scope .dim-pill small { font-size: 0.60rem; color: var(--muted); font-weight: 600; }
+
+.jp-scope .ach-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.jp-scope .ach {
+  background: rgba(240,178,50,0.10);
+  border: 1px solid rgba(240,178,50,0.22);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #fde68a;
+}
+
+/* Debrief & rules cards */
+.jp-scope .debrief-card,
+.jp-scope .rules-card {
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.jp-scope .card-head {
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.jp-scope .dtabs { display: flex; gap: 6px; margin-bottom: 10px; }
+
+.jp-scope .dtab {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.jp-scope .dtab.active {
+  background: var(--accent);
+  border-color: transparent;
+  color: #111;
+}
+
+.jp-scope .deb-body {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.jp-scope .deb-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+.jp-scope .deb-lvl   { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.jp-scope .deb-scene  { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+.jp-scope .deb-answer { font-size: 0.84rem; color: #fff; font-weight: 600; margin-top: 2px; }
+.jp-scope .deb-signal { font-size: 0.76rem; color: var(--gold); margin-top: 3px; }
+
+.jp-scope .deb-bar { height: 5px; background: var(--bg-dark); border-radius: 999px; overflow: hidden; }
+.jp-scope .deb-bar span { display: block; height: 100%; background: var(--accent); transition: width 0.4s ease; }
+
+/* Rules */
+.jp-scope .rule {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+.jp-scope .rule:last-child { border-bottom: none; }
+
+.jp-scope .rnum {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(240,178,50,0.12);
+  color: #fde68a;
+  font-size: 0.68rem;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Result actions */
+.jp-scope .res-actions { display: flex; gap: 8px; justify-content: center; padding-bottom: 16px; }
+
+.jp-scope .btn-sec {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.jp-scope .btn-sec:hover { background: #4e5058; }
+
+.jp-scope .btn-pri {
+  background: var(--accent);
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+.jp-scope .btn-pri:hover { opacity: 0.88; }
+
+/* ==================== TOAST ==================== */
+.jp-scope .toast {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background: var(--bg-dark);
+  border: 1px solid rgba(240,178,50,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  transition: 0.2s ease;
+  pointer-events: none;
+  max-width: 260px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.jp-scope .toast.show   { opacity: 1; transform: none; }
+.jp-scope .toast strong { display: block; color: var(--gold); font-size: 0.80rem; font-weight: 700; }
+.jp-scope .toast span   { color: var(--muted); font-size: 0.74rem; }
+
+/* ==================== MODAL ==================== */
+.jp-scope .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 80;
+  padding: 16px;
+}
+
+.jp-scope .modal-card {
+  width: min(420px, 100%);
+  background: var(--bg-side);
+  border: 1px solid rgba(240,178,50,0.2);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+.jp-scope .modal-emoji { font-size: 2.5rem; margin-bottom: 10px; }
+.jp-scope .modal-card h2 { font-size: 1.15rem; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.jp-scope .modal-card p  { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; }
+
+.jp-scope .picks { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+
+.jp-scope .pick {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 90px;
+  transition: border-color 0.2s;
+}
+.jp-scope .pick:hover       { border-color: rgba(240,178,50,0.3); }
+.jp-scope .pick.active {
+  border-color: var(--gold) !important;
+  background: rgba(240,178,50,0.1) !important;
+}
+
+.jp-scope .pick-av {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #fff;
+}
+.jp-scope .pick b { font-size: 0.80rem; color: #fff; display: block; }
+
+/* ==================== DESKTOP ==================== */
+@media (min-width: 768px) {
+  .jp-scope .game-screen { flex-direction: row; }
+
+  .jp-scope .side {
+    width: 220px;
+    max-height: none;
+    height: 100%;
+    border-bottom: none;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .jp-scope .channels {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 6px 8px;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .jp-scope .ch { white-space: normal; width: 100%; }
+
+  .jp-scope .radar {
+    display: block;
+    padding: 10px 10px 6px;
+    border-top: 1px solid var(--border);
+  }
+
+  .jp-scope .radar-label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .jp-scope .sigs { display: flex; flex-direction: column; gap: 4px; }
+
+  .jp-scope .sig {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.70rem;
+    color: var(--muted2);
+    padding: 4px 6px;
+    border-radius: 4px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+  }
+  .jp-scope .sig.found {
+    color: var(--text);
+    background: rgba(240,178,50,0.07);
+    border-color: rgba(240,178,50,0.18);
+  }
+
+  .jp-scope .sig-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--muted2);
+    flex-shrink: 0;
+  }
+  .jp-scope .sig.found .sig-dot { background: var(--gold); }
+
+  .jp-scope .profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #232428;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .jp-scope .av {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 0.80rem;
+    color: #111;
+    flex-shrink: 0;
+  }
+  .jp-scope .profile b     { display: block; font-size: 0.80rem; color: #fff; }
+  .jp-scope .profile small { display: block; font-size: 0.65rem; color: var(--green); }
+
+  .jp-scope .opts         { grid-template-columns: repeat(2, 1fr); }
+  .jp-scope .res-wrap     { max-width: 600px; }
+  .jp-scope .dim-row      { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .jp-scope .side { width: 240px; }
+  .jp-scope h1    { font-size: 2.4rem; }
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes jp-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jp-scope *, .jp-scope .hero-emoji { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,1212 @@
+/* ===================================================
+   MONEDAS GRATIS — Discord-style simulator
+   Mobile-first, minimal text, no gradients
+   =================================================== */
+
+.simulator-scope {
+  /* Discord dark palette */
+  --bg:          #313338;
+  --bg-side:     #2b2d31;
+  --bg-dark:     #1e1f22;
+  --bg-input:    #383a40;
+  --border:      rgba(255,255,255,0.06);
+
+  --text:        #dbdee1;
+  --muted:       #949ba4;
+  --muted2:      #6d6f78;
+
+  --blurple:     #5865f2;
+  --green:       #23a55a;
+  --yellow:      #f0b232;
+  --orange:      #f2930d;
+  --red:         #f23f43;
+
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+}
+
+.simulator-scope *, .simulator-scope *::before, .simulator-scope *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scrollbar */
+.simulator-scope ::-webkit-scrollbar { width: 6px; }
+.simulator-scope ::-webkit-scrollbar-track { background: transparent; }
+.simulator-scope ::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+}
+
+/* Screens */
+.simulator-scope .screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+.simulator-scope .screen.active { display: flex; }
+
+/* ==================== INTRO ==================== */
+.simulator-scope #intro {
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg-dark);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  min-height: 100dvh;
+}
+
+.simulator-scope .intro-inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Top bar */
+.simulator-scope .intro-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.simulator-scope .intro-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--blurple);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.8rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.simulator-scope .intro-bar-text b {
+  display: block;
+  font-size: 0.82rem;
+  color: #fff;
+}
+.simulator-scope .intro-bar-text small {
+  display: block;
+  font-size: 0.70rem;
+  color: var(--muted);
+}
+
+.simulator-scope .live-badge {
+  margin-left: auto;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Hero card */
+.simulator-scope .hero-card {
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 24px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.simulator-scope .hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blurple), var(--green));
+}
+
+.simulator-scope .hero-emoji {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  display: block;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.simulator-scope h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.simulator-scope h1 span { color: var(--blurple); }
+
+.simulator-scope .hero-sub {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* How-row pills */
+.simulator-scope .how-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.simulator-scope .how-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 0.80rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Chip row */
+.simulator-scope .chip-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.simulator-scope .chip {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Start button */
+.simulator-scope .btn-start {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--blurple);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.simulator-scope .btn-start:hover { background: #4752c4; }
+.simulator-scope .btn-start:active { transform: scale(0.97); }
+
+/* ==================== GAME ==================== */
+.simulator-scope #game {
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* SIDEBAR — stacks as top bar on mobile */
+.simulator-scope .side {
+  background: var(--bg-side);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  /* Mobile: collapsed horizontal top bar */
+  height: auto;
+  width: 100%;
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.simulator-scope .sidehead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.simulator-scope .sidehead-icon { font-size: 1.1rem; }
+
+.simulator-scope .sidehead b {
+  font-size: 0.85rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.simulator-scope .sidehead small {
+  font-size: 0.68rem;
+  color: var(--muted);
+  display: block;
+}
+
+.simulator-scope .side-xp {
+  margin-left: auto;
+  background: rgba(240,178,50,0.12);
+  border: 1px solid rgba(240,178,50,0.22);
+  color: var(--yellow);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.simulator-scope .prog {
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.simulator-scope .plabel {
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.simulator-scope .track {
+  height: 4px;
+  background: var(--bg-dark);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.simulator-scope .fill {
+  height: 100%;
+  background: var(--blurple);
+  transition: width 0.3s ease;
+}
+
+/* Channels — horizontal scroll on mobile */
+.simulator-scope .channels {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 10px;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.simulator-scope .ch {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: default;
+}
+
+.simulator-scope .ch.active {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.12);
+}
+
+.simulator-scope .ch.done {
+  opacity: 0.5;
+}
+
+.simulator-scope .ch-hash { color: var(--muted); font-size: 0.85rem; }
+.simulator-scope .ch-name { font-size: 0.75rem; color: var(--text); font-weight: 600; }
+.simulator-scope .ch-time { font-size: 0.65rem; color: var(--muted2); margin-left: 4px; }
+.simulator-scope .ch-done { font-size: 0.65rem; color: var(--green); margin-left: 2px; }
+
+/* Radar: hidden on mobile to save space */
+.simulator-scope .radar { display: none; }
+
+/* Profile footer: hidden on mobile */
+.simulator-scope .profile { display: none; }
+
+/* ==================== MAIN CHAT ==================== */
+.simulator-scope .main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  overflow: hidden;
+  min-height: 0;
+  position: relative;
+}
+
+.simulator-scope .head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  height: 44px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.simulator-scope .head-hash { color: var(--muted); font-size: 1rem; }
+.simulator-scope .head b { font-size: 0.88rem; color: #fff; font-weight: 700; }
+.simulator-scope .head-sep { color: var(--muted2); font-size: 0.75rem; }
+.simulator-scope .head-desc { color: var(--muted); font-size: 0.75rem; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.simulator-scope .gamepill {
+  background: var(--bg-input);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Brief */
+.simulator-scope .brief {
+  margin: 10px 12px 0;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blurple);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.80rem;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+/* Feed */
+.simulator-scope .feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* System message */
+.simulator-scope .sys-msg {
+  text-align: center;
+  padding: 4px 0 8px;
+}
+.simulator-scope .sys-msg span {
+  font-size: 0.70rem;
+  color: var(--muted2);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Chat message */
+.simulator-scope .msg {
+  display: flex;
+  gap: 12px;
+  padding: 4px 0;
+  align-items: flex-start;
+}
+.simulator-scope .msg:hover { background: rgba(0,0,0,0.05); border-radius: 4px; }
+
+.simulator-scope .mav {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.82rem;
+  color: #fff;
+  flex-shrink: 0;
+  background: var(--bg-input);
+}
+.simulator-scope .av-me { background: var(--blurple); }
+.simulator-scope .av-purple { background: #9b59b6; }
+.simulator-scope .av-cyan { background: #1abc9c; }
+.simulator-scope .av-coin { background: var(--yellow); }
+
+.simulator-scope .msg-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.simulator-scope .msg-author { font-size: 0.88rem; font-weight: 700; color: #f2f3f5; }
+.simulator-scope .msg-role {
+  background: rgba(88,101,242,0.15);
+  color: #a5adff;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.60rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.simulator-scope .msg-time { font-size: 0.65rem; color: var(--muted); }
+
+.simulator-scope .bubble {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+/* Embeds (Discord-style) */
+.simulator-scope .embed {
+  display: flex;
+  gap: 0;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 4px 0 4px 48px;
+  max-width: 420px;
+}
+
+.simulator-scope .embed-accent {
+  width: 4px;
+  flex-shrink: 0;
+  background: var(--blurple);
+}
+.simulator-scope .embed-accent.blue { background: #7289da; }
+.simulator-scope .embed-accent.red { background: var(--red); }
+.simulator-scope .embed-accent.orange { background: var(--orange); }
+.simulator-scope .embed-gold .embed-accent { background: var(--yellow); }
+
+.simulator-scope .embed-body { padding: 8px 12px; }
+
+.simulator-scope .embed-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--yellow);
+  margin-bottom: 2px;
+}
+
+.simulator-scope .embed-sub {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.simulator-scope .embed-url {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #7289da;
+  word-break: break-all;
+}
+
+.simulator-scope .embed-fields {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.simulator-scope .embed-desc {
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.simulator-scope .embed-foot {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 6px;
+  font-size: 0.68rem;
+  color: var(--muted2);
+}
+
+.simulator-scope .epill {
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+/* Chat input */
+.simulator-scope .chat-input-area {
+  padding: 6px 12px;
+  flex-shrink: 0;
+}
+
+.simulator-scope .chat-input-box {
+  background: var(--bg-input);
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-size: 0.82rem;
+  color: var(--muted2);
+}
+
+/* Options panel */
+.simulator-scope .qpanel {
+  margin: 8px 12px;
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  flex-shrink: 0;
+}
+
+.simulator-scope .q-text {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.35;
+}
+
+.simulator-scope .opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.simulator-scope .opt {
+  background: var(--bg-input);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 10px 10px;
+  font-size: 0.80rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+.simulator-scope .opt:hover:not(:disabled) {
+  background: #4e5058;
+  border-color: rgba(255,255,255,0.15);
+  color: #fff;
+}
+.simulator-scope .opt-picked {
+  border-color: var(--blurple) !important;
+  background: rgba(88,101,242,0.15) !important;
+  color: #fff !important;
+}
+.simulator-scope .opt-faded { opacity: 0.3; pointer-events: none; }
+.simulator-scope .opt:disabled { cursor: not-allowed; }
+
+/* ==================== FEEDBACK (condensed) ==================== */
+.simulator-scope .feedback {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg-side);
+  border-top: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.35);
+}
+
+.simulator-scope .fb-main {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.simulator-scope .fb-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+.simulator-scope .fb-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.simulator-scope .fb-best { color: var(--green); }
+.simulator-scope .fb-partial { color: var(--yellow); }
+.simulator-scope .fb-risk { color: var(--orange); }
+.simulator-scope .fb-danger { color: var(--red); }
+
+.simulator-scope .fb-xp {
+  background: rgba(35,165,90,0.12);
+  border: 1px solid rgba(35,165,90,0.2);
+  color: var(--green);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.70rem;
+  font-weight: 900;
+}
+
+.simulator-scope .fb-exp {
+  font-size: 0.80rem;
+  color: var(--text);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.simulator-scope .fb-signal {
+  background: rgba(240,178,50,0.08);
+  border: 1px solid rgba(240,178,50,0.18);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.simulator-scope .fb-signal b { color: var(--yellow); }
+
+.simulator-scope .fb-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.simulator-scope .fb-scene {
+  font-size: 0.72rem;
+  color: var(--muted2);
+  font-weight: 600;
+}
+
+.simulator-scope .btn-next {
+  background: var(--blurple);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.simulator-scope .btn-next:hover { background: #4752c4; }
+.simulator-scope .btn-next:active { transform: scale(0.97); }
+
+/* Mute button */
+.simulator-scope .mute-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 3px;
+}
+.simulator-scope .mute-btn:hover { background: rgba(255,255,255,0.05); }
+
+/* ==================== RESULTS ==================== */
+.simulator-scope #result {
+  overflow-y: auto;
+  background: var(--bg-dark);
+  padding: 16px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.simulator-scope .res-wrap {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Rank card */
+.simulator-scope .res-card {
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 20px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.simulator-scope .res-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--blurple);
+}
+
+.simulator-scope .res-icon { font-size: 3rem; margin-bottom: 8px; }
+
+.simulator-scope .res-rank {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.simulator-scope .res-score {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--yellow);
+  margin-bottom: 14px;
+}
+.simulator-scope .res-score span {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Dimension pills */
+.simulator-scope .dim-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.simulator-scope .dim-pill {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 6px;
+  text-align: center;
+}
+.simulator-scope .dim-pill b {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--green);
+}
+.simulator-scope .dim-pill small {
+  font-size: 0.60rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Achievements */
+.simulator-scope .ach-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.simulator-scope .ach {
+  background: rgba(88,101,242,0.12);
+  border: 1px solid rgba(88,101,242,0.22);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #a5adff;
+}
+
+/* Debrief */
+.simulator-scope .debrief-card,
+.simulator-scope .rules-card {
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.simulator-scope .debrief-head,
+.simulator-scope .rules-head {
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.simulator-scope .debrief-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.simulator-scope .dtab {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 800;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.simulator-scope .dtab-active {
+  background: var(--blurple);
+  border-color: var(--blurple);
+  color: #fff;
+}
+
+.simulator-scope .debrief-body {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.simulator-scope .db-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.simulator-scope .db-level-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+.simulator-scope .db-scene-name { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+.simulator-scope .db-answer { font-size: 0.84rem; color: #fff; font-weight: 600; margin-top: 2px; }
+.simulator-scope .db-signal { font-size: 0.76rem; color: var(--yellow); margin-top: 3px; }
+
+.simulator-scope .db-bar {
+  height: 5px;
+  background: var(--bg-dark);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.simulator-scope .db-bar span {
+  display: block;
+  height: 100%;
+  background: var(--blurple);
+  transition: width 0.4s ease;
+}
+
+/* Rules */
+.simulator-scope .rule {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+.simulator-scope .rule:last-child { border-bottom: none; }
+
+.simulator-scope .rnum {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(88,101,242,0.15);
+  color: #a5adff;
+  font-size: 0.68rem;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Result actions */
+.simulator-scope .res-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  padding-bottom: 16px;
+}
+
+.simulator-scope .btn-sec {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.simulator-scope .btn-sec:hover { background: #4e5058; }
+
+.simulator-scope .btn-pri {
+  background: var(--blurple);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.simulator-scope .btn-pri:hover { background: #4752c4; }
+
+/* ==================== TOAST ==================== */
+.simulator-scope .toast {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  background: var(--bg-dark);
+  border: 1px solid var(--blurple);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  transition: 0.2s ease;
+  pointer-events: none;
+  max-width: 260px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.simulator-scope .toast-show {
+  opacity: 1;
+  transform: none;
+}
+.simulator-scope .toast strong {
+  display: block;
+  color: #fff;
+  font-size: 0.80rem;
+  font-weight: 700;
+}
+.simulator-scope .toast span { color: var(--muted); font-size: 0.74rem; }
+
+/* ==================== MODAL ==================== */
+.simulator-scope .modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 80;
+  padding: 16px;
+}
+
+.simulator-scope .modal-card {
+  width: min(420px, 100%);
+  background: var(--bg-side);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+.simulator-scope .modal-emoji { font-size: 2.5rem; margin-bottom: 10px; }
+
+.simulator-scope .modal-card h2 {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.simulator-scope .modal-card p {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+.simulator-scope .picks {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.simulator-scope .pick {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 90px;
+  transition: border-color 0.2s;
+}
+.simulator-scope .pick:hover { border-color: rgba(255,255,255,0.2); }
+.simulator-scope .pick-active {
+  border-color: var(--blurple) !important;
+  background: rgba(88,101,242,0.1) !important;
+}
+
+.simulator-scope .pick-av {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.simulator-scope .pick b {
+  font-size: 0.80rem;
+  color: #fff;
+  display: block;
+}
+
+/* ==================== TABLET / DESKTOP ==================== */
+@media (min-width: 768px) {
+  /* Game screen: sidebar goes left */
+  .simulator-scope #game {
+    flex-direction: row;
+  }
+
+  .simulator-scope .side {
+    width: 220px;
+    max-height: none;
+    height: 100%;
+    border-bottom: none;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .simulator-scope .channels {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 6px 8px;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .simulator-scope .ch {
+    white-space: normal;
+    width: 100%;
+  }
+
+  .simulator-scope .radar {
+    display: block;
+    padding: 10px 10px 6px;
+    border-top: 1px solid var(--border);
+  }
+
+  .simulator-scope .radar-label {
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .simulator-scope .sigs { display: flex; flex-direction: column; gap: 4px; }
+
+  .simulator-scope .sig {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.70rem;
+    color: var(--muted2);
+    padding: 4px 6px;
+    border-radius: 4px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+  }
+  .simulator-scope .sig.found {
+    color: var(--text);
+    background: rgba(88,101,242,0.07);
+    border-color: rgba(88,101,242,0.18);
+  }
+
+  .simulator-scope .sig-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--muted2);
+    flex-shrink: 0;
+  }
+  .simulator-scope .sig.found .sig-dot { background: var(--blurple); }
+
+  .simulator-scope .profile {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #232428;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .simulator-scope .av {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--blurple);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 0.80rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .simulator-scope .profile b {
+    display: block;
+    font-size: 0.80rem;
+    color: #fff;
+  }
+  .simulator-scope .profile small {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--green);
+  }
+
+  /* Wider layouts */
+  .simulator-scope .opts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .simulator-scope .res-wrap {
+    max-width: 600px;
+  }
+
+  .simulator-scope .dim-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .simulator-scope .side { width: 240px; }
+  .simulator-scope h1 { font-size: 2.4rem; }
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.simulator-scope .msg,
+.simulator-scope .embed,
+.simulator-scope .feedback {
+  animation: in 0.18s ease both;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .simulator-scope *, .simulator-scope .hero-emoji {
+    animation: none !important;
+    transition: none !important;
+  }
+}
