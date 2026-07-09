@@ -34,7 +34,8 @@ export class ResourceCardComponent {
       this.item.id === 'no-lo-hagas-viral' ||
       this.item.id === 'perfil-fantasma' ||
       this.item.id === 'monedas-gratis' ||
-      this.item.id === 'jugada-problema'
+      this.item.id === 'jugada-problema' ||
+      this.item.id === 'reconozco-emociones'
     );
   }
 

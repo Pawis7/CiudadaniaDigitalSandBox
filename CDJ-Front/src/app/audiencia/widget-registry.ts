@@ -25,6 +25,7 @@ import { NoLoHagasViralComponent } from '../shared/no-lo-hagas-viral/no-lo-hagas
 import { PerfilFantasmaComponent } from '../shared/perfil-fantasma/perfil-fantasma';
 import { MonedasGratisComponent } from '../shared/monedas-gratis/monedas-gratis';
 import { JugadaProblemaComponent } from '../shared/jugada-problema/jugada-problema';
+import { ReconozcoEmocionesComponent } from '../shared/reconozco-emociones/reconozco-emociones';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -43,7 +44,8 @@ export type WidgetId =
   | 'no-lo-hagas-viral'
   | 'perfil-fantasma'
   | 'monedas-gratis'
-  | 'jugada-problema';
+  | 'jugada-problema'
+  | 'reconozco-emociones';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -63,6 +65,7 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'perfil-fantasma': PerfilFantasmaComponent,
   'monedas-gratis': MonedasGratisComponent,
   'jugada-problema': JugadaProblemaComponent,
+  'reconozco-emociones': ReconozcoEmocionesComponent,
 };
 
 

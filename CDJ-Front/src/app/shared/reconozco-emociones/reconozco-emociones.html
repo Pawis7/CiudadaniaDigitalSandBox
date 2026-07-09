@@ -82,9 +82,9 @@
           </div>
         </div>
 
-        <!-- Start button -->
-        <button type="button" (click)="startGame()" class="re-btn-start">
-          ▶ ¡Comenzar!
+        <button type="button" (click)="startGame()" class="re-btn-start group">
+          <span>¡Comenzar!</span>
+          <span translate="no" class="material-symbols-rounded text-[18px] transition-transform duration-200 group-hover:translate-x-1">play_arrow</span>
         </button>
 
         <!-- Adult guideline tip -->
@@ -123,10 +123,19 @@
           </div>
 
           <!-- Bubble col -->
-          <div class="re-bubble-col flex-1">
+          <div class="re-bubble-col flex-1 min-w-[200px] w-full">
             <div class="re-speech-bubble">
-              <p class="re-situation">{{ currentScene().voz_situacion }}</p>
-              <h2 class="re-question">{{ currentScene().voz_reto }}</h2>
+              <div class="re-situation">
+                <span class="re-situation-badge">
+                  <span class="re-badge-dot"></span>
+                  ¿Qué pasa en la pantalla?
+                </span>
+                <p class="re-situation-text">{{ currentScene().voz_situacion }}</p>
+              </div>
+              <div class="re-question-container">
+                <span class="re-question-icon">💬</span>
+                <h2 class="re-question">{{ currentScene().voz_reto }}</h2>
+              </div>
             </div>
           </div>
         </div>
@@ -166,8 +175,9 @@
         <!-- Navigation button -->
         <div class="re-navigation-row">
           @if (isCorrect() === true) {
-            <button type="button" (click)="next()" class="re-btn-next">
-              Siguiente escena ➔
+            <button type="button" (click)="next()" class="re-btn-next group">
+              <span>Siguiente escena</span>
+              <span translate="no" class="material-symbols-rounded text-[16px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
             </button>
           }
         </div>
@@ -196,8 +206,9 @@
           </div>
         </div>
 
-        <button type="button" (click)="resumeAfterPause()" class="re-btn-start re-btn-emerald">
-          Continuar jugando ➔
+        <button type="button" (click)="resumeAfterPause()" class="re-btn-start re-btn-emerald group">
+          <span>Continuar jugando</span>
+          <span translate="no" class="material-symbols-rounded text-[18px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
         </button>
 
         <div class="re-tip-box mt-6">

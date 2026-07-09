@@ -13,6 +13,7 @@ import { AUDIENCE_CONFIG } from './audiencia-config';
 import { WIDGET_REGISTRY, WidgetId } from './widget-registry';
 import { ResourceCardComponent } from '../shared/resource-card/resource-card';
 
+// Touch to trigger compiler watch reload
 @Component({
   selector: 'app-audiencia',
   standalone: true,
@@ -148,7 +149,6 @@ export class AudienciaComponent {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
-
   onResourceActionClicked(item: LevelResource): void {
     if (
       item.id === 'simulador-fraudes' ||
@@ -167,7 +167,8 @@ export class AudienciaComponent {
       item.id === 'no-lo-hagas-viral' ||
       item.id === 'perfil-fantasma' ||
       item.id === 'monedas-gratis' ||
-      item.id === 'jugada-problema'
+      item.id === 'jugada-problema' ||
+      item.id === 'reconozco-emociones'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -185,14 +186,14 @@ export class AudienciaComponent {
         item.id === 'no-lo-hagas-viral' ? 'no-lo-hagas-viral' :
         item.id === 'perfil-fantasma' ? 'perfil-fantasma' :
         item.id === 'monedas-gratis' ? 'monedas-gratis' :
-        item.id === 'jugada-problema' ? 'jugada-problema' : 'riesgos-reales'
+        item.id === 'jugada-problema' ? 'jugada-problema' :
+        item.id === 'reconozco-emociones' ? 'reconozco-emociones' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
         document.body.style.overflow = 'hidden';
       }
     }
   }
-
   closeWidgetModal(): void {
     this.activeWidgetId.set(null);
     if (typeof document !== 'undefined') {

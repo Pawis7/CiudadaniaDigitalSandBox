@@ -50,23 +50,15 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   });
 
   constructor() {
-    // Speak automatically on entering a screen/scene if audio is active
+    // Cancel speaking on screen or scene change to prevent overlapping audio
     effect(() => {
-      const screen = this.currentScreen();
-      const idx = this.currentSceneIndex();
+      this.currentScreen();
+      this.currentSceneIndex();
       
-      if (screen === 'welcome') {
-        this.speakText("¡Hola! Soy Data. Vamos a descubrir cómo se siente Bit cuando usa una pantalla. ¿Me acompañas?");
-      } else if (screen === 'pedagogic-pause') {
-        this.speakText("¡Es momento de hacer una pausa! Cierra tus ojitos un momento, respira despacio y mueve tus hombros. Cuando estés listo, seguimos jugando.");
-      } else if (screen === 'summary') {
-        this.speakText("¡Felicidades! Lograste ayudar a Bit. Recuerda la rutina de bienestar digital: pauso, respiro y pido ayuda.");
-      } else if (screen === 'playing') {
-        const s = this.currentScene();
-        if (s) {
-          this.speakText(s.voz_situacion + " " + s.voz_reto);
-        }
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
       }
+      this.isSpeaking.set(false);
     });
   }
 

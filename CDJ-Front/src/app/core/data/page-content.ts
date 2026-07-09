@@ -101,7 +101,32 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     icon: 'face',
     ageRange: '5 a 11 años',
     subLevels: [
-      { id: 'preescolar',     title: 'Preescolar',    subtitle: '3 a 5 años',  imageUrl: '/ninosyninas_portadas/PREESCOLAR.jpg', imageId: 'sub-kids-pre', bgClass: 'from-rose-400 to-rose-500', icon: 'child_care', resourceCount: 12, description: 'Descubre y juega en el mundo digital con actividades sencillas, cuentos y personajes amigables.' },
+      { 
+        id: 'preescolar',     
+        title: 'Preescolar',    
+        subtitle: '3 a 5 años',  
+        imageUrl: '/ninosyninas_portadas/PREESCOLAR.jpg', 
+        imageId: 'sub-kids-pre', 
+        bgClass: 'from-rose-400 to-rose-500', 
+        icon: 'child_care', 
+        resourceCount: 12, 
+        description: 'Descubre y juega en el mundo digital con actividades sencillas, cuentos y personajes amigables.',
+        levelResources: [
+          {
+            id: 'reconozco-emociones',
+            title: '¡A jugar! Reconozco mis emociones',
+            description: 'Acompaña a Bit en esta aventura para identificar sus emociones digitales y aprender cuándo es momento de pausar, respirar o pedir ayuda.',
+            type: 'game',
+            typeLabel: 'Juego Interactivo',
+            icon: 'sentiment_satisfied',
+            badge: '12 escenas · Preescolar',
+            duration: '10 min',
+            colorClass: 'from-rose-400 to-rose-500',
+            actionLabel: 'Jugar',
+            link: '#widget-seccion-anchor'
+          }
+        ]
+      },
       { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18, description: 'Aprende, crea y cuida tu mundo digital con videos, juegos y actividades breves.' },
       {
         id: 'primaria-alta',

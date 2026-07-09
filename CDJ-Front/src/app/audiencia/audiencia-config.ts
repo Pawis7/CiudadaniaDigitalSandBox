@@ -32,7 +32,9 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
     bannerSrc:    '/banners/CIUDADANIA_NINASYNINOS.png',
     bannerAlt:    'Ciudadanía Digital Jalisco — Niñas y Niños',
     defaultLevel: 'primaria-baja',
-    levelWidgets: {},
+    levelWidgets: {
+      'preescolar': 'reconozco-emociones',
+    },
   },
   'adolescentes': {
     theme:        'teens',

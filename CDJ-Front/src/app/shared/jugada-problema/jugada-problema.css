@@ -23,8 +23,8 @@
   --red:     #f23f43;
   --orange:  #f2930d;
 
-  /* Signature gradient for this game */
-  --accent: linear-gradient(135deg, #f0b232, #ec4899, #8b5cf6);
+  /* Clean solid color accent matching Discord brand */
+  --accent: #5865f2;
 
   position: fixed;
   inset: 0;
@@ -148,10 +148,7 @@
 }
 
 .jp-scope h1 span {
-  background: var(--accent);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
 }
 
 .jp-scope .hero-sub {
@@ -437,7 +434,8 @@
 .jp-scope .clip-thumb {
   width: 110px;
   flex-shrink: 0;
-  background: linear-gradient(135deg, #312e81, #be185d, #f59e0b);
+  background: var(--bg-dark);
+  border-right: 1px solid var(--border);
   display: flex;
   align-items: flex-end;
   padding: 8px;
