@@ -1,0 +1,267 @@
+<section class="sim-shell relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] p-6 sm:p-10 shadow-[var(--shadow-2xl)] min-h-[580px] max-w-4xl mx-auto transition-all duration-300" data-audience="kids">
+  
+  <!-- BACKDROP DECORATIONS (Premium kid-friendly bubbles) -->
+  <div class="pointer-events-none absolute inset-0 z-0">
+    <div class="absolute -left-20 -top-20 h-80 w-80 rounded-full bg-rose-400/10 blur-3xl transition-colors duration-500"></div>
+    <div class="absolute -right-20 -bottom-20 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl transition-colors duration-500"></div>
+    <div class="absolute left-1/3 top-1/4 h-60 w-60 rounded-full bg-amber-300/5 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 flex flex-col flex-1 justify-between items-center gap-6 sm:gap-8">
+
+    <!-- ==================== TOP STATUS BAR (Gameplay only) ==================== -->
+    @if (currentScreen() === 'playing') {
+      <div class="re-top-bar">
+        <div class="re-progress-group">
+          <span class="re-label">Escena {{ currentSceneIndex() + 1 }} de {{ scenes.length }}</span>
+          <div class="re-progress-track">
+            <div class="re-progress-fill" [style.width.%]="progressPercent()"></div>
+          </div>
+        </div>
+
+        <div class="re-audio-group">
+          <button type="button" 
+                  (click)="toggleAudio()"
+                  [class.re-btn-active]="audioOn()"
+                  class="re-btn-audio"
+                  [attr.aria-label]="audioOn() ? 'Apagar voz' : 'Encender voz'">
+            <span class="re-audio-emoji">{{ audioOn() ? '🔊' : '🔇' }}</span>
+          </button>
+
+          <button type="button" 
+                  (click)="repeatAudio()"
+                  [disabled]="!audioOn()"
+                  [class.re-speaking]="isSpeaking()"
+                  class="re-btn-speak">
+            🎙️ <span class="re-speak-text">Escuchar</span>
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ==================== SCREEN 1: WELCOME ==================== -->
+    @if (currentScreen() === 'welcome') {
+      <div class="re-screen re-welcome-screen w-full flex flex-col items-center text-center">
+        <div class="re-badge animate-bounce-slow">
+          <span>🤖</span> ¡A jugar con Bit y Data!
+        </div>
+
+        <h1 class="re-title">
+          ¡A jugar!<br>
+          <span class="re-gradient-text">Reconozco mis emociones</span>
+        </h1>
+
+        <p class="re-subtitle max-w-lg">
+          Acompaña a Bit en esta divertida aventura para descubrir sus emociones digitales y aprender cuándo es momento de pausar, respirar y pedir ayuda.
+        </p>
+
+        <!-- Characters Showcase -->
+        <div class="re-chars-row">
+          <div class="re-char-avatar-wrap">
+            <div class="bit-avatar re-bit-float bit-emotion-alegria">
+              <div class="bit-head">
+                <div class="bit-antenna"></div>
+                <div class="bit-face">
+                  <div class="bit-eye"></div>
+                  <div class="bit-eye"></div>
+                </div>
+                <div class="bit-mouth"></div>
+              </div>
+              <div class="bit-body">
+                <div class="bit-body-dot"></div>
+                <div class="bit-body-dot"></div>
+                <div class="bit-body-dot"></div>
+              </div>
+            </div>
+            <span class="re-char-name">Bit</span>
+          </div>
+
+          <div class="re-char-avatar-wrap">
+            <div class="re-teacher-badge">👩‍🏫</div>
+            <span class="re-char-name">Data</span>
+          </div>
+        </div>
+
+        <!-- Start button -->
+        <button type="button" (click)="startGame()" class="re-btn-start">
+          ▶ ¡Comenzar!
+        </button>
+
+        <!-- Adult guideline tip -->
+        <div class="re-tip-box">
+          <span class="re-tip-icon">💡</span>
+          <p>
+            <strong>Acompañamiento adulto recomendado:</strong> Nombre las emociones en voz alta y platique sobre las situaciones cotidianas. Se sugiere jugar en dos bloques de 6 escenas.
+          </p>
+        </div>
+      </div>
+    }
+
+    <!-- ==================== SCREEN 2: PLAYING ==================== -->
+    @if (currentScreen() === 'playing') {
+      <div class="re-screen re-game-screen flex flex-col gap-6 sm:gap-8 w-full">
+        
+        <!-- Scene row: Bit + Speech Bubble -->
+        <div class="re-scene-layout">
+          <div class="re-avatar-col">
+            <div class="bit-avatar re-bit-float" [ngClass]="emotionClass()">
+              <div class="bit-head">
+                <div class="bit-antenna"></div>
+                <div class="bit-face">
+                  <div class="bit-eye"></div>
+                  <div class="bit-eye"></div>
+                </div>
+                <div class="bit-mouth"></div>
+              </div>
+              <div class="bit-body">
+                <div class="bit-body-dot"></div>
+                <div class="bit-body-dot"></div>
+                <div class="bit-body-dot"></div>
+              </div>
+            </div>
+            <span class="re-emotion-tag">{{ currentScene().emocion_objetivo }}</span>
+          </div>
+
+          <!-- Bubble col -->
+          <div class="re-bubble-col flex-1">
+            <div class="re-speech-bubble">
+              <p class="re-situation">{{ currentScene().voz_situacion }}</p>
+              <h2 class="re-question">{{ currentScene().voz_reto }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Options selector grid -->
+        <div class="re-options-grid">
+          <button *ngFor="let opt of currentScene().opciones_visibles; let idx = index"
+                  type="button"
+                  (click)="selectOption(idx)"
+                  [disabled]="isCorrect() === true"
+                  [class.re-opt-correct]="isCorrect() === true && idx === currentScene().correct"
+                  [class.re-opt-incorrect]="selectedIncorrectIndices().includes(idx)"
+                  class="re-option-btn group">
+            <span class="re-opt-emoji transition-transform duration-200 group-hover:scale-125">{{ getOptionEmoji(opt) }}</span>
+            <span class="re-opt-text">{{ getOptionText(opt) }}</span>
+          </button>
+        </div>
+
+        <!-- Feedback message area -->
+        <div class="re-feedback-area min-h-[100px]">
+          @if (isCorrect() !== null) {
+            <div class="re-feedback-box"
+                 [class.re-fb-success]="isCorrect() === true"
+                 [class.re-fb-retry]="isCorrect() === false">
+              <span class="re-feedback-icon">{{ isCorrect() ? '✅' : '🧐' }}</span>
+              <div class="re-feedback-text">
+                <h3>{{ isCorrect() ? '¡Excelente!' : 'Miremos con cuidado...' }}</h3>
+                <p>{{ isCorrect() ? currentScene().feedback_positivo : currentScene().feedback_reintento }}</p>
+                @if (isCorrect()) {
+                  <span class="re-reinforce">{{ currentScene().refuerzo }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Navigation button -->
+        <div class="re-navigation-row">
+          @if (isCorrect() === true) {
+            <button type="button" (click)="next()" class="re-btn-next">
+              Siguiente escena ➔
+            </button>
+          }
+        </div>
+
+      </div>
+    }
+
+    <!-- ==================== SCREEN 3: PEDAGOGIC PAUSE ==================== -->
+    @if (currentScreen() === 'pedagogic-pause') {
+      <div class="re-screen re-center-screen w-full flex flex-col items-center">
+        <div class="re-pause-icon">🌬️</div>
+        
+        <h1 class="re-title">¡Hagamos una pausa!</h1>
+        <p class="re-subtitle max-w-md">
+          Data nos propone estirarnos, cerrar los ojos un momento y respirar despacio. Las pantallas también necesitan descansar.
+        </p>
+
+        <!-- Breathing anim ring -->
+        <div class="re-breathing-section">
+          <div class="re-breathing-circle-wrap">
+            <div class="re-breathing-ring"></div>
+            <div class="re-breathing-core">😌</div>
+          </div>
+          <div class="re-breathing-instructions">
+            <span class="re-breathe-text">Toma aire suavemente... sostén... y sácalo despacio.</span>
+          </div>
+        </div>
+
+        <button type="button" (click)="resumeAfterPause()" class="re-btn-start re-btn-emerald">
+          Continuar jugando ➔
+        </button>
+
+        <div class="re-tip-box mt-6">
+          <span class="re-tip-icon">💡</span>
+          <p>
+            <strong>Docente / Adulto:</strong> Este es un momento excelente para realizar estiramientos, ponerse de pie o tomar un poco de agua.
+          </p>
+        </div>
+      </div>
+    }
+
+    <!-- ==================== SCREEN 4: SUMMARY ==================== -->
+    @if (currentScreen() === 'summary') {
+      <div class="re-screen re-center-screen w-full flex flex-col items-center">
+        <span class="re-medal animate-bounce-slow">🏅</span>
+
+        <h1 class="re-title">¡Felicidades, lo lograste!</h1>
+        <p class="re-subtitle max-w-md">
+          Aprendiste a observar las emociones de Bit y a tomar decisiones seguras al usar una pantalla.
+        </p>
+
+        <div class="bit-avatar re-bit-float bit-emotion-alegria" style="margin: 15px auto 25px;">
+          <div class="bit-head">
+            <div class="bit-antenna"></div>
+            <div class="bit-face">
+              <div class="bit-eye"></div>
+              <div class="bit-eye"></div>
+            </div>
+            <div class="bit-mouth"></div>
+          </div>
+          <div class="bit-body">
+            <div class="bit-body-dot"></div>
+            <div class="bit-body-dot"></div>
+            <div class="bit-body-dot"></div>
+          </div>
+        </div>
+
+        <!-- Routine card (Bento style) -->
+        <div class="re-routine-card">
+          <span class="re-routine-title">Mi rutina de bienestar</span>
+          <div class="re-routine-grid">
+            <div class="re-routine-item">
+              <div class="re-routine-icon-wrap bg-rose-100 dark:bg-rose-950/40 text-rose-500">⏸️</div>
+              <strong>Pauso</strong>
+              <span class="re-routine-desc">Detengo la pantalla</span>
+            </div>
+            <div class="re-routine-item">
+              <div class="re-routine-icon-wrap bg-emerald-100 dark:bg-emerald-950/40 text-emerald-500">🌬️</div>
+              <strong>Respiro</strong>
+              <span class="re-routine-desc">Escucho a mi cuerpo</span>
+            </div>
+            <div class="re-routine-item">
+              <div class="re-routine-icon-wrap bg-cyan-100 dark:bg-cyan-950/40 text-cyan-500">🙋‍♂️</div>
+              <strong>Pido ayuda</strong>
+              <span class="re-routine-desc">Llamo a un adulto</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" (click)="restart()" class="re-btn-start mt-4">
+          Volver a jugar 🔄
+        </button>
+      </div>
+    }
+
+  </div>
+</section>
