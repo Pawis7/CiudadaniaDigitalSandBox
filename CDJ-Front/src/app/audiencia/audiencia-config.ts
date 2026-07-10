@@ -43,6 +43,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
     defaultLevel: 'secundaria',
     levelWidgets: {
       'secundaria': 'fraud-simulator',
+      'preparatoria': 'el-servidor-de-discor',
     },
   },
   'familias': {

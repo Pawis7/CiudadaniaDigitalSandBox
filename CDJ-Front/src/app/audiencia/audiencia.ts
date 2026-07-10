@@ -118,7 +118,7 @@ export class AudienciaComponent {
 
   isPhoneWidget = computed(() => {
     const id = this.activeWidgetId();
-    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma' || id === 'monedas-gratis' || id === 'jugada-problema';
+    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma' || id === 'monedas-gratis' || id === 'jugada-problema' || id === 'el-servidor-de-discor' || id === 'el-mercado-gamer';
   });
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
@@ -168,7 +168,9 @@ export class AudienciaComponent {
       item.id === 'perfil-fantasma' ||
       item.id === 'monedas-gratis' ||
       item.id === 'jugada-problema' ||
-      item.id === 'reconozco-emociones'
+      item.id === 'reconozco-emociones' ||
+      item.id === 'el-servidor-de-discor' ||
+      item.id === 'el-mercado-gamer'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -187,17 +189,19 @@ export class AudienciaComponent {
         item.id === 'perfil-fantasma' ? 'perfil-fantasma' :
         item.id === 'monedas-gratis' ? 'monedas-gratis' :
         item.id === 'jugada-problema' ? 'jugada-problema' :
+        item.id === 'el-servidor-de-discor' ? 'el-servidor-de-discor' :
+        item.id === 'el-mercado-gamer' ? 'el-mercado-gamer' :
         item.id === 'reconozco-emociones' ? 'reconozco-emociones' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
-        document.body.style.overflow = 'hidden';
+        document.body.classList.add('no-scroll');
       }
     }
   }
   closeWidgetModal(): void {
     this.activeWidgetId.set(null);
     if (typeof document !== 'undefined') {
-      document.body.style.overflow = '';
+      document.body.classList.remove('no-scroll');
     }
   }
 

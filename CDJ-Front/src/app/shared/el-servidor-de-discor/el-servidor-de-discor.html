@@ -1,0 +1,388 @@
+<div class="discor-scope">
+
+  <!-- ==================== INTRO ==================== -->
+  @if (currentScreen() === 'intro') {
+    <section class="screen active intro-screen">
+      <div class="intro-inner">
+
+        <div class="top-bar">
+          <div class="top-icon">ED</div>
+          <div class="top-text">
+            <b>{{ gameData.meta.title }} — Servidor simulado</b>
+            <small>{{ gameData.meta.code }} · {{ gameData.meta.subtitle }}</small>
+          </div>
+          <div class="live-badge">● EN VIVO</div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-emoji">👾</div>
+          <h1>El servidor de<br><span>Discor</span></h1>
+          <p class="hero-sub">{{ gameData.intro.hook }}</p>
+
+          <div class="how-row">
+            @for (bullet of gameData.intro.bullets; track $index) {
+              <div class="how-pill">
+                <strong>{{ bullet[0] }}:</strong> <span>{{ bullet[1] }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="why-list text-left">
+            @for (why of gameData.intro.why; track $index) {
+              <div class="why-item border-l-2 pl-3 py-1 my-2" [ngClass]="'border-' + why.tone">
+                <h4 class="text-xs font-bold text-white">{{ why.title }}</h4>
+                <p class="text-[11px] text-[#9badc8] leading-tight mt-0.5">{{ why.text }}</p>
+              </div>
+            }
+          </div>
+
+          <button id="discor-start" class="btn-start mt-4" (click)="openProfileSelection()">
+            ▶ Entrar al servidor
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+  <!-- ==================== PROFILE SELECTION MODAL ==================== -->
+  @if (showProfileModal()) {
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <h2>Elige tu perfil gamer</h2>
+        <p>El perfil define tu nombre y avatar en el servidor simulado. Tus decisiones de criterio digital son lo más importante.</p>
+        
+        <div class="profile-options">
+          <button class="prof-opt" [class.selected]="profile().name === 'AlexVector'" (click)="selectProfile('AlexVector', 'A')">
+            <div class="pav bg-cyan">A</div>
+            <div class="pdetails">
+              <strong>AlexVector</strong>
+              <small>Juegas ranked, competitivo.</small>
+            </div>
+          </button>
+
+          <button class="prof-opt" [class.selected]="profile().name === 'LunaRaid'" (click)="selectProfile('LunaRaid', 'L')">
+            <div class="pav bg-pink">L</div>
+            <div class="pdetails">
+              <strong>LunaRaid</strong>
+              <small>Te interesan las salas sociales.</small>
+            </div>
+          </button>
+
+          <button class="prof-opt" [class.selected]="profile().name === 'NeoPixel'" (click)="selectProfile('NeoPixel', 'N')">
+            <div class="pav bg-purple">N</div>
+            <div class="pdetails">
+              <strong>NeoPixel</strong>
+              <small>Líder técnico y de moderación.</small>
+            </div>
+          </button>
+        </div>
+
+        <button class="btn-confirm" (click)="confirmProfile()">
+          Confirmar y Conectar
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ==================== GAME ==================== -->
+  @if (currentScreen() === 'game') {
+    <section class="screen active game-screen">
+
+      <!-- Sidebar -->
+      <aside class="side">
+        <div class="sidehead">
+          <span class="sidehead-tag">🎮</span>
+          <div>
+            <b>Clan Eclipse</b>
+            <small>servidor simulado</small>
+          </div>
+          <div class="side-xp">{{ score() }} XP</div>
+        </div>
+
+        <div class="prog">
+          <div class="plabel"><span>Escena {{ curIndex() + 1 }} / {{ missions.length }}</span></div>
+          <div class="track"><div class="fill" [style.width.%]="progressPercent()"></div></div>
+        </div>
+
+        <!-- Channels -->
+        <div class="channels">
+          @for (m of missions; track m.id; let i = $index) {
+            <div class="ch"
+                 [class.active]="i === curIndex()"
+                 [class.done]="i < curIndex()">
+              <span class="ch-hash">#</span>
+              <span class="ch-name">{{ getChannelName(i) }}</span>
+              <span class="ch-time">{{ getChannelTime(i) }}</span>
+              @if (i < curIndex()) { <span class="ch-check">✓</span> }
+            </div>
+          }
+        </div>
+
+        <!-- Radar -->
+        <div class="radar">
+          <div class="radar-label">🔎 Señales detectadas</div>
+          <div class="sigs">
+            @for (m of missions; track m.id; let i = $index) {
+              <div class="sig" [class.found]="foundSignals().includes(i)">
+                <span class="sig-dot"></span>
+                <span>{{ foundSignals().includes(i) ? m.signals[0] : ('🔒 Señal ' + (i + 1)) }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Profile footer -->
+        <div class="profile-foot">
+          <div class="av" [ngClass]="{'bg-cyan': profile().avatar === 'A', 'bg-pink': profile().avatar === 'L', 'bg-purple': profile().avatar === 'N'}">
+            {{ profile().avatar }}
+          </div>
+          <div class="pname">
+            <b>{{ profile().name }}</b>
+            <small>● en línea</small>
+          </div>
+          <button class="mute-btn" (click)="toggleSound()">
+            {{ soundOn() ? '🔊' : '🔇' }}
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main chat panel -->
+      <main class="main">
+        <header class="head">
+          <span class="head-hash">#</span>
+          <b>{{ getChannelName(curIndex()) }}</b>
+          <span class="head-sep">|</span>
+          <span class="head-desc">{{ activeFeedbackOption() ? 'Decisión tomada' : currentMission().goal }}</span>
+          <span class="gamepill">Eclipse Server</span>
+        </header>
+
+        <!-- Feed of messages -->
+        <div class="feed">
+          @for (post of currentMission().posts; track $index) {
+            
+            @if (post.type === 'system') {
+              <div class="sys-msg"><span>— {{ post.text }} —</span></div>
+            }
+
+            @if (post.type === 'text') {
+              <div class="msg" [class.me]="post.me">
+                <div class="mav" [ngClass]="{
+                  'me-av bg-cyan': post.me && profile().avatar === 'A',
+                  'me-av bg-pink': post.me && profile().avatar === 'L',
+                  'me-av bg-purple': post.me && profile().avatar === 'N',
+                  'av-leader': !post.me && post.from === 'NovaRush',
+                  'av-member': !post.me && post.from !== 'NovaRush'
+                }">
+                  {{ post.me ? profile().avatar : post.avatar }}
+                </div>
+                <div class="msg-body">
+                  <div class="msg-meta">
+                    <span class="author">{{ post.me ? profile().name : post.from }}</span>
+                    @if (post.role) { <span class="role">{{ post.role }}</span> }
+                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                  </div>
+                  @if (!post.me || post.text) {
+                    <div class="bubble">{{ post.me ? profile().name + ' decide: ' + post.text : post.text }}</div>
+                  }
+                </div>
+              </div>
+            }
+
+            @if (post.type === 'image') {
+              <div class="embed embed-image">
+                <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-2xl" [ngClass]="'border-' + post.theme">
+                  🖼️
+                </div>
+                <div class="embed-body">
+                  <div class="embed-title" [ngClass]="'color-' + post.theme">📸 {{ post.title }}</div>
+                  <div class="embed-desc">{{ post.caption }}</div>
+                  <div class="embed-foot">
+                    <span>Regla / Banner del Servidor</span>
+                  </div>
+                </div>
+              </div>
+            }
+
+            @if (post.type === 'voice') {
+              <div class="embed embed-voice">
+                <div class="voice-row flex items-center gap-3">
+                  <button class="voice-play-btn" (click)="playVoice(post.text)">▶</button>
+                  <div class="voice-wave-container">
+                    <div class="voice-wave"></div>
+                    <small class="voice-duration">{{ post.duration }}</small>
+                  </div>
+                </div>
+                <div class="embed-body">
+                  <div class="embed-title" [ngClass]="'color-' + post.theme">🔊 Nota de voz de {{ post.from }}</div>
+                  <div class="embed-desc font-italic">"{{ post.text }}"</div>
+                  <div class="embed-foot">
+                    <span>Audio simulado (haz clic en Play)</span>
+                  </div>
+                </div>
+              </div>
+            }
+
+          }
+        </div>
+
+        <!-- Input Box -->
+        <!-- Input Box -->
+        @if (!activeFeedbackOption()) {
+          <div class="chat-input-area">
+            <div class="chat-input-box">
+              <span>Elige una opción abajo para responder…</span>
+            </div>
+          </div>
+        }
+
+        <!-- Question Panel -->
+        @if (!activeFeedbackOption()) {
+          <section class="qpanel">
+            <div class="q-text">{{ currentMission().question }}</div>
+            <div class="opts">
+              @for (op of currentOptions(); track $index) {
+                <button class="opt"
+                        type="button"
+                        (click)="chooseOption(op)">
+                  {{ op.text }}
+                </button>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Structured Feedback Bento Grid -->
+        @if (activeFeedbackOption(); as ao) {
+          <div class="feedback">
+            <div class="fb-header">
+              <div class="fb-icon">{{ getIconForLevel(ao.level) }}</div>
+              <div class="fb-meta">
+                <span class="fb-level-tag" [class]="getClassForLevel(ao.level)">
+                  {{ getLabelForLevel(ao.level) }}
+                </span>
+                <span class="fb-xp-tag">+{{ ao.points }} XP</span>
+              </div>
+              <span class="fb-feedback-short">{{ ao.feedback }}</span>
+            </div>
+
+            <!-- Bento-styled detail boxes -->
+            <div class="fb-grid">
+              <div class="fb-box fb-box-plus">
+                <span class="fb-box-title">🏆 Lo mejor de tu decisión</span>
+                <p>{{ ao.plus }}</p>
+              </div>
+              <div class="fb-box fb-box-watch">
+                <span class="fb-box-title">⚠️ Ojo aquí</span>
+                <p>{{ ao.watch }}</p>
+              </div>
+              <div class="fb-box fb-box-next">
+                <span class="fb-box-title">💡 Si te pasa en la vida real</span>
+                <p>{{ ao.next }}</p>
+              </div>
+            </div>
+
+            <div class="fb-actions">
+              <span class="fb-scene-counter">Misión {{ curIndex() + 1 }} / {{ missions.length }}</span>
+              <button class="btn-next" type="button" (click)="nextStep()">
+                {{ curIndex() + 1 < missions.length ? 'Siguiente Misión ▶' : 'Ver resultados 🏆' }}
+              </button>
+            </div>
+          </div>
+        }
+
+      </main>
+    </section>
+  }
+
+  <!-- ==================== RESULTS ==================== -->
+  @if (currentScreen() === 'result') {
+    <section class="screen active result-screen">
+      <div class="result-inner">
+        
+        <header class="res-head text-center">
+          <span class="res-badge">Misión Completada</span>
+          <h2>Resultado de Criterio</h2>
+          <p class="text-muted">Análisis del servidor y clanes gamer</p>
+        </header>
+
+        <div class="res-layout">
+          <!-- Rank detail -->
+          <div class="res-card rank-card text-center">
+            <div class="rank-emoji">{{ finalRank().icon }}</div>
+            <h3 class="rank-title">{{ finalRank().title }}</h3>
+            <div class="rank-xp">XP acumulada: <strong>{{ score() }} / 24</strong></div>
+            <p class="rank-desc">{{ finalRank().desc }}</p>
+          </div>
+
+          <!-- Dimension progress indicators -->
+          <div class="res-card dims-card">
+            <h3>Habilidades Digitales</h3>
+            <p class="text-xs text-muted mb-4">Porcentaje de decisiones seguras y de criterio en cada dimensión:</p>
+            
+            <div class="dim-list">
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Protección de Datos</span>
+                  <strong>{{ dimensionScores().datos }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-cyan" [style.width.%]="dimensionScores().datos"></div></div>
+              </div>
+              
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Fijación de Límites</span>
+                  <strong>{{ dimensionScores().limites }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-purple" [style.width.%]="dimensionScores().limites"></div></div>
+              </div>
+
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Participación y Convivencia</span>
+                  <strong>{{ dimensionScores().convivencia }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-pink" [style.width.%]="dimensionScores().convivencia"></div></div>
+              </div>
+
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Pedir Ayuda / Reportar</span>
+                  <strong>{{ dimensionScores().ayuda }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-orange" [style.width.%]="dimensionScores().ayuda"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide downloaded elements / log panel -->
+        <div class="res-card guide-card">
+          <h3>Guía de Convivencia Gamer</h3>
+          <p>Usa esta información rápida en tus servidores, partidas y comunidades para convivir de forma segura.</p>
+          
+          <div class="guide-actions-row">
+            <a href="/CDJ-GAME-P01_guia_gamer_v3.html" target="_blank" class="g-btn html-btn">
+              📄 Abrir Guía Gamer (HTML)
+            </a>
+            <a href="/CDJ-GAME-P01_guia_gamer_v3.pdf" target="_blank" class="g-btn pdf-btn">
+              📥 Descargar Guía (PDF)
+            </a>
+            <button class="g-btn copy-btn" (click)="copyRulesText()">
+              {{ copiedRules() ? '✓ Reglas copiadas' : '📋 Copiar reglas rápidas' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- End actions -->
+        <div class="res-footer-buttons">
+          <button class="btn-restart" (click)="restartGame()">
+            ↻ Volver a intentar
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+</div>

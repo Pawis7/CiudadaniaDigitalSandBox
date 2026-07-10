@@ -26,6 +26,8 @@ import { PerfilFantasmaComponent } from '../shared/perfil-fantasma/perfil-fantas
 import { MonedasGratisComponent } from '../shared/monedas-gratis/monedas-gratis';
 import { JugadaProblemaComponent } from '../shared/jugada-problema/jugada-problema';
 import { ReconozcoEmocionesComponent } from '../shared/reconozco-emociones/reconozco-emociones';
+import { ElMercadoGamerComponent } from '../shared/el-mercado-gamer/el-mercado-gamer';
+import { ElServidorDeDiscorComponent } from '../shared/el-servidor-de-discor/el-servidor-de-discor';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -45,7 +47,9 @@ export type WidgetId =
   | 'perfil-fantasma'
   | 'monedas-gratis'
   | 'jugada-problema'
-  | 'reconozco-emociones';
+  | 'reconozco-emociones'
+  | 'el-mercado-gamer'
+  | 'el-servidor-de-discor';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -66,6 +70,6 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'monedas-gratis': MonedasGratisComponent,
   'jugada-problema': JugadaProblemaComponent,
   'reconozco-emociones': ReconozcoEmocionesComponent,
+  'el-mercado-gamer': ElMercadoGamerComponent,
+  'el-servidor-de-discor': ElServidorDeDiscorComponent,
 };
-
-
