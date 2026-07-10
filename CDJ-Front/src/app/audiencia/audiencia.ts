@@ -118,7 +118,7 @@ export class AudienciaComponent {
 
   isPhoneWidget = computed(() => {
     const id = this.activeWidgetId();
-    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma' || id === 'monedas-gratis' || id === 'jugada-problema' || id === 'el-servidor-de-discor' || id === 'el-mercado-gamer';
+    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma' || id === 'monedas-gratis' || id === 'jugada-problema' || id === 'el-servidor-de-discor' || id === 'el-mercado-gamer' || id === 'el-mundo-privado';
   });
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
@@ -170,7 +170,8 @@ export class AudienciaComponent {
       item.id === 'jugada-problema' ||
       item.id === 'reconozco-emociones' ||
       item.id === 'el-servidor-de-discor' ||
-      item.id === 'el-mercado-gamer'
+      item.id === 'el-mercado-gamer' ||
+      item.id === 'el-mundo-privado'
     ) {
       this.activeWidgetId.set(
         item.id === 'simulador-fraudes' ? 'fraud-simulator' :
@@ -191,6 +192,7 @@ export class AudienciaComponent {
         item.id === 'jugada-problema' ? 'jugada-problema' :
         item.id === 'el-servidor-de-discor' ? 'el-servidor-de-discor' :
         item.id === 'el-mercado-gamer' ? 'el-mercado-gamer' :
+        item.id === 'el-mundo-privado' ? 'el-mundo-privado' :
         item.id === 'reconozco-emociones' ? 'reconozco-emociones' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {

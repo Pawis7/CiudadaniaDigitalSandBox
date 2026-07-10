@@ -1,0 +1,413 @@
+<div class="discor-scope">
+
+  <!-- ==================== SCREEN 1: INTRO ==================== -->
+  @if (currentScreen() === 'intro') {
+    <section class="screen active intro-screen">
+      <div class="intro-inner">
+
+        <div class="top-bar">
+          <div class="top-icon">MG</div>
+          <div class="top-text">
+            <b>El mundo privado · Rubloox simulado</b>
+            <small>CDJ-PA-GAME-P02 · privacidad, límites y ayuda</small>
+          </div>
+          <div class="live-badge">● MUNDO ACTIVO</div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-emoji">👾</div>
+          <h1>El mundo<br><span>privado</span></h1>
+          <p class="hero-sub">Entras a Rubloox después de jugar en un mundo con varias personas. Aparecen chats, invitaciones, grupos, salas privadas y decisiones dentro del juego.</p>
+
+          <div class="how-row">
+            <div class="how-pill">
+              <strong>Eje CDJ:</strong> <span>Privacidad y seguridad</span>
+            </div>
+            <div class="how-pill">
+              <strong>Dinámica:</strong> <span>Chat + invitación + sala</span>
+            </div>
+            <div class="how-pill">
+              <strong>Tu rol:</strong> <span>Jugador/a</span>
+            </div>
+          </div>
+
+          <div class="why-list text-left">
+            <div class="why-item border-l-2 pl-3 py-1 my-2 border-cyan">
+              <h4 class="text-xs font-bold text-white">1. Lee</h4>
+              <p class="text-[11px] text-[#9badc8] leading-tight mt-0.5">Primero observa y lee lo que pasa en cada rincón del mundo virtual.</p>
+            </div>
+            <div class="why-item border-l-2 pl-3 py-1 my-2 border-purple">
+              <h4 class="text-xs font-bold text-white">2. Decide</h4>
+              <p class="text-[11px] text-[#9badc8] leading-tight mt-0.5">Elige la mejor respuesta o acción para responder como jugador/a.</p>
+            </div>
+            <div class="why-item border-l-2 pl-3 py-1 my-2 border-pink">
+              <h4 class="text-xs font-bold text-white">3. Revisa</h4>
+              <p class="text-[11px] text-[#9badc8] leading-tight mt-0.5">Recibe retroalimentación inmediata, analiza las señales y aprende.</p>
+            </div>
+          </div>
+
+          <button id="discor-start" class="btn-start mt-4" (click)="openProfileSelection()">
+            ▶ Entrar a Rubloox
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+  <!-- ==================== PROFILE SELECTION MODAL ==================== -->
+  @if (showProfileModal()) {
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <h2>Elige tu perfil</h2>
+        <p>El perfil solo cambia cómo apareces en la simulación. Tu papel será el mismo: jugador/a que decide dentro de Rubloox.</p>
+        
+        <div class="profile-options">
+          <button class="prof-opt" [class.selected]="profile().name === 'Tú'" (click)="selectProfile('Tú', 'T')">
+            <div class="pav bg-cyan">T</div>
+            <div class="pdetails">
+              <strong>Neutral</strong>
+              <small>Observas y decides.</small>
+            </div>
+          </button>
+
+          <button class="prof-opt" [class.selected]="profile().name === 'LunaBlock'" (click)="selectProfile('LunaBlock', 'L')">
+            <div class="pav bg-pink">L</div>
+            <div class="pdetails">
+              <strong>LunaBlock</strong>
+              <small>Construcción y mundos.</small>
+            </div>
+          </button>
+
+          <button class="prof-opt" [class.selected]="profile().name === 'MaxCraft'" (click)="selectProfile('MaxCraft', 'M')">
+            <div class="pav bg-purple">M</div>
+            <div class="pdetails">
+              <strong>MaxCraft</strong>
+              <small>Aventura y misiones.</small>
+            </div>
+          </button>
+        </div>
+
+        <button class="btn-confirm" (click)="confirmProfile()">
+          Confirmar y Conectar
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ==================== GAME ==================== -->
+  @if (currentScreen() === 'game') {
+    <section class="screen active game-screen">
+
+      <!-- Sidebar -->
+      <aside class="side">
+        <div class="sidehead">
+          <span class="sidehead-tag">💬</span>
+          <div>
+            <b>Chats Rubloox</b>
+            <small>servidor simulado</small>
+          </div>
+          <div class="side-xp">{{ score() }} XP</div>
+        </div>
+
+        <div class="prog">
+          <div class="plabel"><span>Escena {{ curIndex() + 1 }} / {{ missions.length }}</span></div>
+          <div class="track"><div class="fill" [style.width.%]="progressPercent()"></div></div>
+        </div>
+
+        <!-- Channels -->
+        <div class="channels">
+          @for (m of missions; track m.id; let i = $index) {
+            <div class="ch"
+                 [class.active]="i === curIndex()"
+                 [class.done]="i < curIndex()">
+              <span class="ch-hash">#</span>
+              <span class="ch-name">{{ getChannelName(i) }}</span>
+              <span class="ch-time">{{ getChannelTime(i) }}</span>
+              @if (i < curIndex()) { <span class="ch-check">✓</span> }
+            </div>
+          }
+        </div>
+
+        <!-- Radar -->
+        <div class="radar">
+          <div class="radar-label">🔎 Radar de señales</div>
+          <div class="sigs">
+            @for (m of missions; track m.id; let i = $index) {
+              <div class="sig" [class.found]="foundSignals().includes(i)">
+                <span class="sig-dot"></span>
+                <span>{{ foundSignals().includes(i) ? m.sig : ('🔒 Señal ' + (i + 1) + ' bloqueada') }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Profile footer -->
+        <div class="profile-foot">
+          <div class="av" [ngClass]="{'bg-cyan': profile().avatar === 'T', 'bg-pink': profile().avatar === 'L', 'bg-purple': profile().avatar === 'M'}">
+            {{ profile().avatar }}
+          </div>
+          <div class="pname">
+            <b>{{ profile().name }}</b>
+            <small>● en línea</small>
+          </div>
+          <button class="mute-btn" (click)="toggleSound()">
+            {{ soundOn() ? '🔊' : '🔇' }}
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main chat panel -->
+      <main class="main">
+        <header class="head">
+          <span class="head-hash">#</span>
+          <b>{{ getChannelName(curIndex()) }}</b>
+          <span class="head-sep">|</span>
+          <span class="head-desc">{{ activeFeedbackOption() ? 'Decisión tomada' : 'Observa antes de decidir.' }}</span>
+          <span class="gamepill">Rubloox</span>
+        </header>
+
+        <!-- Feed of messages -->
+        <div class="feed">
+          @for (post of currentMission().feed; track $index) {
+            
+            @if (post.type === 'sys') {
+              <div class="sys-msg"><span>— {{ post.text }} —</span></div>
+            }
+
+            @if (post.type === 'reward') {
+              <div class="embed embed-image">
+                <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-3xl border-cyan">
+                  🎁
+                </div>
+                <div class="embed-body">
+                  <div class="embed-title color-cyan">🎁 {{ post.title }}</div>
+                  <div class="embed-desc">{{ post.subtitle }} · {{ post.desc }}</div>
+                  <div class="embed-foot">
+                    <span>Invitación · Sala Privada</span>
+                  </div>
+                </div>
+              </div>
+            }
+
+            @if (post.type === 'msg') {
+              <div class="msg" [class.me]="post.isMe">
+                <div class="mav" [ngClass]="{
+                  'me-av bg-cyan': post.isMe && profile().avatar === 'T',
+                  'me-av bg-pink': post.isMe && profile().avatar === 'L',
+                  'me-av bg-purple': post.isMe && profile().avatar === 'M',
+                  'av-leader bg-purple': !post.isMe && post.author === 'SkyFox',
+                  'av-member bg-cyan': !post.isMe && post.author !== 'SkyFox'
+                }">
+                  {{ post.isMe ? profile().avatar : post.avatar }}
+                </div>
+                <div class="msg-body">
+                  <div class="msg-meta">
+                    <span class="author">{{ post.isMe ? profile().name : post.author }}</span>
+                    @if (post.role) { <span class="role">{{ post.role }}</span> }
+                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                  </div>
+                  <div class="bubble">{{ post.text }}</div>
+                </div>
+              </div>
+            }
+
+            @if (post.type === 'report') {
+              <div class="embed embed-image">
+                <div class="image-thumb bg-[#171f38] flex items-center justify-center py-4 text-2xl border-pink">
+                  ⚙️
+                </div>
+                <div class="embed-body">
+                  <div class="embed-title color-pink">⚙️ {{ post.title }}</div>
+                  <div class="embed-desc">{{ post.options }}</div>
+                </div>
+              </div>
+            }
+
+          }
+        </div>
+
+        <!-- Input Box -->
+        @if (!activeFeedbackOption()) {
+          <div class="chat-input-area">
+            <div class="chat-input-box">
+              <span>Elige una opción abajo para responder…</span>
+            </div>
+          </div>
+        }
+
+        <!-- Question Panel -->
+        @if (!activeFeedbackOption()) {
+          <section class="qpanel">
+            <div class="q-text">{{ currentMission().q }}</div>
+            <div class="opts">
+              @for (op of currentMission().ops; track $index) {
+                <button class="opt"
+                        type="button"
+                        (click)="chooseOption(op)">
+                  {{ op.txt }}
+                </button>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Bento Box feedback overlay (for 9-11 years) -->
+        @if (activeFeedbackOption(); as ao) {
+          <div class="feedback">
+            <div class="fb-header">
+              <div class="fb-icon">{{ getIconForLevel(ao.level) }}</div>
+              <div class="fb-meta">
+                <span class="fb-level-tag" [class]="getClassForLevel(ao.level)">
+                  {{ getLabelForLevel(ao.level) }}
+                </span>
+                <span class="fb-xp-tag">+{{ ao.points }} XP</span>
+              </div>
+              <span class="fb-feedback-short">{{ ao.exp1 }}</span>
+            </div>
+
+            <!-- Bento-styled detail boxes -->
+            <div class="fb-grid">
+              <div class="fb-box fb-box-plus">
+                <span class="fb-box-title">👁️ Lo que viste</span>
+                <p>{{ ao.exp2 }}</p>
+              </div>
+              <div class="fb-box fb-box-watch">
+                <span class="fb-box-title">🔎 La señal de alerta</span>
+                <p><b>{{ currentMission().sig }}</b>. {{ ao.exp3 }}</p>
+              </div>
+              <div class="fb-box fb-box-next">
+                <span class="fb-box-title">💡 Para la vida real</span>
+                <p>{{ ao.tip }}</p>
+              </div>
+            </div>
+
+            <div class="fb-actions">
+              <span class="fb-scene-counter">Escena {{ curIndex() + 1 }} / {{ missions.length }}</span>
+              <button class="btn-next" type="button" (click)="nextStep()">
+                {{ curIndex() + 1 < missions.length ? 'Siguiente Escena ▶' : 'Ver resultados 🏆' }}
+              </button>
+            </div>
+          </div>
+        }
+
+      </main>
+    </section>
+  }
+
+  <!-- ==================== RESULTS ==================== -->
+  @if (currentScreen() === 'result') {
+    <section class="screen active result-screen">
+      <div class="result-inner">
+        
+        <header class="res-head text-center">
+          <span class="res-badge">Misión Completada</span>
+          <h2>Resultado de Criterio</h2>
+          <p class="text-muted">Análisis de privacidad en mundos simulados</p>
+        </header>
+
+        <div class="res-layout">
+          <!-- Rank detail -->
+          <div class="res-card rank-card text-center">
+            <div class="rank-emoji">{{ finalRank().icon }}</div>
+            <h3 class="rank-title">{{ finalRank().title }}</h3>
+            <div class="rank-xp">XP acumulada: <strong>{{ score() }} / 20</strong></div>
+            <p class="rank-desc">{{ finalRank().desc }}</p>
+          </div>
+
+          <!-- Dimension progress indicators -->
+          <div class="res-card dims-card">
+            <h3>Habilidades Digitales</h3>
+            <p class="text-xs text-muted mb-4">Porcentaje de decisiones seguras y de criterio en cada dimensión:</p>
+            
+            <div class="dim-list">
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Pausa y verif.</span>
+                  <strong>{{ dimensionScores().pausa }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-cyan" [style.width.%]="dimensionScores().pausa"></div></div>
+              </div>
+              
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Límites claros</span>
+                  <strong>{{ dimensionScores().limites }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-purple" [style.width.%]="dimensionScores().limites"></div></div>
+              </div>
+
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Confianza</span>
+                  <strong>{{ dimensionScores().confianza }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-pink" [style.width.%]="dimensionScores().confianza"></div></div>
+              </div>
+
+              <div class="dim-item">
+                <div class="dim-meta">
+                  <span>Reporte y ayuda</span>
+                  <strong>{{ dimensionScores().ayuda }}%</strong>
+                </div>
+                <div class="dim-track"><div class="dim-fill bg-orange" [style.width.%]="dimensionScores().ayuda"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Debrief breakdown (tabs) -->
+        <div class="res-card debrief-card">
+          <h3>Cierre interactivo</h3>
+          <p class="text-xs text-muted mb-4">Revisa tu resultado por pasos: lo que viste, tus decisiones, una mejora y una frase para usar.</p>
+          
+          <div class="debrief-tabs">
+            @for (m of missions; track m.id; let idx = $index) {
+              <button class="tab-btn" [class.active]="idx === activeDebriefTab()" (click)="activeDebriefTab.set(idx)">
+                Escena {{ idx + 1 }}
+              </button>
+            }
+          </div>
+
+          <div class="debrief-body mt-4">
+            @let activeMission = missions[activeDebriefTab()];
+            @let answer = answers()[activeMission.id];
+            @if (answer) {
+              <h4 class="font-bold text-white mb-2">{{ activeMission.desc }}</h4>
+              <div class="bar-progress mb-3"><span [style.width.%]="(answer.points / 4) * 100"></span></div>
+              <ul class="text-sm space-y-2 pl-4 list-disc text-slate-300">
+                <li><b>Tu elección:</b> {{ answer.txt }} (Puntaje: {{ answer.points }} / 4)</li>
+                <li><b>Lo que viste:</b> {{ answer.exp1 }}</li>
+                <li><b>La señal:</b> {{ activeMission.sig }}. {{ answer.exp2 }}</li>
+                <li><b>Consejo pedagógico:</b> {{ answer.tip }}</li>
+              </ul>
+            } @else {
+              <p>Sin respuestas registradas para esta escena.</p>
+            }
+          </div>
+        </div>
+
+        <!-- Rules cards -->
+        <div class="res-card guide-card">
+          <h3>3 reglas rápidas para jugar seguro</h3>
+          <p>Usa esta información rápida en tus servidores, partidas y comunidades para convivir de forma segura.</p>
+          
+          <div class="guide-actions-row">
+            <button class="g-btn copy-btn" (click)="copyRulesText()">
+              {{ copiedRules() ? '✓ Reglas copiadas' : '📋 Copiar reglas rápidas' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Restart action -->
+        <div class="res-footer-buttons">
+          <button class="btn-restart" (click)="restartGame()">
+            ↻ Volver a intentar
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+</div>

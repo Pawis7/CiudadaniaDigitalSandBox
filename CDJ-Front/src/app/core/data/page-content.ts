@@ -151,6 +151,19 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-cyan-500 to-blue-600',
             actionLabel: 'Iniciar Simulación',
             link: '#widget-seccion-anchor'
+          },
+          {
+            id: 'el-mundo-privado',
+            title: 'El mundo privado',
+            description: 'Invitaciones, chats, salas privadas y límites en un mundo virtual simulado de Rubloox. Aprende cuándo bloquear, reportar y pedir ayuda.',
+            type: 'game',
+            typeLabel: 'Minijuego',
+            icon: 'sports_esports',
+            badge: 'Simulación Gamer',
+            duration: '5 min',
+            colorClass: 'from-blue-600 to-indigo-700',
+            actionLabel: 'Iniciar Simulación',
+            link: '#widget-seccion-anchor'
           }
         ]
       }

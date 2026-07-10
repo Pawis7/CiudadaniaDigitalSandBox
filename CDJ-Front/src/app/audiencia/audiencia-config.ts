@@ -34,6 +34,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
     defaultLevel: 'primaria-baja',
     levelWidgets: {
       'preescolar': 'reconozco-emociones',
+      'primaria-alta': 'el-mundo-privado',
     },
   },
   'adolescentes': {

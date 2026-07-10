@@ -37,7 +37,8 @@ export class ResourceCardComponent {
       this.item.id === 'jugada-problema' ||
       this.item.id === 'reconozco-emociones' ||
       this.item.id === 'el-servidor-de-discor' ||
-      this.item.id === 'el-mercado-gamer'
+      this.item.id === 'el-mercado-gamer' ||
+      this.item.id === 'el-mundo-privado'
     );
   }
 

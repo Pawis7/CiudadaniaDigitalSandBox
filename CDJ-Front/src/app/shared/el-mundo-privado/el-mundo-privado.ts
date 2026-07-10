@@ -1,0 +1,297 @@
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { EL_MUNDO_PRIVADO_DATA, Mission, MissionOption, MissionFeed } from '../../core/data/el-mundo-privado.data';
+
+@Component({
+  selector: 'app-el-mundo-privado',
+  standalone: true,
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './el-mundo-privado.html',
+  styleUrl: './el-mundo-privado.css',
+})
+export class ElMundoPrivadoComponent {
+  readonly missions = EL_MUNDO_PRIVADO_DATA;
+
+  // Sound control
+  readonly soundOn = signal<boolean>(true);
+
+  // Screen state: 'intro' | 'game' | 'result'
+  readonly currentScreen = signal<'intro' | 'game' | 'result'>('intro');
+  readonly showProfileModal = signal<boolean>(false);
+
+  // Profile configuration
+  readonly profile = signal<{ name: string; avatar: string }>({ name: 'Tú', avatar: 'T' });
+
+  // Game state
+  readonly curIndex = signal<number>(0);
+  readonly score = signal<number>(0);
+  readonly answers = signal<Record<string, MissionOption>>({});
+  readonly activeFeedbackOption = signal<MissionOption | null>(null);
+  
+  // Dimensions reflexivity metrics
+  readonly dimensions = signal({
+    pausa: 0,
+    limites: 0,
+    confianza: 0,
+    ayuda: 0
+  });
+
+  // Signal radar tracking
+  readonly foundSignals = signal<number[]>([]);
+
+  // Toast notifier
+  readonly toastText = signal<string>('');
+  readonly showToast = signal<boolean>(false);
+
+  // Debriefing navigation
+  readonly activeDebriefTab = signal<number>(0);
+
+  // Copied alert
+  readonly copiedRules = signal<boolean>(false);
+
+  // Web Audio Context
+  private actx: AudioContext | null = null;
+
+  // Compute active mission
+  readonly currentMission = computed<Mission>(() => this.missions[this.curIndex()]);
+
+  // Compute progress percent (0 to 100)
+  readonly progressPercent = computed(() => {
+    return Math.round((this.curIndex() / this.missions.length) * 100);
+  });
+
+  // Compute normalized scores (0-100) for dimensions: pausa (max 9), limites (max 10), confianza (max 7), ayuda (max 4)
+  readonly dimensionScores = computed(() => {
+    const d = this.dimensions();
+    return {
+      pausa: Math.min(100, Math.max(0, Math.round((d.pausa / 9) * 100))),
+      limites: Math.min(100, Math.max(0, Math.round((d.limites / 10) * 100))),
+      confianza: Math.min(100, Math.max(0, Math.round((d.confianza / 7) * 100))),
+      ayuda: Math.min(100, Math.max(0, Math.round((d.ayuda / 4) * 100)))
+    };
+  });
+
+  // Compute final ranking information
+  readonly finalRank = computed(() => {
+    const s = this.score();
+    if (s >= 18) {
+      return {
+        title: 'Líder Seguro / Experto en Privacidad 🏆',
+        desc: '¡Increíble! Has tomado todas las decisiones de forma segura. Sabes cómo proteger tu espacio personal, cuándo desconfiar de peticiones de secreto y a quién recurrir ante insistencias o preguntas incómodas.',
+        icon: '🏆',
+        grad: 'linear-gradient(90deg, #10b981, #3b82f6)'
+      };
+    } else if (s >= 12) {
+      return {
+        title: 'Explorador Prudente 🧭',
+        desc: '¡Buen trabajo! Identificaste la mayoría de señales de aislamiento y protegiste tus datos personales. Al poner límites claros y evitar moverte a salas sospechosas cuidaste tu partida. ¡Sigue así!',
+        icon: '🧭',
+        grad: 'linear-gradient(90deg, #fbbf24, #10b981)'
+      };
+    } else if (s >= 6) {
+      return {
+        title: 'Aprendiz en Alerta ⚠️',
+        desc: 'Tienes buenas intenciones, pero a veces te dejas llevar por la curiosidad de los mapas secretos o por cortesía. Recuerda que no necesitas ocultar nada a tus amigos ni compartir datos personales.',
+        icon: '⚠️',
+        grad: 'linear-gradient(90deg, #f59e0b, #fbbf24)'
+      };
+    } else {
+      return {
+        title: 'Jugador Expuesto 🚨',
+        desc: '¡Cuidado! Caíste en varias situaciones de aislamiento al aceptar secretos, apresurarte a salas privadas y compartir datos personales. Recuerda: si te presionan o incomodan, ¡pausa, bloquea y pide ayuda!',
+        icon: '🚨',
+        grad: 'linear-gradient(90deg, #ef4444, #f59e0b)'
+      };
+    }
+  });
+
+  // Audio synthesis helper
+  private playBeep(freq: number, dur: number = 0.07, type: OscillatorType = "sine", vol: number = 0.20): void {
+    if (!this.soundOn()) return;
+    try {
+      this.actx = this.actx || new (window.AudioContext || (window as any).webkitAudioContext)();
+      const o = this.actx.createOscillator();
+      const g = this.actx.createGain();
+      o.type = type;
+      o.frequency.value = freq;
+      o.connect(g);
+      g.connect(this.actx.destination);
+      g.gain.setValueAtTime(vol, this.actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, this.actx.currentTime + dur);
+      o.start();
+      o.stop(this.actx.currentTime + dur);
+    } catch (e) {}
+  }
+
+  sndSend() { this.playBeep(660, 0.06, "triangle", 0.15); }
+  sndRecv() { this.playBeep(420, 0.08, "sine", 0.15); }
+  sndSafe() {
+    this.playBeep(523, 0.08, "sine", 0.18);
+    setTimeout(() => this.playBeep(784, 0.1, "sine", 0.18), 70);
+  }
+  sndBad() {
+    this.playBeep(200, 0.12, "square", 0.10);
+    setTimeout(() => this.playBeep(150, 0.14, "square", 0.10), 90);
+  }
+
+  toggleSound(): void {
+    this.soundOn.set(!this.soundOn());
+    if (this.soundOn()) {
+      this.sndSend();
+    }
+  }
+
+  // Profile flow
+  openProfileSelection(): void {
+    this.showProfileModal.set(true);
+  }
+
+  selectProfile(name: string, avatar: string): void {
+    this.profile.set({ name, avatar });
+  }
+
+  confirmProfile(): void {
+    this.showProfileModal.set(false);
+    this.currentScreen.set('game');
+    this.curIndex.set(0);
+    this.sndSend();
+  }
+
+  // Answer selection
+  chooseOption(option: MissionOption): void {
+    if (this.activeFeedbackOption()) return;
+
+    this.activeFeedbackOption.set(option);
+    this.answers.update(curr => ({
+      ...curr,
+      [this.currentMission().id]: option
+    }));
+
+    // Gained score
+    this.score.update(s => s + option.points);
+
+    // Sum dimensions metrics
+    this.dimensions.update(d => ({
+      pausa: d.pausa + option.dims.pausa,
+      limites: d.limites + option.dims.limites,
+      confianza: d.confianza + option.dims.confianza,
+      ayuda: d.ayuda + option.dims.ayuda
+    }));
+
+    // Unlock signal in the radar
+    const index = this.curIndex();
+    if (!this.foundSignals().includes(index)) {
+      this.foundSignals.update(fs => [...fs, index]);
+      this.triggerToast(this.currentMission().sig);
+    }
+
+    // Play feedback sound
+    if (option.level === 'best' || option.level === 'partial') {
+      this.sndSafe();
+    } else {
+      this.sndBad();
+    }
+  }
+
+  // Next step
+  nextStep(): void {
+    const nextIdx = this.curIndex() + 1;
+    this.activeFeedbackOption.set(null);
+
+    if (nextIdx < this.missions.length) {
+      this.curIndex.set(nextIdx);
+      this.sndSend();
+    } else {
+      this.currentScreen.set('result');
+      this.activeDebriefTab.set(0);
+      this.sndSend();
+    }
+  }
+
+  // Restart simulation
+  restartGame(): void {
+    this.score.set(0);
+    this.curIndex.set(0);
+    this.answers.set({});
+    this.activeFeedbackOption.set(null);
+    this.dimensions.set({ pausa: 0, limites: 0, confianza: 0, ayuda: 0 });
+    this.foundSignals.set([]);
+    this.currentScreen.set('intro');
+    this.copiedRules.set(false);
+  }
+
+  // Copy rules to clipboard
+  copyRulesText(): void {
+    const rules = "3 reglas rápidas para jugar seguro:\n" +
+      "1) Jugar una partida con alguien no significa que tengas que entrar a cualquier sala privada.\n" +
+      "2) Si alguien pide secreto, prisa o salir del espacio conocido, pausa y revisa con un adulto de confianza.\n" +
+      "3) Bloquear, reportar o pedir ayuda no es exagerar cuando algo te incomoda o insiste demasiado.";
+    
+    navigator.clipboard.writeText(rules)
+      .then(() => {
+        this.copiedRules.set(true);
+        setTimeout(() => this.copiedRules.set(false), 2000);
+      })
+      .catch(() => {});
+  }
+
+  // Show visual toast notification
+  private triggerToast(signalText: string): void {
+    this.toastText.set(signalText);
+    this.showToast.set(true);
+    setTimeout(() => {
+      this.showToast.set(false);
+    }, 2800);
+  }
+
+  // Styling helper for feedback badges
+  getClassForLevel(level: string): string {
+    switch (level) {
+      case 'best': return 'best';
+      case 'partial': return 'partial';
+      case 'risk': return 'risk';
+      default: return 'danger';
+    }
+  }
+
+  getLabelForLevel(level: string): string {
+    switch (level) {
+      case 'best': return 'Buena jugada';
+      case 'partial': return 'Puede servir, pero...';
+      case 'risk': return 'Ojo, riesgo';
+      default: return 'Alto riesgo';
+    }
+  }
+
+  getIconForLevel(level: string): string {
+    switch (level) {
+      case 'best': return '✅';
+      case 'partial': return '🟡';
+      case 'risk': return '🟠';
+      default: return '🔴';
+    }
+  }
+
+  // Channel titles list preview mapping
+  getChannelPreview(index: number): string {
+    const previews = [
+      "SkyFox: ven, te enseño trucos.",
+      "SkyFox: TreeHouse VIP (1/2 jugadores)",
+      "SkyFox: No le digas a Nube...",
+      "SkyFox: ¿Cuántos años tienes?...",
+      "Sistema: Salir de la sala..."
+    ];
+    return previews[index] || '';
+  }
+
+  getChannelTime(index: number): string {
+    const times = ["11:02 AM", "11:05 AM", "11:06 AM", "11:08 AM", "11:10 AM"];
+    return times[index] || 'ahora';
+  }
+
+  getChannelName(index: number): string {
+    const names = ["plaza-central", "sala-privada", "chat-secreto", "preguntas-datos", "cierre-seguridad"];
+    return names[index] || 'chat';
+  }
+}
