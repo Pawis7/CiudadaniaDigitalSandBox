@@ -1,0 +1,341 @@
+<div class="qem-scope">
+
+  <!-- ==================== INTRO ==================== -->
+  @if (currentScreen() === 'intro') {
+    <section class="screen active intro-screen">
+      <div class="intro-inner">
+
+        <div class="top-bar">
+          <div class="top-icon">MM</div>
+          <div class="top-text">
+            <b>MiniMundo — Mundo simulado</b>
+            <small>CDJ-PB-GAME-P01 · Privacidad y seguridad · 6 a 8 años</small>
+          </div>
+          <div class="live-badge">● EN VIVO</div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-emoji">🏠</div>
+          <h1>¿Quién entra<br><span>a mi mundo?</span></h1>
+          <p class="hero-sub">Ayuda a Mini a decidir qué hacer cuando alguien desconocido quiere entrar a su juego, manda secretos o pregunta datos.</p>
+
+          <div class="how-row">
+            <div class="how-pill">👀<span>Mira el mensaje</span></div>
+            <div class="how-pill">🧠<span>Piensa</span></div>
+            <div class="how-pill">💬<span>Decide</span></div>
+          </div>
+
+          <div class="chip-row">
+            <span class="chip">🎮 4 escenas</span>
+            <span class="chip">⏱️ 5–7 min</span>
+            <span class="chip">🛡️ 6 a 8 años</span>
+          </div>
+
+          <button id="qem-start" class="btn-start" (click)="openProfileSelection()">
+            ▶ Entrar al mundo
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+  <!-- ==================== PROFILE SELECTION MODAL ==================== -->
+  @if (showProfileModal()) {
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-emoji">🧒</div>
+        <h2>Elige cómo apareces</h2>
+        <p>El perfil solo cambia tu nombre. Tu tarea es la misma: ayudar a Mini a tomar buenas decisiones.</p>
+
+        <div class="picks">
+          <button class="pick" type="button"
+                  [class.active]="profile().name === 'Mini'"
+                  (click)="selectProfile('Mini', 'M')">
+            <span class="pick-av" style="background:#a78bfa">M</span>
+            <b>Mini</b>
+          </button>
+          <button class="pick" type="button"
+                  [class.active]="profile().name === 'Tú'"
+                  (click)="selectProfile('Tú', 'T')">
+            <span class="pick-av" style="background:#14b8a6">T</span>
+            <b>Yo</b>
+          </button>
+          <button class="pick" type="button"
+                  [class.active]="profile().name === 'Nube'"
+                  (click)="selectProfile('Nube', 'N')">
+            <span class="pick-av" style="background:#60a5fa">N</span>
+            <b>Nube</b>
+          </button>
+        </div>
+
+        <button id="qem-ok" class="btn-start" type="button" (click)="confirmProfile()">Continuar ▶</button>
+      </div>
+    </div>
+  }
+
+  <!-- ==================== GAME ==================== -->
+  @if (currentScreen() === 'game') {
+    <section class="screen active game-screen">
+
+      <!-- Sidebar -->
+      <aside class="side">
+        <div class="sidehead">
+          <span>🏠</span>
+          <div>
+            <b>MiniMundo</b>
+            <small>mundo simulado</small>
+          </div>
+          <div class="side-xp">{{ score() }} pts</div>
+        </div>
+
+        <div class="prog">
+          <div class="plabel"><span>Escena {{ curIndex() + 1 }} / {{ missions.length }}</span></div>
+          <div class="track"><div class="fill" [style.width.%]="progressPercent()"></div></div>
+        </div>
+
+        <!-- Channels -->
+        <div class="channels">
+          @for (m of missions; track m.id; let i = $index) {
+            <div class="ch"
+                 [class.active]="i === curIndex()"
+                 [class.done]="i < curIndex()">
+              <span class="ch-hash">🏠</span>
+              <span class="ch-name">{{ getChannelName(i) }}</span>
+              <span class="ch-time">{{ getChannelTime(i) }}</span>
+              @if (i < curIndex()) { <span class="ch-check">✓</span> }
+            </div>
+          }
+        </div>
+
+        <!-- Radar — desktop only -->
+        <div class="radar">
+          <div class="radar-label">🔎 Señales detectadas</div>
+          <div class="sigs">
+            @for (m of missions; track m.id; let i = $index) {
+              <div class="sig" [class.found]="foundSignals().includes(i)">
+                <span class="sig-dot"></span>
+                <span>{{ foundSignals().includes(i) ? m.sig : m.locked }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Profile footer — desktop only -->
+        <div class="profile">
+          <div class="av">{{ profile().avatar }}</div>
+          <div>
+            <b>{{ profile().name }}</b>
+            <small>● jugando</small>
+          </div>
+          <button class="mute-btn" (click)="toggleSound()">{{ soundOn() ? '🔊' : '🔇' }}</button>
+        </div>
+      </aside>
+
+      <!-- Main chat -->
+      <main class="main">
+        <header class="head">
+          <span class="head-hash">🏠</span>
+          <b>{{ getChannelName(curIndex()) }}</b>
+          <span class="head-sep">|</span>
+          <span class="head-desc">{{ activeFeedbackOption() ? 'Decisión tomada' : currentMission().desc }}</span>
+          <span class="gamepill">MiniMundo</span>
+        </header>
+
+        <div class="brief">🎯 {{ currentMission().brief }}</div>
+
+        <!-- Feed -->
+        <div class="feed">
+          @for (item of currentMission().feed; track $index) {
+
+            @if (item.type === 'sys') {
+              <div class="sys-msg"><span>— {{ item.text }} —</span></div>
+            }
+
+            @if (item.type === 'msg') {
+              <div class="msg">
+                <div class="mav"
+                     [class.av-me]="item.isMe"
+                     [class.av-blue]="!item.isMe && item.color === 'blue'"
+                     [class.av-red]="!item.isMe && item.color === 'red'"
+                     [class.av-purple]="item.isMe"
+                     [class.av-teal]="!item.isMe && item.color === 'teal'"
+                     [class.av-gray]="!item.isMe && item.color === 'gray'">
+                  {{ item.isMe ? profile().avatar : item.avatar }}
+                </div>
+                <div class="msg-body">
+                  <div class="msg-meta">
+                    <span class="author">{{ item.isMe ? profile().name : item.author }}</span>
+                    @if (item.role) { <span class="role">{{ item.role }}</span> }
+                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                  </div>
+                  @if (!item.isMe || item.text) {
+                    <div class="bubble">{{ item.isMe ? profile().name + ' piensa…' : item.text }}</div>
+                  }
+                </div>
+              </div>
+            }
+
+            @if (item.type === 'inv') {
+              <div class="embed-inv">
+                <div class="inv-icon">🎮</div>
+                <div class="inv-body">
+                  <div class="inv-title">{{ item.title }}</div>
+                  <div class="inv-sub">{{ item.sub }}</div>
+                </div>
+              </div>
+            }
+
+            @if (item.type === 'alert') {
+              <div class="embed-alert">
+                ⚠️ {{ item.text }}
+              </div>
+            }
+
+          }
+        </div>
+
+        <!-- Fake input -->
+        <div class="chat-input-area">
+          <div class="chat-input-box">
+            @if (activeFeedbackOption()) {
+              <span>Decisión tomada — avanza a la siguiente escena</span>
+            } @else {
+              <span>Elige una opción abajo para responder…</span>
+            }
+          </div>
+        </div>
+
+        <!-- Options -->
+        @if (!activeFeedbackOption()) {
+          <section class="qpanel">
+            <div class="q-text">{{ currentMission().q }}</div>
+            <div class="opts">
+              @for (op of currentOptions(); track $index) {
+                <button class="opt"
+                        type="button"
+                        (click)="chooseOption(op)">
+                  {{ op.txt }}
+                </button>
+              }
+            </div>
+          </section>
+        }
+
+        <!-- Feedback -->
+        @if (activeFeedbackOption(); as ao) {
+          <div class="feedback">
+            <div class="fb-main">
+              <div class="fb-icon">{{ getIconForLevel(ao.level) }}</div>
+              <div>
+                <div class="fb-label" [class]="'fb-' + getLevelClass(ao.level)">
+                  {{ getLabelForLevel(ao.level) }}
+                  <span class="fb-xp">+{{ ao.points }} pts</span>
+                </div>
+                <div class="fb-exp">{{ ao.exp1 }}</div>
+              </div>
+            </div>
+            <div class="fb-signal">
+              👀 Señal: <b>{{ ao.exp2 }}</b>
+            </div>
+            <div class="fb-tip">
+              💬 Prueba esto: <b>{{ ao.tip }}</b>
+            </div>
+            <div class="fb-actions">
+              <span class="fb-scene">{{ curIndex() + 1 }} / {{ missions.length }}</span>
+              <button class="btn-next" type="button" (click)="nextStep()">
+                {{ curIndex() + 1 < missions.length ? 'Siguiente ▶' : 'Ver reglas 🏆' }}
+              </button>
+            </div>
+          </div>
+        }
+
+      </main>
+    </section>
+  }
+
+  <!-- ==================== RESULTS ==================== -->
+  @if (currentScreen() === 'result') {
+    <section class="screen active result-screen">
+      <div class="res-wrap">
+
+        <div class="res-card">
+          <div class="res-icon">{{ finalRank().icon }}</div>
+          <div class="res-rank">{{ finalRank().title }}</div>
+          <div class="res-score">{{ score() }} <span>/ 16 pts</span></div>
+
+          <div class="dim-row">
+            <div class="dim-pill"><b>{{ dimensions().pausa }}</b><small>Pausa</small></div>
+            <div class="dim-pill"><b>{{ dimensions().limite }}</b><small>Límites</small></div>
+            <div class="dim-pill"><b>{{ dimensions().datos }}</b><small>Datos</small></div>
+            <div class="dim-pill"><b>{{ dimensions().ayuda }}</b><small>Ayuda</small></div>
+          </div>
+
+          <div class="ach-row">
+            @if (dimensions().pausa >= 4) { <span class="ach">⏸️ Supe pausar</span> }
+            @if (dimensions().limite >= 4) { <span class="ach">🛡️ Puse límites</span> }
+            @if (dimensions().datos >= 3)  { <span class="ach">🔒 Cuidé mis datos</span> }
+            @if (dimensions().ayuda >= 4)  { <span class="ach">🧑🧑🧒 Pedí ayuda</span> }
+            @if (score() < 8)              { <span class="ach">📖 Estoy aprendiendo</span> }
+          </div>
+        </div>
+
+        <!-- Debrief tabs -->
+        <div class="debrief-card">
+          <div class="card-head">Tus decisiones por escena</div>
+          <div class="dtabs">
+            @for (m of missions; track m.id; let idx = $index) {
+              <button class="dtab"
+                      type="button"
+                      [class.active]="activeDebriefTab() === idx"
+                      (click)="activeDebriefTab.set(idx)">{{ idx + 1 }}</button>
+            }
+          </div>
+          <div class="deb-body">
+            @let am  = missions[activeDebriefTab()];
+            @let ans = answers()[am.id];
+            @if (ans) {
+              <div class="deb-row">
+                <span class="deb-lvl">{{ getIconForLevel(ans.level) }}</span>
+                <div>
+                  <div class="deb-scene">{{ am.desc }}</div>
+                  <div class="deb-answer">{{ ans.txt }}</div>
+                  <div class="deb-signal">👀 {{ am.sig }}</div>
+                </div>
+              </div>
+              <div class="deb-bar"><span [style.width.%]="(ans.points / 4) * 100"></span></div>
+            } @else {
+              <p style="color:var(--muted); font-size:0.82rem">Sin respuesta registrada.</p>
+            }
+          </div>
+        </div>
+
+        <!-- Rules -->
+        <div class="rules-card">
+          <div class="card-head">🛡️ 3 reglas para recordar</div>
+          <div class="rule"><span class="rnum">1</span><span><b>Si no lo conoces, pausa.</b> Pregunta antes de aceptar.</span></div>
+          <div class="rule"><span class="rnum">2</span><span><b>Tus datos son tuyos.</b> No compartas nombre real, escuela, casa o edad.</span></div>
+          <div class="rule"><span class="rnum">3</span><span><b>Si algo se siente raro, avisa.</b> Pedir ayuda es buena idea.</span></div>
+        </div>
+
+        <div class="res-actions">
+          <button class="btn-sec" type="button" (click)="restartGame()">↻ Jugar de nuevo</button>
+          <button class="btn-pri" type="button" (click)="copyRulesText()">
+            {{ copiedRules() ? '✓ Copiado' : '📋 Copiar reglas' }}
+          </button>
+        </div>
+
+      </div>
+    </section>
+  }
+
+  <!-- Toast -->
+  <div class="toast" [class.show]="showToast()">
+    <span>🔎</span>
+    <div>
+      <strong>Señal detectada</strong>
+      <span>{{ toastText() }}</span>
+    </div>
+  </div>
+
+</div>

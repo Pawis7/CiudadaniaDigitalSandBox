@@ -38,7 +38,9 @@ export class ResourceCardComponent {
       this.item.id === 'reconozco-emociones' ||
       this.item.id === 'el-servidor-de-discor' ||
       this.item.id === 'el-mercado-gamer' ||
-      this.item.id === 'el-mundo-privado'
+      this.item.id === 'el-mundo-privado' ||
+      this.item.id === 'cuando-hijo-mundo-privado' ||
+      this.item.id === 'quien-entra-mi-mundo'
     );
   }
 

@@ -1,0 +1,571 @@
+<section
+  id="cuando-entra-mundo-privado-sec"
+  class="sim-shell relative overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] px-4 py-5 shadow-[var(--shadow-xl)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
+  data-audience="families">
+
+  <!-- Background decorative elements -->
+  <div class="pointer-events-none absolute inset-0">
+    <div class="absolute -left-20 top-12 h-56 w-56 rounded-full bg-blue-500/10 blur-3xl"></div>
+    <div class="absolute -right-16 bottom-0 h-64 w-64 rounded-full bg-teal-500/10 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto">
+
+    <!-- 1. INTRO / START SCREEN -->
+    @if (!started()) {
+      <div class="card intro-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
+        
+        <div class="text-center space-y-3">
+          <div class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-400 text-white shadow-md">
+            <span translate="no" class="material-symbols-rounded text-3xl">family_restroom</span>
+          </div>
+          <h2 class="text-3xl font-black tracking-tight text-[color:var(--text-primary)] leading-tight">
+            Cuando tu hijo entra a un mundo privado
+          </h2>
+          <p class="text-sm sm:text-base text-[color:var(--text-secondary)] max-w-2xl mx-auto">
+            Guía breve de acompañamiento familiar. Aprende a entender y conversar sobre videojuegos sociales en línea, salas privadas y límites en casa, aunque no seas un usuario gamer.
+          </p>
+        </div>
+
+        <!-- Chips -->
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="chip-item">⏱ Aprox. 8–10 minutos</span>
+          <span class="chip-item">📋 5 Pasos explicativos</span>
+          <span class="chip-item">👨‍👩‍👧 Familias</span>
+          <span class="chip-item">🎒 Primaria Alta (9–11 años)</span>
+        </div>
+
+        <!-- Info boxes -->
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
+            <strong class="text-blue-700 dark:text-blue-400 font-bold block">1. Entorno de Juego</strong>
+            <p class="text-[color:var(--text-secondary)]">
+              Descubre qué significa un servidor, avatares, chats y salas privadas en lenguaje sencillo.
+            </p>
+          </div>
+          <div class="rounded-xl border border-amber-200 dark:border-amber-900 bg-amber-50/50 dark:bg-amber-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
+            <strong class="text-amber-700 dark:text-amber-400 font-bold block">2. Mirar Señales</strong>
+            <p class="text-[color:var(--text-secondary)]">
+              Aprende a identificar situaciones de riesgo como prisa, secretos, aislamiento o datos expuestos.
+            </p>
+          </div>
+          <div class="rounded-xl border border-teal-200 dark:border-teal-900 bg-teal-50/50 dark:bg-teal-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
+            <strong class="text-teal-700 dark:text-teal-400 font-bold block">3. Criterio y Acuerdo</strong>
+            <p class="text-[color:var(--text-secondary)]">
+              Obtén guiones para iniciar la conversación en casa y diseña un acuerdo familiar rápido.
+            </p>
+          </div>
+        </div>
+
+        <!-- Instruction callout -->
+        <div class="instruction-box bg-blue-50/30 dark:bg-blue-950/10 border border-blue-200 dark:border-blue-900 rounded-xl p-4 text-xs sm:text-sm text-[color:var(--text-secondary)] flex items-start gap-3">
+          <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-lg shrink-0">info</span>
+          <div>
+            <strong>Enfoque preventivo:</strong> La idea no es prohibir o asustar a los niños, sino reconocer alertas y conversar con calma para establecer acuerdos de mutua confianza.
+          </div>
+        </div>
+
+        <!-- Start Button -->
+        <div class="pt-3">
+          <button
+            type="button"
+            (click)="start()"
+            class="btn-primary w-full py-4 text-base font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-teal-500 text-white rounded-xl">
+            <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
+            Comenzar guía familiar
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Methodological Note -->
+      <div class="mt-6 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 text-xs leading-relaxed text-[color:var(--text-soft)]">
+        <strong>Nota metodológica:</strong> Esta guía interactiva complementa el simulador infantil sobre privacidad. Ayuda a padres y cuidadores a coordinar respuestas adultas sin pánico moral, mejorando la seguridad en el ecosistema digital del hogar.
+      </div>
+    }
+
+    <!-- 2. STEPS CARD (ACTIVE) -->
+    @else if (started() && !finished()) {
+      <div class="space-y-6 animate-fade-in">
+
+        <!-- Progress head and bar -->
+        <div class="progress-head flex items-center justify-between text-xs font-bold text-[color:var(--text-soft)]">
+          <span>Paso {{ currentStep() + 1 }} de {{ steps.length }}</span>
+          <span class="uppercase tracking-widest text-blue-600 dark:text-blue-400">{{ steps[currentStep()].title }}</span>
+        </div>
+        <div class="bar h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden" role="progressbar" [attr.aria-valuemin]="0" [attr.aria-valuemax]="steps.length" [attr.aria-valuenow]="currentStep() + 1">
+          <div class="h-full bg-gradient-to-r from-blue-500 to-teal-400 transition-all duration-300" [style.width.%]="progressPercent()"></div>
+        </div>
+
+        <!-- Step content wrapper -->
+        <div class="card step-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md">
+          
+          <!-- P1: Videojuegos 101 -->
+          @if (currentStep() === 0) {
+            <div class="space-y-6">
+              <div class="qmeta">
+                <span class="blk">Conceptos Básicos</span>
+              </div>
+              <h3 class="qtext text-lg font-black text-[color:var(--text-primary)]">¿Qué está pasando dentro del videojuego?</h3>
+              <p class="text-xs sm:text-sm leading-relaxed text-[color:var(--text-secondary)]">
+                Muchos juegos actuales funcionan como verdaderas plazas públicas o parques digitales. Tu hijo no solo juega contra una máquina, sino que convive en espacios compartidos con otros usuarios.
+              </p>
+
+              <!-- Concepts Grid -->
+              <div class="grid gap-3 sm:grid-cols-2">
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] flex gap-3">
+                  <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl shrink-0">face</span>
+                  <div class="text-xs">
+                    <strong class="font-bold text-[color:var(--text-primary)] block">Avatar</strong>
+                    <p class="text-[color:var(--text-soft)] mt-0.5 leading-relaxed">El personaje visual con el que tu hijo juega y se muestra en la pantalla.</p>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] flex gap-3">
+                  <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl shrink-0">public</span>
+                  <div class="text-xs">
+                    <strong class="font-bold text-[color:var(--text-primary)] block">Mundo o Servidor</strong>
+                    <p class="text-[color:var(--text-soft)] mt-0.5 leading-relaxed">El espacio digital compartido donde coinciden múltiples jugadores a la vez.</p>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] flex gap-3">
+                  <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl shrink-0">forum</span>
+                  <div class="text-xs">
+                    <strong class="font-bold text-[color:var(--text-primary)] block">Chat (Grupal/Privado)</strong>
+                    <p class="text-[color:var(--text-soft)] mt-0.5 leading-relaxed">Mensajería en texto o voz. Puede ser pública o directa entre dos personas.</p>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] flex gap-3">
+                  <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl shrink-0">door_front</span>
+                  <div class="text-xs">
+                    <strong class="font-bold text-[color:var(--text-primary)] block">Sala privada</strong>
+                    <p class="text-[color:var(--text-soft)] mt-0.5 leading-relaxed">Espacio reservado solo para invitados. Aísla a los niños del canal común.</p>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] flex gap-3">
+                  <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl shrink-0">backpack</span>
+                  <div class="text-xs">
+                    <strong class="font-bold text-[color:var(--text-primary)] block">Skins / Objetos</strong>
+                    <p class="text-[color:var(--text-soft)] mt-0.5 leading-relaxed">Aspectos de ropa u objetos virtuales que decoran el personaje; a veces crean presión.</p>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] flex gap-3">
+                  <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl shrink-0">block</span>
+                  <div class="text-xs">
+                    <strong class="font-bold text-[color:var(--text-primary)] block">Bloquear y Reportar</strong>
+                    <p class="text-[color:var(--text-soft)] mt-0.5 leading-relaxed">Opciones para silenciar a un usuario molesto o reportar conductas a la plataforma.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Diagram/Flow -->
+              <div class="border border-[color:var(--border-soft)] rounded-2xl overflow-hidden bg-[color:var(--surface-soft)]">
+                <div class="px-4 py-2 border-b border-[color:var(--border-soft)] bg-slate-100 dark:bg-slate-900/50 flex items-center gap-1.5 text-xs font-bold text-[color:var(--text-primary)]">
+                  <span translate="no" class="material-symbols-rounded text-sm">lan</span> Ruta típica de una invitación
+                </div>
+                <div class="p-4 overflow-x-auto scrollbar-thin">
+                  <div class="flex items-center justify-between gap-3 min-w-[500px] text-center text-[10px] font-bold">
+                    <div class="flex-1 bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-2 rounded-xl">
+                      Partida pública
+                    </div>
+                    <span class="text-slate-400">➔</span>
+                    <div class="flex-1 bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-2 rounded-xl">
+                      Contacto en chat
+                    </div>
+                    <span class="text-slate-400">➔</span>
+                    <div class="flex-1 bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] p-2 rounded-xl">
+                      Invitar a sala privada
+                    </div>
+                    <span class="text-slate-400">➔</span>
+                    <div class="flex-1 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 p-2 rounded-xl text-amber-800 dark:text-amber-400">
+                      Pedir secreto / prisa
+                    </div>
+                    <span class="text-slate-400">➔</span>
+                    <div class="flex-1 bg-teal-50 dark:bg-teal-950/20 border border-teal-200 dark:border-teal-900 p-2 rounded-xl text-teal-800 dark:text-teal-400 font-black">
+                      Avisar en casa
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- P2: Señales para mirar -->
+          @else if (currentStep() === 1) {
+            <div class="space-y-5">
+              <div class="qmeta">
+                <span class="blk">Detección Familiar</span>
+              </div>
+              <h3 class="qtext text-lg font-black text-[color:var(--text-primary)]">Señales para mirar con atención</h3>
+              <p class="text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                Haz clic en cada una de las señales para ver qué observa tu hijo, por qué es de atención, y cómo reaccionar.
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Left panel: buttons list -->
+                <div class="flex flex-col gap-2">
+                  @for (sig of signals; track sig.title; let idx = $index) {
+                    <button
+                      type="button"
+                      (click)="selectSignal(idx)"
+                      class="signal-btn w-full text-left p-3 rounded-xl border flex items-center justify-between transition-all"
+                      [class.is-active]="selectedSignalIndex() === idx"
+                      [class.is-done]="signalsChecked()[idx]">
+                      <div class="flex items-center gap-3">
+                        <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-xl h-10 w-10 grid place-items-center bg-slate-100 dark:bg-slate-800 rounded-lg shrink-0">{{ sig.icon }}</span>
+                        <div class="leading-tight">
+                          <span class="block text-xs font-black text-[color:var(--text-primary)]">{{ sig.title }}</span>
+                          <span class="block text-[10px] text-[color:var(--text-soft)] font-semibold">{{ sig.short }}</span>
+                        </div>
+                      </div>
+                      <span translate="no" class="material-symbols-rounded text-slate-400 text-sm font-black transition-transform duration-200" [class.translate-x-1]="selectedSignalIndex() === idx">chevron_right</span>
+                    </button>
+                  }
+                </div>
+
+                <!-- Right panel: detailed content -->
+                <div class="detail-container border border-[color:var(--border-soft)] rounded-2xl bg-[color:var(--surface-soft)] p-4 flex flex-col justify-between min-h-[300px]">
+                  @if (activeSignal(); as sig) {
+                    <div class="space-y-3">
+                      <div class="flex items-center gap-3">
+                        <span translate="no" class="material-symbols-rounded text-blue-600 dark:text-blue-400 text-2xl h-10 w-10 grid place-items-center bg-[color:var(--surface-card)] border border-[color:var(--border-soft)] rounded-xl shrink-0">{{ sig.icon }}</span>
+                        <div>
+                          <h4 class="text-sm font-black text-[color:var(--text-primary)]">{{ sig.title }}</h4>
+                          <p class="text-[10px] text-[color:var(--text-soft)] uppercase font-bold tracking-wider">{{ sig.short }}</p>
+                        </div>
+                      </div>
+
+                      <div class="space-y-2 pt-2 text-xs">
+                        <div class="p-2.5 rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)]">
+                          <strong class="text-blue-700 dark:text-blue-400 block font-bold text-[10px] uppercase">Lo que ve tu hijo/a</strong>
+                          <p class="text-[color:var(--text-secondary)] mt-0.5 leading-relaxed">{{ sig.child }}</p>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)]">
+                          <strong class="text-amber-700 dark:text-amber-400 block font-bold text-[10px] uppercase">Por qué importa</strong>
+                          <p class="text-[color:var(--text-secondary)] mt-0.5 leading-relaxed">{{ sig.means }}</p>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)]">
+                          <strong class="text-indigo-700 dark:text-indigo-400 block font-bold text-[10px] uppercase">Pregunta para casa</strong>
+                          <p class="text-[color:var(--text-secondary)] mt-0.5 leading-relaxed italic">“{{ sig.ask }}”</p>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-[color:var(--surface-card)] border border-[color:var(--border-soft)]">
+                          <strong class="text-teal-700 dark:text-teal-400 block font-bold text-[10px] uppercase">Acción adulta sugerida</strong>
+                          <p class="text-[color:var(--text-secondary)] mt-0.5 leading-relaxed">{{ sig.adult }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  } @else {
+                    <div class="flex-1 flex flex-col items-center justify-center text-center p-6 text-[color:var(--text-soft)] space-y-2">
+                      <span translate="no" class="material-symbols-rounded text-3xl">touch_app</span>
+                      <strong class="font-black text-xs">Elige una señal</strong>
+                      <p class="text-[11px] max-w-xs leading-relaxed">Selecciona una de las tarjetas de la izquierda para ver el análisis de acompañamiento.</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- P3: Qué no conviene hacer -->
+          @else if (currentStep() === 2) {
+            <div class="space-y-5">
+              <div class="qmeta">
+                <span class="blk">Respuestas a Evitar</span>
+              </div>
+              <h3 class="qtext text-lg font-black text-[color:var(--text-primary)]">Qué NO conviene hacer como adulto</h3>
+              <p class="text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                Ante la preocupación, es normal reaccionar impulsivamente. Sin embargo, ciertas respuestas pueden cerrar el canal de comunicación y confianza.
+              </p>
+
+              <div class="space-y-3">
+                <!-- Bad 1 -->
+                <div class="p-4 rounded-xl border border-red-100 dark:border-red-950 bg-red-50/20 dark:bg-red-950/10 flex flex-col sm:flex-row justify-between gap-3">
+                  <div>
+                    <span translate="no" class="material-symbols-rounded text-red-500 text-sm align-middle mr-1">cancel</span>
+                    <strong class="text-xs font-bold text-[color:var(--text-primary)]">“Te voy a quitar el juego para siempre”</strong>
+                    <p class="text-[11px] text-[color:var(--text-soft)] mt-0.5">El niño asocia contarte las alertas con un castigo directo. No volverá a avisar.</p>
+                  </div>
+                  <div class="sm:text-right shrink-0">
+                    <strong class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 block uppercase">Opción sugerida</strong>
+                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-bold block mt-0.5">“Gracias por avisarme. Vamos a revisar juntos.”</span>
+                  </div>
+                </div>
+
+                <!-- Bad 2 -->
+                <div class="p-4 rounded-xl border border-red-100 dark:border-red-950 bg-red-50/20 dark:bg-red-950/10 flex flex-col sm:flex-row justify-between gap-3">
+                  <div>
+                    <span translate="no" class="material-symbols-rounded text-red-500 text-sm align-middle mr-1">cancel</span>
+                    <strong class="text-xs font-bold text-[color:var(--text-primary)]">“¿Por qué le contestas a desconocidos?”</strong>
+                    <p class="text-[11px] text-[color:var(--text-soft)] mt-0.5">Suena a culpabilización directa, haciéndolo sentir que cometió un grave error.</p>
+                  </div>
+                  <div class="sm:text-right shrink-0">
+                    <strong class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 block uppercase">Opción sugerida</strong>
+                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-bold block mt-0.5">“¿Qué te llamó la atención de lo que te dijo?”</span>
+                  </div>
+                </div>
+
+                <!-- Bad 3 -->
+                <div class="p-4 rounded-xl border border-red-100 dark:border-red-950 bg-red-50/20 dark:bg-red-950/10 flex flex-col sm:flex-row justify-between gap-3">
+                  <div>
+                    <span translate="no" class="material-symbols-rounded text-red-500 text-sm align-middle mr-1">cancel</span>
+                    <strong class="text-xs font-bold text-[color:var(--text-primary)]">“Eso te pasa por jugar en línea”</strong>
+                    <p class="text-[11px] text-[color:var(--text-soft)] mt-0.5">Ataca la actividad de forma generalizada en lugar de educar sobre los riesgos de esa partida.</p>
+                  </div>
+                  <div class="sm:text-right shrink-0">
+                    <strong class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 block uppercase">Opción sugerida</strong>
+                    <span class="text-xs text-emerald-700 dark:text-emerald-400 font-bold block mt-0.5">“Es divertido jugar, pero necesitamos mantener reglas.”</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- P4: Practica una primera reacción -->
+          @else if (currentStep() === 3) {
+            <div class="space-y-5">
+              <div class="qmeta">
+                <span class="blk">Entrenamiento de Tono</span>
+              </div>
+              <h3 class="qtext text-lg font-black text-[color:var(--text-primary)]">Practica tu primera reacción</h3>
+              <p class="text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                Imagina que tu hijo o hija te dice lo siguiente. Selecciona la opción que consideres más idónea para iniciar el diálogo.
+              </p>
+
+              <!-- Child speech simulation (no emojis) -->
+              <div class="rounded-2xl bg-slate-900 border border-slate-800 p-4 shadow-md text-slate-100 flex items-start gap-3">
+                <span translate="no" class="material-symbols-rounded text-slate-400 text-2xl shrink-0 mt-0.5">account_circle</span>
+                <div class="space-y-1">
+                  <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">Hijo/a</span>
+                  <p class="text-xs sm:text-sm text-slate-200 bg-slate-800 border border-slate-700 rounded-r-xl rounded-bl-xl p-2.5 leading-relaxed max-w-xl">
+                    “Alguien en el juego me invitó a una sala privada... me dijo que no le contara a nadie porque era un mapa secreto y que entrara ya.”
+                  </p>
+                </div>
+              </div>
+
+              <!-- Options list -->
+              <div class="flex flex-col gap-2">
+                <button
+                  type="button"
+                  (click)="chooseChoice('ok')"
+                  class="choice-btn w-full text-left p-3 rounded-xl border flex items-start gap-3 transition-all"
+                  [class.is-selected]="selectedChoiceKind() === 'ok'"
+                  [class.bg-emerald-50]="selectedChoiceKind() === 'ok'"
+                  [class.border-emerald-500]="selectedChoiceKind() === 'ok'">
+                  <span translate="no" class="material-symbols-rounded text-emerald-600 text-lg shrink-0 mt-0.5">check_circle</span>
+                  <div class="leading-normal">
+                    <strong class="block text-xs font-bold text-[color:var(--text-primary)]">“Gracias por contármelo. Qué bueno que me dices, no estás en problemas. Vamos a revisar juntos.”</strong>
+                    <p class="text-[10px] text-[color:var(--text-soft)] mt-0.5">Valida su confianza y garantiza que no hay castigo, lo que abre el canal de diálogo.</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  (click)="chooseChoice('mid')"
+                  class="choice-btn w-full text-left p-3 rounded-xl border flex items-start gap-3 transition-all"
+                  [class.is-selected]="selectedChoiceKind() === 'mid'"
+                  [class.bg-amber-50]="selectedChoiceKind() === 'mid'"
+                  [class.border-amber-500]="selectedChoiceKind() === 'mid'">
+                  <span translate="no" class="material-symbols-rounded text-amber-600 text-lg shrink-0 mt-0.5">warning</span>
+                  <div class="leading-normal">
+                    <strong class="block text-xs font-bold text-[color:var(--text-primary)]">“Tráeme el teléfono rápido, enséñame quién te escribió y qué le pusiste.”</strong>
+                    <p class="text-[10px] text-[color:var(--text-soft)] mt-0.5">Acción directa que busca seguridad, pero puede asustar al niño y sonar a interrogatorio.</p>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  (click)="chooseChoice('bad')"
+                  class="choice-btn w-full text-left p-3 rounded-xl border flex items-start gap-3 transition-all"
+                  [class.is-selected]="selectedChoiceKind() === 'bad'"
+                  [class.bg-red-50]="selectedChoiceKind() === 'bad'"
+                  [class.border-red-500]="selectedChoiceKind() === 'bad'">
+                  <span translate="no" class="material-symbols-rounded text-red-600 text-lg shrink-0 mt-0.5">cancel</span>
+                  <div class="leading-normal">
+                    <strong class="block text-xs font-bold text-[color:var(--text-primary)]">“¡Ya ves! Por eso no quería que jugaras esas cosas. Te lo voy a borrar todo ahora.”</strong>
+                    <p class="text-[10px] text-[color:var(--text-soft)] mt-0.5">Cierre autoritario y castigo inmediato. Cierra la posibilidad de futuras alertas en casa.</p>
+                  </div>
+                </button>
+              </div>
+
+              <!-- Feedback content (no emojis) -->
+              @if (activeChoiceFeedback(); as fb) {
+                <div class="p-4 rounded-xl border border-[color:var(--border-soft)] bg-slate-50 dark:bg-slate-900/50 flex items-start gap-3 animate-slide-up">
+                  <span translate="no" class="material-symbols-rounded text-2xl shrink-0" [ngClass]="fb.colorClass">{{ fb.icon }}</span>
+                  <div class="space-y-1">
+                    <strong class="text-xs font-black text-[color:var(--text-primary)] block">{{ fb.title }}</strong>
+                    <p class="text-xs text-[color:var(--text-secondary)] leading-relaxed">{{ fb.desc }}</p>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- P5: Guion breve para hablarlo en casa -->
+          @else if (currentStep() === 4) {
+            <div class="space-y-5">
+              <div class="qmeta">
+                <span class="blk">Guía de Conversación</span>
+              </div>
+              <h3 class="qtext text-lg font-black text-[color:var(--text-primary)]">Guion de diálogo para casa</h3>
+              <p class="text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                Aquí tienes modelos de inicio de conversación según la situación y un libreto guía para ensayar.
+              </p>
+
+              <!-- Moments grid -->
+              <div class="grid gap-3 sm:grid-cols-3">
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] space-y-1.5 text-xs">
+                  <span translate="no" class="material-symbols-rounded text-blue-500 text-xl block">hearing</span>
+                  <strong class="font-bold text-[color:var(--text-primary)] block">Si te lo cuenta</strong>
+                  <p class="text-[color:var(--text-soft)] leading-relaxed">Agradece primero: <em>“Qué bueno que me avisas”</em>. Revisa las señales sin juzgar a tu hijo.</p>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] space-y-1.5 text-xs">
+                  <span translate="no" class="material-symbols-rounded text-indigo-500 text-xl block">visibility</span>
+                  <strong class="font-bold text-[color:var(--text-primary)] block">Si lo notas</strong>
+                  <p class="text-[color:var(--text-soft)] leading-relaxed">Si notas prisa o secretos con la pantalla, pregunta con calma: <em>“¿Qué pasaba en la partida?”</em>.</p>
+                </div>
+                <div class="p-3 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] space-y-1.5 text-xs">
+                  <span translate="no" class="material-symbols-rounded text-teal-500 text-xl block">shield</span>
+                  <strong class="font-bold text-[color:var(--text-primary)] block">Si quieres prevenir</strong>
+                  <p class="text-[color:var(--text-soft)] leading-relaxed">Hablen del tema antes de jugar. Explica que las salas privadas con extraños son zonas de riesgo.</p>
+                </div>
+              </div>
+
+              <!-- Dialogue script -->
+              <div class="border border-[color:var(--border-soft)] rounded-2xl overflow-hidden bg-[color:var(--surface-soft)]">
+                <div class="px-4 py-2 border-b border-[color:var(--border-soft)] bg-slate-100 dark:bg-slate-900/50 flex items-center gap-1.5 text-xs font-bold text-[color:var(--text-primary)]">
+                  <span translate="no" class="material-symbols-rounded text-sm">chat_bubble</span> Libreto de diálogo guía
+                </div>
+                <div class="p-4 space-y-3 text-xs">
+                  <div class="flex items-start gap-2.5">
+                    <span class="shrink-0 bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded text-[10px]">Adulto</span>
+                    <p class="text-[color:var(--text-secondary)] leading-relaxed">
+                      “Quiero saber cómo te va en los juegos en línea. ¿En Rubloox hay chats directos o invitaciones de salas privadas?”
+                    </p>
+                  </div>
+                  <div class="flex items-start gap-2.5 pl-3 border-l-2 border-slate-350">
+                    <span class="shrink-0 bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded text-[10px]">Hijo/a</span>
+                    <p class="text-[color:var(--text-secondary)] leading-relaxed">
+                      “Sí, a veces me invitan a salas privadas para jugar solos o regalarme skins.”
+                    </p>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <span class="shrink-0 bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded text-[10px]">Adulto</span>
+                    <p class="text-[color:var(--text-secondary)] leading-relaxed">
+                      “No está mal jugar, pero acordemos algo: si alguien te pide secreto, prisa o datos reales (edad, escuela), no entres y me avisas. ¿Qué frase podrías ponerle en el chat para salirte?”
+                    </p>
+                  </div>
+                  <div class="flex items-start gap-2.5 pl-3 border-l-2 border-slate-350">
+                    <span class="shrink-0 bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded text-[10px]">Hijo/a</span>
+                    <p class="text-[color:var(--text-secondary)] leading-relaxed">
+                      “Le puedo decir: ‘mi papá/mamá no me deja entrar a salas privadas si me piden secreto’. O me salgo de la partida.”
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Step navigation toolbar -->
+          <div class="quiz-nav border-t border-[color:var(--border-soft)] pt-4 mt-6">
+            <button
+              type="button"
+              (click)="prevStep()"
+              [disabled]="currentStep() === 0"
+              class="btn btn-secondary flex items-center gap-2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4.5 h-4.5"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+              Atrás
+            </button>
+            <button
+              type="button"
+              [disabled]="isNextDisabled()"
+              (click)="nextStep()"
+              class="btn btn-primary flex items-center gap-2 bg-[#B50038] text-white disabled:opacity-40 disabled:cursor-not-allowed">
+              <span>{{ currentStep() === steps.length - 1 ? 'Ver acuerdo familiar' : 'Siguiente' }}</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="w-4.5 h-4.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    }
+
+    <!-- 3. RESULTS SCREEN (FINISHED) -->
+    @else if (finished()) {
+      <div class="space-y-6 animate-fade-in">
+        
+        <!-- Results Agreement Card -->
+        <div class="card result-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
+          
+          <div class="result-header text-center p-6 rounded-2xl border-2 border-teal-500 bg-teal-50/20 dark:bg-teal-950/10 transition-colors">
+            <span translate="no" class="material-symbols-rounded text-teal-600 dark:text-teal-400 text-4xl block mb-2">handshake</span>
+            <h3 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)] mb-1">
+              Acuerdo familiar rápido
+            </h3>
+            <p class="text-xs text-[color:var(--text-soft)] uppercase tracking-widest font-bold">Acuerdos de Cuidado Digital en Casa</p>
+          </div>
+
+          <!-- Agreement points -->
+          <div class="space-y-4">
+            <div class="p-4 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] space-y-3">
+              <strong class="text-xs font-black text-teal-700 dark:text-teal-400 block uppercase tracking-wider">En esta familia acordamos que:</strong>
+              <ol class="list-decimal pl-5 text-xs sm:text-sm text-[color:var(--text-secondary)] space-y-2 leading-relaxed font-semibold">
+                <li>Si alguien me invita a una sala privada o me agrega en el juego, le digo que no si no lo conozco en la vida real.</li>
+                <li>Si alguien me pide un secreto, prisa o datos reales (edad, escuela, ubicación), no le respondo y aviso a mi papá, mamá o cuidador de confianza.</li>
+                <li>Si algo me incomoda, me da miedo o me insisten en el chat, puedo contarlo en casa con la tranquilidad de que no me van a regañar ni a castigar quitándome el juego.</li>
+              </ol>
+            </div>
+
+            <!-- Useful Questions list -->
+            <div class="p-4 rounded-xl border border-blue-150 dark:border-blue-900 bg-blue-50/30 dark:bg-blue-950/10 space-y-3">
+              <strong class="text-xs font-black text-blue-700 dark:text-blue-400 block uppercase tracking-wider">4 Preguntas útiles para iniciar el diálogo:</strong>
+              <ul class="list-disc pl-5 text-xs text-[color:var(--text-secondary)] space-y-1.5 leading-relaxed">
+                <li>¿Qué estaba pasando en la partida de juego?</li>
+                <li>¿Alguien te pidió ir a otro espacio de juego o guardar un secreto?</li>
+                <li>¿Te preguntaron datos reales como tu edad, escuela o ubicación?</li>
+                <li>¿Qué frase podrías usar en el chat para decir que no con tranquilidad?</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Copy and Restart Buttons -->
+          <div class="flex flex-wrap gap-2 pt-3 border-t border-[color:var(--border-soft)]">
+            <button
+              type="button"
+              (click)="copyText('Acuerdo familiar: 1) Si alguien me invita a una sala privada, puedo decir que no. 2) Si alguien me pide secreto, prisa o datos, aviso. 3) Si algo me incomoda, no me regañan por contarlo.', '¡Acuerdo copiado al portapapeles!')"
+              class="px-4 py-3 rounded-xl text-xs font-bold bg-[#B50038] text-white shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all inline-flex items-center gap-1.5 cursor-pointer">
+              <span translate="no" class="material-symbols-rounded text-sm">content_copy</span>
+              Copiar acuerdo familiar
+            </button>
+
+            <button
+              type="button"
+              (click)="copyText('Preguntas útiles en casa: 1) ¿Qué estaba pasando en el juego? 2) ¿Alguien te pidió ir a otro espacio o guardar secreto? 3) ¿Te preguntaron datos reales como edad, escuela o ubicación? 4) ¿Qué frase podrías usar para decir no con tranquilidad?', '¡Preguntas copiadas al portapapeles!')"
+              class="px-4 py-3 rounded-xl text-xs font-bold bg-[color:var(--surface-soft)] hover:bg-[color:var(--surface-base)] border border-[color:var(--border-soft)] text-[color:var(--text-primary)] transition-all inline-flex items-center gap-1.5 cursor-pointer">
+              <span translate="no" class="material-symbols-rounded text-sm">question_mark</span>
+              Copiar 4 preguntas útiles
+            </button>
+
+            <button
+              type="button"
+              (click)="restart()"
+              class="px-4 py-3 rounded-xl text-xs font-bold bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-[color:var(--text-primary)] transition-all inline-flex items-center gap-1.5 cursor-pointer ml-auto">
+              <span translate="no" class="material-symbols-rounded text-sm">replay</span>
+              Reiniciar guía
+            </button>
+          </div>
+
+        </div>
+      </div>
+    }
+
+  </div>
+
+  <!-- Floating Toast Notification (no emojis) -->
+  <div
+    class="toast fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-full bg-slate-900 text-white text-xs font-black shadow-2xl z-[150] transition-all duration-300 flex items-center gap-2 border border-slate-700"
+    [class.show]="showToast()">
+    <span translate="no" class="material-symbols-rounded text-sm">notifications</span>
+    <span>{{ toastText() }}</span>
+  </div>
+
+</section>

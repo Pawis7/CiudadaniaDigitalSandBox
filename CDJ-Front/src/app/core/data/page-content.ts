@@ -127,7 +127,32 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
           }
         ]
       },
-      { id: 'primaria-baja',  title: 'Primaria baja', subtitle: '6 a 8 años',  imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg', imageId: 'sub-kids-pb',  bgClass: 'from-rose-400 to-cyan-500', icon: 'auto_stories', resourceCount: 18, description: 'Aprende, crea y cuida tu mundo digital con videos, juegos y actividades breves.' },
+      {
+        id: 'primaria-baja',
+        title: 'Primaria baja',
+        subtitle: '6 a 8 años',
+        imageUrl: '/ninosyninas_portadas/PRIMARIA BAJA.jpg',
+        imageId: 'sub-kids-pb',
+        bgClass: 'from-rose-400 to-cyan-500',
+        icon: 'auto_stories',
+        resourceCount: 18,
+        description: 'Aprende, crea y cuida tu mundo digital con videos, juegos y actividades breves.',
+        levelResources: [
+          {
+            id: 'quien-entra-mi-mundo',
+            title: '¿Quién entra a mi mundo?',
+            description: 'Ayuda a Mini a decidir qué hacer cuando alguien desconocido quiere entrar a su juego, manda mensajes secretos o pregunta datos personales en MiniMundo.',
+            type: 'game',
+            typeLabel: 'Simulador Gamer',
+            icon: 'sports_esports',
+            badge: 'Privacidad · Primaria baja',
+            duration: '5–7 min',
+            colorClass: 'from-teal-500 to-violet-600',
+            actionLabel: 'Entrar al mundo',
+            link: '#widget-seccion-anchor',
+          }
+        ]
+      },
       {
         id: 'primaria-alta',
         title: 'Primaria alta',
@@ -385,7 +410,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
         imageId: 'sub-fam-611',
         bgClass: 'from-orange-500 to-rose-500',
         icon: 'family_restroom',
-        resourceCount: 12,
+        resourceCount: 13,
         description: 'Exploran, aprenden y se conectan. Acompáñalos con límites y confianza.',
         levelResources: [
           {
@@ -396,6 +421,15 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             badge: 'Autochequeo + Workbook', duration: '5 min',
             colorClass: 'from-orange-500 to-rose-700',
             actionLabel: 'Iniciar Autochequeo', link: '#widget-seccion-anchor',
+          },
+          {
+            id: 'cuando-hijo-mundo-privado',
+            title: 'Guía interactiva: Cuando tu hijo entra a un mundo privado',
+            description: 'Esta guía ayuda a madres, padres y cuidadores a entender juegos en línea aunque no sean usuarios. Aprende a reconocer señales de alerta, conversar con calma y acordar reglas simples.',
+            type: 'guide', typeLabel: 'Guía interactiva', icon: 'family_restroom',
+            badge: 'Guía + Acuerdo', duration: '8–10 min',
+            colorClass: 'from-blue-600 to-teal-500',
+            actionLabel: 'Iniciar Guía', link: '#widget-seccion-anchor',
           }
         ]
       },

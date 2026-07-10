@@ -29,6 +29,8 @@ import { ReconozcoEmocionesComponent } from '../shared/reconozco-emociones/recon
 import { ElMercadoGamerComponent } from '../shared/el-mercado-gamer/el-mercado-gamer';
 import { ElServidorDeDiscorComponent } from '../shared/el-servidor-de-discor/el-servidor-de-discor';
 import { ElMundoPrivadoComponent } from '../shared/el-mundo-privado/el-mundo-privado';
+import { CuandoEntraMundoPrivadoComponent } from '../shared/cuando-entra-mundo-privado/cuando-entra-mundo-privado';
+import { QuienEntraMiMundoComponent } from '../shared/quien-entra-mi-mundo/quien-entra-mi-mundo';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -51,7 +53,9 @@ export type WidgetId =
   | 'reconozco-emociones'
   | 'el-mercado-gamer'
   | 'el-servidor-de-discor'
-  | 'el-mundo-privado';
+  | 'el-mundo-privado'
+  | 'cuando-hijo-mundo-privado'
+  | 'quien-entra-mi-mundo';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -75,4 +79,6 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'el-mercado-gamer': ElMercadoGamerComponent,
   'el-servidor-de-discor': ElServidorDeDiscorComponent,
   'el-mundo-privado': ElMundoPrivadoComponent,
+  'cuando-hijo-mundo-privado': CuandoEntraMundoPrivadoComponent,
+  'quien-entra-mi-mundo': QuienEntraMiMundoComponent,
 };
