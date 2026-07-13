@@ -17,6 +17,7 @@ export class SecondaryFraudSimulatorComponent {
   readonly soundOn = signal<boolean>(true);
 
   // Simulation states
+  readonly started = signal<boolean>(false);
   readonly currentCase = signal<FraudCase | null>(null);
   readonly turnIndex = signal<number>(0);
   readonly score = signal<number>(0);
@@ -32,6 +33,17 @@ export class SecondaryFraudSimulatorComponent {
   readonly currentOptions = signal<any[]>([]);
   readonly fieldText = signal<string>('Escribe tu mensaje…');
   readonly isFieldPlaceholder = signal<boolean>(true);
+
+  start(): void {
+    this.playStartChime();
+    this.started.set(true);
+  }
+
+  private playStartChime(): void {
+    this.playBeep(523, 0.08, "triangle", 0.15);
+    setTimeout(() => this.playBeep(659, 0.08, "triangle", 0.15), 70);
+    setTimeout(() => this.playBeep(784, 0.12, "triangle", 0.18), 140);
+  }
 
   // Result overlay variables
   readonly stars = signal<number>(0);

@@ -38,24 +38,79 @@
 
         <!-- 1. INTRO SCREEN (inside phone) -->
         @if (!started()) {
-          <div class="phone-intro flex-1 flex flex-col justify-between p-6 text-white text-center">
-            <div class="space-y-4 pt-6">
-              <span class="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur text-white shadow-xl mx-auto mb-2 animate-bounce">
-                <span translate="no" class="material-symbols-rounded text-3xl text-orange-300">lock_open</span>
-              </span>
-              <h3 class="text-xl font-black tracking-tight">{{ data.product.title }}</h3>
-              <p class="text-xs text-white/80 leading-relaxed max-w-xs mx-auto">
-                {{ data.product.subtitle }}
-              </p>
-              <div class="flex flex-wrap justify-center gap-1.5 text-[10px] font-bold">
-                <span class="bg-white/15 px-3 py-1.5 rounded-full">6 momentos</span>
-                <span class="bg-white/15 px-3 py-1.5 rounded-full">Secundaria</span>
+          <div class="casino-cover">
+            <!-- Retro Dot Pattern Overlay -->
+            <div class="casino-dots"></div>
+            
+            <!-- Sunburst Ray Patterns -->
+            <div class="casino-sunburst"></div>
+            
+            <div class="casino-content">
+              <!-- Floating Stars -->
+              <span class="casino-star star-1">⭐</span>
+              <span class="casino-star star-2">⭐</span>
+              
+              <!-- Title Container -->
+              <div class="casino-title-container">
+                <h1 class="casino-title line-1">EL CARIÑO</h1>
+                <div class="casino-title-badge-wrap">
+                  <span class="casino-title-badge">NO PIDE</span>
+                </div>
+                <h1 class="casino-title line-2">CLAVES</h1>
               </div>
-            </div>
-            <div class="pt-6">
-              <button type="button" class="start-btn w-full py-4 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-2xl shadow-lg transition-all text-xs cursor-pointer" (click)="start()">
-                ▶ Iniciar caso interactivo
-              </button>
+
+              <!-- Icon Sticker Container -->
+              <div class="casino-icon-container">
+                <div class="casino-icon-box">
+                  <svg class="heart-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 20.35l-1.45-1.32C5.4 14.36 2 11.28 2 7.5 2 4.42 4.42 2 7.5 2c1.74 0 3.41.81 4.5 2.09C13.09 2.81 14.76 2 16.5 2 19.58 2 22 4.42 22 7.5c0 3.78-3.4 6.86-8.55 11.54L12 20.35z" fill="#f43f5e" stroke="#000" stroke-width="2.2"/>
+                    <rect x="9" y="8" width="6" height="5" rx="1.2" fill="#fbbf24" stroke="#000" stroke-width="2"/>
+                    <path d="M10.5 8V6.5a1.5 1.5 0 0 1 3 0V8" stroke="#000" stroke-width="2"/>
+                  </svg>
+                  <div class="casino-icon-sparkle-1"></div>
+                  <div class="casino-icon-sparkle-2"></div>
+                </div>
+              </div>
+
+              <!-- Gamer Subtitle Badge -->
+              <div class="casino-gamer-badge">
+                <span>PRIVACIDAD EN PAREJA</span>
+              </div>
+
+              <!-- Speech Bubble Ribbon -->
+              <div class="casino-ribbon">
+                <span>¡CUIDA TU CONTRASEÑA!</span>
+              </div>
+
+              <!-- Description -->
+              <p class="casino-desc">
+                Practica cómo poner límites ante presiones en la pareja y proteger tus accesos y cuentas personales.
+              </p>
+
+              <!-- Stats / Pills -->
+              <div class="casino-pills-row">
+                <span class="casino-pill pill-purple">
+                  <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  6 MOMENTOS
+                </span>
+                <span class="casino-pill pill-pink">
+                  <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  SECUNDARIA
+                </span>
+              </div>
+
+              <!-- Call to Action Button -->
+              <div class="casino-btn-container">
+                <button type="button" class="casino-start-btn" (click)="start()">
+                  <span class="play-arrow">▶</span>
+                  <span class="btn-text">INICIAR CASO</span>
+                </button>
+              </div>
+
+              <!-- Footer -->
+              <div class="casino-footer">
+                • Ciudadanía Digital Jalisco •
+              </div>
             </div>
           </div>
         }

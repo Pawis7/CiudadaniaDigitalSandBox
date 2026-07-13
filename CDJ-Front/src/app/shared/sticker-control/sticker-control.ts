@@ -127,7 +127,32 @@ export class StickerControlComponent {
     });
   }
 
+  private actx: AudioContext | null = null;
+
+  private playBeep(freq: number, dur: number = 0.07, type: OscillatorType = "sine", vol: number = 0.20): void {
+    try {
+      this.actx = this.actx || new (window.AudioContext || (window as any).webkitAudioContext)();
+      const o = this.actx.createOscillator();
+      const g = this.actx.createGain();
+      o.type = type;
+      o.frequency.value = freq;
+      o.connect(g);
+      g.connect(this.actx.destination);
+      g.gain.setValueAtTime(vol, this.actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, this.actx.currentTime + dur);
+      o.start();
+      o.stop(this.actx.currentTime + dur);
+    } catch (e) {}
+  }
+
+  private playStartSound(): void {
+    this.playBeep(600, 0.05, "sine", 0.18);
+    setTimeout(() => this.playBeep(900, 0.07, "sine", 0.22), 50);
+    setTimeout(() => this.playBeep(1200, 0.1, "sine", 0.25), 100);
+  }
+
   start(): void {
+    this.playStartSound();
     this.started.set(true);
     this.finished.set(false);
     this.currentMomentIndex.set(0);

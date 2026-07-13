@@ -118,7 +118,22 @@ export class AudienciaComponent {
 
   isPhoneWidget = computed(() => {
     const id = this.activeWidgetId();
-    return id === 'fraud-simulator' || id === 'peer-pressure' || id === 'sticker-control' || id === 'el-carino-no-pide-contrasenas' || id === 'chat-en-llamas' || id === 'la-voz-en-el-squad' || id === 'no-lo-hagas-viral' || id === 'perfil-fantasma' || id === 'monedas-gratis' || id === 'jugada-problema' || id === 'el-servidor-de-discor' || id === 'el-mercado-gamer' || id === 'el-mundo-privado' || id === 'quien-entra-mi-mundo';
+    return (
+      id === 'fraud-simulator' ||
+      id === 'peer-pressure' ||
+      id === 'sticker-control' ||
+      id === 'el-carino-no-pide-contrasenas' ||
+      id === 'chat-en-llamas' ||
+      id === 'la-voz-en-el-squad' ||
+      id === 'no-lo-hagas-viral' ||
+      id === 'perfil-fantasma' ||
+      id === 'monedas-gratis' ||
+      id === 'jugada-problema' ||
+      id === 'el-servidor-de-discor' ||
+      id === 'el-mercado-gamer' ||
+      id === 'el-mundo-privado' ||
+      id === 'quien-entra-mi-mundo'
+    );
   });
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */

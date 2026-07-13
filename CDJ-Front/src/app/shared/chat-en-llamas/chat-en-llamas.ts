@@ -114,7 +114,32 @@ export class ChatEnLlamasComponent {
     });
   }
 
+  private actx: AudioContext | null = null;
+
+  private playBeep(freq: number, dur: number = 0.07, type: OscillatorType = "sine", vol: number = 0.20): void {
+    try {
+      this.actx = this.actx || new (window.AudioContext || (window as any).webkitAudioContext)();
+      const o = this.actx.createOscillator();
+      const g = this.actx.createGain();
+      o.type = type;
+      o.frequency.value = freq;
+      o.connect(g);
+      g.connect(this.actx.destination);
+      g.gain.setValueAtTime(vol, this.actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, this.actx.currentTime + dur);
+      o.start();
+      o.stop(this.actx.currentTime + dur);
+    } catch (e) {}
+  }
+
+  private playStartSound(): void {
+    this.playBeep(300, 0.05, "sawtooth", 0.05);
+    setTimeout(() => this.playBeep(600, 0.06, "sawtooth", 0.06), 50);
+    setTimeout(() => this.playBeep(1200, 0.12, "sawtooth", 0.08), 100);
+  }
+
   start(): void {
+    this.playStartSound();
     this.started.set(true);
     this.finished.set(false);
     this.currentMomentIndex.set(0);
