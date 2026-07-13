@@ -222,36 +222,36 @@ export const SECONDARY_FRAUD_SIMULATOR_DATA: FraudCase[] = [
     turns: [
       { options: [
         { txt: "¡Claro primo! ¿Qué necesitas?", level: "risky",
-          reply: [{ t: "Te va a llegar un código por SMS, pásamelo rápido porfa 🙏" }],
-          alert: { type: "warn", title: "\"Soy tu primo\" sin probarlo", text: "Que alguien diga ser tu familiar desde un número nuevo no lo confirma. Verifica antes de ayudar." } },
-        { txt: "¿Cuál primo? ¿Cómo se llama tu mamá? 🤨", level: "safe",
-          reply: [{ t: "Ash, ya no preguntes, es urgente 😤 solo pásame el código" }],
-          alert: { type: "safe", title: "Prueba de identidad: bien hecho", text: "Pedir un dato que solo el familiar real sabría desenmascara al impostor al instante." } },
+          reply: [{ t: "Oye, necesito recibir un paquete urgente de MercadoLibre, pero me pide confirmar mi número con un código SMS que te va a llegar a ti. ¿Me lo pasas porfa? 🙏" }],
+          alert: { type: "warn", title: "Confianza a ciegas", text: "Creer que es tu familiar solo porque lo dice es arriesgado. Los estafadores clonan perfiles para pedir favores." } },
+        { txt: "¿Cuál primo? A ver, ¿cómo se llama mi tía? 🤨", level: "safe",
+          reply: [{ t: "Ah… luego te digo, ando a las carreras 🏃‍♂️ pero urge que me pases un código SMS que te va a llegar a tu cel para liberar mi cuenta. ¿Me lo pasas? 🙏" }],
+          alert: { type: "safe", title: "Prueba de identidad: excelente", text: "Preguntar un dato personal que solo tu verdadero pariente sabría es la mejor defensa contra impostores." } },
         { txt: "Te marco a tu número de siempre para confirmar 📞", level: "safe",
-          reply: [{ t: "No, ese cel ya no sirve 📵 mejor por aquí" }],
-          alert: { type: "safe", title: "Confirmar por otro canal", text: "Llamar al número de siempre o preguntar a la familia es la forma segura de saber si de verdad es quien dice." } }
+          reply: [{ t: "No me entran llamadas 📵 porfa, urge que me pases el código SMS que te acaba de llegar a tu cel para validar mi sesión. ¿Me lo pasas ya? 🙏" }],
+          alert: { type: "safe", title: "Canal alternativo seguro", text: "Marcar al número registrado oficial o preguntar a tus padres antes de ayudar es la regla de oro para no ser estafado." } }
       ]},
       { options: [
-        { txt: "Aquí está el código que me llegó: 4821", level: "danger",
-          reply: [{ t: "¡Gracias! (ahora controlan tu cuenta de WhatsApp) 😈" }],
-          alert: { type: "danger", title: "Nunca compartas códigos", text: "Los códigos que llegan por SMS son llaves de TUS cuentas. Nadie real te los pide; compartirlos es regalar tu cuenta." } },
-        { txt: "No comparto códigos con nadie 🔐", level: "safe",
-          reply: [{ t: "Pero si soy tu primo 😢 ándale" }],
-          alert: { type: "safe", title: "Regla de oro cumplida", text: "Un código de verificación NO se comparte jamás, ni con \"familiares\". Lo tienes clarísimo." } },
-        { txt: "Te transfiero los $500 pesos que me pides 💸", level: "danger",
-          reply: [{ t: "¡Sí! Mándalos a esta cuenta porfa 🙏" }],
-          alert: { type: "danger", title: "Dinero urgente: clásico fraude", text: "Pedir dinero \"urgente\" haciéndose pasar por un familiar es de los engaños más comunes. Confirma siempre antes." } }
+        { txt: "Te lo paso, es el 4821 📲", level: "danger",
+          reply: [{ t: "¡Gracias! (y de pronto, te saca de tu sesión de WhatsApp en tu propio celular… ¡te la han hackeado!) 😈" }],
+          alert: { type: "danger", title: "Código compartido: cuenta perdida", text: "Nunca compartas códigos que te lleguen por SMS. Son la llave de seguridad de tu cuenta. Si los das, te roban el WhatsApp." } },
+        { txt: "No comparto códigos de seguridad por chat 🔐", level: "safe",
+          reply: [{ t: "Pero primo, es para mi cuenta del banco 😢 si no me pasas el código perderé mi dinero…" }],
+          alert: { type: "safe", title: "Regla de oro de seguridad", text: "Ningún familiar ni plataforma real te pedirá un código SMS de verificación. Guardarlo en secreto es lo correcto." } },
+        { txt: "Si es tu banco, ¿por qué me llega a mi celular? 🧐", level: "risky",
+          reply: [{ t: "Es que te registré como contacto de respaldo. Porfa, pásamelo ya que expira el tiempo ⏳" }],
+          alert: { type: "warn", title: "Cuestionar el fraude: buen inicio", text: "Hacer preguntas lógicas incomoda al estafador. Sigue sospechando y nunca entregues códigos de verificación." } }
       ]},
       { options: [
         { txt: "Le voy a preguntar a mis papás si es real 👨‍👩‍👧", level: "safe",
-          reply: [{ t: "No les digas, es entre nosotros 🤫" }],
-          alert: { type: "safe", title: "Consultar a la familia: correcto", text: "Antes de dar códigos o dinero, pregunta a un adulto de tu familia. Y si piden \"no decir\", desconfía." } },
-        { txt: "Mando el dinero para ayudar rápido 💸", level: "danger",
-          reply: [{ t: "¡Eres el mejor! (y nunca vuelves a saber de él) 👋" }],
-          alert: { type: "danger", title: "Dinero perdido", text: "Una vez que envías dinero a un estafador, no vuelve. Por eso siempre se confirma primero quién es." } },
-        { txt: "Bloqueo el número y aviso a la familia 🚫", level: "safe",
+          reply: [{ t: "¡No! No les digas nada porfa, no quiero preocuparlos, es secreto 🤫" }],
+          alert: { type: "safe", title: "Comunicación familiar: lo mejor", text: "Consultar con tus padres te protege de engaños. El secreto es el mejor amigo del estafador." } },
+        { txt: "Bueno, está bien, el código es 4821, ojalá te sirva 👍", level: "danger",
+          reply: [{ t: "¡Listo! Ya recuperé mi cuenta (y ahora tus contactos reciben mensajes pidiendo dinero a tu nombre…) 😱" }],
+          alert: { type: "danger", title: "Caíste en la trampa", text: "Aunque te presionen con urgencia o chantaje emocional, dar un código significa regalar el acceso a tus redes y WhatsApp." } },
+        { txt: "Te bloqueo y reporto el número 🚫", level: "safe",
           reply: [{ t: "—" }],
-          alert: { type: "safe", title: "Cierre de experto", text: "Bloquear y avisar a la familia evita que el estafador lo intente con otros parientes. Perfecto." } }
+          alert: { type: "safe", title: "Bloqueo inmediato: excelente", text: "Cortar la comunicación y reportar el número detiene la estafa de inmediato." } }
       ]}
     ],
     finalTip: "Verifica siempre quién es antes de dar códigos o dinero. Los códigos de SMS no se comparten con nadie, nunca."

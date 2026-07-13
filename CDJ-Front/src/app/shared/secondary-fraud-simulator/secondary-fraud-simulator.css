@@ -1214,11 +1214,13 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 .lobby-card.card-1 { border-color: #3b82f6; }
 .lobby-card.card-2 { border-color: #a855f7; }
 .lobby-card.card-3 { border-color: #ec4899; }
+.lobby-card.card-4 { border-color: #0d9488; }
 
 .lobby-card.card-0:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(16, 185, 129, 0.25); }
 .lobby-card.card-1:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(59, 130, 246, 0.25); }
 .lobby-card.card-2:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(168, 85, 247, 0.25); }
 .lobby-card.card-3:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(236, 72, 153, 0.25); }
+.lobby-card.card-4:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(13, 148, 136, 0.25); }
 
 .lobby-card-top {
   display: flex;
@@ -1282,6 +1284,7 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 .lobby-card.card-1 .lobby-card-arrow { background: #3b82f6; }
 .lobby-card.card-2 .lobby-card-arrow { background: #a855f7; }
 .lobby-card.card-3 .lobby-card-arrow { background: #ec4899; }
+.lobby-card.card-4 .lobby-card-arrow { background: #0d9488; }
 
 .lobby-card:active .lobby-card-arrow {
   transform: translate(1px, 1px);
