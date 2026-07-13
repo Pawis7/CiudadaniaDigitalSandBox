@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SECONDARY_FRAUD_SIMULATOR_DATA, FraudCase } from '../../core/data/secondary-fraud-simulator.data';
 
@@ -33,6 +33,20 @@ export class SecondaryFraudSimulatorComponent {
   readonly currentOptions = signal<any[]>([]);
   readonly fieldText = signal<string>('Escribe tu mensaje…');
   readonly isFieldPlaceholder = signal<boolean>(true);
+
+  constructor() {
+    effect(() => {
+      this.isTyping();
+      this.chatMessages();
+      this.currentOptions();
+      setTimeout(() => {
+        const chatEl = document.querySelector('.msgs') || document.querySelector('.wa-chat');
+        if (chatEl) {
+          chatEl.scrollTop = chatEl.scrollHeight;
+        }
+      }, 100);
+    });
+  }
 
   start(): void {
     this.playStartChime();
@@ -209,6 +223,7 @@ export class SecondaryFraudSimulatorComponent {
     this.chatMessages.update(msgs => [...msgs, {
       side: 'out',
       text: o.txt,
+      level: o.level,
       time: this.nowTime()
     }]);
     this.sndSend();

@@ -105,11 +105,19 @@ export class ChatEnLlamasComponent {
   });
 
   constructor() {
-    // Sync option shuffling when switching moments
     effect(() => {
+      this.isTyping();
+      this.activeFeedbackChoice();
       if (this.started() && !this.finished()) {
         const moment = this.currentMoment();
         this.currentOptions.set(shuffleArray(moment.options));
+
+        setTimeout(() => {
+          const chatEl = document.querySelector('.wa-chat') || document.querySelector('.msgs');
+          if (chatEl) {
+            chatEl.scrollTop = chatEl.scrollHeight;
+          }
+        }, 120);
       }
     });
   }

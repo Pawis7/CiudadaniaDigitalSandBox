@@ -121,27 +121,34 @@
             </div>
           </div>
         } @else if (!currentCase()) {
-          <!-- HOME / INBOX -->
-          <div class="wa-inbox">
-            <div class="wa-inbox-header">
-              <span class="title">Chats</span>
-              <button class="inbox-mute-btn" type="button" (click)="toggleSound()">
+          <!-- GAMER LOBBY LEVEL SELECTION -->
+          <div class="lobby-selection">
+            <div class="lobby-header">
+              <span class="lobby-title">ELIGE TU MISIÓN</span>
+              <button class="lobby-mute-btn" type="button" (click)="toggleSound()">
                 {{ soundOn() ? '🔊 Sonido' : '🔇 Silencio' }}
               </button>
             </div>
-            <div class="wa-inbox-search">
-              <div class="search-box">🔍 Buscar chats</div>
-            </div>
-            <div class="wa-chat-list">
+            <div class="lobby-list">
               @for (c of cases; track c.id) {
-                <div class="wa-chat-item" [class.done]="isCaseDone(c.id)" (click)="startCase(c)">
-                  <div class="wa-avatar-circle" [style.background]="c.contact.avGrad">{{ c.contact.avatar }}</div>
-                  <div class="wa-chat-body">
-                    <div class="wa-chat-row">
-                      <span class="wa-chat-name">{{ c.name }}</span>
-                      <span class="wa-chat-stars">{{ getStarsString(c.id) }}</span>
+                <div class="lobby-card" [class.completed]="isCaseDone(c.id)" (click)="startCase(c)">
+                  <div class="lobby-card-top">
+                    <span class="lobby-card-avatar" [style.background]="c.contact.avGrad">{{ c.contact.avatar }}</span>
+                    <div class="lobby-card-meta">
+                      <strong class="lobby-card-name">{{ c.name }}</strong>
+                      <span class="lobby-card-preview">Contacto: {{ c.contact.name }}</span>
                     </div>
-                    <div class="wa-chat-preview">{{ c.contact.name }}</div>
+                  </div>
+                  <div class="lobby-card-bottom">
+                    @if (isCaseDone(c.id)) {
+                      <span class="lobby-badge completed">
+                        SUPERADO
+                        <span class="lobby-stars">{{ getStarsString(c.id) }}</span>
+                      </span>
+                    } @else {
+                      <span class="lobby-badge available">DISPONIBLE</span>
+                    }
+                    <button class="lobby-play-btn" type="button">JUGAR ➤</button>
                   </div>
                 </div>
               }
@@ -165,12 +172,14 @@
 
           <div class="sim-banner">⚠️ Simulador · Nada de esto es real</div>
 
-
-
           <div class="msgs" #msgsContainer>
             @for (msg of chatMessages(); track $index) {
               <div class="row" [class.in]="msg.side === 'in'" [class.out]="msg.side === 'out'">
-                <div class="bubble" [class.link]="msg.link">
+                <div class="bubble" [class.link]="msg.link"
+                     [class.bubble-safe]="msg.level === 'safe'"
+                     [class.bubble-careful]="msg.level === 'careful'"
+                     [class.bubble-risky]="msg.level === 'risky'"
+                     [class.bubble-danger]="msg.level === 'danger'">
                   @if (msg.link) {
                     <a href="#" (click)="$event.preventDefault()">{{ msg.text }}</a>
                   } @else {

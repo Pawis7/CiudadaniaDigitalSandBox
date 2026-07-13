@@ -231,21 +231,22 @@
                   [class.justify-end]="msg.speaker === 'Nayeli'"
                   [class.justify-center]="msg.speaker === 'Sistema'"
                   [style.animation-delay]="$index * 120 + 'ms'">
-                  
                   @if (msg.speaker === 'Sistema') {
-                    <div class="rounded-lg px-2.5 py-1 text-[9px] text-slate-600 bg-orange-100/90 text-center font-bold">
+                    <div class="rounded-lg px-2.5 py-1 text-[9px] text-slate-600 bg-rose-100/90 text-center font-bold border border-black/20">
                       {{ msg.text }}
                     </div>
                   } @else {
-                    <div class="rounded-2xl px-3 py-2 max-w-[85%] shadow-sm text-[11px] leading-relaxed font-medium"
-                      [class.rounded-tl-sm]="msg.speaker !== 'Nayeli'"
-                      [class.bg-white]="msg.speaker !== 'Nayeli'"
-                      [class.text-slate-800]="msg.speaker !== 'Nayeli'"
-                      [class.rounded-tr-sm]="msg.speaker === 'Nayeli'"
-                      [class.bg-[#ffeecb]]="msg.speaker === 'Nayeli'"
-                      [class.text-slate-900]="msg.speaker === 'Nayeli'">
-                      <span class="block text-[8px] font-black mb-0.5 text-orange-800">{{ msg.speaker }}</span>
-                      <span>{{ msg.text }}</span>
+                    <div class="bubble-comic-in"
+                      [class.me]="msg.speaker === 'Nayeli'">
+                      <span class="sender-tag" 
+                        [class.nayeli]="msg.speaker === 'Nayeli'"
+                        [class.antonio]="msg.speaker === 'Antonio'"
+                        [class.esteban]="msg.speaker === 'Esteban'"
+                        [class.valeria]="msg.speaker === 'Valeria'"
+                        [class.tu]="msg.speaker === 'Nayeli'">
+                        {{ msg.speaker }}
+                      </span>
+                      <span class="msg-text">{{ msg.text }}</span>
                       <small class="block text-[7px] text-right text-slate-400 mt-0.5">14:22</small>
                     </div>
                   }
@@ -255,7 +256,7 @@
               <!-- User typing indicator -->
               @if (isTyping()) {
                 <div class="flex justify-start animate-fade-in">
-                  <div class="rounded-2xl rounded-tl-sm bg-white border border-slate-100 px-3.5 py-2.5 shadow-sm flex items-center gap-1">
+                  <div class="bubble-typing">
                     <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce"></span>
                     <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
                     <span class="h-1.5 w-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
@@ -266,9 +267,13 @@
               <!-- Chosen user response rendered in the chat bubbles -->
               @if (activeFeedbackChoice(); as selectedChoice) {
                 <div class="flex justify-end animate-slide-up">
-                  <div class="rounded-2xl rounded-tr-sm bg-[#ffeecb] px-3 py-2 max-w-[85%] shadow-sm text-[11px] font-semibold text-slate-900">
-                    <span>{{ selectedChoice.text }}</span>
-                    <small class="block text-[8px] text-right text-orange-700 mt-0.5">✓✓ Enviado</small>
+                  <div class="bubble-comic-out"
+                       [class.bubble-safe]="selectedChoice.internal_score === 4"
+                       [class.bubble-careful]="selectedChoice.internal_score === 2"
+                       [class.bubble-danger]="selectedChoice.internal_score === 1">
+                    <span class="sender-tag tu">Tú</span>
+                    <span class="msg-text">{{ selectedChoice.text }}</span>
+                    <small class="block text-[8px] text-right mt-0.5">✓✓ Enviado</small>
                   </div>
                 </div>
               }
@@ -277,11 +282,11 @@
 
           <!-- Options list inside phone -->
           @if (!activeFeedbackChoice()) {
-            <div class="sc-options bg-slate-100 border-t border-slate-200 p-2 flex flex-col gap-1.5 max-h-[47%] overflow-y-auto shrink-0">
+            <div class="sc-options bg-slate-100 border-t-3 border-black p-2.5 flex flex-col gap-2 max-h-[47%] overflow-y-auto shrink-0">
               @for (choice of currentOptions(); track choice.id) {
-                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt flex items-center justify-between gap-2.5 bg-white border border-slate-200 rounded-xl py-2 px-2.5 text-left text-[11px] font-bold text-slate-800 hover:border-orange-300 hover:bg-orange-50/50 transition-all cursor-pointer">
+                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt">
                   <span>{{ choice.text }}</span>
-                  <span class="sc-go w-5 h-5 rounded-full bg-orange-600 text-white flex items-center justify-center text-[10px] shrink-0">➤</span>
+                  <span class="sc-go">➤</span>
                 </button>
               }
             </div>

@@ -109,20 +109,22 @@ export class StickerControlComponent {
     };
   });
 
+
+
   constructor() {
-    // Sincronizar el mezclado de opciones cada vez que cambiamos de momento
     effect(() => {
+      this.isTyping();
+      this.activeFeedbackChoice();
       if (this.started() && !this.finished()) {
         const moment = this.currentMoment();
         this.currentOptions.set(shuffleArray(moment.opciones));
 
-        // Scroll the chat container to top
         setTimeout(() => {
-          const chatEl = document.querySelector('.wa-chat');
+          const chatEl = document.querySelector('.wa-chat') || document.querySelector('.msgs');
           if (chatEl) {
-            chatEl.scrollTop = 0;
+            chatEl.scrollTop = chatEl.scrollHeight;
           }
-        }, 50);
+        }, 120);
       }
     });
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   PEER_PRESSURE_SIMULATOR_DATA,
@@ -65,6 +65,20 @@ export class SecondaryPeerPressureSimulatorComponent {
 
     return matched || possibleResults[1]; // fallback to middle one
   });
+
+  constructor() {
+    effect(() => {
+      this.isTyping();
+      this.activeFeedbackChoice();
+      this.currentMomentIndex();
+      setTimeout(() => {
+        const chatEl = document.querySelector('.wa-chat') || document.querySelector('.pp-msgs') || document.querySelector('.msgs');
+        if (chatEl) {
+          chatEl.scrollTop = chatEl.scrollHeight;
+        }
+      }, 120);
+    });
+  }
 
   private actx: AudioContext | null = null;
 
