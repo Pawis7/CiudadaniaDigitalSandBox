@@ -490,21 +490,29 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   word-wrap: break-word;
   animation: pop .22s ease;
   font-weight: 700;
+  background: linear-gradient(to bottom, #ffffff 0%, #f0f9ff 100%);
+  color: #1e293b;
 }
 
 .bubble-comic-in {
-  background: linear-gradient(to bottom, #ffffff 0%, #f0f9ff 100%);
   border-top-left-radius: 3px;
-  color: #1e293b;
+  border-color: #000;
   box-shadow: 3px 3.5px 0px #000;
 }
 
 .bubble-comic-out {
-  background: linear-gradient(to bottom, #ffffff 0%, #e0f2fe 100%);
   border-top-right-radius: 3px;
-  color: #1e293b;
+  border-color: #000;
   box-shadow: -3px 3.5px 0px #000;
 }
+
+/* Character Specific borders inside chat */
+.bubble-comic-in:has(.sender-tag.sofia) { border-color: #c084fc; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.diego) { border-color: #0d9488; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.majo) { border-color: #ec4899; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.dani) { border-color: #3b82f6; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.leo) { border-color: #eab308; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.tu) { border-color: #10b981; box-shadow: 3px 3.5px 0px #000; }
 
 .bubble-comic-in.me {
   border-top-left-radius: 16px;
@@ -559,18 +567,24 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 .sender-tag.dani { background: #3b82f6; }
 .sender-tag.majo { background: #ec4899; }
 
-/* Points Level Bubble Colors with Glossy Gradients */
+/* Points Level Bubble Colors with Glossy Gradients and Solid Comic Shadows */
 .bubble-safe {
   background: linear-gradient(to bottom, #dcfce7 0%, #86efac 100%) !important;
+  border-color: #000 !important;
   color: #064e3b !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 .bubble-careful {
   background: linear-gradient(to bottom, #fef3c7 0%, #fde047 100%) !important;
+  border-color: #000 !important;
   color: #78350f !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 .bubble-danger {
   background: linear-gradient(to bottom, #fee2e2 0%, #fca5a5 100%) !important;
+  border-color: #000 !important;
   color: #7f1d1d !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 
 /* ─── OPTIONS INSIDE PHONE ───────────────────────── */
@@ -594,7 +608,7 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   border-radius: 16px;
   padding: 9px 8px 9px 13px;
   text-align: left;
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 800;
   color: #1e293b;
   box-shadow: 3px 3px 0px #000;
@@ -615,16 +629,26 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   box-shadow: 1.5px 1.5px 0px #000;
 }
 
+.opt-badge {
+  width: 20px; height: 20px; border-radius: 6px;
+  border: 2px solid #000; display: grid; place-items: center;
+  font-family: "Arial Black", "Impact", sans-serif; font-size: 10px; font-weight: 900;
+  color: #fff; flex-shrink: 0;
+}
+.sc-opt-0 .opt-badge { background: #10b981; }
+.sc-opt-1 .opt-badge { background: #3b82f6; }
+.sc-opt-2 .opt-badge { background: #a855f7; }
+.sc-opt-3 .opt-badge { background: #ec4899; }
+
+.opt-text {
+  flex: 1;
+  margin-left: 2px;
+}
+
 .sc-go {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #0284c7;
-  color: #fff;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  font-size: 11px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: #0284c7; color: #fff; display: grid;
+  place-items: center; flex-shrink: 0; font-size: 8px;
   border: 2px solid #000;
   box-shadow: 1px 1px 0px #000;
 }
@@ -1030,21 +1054,21 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 }
 
 .casino-title {
-  font-family: "Arial Black", "Impact", "Arial Bold", sans-serif;
+  font-family: 'Luckiest Guy', 'Impact', sans-serif;
   font-weight: 900;
-  -webkit-text-stroke: 4.5px #000;
   text-transform: uppercase;
   line-height: 0.85;
-  letter-spacing: -1px;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  filter: drop-shadow(4px 4px 0px #000);
 }
 
 .casino-title.line-1 {
   color: #10b981;
-  font-size: 35px;
-  transform: rotate(-3deg) scale(1.05);
-  text-shadow:
-    0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000, 0 5px 0 #000,
-    0 6px 0 #000, 3px 8px 0px rgba(0,0,0,0.45);
+  font-size: 48px;
+  transform: rotate(-3deg) skewX(-10deg) scale(1.05);
 }
 
 .casino-title-badge-wrap {
@@ -1067,12 +1091,9 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 }
 
 .casino-title.line-2 {
-  color: #ffe600;
-  font-size: 38px;
-  transform: rotate(2deg) scale(1.08);
-  text-shadow:
-    0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000, 0 5px 0 #000,
-    0 6px 0 #000, -3px 8px 0px rgba(0,0,0,0.45);
+  color: #ffd100;
+  font-size: 50px;
+  transform: rotate(2deg) skewX(-10deg) scale(1.08);
 }
 
 /* Icon box styling */

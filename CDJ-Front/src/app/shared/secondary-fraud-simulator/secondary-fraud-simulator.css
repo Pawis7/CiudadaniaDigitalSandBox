@@ -312,7 +312,7 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 }
 .msgs::-webkit-scrollbar { width: 0; }
 
-.row { display: flex; max-width: 100%; }
+.row { display: flex; max-width: 100%; position: relative; margin-bottom: 6px; }
 .row.in  { justify-content: flex-start; }
 .row.out { justify-content: flex-end; }
 
@@ -322,40 +322,66 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   position: relative; border: 2.5px solid #000;
   word-wrap: break-word; animation: pop .22s ease;
   font-weight: 700;
+  background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
+  color: #1e293b;
 }
 .row.in  .bubble {
-  background: linear-gradient(to bottom, #ffffff 0%, #f1f5f9 100%);
   border-top-left-radius: 3px;
-  color: #1e293b;
+  border-color: #ef4444; /* Scammer has solid red comic border */
   box-shadow: 3px 3.5px 0px #000;
 }
 .row.out .bubble {
-  background: linear-gradient(to bottom, #ffffff 0%, #f0fdf4 100%);
   border-top-right-radius: 3px;
-  color: #1e293b;
+  border-color: #f97316; /* User bubble default border */
   box-shadow: -3px 3.5px 0px #000;
 }
 
-/* Safety Level Bubble Colors with Glossy Gamer Gradients */
+/* Sender Sticker Tags */
+.sender-tag {
+  display: inline-block;
+  font-family: "Arial Black", "Impact", sans-serif;
+  font-size: 7.5px;
+  font-weight: 900;
+  padding: 2.5px 7px;
+  border-radius: 6px;
+  border: 2px solid #000;
+  box-shadow: 1px 1.5px 0px #000;
+  color: #fff;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+.sender-tag.scam { background: #ef4444; }
+.sender-tag.tu { background: #f97316; }
+
+/* Safety Level Bubble Colors with Light Comic Backgrounds and Solid Comic Shadows */
 .bubble-safe {
-  background: linear-gradient(to bottom, #dcfce7 0%, #a7f3d0 100%) !important;
+  background: linear-gradient(to bottom, #dcfce7 0%, #86efac 100%) !important;
+  border-color: #10b981 !important;
   color: #064e3b !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 .bubble-careful {
   background: linear-gradient(to bottom, #fef3c7 0%, #fde047 100%) !important;
+  border-color: #eab308 !important;
   color: #78350f !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 .bubble-risky {
   background: linear-gradient(to bottom, #ffedd5 0%, #fdba74 100%) !important;
+  border-color: #f97316 !important;
   color: #9a3412 !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 .bubble-danger {
   background: linear-gradient(to bottom, #fee2e2 0%, #fca5a5 100%) !important;
+  border-color: #ef4444 !important;
   color: #7f1d1d !important;
+  box-shadow: -3px 3.5px 0px #000 !important;
 }
 
-.bubble .tm { position: absolute; right: 9px; bottom: 4px; font-size: 9px; color: #475569; font-weight: 800; display: flex; align-items: center; gap: 3px; }
-.row.out .bubble .tm .ck { color: #10b981; font-size: 11px; font-weight: 900; }
+.bubble .tm { position: absolute; right: 9px; bottom: 4px; font-size: 8px; color: #475569; font-weight: 800; display: flex; align-items: center; gap: 3px; }
+.row.out .bubble .tm .ck { color: #f97316; font-size: 11px; font-weight: 900; }
 .bubble.link a { color: #1d4ed8; text-decoration: underline; font-weight: 900; word-break: break-all; }
 
 @keyframes pop {
@@ -385,25 +411,51 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 .opt {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   background: #fff; border: 2.5px solid #000; border-radius: 16px;
-  padding: 9px 8px 9px 13px; text-align: left; font-size: 11px;
+  padding: 9px 8px 9px 13px; text-align: left; font-size: 11.5px;
   font-weight: 800; color: #1e293b;
   box-shadow: 3px 3px 0px #000;
-  transition: transform .15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s, background-color 0.15s;
+  transition: transform .15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s, border-color 0.15s, background-color 0.15s;
   line-height: 1.3;
+  width: 100%;
 }
-.opt:hover  {
+
+/* Comic neon border colors (solid) */
+.opt-0 { border-color: #10b981; }
+.opt-1 { border-color: #3b82f6; }
+.opt-2 { border-color: #a855f7; }
+.opt-3 { border-color: #ec4899; }
+
+.opt:hover {
   background: linear-gradient(to bottom, #fffbeb 0%, #fef3c7 100%);
   transform: scale(1.025);
   box-shadow: 4px 4px 0px #000;
 }
+
 .opt:active {
   transform: translate(1.5px, 1.5px) scale(0.995);
   box-shadow: 1.5px 1.5px 0px #000;
 }
-.opt .go {
-  width: 24px; height: 24px; border-radius: 50%;
+
+.opt-badge {
+  width: 20px; height: 20px; border-radius: 6px;
+  border: 2px solid #000; display: grid; place-items: center;
+  font-family: "Arial Black", "Impact", sans-serif; font-size: 10px; font-weight: 900;
+  color: #fff; flex-shrink: 0;
+}
+.opt-0 .opt-badge { background: #10b981; }
+.opt-1 .opt-badge { background: #3b82f6; }
+.opt-2 .opt-badge { background: #a855f7; }
+.opt-3 .opt-badge { background: #ec4899; }
+
+.opt-text {
+  flex: 1;
+  margin-left: 2px;
+}
+
+.sc-go {
+  width: 20px; height: 20px; border-radius: 50%;
   background: #10b981; color: #fff; display: grid;
-  place-items: center; flex-shrink: 0; font-size: 11px;
+  place-items: center; flex-shrink: 0; font-size: 8px;
   border: 2px solid #000;
   box-shadow: 1px 1px 0px #000;
 }
@@ -848,21 +900,21 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 }
 
 .casino-title {
-  font-family: "Arial Black", "Impact", "Arial Bold", sans-serif;
+  font-family: 'Luckiest Guy', 'Impact', sans-serif;
   font-weight: 900;
-  -webkit-text-stroke: 4.5px #000;
   text-transform: uppercase;
   line-height: 0.85;
-  letter-spacing: -1px;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  filter: drop-shadow(4px 4px 0px #000);
 }
 
 .casino-title.line-1 {
-  color: #ffe600;
-  font-size: 36px;
-  transform: rotate(-3deg) scale(1.05);
-  text-shadow:
-    0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000, 0 5px 0 #000,
-    0 6px 0 #000, 3px 8px 0px rgba(0,0,0,0.45);
+  color: #ff4500;
+  font-size: 48px;
+  transform: rotate(-3deg) skewX(-10deg) scale(1.05);
 }
 
 .casino-title-badge-wrap {
@@ -885,12 +937,9 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 }
 
 .casino-title.line-2 {
-  color: #ff3377;
-  font-size: 38px;
-  transform: rotate(2deg) scale(1.08);
-  text-shadow:
-    0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000, 0 4px 0 #000, 0 5px 0 #000,
-    0 6px 0 #000, -3px 8px 0px rgba(0,0,0,0.45);
+  color: #ffd100;
+  font-size: 50px;
+  transform: rotate(2deg) skewX(-10deg) scale(1.08);
 }
 
 /* Icon box styling */
@@ -1080,6 +1129,28 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+.lobby-selection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+  background-color: #f8fafc;
+}
+
+.lobby-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  background: #1e293b;
+  color: #fff;
+  border-bottom: 3.5px solid #000;
+  margin-top: 44px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
 .lobby-header::before {
   content: '';
   position: absolute;
@@ -1123,33 +1194,37 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background-image: radial-gradient(rgba(0,0,0,0.03) 15%, transparent 16%);
+  background-image: radial-gradient(rgba(16, 185, 129, 0.12) 15%, transparent 16%);
   background-size: 8px 8px;
+  background-color: #f8fafc;
 }
 .lobby-list::-webkit-scrollbar { display: none; }
 
 .lobby-card {
-  background: #fff;
+  background: #ffffff;
   border: 2.5px solid #000;
   border-radius: 16px;
-  padding: 12px;
-  box-shadow: 2.5px 3.5px 0px #000;
-  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s;
+  padding: 14px 16px;
+  box-shadow: 3px 4px 0px #000;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s, border-color 0.15s;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
-.lobby-card:hover {
-  transform: scale(1.025) translateY(-2px);
-  box-shadow: 4px 5px 0px #000;
-}
+.lobby-card.card-0 { border-color: #10b981; }
+.lobby-card.card-1 { border-color: #3b82f6; }
+.lobby-card.card-2 { border-color: #a855f7; }
+.lobby-card.card-3 { border-color: #ec4899; }
+
+.lobby-card.card-0:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(16, 185, 129, 0.25); }
+.lobby-card.card-1:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(59, 130, 246, 0.25); }
+.lobby-card.card-2:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(168, 85, 247, 0.25); }
+.lobby-card.card-3:hover { transform: scale(1.02) translateY(-1px); box-shadow: 4px 5px 0px #000, 0 0 10px rgba(236, 72, 153, 0.25); }
 
 .lobby-card-top {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
 }
 
 .lobby-card-avatar {
@@ -1168,10 +1243,11 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   display: flex;
   flex-direction: column;
   min-width: 0;
+  flex: 1;
 }
 
 .lobby-card-name {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 900;
   color: #1e293b;
   white-space: nowrap;
@@ -1186,64 +1262,30 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
   margin-top: 1px;
 }
 
-.lobby-card-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 2px dashed #f1f5f9;
-  padding-top: 10px;
-  margin-top: 2px;
-}
-
-.lobby-badge {
-  font-size: 8.5px;
-  font-weight: 900;
-  padding: 4px 10px;
-  border-radius: 20px;
+.lobby-card-arrow {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
   border: 2.5px solid #000;
-  box-shadow: 1.5px 2px 0px #000;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.lobby-badge.completed {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.lobby-badge.available {
-  background: #f1f5f9;
-  color: #475569;
-}
-
-.lobby-stars {
-  font-size: 9px;
-  letter-spacing: -1px;
-  margin-left: 2px;
-}
-
-.lobby-play-btn {
-  background: linear-gradient(to bottom, #ffe600 0%, #ffd000 100%);
-  border: 2.5px solid #000;
-  border-radius: 12px;
-  padding: 5px 12px;
+  display: grid;
+  place-items: center;
   font-family: "Arial Black", "Impact", sans-serif;
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 900;
-  color: #000;
-  box-shadow: 2px 2px 0px #000;
-  cursor: pointer;
+  color: #fff;
+  box-shadow: 1.5px 2px 0px #000;
   transition: transform 0.1s;
+  margin-left: auto;
 }
 
-.lobby-card:hover .lobby-play-btn {
-  background: linear-gradient(to bottom, #ffea00 0%, #ffc400 100%);
-}
+.lobby-card.card-0 .lobby-card-arrow { background: #10b981; }
+.lobby-card.card-1 .lobby-card-arrow { background: #3b82f6; }
+.lobby-card.card-2 .lobby-card-arrow { background: #a855f7; }
+.lobby-card.card-3 .lobby-card-arrow { background: #ec4899; }
 
-.lobby-play-btn:active {
-  transform: translate(1.5px, 1.5px);
-  box-shadow: 0.5px 0.5px 0px #000;
+.lobby-card:active .lobby-card-arrow {
+  transform: translate(1px, 1px);
+  box-shadow: 0.5px 1px 0px #000;
 }
 
 

@@ -226,7 +226,8 @@
                        [class.bubble-safe]="selectedChoice.puntos === 4"
                        [class.bubble-careful]="selectedChoice.puntos === 2"
                        [class.bubble-danger]="selectedChoice.puntos === 1">
-                    <span>{{ selectedChoice.texto_visible }}</span>
+                    <span class="sender-tag tu">Tú</span>
+                    <span class="msg-text">{{ selectedChoice.texto_visible }}</span>
                     <small class="block text-[8px] text-right mt-0.5">✓✓ Enviado al plan</small>
                   </div>
                 </div>
@@ -237,9 +238,10 @@
           <!-- Options list inside phone -->
           @if (!activeFeedbackChoice()) {
             <div class="sc-options bg-slate-100 border-t-3 border-black p-2.5 flex flex-col gap-2 max-h-[47%] overflow-y-auto shrink-0">
-              @for (choice of currentOptions(); track choice.id) {
-                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt">
-                  <span>{{ choice.texto_visible }}</span>
+              @for (choice of currentOptions(); track choice.id; let choiceIdx = $index) {
+                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt sc-opt-{{choiceIdx}}">
+                  <div class="opt-badge">{{ choiceIdx + 1 }}</div>
+                  <span class="opt-text">{{ choice.texto_visible }}</span>
                   <span class="sc-go">➤</span>
                 </button>
               }

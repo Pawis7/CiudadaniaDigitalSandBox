@@ -130,25 +130,15 @@
               </button>
             </div>
             <div class="lobby-list">
-              @for (c of cases; track c.id) {
-                <div class="lobby-card" [class.completed]="isCaseDone(c.id)" (click)="startCase(c)">
+              @for (c of cases; track c.id; let idx = $index) {
+                <div class="lobby-card card-{{idx}}" [class.completed]="isCaseDone(c.id)" (click)="startCase(c)">
                   <div class="lobby-card-top">
                     <span class="lobby-card-avatar" [style.background]="c.contact.avGrad">{{ c.contact.avatar }}</span>
                     <div class="lobby-card-meta">
                       <strong class="lobby-card-name">{{ c.name }}</strong>
                       <span class="lobby-card-preview">Contacto: {{ c.contact.name }}</span>
                     </div>
-                  </div>
-                  <div class="lobby-card-bottom">
-                    @if (isCaseDone(c.id)) {
-                      <span class="lobby-badge completed">
-                        SUPERADO
-                        <span class="lobby-stars">{{ getStarsString(c.id) }}</span>
-                      </span>
-                    } @else {
-                      <span class="lobby-badge available">DISPONIBLE</span>
-                    }
-                    <button class="lobby-play-btn" type="button">JUGAR ➤</button>
+                    <span class="lobby-card-arrow">➤</span>
                   </div>
                 </div>
               }
@@ -180,11 +170,16 @@
                      [class.bubble-careful]="msg.level === 'careful'"
                      [class.bubble-risky]="msg.level === 'risky'"
                      [class.bubble-danger]="msg.level === 'danger'">
-                  @if (msg.link) {
-                    <a href="#" (click)="$event.preventDefault()">{{ msg.text }}</a>
-                  } @else {
-                    {{ msg.text }}
-                  }
+                  <span class="sender-tag" [class.scam]="msg.side === 'in'" [class.tu]="msg.side === 'out'">
+                    {{ msg.side === 'in' ? c.contact.name : 'Tú' }}
+                  </span>
+                  <span class="msg-text">
+                    @if (msg.link) {
+                      <a href="#" (click)="$event.preventDefault()">{{ msg.text }}</a>
+                    } @else {
+                      {{ msg.text }}
+                    }
+                  </span>
                   <span class="tm">
                     {{ msg.time }}
                     @if (msg.side === 'out') { <span class="ck">✓✓</span> }
@@ -201,10 +196,11 @@
 
           @if (!awaiting() && turnIndex() < c.turns.length) {
             <div class="options">
-              @for (opt of currentOptions(); track opt.txt) {
-                <button class="opt" type="button" (click)="chooseOption(opt)">
-                  <span>{{ opt.txt }}</span>
-                  <span class="go">➤</span>
+              @for (opt of currentOptions(); track opt.txt; let optIdx = $index) {
+                <button class="opt opt-{{optIdx}}" type="button" (click)="chooseOption(opt)">
+                  <div class="opt-badge">{{ optIdx + 1 }}</div>
+                  <span class="opt-text">{{ opt.txt }}</span>
+                  <span class="sc-go">➤</span>
                 </button>
               }
             </div>

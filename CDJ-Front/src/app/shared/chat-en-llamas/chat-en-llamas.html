@@ -227,17 +227,17 @@
               <!-- Historical / Current Node incoming messages -->
               @for (msg of currentMoment().chat; track $index) {
                 <div class="flex animate-slide-up [animation-fill-mode:backwards]"
-                  [class.justify-end]="msg.speaker === 'Tú'"
+                  [class.justify-end]="msg.speaker === 'me'"
                   [style.animation-delay]="$index * 120 + 'ms'">
                   
                    <div class="bubble-comic-in"
-                    [class.me]="msg.speaker === 'Tú'">
+                    [class.me]="msg.speaker === 'me'">
                     <span class="sender-tag" 
                       [class.sofia]="msg.speaker === 'Sofía' || msg.speaker === 'Sofi'"
                       [class.diego]="msg.speaker === 'Diego'"
                       [class.emiliano]="msg.speaker === 'Emiliano'"
-                      [class.tu]="msg.speaker === 'Tú'">
-                      {{ msg.speaker }}
+                      [class.tu]="msg.speaker === 'me'">
+                      {{ msg.speaker === 'me' ? 'Tú' : msg.speaker }}
                     </span>
                     <span class="msg-text">{{ msg.text }}</span>
                     <small class="block text-[7px] text-right text-slate-400 mt-0.5">14:22</small>
@@ -263,8 +263,8 @@
                        [class.bubble-safe]="selectedChoice.points === 3"
                        [class.bubble-careful]="selectedChoice.points === 2"
                        [class.bubble-danger]="selectedChoice.points === 1">
-                    <span class="block text-[8px] font-black mb-0.5 text-orange-800">Tú</span>
-                    <span>{{ selectedChoice.text }}</span>
+                    <span class="sender-tag tu">Tú</span>
+                    <span class="msg-text">{{ selectedChoice.text }}</span>
                     <small class="block text-[8px] text-right mt-0.5">✓✓ Enviado</small>
                   </div>
                 </div>
@@ -275,9 +275,10 @@
           <!-- Options list inside phone -->
           @if (!activeFeedbackChoice()) {
             <div class="sc-options bg-slate-100 border-t-3 border-black p-2.5 flex flex-col gap-2 max-h-[44%] overflow-y-auto shrink-0">
-              @for (choice of currentOptions(); track choice.text) {
-                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt">
-                  <span>{{ choice.text }}</span>
+              @for (choice of currentOptions(); track choice.text; let choiceIdx = $index) {
+                <button type="button" [disabled]="isTyping()" (click)="choose(choice)" class="sc-opt sc-opt-{{choiceIdx}}">
+                  <div class="opt-badge">{{ choiceIdx + 1 }}</div>
+                  <span class="opt-text">{{ choice.text }}</span>
                   <span class="sc-go">➤</span>
                 </button>
               }

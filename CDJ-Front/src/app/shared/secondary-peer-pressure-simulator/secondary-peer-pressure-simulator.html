@@ -171,10 +171,17 @@
                     </div>
                   } @else {
                     <div class="bubble-comic-in" [class.me]="msg.from === 'me'">
-                      @if (msg.from !== 'me') {
-                        <span class="block text-[8px] font-black mb-0.5 text-sky-800">{{ msg.name }}</span>
-                      }
-                      <span>{{ msg.text }}</span>
+                      <span class="sender-tag" 
+                        [class.sofia]="msg.name === 'Sofía' || msg.name === 'Sofi'"
+                        [class.diego]="msg.name === 'Diego'"
+                        [class.emiliano]="msg.name === 'Emiliano'"
+                        [class.majo]="msg.name === 'Majo'"
+                        [class.dani]="msg.name === 'Dani'"
+                        [class.leo]="msg.name === 'Leo'"
+                        [class.tu]="msg.from === 'me'">
+                        {{ msg.from === 'me' ? 'Tú' : msg.name }}
+                      </span>
+                      <span class="msg-text">{{ msg.text }}</span>
                       <small class="block text-[7px] text-right text-slate-400 mt-0.5">{{ msg.time }}</small>
                     </div>
                   }
@@ -188,7 +195,8 @@
                        [class.bubble-safe]="chosen.puntos === 4"
                        [class.bubble-careful]="chosen.puntos === 2"
                        [class.bubble-danger]="chosen.puntos === 1">
-                    <span>{{ chosen.texto_visible }}</span>
+                    <span class="sender-tag tu">Tú</span>
+                    <span class="msg-text">{{ chosen.texto_visible }}</span>
                     <small class="block text-[8px] text-right mt-0.5">✓✓ Enviado</small>
                   </div>
                 </div>
@@ -209,9 +217,10 @@
           <!-- Options bar (when no choice made yet) -->
           @if (!activeFeedbackChoice() && currentMoment(); as step) {
             <div class="pp-options bg-slate-100 border-t-3 border-black p-2.5 flex flex-col gap-2 max-h-[44%] overflow-y-auto shrink-0">
-              @for (choice of step.opciones; track choice.id) {
-                <button type="button" class="sc-opt" [disabled]="isTyping()" (click)="choose(choice)">
-                  <span>{{ choice.texto_visible }}</span>
+              @for (choice of step.opciones; track choice.id; let choiceIdx = $index) {
+                <button type="button" class="sc-opt sc-opt-{{choiceIdx}}" [disabled]="isTyping()" (click)="choose(choice)">
+                  <div class="opt-badge">{{ choiceIdx + 1 }}</div>
+                  <span class="opt-text">{{ choice.texto_visible }}</span>
                   <span class="sc-go">➤</span>
                 </button>
               }
