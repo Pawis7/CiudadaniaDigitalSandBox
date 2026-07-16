@@ -59,5 +59,8 @@ export const NATURAL_NARRATIONS: NarrationSegment[][] = [
     { text: "Así es, Bit. En la pantalla también cuidamos con nuestras palabras.", pause: 620, rate: 0.8, pitch: 1.08 },
     { text: "Y si vemos un mensaje gris, ¿qué hacemos?", pause: 560, rate: 0.82, pitch: 1.1 },
     { text: "Cerramos y contamos.", pause: 520, rate: 0.78, pitch: 1.12 }
+  ],
+  [
+    { text: "¡Felicidades! Has terminado el cuento. Recuerda siempre nuestro superpoder: ante un mensaje gris, ¡cierro y cuento!", pause: 600, rate: 0.8, pitch: 1.1 }
   ]
 ];

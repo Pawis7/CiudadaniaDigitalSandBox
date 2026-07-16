@@ -132,7 +132,8 @@ export class AudienciaComponent {
       id === 'el-servidor-de-discor' ||
       id === 'el-mercado-gamer' ||
       id === 'el-mundo-privado' ||
-      id === 'quien-entra-mi-mundo'
+      id === 'quien-entra-mi-mundo' ||
+      id === 'bit-data-mensaje-gris'
     );
   });
 

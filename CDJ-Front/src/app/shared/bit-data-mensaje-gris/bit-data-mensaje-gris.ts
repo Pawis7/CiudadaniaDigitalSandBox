@@ -193,7 +193,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     if (this.cur() < this.narrations.length - 1) {
       this.cur.update(c => c + 1);
     } else {
-      this.cur.set(0);
+      this.closeBook();
     }
   }
 
@@ -205,5 +205,20 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   readAllBook(): void {
     this.readAllMode.set(true);
     this.cur.set(1);
+  }
+
+  goToPage(index: number): void {
+    this.readAllMode.set(false);
+    this.cur.set(index);
+  }
+
+  closeBook(): void {
+    this.stopAudio();
+    if (typeof document !== 'undefined') {
+      const closeBtn = document.querySelector('.widget-modal-overlay button[aria-label="Cerrar"]');
+      if (closeBtn) {
+        (closeBtn as HTMLElement).click();
+      }
+    }
   }
 }
