@@ -124,6 +124,19 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-rose-400 to-rose-500',
             actionLabel: 'Jugar',
             link: '#widget-seccion-anchor'
+          },
+          {
+            id: 'bit-data-mensaje-gris',
+            title: 'Bit, Data y el misterio del mensaje gris',
+            description: 'Acompaña a Bit y Data en este cuento ilustrado para aprender a cerrar y contar cuando aparece un mensaje gris con palabras rudas.',
+            type: 'activity',
+            typeLabel: 'Audiocuento ilustrado',
+            icon: 'menu_book',
+            badge: '5 páginas · Preescolar',
+            duration: '8 min',
+            colorClass: 'from-sky-400 to-emerald-400',
+            actionLabel: 'Leer cuento',
+            link: '#widget-seccion-anchor'
           }
         ]
       },

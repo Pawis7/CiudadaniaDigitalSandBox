@@ -465,7 +465,7 @@
   background: #FFFFFF;
   border: 1.5px solid #F1F5F9 !important;
   border-radius: 28px !important;
-  padding: 24px 28px;
+  padding: 28px 36px;
   position: relative;
   text-align: left;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.02) !important;
@@ -592,6 +592,23 @@
   }
 }
 
+/* Card Flip container defaults (Desktop) */
+.re-option-card-wrapper {
+  width: 100%;
+}
+.re-option-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.re-option-card-front {
+  width: 100%;
+  height: 100%;
+}
+.re-option-card-back {
+  display: none; /* Hide back of card on desktop */
+}
+
 .re-option-btn {
   background: #FFF5F7;
   border: 1.5px solid #FFD6E0 !important;
@@ -674,6 +691,7 @@
   border-color: #34d399 !important;
   color: #15803d !important;
   box-shadow: 0 4px 10px rgba(16, 185, 129, 0.08) !important;
+  padding-right: 50px !important;
 }
 .re-opt-correct .re-opt-emoji {
   background: #ffffff !important;
@@ -700,6 +718,22 @@
   background: rgba(220, 38, 38, 0.1) !important;
   border-color: rgba(220, 38, 38, 0.3) !important;
   color: #f87171 !important;
+}
+
+/* Card flip animation when selecting correct/incorrect */
+.re-opt-correct, .re-opt-incorrect {
+  animation: cardFlipReveal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes cardFlipReveal {
+  0% {
+    transform: perspective(400px) rotateY(90deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: perspective(400px) rotateY(0deg);
+    opacity: 1;
+  }
 }
 
 /* Feedback Box */
@@ -803,6 +837,18 @@
   margin-top: 14px;
   padding-top: 18px;
   border-top: 1.5px solid #F1F5F9;
+  
+  /* Pre-allocate space and hide smoothly by default */
+  min-height: 80px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.re-navigation-row.re-nav-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 :host-context([data-theme='dark']) .re-navigation-row {
   border-top-color: #334155;
@@ -854,8 +900,9 @@
 /* Corner checkmark badge for options */
 .re-option-badge-correct {
   position: absolute;
-  right: -8px;
-  top: -8px;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -864,8 +911,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 14px;
   font-weight: bold;
-  font-size: 13px;
   box-shadow: 0 2px 5px rgba(34, 197, 94, 0.3);
   z-index: 10;
 }
@@ -1407,4 +1454,377 @@
 }
 .animate-bounce-slow {
   animation: re-float 3.5s ease-in-out infinite;
+}
+
+/* ======================================================
+   BUTTON DECORATIONS & MOBILE SCROLL OPTIMIZATION
+   ====================================================== */
+
+
+
+/* MOBILE MEDIA QUERY OVERRIDES (max-width: 640px) */
+@media (max-width: 640px) {
+  /* Main Container Shell */
+  .sim-shell {
+    padding: 16px !important;
+    min-height: 520px !important;
+    border-radius: 24px !important;
+  }
+
+  /* Welcome Screen */
+  .re-welcome-screen {
+    padding: 12px 10px !important;
+    gap: 16px !important;
+  }
+  .re-title {
+    font-size: 1.65rem !important;
+    margin-top: 8px !important;
+    line-height: 1.25 !important;
+  }
+  .re-title-pink {
+    font-size: 1.85rem !important;
+    margin-top: 2px !important;
+  }
+  .re-subtitle {
+    font-size: 0.88rem !important;
+    margin-bottom: 2px !important;
+    line-height: 1.45 !important;
+    padding: 0 8px !important;
+  }
+  .re-char-center-wrap {
+    margin: 12px auto !important;
+    gap: 8px !important;
+  }
+  .re-bit-circle {
+    width: 96px !important;
+    height: 96px !important;
+    padding-top: 6px !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.04) !important;
+  }
+  .re-bit-circle .bit-avatar {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+  .re-char-name-badge {
+    font-size: 11px !important;
+    padding: 4px 16px !important;
+  }
+  .re-btn-start {
+    padding: 10px 24px !important;
+    font-size: 0.95rem !important;
+    max-width: 220px !important;
+    gap: 12px !important;
+  }
+  .re-play-icon-wrap {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  .re-play-icon-wrap span {
+    font-size: 18px !important;
+  }
+  .re-tip-welcome {
+    margin-top: 14px !important;
+  }
+
+  /* Gameplay Screen Layout */
+  .re-game-screen {
+    padding: 4px 10px !important;
+    gap: 16px !important;
+  }
+  
+  /* Status Header */
+  .re-top-bar {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 10px !important;
+    gap: 12px !important;
+  }
+  .re-progress-group {
+    gap: 4px !important;
+  }
+  .re-label {
+    font-size: 0.78rem !important;
+  }
+  .re-progress-track {
+    height: 5px !important;
+  }
+  .re-audio-group {
+    gap: 6px !important;
+  }
+  .re-btn-audio, .re-btn-speak {
+    height: 36px !important;
+  }
+  .re-btn-audio {
+    width: 36px !important;
+  }
+  .re-btn-audio span {
+    font-size: 18px !important;
+  }
+  .re-btn-speak {
+    padding: 0 12px !important;
+    font-size: 0.78rem !important;
+    gap: 6px !important;
+  }
+  .re-btn-speak span {
+    font-size: 16px !important;
+  }
+  .re-speak-text {
+    font-size: 0.78rem !important;
+  }
+
+  /* Character & dialogue flow */
+  .re-scene-layout {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+  .re-avatar-col {
+    margin-bottom: 4px !important;
+    gap: 6px !important;
+  }
+  .re-avatar-col .bit-avatar {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+  .re-emotion-tag {
+    font-size: 10px !important;
+    padding: 4px 12px !important;
+  }
+
+  /* Speech Bubble Box */
+  .re-speech-bubble {
+    padding: 20px 24px !important;
+    border-radius: 18px !important;
+  }
+  .re-situation {
+    margin-bottom: 10px !important;
+    gap: 4px !important;
+  }
+  .re-situation-badge {
+    font-size: 10px !important;
+  }
+  .re-situation-text {
+    font-size: 0.88rem !important;
+    line-height: 1.45 !important;
+  }
+  .re-question-container {
+    margin-top: 10px !important;
+    padding-top: 10px !important;
+    gap: 8px !important;
+  }
+  .re-question {
+    font-size: 0.9rem !important;
+    line-height: 1.4 !important;
+  }
+  .re-question-bubble-icon {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .re-question-dots {
+    font-size: 9px !important;
+  }
+
+  /* Option Buttons List */
+  .re-options-grid {
+    gap: 12px !important;
+    margin-top: 6px !important;
+  }
+  
+  /* Option Card Flip Mobile */
+  .re-option-card-wrapper {
+    perspective: 1000px;
+    width: 100%;
+    position: relative;
+    min-height: 52px;
+  }
+  .re-option-card-wrapper.re-flipped {
+    pointer-events: none; /* Disable clicking once flipped */
+  }
+  .re-option-card-inner {
+    position: relative;
+    width: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  
+  .re-option-card-wrapper.re-flipped .re-option-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .re-option-card-front, .re-option-card-back {
+    width: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+  }
+  
+  .re-option-card-front {
+    position: relative; /* defines layout height dynamically */
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+  
+  .re-option-card-back {
+    display: flex !important; /* Show back on mobile */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotateY(180deg);
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    border: 1.5px solid transparent;
+    z-index: 1;
+  }
+  
+  /* Back card states */
+  .re-back-correct {
+    background: #f0fdf4 !important;
+    border-color: #34d399 !important;
+    color: #15803d !important;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.08) !important;
+  }
+  .re-back-incorrect {
+    background: #FEF2F2 !important;
+    border-color: #F87171 !important;
+    color: #DC2626 !important;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.02) !important;
+  }
+  
+  .re-card-back-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 0.88rem;
+  }
+  
+  .re-back-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .re-back-correct .re-back-badge {
+    background-color: #22C55E;
+  }
+  .re-back-incorrect .re-back-badge {
+    background-color: #EF4444;
+  }
+
+  .re-option-btn {
+    min-height: 52px !important;
+    padding: 8px 14px !important;
+    border-radius: 14px !important;
+    gap: 10px !important;
+  }
+  .re-opt-emoji {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1.25rem !important;
+    border-width: 1px !important;
+  }
+  .re-opt-text {
+    font-size: 0.88rem !important;
+  }
+  .re-option-badge-correct {
+    right: 14px !important;
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 11px !important;
+  }
+  .re-opt-correct {
+    padding-right: 40px !important;
+  }
+
+  /* Feedback box wrapper */
+  .re-feedback-box {
+    display: none !important;
+  }
+  .re-feedback-icon-wrap {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 6px !important;
+    margin: 0 !important;
+  }
+  .re-feedback-icon-wrap .material-symbols-rounded {
+    font-size: 14px !important;
+  }
+  .re-feedback-text h3 {
+    font-size: 0.92rem !important;
+    margin-bottom: 2px !important;
+  }
+  .re-feedback-text p {
+    font-size: 0.82rem !important;
+    line-height: 1.4 !important;
+  }
+  .re-reinforce {
+    font-size: 0.78rem !important;
+    margin-top: 4px !important;
+  }
+
+  /* Footer Navigation */
+  .re-navigation-row {
+    margin-top: 10px !important;
+    justify-content: center !important;
+    min-height: 70px !important;
+  }
+  .re-btn-next {
+    padding: 10px 20px !important;
+    font-size: 0.92rem !important;
+    max-width: 200px !important;
+  }
+  .re-next-icon-wrap {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  .re-next-icon-wrap span {
+    font-size: 14px !important;
+  }
+
+  /* Pedagogic Pause Screen */
+  .re-title-pause {
+    font-size: 1.75rem !important;
+    margin-top: 8px !important;
+  }
+  .re-subtitle-pause {
+    font-size: 0.88rem !important;
+    line-height: 1.4 !important;
+    padding: 0 6px !important;
+  }
+  .re-breathing-section {
+    margin: 12px auto !important;
+    gap: 10px !important;
+  }
+  .re-breathing-circle-wrap {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  .re-breathe-emoji {
+    font-size: 2.2rem !important;
+  }
+  .re-wave-left, .re-wave-right {
+    font-size: 1.1rem !important;
+  }
+  .re-breathe-text {
+    font-size: 0.82rem !important;
+    padding: 0 10px !important;
+  }
+  .re-btn-emerald-pause {
+    padding: 10px 24px !important;
+    font-size: 0.92rem !important;
+    max-width: 220px !important;
+  }
+  .re-tip-pause {
+    margin-top: 14px !important;
+  }
 }

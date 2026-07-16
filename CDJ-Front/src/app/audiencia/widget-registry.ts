@@ -31,6 +31,7 @@ import { ElServidorDeDiscorComponent } from '../shared/el-servidor-de-discor/el-
 import { ElMundoPrivadoComponent } from '../shared/el-mundo-privado/el-mundo-privado';
 import { CuandoEntraMundoPrivadoComponent } from '../shared/cuando-entra-mundo-privado/cuando-entra-mundo-privado';
 import { QuienEntraMiMundoComponent } from '../shared/quien-entra-mi-mundo/quien-entra-mi-mundo';
+import { BitDataMensajeGrisComponent } from '../shared/bit-data-mensaje-gris/bit-data-mensaje-gris';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -55,7 +56,8 @@ export type WidgetId =
   | 'el-servidor-de-discor'
   | 'el-mundo-privado'
   | 'cuando-hijo-mundo-privado'
-  | 'quien-entra-mi-mundo';
+  | 'quien-entra-mi-mundo'
+  | 'bit-data-mensaje-gris';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -81,4 +83,5 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'el-mundo-privado': ElMundoPrivadoComponent,
   'cuando-hijo-mundo-privado': CuandoEntraMundoPrivadoComponent,
   'quien-entra-mi-mundo': QuienEntraMiMundoComponent,
+  'bit-data-mensaje-gris': BitDataMensajeGrisComponent,
 };

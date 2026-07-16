@@ -1,0 +1,402 @@
+<div class="audiocuento-wrap">
+  <div class="shell">
+    <div class="bookTop">
+      <div class="brand">
+        <div class="mark">B</div>
+        <div>
+          <b>Ciudadanía Digital Jalisco</b>
+          <small>Colección Preescolar · Audiocuento ilustrado</small>
+        </div>
+      </div>
+      <div class="controls">
+        <button (click)="toggleVoice()" class="ctrl" [class.on]="voiceOn()">
+          {{ voiceOn() ? '🔊 Voz' : '🔇 Silencio' }}
+        </button>
+        <button (click)="readPageManual()" class="ctrl">↻ Leer página</button>
+        <button (click)="readAllBook()" class="ctrl">🎧 Leer cuento</button>
+      </div>
+    </div>
+
+    <div class="book">
+      <!-- PORTADA (cur === 0) -->
+      <section class="spread coverSpread" [class.active]="cur() === 0">
+        <div class="coverPage">
+          <div class="coverCopy">
+            <div class="kicker">Para niñas y niños de 3 a 6 años</div>
+            <h1>Bit, Data y el misterio del <span>mensaje gris</span></h1>
+            <p class="subtitle">
+              Un cuento ilustrado para aprender que una palabra ruda en pantalla puede arrugar el corazón. Cuando aparece un mensaje gris, Bit descubre un superpoder: <b>cerrar y contar</b>.
+            </p>
+            <div class="coverMeta">
+              <div class="metaBox">
+                <div class="e">🤖</div>
+                <b>Bit</b>
+                <p>Un robot pequeño y curioso.</p>
+              </div>
+              <div class="metaBox">
+                <div class="e">🐦</div>
+                <b>Data</b>
+                <p>Una pajarita que cuida y acompaña.</p>
+              </div>
+              <div class="metaBox">
+                <div class="e">☁️</div>
+                <b>Mensaje gris</b>
+                <p>Una palabra ruda que no se guarda.</p>
+              </div>
+            </div>
+            <button (click)="startBook()" class="startBtn">Abrir el cuento</button>
+          </div>
+          <div class="coverArt">
+            <div class="illustration">
+              <div class="softSky"></div>
+              <div class="star" style="left:24px;top:40px">⭐</div>
+              <div class="star" style="right:42px;top:120px;animation-delay:.5s">✨</div>
+              <div class="heart" style="left:180px;top:74px;animation-delay:1s">💗</div>
+              <div class="bit">
+                <div class="head">
+                  <div class="antenna"></div>
+                  <div class="smile"></div>
+                </div>
+                <div class="body"></div>
+              </div>
+              <div class="data">
+                <div class="wing"></div>
+                <div class="body">
+                  <div class="eye"></div>
+                  <div class="beak"></div>
+                </div>
+              </div>
+              <div class="tablet">
+                <div class="screenArt">🐶</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ESCENA 1: EL GRAN DESCUBRIMIENTO (cur === 1) -->
+      <section class="spread" [class.active]="cur() === 1">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker gold" style="left:24px;top:22px">🎨 Dibujo nuevo</div>
+            <div class="sticker small" style="right:24px;top:28px">🐶 Tuercas</div>
+            <div class="heart" style="left:62px;top:62px">💗</div>
+            <div class="heart" style="right:92px;top:54px;animation-delay:.5s">💗</div>
+            <div class="star" style="left:200px;top:38px;animation-delay:1s">⭐</div>
+            <div class="paw" style="left:212px;top:112px">🐾</div>
+            <div class="paw" style="left:248px;top:92px">🐾</div>
+            <div class="bit">
+              <div class="head">
+                <div class="antenna"></div>
+                <div class="smile"></div>
+              </div>
+              <div class="body"></div>
+            </div>
+            <div class="data">
+              <div class="wing"></div>
+              <div class="body">
+                <div class="eye"></div>
+                <div class="beak"></div>
+              </div>
+            </div>
+            <div class="tablet">
+              <div class="screenArt">🐶</div>
+            </div>
+          </div>
+          <div class="pageNum">1</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">El gran descubrimiento</h2>
+          <div class="storyText">
+            <p>Bit brincaba de alegría. En su tablet brillaba un dibujo nuevo.</p>
+            <p>Era Tuercas, su perrito, con orejas grandes, cola feliz y muchos colores.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble">
+              <div class="avatar">🤖</div>
+              <div>
+                <b>Bit</b>
+                <span>¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe.</span>
+              </div>
+            </div>
+          </div>
+          <div class="refrain">Mi corazón brilla como una estrellita.</div>
+          <div class="pageNum">2</div>
+        </div>
+      </section>
+
+      <!-- ESCENA 2: APARECE EL MENSAJE GRIS (cur === 2) -->
+      <section class="spread" [class.active]="cur() === 2">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker gray" style="left:22px;top:24px">☁️ Mensaje gris</div>
+            <div class="drop" style="left:116px;top:142px">💧</div>
+            <div class="drop" style="left:145px;top:168px;animation-delay:.5s">💧</div>
+            <div class="bit sad">
+              <div class="head">
+                <div class="antenna"></div>
+                <div class="smile"></div>
+              </div>
+              <div class="body"></div>
+            </div>
+            <div class="data">
+              <div class="wing"></div>
+              <div class="body">
+                <div class="eye"></div>
+                <div class="beak"></div>
+              </div>
+            </div>
+            <div class="tablet">
+              <div class="screenArt">🐶</div>
+            </div>
+            <div class="grayMsg">Ese perro es feo.<br>No sabes dibujar.</div>
+          </div>
+          <div class="pageNum">3</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">Aparece el mensaje gris</h2>
+          <div class="storyText">
+            <p>Pero, de pronto, una nubecita gris se pegó a la pantalla.</p>
+            <p>El brillo de Bit se hizo pequeño. Sus ojitos miraron hacia abajo.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble">
+              <div class="avatar">☁️</div>
+              <div>
+                <b>Mensaje gris</b>
+                <span>Ese perro es feo. No sabes dibujar.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🤖</div>
+              <div>
+                <b>Bit</b>
+                <span>Data... mi corazón se arrugó, como una hoja hecha bolita.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>Te creo, Bit. Esa palabra no fue amable, y no es tu culpa.</span>
+              </div>
+            </div>
+          </div>
+          <div class="pageNum">4</div>
+        </div>
+      </section>
+
+      <!-- ESCENA 3: DATA NOMBRA LO QUE PASA (cur === 3) -->
+      <section class="spread" [class.active]="cur() === 3">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="alert">⚠️</div>
+            <div class="sticker gold" style="left:24px;top:24px">Palabras rudas</div>
+            <div class="arrowLine" style="right:112px;top:176px"></div>
+            <div class="bit sad">
+              <div class="head">
+                <div class="antenna"></div>
+                <div class="smile"></div>
+              </div>
+              <div class="body"></div>
+            </div>
+            <div class="data">
+              <div class="wing"></div>
+              <div class="body">
+                <div class="eye"></div>
+                <div class="beak"></div>
+              </div>
+            </div>
+            <div class="tablet">
+              <div class="screenArt">🐶</div>
+            </div>
+            <div class="grayMsg">mensaje gris</div>
+          </div>
+          <div class="pageNum">5</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">Data nombra lo que pasa</h2>
+          <div class="storyText">
+            <p>Data voló cerquita. Miró la pantalla, miró a Bit y respiró suave.</p>
+            <p>Luego habló con una voz tranquila, de esas que abrazan.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>Alerta de cuidado. Las palabras rudas en pantalla también pueden doler.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>Es como un empujón hecho con letras. Y los empujones no se guardan solitos.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🤖</div>
+              <div>
+                <b>Bit</b>
+                <span>Entonces sí cuenta lo que siento, aunque haya pasado en la tablet.</span>
+              </div>
+            </div>
+          </div>
+          <div class="pageNum">6</div>
+        </div>
+      </section>
+
+      <!-- ESCENA 4: EL SUPERPODER (cur === 4) -->
+      <section class="spread" [class.active]="cur() === 4">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker green" style="left:20px;top:24px">🛡️ Superpoder</div>
+            <div class="sticker small pink" style="right:18px;top:24px">Cierra y cuenta</div>
+            <div class="bit sad">
+              <div class="head">
+                <div class="antenna"></div>
+                <div class="smile"></div>
+              </div>
+              <div class="body"></div>
+            </div>
+            <div class="data">
+              <div class="wing"></div>
+              <div class="body">
+                <div class="eye"></div>
+                <div class="beak"></div>
+              </div>
+            </div>
+            <div class="adult">
+              <div class="face"></div>
+              <div class="body"></div>
+            </div>
+            <div class="tablet">
+              <div class="screenArt">🐶</div>
+            </div>
+            <div class="closeX">✕</div>
+            <div class="grayMsg">mensaje gris</div>
+          </div>
+          <div class="pageNum">7</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">El superpoder</h2>
+          <div class="storyText">
+            <p>Bit apretó la tablet contra su pecho. Por un momento quiso esconderla.</p>
+            <p>Data no lo regañó. Se puso a su lado, despacito.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble">
+              <div class="avatar">🤖</div>
+              <div>
+                <b>Bit</b>
+                <span>Tal vez borro mi dibujo... y no se lo digo a nadie.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>No guardes solito un secreto que pesa. Tienes un superpoder: cerrar y contar.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>Primero cerramos la pantalla. Luego buscamos a una persona adulta que te cuida.</span>
+              </div>
+            </div>
+          </div>
+          <div class="refrain">Si una pantalla me trata mal: cierro y cuento.</div>
+          <div class="pageNum">8</div>
+        </div>
+      </section>
+
+      <!-- ESCENA 5: FINAL AMABLE (cur === 5) -->
+      <section class="spread" [class.active]="cur() === 5">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker green" style="left:22px;top:22px">✅ Pedimos ayuda</div>
+            <div class="sticker small" style="right:18px;top:26px">💬 Ya lo contó</div>
+            <div class="heart" style="left:62px;top:74px">💗</div>
+            <div class="heart" style="right:72px;top:62px;animation-delay:.6s">💗</div>
+            <div class="star" style="left:210px;top:48px;animation-delay:1s">⭐</div>
+            <div class="checkSeal">✓</div>
+            <div class="bit">
+              <div class="head">
+                <div class="antenna"></div>
+                <div class="smile"></div>
+              </div>
+              <div class="body"></div>
+            </div>
+            <div class="data">
+              <div class="wing"></div>
+              <div class="body">
+                <div class="eye"></div>
+                <div class="beak"></div>
+              </div>
+            </div>
+            <div class="adult">
+              <div class="face"></div>
+              <div class="body"></div>
+            </div>
+            <div class="tablet">
+              <div class="screenArt">🐶</div>
+            </div>
+            <div class="bigHeart">💗</div>
+          </div>
+          <div class="pageNum">9</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">Final amable</h2>
+          <div class="storyText">
+            <p>Bit volvió a mirar a Tuercas. Ahí seguían sus orejas grandes, su cola feliz y sus colores.</p>
+            <p>El mensaje gris no podía borrar lo bonito de su dibujo.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble">
+              <div class="avatar">🤖</div>
+              <div>
+                <b>Bit</b>
+                <span>Gracias, Data. Mi dibujo sigue siendo mío. Ahora se lo contaré a mi maestra.</span>
+              </div>
+            </div>
+            <div class="bubble">
+              <div class="avatar">🐦</div>
+              <div>
+                <b>Data</b>
+                <span>Así es, Bit. En la pantalla también cuidamos con nuestras palabras.</span>
+              </div>
+            </div>
+          </div>
+          <div class="refrain">Si vemos un mensaje gris, ¿qué hacemos? Cerramos y contamos.</div>
+          <div class="note">Fin del cuento. Pueden repetir juntos la frase con voz tranquila: cerramos y contamos.</div>
+          <div class="pageNum">10</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="nav">
+      <button [disabled]="cur() === 0" (click)="prevPage()" class="pageBtn">← Página anterior</button>
+      <div class="pageCount">
+        {{ cur() === 0 ? 'Portada' : 'Páginas ' + (cur() * 2 - 1) + '–' + (cur() * 2) }}
+      </div>
+      <button (click)="nextPage()" class="pageBtn next">
+        {{ cur() === narrations.length - 1 ? 'Volver al inicio' : 'Siguiente página →' }}
+      </button>
+    </div>
+  </div>
+</div>

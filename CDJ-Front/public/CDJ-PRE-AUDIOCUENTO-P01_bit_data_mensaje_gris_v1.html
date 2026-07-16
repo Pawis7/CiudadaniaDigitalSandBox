@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bit, Data y el misterio del mensaje gris · Cuento ilustrado</title>
+<style>
+:root{
+  --paper:#fffaf0;
+  --paper2:#fffdf7;
+  --ink:#2a2118;
+  --muted:#786b5d;
+  --line:#eadcc8;
+  --blue:#66c7e8;
+  --sky:#c9f0ff;
+  --mint:#bff3d1;
+  --green:#5bbf7a;
+  --yellow:#ffd66e;
+  --pink:#ff9cc8;
+  --coral:#ff8f7a;
+  --gray:#7a7f88;
+  --shadow:0 24px 60px rgba(81,58,32,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 10%,rgba(102,199,232,.25),transparent 30%),
+    radial-gradient(circle at 90% 86%,rgba(191,243,209,.34),transparent 36%),
+    linear-gradient(180deg,#f8ecd6,#fff8e9 40%,#f4e4cf);
+}
+button{font:inherit;border:0;cursor:pointer}
+.app{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+}
+.shell{
+  width:min(1180px,100%);
+}
+.bookTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0 auto 14px;
+  max-width:1040px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,253,247,.86);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 12px;
+  box-shadow:0 8px 20px rgba(81,58,32,.07);
+}
+.brand .mark{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--green));
+  display:grid;place-items:center;color:#fff;font-weight:900;
+}
+.brand b{font-size:.92rem}
+.brand small{display:block;color:var(--muted);font-size:.72rem}
+.controls{
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;
+}
+.ctrl{
+  border:1px solid var(--line);
+  background:rgba(255,253,247,.92);
+  color:#4f4032;
+  border-radius:999px;
+  padding:9px 12px;
+  font-weight:900;
+  box-shadow:0 8px 20px rgba(81,58,32,.07);
+}
+.ctrl.on{background:#eefbea;border-color:#ade8bb;color:#23613a}
+.book{
+  position:relative;
+  width:min(1040px,100%);
+  min-height:650px;
+  margin:0 auto;
+  perspective:1600px;
+}
+.spread{
+  display:none;
+  min-height:650px;
+  background:linear-gradient(90deg,#f4dfbd 0,#fff8e9 3%,#fffdf7 49%,#ead5b6 50%,#fffdf7 51%,#fff8e9 97%,#f4dfbd 100%);
+  border:1px solid #d9c39f;
+  border-radius:26px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+}
+.spread.active{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  animation:openPage .38s ease both;
+}
+@keyframes openPage{
+  from{transform:rotateY(-3deg) translateY(6px);opacity:.45}
+  to{transform:rotateY(0) translateY(0);opacity:1}
+}
+.spread:before{
+  content:"";
+  position:absolute;
+  top:0;bottom:0;left:50%;
+  width:1px;
+  background:linear-gradient(180deg,transparent,#d2b993,transparent);
+  box-shadow:0 0 30px rgba(77,52,28,.28);
+  z-index:4;
+}
+.page{
+  position:relative;
+  min-height:650px;
+  padding:34px;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(255,255,255,.55),transparent 28%),
+    linear-gradient(180deg,rgba(255,255,255,.36),rgba(255,250,240,.7));
+}
+.page.illustrationPage{
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+.page.textPage{
+  justify-content:center;
+}
+.pageNum{
+  position:absolute;
+  bottom:16px;
+  font-size:.78rem;
+  color:#a28a6f;
+}
+.leftPage .pageNum{left:34px}
+.rightPage .pageNum{right:34px}
+.coverSpread{
+  grid-template-columns:1fr!important;
+  background:linear-gradient(135deg,#88ddf6,#fff8e9 42%,#f9d6e8)!important;
+}
+.coverPage{
+  min-height:650px;
+  padding:42px;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:24px;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+.coverPage:before{
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:3px dashed rgba(255,255,255,.75);
+  border-radius:28px;
+  pointer-events:none;
+}
+.coverCopy{
+  position:relative;
+  z-index:2;
+  background:rgba(255,253,247,.80);
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:30px;
+  padding:30px;
+  box-shadow:0 20px 42px rgba(81,58,32,.12);
+}
+.kicker{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  color:#0e7b66;
+  background:#e9fff6;
+  border:1px solid #b8f5db;
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:.78rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:14px;
+}
+h1{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(2.5rem,6vw,5.2rem);
+  line-height:.95;
+  letter-spacing:-.045em;
+  color:#2a2118;
+  margin-bottom:14px;
+}
+h1 span{color:#6b7280}
+.subtitle{
+  font-size:1.13rem;
+  color:#5d5144;
+  line-height:1.55;
+  max-width:560px;
+}
+.coverMeta{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.metaBox{
+  background:#fffdf7;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:12px;
+}
+.metaBox .e{font-size:1.45rem}
+.metaBox b{display:block;font-size:.86rem;margin:4px 0 2px}
+.metaBox p{font-size:.78rem;line-height:1.3;color:var(--muted)}
+.startBtn{
+  margin-top:20px;
+  border-radius:20px;
+  padding:14px 20px;
+  background:linear-gradient(135deg,#42b7df,#5bbf7a);
+  color:white;
+  font-weight:900;
+  box-shadow:0 14px 28px rgba(66,183,223,.25);
+}
+.coverArt{
+  position:relative;
+  min-height:520px;
+}
+.sceneTitle{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(1.65rem,4vw,2.65rem);
+  line-height:1.04;
+  letter-spacing:-.035em;
+  color:#33261a;
+  margin-bottom:16px;
+}
+.storyText{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(1.35rem,2.4vw,2.05rem);
+  line-height:1.42;
+  color:#30261d;
+}
+.storyText p + p{margin-top:14px}
+.dialogue{
+  margin-top:18px;
+  display:grid;
+  gap:12px;
+}
+.bubble{
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:10px;
+  align-items:start;
+  background:rgba(255,255,255,.74);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:12px;
+}
+.bubble .avatar{
+  width:46px;height:46px;border-radius:18px;
+  display:grid;place-items:center;font-size:1.45rem;background:#eef9ff;
+}
+.bubble b{
+  display:block;
+  color:#256a93;
+  font-size:.92rem;
+  font-family:"Trebuchet MS","Segoe UI",sans-serif;
+  margin-bottom:3px;
+}
+.bubble span{
+  font-family:Georgia, "Times New Roman", serif;
+  font-size:clamp(1.05rem,2vw,1.35rem);
+  line-height:1.35;
+}
+.refrain{
+  margin-top:20px;
+  background:#fff2d7;
+  border:2px solid #ffd78a;
+  border-radius:24px;
+  padding:16px;
+  font-size:clamp(1.25rem,2.4vw,1.7rem);
+  font-weight:900;
+  text-align:center;
+  color:#9a4d05;
+}
+.note{
+  margin-top:18px;
+  font-size:.92rem;
+  color:#786b5d;
+  line-height:1.45;
+  font-family:"Trebuchet MS","Segoe UI",sans-serif;
+}
+
+/* Illustrations */
+.illustration{
+  position:relative;
+  width:min(455px,96%);
+  height:520px;
+}
+.softSky{
+  position:absolute;
+  inset:0;
+  border-radius:34px;
+  background:
+    radial-gradient(circle at 15% 20%,#fff 0 10%,transparent 11%),
+    radial-gradient(circle at 75% 17%,#fff 0 13%,transparent 14%),
+    linear-gradient(180deg,#b7efff,#ecfff7 65%,#a8e6ba 66%);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 20px 42px rgba(81,58,32,.11);
+  overflow:hidden;
+}
+.softSky:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;height:120px;
+  background:#8ee6a9;
+  border-top:7px solid rgba(255,255,255,.5);
+}
+.star, .heart{
+  position:absolute;
+  z-index:2;
+  font-size:1.5rem;
+  animation:float 3.6s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.bit{
+  position:absolute;
+  left:72px;
+  bottom:96px;
+  width:120px;
+  height:158px;
+  z-index:5;
+}
+.bit .head{
+  width:96px;height:84px;margin:0 auto;
+  background:linear-gradient(180deg,#dff7ff,#8fd3f1);
+  border:5px solid white;
+  border-radius:29px;
+  position:relative;
+  box-shadow:0 12px 22px rgba(81,58,32,.15);
+}
+.bit .head:before,.bit .head:after{
+  content:"";position:absolute;top:34px;width:12px;height:12px;border-radius:50%;background:#1f2937;
+}
+.bit .head:before{left:25px}.bit .head:after{right:25px}
+.bit .smile{
+  position:absolute;left:36px;top:52px;width:24px;height:13px;
+  border-bottom:4px solid #1f2937;border-radius:0 0 20px 20px;
+}
+.bit.sad .smile{
+  top:58px;border-bottom:0;border-top:4px solid #1f2937;border-radius:20px 20px 0 0;
+}
+.bit .antenna{
+  position:absolute;left:42px;top:-24px;width:10px;height:25px;background:white;border-radius:999px;
+}
+.bit .antenna:after{
+  content:"";position:absolute;left:-6px;top:-12px;width:22px;height:22px;border-radius:50%;background:#ffd66e;
+}
+.bit .body{
+  width:78px;height:64px;background:linear-gradient(180deg,#61c8ec,#2f75dd);
+  border:5px solid white;border-radius:24px;margin:-4px auto 0;
+}
+.data{
+  position:absolute;
+  right:70px;
+  top:86px;
+  width:120px;
+  height:92px;
+  z-index:6;
+  transform:rotate(-6deg);
+}
+.data .wing{
+  position:absolute;width:48px;height:36px;left:-16px;top:31px;background:#fff4c7;border:5px solid white;border-radius:50%;transform:rotate(-20deg);
+}
+.data .body{
+  width:100px;height:66px;background:linear-gradient(135deg,#fff0a3,#ffd66e);
+  border:5px solid white;border-radius:52% 48% 45% 55%;
+  position:relative;box-shadow:0 12px 22px rgba(81,58,32,.13);
+}
+.data .eye{position:absolute;right:27px;top:24px;width:11px;height:11px;border-radius:50%;background:#1f2937}
+.data .beak{
+  position:absolute;right:-16px;top:28px;width:0;height:0;
+  border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:18px solid #fb923c;
+}
+.tablet{
+  position:absolute;
+  left:174px;
+  bottom:116px;
+  width:170px;
+  height:118px;
+  border-radius:20px;
+  background:#2b3446;
+  border:7px solid white;
+  box-shadow:0 18px 30px rgba(81,58,32,.16);
+  z-index:4;
+  overflow:hidden;
+}
+.screenArt{
+  position:absolute;
+  inset:8px;
+  background:#fffdf7;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-size:3rem;
+}
+.grayMsg{
+  position:absolute;
+  right:34px;
+  bottom:208px;
+  width:190px;
+  min-height:86px;
+  z-index:9;
+  background:#6b7280;
+  color:white;
+  border:6px solid white;
+  border-radius:24px 24px 24px 8px;
+  padding:14px;
+  font-weight:900;
+  line-height:1.13;
+  box-shadow:0 16px 28px rgba(81,58,32,.18);
+  transform:rotate(5deg);
+}
+.grayMsg:before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border-radius:16px;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.15) 0 5px,transparent 5px 10px);
+  pointer-events:none;
+}
+.alert{
+  position:absolute;
+  top:42px;
+  right:45px;
+  z-index:8;
+  width:96px;height:96px;border-radius:32px;
+  background:#fff5de;border:6px solid #fbbf24;
+  display:grid;place-items:center;
+  font-size:3rem;
+  box-shadow:0 16px 28px rgba(81,58,32,.14);
+}
+.bigHeart{
+  position:absolute;
+  right:48px;
+  bottom:126px;
+  width:128px;height:128px;border-radius:38px;
+  background:#fff;border:6px solid #ffcbe2;
+  display:grid;place-items:center;
+  font-size:3.8rem;
+  box-shadow:0 16px 30px rgba(81,58,32,.15);
+  z-index:8;
+}
+.adult{
+  position:absolute;
+  left:238px;
+  bottom:86px;
+  width:100px;height:152px;
+  z-index:7;
+}
+.adult .face{
+  width:78px;height:78px;margin:0 auto;background:#ffd6aa;border:5px solid #fff;border-radius:27px;position:relative;
+}
+.adult .face:before,.adult .face:after{content:"";position:absolute;top:34px;width:9px;height:9px;border-radius:50%;background:#1f2937}
+.adult .face:before{left:23px}.adult .face:after{right:23px}
+.adult .body{
+  width:86px;height:72px;margin:-4px auto 0;background:#5bd08b;border:5px solid white;border-radius:25px;
+}
+.hide{display:none!important}
+.nav{
+  width:min(1040px,100%);
+  margin:14px auto 0;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+.pageBtn{
+  background:#fffdf7;
+  border:1px solid var(--line);
+  color:#4f4032;
+  border-radius:18px;
+  padding:12px 15px;
+  font-weight:900;
+  box-shadow:0 8px 20px rgba(81,58,32,.07);
+}
+.pageBtn.next{
+  background:linear-gradient(135deg,#42b7df,#5bbf7a);
+  color:white;border:0;
+}
+.pageBtn:disabled{opacity:.45;cursor:not-allowed}
+.pageCount{color:#786b5d;font-weight:900;font-size:.9rem}
+.toast{
+  position:fixed;
+  left:50%;bottom:18px;z-index:80;
+  transform:translate(-50%,120%);
+  background:#2a2118;color:white;
+  border-radius:999px;
+  padding:11px 14px;
+  font-weight:900;
+  font-size:.88rem;
+  box-shadow:0 18px 38px rgba(0,0,0,.20);
+  transition:.25s;
+}
+.toast.show{transform:translate(-50%,0)}
+@media(max-width:850px){
+  .bookTop{display:grid;gap:10px}
+  .controls{justify-content:flex-start}
+  .spread.active{grid-template-columns:1fr}
+  .spread:before{display:none}
+  .page{min-height:auto;padding:24px}
+  .coverPage{grid-template-columns:1fr;padding:24px}
+  .coverArt{min-height:430px}
+  .coverMeta{grid-template-columns:1fr}
+  .illustration{height:430px}
+  .leftPage .pageNum,.rightPage .pageNum{display:none}
+  .nav{padding:0 6px}
+}
+@media(max-width:560px){
+  .app{padding:12px}
+  .book{min-height:auto}
+  .spread{min-height:auto;border-radius:22px}
+  .illustration{height:365px;width:100%}
+  .softSky{border-radius:24px}
+  .bit{transform:scale(.78);transform-origin:bottom left;left:36px;bottom:72px}
+  .data{transform:scale(.72) rotate(-6deg);right:22px;top:58px}
+  .tablet{transform:scale(.78);left:122px;bottom:86px}
+  .grayMsg{transform:scale(.75) rotate(5deg);right:10px;bottom:172px}
+  .adult{transform:scale(.72);left:152px;bottom:62px}
+  .bigHeart{transform:scale(.75);right:26px;bottom:82px}
+  .alert{transform:scale(.75);right:28px;top:34px}
+}
+
+.sticker{
+  position:absolute;
+  z-index:10;
+  background:rgba(255,253,247,.92);
+  border:3px solid #fff;
+  border-radius:18px;
+  padding:8px 12px;
+  font-weight:900;
+  font-size:.95rem;
+  color:#5a4635;
+  box-shadow:0 12px 24px rgba(81,58,32,.12);
+}
+.sticker.small{font-size:.82rem;padding:7px 10px;border-radius:16px}
+.sticker.gold{background:#fff7d9}
+.sticker.pink{background:#fff0f6}
+.sticker.green{background:#eefdeb}
+.sticker.gray{background:#edf1f5}
+.drop{
+  position:absolute;
+  z-index:7;
+  font-size:1.15rem;
+  color:#60a5fa;
+  animation:float 2.8s ease-in-out infinite;
+}
+.arrowLine{
+  position:absolute;
+  z-index:8;
+  width:110px;
+  height:0;
+  border-top:4px dashed #fbbf24;
+  transform:rotate(28deg);
+}
+.arrowLine:after{
+  content:"";
+  position:absolute;
+  right:-6px;top:-8px;
+  width:0;height:0;
+  border-top:8px solid transparent;
+  border-bottom:8px solid transparent;
+  border-left:14px solid #fbbf24;
+}
+.paw{
+  position:absolute;
+  z-index:6;
+  font-size:1.1rem;
+  opacity:.78;
+}
+.closeX{
+  position:absolute;
+  left:223px;
+  bottom:146px;
+  z-index:12;
+  width:66px;height:66px;
+  border-radius:22px;
+  background:#fff;
+  border:5px solid #fca5a5;
+  display:grid;place-items:center;
+  font-size:2rem;
+  color:#dc2626;
+  box-shadow:0 12px 24px rgba(81,58,32,.13);
+}
+.checkSeal{
+  position:absolute;
+  left:48px;
+  bottom:116px;
+  z-index:9;
+  width:78px;height:78px;border-radius:26px;
+  background:#fff;
+  border:5px solid #86efac;
+  display:grid;place-items:center;
+  font-size:2.1rem;
+  box-shadow:0 12px 24px rgba(81,58,32,.13);
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="shell">
+    <div class="bookTop">
+      <div class="brand">
+        <div class="mark">B</div>
+        <div><b>Ciudadanía Digital Jalisco</b><small>Colección Preescolar · Audiocuento ilustrado</small></div>
+      </div>
+      <div class="controls">
+        <button id="voiceToggle" class="ctrl on">🔊 Voz</button>
+        <button id="readPage" class="ctrl">↻ Leer página</button>
+        <button id="readAll" class="ctrl">🎧 Leer cuento</button>
+      </div>
+    </div>
+
+    <div class="book">
+      <section class="spread coverSpread active" data-kind="cover">
+        <div class="coverPage">
+          <div class="coverCopy">
+            <div class="kicker">Para niñas y niños de 3 a 6 años</div>
+            <h1>Bit, Data y el misterio del <span>mensaje gris</span></h1>
+            <p class="subtitle">Un cuento ilustrado para aprender que una palabra ruda en pantalla puede arrugar el corazón. Cuando aparece un mensaje gris, Bit descubre un superpoder: <b>cerrar y contar</b>.</p>
+            <div class="coverMeta">
+              <div class="metaBox"><div class="e">🤖</div><b>Bit</b><p>Un robot pequeño y curioso.</p></div>
+              <div class="metaBox"><div class="e">🐦</div><b>Data</b><p>Una pajarita que cuida y acompaña.</p></div>
+              <div class="metaBox"><div class="e">☁️</div><b>Mensaje gris</b><p>Una palabra ruda que no se guarda.</p></div>
+            </div>
+            <button id="start" class="startBtn">Abrir el cuento</button>
+          </div>
+          <div class="coverArt">
+            <div class="illustration">
+              <div class="softSky"></div>
+              <div class="star" style="left:24px;top:40px">⭐</div>
+              <div class="star" style="right:42px;top:120px;animation-delay:.5s">✨</div>
+              <div class="heart" style="left:180px;top:74px;animation-delay:1s">💗</div>
+              <div class="bit"><div class="head"><div class="antenna"></div><div class="smile"></div></div><div class="body"></div></div>
+              <div class="data"><div class="wing"></div><div class="body"><div class="eye"></div><div class="beak"></div></div></div>
+              <div class="tablet"><div class="screenArt">🐶</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="spread" data-art="happy">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker gold" style="left:24px;top:22px">🎨 Dibujo nuevo</div>
+            <div class="sticker small" style="right:24px;top:28px">🐶 Tuercas</div>
+            <div class="heart" style="left:62px;top:62px">💗</div>
+            <div class="heart" style="right:92px;top:54px;animation-delay:.5s">💗</div>
+            <div class="star" style="left:200px;top:38px;animation-delay:1s">⭐</div>
+            <div class="paw" style="left:212px;top:112px">🐾</div>
+            <div class="paw" style="left:248px;top:92px">🐾</div>
+            <div class="bit"><div class="head"><div class="antenna"></div><div class="smile"></div></div><div class="body"></div></div>
+            <div class="data"><div class="wing"></div><div class="body"><div class="eye"></div><div class="beak"></div></div></div>
+            <div class="tablet"><div class="screenArt">🐶</div></div>
+          </div>
+          <div class="pageNum">1</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">El gran descubrimiento</h2>
+          <div class="storyText">
+            <p>Bit brincaba de alegría. En su tablet brillaba un dibujo nuevo.</p>
+            <p>Era Tuercas, su perrito, con orejas grandes, cola feliz y muchos colores.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble"><div class="avatar">🤖</div><div><b>Bit</b><span>¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.</span></div></div>
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe.</span></div></div>
+          </div>
+          <div class="refrain">Mi corazón brilla como una estrellita.</div>
+          <div class="pageNum">2</div>
+        </div>
+      </section>
+
+      <section class="spread" data-art="gray">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker gray" style="left:22px;top:24px">☁️ Mensaje gris</div>
+            <div class="drop" style="left:116px;top:142px">💧</div>
+            <div class="drop" style="left:145px;top:168px;animation-delay:.5s">💧</div>
+            <div class="bit sad"><div class="head"><div class="antenna"></div><div class="smile"></div></div><div class="body"></div></div>
+            <div class="data"><div class="wing"></div><div class="body"><div class="eye"></div><div class="beak"></div></div></div>
+            <div class="tablet"><div class="screenArt">🐶</div></div>
+            <div class="grayMsg">Ese perro es feo.<br>No sabes dibujar.</div>
+          </div>
+          <div class="pageNum">3</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">Aparece el mensaje gris</h2>
+          <div class="storyText">
+            <p>Pero, de pronto, una nubecita gris se pegó a la pantalla.</p>
+            <p>El brillo de Bit se hizo pequeño. Sus ojitos miraron hacia abajo.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble"><div class="avatar">☁️</div><div><b>Mensaje gris</b><span>Ese perro es feo. No sabes dibujar.</span></div></div>
+            <div class="bubble"><div class="avatar">🤖</div><div><b>Bit</b><span>Data... mi corazón se arrugó, como una hoja hecha bolita.</span></div></div>
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>Te creo, Bit. Esa palabra no fue amable, y no es tu culpa.</span></div></div>
+          </div>
+          <div class="pageNum">4</div>
+        </div>
+      </section>
+
+      <section class="spread" data-art="alert">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="alert">⚠️</div>
+            <div class="sticker gold" style="left:24px;top:24px">Palabras rudas</div>
+            <div class="arrowLine" style="right:112px;top:176px"></div>
+            <div class="bit sad"><div class="head"><div class="antenna"></div><div class="smile"></div></div><div class="body"></div></div>
+            <div class="data"><div class="wing"></div><div class="body"><div class="eye"></div><div class="beak"></div></div></div>
+            <div class="tablet"><div class="screenArt">🐶</div></div>
+            <div class="grayMsg">mensaje gris</div>
+          </div>
+          <div class="pageNum">5</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">Data nombra lo que pasa</h2>
+          <div class="storyText">
+            <p>Data voló cerquita. Miró la pantalla, miró a Bit y respiró suave.</p>
+            <p>Luego habló con una voz tranquila, de esas que abrazan.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>Alerta de cuidado. Las palabras rudas en pantalla también pueden doler.</span></div></div>
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>Es como un empujón hecho con letras. Y los empujones no se guardan solitos.</span></div></div>
+            <div class="bubble"><div class="avatar">🤖</div><div><b>Bit</b><span>Entonces sí cuenta lo que siento, aunque haya pasado en la tablet.</span></div></div>
+          </div>
+          <div class="pageNum">6</div>
+        </div>
+      </section>
+
+      <section class="spread" data-art="close">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker green" style="left:20px;top:24px">🛡️ Superpoder</div>
+            <div class="sticker small pink" style="right:18px;top:24px">Cierra y cuenta</div>
+            <div class="bit sad"><div class="head"><div class="antenna"></div><div class="smile"></div></div><div class="body"></div></div>
+            <div class="data"><div class="wing"></div><div class="body"><div class="eye"></div><div class="beak"></div></div></div>
+            <div class="adult"><div class="face"></div><div class="body"></div></div>
+            <div class="tablet"><div class="screenArt">🐶</div></div>
+            <div class="closeX">✕</div>
+            <div class="grayMsg">mensaje gris</div>
+          </div>
+          <div class="pageNum">7</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">El superpoder</h2>
+          <div class="storyText">
+            <p>Bit apretó la tablet contra su pecho. Por un momento quiso esconderla.</p>
+            <p>Data no lo regañó. Se puso a su lado, despacito.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble"><div class="avatar">🤖</div><div><b>Bit</b><span>Tal vez borro mi dibujo... y no se lo digo a nadie.</span></div></div>
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>No guardes solito un secreto que pesa. Tienes un superpoder: cerrar y contar.</span></div></div>
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>Primero cerramos la pantalla. Luego buscamos a una persona adulta que te cuida.</span></div></div>
+          </div>
+          <div class="refrain">Si una pantalla me trata mal: cierro y cuento.</div>
+          <div class="pageNum">8</div>
+        </div>
+      </section>
+
+      <section class="spread" data-art="final">
+        <div class="page illustrationPage leftPage">
+          <div class="illustration">
+            <div class="softSky"></div>
+            <div class="sticker green" style="left:22px;top:22px">✅ Pedimos ayuda</div>
+            <div class="sticker small" style="right:18px;top:26px">💬 Ya lo contó</div>
+            <div class="heart" style="left:62px;top:74px">💗</div>
+            <div class="heart" style="right:72px;top:62px;animation-delay:.6s">💗</div>
+            <div class="star" style="left:210px;top:48px;animation-delay:1s">⭐</div>
+            <div class="checkSeal">✓</div>
+            <div class="bit"><div class="head"><div class="antenna"></div><div class="smile"></div></div><div class="body"></div></div>
+            <div class="data"><div class="wing"></div><div class="body"><div class="eye"></div><div class="beak"></div></div></div>
+            <div class="adult"><div class="face"></div><div class="body"></div></div>
+            <div class="tablet"><div class="screenArt">🐶</div></div>
+            <div class="bigHeart">💗</div>
+          </div>
+          <div class="pageNum">9</div>
+        </div>
+        <div class="page textPage rightPage">
+          <h2 class="sceneTitle">Final amable</h2>
+          <div class="storyText">
+            <p>Bit volvió a mirar a Tuercas. Ahí seguían sus orejas grandes, su cola feliz y sus colores.</p>
+            <p>El mensaje gris no podía borrar lo bonito de su dibujo.</p>
+          </div>
+          <div class="dialogue">
+            <div class="bubble"><div class="avatar">🤖</div><div><b>Bit</b><span>Gracias, Data. Mi dibujo sigue siendo mío. Ahora se lo contaré a mi maestra.</span></div></div>
+            <div class="bubble"><div class="avatar">🐦</div><div><b>Data</b><span>Así es, Bit. En la pantalla también cuidamos con nuestras palabras.</span></div></div>
+          </div>
+          <div class="refrain">Si vemos un mensaje gris, ¿qué hacemos? Cerramos y contamos.</div>
+          <div class="note">Fin del cuento. Pueden repetir juntos la frase con voz tranquila: cerramos y contamos.</div>
+          <div class="pageNum">10</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="nav">
+      <button id="prev" class="pageBtn">← Página anterior</button>
+      <div id="pageCount" class="pageCount">Portada</div>
+      <button id="next" class="pageBtn next">Siguiente página →</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast">Listo</div>
+
+<script>
+
+
+const spreads=[...document.querySelectorAll(".spread")];
+
+const naturalNarrations=[
+  [
+    {text:"Bit, Data y el misterio del mensaje gris.",pause:650,rate:.78,pitch:1.1},
+    {text:"Un cuento para descubrir un superpoder pequeño, pero muy importante: cerrar y contar.",pause:520,rate:.8,pitch:1.08}
+  ],
+  [
+    {text:"Bit brincaba de alegría. En su tablet brillaba un dibujo nuevo.",pause:560,rate:.8,pitch:1.08},
+    {text:"Era Tuercas, su perrito, con orejas grandes, cola feliz y muchos colores.",pause:600,rate:.8,pitch:1.08},
+    {text:"Bit levantó la tablet para que Data pudiera verla mejor.",pause:520,rate:.8,pitch:1.08},
+    {text:"¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.",pause:620,rate:.82,pitch:1.1},
+    {text:"Data aleteó contenta y le respondió con dulzura.",pause:460,rate:.78,pitch:1.08},
+    {text:"¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe.",pause:620,rate:.8,pitch:1.08},
+    {text:"Bit abrazó su tablet y dijo muy feliz: mi corazón brilla como una estrellita.",pause:540,rate:.8,pitch:1.1}
+  ],
+  [
+    {text:"Pero, de pronto, una nubecita gris se pegó a la pantalla.",pause:560,rate:.8,pitch:1.08},
+    {text:"La nubecita traía palabras rudas.",pause:520,rate:.78,pitch:1.04},
+    {text:"Ese perro es feo. No sabes dibujar.",pause:600,rate:.74,pitch:.9},
+    {text:"El brillo de Bit se hizo pequeño. Sus ojitos miraron hacia abajo.",pause:620,rate:.8,pitch:1.04},
+    {text:"Con voz chiquita, Bit buscó a Data.",pause:480,rate:.78,pitch:1.06},
+    {text:"Data... mi corazón se arrugó, como una hoja hecha bolita.",pause:620,rate:.8,pitch:1.08},
+    {text:"Data se acercó sin prisa, como quien cuida una flor.",pause:540,rate:.78,pitch:1.08},
+    {text:"Te creo, Bit. Esa palabra no fue amable, y no es tu culpa.",pause:620,rate:.8,pitch:1.08}
+  ],
+  [
+    {text:"Data voló cerquita. Miró la pantalla, miró a Bit y respiró suave.",pause:620,rate:.8,pitch:1.08},
+    {text:"Luego habló con una voz tranquila, de esas que abrazan.",pause:560,rate:.8,pitch:1.08},
+    {text:"Alerta de cuidado. Las palabras rudas en pantalla también pueden doler.",pause:620,rate:.8,pitch:1.08},
+    {text:"Data señaló la pantalla y después el corazón de Bit.",pause:520,rate:.78,pitch:1.06},
+    {text:"Es como un empujón hecho con letras. Y los empujones no se guardan solitos.",pause:660,rate:.8,pitch:1.06},
+    {text:"Bit miró su dibujo, luego miró a Data, y entendió algo importante.",pause:560,rate:.78,pitch:1.08},
+    {text:"Entonces sí cuenta lo que siento, aunque haya pasado en la tablet.",pause:580,rate:.8,pitch:1.08}
+  ],
+  [
+    {text:"Bit apretó la tablet contra su pecho. Por un momento quiso esconderla.",pause:620,rate:.8,pitch:1.06},
+    {text:"Tal vez borro mi dibujo... y no se lo digo a nadie.",pause:580,rate:.8,pitch:1.04},
+    {text:"Data no lo regañó. Se puso a su lado, despacito.",pause:560,rate:.78,pitch:1.08},
+    {text:"No guardes solito un secreto que pesa.",pause:520,rate:.8,pitch:1.08},
+    {text:"Tienes un superpoder: cerrar y contar.",pause:600,rate:.8,pitch:1.1},
+    {text:"Primero cerramos la pantalla.",pause:480,rate:.8,pitch:1.08},
+    {text:"Luego buscamos a una persona adulta que te cuida.",pause:560,rate:.8,pitch:1.08},
+    {text:"Entonces Bit y Data practicaron juntos: si una pantalla me trata mal, cierro y cuento.",pause:700,rate:.8,pitch:1.1}
+  ],
+  [
+    {text:"Bit volvió a mirar a Tuercas. Ahí seguían sus orejas grandes, su cola feliz y sus colores.",pause:700,rate:.8,pitch:1.08},
+    {text:"El mensaje gris no podía borrar lo bonito de su dibujo.",pause:580,rate:.8,pitch:1.08},
+    {text:"Gracias, Data. Mi dibujo sigue siendo mío. Ahora se lo contaré a mi maestra.",pause:650,rate:.8,pitch:1.08},
+    {text:"Data mostró un corazón grande y sonrió.",pause:520,rate:.78,pitch:1.08},
+    {text:"Así es, Bit. En la pantalla también cuidamos con nuestras palabras.",pause:620,rate:.8,pitch:1.08},
+    {text:"Y si vemos un mensaje gris, ¿qué hacemos?",pause:560,rate:.82,pitch:1.1},
+    {text:"Cerramos y contamos.",pause:520,rate:.78,pitch:1.12}
+  ]
+];
+
+let cur=0;
+let voiceOn=true;
+let lastSegments=[];
+let preferredVoice=null;
+let narrationToken=0;
+let readAllMode=false;
+let autoAdvance=true;
+let timers=[];
+const $=id=>document.getElementById(id);
+
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),1500)}
+function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+function later(fn,ms){const id=setTimeout(()=>{timers=timers.filter(x=>x!==id);fn()},ms);timers.push(id);return id}
+function loadVoices(){
+  if(!("speechSynthesis" in window))return;
+  const voices=window.speechSynthesis.getVoices();
+  if(!voices.length)return;
+  const spanish=voices.filter(v=>/^es[-_]/i.test(v.lang)||/español|spanish|mexico|latino/i.test(v.name));
+  const preferred=["Google español de México","Google español latinoamericano","Microsoft Dalia","Microsoft Sabina","Paulina","Mónica","Monica","Luciana","Google español"];
+  preferredVoice=preferred.map(name=>spanish.find(v=>v.name.toLowerCase().includes(name.toLowerCase()))).find(Boolean)
+    || spanish.find(v=>/MX|419|US/i.test(v.lang))
+    || spanish[0]||voices[0];
+}
+if("speechSynthesis" in window){loadVoices();window.speechSynthesis.onvoiceschanged=loadVoices}
+function clean(t){return String(t||"").replace(/[🤖🐦☁️👧⭐💗💔⚠️]/g,"").replace(/\s+/g," ").trim()}
+function stopAudio(){narrationToken++; if("speechSynthesis" in window) speechSynthesis.cancel(); clearTimers()}
+function utter(text,rate=.82,pitch=1.08){
+  const u=new SpeechSynthesisUtterance(clean(text));
+  u.lang=(preferredVoice&&preferredVoice.lang)||"es-MX";
+  if(preferredVoice)u.voice=preferredVoice;
+  u.rate=rate;u.pitch=pitch;u.volume=1;
+  return u;
+}
+function speakSegments(segs,force=false,onDone=null){
+  lastSegments=segs;
+  if(!voiceOn&&!force)return;
+  if(!("speechSynthesis" in window)){toast("Este navegador no tiene voz");return}
+  loadVoices();stopAudio();
+  const token=narrationToken;
+  let i=0;
+  function next(){
+    if(token!==narrationToken)return;
+    if(i>=segs.length){ if(onDone)onDone(); return; }
+    const s=segs[i++];
+    const u=utter(s.text,s.rate??.82,s.pitch??1.08);
+    let ended=false;
+    const finish=()=>{if(ended)return;ended=true;if(token!==narrationToken)return;later(next,s.pause??520)}
+    u.onend=finish;u.onerror=finish;speechSynthesis.speak(u);
+  }
+  next();
+}
+function pageSegments(){
+  return naturalNarrations[cur] || naturalNarrations[0];
+}
+
+function autoNextAfterNarration(){
+  if(!autoAdvance || !voiceOn) return;
+  if(cur < spreads.length-1){
+    cur++;
+    render(true);
+  }else{
+    readAllMode=false;
+    toast("Fin del cuento");
+  }
+}
+function speakCurrentPage(force=false, shouldAdvance=true){
+  speakSegments(pageSegments(), force, ()=>{
+    if(shouldAdvance) later(()=>autoNextAfterNarration(), 900);
+  });
+}
+
+function setVoiceButton(){
+  $("voiceToggle").textContent=voiceOn?"🔊 Voz":"🔇 Silencio";
+  $("voiceToggle").classList.toggle("on",voiceOn);
+}
+function render(auto=false){
+  spreads.forEach((s,i)=>s.classList.toggle("active",i===cur));
+  $("prev").disabled=cur===0;
+  $("next").textContent=cur===spreads.length-1?"Volver al inicio":"Siguiente página →";
+  $("pageCount").textContent=cur===0?"Portada":`Páginas ${cur*2-1}–${cur*2}`;
+  if(auto) later(()=>speakCurrentPage(true),250);
+}
+function nextPage(autoSpeak=true){
+  if(cur<spreads.length-1){cur++;render(autoSpeak)}
+  else{cur=0;render(autoSpeak)}
+}
+function readWholeBook(){
+  readAllMode=true;
+  cur=1;
+  render(true);
+}
+$("start").onclick=()=>{readAllMode=true;cur=1;render(true)}
+$("prev").onclick=()=>{readAllMode=false;if(cur>0){cur--;render(true)}}
+$("next").onclick=()=>{readAllMode=false;nextPage(true)}
+$("readPage").onclick=()=>{readAllMode=false;speakCurrentPage(true,false)}
+$("readAll").onclick=()=>readWholeBook()
+$("voiceToggle").onclick=()=>{voiceOn=!voiceOn;setVoiceButton();if(!voiceOn){readAllMode=false;stopAudio()}else speakCurrentPage(true,false)}
+setVoiceButton();
+render(false);
+
+
+</script>
+</body>
+</html>

@@ -164,7 +164,7 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     } else if (screen === 'pedagogic-pause') {
       this.speakText("¡Es momento de hacer una pausa! Cierra tus ojitos un momento, respira despacio y mueve tus hombros. Cuando estés listo, seguimos jugando.");
     } else if (screen === 'summary') {
-      this.speakText("¡Felicidades! Lograste ayudar a Bit. Recuerda la rutina de bienestar digital: pauso, respiro y pido ayuda.");
+      this.speakText("¡Felicidades! Lograste ayudar a Bit.");
     } else {
       const s = this.currentScene();
       if (s) {

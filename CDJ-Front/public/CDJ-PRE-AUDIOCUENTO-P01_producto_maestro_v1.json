@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "id": "CDJ-PRE-AUDIOCUENTO-P01",
+    "titulo_publico": "Bit, Data y el misterio del mensaje gris",
+    "version": "v1",
+    "fecha_entrega": "2026-07-07",
+    "segmento": "Estudiantes",
+    "subsegmento": "Preescolar",
+    "edad_referencial": "3 a 6 años",
+    "formato": "Audiocuento ilustrado HTML estilo libro físico",
+    "eje_principal": "Convivencia digital / Ciberacoso y violencia digital",
+    "dimension_cdj": "D2. Convivencia y prácticas en entorno digital",
+    "verbo_guia": "Reconocer y contar",
+    "competencia": "Reconocer una palabra ruda en pantalla, validar la emoción y practicar la acción segura: cerrar y contar.",
+    "producto_origen": "Guion Bit, Data y el mensaje gris.docx",
+    "personajes": [
+      "Bit",
+      "Data",
+      "Mensaje gris",
+      "Tuercas",
+      "adulto seguro"
+    ],
+    "criterio_memoria_proyecto": "Para próximos cuentos preescolares: formato de libro ilustrado físico, páginas dobles, narración literaria natural, autoavance por audio, botones manuales de anterior/siguiente y lectura sin repetir títulos de página al inicio."
+  },
+  "objetivo_pedagogico": {
+    "general": "Que niñas y niños de preescolar reconozcan que una palabra ruda en pantalla puede doler y que no deben guardar el malestar como secreto.",
+    "acciones_clave": [
+      "Cerrar o pausar la pantalla",
+      "Contar a una persona adulta de confianza",
+      "Recordar que en pantalla también somos amables"
+    ],
+    "frase_memorizable": "Si una pantalla me trata mal: cierro y cuento."
+  },
+  "decisiones_de_adaptacion": [
+    "Se transformó el guion teatral/de títeres en cuento ilustrado tipo libro físico.",
+    "Se mantuvieron personajes y aprendizaje central del guion original.",
+    "Se optimizaron diálogos para primera infancia: frases más tiernas, concretas y naturales.",
+    "La narración evita fórmulas mecánicas como “Bit dice” o “Data dice” y usa transiciones literarias.",
+    "El audio avanza automáticamente de página al terminar cada lectura.",
+    "Los títulos visibles de página no se leen al inicio de cada página.",
+    "Se conservan botones manuales para volver o adelantar páginas."
+  ],
+  "estructura": [
+    {
+      "doble_pagina": "Portada",
+      "contenido": "Presentación de Bit, Data y el mensaje gris."
+    },
+    {
+      "doble_pagina": "1",
+      "titulo_visible": "El gran descubrimiento",
+      "funcion": "Presentar interacción digital positiva y emotion agradable."
+    },
+    {
+      "doble_pagina": "2",
+      "titulo_visible": "Aparece el mensaje gris",
+      "funcion": "Mostrar palabra ruda sin intensificar violencia y validar malestar."
+    },
+    {
+      "doble_pagina": "3",
+      "titulo_visible": "Data nombra lo que pasa",
+      "funcion": "Traducir palabra ruda como “empujón hecho con letras”."
+    },
+    {
+      "doble_pagina": "4",
+      "titulo_visible": "El superpoder",
+      "funcion": "Enseñar acción concreta: cerrar y contar."
+    },
+    {
+      "doble_pagina": "5",
+      "titulo_visible": "Final amable",
+      "funcion": "Reparar autoestima y reforzar respeto digital."
+    }
+  ],
+  "estilo_visual": {
+    "tipo": "Cuento ilustrado estilo libro físico",
+    "componentes": [
+      "portada",
+      "páginas dobles",
+      "ilustración izquierda",
+      "texto derecha",
+      "navegación de páginas",
+      "voz opcional"
+    ],
+    "ilustraciones": "HTML/CSS con elementos descriptivos de escena: dibujo nuevo, mensaje gris, lágrimas, alerta suave, superpoder, cerrar pantalla, pedir ayuda.",
+    "evitar": [
+      "radar",
+      "puntuación",
+      "opciones de decisión",
+      "pantallas tipo simulador",
+      "evaluación"
+    ]
+  },
+  "audio": {
+    "estandar_minimo": [
+      "Voz natural y pausada en español.",
+      "Narración literaria con variaciones, no lectura mecánica de diálogos.",
+      "No leer el título visible de cada página al inicio.",
+      "Autoavance a la siguiente página al terminar la narración.",
+      "Botones manuales de página anterior, siguiente, leer página y leer cuento completo.",
+      "Audio cancelable con botón de silencio."
+    ]
+  },
+  "archivos": {
+    "html": "CDJ-PRE-AUDIOCUENTO-P01_bit_data_mensaje_gris_v1.html",
+    "json": "CDJ-PRE-AUDIOCUENTO-P01_producto_maestro_v1.json",
+    "handoff_docx": "CDJ-PRE-AUDIOCUENTO-P01_handoff_diseno_programacion_v1.docx",
+    "guia_pdf": "CDJ-PRE-AUDIOCUENTO-P01_guia_breve_mediacion_v1.pdf"
+  }
+}

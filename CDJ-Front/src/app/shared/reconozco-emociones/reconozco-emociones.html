@@ -140,20 +140,45 @@
 
         <!-- Options selector grid -->
         <div class="re-options-grid">
-          <button *ngFor="let opt of currentScene().opciones_visibles; let idx = index"
-                  type="button"
-                  (click)="selectOption(idx)"
-                  [disabled]="isCorrect() === true"
-                  [class.re-opt-correct]="isCorrect() === true && idx === currentScene().correct"
-                  [class.re-opt-incorrect]="selectedIncorrectIndices().includes(idx)"
-                  class="re-option-btn group relative">
-            <span class="re-opt-emoji transition-transform duration-200 group-hover:scale-125">{{ getOptionEmoji(opt) }}</span>
-            <span class="re-opt-text">{{ getOptionText(opt) }}</span>
-            <!-- Corner checkmark badge for correct option -->
-            <span *ngIf="isCorrect() === true && idx === currentScene().correct" class="re-option-badge-correct">
-              ✓
-            </span>
-          </button>
+          <div *ngFor="let opt of currentScene().opciones_visibles; let idx = index"
+               class="re-option-card-wrapper"
+               [class.re-flipped]="(isCorrect() === true && idx === currentScene().correct) || selectedIncorrectIndices().includes(idx)">
+            <div class="re-option-card-inner">
+              
+              <!-- Front Side of Card -->
+              <div class="re-option-card-front">
+                <button type="button"
+                        (click)="selectOption(idx)"
+                        [disabled]="isCorrect() === true"
+                        [class.re-opt-correct]="isCorrect() === true && idx === currentScene().correct"
+                        [class.re-opt-incorrect]="selectedIncorrectIndices().includes(idx)"
+                        class="re-option-btn group relative">
+                  <span class="re-opt-emoji transition-transform duration-200 group-hover:scale-125">{{ getOptionEmoji(opt) }}</span>
+                  <span class="re-opt-text">{{ getOptionText(opt) }}</span>
+                  <!-- Corner checkmark badge for correct option -->
+                  <span *ngIf="isCorrect() === true && idx === currentScene().correct" class="re-option-badge-correct">
+                    ✓
+                  </span>
+                </button>
+              </div>
+
+              <!-- Back Side of Card -->
+              <div class="re-option-card-back"
+                   [class.re-back-correct]="idx === currentScene().correct"
+                   [class.re-back-incorrect]="idx !== currentScene().correct">
+                <div class="re-card-back-content">
+                  @if (idx === currentScene().correct) {
+                    <span class="re-back-badge">✓</span>
+                    <span class="re-back-title">¡Excelente!</span>
+                  } @else {
+                    <span class="re-back-badge">✗</span>
+                    <span class="re-back-title">¡Inténtalo de nuevo!</span>
+                  }
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
 
         <!-- Feedback message area -->
@@ -176,17 +201,14 @@
           }
         </div>
 
-        <!-- Navigation button -->
-        @if (isCorrect() === true) {
-          <div class="re-navigation-row">
-            <button type="button" (click)="next()" class="re-btn-next group">
-              <span>Siguiente escena</span>
-              <span class="re-next-icon-wrap">
-                <span translate="no" class="material-symbols-rounded">arrow_forward</span>
-              </span>
-            </button>
-          </div>
-        }
+        <div class="re-navigation-row" [class.re-nav-visible]="isCorrect() === true">
+          <button type="button" (click)="next()" class="re-btn-next group">
+            <span>Siguiente escena</span>
+            <span class="re-next-icon-wrap">
+              <span translate="no" class="material-symbols-rounded">arrow_forward</span>
+            </span>
+          </button>
+        </div>
 
       </div>
     }
@@ -266,27 +288,7 @@
           <span class="re-char-name-badge">BIT</span>
         </div>
 
-        <!-- Routine card (Bento style) -->
-        <div class="re-routine-card">
-          <span class="re-routine-title">Mi rutina de bienestar</span>
-          <div class="re-routine-grid">
-            <div class="re-routine-item">
-              <div class="re-routine-icon-wrap bg-rose-100 dark:bg-rose-950/40 text-rose-500">⏸️</div>
-              <strong>Pauso</strong>
-              <span class="re-routine-desc">Detengo la pantalla</span>
-            </div>
-            <div class="re-routine-item">
-              <div class="re-routine-icon-wrap bg-emerald-100 dark:bg-emerald-950/40 text-emerald-500">🌬️</div>
-              <strong>Respiro</strong>
-              <span class="re-routine-desc">Escucho a mi cuerpo</span>
-            </div>
-            <div class="re-routine-item">
-              <div class="re-routine-icon-wrap bg-cyan-100 dark:bg-cyan-950/40 text-cyan-500">🙋‍♂️</div>
-              <strong>Pido ayuda</strong>
-              <span class="re-routine-desc">Llamo a un adulto</span>
-            </div>
-          </div>
-        </div>
+
 
         <button type="button" (click)="restart()" class="re-btn-start mt-4">
           <span>VOLVER A JUGAR</span>

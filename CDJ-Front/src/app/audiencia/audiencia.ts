@@ -184,6 +184,7 @@ export class AudienciaComponent {
       item.id === 'monedas-gratis' ||
       item.id === 'jugada-problema' ||
       item.id === 'reconozco-emociones' ||
+      item.id === 'bit-data-mensaje-gris' ||
       item.id === 'el-servidor-de-discor' ||
       item.id === 'el-mercado-gamer' ||
       item.id === 'el-mundo-privado' ||
@@ -212,6 +213,7 @@ export class AudienciaComponent {
         item.id === 'el-mundo-privado' ? 'el-mundo-privado' :
         item.id === 'cuando-hijo-mundo-privado' ? 'cuando-hijo-mundo-privado' :
         item.id === 'quien-entra-mi-mundo' ? 'quien-entra-mi-mundo' :
+        item.id === 'bit-data-mensaje-gris' ? 'bit-data-mensaje-gris' :
         item.id === 'reconozco-emociones' ? 'reconozco-emociones' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {
