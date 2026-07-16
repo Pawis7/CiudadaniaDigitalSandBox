@@ -1,13 +1,13 @@
-<section class="sim-shell relative flex flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] p-6 sm:p-10 shadow-[var(--shadow-2xl)] min-h-[580px] max-w-4xl mx-auto transition-all duration-300" data-audience="kids">
+<section class="sim-shell relative flex flex-col justify-start overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] p-6 sm:p-10 shadow-[var(--shadow-2xl)] min-h-[580px] max-w-4xl mx-auto transition-all duration-300" data-audience="kids">
   
-  <!-- BACKDROP DECORATIONS (Premium kid-friendly bubbles) -->
-  <div class="pointer-events-none absolute inset-0 z-0">
+  <!-- BACKDROP DECORATIONS (Premium color blurs) -->
+  <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
     <div class="absolute -left-20 -top-20 h-80 w-80 rounded-full bg-rose-400/10 blur-3xl transition-colors duration-500"></div>
     <div class="absolute -right-20 -bottom-20 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl transition-colors duration-500"></div>
     <div class="absolute left-1/3 top-1/4 h-60 w-60 rounded-full bg-amber-300/5 blur-3xl"></div>
   </div>
 
-  <div class="relative z-10 flex flex-col flex-1 justify-between items-center gap-6 sm:gap-8">
+  <div class="relative z-10 flex flex-col flex-1 justify-start items-center gap-6 sm:gap-8 w-full">
 
     <!-- ==================== TOP STATUS BAR (Gameplay only) ==================== -->
     @if (currentScreen() === 'playing') {
@@ -25,7 +25,7 @@
                   [class.re-btn-active]="audioOn()"
                   class="re-btn-audio"
                   [attr.aria-label]="audioOn() ? 'Apagar voz' : 'Encender voz'">
-            <span class="re-audio-emoji">{{ audioOn() ? '🔊' : '🔇' }}</span>
+            <span translate="no" class="material-symbols-rounded">{{ audioOn() ? 'volume_up' : 'volume_off' }}</span>
           </button>
 
           <button type="button" 
@@ -33,7 +33,8 @@
                   [disabled]="!audioOn()"
                   [class.re-speaking]="isSpeaking()"
                   class="re-btn-speak">
-            🎙️ <span class="re-speak-text">Escuchar</span>
+            <span translate="no" class="material-symbols-rounded text-[18px]">campaign</span>
+            <span class="re-speak-text">Escuchar</span>
           </button>
         </div>
       </div>
@@ -43,21 +44,21 @@
     @if (currentScreen() === 'welcome') {
       <div class="re-screen re-welcome-screen w-full flex flex-col items-center text-center">
         <div class="re-badge animate-bounce-slow">
-          <span>🤖</span> ¡A jugar con Bit y Data!
+          <span>🤖</span> ¡A JUGAR CON BIT Y DATA!
         </div>
 
         <h1 class="re-title">
           ¡A jugar!<br>
-          <span class="re-gradient-text">Reconozco mis emociones</span>
+          <span class="re-title-pink">Reconozco mis emociones</span>
         </h1>
 
         <p class="re-subtitle max-w-lg">
           Acompaña a Bit en esta divertida aventura para descubrir sus emociones digitales y aprender cuándo es momento de pausar, respirar y pedir ayuda.
         </p>
 
-        <!-- Characters Showcase -->
-        <div class="re-chars-row">
-          <div class="re-char-avatar-wrap">
+        <!-- Centered Character Circle -->
+        <div class="re-char-center-wrap">
+          <div class="re-bit-circle">
             <div class="bit-avatar re-bit-float bit-emotion-alegria">
               <div class="bit-head">
                 <div class="bit-antenna"></div>
@@ -67,29 +68,26 @@
                 </div>
                 <div class="bit-mouth"></div>
               </div>
-              <div class="bit-body">
-                <div class="bit-body-dot"></div>
-                <div class="bit-body-dot"></div>
-                <div class="bit-body-dot"></div>
+              <div class="bit-mini-bubble">
+                <span class="bit-bubble-dots">...</span>
               </div>
             </div>
-            <span class="re-char-name">Bit</span>
           </div>
-
-          <div class="re-char-avatar-wrap">
-            <div class="re-teacher-badge">👩‍🏫</div>
-            <span class="re-char-name">Data</span>
-          </div>
+          <span class="re-char-name-badge">BIT</span>
         </div>
 
         <button type="button" (click)="startGame()" class="re-btn-start group">
-          <span>¡Comenzar!</span>
-          <span translate="no" class="material-symbols-rounded text-[18px] transition-transform duration-200 group-hover:translate-x-1">play_arrow</span>
+          <span>¡COMENZAR!</span>
+          <span class="re-play-icon-wrap">
+            <span translate="no" class="material-symbols-rounded">play_arrow</span>
+          </span>
         </button>
 
         <!-- Adult guideline tip -->
-        <div class="re-tip-box">
-          <span class="re-tip-icon">💡</span>
+        <div class="re-tip-box re-tip-welcome">
+          <div class="re-tip-icon-circle">
+            <span translate="no" class="material-symbols-rounded">lightbulb</span>
+          </div>
           <p>
             <strong>Acompañamiento adulto recomendado:</strong> Nombre las emociones en voz alta y platique sobre las situaciones cotidianas. Se sugiere jugar en dos bloques de 6 escenas.
           </p>
@@ -113,10 +111,8 @@
                 </div>
                 <div class="bit-mouth"></div>
               </div>
-              <div class="bit-body">
-                <div class="bit-body-dot"></div>
-                <div class="bit-body-dot"></div>
-                <div class="bit-body-dot"></div>
+              <div class="bit-mini-bubble">
+                <span class="bit-bubble-dots">...</span>
               </div>
             </div>
             <span class="re-emotion-tag">{{ currentScene().emocion_objetivo }}</span>
@@ -126,14 +122,16 @@
           <div class="re-bubble-col flex-1 min-w-[200px] w-full">
             <div class="re-speech-bubble">
               <div class="re-situation">
-                <span class="re-situation-badge">
-                  <span class="re-badge-dot"></span>
-                  ¿Qué pasa en la pantalla?
-                </span>
+                <div class="re-situation-header">
+                  <span class="re-situation-qmark">?</span>
+                  <span class="re-situation-badge">¿QUÉ PASA EN LA PANTALLA?</span>
+                </div>
                 <p class="re-situation-text">{{ currentScene().voz_situacion }}</p>
               </div>
               <div class="re-question-container">
-                <span class="re-question-icon">💬</span>
+                <div class="re-question-bubble-icon">
+                  <span class="re-question-dots">...</span>
+                </div>
                 <h2 class="re-question">{{ currentScene().voz_reto }}</h2>
               </div>
             </div>
@@ -148,19 +146,25 @@
                   [disabled]="isCorrect() === true"
                   [class.re-opt-correct]="isCorrect() === true && idx === currentScene().correct"
                   [class.re-opt-incorrect]="selectedIncorrectIndices().includes(idx)"
-                  class="re-option-btn group">
+                  class="re-option-btn group relative">
             <span class="re-opt-emoji transition-transform duration-200 group-hover:scale-125">{{ getOptionEmoji(opt) }}</span>
             <span class="re-opt-text">{{ getOptionText(opt) }}</span>
+            <!-- Corner checkmark badge for correct option -->
+            <span *ngIf="isCorrect() === true && idx === currentScene().correct" class="re-option-badge-correct">
+              ✓
+            </span>
           </button>
         </div>
 
         <!-- Feedback message area -->
-        <div class="re-feedback-area min-h-[100px]">
+        <div class="re-feedback-area">
           @if (isCorrect() !== null) {
             <div class="re-feedback-box"
                  [class.re-fb-success]="isCorrect() === true"
                  [class.re-fb-retry]="isCorrect() === false">
-              <span class="re-feedback-icon">{{ isCorrect() ? '✅' : '🧐' }}</span>
+              <div class="re-feedback-icon-wrap">
+                <span translate="no" class="material-symbols-rounded">{{ isCorrect() ? 'check' : 'question_mark' }}</span>
+              </div>
               <div class="re-feedback-text">
                 <h3>{{ isCorrect() ? '¡Excelente!' : 'Miremos con cuidado...' }}</h3>
                 <p>{{ isCorrect() ? currentScene().feedback_positivo : currentScene().feedback_reintento }}</p>
@@ -173,14 +177,16 @@
         </div>
 
         <!-- Navigation button -->
-        <div class="re-navigation-row">
-          @if (isCorrect() === true) {
+        @if (isCorrect() === true) {
+          <div class="re-navigation-row">
             <button type="button" (click)="next()" class="re-btn-next group">
               <span>Siguiente escena</span>
-              <span translate="no" class="material-symbols-rounded text-[16px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+              <span class="re-next-icon-wrap">
+                <span translate="no" class="material-symbols-rounded">arrow_forward</span>
+              </span>
             </button>
-          }
-        </div>
+          </div>
+        }
 
       </div>
     }
@@ -188,10 +194,12 @@
     <!-- ==================== SCREEN 3: PEDAGOGIC PAUSE ==================== -->
     @if (currentScreen() === 'pedagogic-pause') {
       <div class="re-screen re-center-screen w-full flex flex-col items-center">
-        <div class="re-pause-icon">🌬️</div>
+        <div class="re-pause-icon">
+          <span translate="no" class="material-symbols-rounded text-6xl text-emerald-400">air</span>
+        </div>
         
-        <h1 class="re-title">¡Hagamos una pausa!</h1>
-        <p class="re-subtitle max-w-md">
+        <h1 class="re-title-pause">¡Hagamos una pausa!</h1>
+        <p class="re-subtitle-pause max-w-md">
           Data nos propone estirarnos, cerrar los ojos un momento y respirar despacio. Las pantallas también necesitan descansar.
         </p>
 
@@ -199,20 +207,28 @@
         <div class="re-breathing-section">
           <div class="re-breathing-circle-wrap">
             <div class="re-breathing-ring"></div>
-            <div class="re-breathing-core">😌</div>
+            <div class="re-breathing-core">
+              <span class="re-wave-left">((</span>
+              <span class="re-breathe-emoji">😌</span>
+              <span class="re-wave-right">))</span>
+            </div>
           </div>
           <div class="re-breathing-instructions">
             <span class="re-breathe-text">Toma aire suavemente... sostén... y sácalo despacio.</span>
           </div>
         </div>
 
-        <button type="button" (click)="resumeAfterPause()" class="re-btn-start re-btn-emerald group">
-          <span>Continuar jugando</span>
-          <span translate="no" class="material-symbols-rounded text-[18px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+        <button type="button" (click)="resumeAfterPause()" class="re-btn-start re-btn-emerald-pause group">
+          <span>CONTINUAR JUGANDO</span>
+          <span class="re-play-icon-wrap">
+            <span translate="no" class="material-symbols-rounded">arrow_forward</span>
+          </span>
         </button>
 
-        <div class="re-tip-box mt-6">
-          <span class="re-tip-icon">💡</span>
+        <div class="re-tip-box re-tip-pause">
+          <div class="re-tip-icon-circle">
+            <span translate="no" class="material-symbols-rounded">lightbulb</span>
+          </div>
           <p>
             <strong>Docente / Adulto:</strong> Este es un momento excelente para realizar estiramientos, ponerse de pie o tomar un poco de agua.
           </p>
@@ -230,20 +246,24 @@
           Aprendiste a observar las emociones de Bit y a tomar decisiones seguras al usar una pantalla.
         </p>
 
-        <div class="bit-avatar re-bit-float bit-emotion-alegria" style="margin: 15px auto 25px;">
-          <div class="bit-head">
-            <div class="bit-antenna"></div>
-            <div class="bit-face">
-              <div class="bit-eye"></div>
-              <div class="bit-eye"></div>
+        <!-- Centered Character Circle for Summary -->
+        <div class="re-char-center-wrap" style="margin: 15px auto 25px;">
+          <div class="re-bit-circle">
+            <div class="bit-avatar re-bit-float bit-emotion-alegria">
+              <div class="bit-head">
+                <div class="bit-antenna"></div>
+                <div class="bit-face">
+                  <div class="bit-eye"></div>
+                  <div class="bit-eye"></div>
+                </div>
+                <div class="bit-mouth"></div>
+              </div>
+              <div class="bit-mini-bubble">
+                <span class="bit-bubble-dots">...</span>
+              </div>
             </div>
-            <div class="bit-mouth"></div>
           </div>
-          <div class="bit-body">
-            <div class="bit-body-dot"></div>
-            <div class="bit-body-dot"></div>
-            <div class="bit-body-dot"></div>
-          </div>
+          <span class="re-char-name-badge">BIT</span>
         </div>
 
         <!-- Routine card (Bento style) -->
@@ -269,7 +289,10 @@
         </div>
 
         <button type="button" (click)="restart()" class="re-btn-start mt-4">
-          Volver a jugar 🔄
+          <span>VOLVER A JUGAR</span>
+          <span class="re-play-icon-wrap">
+            <span translate="no" class="material-symbols-rounded">replay</span>
+          </span>
         </button>
       </div>
     }
