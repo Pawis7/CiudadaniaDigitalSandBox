@@ -163,6 +163,19 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-teal-500 to-violet-600',
             actionLabel: 'Entrar al mundo',
             link: '#widget-seccion-anchor',
+          },
+          {
+            id: 'luna-cajita-importante',
+            title: 'Luna y la cajita de las cosas importantes',
+            description: 'Acompaña a Luna en este cuento ilustrado para aprender que hay cosas muy valiosas —como tu nombre, tu foto o tu voz— que se cuidan con ayuda de un adulto.',
+            type: 'activity',
+            typeLabel: 'Audiocuento ilustrado',
+            icon: 'menu_book',
+            badge: '5 páginas · Primaria baja',
+            duration: '8 min',
+            colorClass: 'from-sky-400 to-violet-400',
+            actionLabel: 'Leer cuento',
+            link: '#widget-seccion-anchor',
           }
         ]
       },

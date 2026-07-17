@@ -133,7 +133,8 @@ export class AudienciaComponent {
       id === 'el-mercado-gamer' ||
       id === 'el-mundo-privado' ||
       id === 'quien-entra-mi-mundo' ||
-      id === 'bit-data-mensaje-gris'
+      id === 'bit-data-mensaje-gris' ||
+      id === 'luna-cajita-importante'
     );
   });
 
@@ -186,6 +187,7 @@ export class AudienciaComponent {
       item.id === 'jugada-problema' ||
       item.id === 'reconozco-emociones' ||
       item.id === 'bit-data-mensaje-gris' ||
+      item.id === 'luna-cajita-importante' ||
       item.id === 'el-servidor-de-discor' ||
       item.id === 'el-mercado-gamer' ||
       item.id === 'el-mundo-privado' ||
@@ -215,6 +217,7 @@ export class AudienciaComponent {
         item.id === 'cuando-hijo-mundo-privado' ? 'cuando-hijo-mundo-privado' :
         item.id === 'quien-entra-mi-mundo' ? 'quien-entra-mi-mundo' :
         item.id === 'bit-data-mensaje-gris' ? 'bit-data-mensaje-gris' :
+        item.id === 'luna-cajita-importante' ? 'luna-cajita-importante' :
         item.id === 'reconozco-emociones' ? 'reconozco-emociones' : 'riesgos-reales'
       );
       if (typeof document !== 'undefined') {

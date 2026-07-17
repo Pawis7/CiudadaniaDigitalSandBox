@@ -32,6 +32,7 @@ import { ElMundoPrivadoComponent } from '../shared/el-mundo-privado/el-mundo-pri
 import { CuandoEntraMundoPrivadoComponent } from '../shared/cuando-entra-mundo-privado/cuando-entra-mundo-privado';
 import { QuienEntraMiMundoComponent } from '../shared/quien-entra-mi-mundo/quien-entra-mi-mundo';
 import { BitDataMensajeGrisComponent } from '../shared/bit-data-mensaje-gris/bit-data-mensaje-gris';
+import { LunaCajitaImportanteComponent } from '../shared/luna-cajita-importante/luna-cajita-importante';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -57,7 +58,8 @@ export type WidgetId =
   | 'el-mundo-privado'
   | 'cuando-hijo-mundo-privado'
   | 'quien-entra-mi-mundo'
-  | 'bit-data-mensaje-gris';
+  | 'bit-data-mensaje-gris'
+  | 'luna-cajita-importante';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -84,4 +86,5 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'cuando-hijo-mundo-privado': CuandoEntraMundoPrivadoComponent,
   'quien-entra-mi-mundo': QuienEntraMiMundoComponent,
   'bit-data-mensaje-gris': BitDataMensajeGrisComponent,
+  'luna-cajita-importante': LunaCajitaImportanteComponent,
 };

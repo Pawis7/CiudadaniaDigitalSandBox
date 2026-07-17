@@ -37,6 +37,7 @@ export class ResourceCardComponent {
       this.item.id === 'jugada-problema' ||
       this.item.id === 'reconozco-emociones' ||
       this.item.id === 'bit-data-mensaje-gris' ||
+      this.item.id === 'luna-cajita-importante' ||
       this.item.id === 'el-servidor-de-discor' ||
       this.item.id === 'el-mercado-gamer' ||
       this.item.id === 'el-mundo-privado' ||
