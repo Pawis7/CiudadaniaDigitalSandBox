@@ -8,7 +8,7 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  gap: 20px;
+  gap: 16px;
   width: 100%;
 }
 
@@ -28,19 +28,19 @@
   max-width: 92vw;
   background: linear-gradient(
     145deg,
-    #3b3b3e 0%, #202022 10%,
-    #151518 30%, #0d0d0f 50%,
-    #151518 70%, #202022 90%,
-    #3b3b3e 100%
+    #a8a8a8 0%, #6e6e73 10%,
+    #3a3a3c 30%, #1c1c1e 50%,
+    #3a3a3c 70%, #6e6e73 90%,
+    #a8a8a8 100%
   );
   border-radius: 50px;
   padding: 12px;
   position: relative;
   box-shadow:
-    0 0 0 0.5px rgba(255,255,255,.15) inset,
-    0 0 0 1px rgba(0,0,0,.7),
-    0 24px 60px rgba(0,0,0,.6),
-    0 4px 12px rgba(0,0,0,.4);
+    0 0 0 0.5px rgba(255,255,255,.12) inset,
+    0 0 0 1px rgba(0,0,0,.6),
+    0 24px 60px rgba(0,0,0,.55),
+    0 4px 12px rgba(0,0,0,.35);
 }
 
 .hw-vol-top {
@@ -49,7 +49,7 @@
   top: 118px;
   width: 3.5px;
   height: 34px;
-  background: linear-gradient(to right, #4a4a4e, #7e7e83);
+  background: linear-gradient(to right, #5a5a5e, #8e8e93);
   border-radius: 2px 0 0 2px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
 }
@@ -60,7 +60,7 @@
   top: 164px;
   width: 3.5px;
   height: 34px;
-  background: linear-gradient(to right, #4a4a4e, #7e7e83);
+  background: linear-gradient(to right, #5a5a5e, #8e8e93);
   border-radius: 2px 0 0 2px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
 }
@@ -71,7 +71,7 @@
   top: 80px;
   width: 3.5px;
   height: 28px;
-  background: linear-gradient(to right, #4a4a4e, #7e7e83);
+  background: linear-gradient(to right, #5a5a5e, #8e8e93);
   border-radius: 2px 0 0 2px;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
 }
@@ -82,13 +82,13 @@
   top: 130px;
   width: 3.5px;
   height: 72px;
-  background: linear-gradient(to left, #4a4a4e, #7e7e83);
+  background: linear-gradient(to left, #5a5a5e, #8e8e93);
   border-radius: 0 2px 2px 0;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
 }
 
 .screen {
-  background: #141926;
+  background: #fdfaf7;
   border-radius: 40px;
   overflow: hidden;
   height: min(calc(100dvh - 32px), 660px);
@@ -105,7 +105,7 @@
   position: absolute;
   top: 0; left: 0;
   width: 50%; height: 100%;
-  background: linear-gradient(115deg, rgba(255,255,255,.04) 0%, transparent 60%);
+  background: linear-gradient(115deg, rgba(255,255,255,.06) 0%, transparent 60%);
   pointer-events: none;
   z-index: 99;
   border-radius: 40px 0 0 40px;
@@ -144,14 +144,14 @@
 .home-bar {
   width: 36%;
   height: 5px;
-  background: rgba(255,255,255,.2);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   margin: 6px auto 0;
 }
 
 .statusbar {
   height: 44px;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #fff;
   background: transparent;
@@ -160,6 +160,10 @@
   left: 0;
   right: 0;
   z-index: 10;
+}
+
+.statusbar.light {
+  color: #0f172a;
 }
 
 .statusbar-time {
@@ -179,21 +183,12 @@
 /* ====================================================================
    ACTIVE SIMULATOR ELEMENTS
    ==================================================================== */
-
-/* Chat Avatars */
-.av-pink { background: linear-gradient(135deg, #9d174d, #f472b6); color: #fff; }
-.av-gold { background: linear-gradient(135deg, #a16207, #f59e0b); color: #111; }
-.av-cyan { background: linear-gradient(135deg, #0e7490, #22d3ee); color: #08212a; }
-.av-purple { background: linear-gradient(135deg, #5b21b6, #8b5cf6); color: #fff; }
-.av-green { background: linear-gradient(135deg, #047857, #10b981); color: #07130d; }
-.av-gray { background: linear-gradient(135deg, #374151, #9ca3af); color: #fff; }
-
 .wa-chat::-webkit-scrollbar {
   width: 4px;
 }
 
 .wa-chat::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 99px;
 }
 
@@ -224,7 +219,7 @@
 .phone-result::-webkit-scrollbar-thumb,
 .sc-options::-webkit-scrollbar-thumb,
 .sc-mobile-feedback-panel::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   border-radius: 99px;
 }
 
@@ -234,67 +229,463 @@
   }
 }
 
-/* ====================================================================
-   COACH SIDE PANEL (Beside phone on desktop)
-   ==================================================================== */
-.coach-side {
-  width: 290px;
-  flex-shrink: 0;
-  background: linear-gradient(160deg, #1e1b4b, #120524, #0b0f19);
-  border: 1px solid rgba(99, 102, 241, 0.16);
-  border-radius: 22px;
-  padding: 12px;
+/* ─── INTRO SCREEN (inside phone) ─────────────── */
+.phone-intro {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  padding: 3.5rem 1.4rem 2.2rem;
+  background:
+    linear-gradient(180deg, rgba(255, 131, 0, 0.96), rgba(201, 0, 69, 0.94)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 65%);
+  color: #fff;
+  flex: 1;
+}
+
+.phone-intro h3 {
+  margin: 0.9rem 0 0;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: #fff;
+  font-weight: 900;
+}
+
+.phone-intro p {
+  margin: 0.9rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.start-btn {
+  transition: transform .12s, background .15s;
+}
+.start-btn:active {
+  transform: scale(0.98);
+}
+
+/* ─── FINISHED SCREEN (inside phone) ─────────────── */
+.phone-result {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  overflow-y: auto;
+  color: #1e293b !important;
+}
+
+/* ─── ACTIVE CHAT HEADER ─────────────────────────── */
+.wa-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 48px 0.75rem 8px; /* Compact padding */
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+
+/* Dynamic status bar correction */
+.wa-header::before {
+  content: '';
+  position: absolute;
+  top: -44px;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: inherit;
+  z-index: -1;
+}
+
+.wa-header__contact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.wa-header__avatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.wa-header__info {
+  min-width: 0;
+}
+
+.wa-header__name {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-header__status {
+  display: block;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ====================================================================
+   COMIC BUBBLES AND STICKER STYLES
+   ==================================================================== */
+.bubble-comic-in, .bubble-comic-out {
+  max-width: 82%;
+  padding: 6px 9px 14px; /* More compact vertical padding */
+  border-radius: 14px;   /* Slightly smaller radius */
+  font-size: 10.5px;     /* Saves space */
+  line-height: 1.3;
+  position: relative;
+  border: 2px solid #000; /* Cleaner borders */
+  word-wrap: break-word;
+  animation: pop .22s ease;
+  font-weight: 700;
+  background: linear-gradient(to bottom, #ffffff 0%, #fff7ed 100%);
+  color: #1e293b;
+}
+
+.bubble-comic-in {
+  border-top-left-radius: 3px;
+  border-color: #000;
+  box-shadow: 2px 2.5px 0px #000;
+}
+
+.bubble-comic-out {
+  border-top-right-radius: 3px;
+  border-color: #000;
+  box-shadow: -2px 2.5px 0px #000;
+}
+
+.bubble-comic-in.me {
+  border-top-left-radius: 14px;
+  border-top-right-radius: 3px;
+  box-shadow: -2px 2.5px 0px #000;
+}
+
+.bubble-comic-in .tm, .bubble-comic-out .tm {
+  position: absolute;
+  right: 7px;
+  bottom: 2px;
+  font-size: 7.5px;
+  color: #475569;
+  font-weight: 800;
+}
+
+.bubble-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 2.5px solid #000;
+  border-radius: 16px;
+  border-top-left-radius: 3px;
+  box-shadow: 3px 3.5px 0px #000;
+}
+
+/* Sender Sticker Tags */
+.sender-tag {
+  display: inline-block;
+  font-family: "Montserrat", "Arial Black", sans-serif;
+  font-size: 7px;
+  font-weight: 900;
+  padding: 1.5px 5px;
+  border-radius: 5px;
+  border: 1.5px solid #000;
+  box-shadow: 1px 1px 0px #000;
+  color: #fff;
+  margin-bottom: 3px; /* Saves space */
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+.sender-tag.av-pink { background: #ec4899; }
+.sender-tag.av-purple { background: #a855f7; }
+.sender-tag.av-gray { background: #6b7280; }
+.sender-tag.av-cyan { background: #06b6d4; }
+.sender-tag.av-gold { background: #eab308; }
+.sender-tag.av-green { background: #10b981; }
+.sender-tag.tu { background: #f97316; }
+
+/* Feedback scores level colors */
+.bubble-safe {
+  background: linear-gradient(to bottom, #dcfce7 0%, #86efac 100%) !important;
+  border-color: #000 !important;
+  color: #064e3b !important;
+  box-shadow: -2px 2.5px 0px #000 !important;
+}
+.bubble-careful {
+  background: linear-gradient(to bottom, #fef3c7 0%, #fde047 100%) !important;
+  border-color: #000 !important;
+  color: #78350f !important;
+  box-shadow: -2px 2.5px 0px #000 !important;
+}
+.bubble-danger {
+  background: linear-gradient(to bottom, #fee2e2 0%, #fca5a5 100%) !important;
+  border-color: #000 !important;
+  color: #7f1d1d !important;
+  box-shadow: -2px 2.5px 0px #000 !important;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ─── OPTIONS INSIDE PHONE ───────────────────────── */
+.sc-options {
+  background: repeating-linear-gradient(45deg, #fff7ed 0px, #fff7ed 12px, #ffedd5 12px, #ffedd5 24px);
+  border-top: 3px solid #000;
+  padding: 8px 8px; /* Tighter padding */
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Saves space */
+  overflow-y: auto;
+}
+
+.sc-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 12px;
+  padding: 6px 6px 6px 10px; /* Highly compact padding */
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #1e293b;
+  box-shadow: 2px 2.5px 0px #000;
+  transition: transform .15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s, background-color 0.15s;
+  line-height: 1.25;
+  width: 100%;
+  cursor: pointer;
+}
+
+.sc-opt:hover {
+  background: linear-gradient(to bottom, #fffbeb 0%, #fef3c7 100%);
+  transform: scale(1.015);
+  box-shadow: 2.5px 3px 0px #000;
+}
+
+.sc-opt:active {
+  transform: translate(1px, 1.5px) scale(0.995);
+  box-shadow: 1px 1px 0px #000;
+}
+
+.opt-badge {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 1.5px solid #000; display: grid; place-items: center;
+  font-family: "Montserrat", "Arial Black", sans-serif; font-size: 9px; font-weight: 900;
+  color: #fff; flex-shrink: 0;
+}
+.sc-opt-0 .opt-badge { background: #10b981; }
+.sc-opt-1 .opt-badge { background: #3b82f6; }
+.sc-opt-2 .opt-badge { background: #a855f7; }
+.sc-opt-3 .opt-badge { background: #ec4899; }
+
+.opt-text {
+  flex: 1;
+  margin-left: 2px;
+}
+
+.sc-go {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #f97316; color: #fff; display: grid;
+  place-items: center; flex-shrink: 0; font-size: 7px;
+  border: 1.5px solid #000;
+  box-shadow: 1px 1px 0px #000;
+}
+
+/* ─── MOBILE FEEDBACK POPUP inside screen ────────── */
+.sc-mobile-feedback-panel {
+  background: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.18);
+  border-top: 3px solid #000;
+  border-left: 3px solid #000;
+  border-right: 3px solid #000;
+}
+
+/* ─── COACH SIDE PANEL (Beside phone on desktop) ─── */
+.coach-side {
+  width: 270px;
+  flex-shrink: 0;
+  background: 
+    radial-gradient(circle, rgba(124, 58, 237, 0.08) 12%, transparent 13%),
+    radial-gradient(circle, #f3e8ff 0%, #ddd6fe 100%);
+  background-size: 8px 8px, 100% 100%;
+  border-radius: 18px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   max-height: min(calc(100dvh - 32px), 660px);
   overflow-y: auto;
-  color: #fff;
-  box-shadow: 
-    0 0 15px rgba(99, 102, 241, 0.1),
-    0 15px 40px rgba(0, 0, 0, 0.5);
+  color: #1e293b;
+  border: 3px solid #000;
+  box-shadow: 4px 4.5px 0px #000;
 }
 
 .coach-side::-webkit-scrollbar { width: 0; }
 
-.coach-head h2 { font-size: 13px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-.coach-head p  { font-size: 10px; color: #c4b5fd; margin-top: 1.5px; font-weight: 600; }
+.coach-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2px;
+}
 
-.alert-stack { display: flex; flex-direction: column; gap: 6px; }
+.coach-head h2 {
+  font-family: 'Luckiest Guy', 'Impact', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  background: linear-gradient(135deg, #FF8300, #C90045);
+  border: 2.5px solid #000;
+  border-radius: 8px;
+  padding: 4px 10px;
+  text-transform: uppercase;
+  transform: rotate(-1.5deg);
+  box-shadow: 2px 2.5px 0px #000;
+  letter-spacing: 0.5px;
+  -webkit-text-stroke: 0.5px #000;
+  text-shadow: 1px 1px 0px #000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.alert-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .alert {
-  background: #1a2233; 
-  border-radius: 12px; 
-  padding: 8px 10px;
-  border-left: 4px solid #f472b6;
-  animation: alertIn 0.45s cubic-bezier(0.18, 1.25, 0.32, 1) both; 
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 10px 11px;
+  border: 2.5px solid #000;
+  box-shadow: 3px 3px 0px #000;
+  color: #1e293b;
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+  animation: alertIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.alert:hover {
+  transform: translateY(-2px) rotate(0.5deg);
+  box-shadow: 4.5px 4.5px 0px #000;
 }
 
 @keyframes alertIn {
-  0%   { opacity: 0; transform: translateX(-15px) scale(0.97); }
-  100% { opacity: 1; transform: none; }
+  0%   { opacity: 0; transform: translateY(12px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.alert .ah { display: flex; align-items: center; gap: 4px; font-weight: 800; font-size: 10.5px; margin-bottom: 2px; color: #fff; }
-.alert p   { font-size: 10px; line-height: 1.4; color: #9badc8; }
-.alert .badge { text-transform: uppercase; letter-spacing: 0.4px; }
-
-.alert.safe   { border-left-color: #10b981; }
-.alert.warn   { border-left-color: #f59e0b; }
-.alert.tip    { border-left-color: #22d3ee; }
-
-.coach-empty { 
-  background: rgba(255, 255, 255, 0.03); 
-  border: 1.5px dashed rgba(255, 255, 255, 0.12); 
-  border-radius: 12px; 
-  padding: 16px 10px; 
-  text-align: center; 
-  color: #9badc8; 
+.alert .ah {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 800;
+  font-size: 11px;
+  margin-bottom: 3px;
+  color: #1f2937;
 }
-.coach-empty .big { font-size: 24px; margin-bottom: 5px; }
-.coach-empty p { font-size: 10.5px; line-height: 1.45; font-weight: 600; }
+
+.alert .ah .em {
+  font-size: 14px;
+}
+
+.alert p {
+  font-size: 9.5px;
+  line-height: 1.35;
+  color: #4b5563;
+}
+
+.alert .badge {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  font-family: "Arial Black", sans-serif;
+  font-size: 7px;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  border: 2px solid #000;
+  box-shadow: 1px 1px 0px #000;
+  background: #fff;
+  color: #000;
+}
+
+.alert.safe {
+  background: linear-gradient(to bottom, #ffffff 0%, #e8f5e9 100%);
+}
+.alert.safe .ah { color: #1b5e20; }
+.alert.safe .badge { background: #86efac; color: #064e3b; }
+
+.alert.warn {
+  background: linear-gradient(to bottom, #ffffff 0%, #fffde7 100%);
+}
+.alert.warn .ah { color: #f57f17; }
+.alert.warn .badge { background: #fde047; color: #78350f; }
+
+.alert.tip {
+  background: linear-gradient(to bottom, #ffffff 0%, #f3e8ff 100%);
+}
+.alert.tip .ah { color: #4a148c; }
+.alert.tip .badge { background: #d8b4fe; color: #581c87; }
+
+.coach-empty {
+  background: #fff;
+  border: 2.5px dashed #000;
+  border-radius: 12px;
+  padding: 16px 10px;
+  text-align: center;
+  color: #1e293b;
+  box-shadow: 2.5px 3px 0px #000;
+  transition: transform 0.2s ease;
+}
+
+.coach-empty:hover {
+  transform: scale(1.02);
+}
+
+.coach-empty .big {
+  font-size: 32px;
+  margin-bottom: 5px;
+  animation: floatEmoji 2.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes floatEmoji {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(6deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.coach-empty p {
+  font-size: 10.5px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: #475569;
+}
 
 /* ─── TOAST ─── */
 .toast {
@@ -313,6 +704,7 @@
   pointer-events: none;
   z-index: 9999;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  border: 2.5px solid #000;
 }
 
 .toast.show {
@@ -330,10 +722,345 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+.signal-box {
+  background: #fff !important;
+  border: 2.5px solid #000 !important;
+  border-radius: 14px !important;
+  box-shadow: 3px 3px 0px #000;
+  padding: 8px !important;
+}
+.signal-title {
+  color: #000 !important;
+  font-family: "Arial Black", sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  background: #e2e8f0;
+  border: 2px solid #000;
+  padding: 2px 6px;
+  border-radius: 6px;
+  display: inline-block;
+  transform: rotate(-1deg);
+  box-shadow: 1px 1px 0px #000;
+  margin-bottom: 8px !important;
+}
+.signal-item {
+  color: #64748b !important;
+  font-size: 9.5px !important;
+  padding: 3px 6px !important;
+}
 .signal-item.found {
-  color: #c084fc !important;
-  background: rgba(168, 85, 247, 0.08) !important;
-  border-color: rgba(168, 85, 247, 0.2) !important;
+  color: #064e3b !important;
+  background: #86efac !important;
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2.5px 0px #000 !important;
+  transform: rotate(0.5deg) scale(1.02);
+  font-weight: 800 !important;
+  transition: transform 0.2s ease;
+}
+.signal-item.found:hover {
+  transform: rotate(-1.5deg) scale(1.04);
+}
+
+/* ─── CASINO / GAMER COVER PAGE STYLE ───────────────── */
+.casino-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: radial-gradient(circle, #8b5cf6 0%, #3b0764 100%);
+  overflow: hidden;
+  padding: 56px 18px 18px; /* Extra padding top for status bar / dynamic island */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  user-select: none;
+}
+
+.casino-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(0,0,0,0.2) 12%, transparent 13%);
+  background-size: 10px 10px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.casino-sunburst {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 250%;
+  height: 250%;
+  transform: translate(-50%, -50%);
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255,255,255,0.065) 0deg 15deg,
+    transparent 15deg 30deg
+  );
+  animation: casinoSpin 36s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+  transform-origin: center;
+}
+
+@keyframes casinoSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.casino-content {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Floating Stars */
+.casino-star {
+  position: absolute;
+  font-size: 26px;
+  z-index: 10;
+  animation: floatStar 3s ease-in-out infinite alternate;
+  filter: drop-shadow(2px 3.5px 0px #000);
+}
+
+.star-1 {
+  top: 15px;
+  left: 10px;
+  animation-delay: 0s;
+}
+
+.star-2 {
+  top: 65px;
+  right: 10px;
+  animation-delay: 0.6s;
+  font-size: 28px;
+  transform: scaleX(-1);
+}
+
+@keyframes floatStar {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(15deg); }
+}
+
+/* Title Styling */
+.casino-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.casino-title {
+  font-family: 'Luckiest Guy', 'Impact', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.85;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  filter: drop-shadow(4px 4px 0px #000);
+}
+
+.casino-title.line-1 {
+  color: #ffd100;
+  font-size: 44px;
+  transform: rotate(-3deg) skewX(-10deg) scale(1.05);
+}
+
+.casino-title-badge-wrap {
+  margin: 1px 0;
+  z-index: 5;
+}
+
+.casino-title-badge {
+  background: #7c3aed;
+  color: #fff;
+  font-family: "Arial Black", sans-serif;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 3px 12px;
+  border-radius: 20px;
+  border: 3px solid #000;
+  display: inline-block;
+  transform: rotate(-6deg) scale(0.95);
+  box-shadow: 2px 2.5px 0px #000;
+}
+
+.casino-title.line-2 {
+  color: #ff3333;
+  font-size: 46px;
+  transform: rotate(2deg) skewX(-10deg) scale(1.08);
+}
+
+/* Icon box styling */
+.casino-icon-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.casino-icon-box {
+  background: #ffe600;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  border: 4.5px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0px 0px 0px 4px #fff inset,
+    3.5px 4px 0px #000;
+  position: relative;
+  animation: pulseBox 2s ease-in-out infinite alternate;
+}
+
+.flame-icon {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(2px 2.5px 0px rgba(0,0,0,0.25));
+}
+
+@keyframes pulseBox {
+  0% { transform: rotate(4deg) scale(1); }
+  100% { transform: rotate(-2deg) scale(1.06); }
+}
+
+.casino-gamer-badge {
+  background: #7c3aed;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 4px 11px;
+  border-radius: 20px;
+  border: 2.5px solid #000;
+  display: inline-block;
+  width: max-content;
+  margin: 0 auto;
+  box-shadow: 2px 2px 0px #000;
+  transform: translateY(-4px);
+  letter-spacing: 0.5px;
+}
+
+.casino-ribbon {
+  background: #ff1c75;
+  color: #fff;
+  font-family: "Arial Black", "Impact", sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 6px 14px;
+  border-radius: 12px 2px 12px 2px;
+  border: 3.5px solid #000;
+  display: inline-block;
+  width: max-content;
+  margin: 6px auto;
+  box-shadow: 3px 3px 0px #000;
+  transform: rotate(-1.5deg);
+  letter-spacing: -0.2px;
+}
+
+.casino-desc {
+  font-size: 11px;
+  color: #fff;
+  line-height: 1.45;
+  max-width: 270px;
+  margin: 4px auto;
+  font-weight: 600;
+  text-shadow: 1px 1.5px 1px rgba(0,0,0,0.65);
+}
+
+.casino-pills-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.casino-pill {
+  font-size: 9px;
+  font-weight: 900;
+  padding: 5px 11px;
+  border-radius: 20px;
+  border: 3px solid #000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff;
+  box-shadow: 2px 2px 0px #000;
+  letter-spacing: 0.2px;
+}
+
+.pill-purple { background: #a855f7; }
+.pill-pink { background: #f43f5e; }
+
+.pill-icon {
+  width: 10px;
+  height: 10px;
+  stroke-width: 3.5px;
+}
+
+.casino-btn-container {
+  margin: 10px 0;
+}
+
+.casino-start-btn {
+  background: linear-gradient(to bottom, #ffe600 0%, #ffd000 100%);
+  border: 4px solid #000;
+  border-radius: 26px;
+  width: 88%;
+  max-width: 280px;
+  padding: 11px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow:
+    0px 3px 0px #fff inset,
+    0px -3px 0px rgba(0,0,0,0.25) inset,
+    3.5px 4.5px 0px #000;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.15s ease;
+}
+
+.casino-start-btn:hover {
+  transform: scale(1.05);
+}
+
+.casino-start-btn:active {
+  transform: translate(2px, 3px) scale(0.98);
+  box-shadow:
+    0px 3px 0px #fff inset,
+    0px -3px 0px rgba(0,0,0,0.25) inset,
+    1.5px 1.5px 0px #000;
+}
+
+.play-arrow {
+  color: #ff1c75;
+  font-size: 16px;
+  -webkit-text-stroke: 1.5px #000;
+  filter: drop-shadow(1.5px 1.5px 0px #000);
+}
+
+.btn-text {
+  font-family: "Arial Black", "Impact", "Arial Bold", sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+.casino-footer {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
 }
 
 /* ========================================================================
