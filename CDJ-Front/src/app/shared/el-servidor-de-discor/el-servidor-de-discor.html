@@ -5,45 +5,44 @@
     <section class="screen active intro-screen">
       <div class="intro-inner">
 
+        <!-- Header matching screenshot -->
         <div class="top-bar">
           <div class="top-icon">ED</div>
           <div class="top-text">
             <b>{{ gameData.meta.title }} — Servidor simulado</b>
             <small>{{ gameData.meta.code }} · {{ gameData.meta.subtitle }}</small>
           </div>
-          <div class="live-badge">● EN VIVO</div>
+          <div class="live-badge"><span class="live-dot">●</span> EN VIVO</div>
         </div>
 
-        <div class="hero-card">
-          <div class="hero-emoji">👾</div>
-          <h1>El servidor de<br><span>Discor</span></h1>
-          <p class="hero-sub">{{ gameData.intro.hook }}</p>
-
-          <div class="how-row">
-            @for (bullet of gameData.intro.bullets; track $index) {
-              <div class="how-pill">
-                <strong>{{ bullet[0] }}:</strong> <span>{{ bullet[1] }}</span>
-              </div>
-            }
-          </div>
-
-          <div class="why-list text-left">
-            @for (why of gameData.intro.why; track $index) {
-              <div class="why-item border-l-2 pl-3 py-1 my-2" [ngClass]="'border-' + why.tone">
-                <h4 class="text-xs font-bold text-white">{{ why.title }}</h4>
-                <p class="text-[11px] text-[#9badc8] leading-tight mt-0.5">{{ why.text }}</p>
-              </div>
-            }
-          </div>
-
-          <button id="discor-start" class="btn-start mt-4" (click)="openProfileSelection()">
-            ▶ Entrar al servidor
-          </button>
+        <!-- POSTER IMAGE — sin el botón (cortado por CSS) -->
+        <div class="poster-wrap">
+          <img
+            class="poster-img"
+            src="/banners/el-servidor-de-discor-poster.jpg"
+            alt="El servidor de Discor — comic poster"
+          />
         </div>
+
+        <!-- BOTÓN CSS PREMIUM "Iniciar misión" -->
+        <button id="discor-start" class="mission-btn" (click)="openProfileSelection()">
+          <!-- Speedlines cónicas que irradian desde abajo -->
+          <span class="mission-speedlines"></span>
+          <!-- Resplandor neón de fondo -->
+          <span class="mission-glow"></span>
+          <!-- Triángulo play -->
+          <span class="mission-play">▶</span>
+          <!-- Texto -->
+          <span class="mission-label">Iniciar misión</span>
+          <!-- Destello metálico -->
+          <span class="mission-shine"></span>
+        </button>
+
 
       </div>
     </section>
   }
+
 
   <!-- ==================== PROFILE SELECTION MODAL ==================== -->
   @if (showProfileModal()) {
@@ -158,73 +157,99 @@
         </header>
 
         <!-- Feed of messages -->
-        <div class="feed">
+        <div class="feed" (click)="skipTyping()">
           @for (post of currentMission().posts; track $index) {
-            
-            @if (post.type === 'system') {
-              <div class="sys-msg"><span>— {{ post.text }} —</span></div>
-            }
+            @if ($index < visiblePostCount()) {
 
-            @if (post.type === 'text') {
-              <div class="msg" [class.me]="post.me">
-                <div class="mav" [ngClass]="{
-                  'me-av bg-cyan': post.me && profile().avatar === 'A',
-                  'me-av bg-pink': post.me && profile().avatar === 'L',
-                  'me-av bg-purple': post.me && profile().avatar === 'N',
-                  'av-leader': !post.me && post.from === 'NovaRush',
-                  'av-member': !post.me && post.from !== 'NovaRush'
-                }">
-                  {{ post.me ? profile().avatar : post.avatar }}
-                </div>
-                <div class="msg-body">
-                  <div class="msg-meta">
-                    <span class="author">{{ post.me ? profile().name : post.from }}</span>
-                    @if (post.role) { <span class="role">{{ post.role }}</span> }
-                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+              @if (post.type === 'system') {
+                <div class="sys-msg"><span>— {{ post.text }} —</span></div>
+              }
+
+              @if (post.type === 'text') {
+                <div class="msg" [class.me]="post.me">
+                  <div class="mav" [ngClass]="{
+                    'me-av bg-cyan': post.me && profile().avatar === 'A',
+                    'me-av bg-pink': post.me && profile().avatar === 'L',
+                    'me-av bg-purple': post.me && profile().avatar === 'N',
+                    'av-leader': !post.me && post.from === 'NovaRush',
+                    'av-member': !post.me && post.from !== 'NovaRush'
+                  }">
+                    {{ post.me ? profile().avatar : post.avatar }}
                   </div>
-                  @if (!post.me || post.text) {
-                    <div class="bubble">{{ post.me ? profile().name + ' decide: ' + post.text : post.text }}</div>
-                  }
+                  <div class="msg-body">
+                    <div class="msg-meta">
+                      <span class="author">{{ post.me ? profile().name : post.from }}</span>
+                      @if (post.role) { <span class="role">{{ post.role }}</span> }
+                      <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                    </div>
+                    @if (!post.me || post.text) {
+                      <div class="bubble">
+                        {{ typedTexts()[$index] !== undefined ? typedTexts()[$index] : post.text }}
+                        @if ($index === visiblePostCount() - 1 && typedTexts()[$index] !== undefined && typedTexts()[$index].length < post.text.length) {
+                          <span class="typing-cursor">▌</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (post.type === 'image') {
+                <div class="embed embed-image">
+                  <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-2xl" [ngClass]="'border-' + post.theme">
+                    🖼️
+                  </div>
+                  <div class="embed-body">
+                    <div class="embed-title" [ngClass]="'color-' + post.theme">📸 {{ post.title }}</div>
+                    <div class="embed-desc">{{ post.caption }}</div>
+                    <div class="embed-foot">
+                      <span>Regla / Banner del Servidor</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @if (post.type === 'voice') {
+                <div class="embed embed-voice">
+                  <div class="voice-row flex items-center gap-3">
+                    <button class="voice-play-btn" (click)="playVoice(post.text)">▶</button>
+                    <div class="voice-wave-container">
+                      <div class="voice-wave"></div>
+                      <small class="voice-duration">{{ post.duration }}</small>
+                    </div>
+                  </div>
+                  <div class="embed-body">
+                    <div class="embed-title" [ngClass]="'color-' + post.theme">🔊 Nota de voz de {{ post.from }}</div>
+                    <div class="embed-desc font-italic">"{{ post.text }}"</div>
+                    <div class="embed-foot">
+                      <span>Audio simulado (haz clic en Play)</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+            }
+          }
+
+          <!-- Discord Typing Indicator -->
+          @if (isTyping()) {
+            <div class="discord-typing-indicator">
+              <div class="typing-avatar" [ngClass]="{'bg-cyan': typingAvatar() === 'A', 'bg-pink': typingAvatar() === 'L', 'bg-purple': typingAvatar() === 'N', 'av-leader': typingAvatar() === 'N'}">
+                {{ typingAvatar() }}
+              </div>
+              <div class="typing-text-wrap">
+                <span class="typing-username">{{ typingUser() }}</span>
+                <span class="typing-label">está escribiendo</span>
+                <div class="typing-dots">
+                  <span class="dot d1"></span>
+                  <span class="dot d2"></span>
+                  <span class="dot d3"></span>
                 </div>
               </div>
-            }
-
-            @if (post.type === 'image') {
-              <div class="embed embed-image">
-                <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-2xl" [ngClass]="'border-' + post.theme">
-                  🖼️
-                </div>
-                <div class="embed-body">
-                  <div class="embed-title" [ngClass]="'color-' + post.theme">📸 {{ post.title }}</div>
-                  <div class="embed-desc">{{ post.caption }}</div>
-                  <div class="embed-foot">
-                    <span>Regla / Banner del Servidor</span>
-                  </div>
-                </div>
-              </div>
-            }
-
-            @if (post.type === 'voice') {
-              <div class="embed embed-voice">
-                <div class="voice-row flex items-center gap-3">
-                  <button class="voice-play-btn" (click)="playVoice(post.text)">▶</button>
-                  <div class="voice-wave-container">
-                    <div class="voice-wave"></div>
-                    <small class="voice-duration">{{ post.duration }}</small>
-                  </div>
-                </div>
-                <div class="embed-body">
-                  <div class="embed-title" [ngClass]="'color-' + post.theme">🔊 Nota de voz de {{ post.from }}</div>
-                  <div class="embed-desc font-italic">"{{ post.text }}"</div>
-                  <div class="embed-foot">
-                    <span>Audio simulado (haz clic en Play)</span>
-                  </div>
-                </div>
-              </div>
-            }
-
+            </div>
           }
         </div>
+
 
         <!-- Input Box -->
         <!-- Input Box -->

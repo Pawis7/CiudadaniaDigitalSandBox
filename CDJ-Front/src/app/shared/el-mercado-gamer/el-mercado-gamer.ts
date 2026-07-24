@@ -79,12 +79,26 @@ export class ElMercadoGamerComponent implements OnDestroy {
     };
   });
 
+  // Typing Simulator Effect
+  readonly visiblePostCount = signal<number>(0);
+  readonly typedTexts = signal<Record<number, string>>({});
+  readonly isTyping = signal<boolean>(false);
+  readonly typingUser = signal<string>('');
+  readonly typingAvatar = signal<string>('');
+  private typingTimer: any = null;
+  private typingInterval: any = null;
+  private lastTypingMissionId: string = '';
+
   constructor() {
     // Angular effect to shuffle options on index/screen change, and cancel TTS
     effect(() => {
       if (this.currentScreen() === 'game') {
         const mission = this.currentMission();
         this.currentOptions.set(this.shuffleArray([...mission.options]));
+        if (this.lastTypingMissionId !== mission.id) {
+          this.lastTypingMissionId = mission.id;
+          setTimeout(() => this.startMissionTypingSequence(), 60);
+        }
       }
 
       if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -94,9 +108,104 @@ export class ElMercadoGamerComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.clearTypingTimers();
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
+  }
+
+  // ---- Typing Engine ----
+  startMissionTypingSequence(): void {
+    this.clearTypingTimers();
+    this.visiblePostCount.set(0);
+    this.typedTexts.set({});
+    this.isTyping.set(false);
+
+    const posts = this.currentMission().posts;
+    if (!posts || posts.length === 0) return;
+
+    this.typeNextPost(0);
+  }
+
+  private clearTypingTimers(): void {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+      this.typingTimer = null;
+    }
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.typingInterval = null;
+    }
+  }
+
+  private typeNextPost(postIndex: number): void {
+    const posts = this.currentMission().posts;
+    if (postIndex >= posts.length) {
+      this.isTyping.set(false);
+      return;
+    }
+
+    const post = posts[postIndex];
+
+    if (post.type === 'system') {
+      this.visiblePostCount.set(postIndex + 1);
+      this.typedTexts.update(map => ({ ...map, [postIndex]: post.text }));
+      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 250);
+      return;
+    }
+
+    const author = ('from' in post && post.from) ? post.from : 'NovaRush';
+    const avatar = ('avatar' in post && post.avatar) ? post.avatar : 'N';
+
+    this.isTyping.set(true);
+    this.typingUser.set(author);
+    this.typingAvatar.set(avatar);
+
+    this.typingTimer = setTimeout(() => {
+      this.isTyping.set(false);
+      this.visiblePostCount.set(postIndex + 1);
+
+      if (post.type === 'text') {
+        const fullText = post.text;
+        let charIdx = 0;
+        const speed = 16;
+
+        this.typingInterval = setInterval(() => {
+          charIdx++;
+          const currentSub = fullText.slice(0, charIdx);
+          this.typedTexts.update(map => ({ ...map, [postIndex]: currentSub }));
+
+          if (charIdx % 6 === 0) {
+            this.playBeep(380 + (charIdx % 4) * 30, 0.015, 'sine', 0.02);
+          }
+
+          if (charIdx >= fullText.length) {
+            clearInterval(this.typingInterval);
+            this.typingInterval = null;
+            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 350);
+          }
+        }, speed);
+      } else {
+        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 450);
+      }
+    }, 450);
+  }
+
+  skipTyping(): void {
+    this.clearTypingTimers();
+    const posts = this.currentMission().posts;
+    if (!posts) return;
+
+    this.isTyping.set(false);
+    this.visiblePostCount.set(posts.length);
+
+    const fullMap: Record<number, string> = {};
+    posts.forEach((p, idx) => {
+      if ('text' in p && p.text) {
+        fullMap[idx] = p.text;
+      }
+    });
+    this.typedTexts.set(fullMap);
   }
 
   // Utility to shuffle array
@@ -107,6 +216,7 @@ export class ElMercadoGamerComponent implements OnDestroy {
     }
     return array;
   }
+
 
   // ---- Audio ----
   private playBeep(freq: number, dur = 0.08, type: OscillatorType = 'sine', vol = 0.18): void {

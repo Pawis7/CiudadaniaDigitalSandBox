@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal, effect, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DISCOR_GAME_DATA, DiscorMission, DiscorOption } from '../../core/data/el-servidor-de-discor.data';
 
@@ -19,13 +19,43 @@ function shuffleArray<T>(array: T[]): T[] {
   templateUrl: './el-servidor-de-discor.html',
   styleUrl: './el-servidor-de-discor.css',
 })
-export class ElServidorDeDiscorComponent {
+export class ElServidorDeDiscorComponent implements OnDestroy {
   readonly gameData = DISCOR_GAME_DATA;
   readonly missions = DISCOR_GAME_DATA.missions;
 
   // Screens: 'intro' | 'game' | 'result'
   readonly currentScreen = signal<'intro' | 'game' | 'result'>('intro');
   readonly showProfileModal = signal<boolean>(false);
+
+  // Typing Simulator Effect
+  readonly visiblePostCount = signal<number>(0);
+  readonly typedTexts = signal<Record<number, string>>({});
+  readonly isTyping = signal<boolean>(false);
+  readonly typingUser = signal<string>('');
+  readonly typingAvatar = signal<string>('');
+  private typingTimer: any = null;
+  private typingInterval: any = null;
+  private lastTypingMissionId: string = '';
+
+  // Poster Image Sources with automatic fallback chain
+  readonly posterSources = [
+    '/banners/el-servidor-de-discor-poster.svg',
+    '/banners/el-servidor-de-discor-poster.png',
+    '/banners/el-servidor-de-discor-poster.jpg',
+    '/Portadas/el-servidor-de-discor-poster.png',
+    '/assets/el-servidor-de-discor-poster.png'
+  ];
+  readonly posterIndex = signal<number>(0);
+  readonly posterSrc = computed(() => this.posterSources[this.posterIndex()]);
+  readonly usePosterImage = signal<boolean>(false);
+
+  onPosterImageError(): void {
+    if (this.posterIndex() < this.posterSources.length - 1) {
+      this.posterIndex.update(i => i + 1);
+    } else {
+      this.usePosterImage.set(false);
+    }
+  }
 
   // Profile selection
   readonly profile = signal<{ name: string; avatar: string }>({ name: 'AlexVector', avatar: 'A' });
@@ -89,13 +119,119 @@ export class ElServidorDeDiscorComponent {
   });
 
   constructor() {
-    // Shuffling options whenever the active mission index changes
+    // Shuffling options and running typing sequence when active mission changes
     effect(() => {
       if (this.currentScreen() === 'game') {
         const mission = this.currentMission();
         this.currentOptions.set(shuffleArray(mission.options));
+        if (this.lastTypingMissionId !== mission.id) {
+          this.lastTypingMissionId = mission.id;
+          setTimeout(() => this.startMissionTypingSequence(), 60);
+        }
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.clearTypingTimers();
+  }
+
+  // ---- Typing Engine ----
+  startMissionTypingSequence(): void {
+    this.clearTypingTimers();
+    this.visiblePostCount.set(0);
+    this.typedTexts.set({});
+    this.isTyping.set(false);
+
+    const posts = this.currentMission().posts;
+    if (!posts || posts.length === 0) return;
+
+    this.typeNextPost(0);
+  }
+
+  private clearTypingTimers(): void {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+      this.typingTimer = null;
+    }
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.typingInterval = null;
+    }
+  }
+
+  private typeNextPost(postIndex: number): void {
+    const posts = this.currentMission().posts;
+    if (postIndex >= posts.length) {
+      this.isTyping.set(false);
+      return;
+    }
+
+    const post = posts[postIndex];
+
+    if (post.type === 'system') {
+      this.visiblePostCount.set(postIndex + 1);
+      this.typedTexts.update(map => ({ ...map, [postIndex]: post.text }));
+      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 250);
+      return;
+    }
+
+    // Determine author & avatar for Discord typing indicator
+    const author = ('from' in post && post.from) ? post.from : 'NovaRush';
+    const avatar = ('avatar' in post && post.avatar) ? post.avatar : 'N';
+
+    // Show "User is typing..." indicator
+    this.isTyping.set(true);
+    this.typingUser.set(author);
+    this.typingAvatar.set(avatar);
+
+    // After brief typing indicator delay (e.g. 450ms), reveal post and type out text
+    this.typingTimer = setTimeout(() => {
+      this.isTyping.set(false);
+      this.visiblePostCount.set(postIndex + 1);
+
+      if (post.type === 'text') {
+        const fullText = post.text;
+        let charIdx = 0;
+        const speed = 16; // ms per character
+
+        this.typingInterval = setInterval(() => {
+          charIdx++;
+          const currentSub = fullText.slice(0, charIdx);
+          this.typedTexts.update(map => ({ ...map, [postIndex]: currentSub }));
+
+          if (charIdx % 6 === 0) {
+            this.playBeep(380 + (charIdx % 4) * 30, 0.015, 'sine', 0.02);
+          }
+
+          if (charIdx >= fullText.length) {
+            clearInterval(this.typingInterval);
+            this.typingInterval = null;
+            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 350);
+          }
+        }, speed);
+      } else {
+        // Voice or Image embed post
+        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 450);
+      }
+    }, 450);
+  }
+
+  skipTyping(): void {
+    this.clearTypingTimers();
+    const posts = this.currentMission().posts;
+    if (!posts) return;
+
+    this.isTyping.set(false);
+    this.visiblePostCount.set(posts.length);
+
+    const fullMap: Record<number, string> = {};
+    posts.forEach((p, idx) => {
+      if ('text' in p && p.text) {
+        fullMap[idx] = p.text;
+      }
+    });
+    this.typedTexts.set(fullMap);
   }
 
   // ---- Audio Synthesizer ----

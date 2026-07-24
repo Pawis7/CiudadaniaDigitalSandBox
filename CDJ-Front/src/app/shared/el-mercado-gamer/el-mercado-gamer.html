@@ -158,81 +158,107 @@
         </header>
 
         <!-- Feed of messages -->
-        <div class="feed">
+        <div class="feed" (click)="skipTyping()">
           @for (post of currentMission().posts; track $index) {
-            
-            @if (post.type === 'system') {
-              <div class="sys-msg"><span>— {{ post.text }} —</span></div>
-            }
+            @if ($index < visiblePostCount()) {
 
-            @if (post.type === 'text') {
-              <div class="msg" [class.me]="post.me">
-                <div class="mav" [ngClass]="{
-                  'me-av bg-cyan': post.me && profile().avatar === 'A',
-                  'me-av bg-pink': post.me && profile().avatar === 'L',
-                  'me-av bg-purple': post.me && profile().avatar === 'N',
-                  'bg-cyan text-black': !post.me && post.avatar === 'S',
-                  'bg-purple text-white': !post.me && post.avatar === 'M',
-                  'bg-blue text-white': !post.me && post.avatar === 'V',
-                  'bg-pink text-white': !post.me && post.avatar === 'A'
-                }">
-                  {{ post.me ? profile().avatar : post.avatar }}
-                </div>
-                <div class="msg-body">
-                  <div class="msg-meta">
-                    <span class="author">{{ post.me ? profile().name : post.from }}</span>
-                    @if (post.role) { <span class="role">{{ post.role }}</span> }
-                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+              @if (post.type === 'system') {
+                <div class="sys-msg"><span>— {{ post.text }} —</span></div>
+              }
+
+              @if (post.type === 'text') {
+                <div class="msg" [class.me]="post.me">
+                  <div class="mav" [ngClass]="{
+                    'me-av bg-cyan': post.me && profile().avatar === 'A',
+                    'me-av bg-pink': post.me && profile().avatar === 'L',
+                    'me-av bg-purple': post.me && profile().avatar === 'N',
+                    'bg-cyan text-black': !post.me && post.avatar === 'S',
+                    'bg-purple text-white': !post.me && post.avatar === 'M',
+                    'bg-blue text-white': !post.me && post.avatar === 'V',
+                    'bg-pink text-white': !post.me && post.avatar === 'A'
+                  }">
+                    {{ post.me ? profile().avatar : post.avatar }}
                   </div>
-                  @if (!post.me || post.text) {
-                    <div class="bubble">{{ post.me ? profile().name + ' decide: ' + post.text : post.text }}</div>
+                  <div class="msg-body">
+                    <div class="msg-meta">
+                      <span class="author">{{ post.me ? profile().name : post.from }}</span>
+                      @if (post.role) { <span class="role">{{ post.role }}</span> }
+                      <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                    </div>
+                    @if (!post.me || post.text) {
+                      <div class="bubble">
+                        {{ typedTexts()[$index] !== undefined ? typedTexts()[$index] : post.text }}
+                        @if ($index === visiblePostCount() - 1 && typedTexts()[$index] !== undefined && typedTexts()[$index].length < post.text.length) {
+                          <span class="typing-cursor">▌</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (post.type === 'image') {
+                <div class="embed embed-image">
+                  @if (post.url) {
+                    <div class="image-preview-container" style="overflow: hidden; border-radius: 6px; margin-bottom: 4px;">
+                      <img [src]="post.url" alt="Listing Preview" style="width: 100%; height: 120px; object-fit: cover; border-bottom: 2px solid var(--cyan);">
+                    </div>
+                  } @else {
+                    <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-2xl" [ngClass]="'border-' + post.theme">
+                      🖼️
+                    </div>
                   }
+                  <div class="embed-body">
+                    <div class="embed-title" [ngClass]="'color-' + post.theme">📸 {{ post.title }}</div>
+                    <div class="embed-desc">{{ post.caption }}</div>
+                    <div class="embed-foot">
+                      <span>TradeHub · Publicación</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @if (post.type === 'voice') {
+                <div class="embed embed-voice">
+                  <div class="voice-row flex items-center gap-3">
+                    <button class="voice-play-btn" (click)="playVoice(post.text)">▶</button>
+                    <div class="voice-wave-container">
+                      <div class="voice-wave"></div>
+                      <small class="voice-duration">{{ post.duration }}</small>
+                    </div>
+                  </div>
+                  <div class="embed-body">
+                    <div class="embed-title" [ngClass]="'color-' + post.theme">🔊 Nota de voz de {{ post.from }}</div>
+                    <div class="embed-desc font-italic">"{{ post.text }}"</div>
+                    <div class="embed-foot">
+                      <span>Audio simulado (haz clic en Play)</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+            }
+          }
+
+          <!-- Discord Typing Indicator -->
+          @if (isTyping()) {
+            <div class="discord-typing-indicator">
+              <div class="typing-avatar" [ngClass]="{'bg-cyan': typingAvatar() === 'A', 'bg-pink': typingAvatar() === 'L', 'bg-purple': typingAvatar() === 'N', 'av-leader': typingAvatar() === 'N'}">
+                {{ typingAvatar() }}
+              </div>
+              <div class="typing-text-wrap">
+                <span class="typing-username">{{ typingUser() }}</span>
+                <span class="typing-label">está escribiendo</span>
+                <div class="typing-dots">
+                  <span class="dot d1"></span>
+                  <span class="dot d2"></span>
+                  <span class="dot d3"></span>
                 </div>
               </div>
-            }
-
-            @if (post.type === 'image') {
-              <div class="embed embed-image">
-                @if (post.url) {
-                  <div class="image-preview-container" style="overflow: hidden; border-radius: 6px; margin-bottom: 4px;">
-                    <img [src]="post.url" alt="Listing Preview" style="width: 100%; height: 120px; object-fit: cover; border-bottom: 2px solid var(--cyan);">
-                  </div>
-                } @else {
-                  <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-2xl" [ngClass]="'border-' + post.theme">
-                    🖼️
-                  </div>
-                }
-                <div class="embed-body">
-                  <div class="embed-title" [ngClass]="'color-' + post.theme">📸 {{ post.title }}</div>
-                  <div class="embed-desc">{{ post.caption }}</div>
-                  <div class="embed-foot">
-                    <span>TradeHub · Publicación</span>
-                  </div>
-                </div>
-              </div>
-            }
-
-            @if (post.type === 'voice') {
-              <div class="embed embed-voice">
-                <div class="voice-row flex items-center gap-3">
-                  <button class="voice-play-btn" (click)="playVoice(post.text)">▶</button>
-                  <div class="voice-wave-container">
-                    <div class="voice-wave"></div>
-                    <small class="voice-duration">{{ post.duration }}</small>
-                  </div>
-                </div>
-                <div class="embed-body">
-                  <div class="embed-title" [ngClass]="'color-' + post.theme">🔊 Nota de voz de {{ post.from }}</div>
-                  <div class="embed-desc font-italic">"{{ post.text }}"</div>
-                  <div class="embed-foot">
-                    <span>Audio simulado (haz clic en Play)</span>
-                  </div>
-                </div>
-              </div>
-            }
-
+            </div>
           }
         </div>
+
 
         <!-- Input Box -->
         @if (!activeFeedbackOption()) {

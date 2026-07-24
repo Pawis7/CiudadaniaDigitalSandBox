@@ -628,6 +628,95 @@
   font-weight: 600;
 }
 
+/* ==================== DISCORD TYPING INDICATOR ==================== */
+.discor-scope .discord-typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  margin: 8px 0;
+  background: rgba(30, 33, 40, 0.85);
+  border-radius: 8px;
+  border-left: 3px solid #5865f2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  animation: discor-fade-in 0.25s ease-out;
+  width: fit-content;
+}
+
+.discor-scope .typing-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #5865f2;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.discor-scope .typing-text-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #b9bbbe;
+}
+
+.discor-scope .typing-username {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.discor-scope .typing-label {
+  color: #949ba4;
+}
+
+.discor-scope .typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 2px;
+}
+
+.discor-scope .typing-dots .dot {
+  width: 4px;
+  height: 4px;
+  background: #dcddde;
+  border-radius: 50%;
+  display: inline-block;
+  animation: discor-dot-bounce 1.4s ease-in-out infinite;
+}
+
+.discor-scope .typing-dots .d1 { animation-delay: 0s; }
+.discor-scope .typing-dots .d2 { animation-delay: 0.2s; }
+.discor-scope .typing-dots .d3 { animation-delay: 0.4s; }
+
+@keyframes discor-dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+  30% { transform: translateY(-4px); opacity: 1; background: #5865f2; box-shadow: 0 0 6px rgba(88, 101, 242, 0.8); }
+}
+
+.discor-scope .typing-cursor {
+  display: inline-block;
+  color: #00d8ff;
+  font-weight: 900;
+  margin-left: 2px;
+  animation: discor-cursor-blink 0.8s infinite;
+}
+
+@keyframes discor-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes discor-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
 .discor-scope .color-cyan { color: var(--cyan) !important; }
 .discor-scope .color-pink { color: var(--pink) !important; }
 .discor-scope .color-purple { color: var(--purple) !important; }
