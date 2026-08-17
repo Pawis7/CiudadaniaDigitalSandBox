@@ -140,7 +140,16 @@ export class AudienciaComponent {
 
   /** Recursos del nivel activo filtrados por búsqueda y categoría. */
   filteredResources = computed(() => {
-    const resources = this.activeSubLevel()?.levelResources ?? [];
+    let resources = this.activeSubLevel()?.levelResources ?? [];
+    
+    // Hide questionnaires and 'la app que no se acaba' in 'secundaria' level
+    if (this.selectedLevel() === 'secundaria') {
+      resources = resources.filter(r => 
+        r.typeLabel?.toLowerCase() !== 'cuestionario' && 
+        r.id !== 'app-no-se-acaba'
+      );
+    }
+
     const query     = this.searchQuery().trim().toLowerCase();
     const cat       = this.activeFilter();
     return resources.filter((r) => {
