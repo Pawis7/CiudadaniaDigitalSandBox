@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal, effect, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MONEDAS_GRATIS_DATA, Mission, MissionOption, MissionFeed } from '../../core/data/monedas-gratis.data';
 
@@ -10,11 +10,33 @@ import { MONEDAS_GRATIS_DATA, Mission, MissionOption, MissionFeed } from '../../
   templateUrl: './monedas-gratis.html',
   styleUrl: './monedas-gratis.css',
 })
-export class MonedasGratisComponent {
+export class MonedasGratisComponent implements OnDestroy {
   readonly missions = MONEDAS_GRATIS_DATA;
 
   // Sound control
   readonly soundOn = signal<boolean>(true);
+
+  // Typing Simulator Effect
+  readonly visiblePostCount = signal<number>(0);
+  readonly typedTexts = signal<Record<number, string>>({});
+  readonly isTyping = signal<boolean>(false);
+  readonly typingUser = signal<string>('');
+  readonly typingAvatar = signal<string>('');
+  private typingTimer: any = null;
+  private typingInterval: any = null;
+  private lastTypingMissionId: string = '';
+
+  constructor() {
+    effect(() => {
+      if (this.currentScreen() === 'game') {
+        const mission = this.currentMission();
+        if (this.lastTypingMissionId !== mission.id) {
+          this.lastTypingMissionId = mission.id;
+          setTimeout(() => this.startMissionTypingSequence(), 60);
+        }
+      }
+    });
+  }
 
   // Screen state: 'intro' | 'game' | 'result'
   readonly currentScreen = signal<'intro' | 'game' | 'result'>('intro');
@@ -95,6 +117,126 @@ export class MonedasGratisComponent {
     }
   });
 
+  ngOnDestroy(): void {
+    this.clearTypingTimers();
+  }
+
+  // ---- Typing Engine ----
+  startMissionTypingSequence(): void {
+    this.clearTypingTimers();
+    this.visiblePostCount.set(0);
+    this.typedTexts.set({});
+    this.isTyping.set(false);
+
+    const feed = this.currentMission().feed;
+    if (!feed || feed.length === 0) return;
+
+    this.typeNextPost(0);
+  }
+
+  private clearTypingTimers(): void {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+      this.typingTimer = null;
+    }
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.typingInterval = null;
+    }
+  }
+
+  private typeNextPost(postIndex: number): void {
+    const feed = this.currentMission().feed;
+    if (postIndex >= feed.length) {
+      this.isTyping.set(false);
+      return;
+    }
+
+    const item = feed[postIndex];
+
+    if (item.type !== 'msg') {
+      // Embed types (reward, link, login, report, sys)
+      this.isTyping.set(false);
+      this.visiblePostCount.set(postIndex + 1);
+      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 150);
+      return;
+    }
+
+    if (item.isMe) {
+      // For user's thought/message, type it without showing typing indicator
+      this.isTyping.set(false);
+      this.visiblePostCount.set(postIndex + 1);
+      const fullText = item.text || (this.profile().name + ' piensa…');
+      let charIdx = 0;
+      const speed = 6;
+
+      this.typingInterval = setInterval(() => {
+        charIdx++;
+        const currentSub = fullText.slice(0, charIdx);
+        this.typedTexts.update(map => ({ ...map, [postIndex]: currentSub }));
+
+        if (charIdx % 6 === 0) {
+          this.playBeep(380 + (charIdx % 4) * 30, 0.015, 'sine', 0.02);
+        }
+
+        if (charIdx >= fullText.length) {
+          clearInterval(this.typingInterval);
+          this.typingInterval = null;
+          this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
+        }
+      }, speed);
+    } else {
+      // Show "User is typing..." indicator
+      this.isTyping.set(true);
+      this.typingUser.set(item.author || 'Desconocido');
+      this.typingAvatar.set(item.avatar || '?');
+
+      this.typingTimer = setTimeout(() => {
+        this.isTyping.set(false);
+        this.visiblePostCount.set(postIndex + 1);
+
+        const fullText = item.text || '';
+        let charIdx = 0;
+        const speed = 6;
+
+        this.typingInterval = setInterval(() => {
+          charIdx++;
+          const currentSub = fullText.slice(0, charIdx);
+          this.typedTexts.update(map => ({ ...map, [postIndex]: currentSub }));
+
+          if (charIdx % 6 === 0) {
+            this.playBeep(380 + (charIdx % 4) * 30, 0.015, 'sine', 0.02);
+          }
+
+          if (charIdx >= fullText.length) {
+            clearInterval(this.typingInterval);
+            this.typingInterval = null;
+            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
+          }
+        }, speed);
+      }, 150);
+    }
+  }
+
+  skipTyping(): void {
+    this.clearTypingTimers();
+    const feed = this.currentMission().feed;
+    if (!feed) return;
+
+    this.isTyping.set(false);
+    this.visiblePostCount.set(feed.length);
+
+    const fullMap: Record<number, string> = {};
+    feed.forEach((item, idx) => {
+      if (item.type === 'msg') {
+        fullMap[idx] = item.text || (item.isMe ? this.profile().name + ' piensa…' : '');
+      } else if (item.text) {
+        fullMap[idx] = item.text;
+      }
+    });
+    this.typedTexts.set(fullMap);
+  }
+
   // Audio synthesis helper
   private playBeep(freq: number, dur: number = 0.07, type: OscillatorType = "sine", vol: number = 0.20): void {
     if (!this.soundOn()) return;
@@ -142,6 +284,7 @@ export class MonedasGratisComponent {
 
   confirmProfile(): void {
     this.showProfileModal.set(false);
+    this.lastTypingMissionId = '';
     this.currentScreen.set('game');
     this.curIndex.set(0);
     this.sndSend();
@@ -200,6 +343,11 @@ export class MonedasGratisComponent {
 
   // Restart simulation
   restartGame(): void {
+    this.clearTypingTimers();
+    this.lastTypingMissionId = '';
+    this.visiblePostCount.set(0);
+    this.typedTexts.set({});
+    this.isTyping.set(false);
     this.score.set(0);
     this.curIndex.set(0);
     this.answers.set({});

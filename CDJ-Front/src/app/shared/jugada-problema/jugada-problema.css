@@ -1034,3 +1034,86 @@
 @media (prefers-reduced-motion: reduce) {
   .jp-scope *, .jp-scope .hero-emoji { animation: none !important; transition: none !important; }
 }
+
+/* ==================== DISCORD TYPING INDICATOR ==================== */
+.jp-scope .discord-typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  margin: 8px 0;
+  background: rgba(30, 33, 40, 0.85);
+  border-radius: 8px;
+  border-left: 3px solid #5865f2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  animation: jp-in 0.25s ease-out;
+  width: fit-content;
+}
+
+.jp-scope .typing-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #5865f2;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.jp-scope .typing-text-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: #b9bbbe;
+}
+
+.jp-scope .typing-username {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.jp-scope .typing-label {
+  color: #949ba4;
+}
+
+.jp-scope .typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 2px;
+}
+
+.jp-scope .typing-dots .dot {
+  width: 4px;
+  height: 4px;
+  background: #dcddde;
+  border-radius: 50%;
+  display: inline-block;
+  animation: jp-dot-bounce 1.4s ease-in-out infinite;
+}
+
+.jp-scope .typing-dots .d1 { animation-delay: 0s; }
+.jp-scope .typing-dots .d2 { animation-delay: 0.2s; }
+.jp-scope .typing-dots .d3 { animation-delay: 0.4s; }
+
+@keyframes jp-dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+  30% { transform: translateY(-4px); opacity: 1; background: #5865f2; box-shadow: 0 0 6px rgba(88, 101, 242, 0.8); }
+}
+
+.jp-scope .typing-cursor {
+  display: inline-block;
+  color: #00d8ff;
+  font-weight: 900;
+  margin-left: 2px;
+  animation: jp-cursor-blink 0.8s infinite;
+}
+
+@keyframes jp-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

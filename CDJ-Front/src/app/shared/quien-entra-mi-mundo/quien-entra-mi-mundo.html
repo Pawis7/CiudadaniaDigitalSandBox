@@ -145,53 +145,80 @@
         <div class="brief">🎯 {{ currentMission().brief }}</div>
 
         <!-- Feed -->
-        <div class="feed">
+        <div class="feed" (click)="skipTyping()">
           @for (item of currentMission().feed; track $index) {
+            @if ($index < visiblePostCount()) {
 
-            @if (item.type === 'sys') {
-              <div class="sys-msg"><span>— {{ item.text }} —</span></div>
-            }
+              @if (item.type === 'sys') {
+                <div class="sys-msg"><span>— {{ item.text }} —</span></div>
+              }
 
-            @if (item.type === 'msg') {
-              <div class="msg">
-                <div class="mav"
-                     [class.av-me]="item.isMe"
-                     [class.av-blue]="!item.isMe && item.color === 'blue'"
-                     [class.av-red]="!item.isMe && item.color === 'red'"
-                     [class.av-purple]="item.isMe"
-                     [class.av-teal]="!item.isMe && item.color === 'teal'"
-                     [class.av-gray]="!item.isMe && item.color === 'gray'">
-                  {{ item.isMe ? profile().avatar : item.avatar }}
-                </div>
-                <div class="msg-body">
-                  <div class="msg-meta">
-                    <span class="author">{{ item.isMe ? profile().name : item.author }}</span>
-                    @if (item.role) { <span class="role">{{ item.role }}</span> }
-                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+              @if (item.type === 'msg') {
+                <div class="msg">
+                  <div class="mav"
+                       [class.av-me]="item.isMe"
+                       [class.av-blue]="!item.isMe && item.color === 'blue'"
+                       [class.av-red]="!item.isMe && item.color === 'red'"
+                       [class.av-purple]="item.isMe"
+                       [class.av-teal]="!item.isMe && item.color === 'teal'"
+                       [class.av-gray]="!item.isMe && item.color === 'gray'">
+                    {{ item.isMe ? profile().avatar : item.avatar }}
                   </div>
-                  @if (!item.isMe || item.text) {
-                    <div class="bubble">{{ item.isMe ? profile().name + ' piensa…' : item.text }}</div>
-                  }
+                  <div class="msg-body">
+                    <div class="msg-meta">
+                      <span class="author">{{ item.isMe ? profile().name : item.author }}</span>
+                      @if (item.role) { <span class="role">{{ item.role }}</span> }
+                      <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                    </div>
+                    @if (!item.isMe || item.text) {
+                      <div class="bubble">
+                        {{ typedTexts()[$index] !== undefined ? typedTexts()[$index] : (item.isMe ? (item.text || (profile().name + ' piensa…')) : item.text) }}
+                        @if ($index === visiblePostCount() - 1 && typedTexts()[$index] !== undefined && typedTexts()[$index].length < (item.text || (item.isMe ? (item.text || (profile().name + ' piensa…')) : '')).length) {
+                          <span class="typing-cursor">▌</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              @if (item.type === 'inv') {
+                <div class="embed-inv">
+                  <div class="inv-icon">🎮</div>
+                  <div class="inv-body">
+                    <div class="inv-title">{{ item.title }}</div>
+                    <div class="inv-sub">{{ item.sub }}</div>
+                  </div>
+                </div>
+              }
+
+              @if (item.type === 'alert') {
+                <div class="embed-alert">
+                  ⚠️ {{ item.text }}
+                </div>
+              }
+
+            }
+          }
+
+          <!-- Discord Typing Indicator -->
+          @if (isTyping()) {
+            <div class="discord-typing-indicator">
+              <div class="typing-avatar"
+                   [class.av-blue]="typingAvatar() === 'N'"
+                   [class.av-red]="typingAvatar() === 'P'">
+                {{ typingAvatar() }}
+              </div>
+              <div class="typing-text-wrap">
+                <span class="typing-username">{{ typingUser() }}</span>
+                <span class="typing-label">está escribiendo</span>
+                <div class="typing-dots">
+                  <span class="dot d1"></span>
+                  <span class="dot d2"></span>
+                  <span class="dot d3"></span>
                 </div>
               </div>
-            }
-
-            @if (item.type === 'inv') {
-              <div class="embed-inv">
-                <div class="inv-icon">🎮</div>
-                <div class="inv-body">
-                  <div class="inv-title">{{ item.title }}</div>
-                  <div class="inv-sub">{{ item.sub }}</div>
-                </div>
-              </div>
-            }
-
-            @if (item.type === 'alert') {
-              <div class="embed-alert">
-                ⚠️ {{ item.text }}
-              </div>
-            }
-
+            </div>
           }
         </div>
 

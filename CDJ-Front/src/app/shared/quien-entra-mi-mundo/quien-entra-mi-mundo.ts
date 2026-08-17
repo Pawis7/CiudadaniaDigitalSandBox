@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal, effect, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QUIEN_ENTRA_DATA, QuienEntraMission, QuienEntraOption } from '../../core/data/quien-entra-mi-mundo.data';
 
@@ -10,7 +10,7 @@ import { QUIEN_ENTRA_DATA, QuienEntraMission, QuienEntraOption } from '../../cor
   templateUrl: './quien-entra-mi-mundo.html',
   styleUrl:    './quien-entra-mi-mundo.css',
 })
-export class QuienEntraMiMundoComponent {
+export class QuienEntraMiMundoComponent implements OnDestroy {
   readonly missions = QUIEN_ENTRA_DATA;
 
   // Screens: 'intro' | 'game' | 'result'
@@ -30,6 +30,16 @@ export class QuienEntraMiMundoComponent {
   readonly copiedRules          = signal<boolean>(false);
   readonly soundOn              = signal<boolean>(true);
 
+  // Typing Simulator Effect
+  readonly visiblePostCount = signal<number>(0);
+  readonly typedTexts = signal<Record<number, string>>({});
+  readonly isTyping = signal<boolean>(false);
+  readonly typingUser = signal<string>('');
+  readonly typingAvatar = signal<string>('');
+  private typingTimer: any = null;
+  private typingInterval: any = null;
+  private lastTypingMissionId: string = '';
+
   // Shuffled options for current scene
   private _shuffledOps = signal<QuienEntraOption[]>([]);
 
@@ -42,6 +52,18 @@ export class QuienEntraMiMundoComponent {
 
   // Audio
   private actx: AudioContext | null = null;
+
+  constructor() {
+    effect(() => {
+      if (this.currentScreen() === 'game') {
+        const mission = this.currentMission();
+        if (this.lastTypingMissionId !== mission.id) {
+          this.lastTypingMissionId = mission.id;
+          setTimeout(() => this.startMissionTypingSequence(), 60);
+        }
+      }
+    });
+  }
 
   // Computed
   readonly currentMission  = computed<QuienEntraMission>(() => this.missions[this.curIndex()]);
@@ -70,6 +92,134 @@ export class QuienEntraMiMundoComponent {
       desc: 'Algunas decisiones dejaron la presión cerca. Recuerda las 3 reglas y practica de nuevo.',
     };
   });
+
+  ngOnDestroy(): void {
+    this.clearTypingTimers();
+  }
+
+  // ---- Typing Engine ----
+  startMissionTypingSequence(): void {
+    this.clearTypingTimers();
+    this.visiblePostCount.set(0);
+    this.typedTexts.set({});
+    this.isTyping.set(false);
+
+    const feed = this.currentMission().feed;
+    if (!feed || feed.length === 0) return;
+
+    this.typeNextPost(0);
+  }
+
+  private clearTypingTimers(): void {
+    if (this.typingTimer) {
+      clearTimeout(this.typingTimer);
+      this.typingTimer = null;
+    }
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.typingInterval = null;
+    }
+  }
+
+  private typeNextPost(postIndex: number): void {
+    const feed = this.currentMission().feed;
+    if (postIndex >= feed.length) {
+      this.isTyping.set(false);
+      return;
+    }
+
+    const item = feed[postIndex];
+
+    if (item.type === 'sys') {
+      this.visiblePostCount.set(postIndex + 1);
+      this.typedTexts.update(map => ({ ...map, [postIndex]: item.text || '' }));
+      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
+      return;
+    }
+
+    if (item.type === 'msg') {
+      if (item.isMe) {
+        // For user's thought/message, type it without showing typing indicator
+        this.isTyping.set(false);
+        this.visiblePostCount.set(postIndex + 1);
+        const fullText = item.text || (this.profile().name + ' piensa…');
+        let charIdx = 0;
+        const speed = 6;
+
+        this.typingInterval = setInterval(() => {
+          charIdx++;
+          const currentSub = fullText.slice(0, charIdx);
+          this.typedTexts.update(map => ({ ...map, [postIndex]: currentSub }));
+
+          if (charIdx % 6 === 0) {
+            this.playBeep(380 + (charIdx % 4) * 30, 0.015, 'sine', 0.02);
+          }
+
+          if (charIdx >= fullText.length) {
+            clearInterval(this.typingInterval);
+            this.typingInterval = null;
+            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
+          }
+        }, speed);
+      } else {
+        // Show "User is typing..." indicator
+        this.isTyping.set(true);
+        this.typingUser.set(item.author || 'Desconocido');
+        this.typingAvatar.set(item.avatar || '?');
+
+        this.typingTimer = setTimeout(() => {
+          this.isTyping.set(false);
+          this.visiblePostCount.set(postIndex + 1);
+
+          const fullText = item.text || '';
+          let charIdx = 0;
+          const speed = 6;
+
+          this.typingInterval = setInterval(() => {
+            charIdx++;
+            const currentSub = fullText.slice(0, charIdx);
+            this.typedTexts.update(map => ({ ...map, [postIndex]: currentSub }));
+
+            if (charIdx % 6 === 0) {
+              this.playBeep(380 + (charIdx % 4) * 30, 0.015, 'sine', 0.02);
+            }
+
+            if (charIdx >= fullText.length) {
+              clearInterval(this.typingInterval);
+              this.typingInterval = null;
+              this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
+            }
+          }, speed);
+        }, 150);
+      }
+    } else {
+      // Embed types (inv, alert)
+      this.isTyping.set(false);
+      this.typingTimer = setTimeout(() => {
+        this.visiblePostCount.set(postIndex + 1);
+        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 150);
+      }, 100);
+    }
+  }
+
+  skipTyping(): void {
+    this.clearTypingTimers();
+    const feed = this.currentMission().feed;
+    if (!feed) return;
+
+    this.isTyping.set(false);
+    this.visiblePostCount.set(feed.length);
+
+    const fullMap: Record<number, string> = {};
+    feed.forEach((item, idx) => {
+      if (item.type === 'sys' && item.text) {
+        fullMap[idx] = item.text;
+      } else if (item.type === 'msg') {
+        fullMap[idx] = item.text || (item.isMe ? this.profile().name + ' piensa…' : '');
+      }
+    });
+    this.typedTexts.set(fullMap);
+  }
 
   // ---- Audio ----
   private playBeep(freq: number, dur = 0.08, type: OscillatorType = 'sine', vol = 0.18): void {
@@ -104,6 +254,7 @@ export class QuienEntraMiMundoComponent {
   selectProfile(name: string, avatar: string): void { this.profile.set({ name, avatar }); }
   confirmProfile(): void {
     this.showProfileModal.set(false);
+    this.lastTypingMissionId = '';
     this.currentScreen.set('game');
     this.curIndex.set(0);
     this._shuffleOps();
@@ -151,6 +302,11 @@ export class QuienEntraMiMundoComponent {
   }
 
   restartGame(): void {
+    this.clearTypingTimers();
+    this.lastTypingMissionId = '';
+    this.visiblePostCount.set(0);
+    this.typedTexts.set({});
+    this.isTyping.set(false);
     this.score.set(0);
     this.curIndex.set(0);
     this.answers.set({});

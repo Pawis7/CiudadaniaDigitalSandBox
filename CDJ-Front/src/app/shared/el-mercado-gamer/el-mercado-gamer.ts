@@ -150,7 +150,7 @@ export class ElMercadoGamerComponent implements OnDestroy {
     if (post.type === 'system') {
       this.visiblePostCount.set(postIndex + 1);
       this.typedTexts.update(map => ({ ...map, [postIndex]: post.text }));
-      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 250);
+      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
       return;
     }
 
@@ -168,7 +168,7 @@ export class ElMercadoGamerComponent implements OnDestroy {
       if (post.type === 'text') {
         const fullText = post.text;
         let charIdx = 0;
-        const speed = 16;
+        const speed = 6;
 
         this.typingInterval = setInterval(() => {
           charIdx++;
@@ -182,13 +182,13 @@ export class ElMercadoGamerComponent implements OnDestroy {
           if (charIdx >= fullText.length) {
             clearInterval(this.typingInterval);
             this.typingInterval = null;
-            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 350);
+            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
           }
         }, speed);
       } else {
-        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 450);
+        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 150);
       }
-    }, 450);
+    }, 150);
   }
 
   skipTyping(): void {

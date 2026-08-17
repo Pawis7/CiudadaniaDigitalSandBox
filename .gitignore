@@ -48,3 +48,6 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+
+
+banners_solo.zip

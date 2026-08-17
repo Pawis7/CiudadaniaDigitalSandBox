@@ -172,7 +172,7 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
     if (post.type === 'system') {
       this.visiblePostCount.set(postIndex + 1);
       this.typedTexts.update(map => ({ ...map, [postIndex]: post.text }));
-      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 250);
+      this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
       return;
     }
 
@@ -185,7 +185,7 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
     this.typingUser.set(author);
     this.typingAvatar.set(avatar);
 
-    // After brief typing indicator delay (e.g. 450ms), reveal post and type out text
+    // After brief typing indicator delay (e.g. 150ms), reveal post and type out text
     this.typingTimer = setTimeout(() => {
       this.isTyping.set(false);
       this.visiblePostCount.set(postIndex + 1);
@@ -193,7 +193,7 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
       if (post.type === 'text') {
         const fullText = post.text;
         let charIdx = 0;
-        const speed = 16; // ms per character
+        const speed = 6; // ms per character
 
         this.typingInterval = setInterval(() => {
           charIdx++;
@@ -207,14 +207,14 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
           if (charIdx >= fullText.length) {
             clearInterval(this.typingInterval);
             this.typingInterval = null;
-            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 350);
+            this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 100);
           }
         }, speed);
       } else {
         // Voice or Image embed post
-        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 450);
+        this.typingTimer = setTimeout(() => this.typeNextPost(postIndex + 1), 150);
       }
-    }, 450);
+    }, 150);
   }
 
   skipTyping(): void {

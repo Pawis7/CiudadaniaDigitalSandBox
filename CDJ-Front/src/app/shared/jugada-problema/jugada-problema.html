@@ -111,81 +111,113 @@
         <div class="brief">🎯 {{ currentMission().brief }}</div>
 
         <!-- Feed -->
-        <div class="feed">
+        <div class="feed" (click)="skipTyping()">
           @for (item of currentMission().feed; track $index) {
+            @if ($index < visiblePostCount()) {
 
-            @if (item.type === 'sys') {
-              <div class="sys-msg"><span>— {{ item.text }} —</span></div>
-            }
+              @if (item.type === 'sys') {
+                <div class="sys-msg"><span>— {{ item.text }} —</span></div>
+              }
 
-            @if (item.type === 'msg') {
-              <div class="msg">
-                <div class="mav"
-                     [class.av-me]="item.isMe"
-                     [class.av-pink]="item.color === 'pink'"
-                     [class.av-blue]="item.color === 'blue'"
-                     [class.av-purple]="item.color === 'purple'"
-                     [class.av-gold]="item.color === 'gold'"
-                     [class.av-cyan]="item.color === 'cyan'"
-                     [class.av-gray]="item.color === 'gray'">
-                  {{ item.isMe ? profile().avatar : item.avatar }}
-                </div>
-                <div class="msg-body">
-                  <div class="msg-meta">
-                    <span class="author">{{ item.isMe ? profile().name : item.author }}</span>
-                    @if (item.role) { <span class="role">{{ item.role }}</span> }
-                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+              @if (item.type === 'msg') {
+                <div class="msg">
+                  <div class="mav"
+                       [class.av-me]="item.isMe"
+                       [class.av-pink]="item.color === 'pink'"
+                       [class.av-blue]="item.color === 'blue'"
+                       [class.av-purple]="item.color === 'purple'"
+                       [class.av-gold]="item.color === 'gold'"
+                       [class.av-cyan]="item.color === 'cyan'"
+                       [class.av-gray]="item.color === 'gray'">
+                    {{ item.isMe ? profile().avatar : item.avatar }}
                   </div>
-                  @if (!item.isMe || item.text) {
-                    <div class="bubble">{{ item.isMe ? profile().name + ' decide…' : item.text }}</div>
-                  }
-                </div>
-              </div>
-            }
-
-            @if (item.type === 'clip') {
-              <div class="embed embed-clip">
-                <div class="clip-thumb">
-                  <span class="clip-play">▶</span>
-                  <span class="clip-tag">clip</span>
-                </div>
-                <div class="embed-body">
-                  <div class="embed-title" style="color: var(--gold)">🎬 {{ item.title }}</div>
-                  <div class="embed-desc">{{ item.meta }}</div>
-                  <div class="embed-foot">
-                    <span class="epill">😂 16</span>
-                    <span class="epill">↗ 4</span>
-                    <span>comentarios activos</span>
+                  <div class="msg-body">
+                    <div class="msg-meta">
+                      <span class="author">{{ item.isMe ? profile().name : item.author }}</span>
+                      @if (item.role) { <span class="role">{{ item.role }}</span> }
+                      <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                    </div>
+                    @if (!item.isMe || item.text) {
+                      <div class="bubble">
+                        {{ typedTexts()[$index] !== undefined ? typedTexts()[$index] : (item.isMe ? (item.text || (profile().name + ' decide…')) : item.text) }}
+                        @if ($index === visiblePostCount() - 1 && typedTexts()[$index] !== undefined && typedTexts()[$index].length < (item.text || (item.isMe ? (item.text || (profile().name + ' decide…')) : '')).length) {
+                          <span class="typing-cursor">▌</span>
+                        }
+                      </div>
+                    }
                   </div>
                 </div>
-              </div>
-            }
+              }
 
-            @if (item.type === 'report') {
-              <div class="embed">
-                <div class="embed-body-wrap">
-                  <div class="embed-acc acc-blue"></div>
+              @if (item.type === 'clip') {
+                <div class="embed embed-clip">
+                  <div class="clip-thumb">
+                    <span class="clip-play">▶</span>
+                    <span class="clip-tag">clip</span>
+                  </div>
                   <div class="embed-body">
-                    <div class="embed-title" style="color:#7289da">📋 {{ item.title }}</div>
-                    <div class="embed-fields">{{ item.content }}</div>
-                    <div class="embed-foot"><span class="epill">Borrador</span> Moderación</div>
+                    <div class="embed-title" style="color: var(--gold)">🎬 {{ item.title }}</div>
+                    <div class="embed-desc">{{ item.meta }}</div>
+                    <div class="embed-foot">
+                      <span class="epill">😂 16</span>
+                      <span class="epill">↗ 4</span>
+                      <span>comentarios activos</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
+              }
 
-            @if (item.type === 'rule') {
-              <div class="embed">
-                <div class="embed-body-wrap">
-                  <div class="embed-acc acc-yellow"></div>
-                  <div class="embed-body">
-                    <div class="embed-title" style="color: var(--gold)">📜 {{ item.label }}</div>
-                    <div class="embed-desc" style="color:#fff; font-style: italic">{{ item.text }}</div>
+              @if (item.type === 'report') {
+                <div class="embed">
+                  <div class="embed-body-wrap">
+                    <div class="embed-acc acc-blue"></div>
+                    <div class="embed-body">
+                      <div class="embed-title" style="color:#7289da">📋 {{ item.title }}</div>
+                      <div class="embed-fields">{{ item.content }}</div>
+                      <div class="embed-foot"><span class="epill">Borrador</span> Moderación</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
+              }
 
+              @if (item.type === 'rule') {
+                <div class="embed">
+                  <div class="embed-body-wrap">
+                    <div class="embed-acc acc-yellow"></div>
+                    <div class="embed-body">
+                      <div class="embed-title" style="color: var(--gold)">📜 {{ item.label }}</div>
+                      <div class="embed-desc" style="color:#fff; font-style: italic">{{ item.text }}</div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+            }
+          }
+
+          <!-- Discord Typing Indicator -->
+          @if (isTyping()) {
+            <div class="discord-typing-indicator">
+              <div class="typing-avatar" [ngClass]="{
+                'av-pink': typingAvatar() === 'V',
+                'av-blue': typingAvatar() === 'B',
+                'av-purple': typingAvatar() === 'K',
+                'av-gold': typingAvatar() === 'R',
+                'av-cyan': typingAvatar() === 'J',
+                'av-gray': typingAvatar() === 'M'
+              }">
+                {{ typingAvatar() }}
+              </div>
+              <div class="typing-text-wrap">
+                <span class="typing-username">{{ typingUser() }}</span>
+                <span class="typing-label">está escribiendo</span>
+                <div class="typing-dots">
+                  <span class="dot d1"></span>
+                  <span class="dot d2"></span>
+                  <span class="dot d3"></span>
+                </div>
+              </div>
+            </div>
           }
         </div>
 

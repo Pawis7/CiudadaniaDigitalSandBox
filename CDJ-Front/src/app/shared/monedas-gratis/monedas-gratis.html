@@ -126,82 +126,110 @@
         </div>
 
         <!-- Chat feed -->
-        <div class="feed">
+        <div class="feed" (click)="skipTyping()">
           @for (item of currentMission().feed; track $index) {
+            @if ($index < visiblePostCount()) {
 
-            @if (item.type === 'sys') {
-              <div class="sys-msg">
-                <span>— {{ item.text }} —</span>
-              </div>
-            }
-
-            @if (item.type === 'reward') {
-              <div class="embed embed-gold">
-                <div class="embed-accent"></div>
-                <div class="embed-body">
-                  <div class="embed-title">🪙 {{ item.title }}</div>
-                  <div class="embed-sub">{{ item.subtitle }}</div>
-                  <div class="embed-desc">{{ item.desc }}</div>
-                  <div class="embed-foot"><span class="epill">Plaza</span> Verificación sugerida</div>
+              @if (item.type === 'sys') {
+                <div class="sys-msg">
+                  <span>— {{ item.text }} —</span>
                 </div>
-              </div>
-            }
+              }
 
-            @if (item.type === 'msg') {
-              <div class="msg" [class.me]="item.isMe">
-                <div class="mav"
-                     [class.av-me]="item.isMe"
-                     [class.av-purple]="item.color === 'purple'"
-                     [class.av-cyan]="item.color === 'cyan'"
-                     [class.av-coin]="item.color === 'coin'">
-                  {{ item.isMe ? profile().avatar : item.avatar }}
-                </div>
-                <div class="msg-body">
-                  <div class="msg-meta">
-                    <span class="msg-author">{{ item.isMe ? profile().name : item.author }}</span>
-                    @if (item.role) { <span class="msg-role">{{ item.role }}</span> }
-                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+              @if (item.type === 'reward') {
+                <div class="embed embed-gold">
+                  <div class="embed-accent"></div>
+                  <div class="embed-body">
+                    <div class="embed-title">🪙 {{ item.title }}</div>
+                    <div class="embed-sub">{{ item.subtitle }}</div>
+                    <div class="embed-desc">{{ item.desc }}</div>
+                    <div class="embed-foot"><span class="epill">Plaza</span> Verificación sugerida</div>
                   </div>
-                  <div class="bubble">{{ item.text }}</div>
+                </div>
+              }
+
+              @if (item.type === 'msg') {
+                <div class="msg" [class.me]="item.isMe">
+                  <div class="mav"
+                       [class.av-me]="item.isMe"
+                       [class.av-purple]="item.color === 'purple'"
+                       [class.av-cyan]="item.color === 'cyan'"
+                       [class.av-coin]="item.color === 'coin'">
+                    {{ item.isMe ? profile().avatar : item.avatar }}
+                  </div>
+                  <div class="msg-body">
+                    <div class="msg-meta">
+                      <span class="msg-author">{{ item.isMe ? profile().name : item.author }}</span>
+                      @if (item.role) { <span class="msg-role">{{ item.role }}</span> }
+                      <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                    </div>
+                    <div class="bubble">
+                      {{ typedTexts()[$index] !== undefined ? typedTexts()[$index] : (item.isMe ? (item.text || (profile().name + ' piensa…')) : item.text) }}
+                      @if ($index === visiblePostCount() - 1 && typedTexts()[$index] !== undefined && typedTexts()[$index].length < (item.text || (item.isMe ? (item.text || (profile().name + ' piensa…')) : '')).length) {
+                        <span class="typing-cursor">▌</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @if (item.type === 'link') {
+                <div class="embed embed-blue">
+                  <div class="embed-accent blue"></div>
+                  <div class="embed-body">
+                    <div class="embed-title" style="color:#7289da">🔗 {{ item.title }}</div>
+                    <div class="embed-url">{{ item.url }}</div>
+                    <div class="embed-desc">{{ item.preview }}</div>
+                    <div class="embed-foot"><span class="epill">Advertencia</span> Te enviará fuera de la app</div>
+                  </div>
+                </div>
+              }
+
+              @if (item.type === 'login') {
+                <div class="embed embed-red">
+                  <div class="embed-accent red"></div>
+                  <div class="embed-body">
+                    <div class="embed-title" style="color:#f23f43">🔐 {{ item.title }}</div>
+                    <div class="embed-fields">{{ item.fields }}</div>
+                    <div class="embed-desc">{{ item.desc }}</div>
+                    <div class="embed-foot"><span class="epill">Seguridad</span> Solicitud externa</div>
+                  </div>
+                </div>
+              }
+
+              @if (item.type === 'report') {
+                <div class="embed embed-orange">
+                  <div class="embed-accent orange"></div>
+                  <div class="embed-body">
+                    <div class="embed-title" style="color:#f2930d">⚙️ {{ item.title }}</div>
+                    <div class="embed-fields">{{ item.options }}</div>
+                    <div class="embed-foot"><span class="epill">Menú Oficial</span> Moderación</div>
+                  </div>
+                </div>
+              }
+
+            }
+          }
+
+          <!-- Discord Typing Indicator -->
+          @if (isTyping()) {
+            <div class="discord-typing-indicator">
+              <div class="typing-avatar"
+                   [class.av-cyan]="typingAvatar() === 'N'"
+                   [class.av-purple]="typingAvatar() === 'P'"
+                   [class.av-coin]="typingAvatar() === 'C'">
+                {{ typingAvatar() }}
+              </div>
+              <div class="typing-text-wrap">
+                <span class="typing-username">{{ typingUser() }}</span>
+                <span class="typing-label">está escribiendo</span>
+                <div class="typing-dots">
+                  <span class="dot d1"></span>
+                  <span class="dot d2"></span>
+                  <span class="dot d3"></span>
                 </div>
               </div>
-            }
-
-            @if (item.type === 'link') {
-              <div class="embed embed-blue">
-                <div class="embed-accent blue"></div>
-                <div class="embed-body">
-                  <div class="embed-title" style="color:#7289da">🔗 {{ item.title }}</div>
-                  <div class="embed-url">{{ item.url }}</div>
-                  <div class="embed-desc">{{ item.preview }}</div>
-                  <div class="embed-foot"><span class="epill">Advertencia</span> Te enviará fuera de la app</div>
-                </div>
-              </div>
-            }
-
-            @if (item.type === 'login') {
-              <div class="embed embed-red">
-                <div class="embed-accent red"></div>
-                <div class="embed-body">
-                  <div class="embed-title" style="color:#f23f43">🔐 {{ item.title }}</div>
-                  <div class="embed-fields">{{ item.fields }}</div>
-                  <div class="embed-desc">{{ item.desc }}</div>
-                  <div class="embed-foot"><span class="epill">Seguridad</span> Solicitud externa</div>
-                </div>
-              </div>
-            }
-
-            @if (item.type === 'report') {
-              <div class="embed embed-orange">
-                <div class="embed-accent orange"></div>
-                <div class="embed-body">
-                  <div class="embed-title" style="color:#f2930d">⚙️ {{ item.title }}</div>
-                  <div class="embed-fields">{{ item.options }}</div>
-                  <div class="embed-foot"><span class="epill">Menú Oficial</span> Moderación</div>
-                </div>
-              </div>
-            }
-
+            </div>
           }
         </div>
 

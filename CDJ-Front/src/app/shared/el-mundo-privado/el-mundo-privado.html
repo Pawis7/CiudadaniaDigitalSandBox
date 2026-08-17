@@ -168,62 +168,90 @@
         </header>
 
         <!-- Feed of messages -->
-        <div class="feed">
+        <div class="feed" (click)="skipTyping()">
           @for (post of currentMission().feed; track $index) {
-            
-            @if (post.type === 'sys') {
-              <div class="sys-msg"><span>— {{ post.text }} —</span></div>
-            }
+            @if ($index < visiblePostCount()) {
 
-            @if (post.type === 'reward') {
-              <div class="embed embed-image">
-                <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-3xl border-cyan">
-                  🎁
-                </div>
-                <div class="embed-body">
-                  <div class="embed-title color-cyan">🎁 {{ post.title }}</div>
-                  <div class="embed-desc">{{ post.subtitle }} · {{ post.desc }}</div>
-                  <div class="embed-foot">
-                    <span>Invitación · Sala Privada</span>
+              @if (post.type === 'sys') {
+                <div class="sys-msg"><span>— {{ post.text }} —</span></div>
+              }
+
+              @if (post.type === 'reward') {
+                <div class="embed embed-image">
+                  <div class="image-thumb bg-[#171f38] flex items-center justify-center py-6 text-3xl border-cyan">
+                    🎁
+                  </div>
+                  <div class="embed-body">
+                    <div class="embed-title color-cyan">🎁 {{ post.title }}</div>
+                    <div class="embed-desc">{{ post.subtitle }} · {{ post.desc }}</div>
+                    <div class="embed-foot">
+                      <span>Invitación · Sala Privada</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
+              }
 
-            @if (post.type === 'msg') {
-              <div class="msg" [class.me]="post.isMe">
-                <div class="mav" [ngClass]="{
-                  'me-av bg-cyan': post.isMe && profile().avatar === 'T',
-                  'me-av bg-pink': post.isMe && profile().avatar === 'L',
-                  'me-av bg-purple': post.isMe && profile().avatar === 'M',
-                  'av-leader bg-purple': !post.isMe && post.author === 'SkyFox',
-                  'av-member bg-cyan': !post.isMe && post.author !== 'SkyFox'
-                }">
-                  {{ post.isMe ? profile().avatar : post.avatar }}
-                </div>
-                <div class="msg-body">
-                  <div class="msg-meta">
-                    <span class="author">{{ post.isMe ? profile().name : post.author }}</span>
-                    @if (post.role) { <span class="role">{{ post.role }}</span> }
-                    <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+              @if (post.type === 'msg') {
+                <div class="msg" [class.me]="post.isMe">
+                  <div class="mav" [ngClass]="{
+                    'me-av bg-cyan': post.isMe && profile().avatar === 'T',
+                    'me-av bg-pink': post.isMe && profile().avatar === 'L',
+                    'me-av bg-purple': post.isMe && profile().avatar === 'M',
+                    'av-leader bg-purple': !post.isMe && post.author === 'SkyFox',
+                    'av-member bg-cyan': !post.isMe && post.author !== 'SkyFox'
+                  }">
+                    {{ post.isMe ? profile().avatar : post.avatar }}
                   </div>
-                  <div class="bubble">{{ post.text }}</div>
+                  <div class="msg-body">
+                    <div class="msg-meta">
+                      <span class="author">{{ post.isMe ? profile().name : post.author }}</span>
+                      @if (post.role) { <span class="role">{{ post.role }}</span> }
+                      <span class="msg-time">{{ getChannelTime(curIndex()) }}</span>
+                    </div>
+                    <div class="bubble">
+                      {{ typedTexts()[$index] !== undefined ? typedTexts()[$index] : (post.isMe ? (post.text || (profile().name + ' piensa…')) : post.text) }}
+                      @if ($index === visiblePostCount() - 1 && typedTexts()[$index] !== undefined && typedTexts()[$index].length < (post.text || (post.isMe ? (post.text || (profile().name + ' piensa…')) : '')).length) {
+                        <span class="typing-cursor">▌</span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @if (post.type === 'report') {
+                <div class="embed embed-image">
+                  <div class="image-thumb bg-[#171f38] flex items-center justify-center py-4 text-2xl border-pink">
+                    ⚙️
+                  </div>
+                  <div class="embed-body">
+                    <div class="embed-title color-pink">⚙️ {{ post.title }}</div>
+                    <div class="embed-desc">{{ post.options }}</div>
+                  </div>
+                </div>
+              }
+
+            }
+          }
+
+          <!-- Discord Typing Indicator -->
+          @if (isTyping()) {
+            <div class="discord-typing-indicator">
+              <div class="typing-avatar" [ngClass]="{
+                'av-leader bg-purple': typingUser() === 'SkyFox',
+                'av-member bg-cyan': typingUser() !== 'SkyFox'
+              }">
+                {{ typingAvatar() }}
+              </div>
+              <div class="typing-text-wrap">
+                <span class="typing-username">{{ typingUser() }}</span>
+                <span class="typing-label">está escribiendo</span>
+                <div class="typing-dots">
+                  <span class="dot d1"></span>
+                  <span class="dot d2"></span>
+                  <span class="dot d3"></span>
                 </div>
               </div>
-            }
-
-            @if (post.type === 'report') {
-              <div class="embed embed-image">
-                <div class="image-thumb bg-[#171f38] flex items-center justify-center py-4 text-2xl border-pink">
-                  ⚙️
-                </div>
-                <div class="embed-body">
-                  <div class="embed-title color-pink">⚙️ {{ post.title }}</div>
-                  <div class="embed-desc">{{ post.options }}</div>
-                </div>
-              </div>
-            }
-
+            </div>
           }
         </div>
 
