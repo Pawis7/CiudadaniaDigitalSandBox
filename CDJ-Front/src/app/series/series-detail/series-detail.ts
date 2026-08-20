@@ -5,7 +5,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { ContentService } from '../../core/services/content.service';
 import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
-import { EditableImageComponent } from '../../shared/editable-image/editable-image';
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
 import { VideoModalComponent } from '../../shared/video-modal/video-modal';
@@ -13,7 +12,7 @@ import { VideoModalComponent } from '../../shared/video-modal/video-modal';
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, EditableImageComponent, FeatureCardComponent, VideoModalComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, FeatureCardComponent, VideoModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })

@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LIMITES_CHATS_DATA, LimitesOption, LimitesCase, LimitesStep, LimitesClosure } from '../../core/data/limites-chats.data';
-import { CdjLogoComponent } from '../cdj-logo/cdj-logo';
-
 @Component({
   selector: 'app-limites-chats',
   standalone: true,
-  imports: [CommonModule, CdjLogoComponent],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './limites-chats.html',
   styleUrl: './limites-chats.css',

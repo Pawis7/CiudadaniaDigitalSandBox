@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
-import { UiIconComponent, UiIconName } from '../shared/ui-icon/ui-icon';
 import { FeatureCardComponent } from '../shared/feature-card/feature-card';
-import { HeroSectionComponent } from '../hero-section/hero-section';
 import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
+import { UiIconName } from '../shared/ui-icon/ui-icon';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, UiIconComponent, FeatureCardComponent, HeroSectionComponent, ImageLoaderDirective],
+  imports: [CommonModule, RevealDirective, FeatureCardComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
@@ -23,7 +21,6 @@ export class InicioComponent {
   categories = this.content.categories;
   profileCards = computed(() => this.categories().map((cat) => this.content.categoryAsCard(cat)));
   featureCards = this.content.homeFeatureCards;
-  pillars = this.content.pillars;
   secondaryBanner = this.content.secondaryBanner;
   videoSeries = this.content.videoSeries;
 
@@ -33,9 +30,6 @@ export class InicioComponent {
     featuredResourcesGuide: 'Explora lo más reciente del portal: una selección de nuestras series, videos, cuentos y microlecciones diseñadas para aprender sobre ciudadanía digital de forma amena y directa.',
     profilesTitle: 'Contenido por perfil',
     profilesGuide: 'Al elegir tu perfil, accederás a una biblioteca completa diseñada para tu edad y rol. Aquí es donde encontrarás los simuladores interactivos, guías de acción, checklist y materiales específicos para aprender a navegar con seguridad en situaciones reales.',
-    institutionalTitle: 'Cada acción en línea tiene impacto',
-    institutionalText: 'Informarnos, respetar, proteger y participar nos ayuda a construir un mundo digital más seguro, justo e inclusivo.',
-    explanatoryComplementary: 'Ser ciudadanía digital no significa usar más tecnología, sino usarla mejor: con seguridad, criterio, empatía, responsabilidad y sentido de comunidad.',
     finalCtaTitle: 'Elige tu ruta y comienza hoy',
   };
 
@@ -88,14 +82,5 @@ export class InicioComponent {
       cdj: 'community',
     };
     return map[audience] ?? 'community';
-  }
-
-  pillarUiIcon(id: string): UiIconName {
-    const map: Record<string, UiIconName> = {
-      aprender: 'course',
-      convivir: 'community',
-      participar: 'spark',
-    };
-    return map[id] ?? 'check';
   }
 }

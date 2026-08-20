@@ -7,8 +7,6 @@ import {
   CarinoChatMessage
 } from '../../core/data/el-carino-no-pide-contrasenas.data';
 
-import { CdjLogoComponent } from '../cdj-logo/cdj-logo';
-
 function shuffleArray<T>(array: T[]): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -21,7 +19,7 @@ function shuffleArray<T>(array: T[]): T[] {
 @Component({
   selector: 'app-el-carino-no-pide-contrasenas',
   standalone: true,
-  imports: [CommonModule, CdjLogoComponent],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './el-carino-no-pide-contrasenas.html',
   styleUrl: './el-carino-no-pide-contrasenas.css',

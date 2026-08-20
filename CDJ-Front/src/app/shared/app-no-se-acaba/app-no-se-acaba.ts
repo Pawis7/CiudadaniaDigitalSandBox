@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { APP_NO_SE_ACABA_DATA, AppNoSeAcabaDetectorItem, AppNoSeAcabaOption, AppNoSeAcabaDilemma } from '../../core/data/app-no-se-acaba.data';
-import { CdjLogoComponent } from '../cdj-logo/cdj-logo';
-
 @Component({
   selector: 'app-app-no-se-acaba',
   standalone: true,
-  imports: [CommonModule, CdjLogoComponent],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app-no-se-acaba.html',
   styleUrl: './app-no-se-acaba.css',

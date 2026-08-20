@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { ContentService } from '../../core/services/content.service';
 import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
@@ -12,7 +11,7 @@ import { ImageEditService } from '../../core/services/image-edit.service';
 @Component({
   selector: 'app-series-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RevealDirective, FeatureCardComponent, ImageLoaderDirective],
+  imports: [CommonModule, FormsModule, RevealDirective, FeatureCardComponent, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-list.html',
 })

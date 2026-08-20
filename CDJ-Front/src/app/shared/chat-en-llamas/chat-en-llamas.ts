@@ -7,8 +7,6 @@ import {
   ChatMessage
 } from '../../core/data/chat-en-llamas.data';
 
-import { CdjLogoComponent } from '../cdj-logo/cdj-logo';
-
 function shuffleArray<T>(array: T[]): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -21,7 +19,7 @@ function shuffleArray<T>(array: T[]): T[] {
 @Component({
   selector: 'app-chat-en-llamas',
   standalone: true,
-  imports: [CommonModule, CdjLogoComponent],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './chat-en-llamas.html',
   styleUrl: './chat-en-llamas.css',
