@@ -163,7 +163,8 @@
                [attr.aria-disabled]="s.href === '#' ? 'true' : null"
                [class.pointer-events-none]="s.href === '#'"
                [class.opacity-50]="s.href === '#'"
-               class="group grid h-10 w-10 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--c-cdj)] hover:text-white hover:shadow-md">
+               [ngClass]="s.hoverClass"
+               class="group grid h-10 w-10 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:text-white hover:shadow-md">
               <span class="block h-[16px] w-[16px] transition-transform duration-200 group-hover:scale-110">
                 <app-brand-icon [name]="s.brand" [label]="s.label"></app-brand-icon>
               </span>
