@@ -496,8 +496,9 @@ export const NAV_SECTIONS: NavSection[] = [
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { id: 'fb', brand: 'facebook', label: 'Facebook', href: '#', hoverClass: 'hover:bg-[#1877F2]' },
-  { id: 'yt', brand: 'youtube',  label: 'YouTube',  href: '#', hoverClass: 'hover:bg-[#FF0000]' },
+  { id: 'fb', brand: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/educacion.jalisco', hoverClass: 'hover:bg-[#1877F2]' },
+  { id: 'yt', brand: 'youtube',  label: 'YouTube',  href: 'https://www.youtube.com/@educacionjalisco', hoverClass: 'hover:bg-[#FF0000]' },
+  { id: 'x',  brand: 'x',        label: 'X',        href: 'https://x.com/SecEducacionJal', hoverClass: 'hover:bg-black' },
 ];
 
 export const FOOTER_COLUMNS: FooterColumn[] = [

@@ -146,7 +146,6 @@
       <div class="grid grid-cols-1 gap-10 md:grid-cols-5 lg:gap-12">
         <div class="md:col-span-2">
           <a routerLink="/" class="mb-5 flex items-center gap-3">
-            <app-cdj-logo variant="auto" containerClass="h-12 w-auto shrink-0"></app-cdj-logo>
             <div class="text-lg font-black leading-tight text-[color:var(--text-primary)]">
               {{ branding().siteName }}
             </div>
@@ -157,6 +156,8 @@
           <div class="mt-7 flex flex-wrap gap-2.5">
             <a *ngFor="let s of socialLinks()"
                [href]="s.href !== '#' ? s.href : null"
+               target="_blank"
+               rel="noopener noreferrer"
                [attr.aria-label]="s.label"
                [title]="s.href !== '#' ? s.label : s.label + ' próximamente'"
                [attr.aria-disabled]="s.href === '#' ? 'true' : null"

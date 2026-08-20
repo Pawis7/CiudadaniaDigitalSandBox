@@ -21,18 +21,28 @@
   </div>
 </section>
 
-<!-- TEXTO EXPLICATIVO HERO -->
-<section appReveal="up" class="mb-12 py-4 sm:mb-16">
-  <div class="max-w-4xl">
-    <p class="text-base leading-relaxed text-[color:var(--text-soft)] sm:text-xl">
-      {{ editorial.heroExplanatory }}
-    </p>
-    <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:gap-5">
-      <a href="#destacados" class="btn btn-primary btn-lg">Explorar contenidos</a>
-      <a href="#perfiles" class="btn btn-secondary btn-lg">Entrar por perfil</a>
+
+<!-- CONTENIDO DESTACADO SEJ -->
+<section id="destacados" class="mb-16 sm:mb-20">
+  <div class="section-head mb-10">
+    <div appReveal="up">
+      <p class="eyebrow eyebrow-ink">Explora y aprende</p>
+      <h2 class="display-2 mt-2">{{ editorial.featuredResourcesTitle }}</h2>
     </div>
   </div>
+
+  <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+    @for (card of featureCards(); track card.id; let i = $index) {
+      <app-feature-card [card]="card" [delay]="i * 80" />
+    }
+    @if (!featureCards().length) {
+      <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
+        No hay tarjetas destacadas en esta sección. Haz clic en "Destacados: Inicio" para agregar.
+      </div>
+    }
+  </div>
 </section>
+
 
 <section id="perfiles" class="mb-12 sm:mb-16">
   <div class="section-head mb-10">
@@ -48,33 +58,6 @@
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
     @for (card of profileCards(); track card.id; let i = $index) {
       <app-feature-card [card]="card" [delay]="i * 70" />
-    }
-  </div>
-</section>
-
-
-<!-- CONTENIDO DESTACADO SEJ -->
-<section id="destacados" class="mb-16 sm:mb-20">
-  <div class="section-head mb-10">
-    <div appReveal="up">
-      <p class="eyebrow eyebrow-ink">Explora y aprende</p>
-      <h2 class="display-2 mt-2">{{ editorial.featuredResourcesTitle }}</h2>
-      <p class="mt-4 max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-xl">
-        {{ editorial.featuredResourcesGuide }}
-      </p>
-    </div>
-  </div>
-
-
-
-  <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-    @for (card of featureCards(); track card.id; let i = $index) {
-      <app-feature-card [card]="card" [delay]="i * 80" />
-    }
-    @if (!featureCards().length) {
-      <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
-        No hay tarjetas destacadas en esta sección. Haz clic en "Destacados: Inicio" para agregar.
-      </div>
     }
   </div>
 </section>
