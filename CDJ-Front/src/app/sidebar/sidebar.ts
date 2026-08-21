@@ -100,6 +100,7 @@ export class SidebarComponent {
 
   /** Sección AYUDA Y COMUNIDAD */
   helpSections: SidebarItem[] = [
+    { id: 'pantallas-seguras', label: 'Pantallas Seguras', icon: 'screenshot_monitor', routerLink: ['/pantallas-seguras'], audience: 'help' },
     { id: 'ayuda',   label: 'Ayuda Digital',  icon: 'shield',  routerLink: ['/ayuda'],         audience: 'help' },
     { id: 'quienes', label: 'Quiénes somos',  icon: 'groups',  routerLink: ['/quienes-somos'], audience: 'cdj' },
   ];

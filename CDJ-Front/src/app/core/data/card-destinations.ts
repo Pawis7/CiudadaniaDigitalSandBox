@@ -25,6 +25,7 @@ export const CARD_DESTINATIONS: CardDestinationOption[] = [
   { key: 'series_familias', label: 'Serie: Familias',          href: '/series/familias-conectadas', icon: 'family_restroom'},
   { key: 'series_kids',     label: 'Serie: Niños',             href: '/series/kids',             icon: 'child_care'     },
   { key: 'series_teens',    label: 'Serie: Adolescentes',      href: '/series/teens',            icon: 'school'         },
+  { key: 'pantallas_seguras', label: 'Pantallas Seguras',      href: '/pantallas-seguras',       icon: 'screenshot_monitor' },
   { key: 'ayuda',           label: 'Ayuda Digital',            href: '/ayuda',                   icon: 'support'        },
   { key: 'edutips',         label: 'Edutips',                  href: '/edutips',                 icon: 'lightbulb'      },
   { key: 'ninas_y_ninos',   label: 'Perfil: Niñas y Niños',   href: '/audiencia/ninas-y-ninos', icon: 'child_friendly' },

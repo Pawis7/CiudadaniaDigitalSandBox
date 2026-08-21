@@ -83,6 +83,21 @@ export const CATEGORIES: Category[] = [
 
 export const FEATURE_CARDS: FeatureCard[] = [
   {
+    id:          'pantallas_seguras',
+    title:       'Pantallas Seguras',
+    description: 'Conoce la nueva ley para proteger a niñas, niños y adolescentes en entornos digitales.',
+    icon:           'screenshot_monitor',
+    iconBgClass:    'bg-gradient-to-br from-rose-400 via-rose-500 to-pink-600',
+    iconShadowClass: 'shadow-rose-100',
+    imageUrl:    '/Portadas/AyudaDigital_Portada.png',
+    destination: 'pantallas_seguras',
+    href:        resolveDestination('pantallas_seguras'),
+    audience:    'help',
+    illoScene:   'shield',
+    badge:       'Nueva ley',
+    sections:    ['inicio'],
+  },
+  {
     id:          'edutips',
     title:       'Edutips',
     description: 'Cápsulas breves para aprender, conversar y actuar mejor.',
@@ -111,21 +126,6 @@ export const FEATURE_CARDS: FeatureCard[] = [
     illoScene:   'play',
     badge:       'Serie animada',
     sections:    ['inicio', 'series'],
-  },
-  {
-    id:          'ayuda',
-    title:       'Ayuda Digital',
-    description: 'Si recibiste un fraude, acoso o algo no está bien, no estás solo.',
-    icon:           'verified_user',
-    iconBgClass:    'bg-gradient-to-br from-rose-400 via-rose-500 to-pink-600',
-    iconShadowClass: 'shadow-rose-100',
-    imageUrl:    '/Portadas/AyudaDigital_Portada.png',
-    destination: 'ayuda',
-    href:        resolveDestination('ayuda'),
-    audience:    'help',
-    illoScene:   'shield',
-    badge:       'Orientación',
-    sections:    ['inicio'],
   },
 ];
 

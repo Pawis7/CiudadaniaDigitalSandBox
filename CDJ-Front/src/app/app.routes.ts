@@ -29,6 +29,11 @@ export const routes: Routes = [
     title: 'Quiénes somos · Ciudadanía Digital',
   },
   {
+    path: 'pantallas-seguras',
+    loadComponent: () => import('./pantallas-seguras/pantallas-seguras').then((m) => m.PantallasSegurasComponent),
+    title: 'Pantallas Seguras · Ciudadanía Digital',
+  },
+  {
     path: 'ayuda',
     loadComponent: () => import('./ayuda/ayuda').then((m) => m.AyudaComponent),
     title: 'Ayuda Digital · Ciudadanía Digital',
