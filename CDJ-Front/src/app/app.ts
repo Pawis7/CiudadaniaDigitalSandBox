@@ -10,6 +10,7 @@ import { BrandIconComponent } from './shared/brand-icon/brand-icon';
 import { ImageEditService } from './core/services/image-edit.service';
 import { CdjLogoComponent } from './shared/cdj-logo/cdj-logo';
 import { UiIconComponent } from './shared/ui-icon/ui-icon';
+import { SearchEntry, searchIndex } from './core/data/search-index';
 const THEME_KEY  = 'cdj_theme';
 
 type ThemeMode = 'light' | 'dark';
@@ -38,8 +39,15 @@ export class App implements AfterViewInit {
   scrolled = signal(false);
   searchOpen = signal(false);
   searchQuery = signal('');
+  selectedIndex = signal(-1);
   theme = signal<ThemeMode>(this.readTheme());
   year = new Date().getFullYear();
+
+  /** Resultados filtrados del índice de búsqueda */
+  searchResults = computed<SearchEntry[]>(() => searchIndex(this.searchQuery(), 10));
+
+  /** True cuando hay query pero no hay resultados */
+  searchEmpty = computed(() => this.searchQuery().trim().length > 0 && this.searchResults().length === 0);
 
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
   @ViewChild('inlineSearch') inlineSearch?: ElementRef<HTMLInputElement>;
@@ -93,11 +101,42 @@ export class App implements AfterViewInit {
 
   openSearch() {
     this.searchOpen.set(true);
+    this.selectedIndex.set(-1);
     setTimeout(() => this.searchInput?.nativeElement?.focus(), 60);
   }
   closeSearch() {
     this.searchOpen.set(false);
     this.searchQuery.set('');
+    this.selectedIndex.set(-1);
+  }
+
+  /** Navega al href de un resultado (soporta fragmentos como /ayuda#canales) */
+  navigateToResult(entry: SearchEntry) {
+    this.closeSearch();
+    const [path, fragment] = entry.href.split('#');
+    if (fragment) {
+      this.router.navigate([path], { fragment });
+    } else {
+      this.router.navigate([path]);
+    }
+  }
+
+  /** Navegación por teclado dentro del panel de resultados */
+  onSearchKeydown(event: KeyboardEvent) {
+    const results = this.searchResults();
+    if (!results.length) return;
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.selectedIndex.update(i => Math.min(i + 1, results.length - 1));
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.selectedIndex.update(i => Math.max(i - 1, 0));
+    } else if (event.key === 'Enter') {
+      const idx = this.selectedIndex();
+      const target = idx >= 0 ? results[idx] : results[0];
+      if (target) this.navigateToResult(target);
+    }
   }
 
   signLanguage = signal(false);

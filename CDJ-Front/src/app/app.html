@@ -146,7 +146,7 @@
       <div class="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-12">
         <div class="md:col-span-full lg:col-span-2 flex flex-col items-center lg:items-start text-center lg:text-left">
           <a routerLink="/" class="mb-5 flex justify-center lg:justify-start items-center gap-3">
-            <div class="text-lg font-black leading-tight text-[color:var(--text-primary)]">
+            <div class="text-lg font-black leading-tight text-[color:var(--text-primary)] text-center">
               {{ branding().siteName }}
             </div>
           </a>
@@ -180,6 +180,7 @@
             </a>
           </div>
         </div>
+
 
         <div *ngFor="let group of footerColumns()">
           <h4 class="mb-5 text-xs font-black uppercase tracking-widest text-[color:var(--text-primary)]">{{ group.title }}</h4>
@@ -221,17 +222,19 @@
 
       <div class="search-panel relative z-10 mt-20 w-[92%] max-w-2xl sm:mt-28">
         <div class="overflow-hidden rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-2xl">
+          <!-- Input row -->
           <div class="flex items-center gap-3 border-b border-[color:var(--border-soft)] px-4 py-3 sm:px-6 sm:py-4">
             <span translate="no" class="material-symbols-rounded text-2xl text-[color:var(--text-mute)]">search</span>
             <input
               #searchInput
               type="text"
               [ngModel]="searchQuery()"
-              (ngModelChange)="searchQuery.set($event)"
-              placeholder="Buscar cursos, recursos, videos, audiencias…"
+              (ngModelChange)="searchQuery.set($event); selectedIndex.set(-1)"
+              (keydown)="onSearchKeydown($event)"
+              placeholder="Buscar secciones, canales, recursos, videos…"
               class="w-full bg-transparent text-base font-medium text-[color:var(--text-primary)] placeholder-[color:var(--text-mute)] outline-none sm:text-lg">
             @if (searchQuery()) {
-              <button type="button" (click)="searchQuery.set('')"
+              <button type="button" (click)="searchQuery.set(''); selectedIndex.set(-1)"
                 class="grid h-8 w-8 cursor-pointer place-items-center rounded-full text-[color:var(--text-mute)] transition-colors hover:bg-[color:var(--surface-soft)] hover:text-[color:var(--text-primary)]">
                 <span translate="no" class="material-symbols-rounded text-base">close</span>
               </button>
@@ -242,43 +245,111 @@
             </button>
           </div>
 
-          <div class="px-4 py-4 sm:px-6 sm:py-5">
-            <p class="mb-3 text-[11px] font-black uppercase tracking-widest text-[color:var(--text-mute)]">Acceso rápido</p>
-            <div class="grid grid-cols-2 gap-2 sm:grid-cols-2">
-              <a routerLink="/cursos" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-teachers)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teachers)] text-white">
-                  <span class="h-[16px] w-[16px]"><app-ui-icon name="course"></app-ui-icon></span>
-                </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Cursos</span>
-              </a>
-              <a routerLink="/edutips" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-edutips)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-edutips)] text-white">
-                  <span class="h-[16px] w-[16px]"><app-ui-icon name="spark"></app-ui-icon></span>
-                </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Edutips</span>
-              </a>
-              <a routerLink="/ayuda" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-help)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-help)] text-white">
-                  <span class="h-[16px] w-[16px]"><app-ui-icon name="shield"></app-ui-icon></span>
-                </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Ayuda Digital</span>
-              </a>
-              <a routerLink="/p/adolescentes" (click)="closeSearch()"
-                 class="group flex items-center gap-2.5 rounded-xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-3 transition-all hover:-translate-y-0.5 hover:border-[color:var(--c-families)] hover:bg-[color:var(--surface-card)] hover:shadow-md">
-                <span class="grid h-9 w-9 place-items-center rounded-lg bg-[color:var(--c-teens)] text-white">
-                  <span class="h-[16px] w-[16px]"><app-ui-icon name="phone"></app-ui-icon></span>
-                </span>
-                <span class="text-sm font-bold text-[color:var(--text-primary)]">Adolescentes</span>
-              </a>
+          <!-- ESTADO: Sin query → acceso rápido como lista simple -->
+          @if (!searchQuery()) {
+            <div class="py-2">
+              <p class="px-5 pt-2 pb-1 text-[11px] font-black uppercase tracking-widest text-[color:var(--text-mute)]">Ir a</p>
+              <ul>
+                <li>
+                  <a routerLink="/pantallas-seguras" (click)="closeSearch()"
+                     class="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-[color:var(--surface-soft)]">
+                    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-violet-700 text-white">
+                      <span translate="no" class="material-symbols-rounded text-[16px]">screenshot_monitor</span>
+                    </span>
+                    <span class="text-sm font-semibold text-[color:var(--text-primary)]">Pantallas Seguras</span>
+                    <span class="ml-auto text-[11px] text-[color:var(--text-mute)]">Nueva ley</span>
+                  </a>
+                </li>
+                <li>
+                  <a routerLink="/ayuda" (click)="closeSearch()"
+                     class="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-[color:var(--surface-soft)]">
+                    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[color:var(--c-help)] text-white">
+                      <span translate="no" class="material-symbols-rounded text-[16px]">shield</span>
+                    </span>
+                    <span class="text-sm font-semibold text-[color:var(--text-primary)]">Ayuda Digital</span>
+                    <span class="ml-auto text-[11px] text-[color:var(--text-mute)]">Orientación</span>
+                  </a>
+                </li>
+                <li>
+                  <a routerLink="/series/el-dia-que-casi" (click)="closeSearch()"
+                     class="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-[color:var(--surface-soft)]">
+                    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-amber-500 text-white">
+                      <span translate="no" class="material-symbols-rounded text-[16px]">star</span>
+                    </span>
+                    <span class="text-sm font-semibold text-[color:var(--text-primary)]">El día que casi</span>
+                    <span class="ml-auto text-[11px] text-[color:var(--text-mute)]">Serie</span>
+                  </a>
+                </li>
+                <li>
+                  <a routerLink="/edutips" (click)="closeSearch()"
+                     class="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-[color:var(--surface-soft)]">
+                    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-orange-500 text-white">
+                      <span translate="no" class="material-symbols-rounded text-[16px]">auto_awesome</span>
+                    </span>
+                    <span class="text-sm font-semibold text-[color:var(--text-primary)]">Edutips</span>
+                    <span class="ml-auto text-[11px] text-[color:var(--text-mute)]">Serie</span>
+                  </a>
+                </li>
+                <li>
+                  <a routerLink="/series" (click)="closeSearch()"
+                     class="flex items-center gap-3 px-5 py-2.5 transition-colors hover:bg-[color:var(--surface-soft)]">
+                    <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-[color:var(--surface-mute)] text-[color:var(--text-soft)]">
+                      <span translate="no" class="material-symbols-rounded text-[16px]">video_library</span>
+                    </span>
+                    <span class="text-sm font-semibold text-[color:var(--text-primary)]">Todas las series</span>
+                    <span translate="no" class="material-symbols-rounded ml-auto text-[16px] text-[color:var(--text-mute)]">arrow_right_alt</span>
+                  </a>
+                </li>
+              </ul>
             </div>
-          </div>
+          }
 
-          <div class="border-t border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] px-4 py-3 text-[11px] font-semibold text-[color:var(--text-mute)] sm:px-6">
-            <span class="hidden sm:inline">Tip · usa <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 font-bold text-[color:var(--text-soft)]">⌘</kbd> + <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 font-bold text-[color:var(--text-soft)]">K</kbd> para abrir desde cualquier sección</span>
-            <span class="sm:hidden">Toca fuera o ESC para cerrar</span>
+          <!-- ESTADO: Con query → resultados filtrados -->
+          @if (searchQuery() && searchResults().length > 0) {
+            <div class="max-h-[400px] overflow-y-auto py-2">
+              <ul role="listbox">
+                <li *ngFor="let result of searchResults(); let i = index"
+                    role="option"
+                    [attr.aria-selected]="selectedIndex() === i"
+                    (click)="navigateToResult(result)"
+                    (mouseenter)="selectedIndex.set(i)"
+                    class="flex cursor-pointer items-center gap-3 px-5 py-2.5 transition-colors"
+                    [class.bg-[color:var(--surface-soft)]]="selectedIndex() === i">
+                  <!-- Icono -->
+                  <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-white"
+                        [ngClass]="result.color">
+                    <span translate="no" class="material-symbols-rounded text-[16px]">{{ result.icon }}</span>
+                  </span>
+                  <!-- Texto -->
+                  <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-semibold text-[color:var(--text-primary)]">{{ result.title }}</p>
+                    <p class="truncate text-xs text-[color:var(--text-mute)]">{{ result.description }}</p>
+                  </div>
+                  <!-- Badge sección -->
+                  <span class="ml-auto shrink-0 text-[11px] text-[color:var(--text-mute)]">{{ result.section }}</span>
+                </li>
+              </ul>
+            </div>
+          }
+
+          <!-- ESTADO: Sin resultados -->
+          @if (searchEmpty()) {
+            <div class="px-5 py-8 text-center">
+              <p class="text-sm text-[color:var(--text-soft)]">Sin resultados para "<span class="font-semibold text-[color:var(--text-primary)]">{{ searchQuery() }}</span>"</p>
+              <p class="mt-1 text-xs text-[color:var(--text-mute)]">Prueba con "911", "familia" o "hackeo".</p>
+            </div>
+          }
+
+          <!-- Footer mínimo -->
+          <div class="border-t border-[color:var(--border-soft)] px-5 py-2 text-[11px] text-[color:var(--text-mute)]">
+            <span class="flex items-center gap-3">
+              <span class="hidden gap-1 sm:flex">
+                <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-1.5 py-0.5 font-bold">↑↓</kbd> navegar ·
+                <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-1.5 py-0.5 font-bold">Enter</kbd> abrir ·
+                <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-soft)] px-1.5 py-0.5 font-bold">ESC</kbd> cerrar
+              </span>
+              <span class="sm:hidden">ESC o toca fuera para cerrar</span>
+            </span>
           </div>
         </div>
       </div>
