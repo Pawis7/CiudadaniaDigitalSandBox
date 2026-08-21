@@ -143,17 +143,26 @@
 
     <!-- Footer -->
     <footer class="rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-10 lg:p-12 no-print">
-      <div class="grid grid-cols-1 gap-10 md:grid-cols-5 lg:gap-12">
-        <div class="md:col-span-2">
-          <a routerLink="/" class="mb-5 flex items-center gap-3">
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-3 lg:grid-cols-5 lg:gap-12">
+        <div class="md:col-span-full lg:col-span-2 flex flex-col items-center lg:items-start text-center lg:text-left">
+          <a routerLink="/" class="mb-5 flex justify-center lg:justify-start items-center gap-3">
             <div class="text-lg font-black leading-tight text-[color:var(--text-primary)]">
               {{ branding().siteName }}
             </div>
           </a>
+          <div class="mb-5 flex flex-wrap justify-center lg:justify-start items-center gap-4 sm:gap-6">
+            <a href="https://jalisco.gob.mx/" target="_blank" rel="noopener noreferrer" class="transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <img src="/footer/gobierno_del_estado.png" alt="Gobierno de Jalisco" class="footer-logo h-14 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain">
+            </a>
+            <div class="h-8 w-px bg-[color:var(--border-soft)] hidden sm:block"></div>
+            <a href="https://portalsej.jalisco.gob.mx/" target="_blank" rel="noopener noreferrer" class="transition-all hover:scale-[1.02] active:scale-[0.98]">
+              <img src="/footer/educacion.png" alt="Secretaría de Educación" class="footer-logo h-12 sm:h-14 lg:h-18 xl:h-22 w-auto object-contain">
+            </a>
+          </div>
           <p class="max-w-sm leading-relaxed text-[color:var(--text-soft)]">
             {{ branding().tagline }}
           </p>
-          <div class="mt-7 flex flex-wrap gap-2.5">
+          <div class="mt-7 flex flex-wrap justify-center lg:justify-start gap-2.5">
             <a *ngFor="let s of socialLinks()"
                [href]="s.href !== '#' ? s.href : null"
                target="_blank"
@@ -176,10 +185,16 @@
           <h4 class="mb-5 text-xs font-black uppercase tracking-widest text-[color:var(--text-primary)]">{{ group.title }}</h4>
           <ul class="space-y-3">
             <li *ngFor="let item of group.links">
-              <a
-                [routerLink]="item.href.startsWith('/') ? item.href : null"
-                [href]="!item.href.startsWith('/') ? item.href : null"
-                class="text-sm text-[color:var(--text-soft)] transition-colors hover:text-[color:var(--c-cdj)]">
+              <a *ngIf="item.href.startsWith('/')"
+                 [routerLink]="item.href"
+                 class="text-sm text-[color:var(--text-soft)] transition-colors hover:text-[color:var(--c-cdj)]">
+                {{ item.label }}
+              </a>
+              <a *ngIf="!item.href.startsWith('/')"
+                 [href]="item.href"
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 class="text-sm text-[color:var(--text-soft)] transition-colors hover:text-[color:var(--c-cdj)]">
                 {{ item.label }}
               </a>
             </li>

@@ -525,6 +525,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Quiénes somos', href: '/quienes-somos' },
       { label: 'Ayuda Digital', href: '/ayuda' },
+      { label: 'Aviso de privacidad', href: 'https://apprende.jalisco.gob.mx/aviso-de-privacidad/' },
       { label: 'Aliados', href: '/quienes-somos' },
       { label: 'Contacto', href: '/quienes-somos' },
     ],

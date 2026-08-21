@@ -75,26 +75,26 @@
   --c-cdj-deep: #C5003F;
 
   /* Audiencias (acentos) */
-  --c-kids: #FF3366;
-  --c-kids-soft: #FF6285;
-  --c-kids-tint: #FFD6E0;
-  --c-kids-cream: #FFF1F5;
-  --c-teens: #7C3AED;
-  --c-teens-soft: #8B5CF6;
-  --c-teens-tint: #EDE9FE;
-  --c-teens-cream: #F5F3FF;
-  --c-families: #EA580C;
-  --c-families-soft: #F97316;
-  --c-families-tint: #FFEDD5;
-  --c-families-cream: #FFF7ED;
-  --c-teachers: #C5003F;
-  --c-teachers-soft: #E9004C;
-  --c-teachers-tint: #FFCFDC;
-  --c-teachers-cream: #FFF1F5;
-  --c-help: #E11D48;
-  --c-help-soft: #F43F5E;
-  --c-help-tint: #FFE4E6;
-  --c-help-cream: #FFF1F2;
+  --c-kids: #8B5CF6;
+  --c-kids-soft: #A78BFA;
+  --c-kids-tint: #F3E8FF;
+  --c-kids-cream: #FAF5FF;
+  --c-teens: #10B981;
+  --c-teens-soft: #34D399;
+  --c-teens-tint: #D1FAE5;
+  --c-teens-cream: #ECFDF5;
+  --c-families: #EF4444;
+  --c-families-soft: #F87171;
+  --c-families-tint: #FEE2E2;
+  --c-families-cream: #FEF2F2;
+  --c-teachers: #5B21B6;
+  --c-teachers-soft: #7C3AED;
+  --c-teachers-tint: #EDE9FE;
+  --c-teachers-cream: #F5F3FF;
+  --c-help: #5B21B6;
+  --c-help-soft: #7C3AED;
+  --c-help-tint: #EDE9FE;
+  --c-help-cream: #F5F3FF;
   --c-edutips: #D97706;
   --c-edutips-soft: #F59E0B;
   --c-edutips-tint: #FEF3C7;
@@ -1932,4 +1932,22 @@ body.sidebar-collapsed .catalog-hero {
   align-items: center;
   margin-top: 24px;
   gap: 12px;
+}
+
+/* Custom footer logo styles for theme compatibility */
+.footer-logo {
+  filter: invert(0.4) brightness(0.6); /* Premium gray color in light mode */
+  transition: filter 240ms ease, opacity 240ms ease, transform 240ms ease;
+  opacity: 0.85;
+}
+.footer-logo:hover {
+  opacity: 1;
+  filter: invert(0.2) brightness(0.4);
+}
+[data-theme='dark'] .footer-logo {
+  filter: none; /* White color in dark mode */
+  opacity: 0.75;
+}
+[data-theme='dark'] .footer-logo:hover {
+  opacity: 1;
 }

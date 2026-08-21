@@ -33,6 +33,7 @@ export const routes: Routes = [
     loadComponent: () => import('./ayuda/ayuda').then((m) => m.AyudaComponent),
     title: 'Ayuda Digital · Ciudadanía Digital',
   },
+
   {
     path: 'p/:slug',
     loadComponent: () => import('./audiencia/audiencia').then((m) => m.AudienciaComponent),
