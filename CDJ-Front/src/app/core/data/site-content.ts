@@ -179,12 +179,60 @@ export const VIDEO_SERIES: VideoSeries[] = [
     accentClass: 'from-amber-500 to-orange-500',
     iconBgClass: 'bg-amber-600',
     icon: 'play_arrow',
-    episodeCount: 19,
+    episodeCount: 25,
     audience: 'edutips',
     illoScene: 'spark',
     videos: [
       {
         id: 'edu-1',
+        title: '¿A qué edad puede un niño o un adolescente usar un chat de inteligencia artificial?',
+        description: 'Orientación práctica sobre el uso de chats de IA generativa en niñas, niños y adolescentes, recomendaciones de edad y acompañamiento familiar.',
+        youtubeUrl: 'https://www.youtube.com/watch?v=BNWym9mMtlA',
+        durationLabel: '3:15',
+        tags: ['inteligencia artificial', 'ia', 'familia', 'crianza', 'adolescentes'],
+      },
+      {
+        id: 'edu-2',
+        title: 'Fomentar la intención, no la evitación',
+        description: 'La importancia de enseñar a niñas, niños y adolescentes a hacer un uso consciente de la tecnología durante vacaciones y tiempo libre, transformando el aburrimiento en creatividad y autonomía digital.',
+        youtubeUrl: 'https://www.youtube.com/watch?v=B0V1XUy3YME',
+        durationLabel: '2:45',
+        tags: ['bienestar', 'autonomía digital', 'familia', 'pantallas', 'hábitos'],
+      },
+      {
+        id: 'edu-3',
+        title: 'Cómo usar los medios y la tecnología para reforzar los lazos familiares',
+        description: 'Cómo los medios digitales y la tecnología pueden convertirse en herramientas para fortalecer la convivencia, la comunicación y el aprendizaje en familia.',
+        youtubeUrl: 'https://www.youtube.com/watch?v=NGv12bQmVTc',
+        durationLabel: '3:05',
+        tags: ['familia', 'comunicación', 'convivencia', 'herramientas', 'aprendizaje'],
+      },
+      {
+        id: 'edu-4',
+        title: 'Seguridad y configuración de privacidad en tus cuentas',
+        description: 'Consejos clave para proteger tus perfiles en redes sociales, activar la verificación en dos pasos y cuidar tu privacidad en internet.',
+        youtubeUrl: 'https://www.youtube.com/watch?v=fuVPIWSlpEQ',
+        durationLabel: '2:50',
+        tags: ['seguridad', 'privacidad', 'cuentas', 'ciberseguridad'],
+      },
+      {
+        id: 'edu-5',
+        title: 'Pensamiento crítico frente al contenido digital',
+        description: 'Estrategias para evaluar la veracidad de la información en línea, identificar fuentes confiables y evitar compartir noticias falsas.',
+        youtubeUrl: 'https://www.youtube.com/watch?v=scyMSUG0n60',
+        durationLabel: '3:10',
+        tags: ['pensamiento crítico', 'noticias falsas', 'desinformación', 'criterio'],
+      },
+      {
+        id: 'edu-6',
+        title: 'Hábitos saludables frente a las pantallas',
+        description: 'Recomendaciones prácticas para regular los tiempos de exposición a dispositivos móviles y equilibrar la vida digital con actividades físicas.',
+        youtubeUrl: 'https://www.youtube.com/watch?v=B7rY5gjcZ-M',
+        durationLabel: '2:35',
+        tags: ['bienestar', 'hábitos', 'pantallas', 'salud'],
+      },
+      {
+        id: 'edu-7',
         title: '¿Quién queremos que realmente influya en nuestros hijos?',
         description: 'Una reflexión profunda sobre el rol de la familia frente a las redes sociales y los influencers.',
         youtubeUrl: 'https://www.youtube.com/watch?v=w4hf7tEW-S8',
@@ -192,7 +240,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['familia', 'crianza', 'redes sociales'],
       },
       {
-        id: 'edu-2',
+        id: 'edu-8',
         title: 'Micrositio Ciudadanía Digital Jalisco',
         description: 'Conoce todos los recursos, guías y cursos gratuitos disponibles en el portal para tu familia.',
         youtubeUrl: 'https://www.youtube.com/watch?v=HqhlRiRwefQ',
@@ -200,7 +248,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['plataforma', 'recursos', 'institucional'],
       },
       {
-        id: 'edu-3',
+        id: 'edu-9',
         title: 'Cuentas institucionales jaliscoedu.mx',
         description: 'Cómo aprovechar las cuentas educativas oficiales de Jalisco para estudiantes y docentes.',
         youtubeUrl: 'https://www.youtube.com/watch?v=rbqBKy5wS6c',
@@ -208,7 +256,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['cuentas', 'escuela', 'herramientas'],
       },
       {
-        id: 'edu-4',
+        id: 'edu-10',
         title: 'jaliscoedu.mx: Tu portal educativo en un solo lugar',
         description: 'Accede de forma rápida y centralizada a todas las herramientas digitales de aprendizaje.',
         youtubeUrl: 'https://www.youtube.com/watch?v=5sEUag-fcSA',
@@ -216,7 +264,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['plataforma', 'educación', 'herramientas'],
       },
       {
-        id: 'edu-5',
+        id: 'edu-11',
         title: 'Canal de YouTube Educación Jalisco',
         description: 'Descubre contenidos educativos oficiales en video para apoyar el estudio en casa.',
         youtubeUrl: 'https://www.youtube.com/watch?v=Ih_kl0QKhMo',
@@ -224,7 +272,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['canales', 'aprendizaje'],
       },
       {
-        id: 'edu-6',
+        id: 'edu-12',
         title: 'FOMO: Miedo a perderse algo en redes',
         description: 'Qué es el FOMO, cómo afecta la salud mental de los jóvenes y cómo desconectarse en paz.',
         youtubeUrl: 'https://www.youtube.com/watch?v=aePoGmliAzw',
@@ -232,7 +280,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['bienestar', 'salud mental', 'redes sociales'],
       },
       {
-        id: 'edu-7',
+        id: 'edu-13',
         title: 'Aprovecha Google Drive para la escuela',
         description: 'Guía rápida para organizar tareas, documentos y proyectos en la nube.',
         youtubeUrl: 'https://www.youtube.com/watch?v=3OVlo82eFXE',
@@ -240,7 +288,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['herramientas', 'productividad', 'escuela'],
       },
       {
-        id: 'edu-8',
+        id: 'edu-14',
         title: '¿Qué es y cómo usar un Código QR?',
         description: 'Aprende a escanear códigos QR de forma segura y evitar enlaces maliciosos.',
         youtubeUrl: 'https://www.youtube.com/watch?v=00dLZSBzPNY',
@@ -248,7 +296,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['seguridad', 'tecnología', 'dispositivos'],
       },
       {
-        id: 'edu-9',
+        id: 'edu-15',
         title: 'Tareas acompañadas en casa',
         description: 'Consejos prácticos para apoyar a tus hijas e hijos al hacer tareas con internet.',
         youtubeUrl: 'https://www.youtube.com/watch?v=g0jwj03qQPA',
@@ -256,7 +304,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['crianza', 'familia', 'escuela'],
       },
       {
-        id: 'edu-10',
+        id: 'edu-16',
         title: 'Retos virales en redes sociales',
         description: 'Cómo hablar con adolescentes sobre los peligros de los retos virales y la presión social.',
         youtubeUrl: 'https://www.youtube.com/watch?v=hIZjYExeBo0',
@@ -264,7 +312,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['seguridad', 'redes sociales', 'prevención'],
       },
       {
-        id: 'edu-11',
+        id: 'edu-17',
         title: '¿Cómo recuperar la contraseña de Gmail?',
         description: 'Pasos sencillos para reestablecer el acceso a tu cuenta de correo electrónico.',
         youtubeUrl: 'https://www.youtube.com/watch?v=yRgO6W4uS1A',
@@ -272,7 +320,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['seguridad', 'cuentas', 'herramientas'],
       },
       {
-        id: 'edu-12',
+        id: 'edu-18',
         title: '¿A qué edad mi hijo puede usar la IA?',
         description: 'Orientación práctica para acompañar el inicio en el uso de la Inteligencia Artificial.',
         youtubeUrl: 'https://www.youtube.com/watch?v=LKdNSnLn1-o',
@@ -280,7 +328,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['inteligencia artificial', 'familia', 'crianza'],
       },
       {
-        id: 'edu-13',
+        id: 'edu-19',
         title: 'Aprende matemáticas con Khan Academy',
         description: 'Descubre cómo utilizar esta plataforma gratuita para repasar y dominar ciencias y matemáticas.',
         youtubeUrl: 'https://www.youtube.com/watch?v=ptGpYeECyfY',
@@ -288,7 +336,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['aprendizaje', 'escuela', 'plataforma'],
       },
       {
-        id: 'edu-14',
+        id: 'edu-20',
         title: 'Cómo hacer videollamadas seguras',
         description: 'Recomendaciones para comunicarte con familia y docentes de forma confiable y privada.',
         youtubeUrl: 'https://www.youtube.com/watch?v=6f_HgevItHQ',
@@ -296,7 +344,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['herramientas', 'comunicación'],
       },
       {
-        id: 'edu-15',
+        id: 'edu-21',
         title: 'Duolingo: Aprender idiomas en familia',
         description: 'Convierte el aprendizaje de nuevos idiomas en un juego divertido para toda la familia.',
         youtubeUrl: 'https://www.youtube.com/watch?v=eqgbr0Lcg3g',
@@ -304,7 +352,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['aprendizaje', 'familia', 'juegos'],
       },
       {
-        id: 'edu-16',
+        id: 'edu-22',
         title: '¿Qué es la Inteligencia Artificial Generativa?',
         description: 'Explicación sencilla de cómo funcionan ChatGPT y otras IAs que crean texto e imágenes.',
         youtubeUrl: 'https://www.youtube.com/watch?v=iMg91jYjEUg',
@@ -312,7 +360,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['inteligencia artificial', 'tecnología'],
       },
       {
-        id: 'edu-17',
+        id: 'edu-23',
         title: 'Ciberseguridad en familia',
         description: 'Consejos clave para proteger los dispositivos, redes Wi-Fi y cuentas en el hogar.',
         youtubeUrl: 'https://www.youtube.com/watch?v=VAHWyfb4ERI',
@@ -320,7 +368,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['ciberseguridad', 'familia', 'prevención'],
       },
       {
-        id: 'edu-18',
+        id: 'edu-24',
         title: 'Desconéctate de pantallas, conecta con la familia',
         description: 'Estrategias saludables para equilibrar el tiempo en internet y disfrutar la vida real.',
         youtubeUrl: 'https://www.youtube.com/watch?v=TF0JatOzQpw',
@@ -328,7 +376,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['bienestar', 'pantallas', 'familia'],
       },
       {
-        id: 'edu-19',
+        id: 'edu-25',
         title: 'Fraudes y estafas en línea',
         description: 'Aprende a identificar enlaces sospechosos, mensajes falsos y evitar caer en trampas.',
         youtubeUrl: 'https://www.youtube.com/watch?v=kkoTerdNvbc',
