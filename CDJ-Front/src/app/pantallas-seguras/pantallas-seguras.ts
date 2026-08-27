@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
 import { RouterLink } from '@angular/router';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-pantallas-seguras',
   standalone: true,
-  imports: [CommonModule, RevealDirective, RouterLink],
+  imports: [CommonModule, RevealDirective, RouterLink, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './pantallas-seguras.html',
 })
