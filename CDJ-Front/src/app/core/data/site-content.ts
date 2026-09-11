@@ -393,7 +393,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
     description:
       'Historias cortas donde personajes evitan riesgos digitales tomando buenas decisiones.',
     coverImageUrl: '/portadas/el-dia-que-casi.webp',
-    bannerImageUrl: '/banners/CD_ElDiaQueCasi.webp',
+    bannerImageUrl: '/banners/CD_ElDiaQueCasi.jpg',
     accentClass: 'from-amber-400 to-orange-500',
     iconBgClass: 'bg-amber-500',
     icon: 'star',
