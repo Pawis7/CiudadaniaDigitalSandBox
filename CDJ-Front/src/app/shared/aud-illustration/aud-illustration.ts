@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
  * Cada escena es composable: capas de fondo + dispositivo + figura humana
  * estilizada + accesorios temáticos (estrellas, hojas, escudo, libro, etc.)
  */
-export type AudTheme = 'kids' | 'teens' | 'families' | 'teachers' | 'help' | 'edutips' | 'casi' | 'cdj';
+export type AudTheme = 'kids' | 'teens' | 'families' | 'teachers' | 'help' | 'screens' | 'edutips' | 'casi' | 'cdj';
 export type AudScene = 'hero' | 'study' | 'play' | 'connect' | 'shield' | 'spark' | 'compass';
 
 @Component({
@@ -196,6 +196,7 @@ export class AudIllustrationComponent {
       families: 'audience-families',
       teachers: 'audience-teachers',
       help:     'audience-help',
+      screens:  'audience-screens',
       edutips:  'audience-edutips',
       casi:     'audience-casi',
       cdj:      '',

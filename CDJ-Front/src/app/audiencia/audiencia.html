@@ -57,12 +57,10 @@
            [revealDelay]="i * 70"
            class="card card-hover group relative flex flex-col cursor-pointer transition-all duration-300"
            [class.ring-4]="selectedLevel() === sub.id"
-           [class.ring-violet-500]="selectedLevel() === sub.id && audienceTheme() === 'teens'"
-           [class.ring-rose-500]="selectedLevel() === sub.id && audienceTheme() !== 'teens'"
+           [class.ring-[color:var(--aud)]]="selectedLevel() === sub.id"
            [class.shadow-2xl]="selectedLevel() === sub.id"
            [class.scale-[1.03]]="selectedLevel() === sub.id"
-           [class.border-violet-300]="selectedLevel() === sub.id && audienceTheme() === 'teens'"
-           [class.border-rose-300]="selectedLevel() === sub.id && audienceTheme() !== 'teens'">
+           [class.border-[color:var(--aud-soft)]]="selectedLevel() === sub.id">
 
           <!-- Active Selection Badge -->
           <span *ngIf="selectedLevel() === sub.id" 
@@ -106,7 +104,7 @@
     <!-- ====================================================================
          PORTAL DE NIVEL DINÁMICO & FILTRADO DE RECURSOS
          ==================================================================== -->
-    <section id="portal-recursos-anchor" class="mb-10 p-6 sm:p-8 rounded-[2rem] border border-[color:var(--border-soft)] bg-gradient-to-b from-[color:var(--surface-soft)] to-[color:var(--surface-card)] shadow-lg animate-fade-in">
+    <section id="portal-recursos-anchor" [attr.data-audience]="audienceTheme()" class="mb-10 p-6 sm:p-8 rounded-[2rem] border border-[color:var(--border-soft)] bg-gradient-to-b from-[color:var(--surface-soft)] to-[color:var(--surface-card)] shadow-lg animate-fade-in">
       
       <!-- Encabezado del Portal de Aprendizaje Activo -->
       <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[color:var(--border-soft)] pb-6 no-print">

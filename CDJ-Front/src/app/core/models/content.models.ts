@@ -18,7 +18,7 @@ export interface Hero {
   imageAlt: string;
 }
 
-export type AudienceSlug = 'kids' | 'teens' | 'families' | 'teachers' | 'help' | 'edutips' | 'casi' | 'cdj';
+export type AudienceSlug = 'kids' | 'teens' | 'families' | 'teachers' | 'help' | 'screens' | 'edutips' | 'casi' | 'cdj';
 
 export interface Banner {
   id: string;

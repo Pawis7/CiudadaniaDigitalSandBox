@@ -212,10 +212,10 @@ export class ContentService {
       teachers: 'school',
     };
     const bgMap: Record<string, string> = {
-      kids: 'bg-rose-600',
-      teens: 'bg-violet-600',
-      families: 'bg-orange-600',
-      teachers: 'bg-rose-600',
+      kids: 'bg-[color:var(--c-kids)]',
+      teens: 'bg-[color:var(--c-teens)]',
+      families: 'bg-[color:var(--c-families)]',
+      teachers: 'bg-[color:var(--c-teachers)]',
     };
     const destMap: Record<string, string> = {
       kids: 'ninas_y_ninos',

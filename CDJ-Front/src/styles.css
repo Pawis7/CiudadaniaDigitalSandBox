@@ -68,41 +68,49 @@
    ======================================================================== */
 :root {
   /* === Marca institucional (constante en ambos temas) === */
-  --c-cdj: #E9004C;
-  --c-cdj-soft: #FF3366;
-  --c-cdj-tint: #FFE0E9;
-  --c-cdj-cream: #FFF1F5;
-  --c-cdj-deep: #C5003F;
+  --c-cdj: #E8194F; /* CD_Main.png */
+  --c-cdj-soft: color-mix(in srgb, var(--c-cdj) 80%, white);
+  --c-cdj-tint: color-mix(in srgb, var(--c-cdj) 15%, white);
+  --c-cdj-cream: color-mix(in srgb, var(--c-cdj) 5%, white);
+  --c-cdj-deep: color-mix(in srgb, var(--c-cdj) 85%, black);
 
   /* Audiencias (acentos) */
-  --c-kids: #8B5CF6;
-  --c-kids-soft: #A78BFA;
-  --c-kids-tint: #F3E8FF;
-  --c-kids-cream: #FAF5FF;
-  --c-teens: #10B981;
-  --c-teens-soft: #34D399;
-  --c-teens-tint: #D1FAE5;
-  --c-teens-cream: #ECFDF5;
-  --c-families: #EF4444;
-  --c-families-soft: #F87171;
-  --c-families-tint: #FEE2E2;
-  --c-families-cream: #FEF2F2;
-  --c-teachers: #5B21B6;
-  --c-teachers-soft: #7C3AED;
-  --c-teachers-tint: #EDE9FE;
-  --c-teachers-cream: #F5F3FF;
-  --c-help: #5B21B6;
-  --c-help-soft: #7C3AED;
-  --c-help-tint: #EDE9FE;
-  --c-help-cream: #F5F3FF;
-  --c-edutips: #D97706;
-  --c-edutips-soft: #F59E0B;
-  --c-edutips-tint: #FEF3C7;
-  --c-edutips-cream: #FFFBEB;
-  --c-casi: #D97706;
-  --c-casi-soft: #F59E0B;
-  --c-casi-tint: #FEF3C7;
-  --c-casi-cream: #FFFBEB;
+  --c-kids: #AE32C2; /* Tono de CD_NinasYNinos.png con mayor luminosidad y saturación. */
+  --c-kids-soft: color-mix(in srgb, var(--c-kids) 80%, white);
+  --c-kids-tint: color-mix(in srgb, var(--c-kids) 15%, white);
+  --c-kids-cream: color-mix(in srgb, var(--c-kids) 5%, white);
+  --c-teens: #09B965; /* Tono de CD_Adolescentes.png con mayor luminosidad. */
+  --c-teens-soft: color-mix(in srgb, var(--c-teens) 80%, white);
+  --c-teens-tint: color-mix(in srgb, var(--c-teens) 15%, white);
+  --c-teens-cream: color-mix(in srgb, var(--c-teens) 5%, white);
+  --c-families: #E8194F; /* CD_Familias.png */
+  --c-families-soft: color-mix(in srgb, var(--c-families) 80%, white);
+  --c-families-tint: color-mix(in srgb, var(--c-families) 15%, white);
+  --c-families-cream: color-mix(in srgb, var(--c-families) 5%, white);
+  --c-teachers: #EF7722; /* Naranja extraído del fondo de CD_Docentes.png. */
+  --c-teachers-soft: color-mix(in srgb, var(--c-teachers) 80%, white);
+  --c-teachers-tint: color-mix(in srgb, var(--c-teachers) 15%, white);
+  --c-teachers-cream: color-mix(in srgb, var(--c-teachers) 5%, white);
+  --c-help: #4332C2; /* Tono de CD_AyudaDigital.png con mayor luminosidad. */
+  --c-help-soft: color-mix(in srgb, var(--c-help) 80%, white);
+  --c-help-tint: color-mix(in srgb, var(--c-help) 15%, white);
+  --c-help-cream: color-mix(in srgb, var(--c-help) 5%, white);
+  --c-screens: #097DB9; /* Tono de CD_PantallasSeguras.png con mayor luminosidad. */
+  --c-screens-soft: color-mix(in srgb, var(--c-screens) 80%, white);
+  --c-screens-tint: color-mix(in srgb, var(--c-screens) 15%, white);
+  --c-screens-cream: color-mix(in srgb, var(--c-screens) 5%, white);
+  --c-edutips: #F5831F; /* CD_Edutips.png */
+  --c-edutips-soft: color-mix(in srgb, var(--c-edutips) 80%, white);
+  --c-edutips-tint: color-mix(in srgb, var(--c-edutips) 15%, white);
+  --c-edutips-cream: color-mix(in srgb, var(--c-edutips) 5%, white);
+  --c-series: #E7194F; /* CD_Series.jpg */
+  --c-series-soft: color-mix(in srgb, var(--c-series) 80%, white);
+  --c-series-tint: color-mix(in srgb, var(--c-series) 15%, white);
+  --c-series-cream: color-mix(in srgb, var(--c-series) 5%, white);
+  --c-casi: #2155A0; /* Azul del fondo de CD_ElDiaQueCasi.jpg */
+  --c-casi-soft: color-mix(in srgb, var(--c-casi) 80%, white);
+  --c-casi-tint: color-mix(in srgb, var(--c-casi) 15%, white);
+  --c-casi-cream: color-mix(in srgb, var(--c-casi) 5%, white);
 
   /* === Superficies — TEMA CLARO === */
   --surface-base: #F8FAFC;
@@ -213,6 +221,8 @@
   --c-families-cream: color-mix(in srgb, var(--c-families) 18%, var(--surface-card));
   --c-teachers-cream: color-mix(in srgb, var(--c-teachers) 18%, var(--surface-card));
   --c-help-cream: color-mix(in srgb, var(--c-help) 18%, var(--surface-card));
+  --c-screens-cream: color-mix(in srgb, var(--c-screens) 18%, var(--surface-card));
+  --c-series-cream: color-mix(in srgb, var(--c-series) 18%, var(--surface-card));
   --c-edutips-cream: color-mix(in srgb, var(--c-edutips) 18%, var(--surface-card));
   --c-casi-cream: color-mix(in srgb, var(--c-casi) 18%, var(--surface-card));
 
@@ -252,6 +262,30 @@
 /* ========================================================================
    AUDIENCE SCOPES
    ======================================================================== */
+[data-audience='cdj'],
+.audience-cdj {
+  --aud: var(--c-cdj);
+  --aud-soft: var(--c-cdj-soft);
+  --aud-tint: var(--c-cdj-tint);
+  --aud-cream: var(--c-cdj-cream);
+}
+
+[data-audience='screens'],
+.audience-screens {
+  --aud: var(--c-screens);
+  --aud-soft: var(--c-screens-soft);
+  --aud-tint: var(--c-screens-tint);
+  --aud-cream: var(--c-screens-cream);
+}
+
+[data-audience='series'],
+.audience-series {
+  --aud: var(--c-series);
+  --aud-soft: var(--c-series-soft);
+  --aud-tint: var(--c-series-tint);
+  --aud-cream: var(--c-series-cream);
+}
+
 [data-audience='kids'],
 .audience-kids {
   --aud: var(--c-kids);

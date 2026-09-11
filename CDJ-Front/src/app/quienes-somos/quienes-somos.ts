@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
@@ -9,44 +9,55 @@ import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive
   imports: [CommonModule, RouterLink, RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quienes-somos.html',
+  styleUrl: './quienes-somos.css',
 })
 export class QuienesSomosComponent {
+  /** Índices de cards actualmente volteadas */
+  flipped = new Set<number>();
+
+  private cdr = inject(ChangeDetectorRef);
+
+  toggle(i: number) {
+    if (this.flipped.has(i)) {
+      this.flipped.delete(i);
+    } else {
+      this.flipped.add(i);
+    }
+    this.cdr.markForCheck();
+  }
+
   editorial = {
     title: 'Quiénes somos',
     brief: 'Cultura y seguridad en el entorno digital.',
     explanatory: 'El mundo digital ofrece oportunidades para aprender, crear, convivir y participar, pero también requiere habilidades para cuidarnos y cuidar a otras personas. Este sitio busca reunir recursos educativos y de orientación para fortalecer una cultura digital más segura, humana e inclusiva en Jalisco.',
-    purpose: 'Promover habilidades, criterios y prácticas que ayuden a niñas, niños, adolescentes, familias y docentes a participar en entornos digitales de forma segura, respetuosa e informada.',
     closure: 'Este sitio reúne recursos educativos, formativos y de orientación para fortalecer una cultura digital más segura, humana e inclusiva.'
   };
 
   audiences = [
     {
       title: 'Estudiantes',
-      description: 'Con recursos diseñados para su edad, lenguaje y contexto.',
+      description: 'Con recursos diseñados para su edad, lenguaje y contexto. Desde preescolar hasta secundaria, cada material respeta el momento de desarrollo de niñas, niños y adolescentes.',
       icon: 'face',
       bgClass: 'from-pink-500 to-rose-500',
-      shadowClass: 'shadow-pink-100'
     },
     {
       title: 'Familias y cuidadores',
-      description: 'Con herramientas para acompañar sin miedo, sin invadir y con confianza.',
+      description: 'Con herramientas para acompañar sin miedo, sin invadir y con confianza. Porque la mejor protección digital se construye desde la conversación y el vínculo.',
       icon: 'family_restroom',
       bgClass: 'from-violet-500 to-purple-500',
-      shadowClass: 'shadow-violet-100'
     },
     {
       title: 'Docentes',
-      description: 'Con materiales prácticos para trabajar ciudadanía digital en el aula y la comunidad escolar.',
+      description: 'Con materiales prácticos para trabajar ciudadanía digital en el aula. Guías, dinámicas y recursos listos para usar en cualquier nivel educativo.',
       icon: 'local_library',
       bgClass: 'from-blue-500 to-indigo-500',
-      shadowClass: 'shadow-blue-100'
     }
   ];
 
   enfoques = [
     {
       title: 'Seguro',
-      description: 'Cuidamos la privacidad, la información personal y el bienestar.',
+      description: 'Cuidamos la privacidad, la información personal y el bienestar en línea.',
       icon: 'shield',
       bgClass: 'bg-emerald-500',
       textClass: 'text-emerald-600'

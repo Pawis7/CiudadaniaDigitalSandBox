@@ -17,30 +17,15 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <span class="cdj-logo grid place-items-center overflow-hidden" [class]="containerClass">
-      @if (variant === 'icon') {
-        <img src="/CiudadaniaLogo.png" alt="Ciudadanía Digital Jalisco"
-             class="h-full w-full object-contain" loading="eager">
-      } @else if (variant === 'white') {
-        <img src="/Ciudadania_logo_blanco.png" alt="Ciudadanía Digital Jalisco"
-             class="h-full w-full object-contain" loading="eager">
-      } @else if (variant === 'normal') {
-        <img src="/Ciudadania_logo.png" alt="Ciudadanía Digital Jalisco"
-             class="h-full w-full object-contain" loading="eager">
-      } @else {
-        <img src="/Ciudadania_logo.png" alt="Ciudadanía Digital Jalisco"
-             class="cdj-logo__light h-full w-full object-contain" loading="eager">
-        <img src="/Ciudadania_logo_blanco.png" alt="Ciudadanía Digital Jalisco"
-             class="cdj-logo__dark h-full w-full object-contain" loading="eager">
-      }
+    <span class="font-display inline-flex flex-col leading-tight select-none" [class]="containerClass">
+      <span class="text-[1.05em] font-black tracking-tight text-[color:var(--text-primary)]">Ciudadanía</span>
+      <span class="text-[0.8em] font-bold tracking-tight text-[color:var(--text-secondary)] -mt-0.5">
+        Digital <span class="text-[color:var(--c-cdj)] font-black">SEJ</span>
+      </span>
     </span>
   `,
   styles: [`
-    :host { display: inline-block; }
-    .cdj-logo { position: relative; }
-    .cdj-logo__dark { display: none; }
-    :host-context([data-theme='dark']) .cdj-logo__light { display: none; }
-    :host-context([data-theme='dark']) .cdj-logo__dark  { display: block; }
+    :host { display: inline-flex; align-items: center; }
   `],
 })
 export class CdjLogoComponent {
