@@ -41,7 +41,7 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
       title: 'El día que… ¡Casi!',
       description:
         'Historias cortas donde los personajes evitan riesgos digitales tomando buenas decisiones a tiempo.',
-      image: '/Portadas/EDQCasi_Portada.png',
+      image: '/portadas/el-dia-que-casi.webp',
       ctaLabel: 'Ver capítulos',
       ctaHref: '/series',
       audience: 'casi',
@@ -53,7 +53,7 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
       title: 'Edutips',
       description:
         'Microvideos para aprender a moverte en internet con seguridad, criterio y respeto.',
-      image: '/Portadas/Edutips_Portada.png',
+      image: '/portadas/edutips.webp',
       ctaLabel: 'Ver biblioteca',
       ctaHref: '/edutips',
       audience: 'edutips',
@@ -65,7 +65,7 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
       title: 'Ayuda Digital',
       description:
         'Si recibiste un fraude, acoso o algo no está bien, no estás solo: aquí encuentras a quién acudir.',
-      image: '/Portadas/AyudaDigital_Portada.png',
+      image: '/portadas/ayuda-digital.webp',
       ctaLabel: 'Pedir ayuda',
       ctaHref: '/ayuda',
       audience: 'help',

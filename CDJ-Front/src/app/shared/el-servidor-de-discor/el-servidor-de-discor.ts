@@ -39,11 +39,8 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
 
   // Poster Image Sources with automatic fallback chain
   readonly posterSources = [
-    '/banners/el-servidor-de-discor-poster.svg',
-    '/banners/el-servidor-de-discor-poster.png',
-    '/banners/el-servidor-de-discor-poster.jpg',
-    '/Portadas/el-servidor-de-discor-poster.png',
-    '/assets/el-servidor-de-discor-poster.png'
+    '/banners/CD_DiscorPoster.webp',
+    '/banners/el-servidor-de-discor-poster.svg'
   ];
   readonly posterIndex = signal<number>(0);
   readonly posterSrc = computed(() => this.posterSources[this.posterIndex()]);
