@@ -76,13 +76,12 @@
         <button
           type="button"
           (click)="openSearch()"
-          aria-label="Buscar (Cmd + K)"
+          aria-label="Buscar"
           class="search-input cursor-pointer text-left">
           <span class="h-[16px] w-[16px] text-[color:var(--text-mute)]">
             <app-ui-icon name="search"></app-ui-icon>
           </span>
           <span class="flex-1 text-[color:var(--text-mute)]">Buscar cursos, recursos, videos…</span>
-          <kbd class="rounded border border-[color:var(--border)] bg-[color:var(--surface-card)] px-1.5 py-0.5 text-[10px] font-bold text-[color:var(--text-mute)]">⌘K</kbd>
         </button>
       </div>
 
@@ -129,13 +128,7 @@
 
 
 
-        <!-- CTA primary -->
-        <a routerLink="/cursos" class="inline-flex h-9 items-center gap-2 rounded-xl bg-[color:var(--c-cdj)] px-4 text-[13px] font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[color:var(--c-cdj-deep)] hover:shadow-md">
-          <span class="hidden sm:inline">Explorar portal</span>
-          <span class="h-[14px] w-[14px]">
-            <app-ui-icon name="arrow-right"></app-ui-icon>
-          </span>
-        </a>
+
       </div>
     </header>
 
@@ -153,13 +146,9 @@
             </div>
           </a>
           <div class="mb-5 flex flex-wrap justify-center lg:justify-start items-center gap-4 sm:gap-6">
-            <a href="https://jalisco.gob.mx/" target="_blank" rel="noopener noreferrer" class="transition-all hover:scale-[1.02] active:scale-[0.98]">
-              <img src="/footer/gobierno_del_estado.png" alt="Gobierno de Jalisco" class="footer-logo h-14 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain">
-            </a>
+            <img src="/footer/educacion.png" alt="Secretaría de Educación" class="footer-logo h-12 sm:h-14 lg:h-18 xl:h-22 w-auto object-contain select-none">
             <div class="h-8 w-px bg-[color:var(--border-soft)] hidden sm:block"></div>
-            <a href="https://portalsej.jalisco.gob.mx/" target="_blank" rel="noopener noreferrer" class="transition-all hover:scale-[1.02] active:scale-[0.98]">
-              <img src="/footer/educacion.png" alt="Secretaría de Educación" class="footer-logo h-12 sm:h-14 lg:h-18 xl:h-22 w-auto object-contain">
-            </a>
+            <img src="/footer/gobierno_del_estado.png" alt="Gobierno de Jalisco" class="footer-logo h-14 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain select-none">
           </div>
           <p class="max-w-sm leading-relaxed text-[color:var(--text-soft)]">
             {{ branding().tagline }}

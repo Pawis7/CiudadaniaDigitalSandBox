@@ -25,5 +25,6 @@ export class FeatureCardComponent {
   @Input() delay = 0;
   @Input() showDescription = true;
   @Input() disableReveal = false;
+  @Input() showIcon = true;
 }
 
