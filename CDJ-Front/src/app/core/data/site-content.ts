@@ -184,14 +184,6 @@ export const VIDEO_SERIES: VideoSeries[] = [
     illoScene: 'spark',
     videos: [
       {
-        id: 'edu-1',
-        title: '¿A qué edad puede un niño o un adolescente usar un chat de inteligencia artificial?',
-        description: 'Orientación práctica sobre el uso de chats de IA generativa en niñas, niños y adolescentes, recomendaciones de edad y acompañamiento familiar.',
-        youtubeUrl: 'https://www.youtube.com/watch?v=BNWym9mMtlA',
-        durationLabel: '3:15',
-        tags: ['inteligencia artificial', 'ia', 'familia', 'crianza', 'adolescentes'],
-      },
-      {
         id: 'edu-2',
         title: 'Fomentar la intención, no la evitación',
         description: 'La importancia de enseñar a niñas, niños y adolescentes a hacer un uso consciente de la tecnología durante vacaciones y tiempo libre, transformando el aburrimiento en creatividad y autonomía digital.',
@@ -402,36 +394,6 @@ export const VIDEO_SERIES: VideoSeries[] = [
     illoScene: 'play',
     youtubePlaylistId: 'PL6UhGvZdF4uhkptPgZt5UpoFiK1WQyig4',
     videos: [
-      {
-        id: 'casi-yt-oOJixf5_pPo',
-        title: 'El día que casi me hackean',
-        description: 'Cómo proteger tus cuentas y reconocer intentos de hackeo. Aprende qué hacer si alguien intenta acceder a tus redes sociales o correo, y cómo crear contraseñas fuertes que de verdad protegen tu información.',
-        youtubeUrl: 'https://www.youtube.com/watch?v=oOJixf5_pPo',
-        durationLabel: '2:03',
-        author: 'Secretaría de Educación Jalisco',
-        publishedAt: '2024-09-12',
-        tags: ['seguridad', 'contraseñas', 'cuentas'],
-      },
-      {
-        id: 'casi-yt-cn3oxSJwtkw',
-        title: 'El día que casi caigo en un reto viral',
-        description: 'Por qué los retos virales pueden ser peligrosos. Una historia para entender cómo la presión social en redes puede llevar a tomar malas decisiones — y cómo decir "no" sin sentirte excluido.',
-        youtubeUrl: 'https://www.youtube.com/watch?v=cn3oxSJwtkw',
-        durationLabel: '2:18',
-        author: 'Secretaría de Educación Jalisco',
-        publishedAt: '2024-09-19',
-        tags: ['retos virales', 'presión social', 'bienestar'],
-      },
-      {
-        id: 'casi-yt-a4Hsc3YHXVE',
-        title: 'El día que casi caigo en un video falso',
-        description: 'Aprende a identificar deepfakes y noticias falsas. Las imágenes y videos manipulados con IA se ven cada vez más reales — descubre las pistas que te ayudan a no creer (ni compartir) lo que no es verdad.',
-        youtubeUrl: 'https://www.youtube.com/watch?v=a4Hsc3YHXVE',
-        durationLabel: '1:44',
-        author: 'Secretaría de Educación Jalisco',
-        publishedAt: '2024-09-26',
-        tags: ['fake news', 'deepfake', 'pensamiento crítico'],
-      },
       {
         id: 'casi-yt-pEmFgQjDZ1g',
         title: 'El día que casi hago cyberbullying',

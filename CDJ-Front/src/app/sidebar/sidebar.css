@@ -106,7 +106,15 @@
   background: var(--surface-soft);
   border: 1px solid var(--border-soft);
 }
-.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-brand-text {
+.sidebar-brand-img {
+  height: 3.15rem;
+  width: auto;
+  max-width: 185px;
+  object-fit: contain;
+  display: block;
+}
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-brand-text,
+.sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-brand-img {
   display: none;
 }
 .sidebar-shell.is-collapsed:not(.is-mobile) .sidebar-brand-collapsed {

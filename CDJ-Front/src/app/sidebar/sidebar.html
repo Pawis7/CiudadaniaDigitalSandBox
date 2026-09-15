@@ -9,13 +9,10 @@
 
   <aside class="sidebar-aside">
 
-    <!-- Header con logo en solo letras + toggle -->
+    <!-- Header con logo + toggle -->
     <div class="sidebar-head">
-      <a routerLink="/" (click)="onNavigate()" class="sidebar-brand" aria-label="Ciudadanía Digital SEJ">
-        <div class="sidebar-brand-text font-display">
-          <span class="sidebar-brand-title">Ciudadanía</span>
-          <span class="sidebar-brand-sub">Digital <span class="sidebar-brand-badge">SEJ</span></span>
-        </div>
+      <a routerLink="/" (click)="onNavigate()" class="sidebar-brand" aria-label="Ciudadanía Digital">
+        <img src="/logo.png" alt="Ciudadanía Digital" class="sidebar-brand-img">
         <div class="sidebar-brand-collapsed font-display" aria-hidden="true">
           <span>CD<span class="text-[color:var(--c-cdj)]">J</span></span>
         </div>

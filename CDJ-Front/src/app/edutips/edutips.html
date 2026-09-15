@@ -53,21 +53,6 @@
           @if (v.description) {
             <p class="line-clamp-2 text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ v.description }}</p>
           }
-          @if (v.tags?.length) {
-            <div class="mt-1 flex flex-wrap gap-1.5">
-              <span *ngFor="let t of v.tags" class="meta-pill">#{{ t }}</span>
-            </div>
-          }
-          <div class="mt-auto flex items-center justify-between border-t border-[color:var(--border-soft)] pt-3 text-[11px] font-bold text-[color:var(--text-mute)]">
-            <span class="inline-flex items-center gap-1">
-              <span translate="no" class="material-symbols-rounded text-[14px]">visibility</span>
-              Edutip
-            </span>
-            <span class="inline-flex items-center gap-1 text-[color:var(--c-edutips)] font-semibold">
-              <span translate="no" class="material-symbols-rounded text-[14px]">play_circle</span>
-              Ver cápsula
-            </span>
-          </div>
         </div>
       </article>
     </div>

@@ -113,30 +113,30 @@
   --c-casi-cream: color-mix(in srgb, var(--c-casi) 5%, white);
 
   /* === Superficies — TEMA CLARO === */
-  --surface-base: #F1F5F9;
-  /* fondo del shell (oscurecido unos tonos para destacar cards) */
+  --surface-base: #E2E8F0;
+  /* fondo del shell (gris más oscuro para destacar cards blancas) */
   --surface-card: #FFFFFF;
   /* cards, paneles */
   --surface-elev: #FFFFFF;
   /* superficies elevadas (modals, overlays) */
-  --surface-soft: #E2E8F0;
+  --surface-soft: #D1D9E4;
   /* hovers, fondos sutiles */
-  --surface-mute: #CBD5E1;
+  --surface-mute: #BCC7D6;
   /* dividers gruesos, separadores */
   --surface-inverse: #0F172A;
   /* superficie oscura para contraste */
 
   /* Borders */
-  --border-soft: #E2E8F0;
-  --border: #CBD5E1;
-  --border-strong: #94A3B8;
+  --border-soft: #CBD5E1;
+  --border: #94A3B8;
+  --border-strong: #64748B;
 
   /* Texto */
-  --text-primary: #262626;
-  --text-secondary: #4B5563;
-  --text-soft: #64748B;
-  --text-mute: #94A3B8;
-  --text-faint: #CBD5E1;
+  --text-primary: #0F172A;
+  --text-secondary: #1E293B;
+  --text-soft: #334155;
+  --text-mute: #475569;
+  --text-faint: #64748B;
   --text-on-accent: #FFFFFF;
   --text-primary-variable: #FFFFFF;
 
@@ -454,7 +454,7 @@ button:hover .icon-interactive,
    ======================================================================== */
 .display-1 {
   font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -0.025em;
   line-height: 1.1;
   text-wrap: balance;
@@ -462,7 +462,7 @@ button:hover .icon-interactive,
 
 .display-2 {
   font-size: clamp(1.75rem, 2.5vw + 1rem, 2.375rem);
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -0.022em;
   line-height: 1.15;
   text-wrap: balance;
@@ -470,7 +470,7 @@ button:hover .icon-interactive,
 
 .display-3 {
   font-size: clamp(1.35rem, 1.2vw + 1rem, 1.625rem);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.018em;
   line-height: 1.2;
   text-wrap: balance;
@@ -478,7 +478,7 @@ button:hover .icon-interactive,
 
 .eyebrow {
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--aud, var(--c-cdj));

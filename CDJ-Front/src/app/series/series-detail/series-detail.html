@@ -114,33 +114,6 @@
           @if (v.description) {
             <p class="line-clamp-2 text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ v.description }}</p>
           }
-          @if (v.tags?.length) {
-            <div class="mt-0.5 flex flex-wrap gap-1.5">
-              <span *ngFor="let t of v.tags?.slice(0, 2)" class="meta-pill">#{{ t }}</span>
-            </div>
-          }
-          <!-- Footer: autor + fecha · CTA -->
-          <div class="mt-auto flex items-center justify-between gap-2 border-t border-[color:var(--border-soft)] pt-3">
-            <div class="min-w-0 flex items-center gap-2">
-              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[color:var(--aud,var(--c-edutips))] text-white shadow-sm">
-                <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">verified</span>
-              </span>
-              <div class="min-w-0 leading-tight">
-                <p class="truncate text-[11px] font-bold text-[color:var(--text-primary)]">
-                  {{ v.author || serie()?.title }}
-                </p>
-                @if (v.publishedAt) {
-                  <p class="text-[10px] font-semibold text-[color:var(--text-mute)]">
-                    {{ v.publishedAt | date:'mediumDate' }}
-                  </p>
-                }
-              </div>
-            </div>
-            <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-[color:var(--aud-cream,var(--c-edutips-cream))] px-2.5 py-1 text-[11px] font-black text-[color:var(--aud,var(--c-edutips))] group-hover:translate-x-0.5 transition-transform">
-              Ver
-              <span translate="no" class="material-symbols-rounded text-[14px]">arrow_forward</span>
-            </span>
-          </div>
         </div>
       </article>
     </div>
