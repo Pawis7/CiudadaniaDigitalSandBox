@@ -40,7 +40,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   },
   'adolescentes': {
     theme:        'teens',
-    bannerSrc:    '/banners/CD_Adolescentes.png',
+    bannerSrc:    '/banners/CD_Adolescentes.jpg',
     bannerAlt:    'Ciudadanía Digital Jalisco — Adolescentes',
     defaultLevel: 'secundaria',
     levelWidgets: {
@@ -50,7 +50,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   },
   'familias': {
     theme:        'families',
-    bannerSrc:    '/banners/CD_Familias.png',
+    bannerSrc:    '/banners/CD_Familias.jpg',
     bannerAlt:    'Ciudadanía Digital Jalisco — Familias',
     defaultLevel: 'fam-6-11',
     levelWidgets: {
@@ -61,7 +61,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   },
   'docentes': {
     theme:        'teachers',
-    bannerSrc:    '/banners/CD_Docentes.png',
+    bannerSrc:    '/banners/CD_Docentes.jpg',
     bannerAlt:    'Ciudadanía Digital Jalisco — Docentes',
     defaultLevel: 'doc-pb',
     levelWidgets: {},
