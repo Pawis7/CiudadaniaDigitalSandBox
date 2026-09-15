@@ -20,16 +20,11 @@
 
   <!-- TEXTO EXPLICATIVO AUDIENCIA -->
   @if (p.explanatoryText) {
-    <section appReveal="up" class="mb-12 py-4 sm:mb-16 no-print" [attr.data-audience]="audienceTheme()">
+    <section appReveal="up" class="mb-6 sm:mb-8 no-print" [attr.data-audience]="audienceTheme()">
       <div class="max-w-4xl">
         <p class="text-base leading-relaxed text-[color:var(--text-soft)] sm:text-xl">
           {{ p.explanatoryText }}
         </p>
-        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:gap-5">
-          <a (click)="scrollToAnchor('portal-recursos-anchor')" class="btn btn-primary btn-lg cursor-pointer">
-            Explorar recursos
-          </a>
-        </div>
       </div>
     </section>
   }
@@ -262,29 +257,6 @@
     </section>
   }
 
-  <!-- TOPICS -->
-  <section class="mb-8 no-print" [attr.data-audience]="audienceTheme()">
-    <div appReveal="up" class="section-head">
-      <div>
-        <p class="eyebrow text-[color:var(--text-mute)]">Lo que vas a encontrar</p>
-        <h2 class="display-2 mt-1">Temas principales</h2>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <div *ngFor="let t of p.topics; let i = index"
-           appReveal="up"
-           [revealDelay]="i * 70"
-           class="card card-hover flex flex-col gap-3 p-5">
-        <span class="grid h-11 w-11 place-items-center rounded-xl text-white shadow-md"
-              [ngClass]="t.bgClass">
-          <span translate="no" class="material-symbols-rounded text-xl icon-fill">{{ t.icon }}</span>
-        </span>
-        <h3 class="text-base font-black tracking-tight text-[color:var(--text-primary)]">{{ t.title }}</h3>
-        <p class="text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ t.description }}</p>
-      </div>
-    </div>
-  </section>
 
   <!-- CONTENIDO DESTACADO PERFIL -->
   <section class="mb-8 sm:mb-10 no-print">

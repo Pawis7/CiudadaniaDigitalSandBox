@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
-import { CdjLogoComponent } from '../shared/cdj-logo/cdj-logo';
 
 interface SidebarItem {
   id: string;
@@ -26,7 +25,7 @@ const COLLAPSE_KEY = 'cdj_sidebar_collapsed';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, CdjLogoComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',

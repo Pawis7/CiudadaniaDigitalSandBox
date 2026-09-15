@@ -130,7 +130,7 @@
       </div>
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
         @for (r of relatedCards(); track r.id; let i = $index) {
-          <app-feature-card [card]="r" [delay]="i * 70" />
+          <app-feature-card [card]="r" [delay]="i * 70" [showIcon]="false" />
         }
       </div>
     </section>

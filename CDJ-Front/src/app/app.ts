@@ -8,7 +8,6 @@ import { SidebarComponent } from './sidebar/sidebar';
 import { ContentService } from './core/services/content.service';
 import { BrandIconComponent } from './shared/brand-icon/brand-icon';
 import { ImageEditService } from './core/services/image-edit.service';
-import { CdjLogoComponent } from './shared/cdj-logo/cdj-logo';
 import { UiIconComponent } from './shared/ui-icon/ui-icon';
 import { SearchEntry, searchIndex } from './core/data/search-index';
 const THEME_KEY  = 'cdj_theme';
@@ -18,7 +17,7 @@ type ThemeMode = 'light' | 'dark';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterOutlet, RouterLink, RouterLinkActive, SidebarComponent, BrandIconComponent, CdjLogoComponent, UiIconComponent],
+  imports: [CommonModule, FormsModule, RouterOutlet, RouterLink, RouterLinkActive, SidebarComponent, BrandIconComponent, UiIconComponent],
   changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './app.html',
   styleUrl: './app.css',

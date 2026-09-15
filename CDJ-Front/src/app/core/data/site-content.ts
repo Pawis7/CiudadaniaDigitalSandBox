@@ -127,6 +127,21 @@ export const FEATURE_CARDS: FeatureCard[] = [
     badge:       'Serie animada',
     sections:    ['inicio', 'series'],
   },
+  {
+    id:          'pequenos_cibernautas',
+    title:       'Pequeños Cibernautas',
+    description: 'Aventuras y cápsulas animadas para aprender a navegar seguros desde la infancia.',
+    icon:           'smart_toy',
+    iconBgClass:    'bg-[color:var(--c-kids)]',
+    iconShadowClass: '',
+    imageUrl:    '/portadas/CD_PC.webp',
+    destination: 'series_pequenos_cibernautas',
+    href:        resolveDestination('series_pequenos_cibernautas'),
+    audience:    'kids',
+    illoScene:   'play',
+    badge:       'Serie infantil',
+    sections:    ['series'],
+  },
 ];
 
 export const PILLARS: Pillar[] = [
@@ -445,6 +460,22 @@ export const VIDEO_SERIES: VideoSeries[] = [
         tags: ['estafas', 'videojuegos', 'compras seguras'],
       },
     ],
+  },
+  {
+    id: 'pequenos_cibernautas',
+    slug: 'pequenos-cibernautas',
+    title: 'Pequeños Cibernautas',
+    tagline: 'Aventuras digitales para niñas y niños',
+    description:
+      'Historias divertidas para aprender a navegar en internet con seguridad, imaginación y respeto.',
+    coverImageUrl: '/portadas/CD_PC.webp',
+    accentClass: 'from-fuchsia-500 to-pink-500',
+    iconBgClass: 'bg-[color:var(--c-kids)]',
+    icon: 'smart_toy',
+    episodeCount: 0,
+    audience: 'kids',
+    illoScene: 'play',
+    videos: [],
   },
 ];
 

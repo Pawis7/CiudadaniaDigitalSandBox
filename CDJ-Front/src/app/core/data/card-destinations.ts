@@ -22,6 +22,7 @@ export const CARD_DESTINATIONS: CardDestinationOption[] = [
   { key: 'series',          label: 'Catálogo de Series',       href: '/series',                  icon: 'video_library'  },
   { key: 'series_edutips',  label: 'Serie: Edutips',           href: '/edutips',                 icon: 'tips_and_updates' },
   { key: 'series_casi',     label: 'Serie: El día que casi',   href: '/series/el-dia-que-casi',  icon: 'star'           },
+  { key: 'series_pequenos_cibernautas', label: 'Serie: Pequeños Cibernautas', href: '/series/pequenos-cibernautas', icon: 'smart_toy' },
   { key: 'series_familias', label: 'Serie: Familias',          href: '/series/familias-conectadas', icon: 'family_restroom'},
   { key: 'series_kids',     label: 'Serie: Niños',             href: '/series/kids',             icon: 'child_care'     },
   { key: 'series_teens',    label: 'Serie: Adolescentes',      href: '/series/teens',            icon: 'school'         },
