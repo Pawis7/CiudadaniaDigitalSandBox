@@ -113,30 +113,30 @@
   --c-casi-cream: color-mix(in srgb, var(--c-casi) 5%, white);
 
   /* === Superficies — TEMA CLARO === */
-  --surface-base: #E2E8F0;
-  /* fondo del shell (gris más oscuro para destacar cards blancas) */
+  --surface-base: #F8FAFC;
+  /* fondo del shell */
   --surface-card: #FFFFFF;
   /* cards, paneles */
   --surface-elev: #FFFFFF;
   /* superficies elevadas (modals, overlays) */
-  --surface-soft: #D1D9E4;
+  --surface-soft: #F1F5F9;
   /* hovers, fondos sutiles */
-  --surface-mute: #BCC7D6;
+  --surface-mute: #E2E8F0;
   /* dividers gruesos, separadores */
   --surface-inverse: #0F172A;
   /* superficie oscura para contraste */
 
   /* Borders */
-  --border-soft: #CBD5E1;
-  --border: #94A3B8;
-  --border-strong: #64748B;
+  --border-soft: #E2E8F0;
+  --border: #CBD5E1;
+  --border-strong: #94A3B8;
 
   /* Texto */
-  --text-primary: #0F172A;
-  --text-secondary: #1E293B;
-  --text-soft: #334155;
-  --text-mute: #475569;
-  --text-faint: #64748B;
+  --text-primary: #020617;
+  --text-secondary: #0F172A;
+  --text-soft: #1E293B;
+  --text-mute: #334155;
+  --text-faint: #475569;
   --text-on-accent: #FFFFFF;
   --text-primary-variable: #FFFFFF;
 
