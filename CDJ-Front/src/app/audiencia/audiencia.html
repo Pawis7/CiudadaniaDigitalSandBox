@@ -1,31 +1,28 @@
 @if (page(); as p) {
   @if (config(); as cfg) {
-    <section appReveal="fade" [revealDuration]="700" class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-10 no-print" [attr.data-audience]="cfg.theme">
+    <section appReveal="fade" [revealDuration]="700" class="main-hero relative mb-7 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] shadow-[var(--shadow-xl)] sm:mb-8 no-print" [attr.data-audience]="cfg.theme">
       <h1 class="sr-only">{{ p.title }} - Ciudadanía Digital</h1>
       <img appImageLoader [src]="cfg.bannerSrc" [alt]="cfg.bannerAlt" class="block w-full h-auto lg:h-full lg:object-cover">
     </section>
   }
 
-  @if (p.explanatoryText) {
-    <section appReveal="up" class="mb-10 no-print" [attr.data-audience]="audienceTheme()">
-      <p class="max-w-4xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-xl">{{ p.explanatoryText }}</p>
-    </section>
-  }
+  <section class="mb-8 no-print" [attr.data-audience]="audienceTheme()">
+    <p class="max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-lg">{{ p.description }}</p>
+  </section>
 
   @if (profileLearning(); as learning) {
-    <section class="mb-12 no-print" [attr.data-audience]="audienceTheme()">
-      <div class="mb-5 max-w-3xl">
-        <p class="eyebrow text-[color:var(--aud)]">Aprender con situaciones reales</p>
+    <section class="mb-10 no-print" [attr.data-audience]="audienceTheme()">
+      <div class="mb-4 max-w-3xl">
+        <p class="eyebrow text-[color:var(--aud)]">Empieza por una situación</p>
         <h2 class="display-2 mt-1">{{ learning.title }}</h2>
         <p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">{{ learning.description }}</p>
       </div>
-      <div class="border-y border-[color:var(--border-soft)] divide-y divide-[color:var(--border-soft)]">
-        @for (activity of learning.activities; track activity.slug) {
-          <a [routerLink]="['/actividad', activity.slug]" [queryParams]="{ perfil: profileQuery() }" class="group flex items-center justify-between gap-4 py-4 sm:py-5">
+      <div class="grid grid-cols-1 border-y border-[color:var(--border-soft)] md:grid-cols-2 md:divide-x md:divide-[color:var(--border-soft)]">
+        @for (activity of learning.activities; track activity.slug; let i = $index) {
+          <a [routerLink]="['/actividad', activity.slug]" [queryParams]="{ perfil: profileQuery() }" class="group flex min-h-[92px] items-center justify-between gap-3 border-b border-[color:var(--border-soft)] px-1 py-4 md:px-5" [class.md:pl-0]="i % 2 === 0">
             <div class="min-w-0">
-              <span class="text-[11px] font-black uppercase tracking-wider text-[color:var(--aud)]">{{ activity.kicker }}</span>
-              <h3 class="mt-1 text-base font-black text-[color:var(--text-primary)] sm:text-lg">{{ activity.title }}</h3>
-              <p class="mt-1 max-w-2xl text-sm leading-relaxed text-[color:var(--text-soft)]">{{ activity.description }}</p>
+              <span class="text-[10px] font-black uppercase tracking-wider text-[color:var(--aud)]">{{ activity.kicker }}</span>
+              <h3 class="mt-1 text-base font-black leading-snug text-[color:var(--text-primary)]">{{ activity.title }}</h3>
             </div>
             <span translate="no" class="material-symbols-rounded shrink-0 text-[color:var(--aud)] transition-transform group-hover:translate-x-1">arrow_forward</span>
           </a>
@@ -36,35 +33,32 @@
 
   @if (p.subLevels.length) {
     <section id="sub-niveles-anchor" class="mb-10 no-print" [attr.data-audience]="audienceTheme()">
-      <div class="mb-5 max-w-3xl">
-        <p class="eyebrow text-[color:var(--aud)]">Por etapa</p>
+      <div class="mb-4 max-w-3xl">
         @switch (audienceTheme()) {
-          @case ('kids') { <h2 class="display-2 mt-1">Elige tu nivel</h2><p class="mt-2 text-sm text-[color:var(--text-soft)]">Encuentra actividades adecuadas para preescolar, primaria baja o primaria alta.</p> }
-          @case ('teens') { <h2 class="display-2 mt-1">Elige tu etapa</h2><p class="mt-2 text-sm text-[color:var(--text-soft)]">Explora las actividades disponibles para secundaria o preparatoria.</p> }
-          @case ('families') { <h2 class="display-2 mt-1">¿Qué etapa quieres acompañar?</h2><p class="mt-2 text-sm text-[color:var(--text-soft)]">Selecciona la edad para encontrar orientaciones y actividades acordes con su autonomía.</p> }
-          @case ('teachers') { <h2 class="display-2 mt-1">Elige el nivel educativo</h2><p class="mt-2 text-sm text-[color:var(--text-soft)]">Selecciona el nivel con el que trabajas para consultar los materiales disponibles.</p> }
+          @case ('kids') { <p class="eyebrow text-[color:var(--aud)]">Por edad</p><h2 class="display-2 mt-1">Elige tu nivel</h2> }
+          @case ('teens') { <p class="eyebrow text-[color:var(--aud)]">Por etapa</p><h2 class="display-2 mt-1">Elige tu etapa</h2> }
+          @case ('families') { <p class="eyebrow text-[color:var(--aud)]">Acompañamiento</p><h2 class="display-2 mt-1">¿Qué etapa quieres acompañar?</h2> }
+          @case ('teachers') { <p class="eyebrow text-[color:var(--aud)]">Para el aula</p><h2 class="display-2 mt-1">Elige el nivel educativo</h2> }
         }
       </div>
-
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @for (sub of p.subLevels; track sub.id) {
           <button type="button" [attr.id]="sub.id" (click)="selectLevelAndScroll(sub.id)" class="group overflow-hidden rounded-2xl border text-left transition-all" [class.border-[color:var(--aud)]]="selectedLevel() === sub.id" [class.border-[color:var(--border-soft)]]="selectedLevel() !== sub.id">
             <div class="aspect-[5/3] overflow-hidden bg-[color:var(--surface-soft)]"><img appImageLoader [src]="sub.imageUrl" [alt]="sub.title" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"></div>
-            <div class="p-4"><p class="text-[10px] font-black uppercase tracking-widest text-[color:var(--aud)]">{{ sub.subtitle }}</p><h3 class="mt-1 font-black text-[color:var(--text-primary)]">{{ sub.title }}</h3><p class="mt-2 text-xs leading-relaxed text-[color:var(--text-soft)]">{{ sub.description }}</p><span class="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[color:var(--aud)]">Ver actividades <span translate="no" class="material-symbols-rounded text-sm">arrow_forward</span></span></div>
+            <div class="flex items-end justify-between gap-3 p-4"><div><p class="text-[10px] font-black uppercase tracking-widest text-[color:var(--aud)]">{{ sub.subtitle }}</p><h3 class="mt-1 font-black text-[color:var(--text-primary)]">{{ sub.title }}</h3></div><span translate="no" class="material-symbols-rounded text-[color:var(--aud)]">arrow_forward</span></div>
           </button>
         }
       </div>
     </section>
 
     <section id="actividades-nivel" class="mb-12 scroll-mt-24" [attr.data-audience]="audienceTheme()">
-      <div class="mb-6 border-b border-[color:var(--border-soft)] pb-5">
+      <div class="mb-5 border-b border-[color:var(--border-soft)] pb-4">
         <p class="eyebrow text-[color:var(--aud)]">Para esta etapa</p>
-        <h2 class="mt-1 text-2xl font-black tracking-tight text-[color:var(--text-primary)] sm:text-3xl">Actividades: <span class="text-[color:var(--aud)]">{{ getActiveLevelName() }}</span></h2>
-        <p class="mt-2 max-w-2xl text-sm leading-relaxed text-[color:var(--text-soft)]">Aquí se muestran únicamente los recursos que ya están disponibles para esta etapa.</p>
+        <h2 class="mt-1 text-2xl font-black tracking-tight text-[color:var(--text-primary)] sm:text-3xl">{{ getActiveLevelName() }}</h2>
       </div>
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @for (item of levelResources(); track item.id) { <app-resource-card [item]="item" (actionClicked)="onResourceActionClicked($event)" /> }
-        @if (!levelResources().length) { <p class="col-span-full py-8 text-sm text-[color:var(--text-soft)]">Todavía no hay actividades publicadas para esta etapa.</p> }
+        @if (!levelResources().length) { <p class="col-span-full py-6 text-sm text-[color:var(--text-soft)]">Todavía no hay actividades publicadas para esta etapa.</p> }
       </div>
     </section>
   }
