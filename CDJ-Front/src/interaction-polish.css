@@ -73,3 +73,20 @@ a.group.flex.items-center.justify-between:focus-visible {
 #sub-niveles-anchor button:focus-visible {
   box-shadow: var(--ring-focus), var(--shadow-sm);
 }
+
+/* Typography: avoid the overly heavy Black/ExtraBold treatment.
+   Weight 600 uses Garet Book in this project, keeping the same family and identity
+   while giving headings and labels more air. */
+.font-black,
+.font-extrabold {
+  font-weight: 600 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600 !important;
+}
