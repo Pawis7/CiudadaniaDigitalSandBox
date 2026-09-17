@@ -1,5 +1,5 @@
 /* Ajustes aislados para la revisión ChatGPT.
-   No modifica la identidad visual; corrige el comportamiento de banners en pantallas pequeñas. */
+   Mantiene la identidad visual, corrige banners y reduce el efecto de cajas dentro de cajas. */
 
 @media (max-width: 767px) {
   .main-hero {
@@ -30,5 +30,35 @@
     height: auto !important;
     object-fit: contain !important;
     object-position: center center !important;
+  }
+}
+
+/* El portal de recursos deja de ser una gran tarjeta que contiene otras tarjetas. */
+#portal-recursos-anchor {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#portal-recursos-anchor > div:first-child {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Estados vacíos y teasers mantienen jerarquía, pero sin doble marco visual. */
+#portal-recursos-anchor .col-span-full.border-dashed {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+@media (max-width: 640px) {
+  #portal-recursos-anchor {
+    padding-top: 1rem !important;
+    padding-bottom: 1.5rem !important;
   }
 }
