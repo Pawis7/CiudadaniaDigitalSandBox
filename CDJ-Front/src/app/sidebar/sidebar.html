@@ -2,111 +2,30 @@
      Sidebar — Persistente estilo Coursera/edX
      Default expanded (256px). Collapsable a 72px con toggle.
      ================================================================= -->
-<div
-  class="sidebar-shell"
-  [class.is-mobile]="variant === 'mobile'"
-  [class.is-collapsed]="collapsed() && variant === 'desktop'">
-
+<div class="sidebar-shell" [class.is-mobile]="variant === 'mobile'" [class.is-collapsed]="collapsed() && variant === 'desktop'">
   <aside class="sidebar-aside">
-
-    <!-- Header con logo + toggle -->
     <div class="sidebar-head">
       <a routerLink="/" (click)="onNavigate()" class="sidebar-brand" aria-label="Ciudadanía Digital">
         <img src="/logo.png" alt="Ciudadanía Digital" class="sidebar-brand-img">
-        <div class="sidebar-brand-collapsed font-display" aria-hidden="true">
-          <span>CD<span class="text-[color:var(--c-cdj)]">J</span></span>
-        </div>
+        <div class="sidebar-brand-collapsed font-display" aria-hidden="true"><span>CD<span class="text-[color:var(--c-cdj)]">J</span></span></div>
       </a>
-
       @if (variant === 'desktop') {
-        <button type="button" (click)="toggleCollapse()"
-          class="sidebar-toggle"
-          [attr.aria-label]="collapsed() ? 'Expandir sidebar' : 'Colapsar sidebar'"
-          [title]="collapsed() ? 'Expandir' : 'Colapsar'">
-          <span translate="no" class="material-symbols-rounded text-[20px]">
-            {{ collapsed() ? 'menu_open' : 'left_panel_close' }}
-          </span>
-        </button>
+        <button type="button" (click)="toggleCollapse()" class="sidebar-toggle" [attr.aria-label]="collapsed() ? 'Expandir sidebar' : 'Colapsar sidebar'" [title]="collapsed() ? 'Expandir' : 'Colapsar'"><span translate="no" class="material-symbols-rounded text-[20px]">{{ collapsed() ? 'menu_open' : 'left_panel_close' }}</span></button>
       }
     </div>
-
-    <!-- Nav -->
     <nav class="sidebar-nav">
-
-      <!-- Sección APRENDER -->
-      <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Apr.' : 'Aprender' }}</h3>
-      <a *ngFor="let item of learnSections"
-         [routerLink]="item.routerLink"
-         [routerLinkActiveOptions]="{ exact: item.id === 'home' }"
-         (click)="onNavigate()"
-         routerLinkActive="is-active"
-         [attr.data-audience]="item.audience"
-         class="sidebar-item"
-         [title]="item.label">
-        <span class="sidebar-icon">
-          <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span>
-        </span>
-        <span class="sidebar-label">{{ item.label }}</span>
-      </a>
-
+      <a *ngFor="let item of learnSections" [routerLink]="item.routerLink" [routerLinkActiveOptions]="{ exact: item.id === 'home' }" (click)="onNavigate()" routerLinkActive="is-active" [attr.data-audience]="item.audience" class="sidebar-item" [title]="item.label"><span class="sidebar-icon"><span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span></span><span class="sidebar-label">{{ item.label }}</span></a>
       <div class="sidebar-divider"></div>
-
-      <!-- Sección AUDIENCIAS -->
       <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Perf.' : 'Perfiles' }}</h3>
-
       <ng-container *ngFor="let item of audiences">
         <div class="sidebar-audience-group">
-          <a [routerLink]="item.routerLink"
-             (click)="item.subItems?.length ? toggleAudience(item.id, $event) : onNavigate()"
-             routerLinkActive="is-active"
-             [attr.data-audience]="item.audience"
-             class="sidebar-item"
-             [title]="item.label">
-            <span class="sidebar-icon">
-              <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span>
-            </span>
-            <span class="sidebar-label">{{ item.label }}</span>
-            @if (item.subItems?.length) {
-              <span class="sidebar-chevron"
-                [class.is-open]="openedAudience() === item.id">
-                <span translate="no" class="material-symbols-rounded text-[16px]">expand_more</span>
-              </span>
-            }
-          </a>
-
-          @if (item.subItems?.length) {
-            <div class="sidebar-sub-wrapper" [class.is-open]="openedAudience() === item.id">
-              <div class="sidebar-sub" [attr.data-audience]="item.audience">
-                <a *ngFor="let sub of item.subItems"
-                   [routerLink]="item.routerLink"
-                   [fragment]="sub.fragment"
-                   (click)="onSubitemClick()"
-                   class="sidebar-subitem">
-                  <span class="sidebar-subitem-dot"></span>
-                  <span>{{ sub.label }}</span>
-                </a>
-              </div>
-            </div>
-          }
+          <a [routerLink]="item.routerLink" (click)="item.subItems?.length ? toggleAudience(item.id, $event) : onNavigate()" routerLinkActive="is-active" [attr.data-audience]="item.audience" class="sidebar-item" [title]="item.label"><span class="sidebar-icon"><span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span></span><span class="sidebar-label">{{ item.label }}</span>@if (item.subItems?.length) {<span class="sidebar-chevron" [class.is-open]="openedAudience() === item.id"><span translate="no" class="material-symbols-rounded text-[16px]">expand_more</span></span>}</a>
+          @if (item.subItems?.length) {<div class="sidebar-sub-wrapper" [class.is-open]="openedAudience() === item.id"><div class="sidebar-sub" [attr.data-audience]="item.audience"><a *ngFor="let sub of item.subItems" [routerLink]="item.routerLink" [fragment]="sub.fragment" (click)="onSubitemClick()" class="sidebar-subitem"><span class="sidebar-subitem-dot"></span><span>{{ sub.label }}</span></a></div></div>}
         </div>
       </ng-container>
-
       <div class="sidebar-divider"></div>
-
-      <!-- Sección AYUDA -->
       <h3 class="sidebar-section-label">{{ collapsed() && variant === 'desktop' ? 'Más' : 'Orientación y más' }}</h3>
-      <a *ngFor="let s of helpSections"
-         [routerLink]="s.routerLink"
-         (click)="onNavigate()"
-         routerLinkActive="is-active"
-         [attr.data-audience]="s.audience"
-         class="sidebar-item"
-         [title]="s.label">
-        <span class="sidebar-icon">
-          <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ s.icon }}</span>
-        </span>
-        <span class="sidebar-label">{{ s.label }}</span>
-      </a>
+      <a *ngFor="let s of helpSections" [routerLink]="s.routerLink" (click)="onNavigate()" routerLinkActive="is-active" [attr.data-audience]="s.audience" class="sidebar-item" [title]="s.label"><span class="sidebar-icon"><span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ s.icon }}</span></span><span class="sidebar-label">{{ s.label }}</span></a>
     </nav>
   </aside>
 </div>
