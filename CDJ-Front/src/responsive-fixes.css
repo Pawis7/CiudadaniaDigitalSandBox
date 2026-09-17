@@ -48,12 +48,109 @@
   padding-right: 0 !important;
 }
 
-/* Estados vacíos y teasers mantienen jerarquía, pero sin doble marco visual. */
+/* Estados vacíos mantienen jerarquía, pero sin doble marco visual. */
 #portal-recursos-anchor .col-span-full.border-dashed {
   border-left: 0 !important;
   border-right: 0 !important;
   border-radius: 0 !important;
   background: transparent !important;
+}
+
+/* Mientras las series se convierten en experiencias pedagógicas, no mostramos
+   el bloque de recomendados como un segundo catálogo dentro de cada perfil. */
+#portal-recursos-anchor + section {
+  display: none !important;
+}
+
+/* Las tarjetas de nivel no prometen una cantidad de recursos que todavía no está
+   publicada. Conservamos la acción principal y retiramos el contador decorativo. */
+#sub-niveles-anchor article > div:last-child > div:last-child > span:first-child {
+  display: none !important;
+}
+
+#sub-niveles-anchor article > div:last-child > div:last-child {
+  justify-content: flex-end !important;
+}
+
+#sub-niveles-anchor article > div:last-child > div:last-child > span:last-child {
+  font-size: 0 !important;
+}
+
+#sub-niveles-anchor article > div:last-child > div:last-child > span:last-child::before {
+  content: 'Ver actividades';
+  font-size: 12px;
+}
+
+#sub-niveles-anchor article > div:last-child > div:last-child > span:last-child .material-symbols-rounded {
+  font-size: 16px !important;
+}
+
+/* El encabezado se adapta al propósito de cada perfil sin crear componentes
+   visuales adicionales. */
+#sub-niveles-anchor .section-head h2,
+#sub-niveles-anchor .section-head p.mt-2 {
+  font-size: 0 !important;
+}
+
+#sub-niveles-anchor .section-head h2::after {
+  display: block;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+#sub-niveles-anchor .section-head p.mt-2::after {
+  display: block;
+  margin-top: .65rem;
+  max-width: 58ch;
+  color: var(--text-soft);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+
+#sub-niveles-anchor[data-audience='kids'] .section-head h2::after {
+  content: 'Elige tu nivel';
+}
+#sub-niveles-anchor[data-audience='kids'] .section-head p.mt-2::after {
+  content: 'Encuentra historias y actividades pensadas para cada etapa.';
+}
+
+#sub-niveles-anchor[data-audience='teens'] .section-head h2::after {
+  content: 'Elige tu etapa';
+}
+#sub-niveles-anchor[data-audience='teens'] .section-head p.mt-2::after {
+  content: 'Explora situaciones y decisiones cercanas a tu vida digital.';
+}
+
+#sub-niveles-anchor[data-audience='families'] .section-head h2::after {
+  content: '¿Qué etapa quieres acompañar?';
+}
+#sub-niveles-anchor[data-audience='families'] .section-head p.mt-2::after {
+  content: 'Selecciona la edad para encontrar orientaciones y actividades útiles para acompañar en casa.';
+}
+
+#sub-niveles-anchor[data-audience='teachers'] .section-head h2::after {
+  content: 'Elige el nivel educativo';
+}
+#sub-niveles-anchor[data-audience='teachers'] .section-head p.mt-2::after {
+  content: 'Encuentra recursos y situaciones que puedes trabajar con tus estudiantes según su etapa.';
+}
+
+/* El encabezado del área activa deja de llamarse “portal” y de prometer
+   herramientas que no necesariamente existen en todos los niveles. */
+#portal-recursos-anchor > div:first-child span.inline-flex:first-child {
+  display: none !important;
+}
+
+#portal-recursos-anchor > div:first-child p.leading-relaxed {
+  font-size: 0 !important;
+}
+
+#portal-recursos-anchor > div:first-child p.leading-relaxed::after {
+  content: 'Elige una actividad y avanza a tu ritmo. Cada recurso tiene un propósito concreto dentro de ciudadanía digital.';
+  display: block;
+  font-size: .875rem;
+  line-height: 1.6;
 }
 
 @media (max-width: 640px) {
