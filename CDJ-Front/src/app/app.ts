@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, ElementRef, HostListener, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
-import { filter, take } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
 
 import { SidebarComponent } from './sidebar/sidebar';
@@ -31,7 +31,7 @@ export class App implements AfterViewInit {
   branding = this.content.branding;
   socialLinks = this.content.socialLinks;
   footerColumns = this.content.footerColumns;
-  editMode = this.imgEdit.isEditActive;   // computed: editMode && isLogged
+  editMode = this.imgEdit.isEditActive;
   hasOverrides = computed(() => Object.keys(this.imgEdit.overrides()).length > 0);
 
   drawerOpen = signal(false);
@@ -42,31 +42,26 @@ export class App implements AfterViewInit {
   theme = signal<ThemeMode>(this.readTheme());
   year = new Date().getFullYear();
 
-  /** Resultados filtrados del índice de búsqueda */
   searchResults = computed<SearchEntry[]>(() => searchIndex(this.searchQuery(), 10));
-
-  /** True cuando hay query pero no hay resultados */
   searchEmpty = computed(() => this.searchQuery().trim().length > 0 && this.searchResults().length === 0);
 
   @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
   @ViewChild('inlineSearch') inlineSearch?: ElementRef<HTMLInputElement>;
 
+  // Series se conserva como contenido interno, pero deja de competir como destino principal.
   topNav: { label: string; href: string; exact: boolean }[] = [
-    { label: 'Inicio',    href: '/',               exact: true },
-    { label: 'Series',    href: '/series',         exact: false },
-    { label: 'Ayuda',     href: '/ayuda',          exact: false },
+    { label: 'Inicio', href: '/', exact: true },
+    { label: 'Ayuda', href: '/ayuda', exact: false },
   ];
 
   constructor() {
     this.applyTheme(this.theme());
-
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => {
         this.closeDrawer();
         this.searchOpen.set(false);
       });
-
   }
 
   ngAfterViewInit() {
@@ -77,13 +72,10 @@ export class App implements AfterViewInit {
       }
     });
 
-    // Fade out and remove the initial global preloader once bootstrapped
     const preloader = document.getElementById('global-preloader');
     if (preloader) {
       preloader.classList.add('fade-out');
-      setTimeout(() => {
-        preloader.remove();
-      }, 450); // Matches transition duration
+      setTimeout(() => preloader.remove(), 450);
     }
   }
 
@@ -103,24 +95,20 @@ export class App implements AfterViewInit {
     this.selectedIndex.set(-1);
     setTimeout(() => this.searchInput?.nativeElement?.focus(), 60);
   }
+
   closeSearch() {
     this.searchOpen.set(false);
     this.searchQuery.set('');
     this.selectedIndex.set(-1);
   }
 
-  /** Navega al href de un resultado (soporta fragmentos como /ayuda#canales) */
   navigateToResult(entry: SearchEntry) {
     this.closeSearch();
     const [path, fragment] = entry.href.split('#');
-    if (fragment) {
-      this.router.navigate([path], { fragment });
-    } else {
-      this.router.navigate([path]);
-    }
+    if (fragment) this.router.navigate([path], { fragment });
+    else this.router.navigate([path]);
   }
 
-  /** Navegación por teclado dentro del panel de resultados */
   onSearchKeydown(event: KeyboardEvent) {
     const results = this.searchResults();
     if (!results.length) return;
@@ -139,12 +127,7 @@ export class App implements AfterViewInit {
   }
 
   signLanguage = signal(false);
-
-  toggleSignLanguage() {
-    this.signLanguage.update((v) => !v);
-  }
-
-
+  toggleSignLanguage() { this.signLanguage.update((v) => !v); }
 
   toggleTheme() {
     const next: ThemeMode = this.theme() === 'dark' ? 'light' : 'dark';
@@ -161,15 +144,14 @@ export class App implements AfterViewInit {
 
   private lastScrollY = 0;
   headerHidden = signal(false);
-  private scrollThreshold = 60; // Se oculta temprano, poco después de iniciar el scroll
-  private scrollDelta = 15; // Exige un movimiento ligeramente más deliberado para evitar nerviosismo
+  private scrollThreshold = 60;
+  private scrollDelta = 15;
 
   @HostListener('window:scroll')
   onScroll() {
     const currentScrollY = window.scrollY;
     this.scrolled.set(currentScrollY > 8);
 
-    // Si estamos arriba, siempre visible
     if (currentScrollY <= 20) {
       this.headerHidden.set(false);
       this.lastScrollY = currentScrollY;
@@ -177,16 +159,9 @@ export class App implements AfterViewInit {
     }
 
     const diff = currentScrollY - this.lastScrollY;
-
-    // Solo reacciona si el movimiento supera el delta
     if (Math.abs(diff) > this.scrollDelta) {
-      if (diff > 0 && currentScrollY > this.scrollThreshold) {
-        // Scroll hacia abajo y después del threshold -> ocultar
-        this.headerHidden.set(true);
-      } else if (diff < 0) {
-        // Scroll hacia arriba -> mostrar
-        this.headerHidden.set(false);
-      }
+      if (diff > 0 && currentScrollY > this.scrollThreshold) this.headerHidden.set(true);
+      else if (diff < 0) this.headerHidden.set(false);
       this.lastScrollY = currentScrollY;
     }
   }
@@ -197,15 +172,11 @@ export class App implements AfterViewInit {
     this.closeDrawer();
   }
 
-
-
   private readTheme(): ThemeMode {
     if (typeof localStorage === 'undefined') return 'light';
     const stored = localStorage.getItem(THEME_KEY);
     if (stored === 'dark' || stored === 'light') return stored;
-    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches) return 'dark';
     return 'light';
   }
 }
