@@ -1,38 +1,10 @@
 <main class="casi" data-audience="casi">
   <a routerLink="/" class="back">← Volver</a>
-  <header>
-    <p class="eyebrow">Serie animada · Ciudadanía Digital</p>
-    <h1>El día que casi…</h1>
-    <p>Historias para detenerse a tiempo, reconocer una señal de riesgo y decidir qué hacer.</p>
-  </header>
-
-  <nav class="profiles" aria-label="Elegir uso de la serie">
-    @for(p of ['pb','pa','families','teachers']; track p){
-      <button [class.active]="profile()===p" (click)="setProfile($any(p))">{{ p==='pb'?'Primaria baja':p==='pa'?'Primaria alta':p==='families'?'Familias':'Docentes' }}</button>
-    }
-  </nav>
-
+  <header><p class="eyebrow">Serie animada · Ciudadanía Digital</p><h1>El día que casi…</h1><p>Historias para detenerse a tiempo, reconocer una señal de riesgo y decidir qué hacer.</p></header>
+  <nav class="profiles" aria-label="Elegir uso de la serie">@for(p of ['pb','pa','families','teachers'];track p){<button [class.active]="profile()===p" (click)="setProfile($any(p))">{{ p==='pb'?'Primaria baja':p==='pa'?'Primaria alta':p==='families'?'Familias':'Docentes' }}</button>}</nav>
   <section class="lesson">
-    <div class="video-side">
-      <div class="video"><iframe [src]="videoUrl()" title="El día que casi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
-      @if(selected()){<button class="playlist-link" (click)="showPlaylist()">← Volver a la playlist completa</button>}
-    </div>
-    <div class="guide-side">
-      <p class="eyebrow">{{ guide().label }}</p>
-      <h2>{{ selected()?.title || 'Mira un episodio y conviértelo en conversación' }}</h2>
-      <p class="intro">{{ selected()?.description || guide().intro }}</p>
-      <div class="prompt"><span>Antes de ver</span><p>{{ guide().before }}</p></div>
-      <div class="prompt"><span>Después de ver</span><p>{{ guide().after }}</p></div>
-      <div class="prompt"><span>Para cerrar</span><p>{{ guide().action }}</p></div>
-    </div>
+    <div class="video-side"><div class="video"><iframe [src]="videoUrl()" title="El día que casi" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>@if(selected()){<button class="playlist-link" (click)="showPlaylist()">← Volver a la playlist completa</button>}</div>
+    <div class="guide-side"><p class="eyebrow">{{ guide().label }}</p><h2>{{ selected()?.title || 'Mira un episodio y conviértelo en aprendizaje' }}</h2><p class="focus">{{ focus() }}</p><p class="intro">{{ guide().intro }}</p><div class="prompt"><span>Antes de ver</span><p>{{ guide().before }}</p></div><div class="prompt"><span>Después de ver</span><p>{{ guide().after }}</p></div><div class="prompt"><span>Para cerrar</span><p>{{ guide().action }}</p></div></div>
   </section>
-
-  <section class="episodes">
-    <div class="section-title"><p class="eyebrow">Episodios</p><h2>Historias para aprender a decidir</h2><p>La reproducción superior usa la playlist oficial completa. Debajo aparecen los episodios que ya están identificados individualmente en la plataforma.</p></div>
-    <div class="episode-list">
-      @for(v of videos();track v.id;let i=$index){
-        <button class="episode" (click)="play(v)"><span class="num">{{ (i+1).toString().padStart(2,'0') }}</span><span class="episode-copy"><strong>{{ v.title }}</strong><small>{{ v.durationLabel }} · {{ v.tags?.join(' · ') }}</small></span><span class="material-symbols-rounded">play_arrow</span></button>
-      }
-    </div>
-  </section>
+  <section class="episodes"><div class="section-title"><p class="eyebrow">Episodios</p><h2>Cada historia trabaja algo distinto</h2><p>Selecciona un episodio. Las preguntas y el cierre cambian según el tema y también según si se usa en primaria baja, primaria alta, familia o aula.</p></div><div class="episode-list">@for(v of videos();track v.id;let i=$index){<button class="episode" [class.active]="selected()?.id===v.id" (click)="play(v)"><span class="num">{{ (i+1).toString().padStart(2,'0') }}</span><span class="episode-copy"><strong>{{ v.title }}</strong><small>{{ v.durationLabel }} · {{ v.tags?.join(' · ') }}</small></span><span class="material-symbols-rounded">play_arrow</span></button>}</div></section>
 </main>
