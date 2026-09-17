@@ -1,32 +1,28 @@
 <main class="edutip-flow" data-audience="teens">
   <header class="edutip-flow__header">
-    <p class="eyebrow text-[color:var(--c-teens)]">Muestra de experiencia · Adolescentes</p>
+    <p class="eyebrow text-[color:var(--c-teens)]">Adolescentes · Bienestar digital</p>
     <h1>¿Te estás perdiendo de algo… o solo lo parece?</h1>
-    <p>Una actividad breve sobre FOMO, redes sociales y decisiones que cuidan tu bienestar.</p>
+    <p>Una experiencia breve para reconocer el FOMO y tomar decisiones que cuiden tu bienestar sin desconectarte de las personas que te importan.</p>
     <span>5–8 min · EduTip + decisiones + acción práctica</span>
   </header>
 
-  <section class="edutip-step">
-    <p class="edutip-step__number">1 · Antes de mirar</p>
-    <h2>Ponte en situación</h2>
-    <p>Ves que varias personas de tu grupo estuvieron juntas y subieron fotos. Tú no fuiste invitado. ¿Qué harías primero?</p>
-
-    <div class="edutip-choices" role="group" aria-label="Elige qué harías primero">
-      <button type="button" [class.is-selected]="firstChoice() === 'revisar'" (click)="chooseFirst('revisar')">Revisar todas las publicaciones una y otra vez</button>
-      <button type="button" [class.is-selected]="firstChoice() === 'reclamar'" (click)="chooseFirst('reclamar')">Escribir al grupo para reclamar</button>
-      <button type="button" [class.is-selected]="firstChoice() === 'reconocer'" (click)="chooseFirst('reconocer')">Reconocer cómo me siento y hablarlo con alguien de confianza</button>
-    </div>
-
+  <section class="edutip-step edutip-situation">
+    <p class="edutip-step__number">1 · Ponte en situación</p>
+    <h2>Algo pasa y tú no estás ahí</h2>
+    <p>Ves que varias personas de tu grupo estuvieron juntas y subieron fotos. Tú no fuiste invitado. Antes de ver el video, piensa qué harías en ese momento.</p>
+    <button type="button" class="decision-trigger" (click)="openDecision('before')">
+      <span>¿Qué harías?</span>
+      <span translate="no" class="material-symbols-rounded">arrow_forward</span>
+    </button>
     @if (firstChoice()) {
-      <p class="edutip-note">No buscamos calificarte. Guarda tu respuesta y compárala con lo que pienses después del video.</p>
+      <p class="edutip-memory">Ya elegiste una respuesta. Después podrás compararla con lo que pienses tras ver el EduTip.</p>
     }
   </section>
 
-  <section class="edutip-step">
+  <section id="video-edutip" class="edutip-step">
     <p class="edutip-step__number">2 · Mira</p>
     <h2>FOMO: miedo a perderse algo en redes</h2>
-    <p>Observa el EduTip pensando en esta pregunta: <strong>¿qué parte de lo que vemos en redes puede hacernos sentir que todos viven algo mejor que nosotros?</strong></p>
-
+    <p>Mientras miras, piensa: <strong>¿qué parte de lo que vemos en redes puede hacernos sentir que todos viven algo mejor que nosotros?</strong></p>
     <div class="edutip-video">
       <iframe
         src="https://www.youtube-nocookie.com/embed/aePoGmliAzw"
@@ -38,26 +34,19 @@
   </section>
 
   <section class="edutip-step">
-    <p class="edutip-step__number">3 · Después de mirar</p>
-    <h2>Ahora decide</h2>
+    <p class="edutip-step__number">3 · Ahora decide</p>
+    <h2>Cuando seguir conectado empieza a costarte</h2>
     <p>Son las 11:30 de la noche. Tu grupo sigue enviando mensajes y mañana tienes clases. Sientes que si dejas el celular te vas a perder algo importante.</p>
-
-    <div class="edutip-choices" role="group" aria-label="Elige una decisión">
-      <button type="button" [class.is-selected]="secondChoice() === 'seguir'" (click)="chooseSecond('seguir')">Seguir conectado hasta que los demás dejen de escribir</button>
-      <button type="button" [class.is-selected]="secondChoice() === 'silenciar'" (click)="chooseSecond('silenciar')">Silenciar el grupo, dejar el teléfono y revisar mañana</button>
-      <button type="button" [class.is-selected]="secondChoice() === 'salir'" (click)="chooseSecond('salir')">Salirme del grupo para no sentirme así</button>
-    </div>
-
-    @if (secondChoice() === 'silenciar') {
-      <div class="edutip-feedback"><strong>Buena estrategia.</strong> Poner un límite no significa alejarte de tus amistades; significa cuidar tu descanso sin dejar de pertenecer al grupo.</div>
-    } @else if (secondChoice() === 'seguir') {
-      <div class="edutip-feedback"><strong>Piensa en el costo.</strong> Seguir conectado puede calmar por un momento la sensación de perderte algo, pero también puede afectar tu descanso. ¿Qué límite podrías probar?</div>
-    } @else if (secondChoice() === 'salir') {
-      <div class="edutip-feedback"><strong>No necesitas irte para poner un límite.</strong> Antes de cortar el vínculo, puedes silenciar notificaciones, descansar y decidir con más calma al día siguiente.</div>
+    <button type="button" class="decision-trigger" (click)="openDecision('after')">
+      <span>Tomar una decisión</span>
+      <span translate="no" class="material-symbols-rounded">arrow_forward</span>
+    </button>
+    @if (secondChoice()) {
+      <p class="edutip-memory">Tu decisión quedó registrada para esta experiencia.</p>
     }
   </section>
 
-  <section class="edutip-step edutip-takeaway">
+  <section id="ideas-clave" class="edutip-step edutip-takeaway">
     <p class="edutip-step__number">4 · Quédate con esto</p>
     <h2>Tres ideas para recordar</h2>
     <ul>
@@ -67,17 +56,65 @@
     </ul>
   </section>
 
-  <section class="edutip-step">
+  <section class="edutip-step edutip-practice">
     <p class="edutip-step__number">5 · Ponlo en práctica</p>
     <h2>Elige un momento sin pantalla para hoy</h2>
-    <div class="edutip-choices edutip-choices--compact" role="group" aria-label="Elige un momento sin pantalla">
+    <p>No necesitas desaparecer de internet. Prueba un espacio breve en el que tú decidas cuándo mirar la pantalla.</p>
+    <div class="practice-options" role="group" aria-label="Elige un momento sin pantalla">
       <button type="button" [class.is-selected]="practiceChoice() === 'comida'" (click)="choosePractice('comida')">Durante la comida</button>
       <button type="button" [class.is-selected]="practiceChoice() === 'dormir'" (click)="choosePractice('dormir')">Antes de dormir</button>
       <button type="button" [class.is-selected]="practiceChoice() === 'tarea'" (click)="choosePractice('tarea')">Mientras hago una tarea</button>
       <button type="button" [class.is-selected]="practiceChoice() === 'otro'" (click)="choosePractice('otro')">En otro momento</button>
     </div>
     @if (practiceChoice()) {
-      <p class="edutip-finish">Listo. La actividad termina con una acción concreta, no solamente con haber visto el video.</p>
+      <p class="edutip-finish">Listo. Terminaste con una acción concreta que puedes probar hoy.</p>
     }
   </section>
 </main>
+
+@if (activeSheet()) {
+  <div class="decision-overlay" (click)="closeDecision()" role="presentation">
+    <section class="decision-sheet" role="dialog" aria-modal="true" aria-labelledby="decision-title" (click)="$event.stopPropagation()">
+      <div class="decision-sheet__handle" aria-hidden="true"></div>
+      <button type="button" class="decision-sheet__close" (click)="closeDecision()" aria-label="Cerrar">
+        <span translate="no" class="material-symbols-rounded">close</span>
+      </button>
+
+      @if (activeSheet() === 'before') {
+        <p class="decision-sheet__eyebrow">Antes de mirar</p>
+        <h2 id="decision-title">¿Qué harías primero?</h2>
+        <p class="decision-sheet__context">Ves fotos de una reunión de tu grupo a la que no fuiste invitado.</p>
+        <div class="decision-options">
+          <button type="button" [class.is-selected]="firstChoice() === 'revisar'" (click)="chooseFirst('revisar')">Revisar todas las publicaciones una y otra vez</button>
+          <button type="button" [class.is-selected]="firstChoice() === 'reclamar'" (click)="chooseFirst('reclamar')">Escribir al grupo para reclamar</button>
+          <button type="button" [class.is-selected]="firstChoice() === 'reconocer'" (click)="chooseFirst('reconocer')">Reconocer cómo me siento y hablarlo con alguien de confianza</button>
+        </div>
+        @if (firstChoice()) {
+          <div class="decision-feedback neutral">No hay calificación aquí. Guarda esta primera reacción y compárala con lo que pienses después del video.</div>
+          <button type="button" class="decision-continue" (click)="continueFromFirst()">Continuar al EduTip</button>
+        }
+      } @else {
+        <p class="decision-sheet__eyebrow">Después de mirar</p>
+        <h2 id="decision-title">¿Qué decisión tomarías?</h2>
+        <p class="decision-sheet__context">Son las 11:30 de la noche. El grupo sigue activo y mañana tienes clases.</p>
+        <div class="decision-options">
+          <button type="button" [class.is-selected]="secondChoice() === 'seguir'" (click)="chooseSecond('seguir')">Seguir conectado hasta que los demás dejen de escribir</button>
+          <button type="button" [class.is-selected]="secondChoice() === 'silenciar'" (click)="chooseSecond('silenciar')">Silenciar el grupo, dejar el teléfono y revisar mañana</button>
+          <button type="button" [class.is-selected]="secondChoice() === 'salir'" (click)="chooseSecond('salir')">Salirme del grupo para no sentirme así</button>
+        </div>
+
+        @if (secondChoice() === 'silenciar') {
+          <div class="decision-feedback"><strong>Buena estrategia.</strong> Poner un límite no significa alejarte de tus amistades; significa cuidar tu descanso sin dejar de pertenecer al grupo.</div>
+        } @else if (secondChoice() === 'seguir') {
+          <div class="decision-feedback"><strong>Piensa en el costo.</strong> Seguir conectado puede calmar por un momento la sensación de perderte algo, pero también puede afectar tu descanso.</div>
+        } @else if (secondChoice() === 'salir') {
+          <div class="decision-feedback"><strong>Hay una opción intermedia.</strong> Antes de cortar el vínculo, puedes silenciar notificaciones, descansar y decidir con más calma al día siguiente.</div>
+        }
+
+        @if (secondChoice()) {
+          <button type="button" class="decision-continue" (click)="continueFromSecond()">Continuar</button>
+        }
+      }
+    </section>
+  </div>
+}
