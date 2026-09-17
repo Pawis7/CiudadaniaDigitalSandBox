@@ -13,14 +13,34 @@
     src="/banners/CD_Main.jpg"
     alt="Ciudadanía Digital Jalisco Banner Principal"
     class="block w-full h-full object-contain object-center">
-
-  <!-- Texto superpuesto: Vacío por decisión de diseño (ya está en la imagen) -->
-  <div class="absolute inset-0 flex items-start">
-    <div class="hero-welcome">
-    </div>
-  </div>
 </section>
 
+<!-- INTRODUCCIÓN: lectura rápida, sin tarjetas dentro de tarjetas -->
+<section class="home-intro mb-14 sm:mb-18" aria-label="Conoce Ciudadanía Digital">
+  <article appReveal="up" class="home-intro__item">
+    <p class="eyebrow text-[color:var(--c-cdj)]">Para empezar</p>
+    <h2 class="home-intro__title">¿Qué es la ciudadanía digital?</h2>
+    <p class="home-intro__text">
+      La ciudadanía digital es usar la tecnología de forma segura, responsable y consciente. Implica cuidar tu información, convivir con respeto, reconocer riesgos y tomar buenas decisiones en línea.
+    </p>
+  </article>
+
+  <article appReveal="up" [revealDelay]="80" class="home-intro__item">
+    <p class="eyebrow text-[color:var(--c-cdj)]">En la vida diaria</p>
+    <h2 class="home-intro__title">¿Por qué es importante?</h2>
+    <p class="home-intro__text">
+      La tecnología forma parte de nuestra vida diaria: aprendemos, nos comunicamos, trabajamos y compartimos información a través de ella. Por eso necesitamos proteger nuestra privacidad, reconocer riesgos, convivir con respeto y tomar decisiones responsables en línea.
+    </p>
+  </article>
+
+  <article appReveal="up" [revealDelay]="160" class="home-intro__item">
+    <p class="eyebrow text-[color:var(--c-cdj)]">Jalisco</p>
+    <h2 class="home-intro__title">Una iniciativa de la Secretaría de Educación Jalisco</h2>
+    <p class="home-intro__text">
+      Ciudadanía Digital fortalece el uso seguro, crítico, responsable y saludable de la tecnología en la comunidad educativa. Aquí encontrarás actividades, orientaciones, historias, videos y recursos prácticos para niñas, niños, adolescentes, familias y docentes.
+    </p>
+  </article>
+</section>
 
 <!-- CONTENIDO DESTACADO SEJ -->
 <section id="destacados" class="mb-16 sm:mb-20">
@@ -37,17 +57,16 @@
     }
     @if (!featureCards().length) {
       <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
-        No hay tarjetas destacadas en esta sección. Haz clic en "Destacados: Inicio" para agregar.
+        No hay contenidos destacados disponibles en este momento.
       </div>
     }
   </div>
 </section>
 
-
 <section id="perfiles" class="mb-12 sm:mb-16">
   <div class="section-head mb-10">
     <div appReveal="up">
-      <p class="eyebrow eyebrow-ink">Primer paso</p>
+      <p class="eyebrow eyebrow-ink">Encuentra contenido para ti</p>
       <h2 class="display-2 mt-2">{{ editorial.profilesTitle }}</h2>
       <p class="mt-4 max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] hidden sm:block sm:text-xl">
         {{ editorial.profilesGuide }}
