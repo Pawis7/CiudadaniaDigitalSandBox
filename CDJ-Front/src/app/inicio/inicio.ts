@@ -21,8 +21,8 @@ export class InicioComponent {
   featureCards = this.content.homeFeatureCards;
 
   editorial = {
-    featuredResourcesTitle: 'Recursos destacados',
-    profilesTitle: 'Contenido por perfil',
-    profilesGuide: 'Al elegir tu perfil, accederás a una biblioteca completa diseñada para tu edad y rol. Aquí es donde encontrarás los simuladores interactivos, guías de acción, checklist y materiales específicos para aprender a navegar con seguridad en situaciones reales.',
+    featuredResourcesTitle: 'Para comenzar',
+    profilesTitle: 'Contenido para cada perfil',
+    profilesGuide: 'Elige el perfil que mejor te represente para encontrar contenidos, actividades y orientaciones pensadas para cada etapa y necesidad.',
   };
 }
