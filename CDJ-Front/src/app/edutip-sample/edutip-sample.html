@@ -1,0 +1,83 @@
+<main class="edutip-flow" data-audience="teens">
+  <header class="edutip-flow__header">
+    <p class="eyebrow text-[color:var(--c-teens)]">Muestra de experiencia · Adolescentes</p>
+    <h1>¿Te estás perdiendo de algo… o solo lo parece?</h1>
+    <p>Una actividad breve sobre FOMO, redes sociales y decisiones que cuidan tu bienestar.</p>
+    <span>5–8 min · EduTip + decisiones + acción práctica</span>
+  </header>
+
+  <section class="edutip-step">
+    <p class="edutip-step__number">1 · Antes de mirar</p>
+    <h2>Ponte en situación</h2>
+    <p>Ves que varias personas de tu grupo estuvieron juntas y subieron fotos. Tú no fuiste invitado. ¿Qué harías primero?</p>
+
+    <div class="edutip-choices" role="group" aria-label="Elige qué harías primero">
+      <button type="button" [class.is-selected]="firstChoice() === 'revisar'" (click)="chooseFirst('revisar')">Revisar todas las publicaciones una y otra vez</button>
+      <button type="button" [class.is-selected]="firstChoice() === 'reclamar'" (click)="chooseFirst('reclamar')">Escribir al grupo para reclamar</button>
+      <button type="button" [class.is-selected]="firstChoice() === 'reconocer'" (click)="chooseFirst('reconocer')">Reconocer cómo me siento y hablarlo con alguien de confianza</button>
+    </div>
+
+    @if (firstChoice()) {
+      <p class="edutip-note">No buscamos calificarte. Guarda tu respuesta y compárala con lo que pienses después del video.</p>
+    }
+  </section>
+
+  <section class="edutip-step">
+    <p class="edutip-step__number">2 · Mira</p>
+    <h2>FOMO: miedo a perderse algo en redes</h2>
+    <p>Observa el EduTip pensando en esta pregunta: <strong>¿qué parte de lo que vemos en redes puede hacernos sentir que todos viven algo mejor que nosotros?</strong></p>
+
+    <div class="edutip-video">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/aePoGmliAzw"
+        title="EduTip sobre FOMO"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <section class="edutip-step">
+    <p class="edutip-step__number">3 · Después de mirar</p>
+    <h2>Ahora decide</h2>
+    <p>Son las 11:30 de la noche. Tu grupo sigue enviando mensajes y mañana tienes clases. Sientes que si dejas el celular te vas a perder algo importante.</p>
+
+    <div class="edutip-choices" role="group" aria-label="Elige una decisión">
+      <button type="button" [class.is-selected]="secondChoice() === 'seguir'" (click)="chooseSecond('seguir')">Seguir conectado hasta que los demás dejen de escribir</button>
+      <button type="button" [class.is-selected]="secondChoice() === 'silenciar'" (click)="chooseSecond('silenciar')">Silenciar el grupo, dejar el teléfono y revisar mañana</button>
+      <button type="button" [class.is-selected]="secondChoice() === 'salir'" (click)="chooseSecond('salir')">Salirme del grupo para no sentirme así</button>
+    </div>
+
+    @if (secondChoice() === 'silenciar') {
+      <div class="edutip-feedback"><strong>Buena estrategia.</strong> Poner un límite no significa alejarte de tus amistades; significa cuidar tu descanso sin dejar de pertenecer al grupo.</div>
+    } @else if (secondChoice() === 'seguir') {
+      <div class="edutip-feedback"><strong>Piensa en el costo.</strong> Seguir conectado puede calmar por un momento la sensación de perderte algo, pero también puede afectar tu descanso. ¿Qué límite podrías probar?</div>
+    } @else if (secondChoice() === 'salir') {
+      <div class="edutip-feedback"><strong>No necesitas irte para poner un límite.</strong> Antes de cortar el vínculo, puedes silenciar notificaciones, descansar y decidir con más calma al día siguiente.</div>
+    }
+  </section>
+
+  <section class="edutip-step edutip-takeaway">
+    <p class="edutip-step__number">4 · Quédate con esto</p>
+    <h2>Tres ideas para recordar</h2>
+    <ul>
+      <li>Lo que vemos en redes es una parte seleccionada de la realidad.</li>
+      <li>Sentir que nos estamos perdiendo algo puede llevarnos a permanecer conectados más tiempo del que queremos.</li>
+      <li>Hablar de lo que sentimos y poner límites puede ayudarnos a recuperar el control.</li>
+    </ul>
+  </section>
+
+  <section class="edutip-step">
+    <p class="edutip-step__number">5 · Ponlo en práctica</p>
+    <h2>Elige un momento sin pantalla para hoy</h2>
+    <div class="edutip-choices edutip-choices--compact" role="group" aria-label="Elige un momento sin pantalla">
+      <button type="button" [class.is-selected]="practiceChoice() === 'comida'" (click)="choosePractice('comida')">Durante la comida</button>
+      <button type="button" [class.is-selected]="practiceChoice() === 'dormir'" (click)="choosePractice('dormir')">Antes de dormir</button>
+      <button type="button" [class.is-selected]="practiceChoice() === 'tarea'" (click)="choosePractice('tarea')">Mientras hago una tarea</button>
+      <button type="button" [class.is-selected]="practiceChoice() === 'otro'" (click)="choosePractice('otro')">En otro momento</button>
+    </div>
+    @if (practiceChoice()) {
+      <p class="edutip-finish">Listo. La actividad termina con una acción concreta, no solamente con haber visto el video.</p>
+    }
+  </section>
+</main>
