@@ -1,176 +1,48 @@
-<!-- HERO BANNER (Simple & Clean) -->
-<section
-  appReveal="fade"
-  [revealDuration]="700"
-  class="main-hero relative mb-12 overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-lg)]"
-  data-audience="help">
-  <img
-    src="/banners/CD_AyudaDigital.jpg"
-    alt="Ayuda Digital Banner"
-    class="block w-full h-full object-cover">
-</section>
-
-<!-- TEXTO INFORMATIVO -->
-<section appReveal="up" class="mb-14">
+<section appReveal="up" class="mb-12 pt-4" data-audience="help">
+  <nav class="breadcrumb mb-6"><a routerLink="/">Inicio</a><span class="breadcrumb-sep">›</span><span class="is-current">Ayuda</span></nav>
   <div class="max-w-4xl">
-    <nav class="breadcrumb mb-6">
-      <a routerLink="/">Inicio</a>
-      <span class="breadcrumb-sep">›</span>
-      <span class="is-current">Ayuda Digital</span>
-    </nav>
-    <p class="eyebrow text-[color:var(--c-help)]">Ayuda Digital</p>
-    <h1 class="display-1 mt-2 text-balance">
-      {{ editorial.brief }}
-    </h1>
-    <p class="lede mt-6 max-w-3xl">
-      {{ editorial.explanatory }}
-    </p>
+    <p class="eyebrow text-[color:var(--c-help)]">Ayuda</p>
+    <h1 class="display-1 mt-2 text-balance">Cómo usar Ciudadanía Digital</h1>
+    <p class="lede mt-5 max-w-3xl">Este portal organiza contenidos y actividades de acuerdo con quién los utiliza y la etapa educativa. Aquí puedes conocer la forma más sencilla de encontrar lo que necesitas y aprovechar cada recurso.</p>
   </div>
 </section>
 
-<!-- QUE HACER PRIMERO -->
-<section class="mb-20" id="pasos">
-  <div class="section-head mb-10">
-    <div>
-      <p class="eyebrow text-[color:var(--c-help)]">{{ editorial.stepsTitle }}</p>
-      <h2 class="display-2 mt-1">{{ editorial.stepsSubtitle }}</h2>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-    <div *ngFor="let step of steps; let i = index" 
-         appReveal="up" [revealDelay]="i * 80" 
-         class="card p-10 flex flex-col items-start transition-all hover:border-[color:var(--c-help)]/30">
-      <div class="flex items-center justify-between w-full mb-8">
-        <span class="grid h-16 w-16 place-items-center rounded-2xl bg-[color:var(--c-help)] text-white shadow-md">
-          <span translate="no" class="material-symbols-rounded text-3xl icon-fill">{{ step.icon }}</span>
-        </span>
-        <span class="text-5xl font-black text-[color:var(--surface-mute)]">0{{ i + 1 }}</span>
-      </div>
-      <h3 class="text-2xl font-black text-[color:var(--text-primary)] mb-4">{{ step.title }}</h3>
-      <p class="text-base leading-relaxed text-[color:var(--text-soft)]">{{ step.description }}</p>
+<section class="mb-14" id="como-empezar" data-audience="help">
+  <div class="mb-5 max-w-3xl"><p class="eyebrow text-[color:var(--c-help)]">Para empezar</p><h2 class="display-2 mt-1">Recorre el portal en cuatro pasos</h2></div>
+  <div class="border-y border-[color:var(--border-soft)] divide-y divide-[color:var(--border-soft)]">
+    <div *ngFor="let step of steps" appReveal="up" class="grid gap-3 py-5 sm:grid-cols-[58px_1fr] sm:gap-5">
+      <span class="text-sm font-semibold text-[color:var(--c-help)]">{{ step.n }}</span>
+      <div class="grid gap-2 sm:grid-cols-[minmax(180px,.7fr)_1.3fr] sm:gap-8"><h3 class="text-lg font-semibold text-[color:var(--text-primary)]">{{ step.title }}</h3><p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ step.description }}</p></div>
     </div>
   </div>
 </section>
 
-<!-- SITUACIONES FRECUENTES -->
-<section class="mb-20" data-audience="help">
-  <div class="section-head mb-10">
-    <div>
-      <p class="eyebrow text-[color:var(--c-help)]">{{ editorial.situationsTitle }}</p>
-      <h2 class="display-2 mt-1">{{ editorial.situationsSubtitle }}</h2>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-    <article *ngFor="let s of situations; let i = index"
-       appReveal="up" [revealDelay]="i * 60"
-       class="card card-hover p-10 flex flex-col justify-between">
-      <div>
-        <span class="grid h-14 w-14 place-items-center rounded-2xl text-white shadow-sm mb-8" [ngClass]="s.bgClass">
-          <span translate="no" class="material-symbols-rounded text-2xl icon-fill">{{ s.icon }}</span>
-        </span>
-        <h3 class="text-xl font-black text-[color:var(--text-primary)] mb-4">{{ s.title }}</h3>
-        <p class="text-base leading-relaxed text-[color:var(--text-soft)]">{{ s.description }}</p>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- INSTANCIAS Y CANALES DE ATENCION -->
-<section class="mb-20" id="canales">
-  <div class="section-head mb-10">
-    <div class="max-w-3xl">
-      <p class="eyebrow text-[color:var(--c-edutips)]">Canales de apoyo</p>
-      <h2 class="display-1 mt-1">{{ editorial.channelsTitle }}</h2>
-      <p class="mt-6 text-base text-[color:var(--text-soft)] leading-relaxed">
-        {{ editorial.channelsSubtitle }}
-      </p>
-    </div>
-  </div>
-
-  <div class="space-y-10">
-    <div *ngFor="let cat of categories; let i = index" 
-         appReveal="up" [revealDelay]="i * 80"
-         class="card overflow-hidden">
-      
-      <!-- Category Header -->
-      <div class="px-10 py-6 border-b border-[color:var(--border-soft)] flex items-center gap-5" [ngClass]="cat.bgHeader">
-        <span translate="no" class="material-symbols-rounded text-3xl" [ngClass]="cat.textHeader">{{ cat.iconHeader }}</span>
-        <h3 class="text-xl font-black tracking-tight" [ngClass]="cat.textHeader">
-          {{ cat.title }}
-        </h3>
-      </div>
-
-      <!-- Category Items -->
-      <div class="p-10 space-y-12 divide-y divide-[color:var(--border-soft)]">
-        <div *ngFor="let item of cat.items; let first = first" 
-             [class.pt-12]="!first"
-             class="flex flex-col lg:grid lg:grid-cols-[1.2fr_1fr] gap-12">
-          
-          <div class="space-y-5">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-black uppercase tracking-wider bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] px-4 py-1.5 rounded-full border border-[color:var(--border-soft)]">
-                {{ item.level }}
-              </span>
-            </div>
-            <h4 class="text-2xl font-black text-[color:var(--text-primary)]">
-              {{ item.name }}
-            </h4>
-            <p class="text-base leading-relaxed text-[color:var(--text-soft)]">
-              <strong class="text-[color:var(--text-primary)] font-bold block mb-2 uppercase text-xs tracking-widest">Cuándo acudir:</strong>
-              {{ item.whenToUse }}
-            </p>
-          </div>
-
-          <!-- Aligned Action Buttons -->
-          <div class="flex flex-col gap-4 justify-center">
-            <div class="flex flex-wrap gap-4 lg:justify-end">
-              <ng-container *ngFor="let contact of item.contacts">
-                
-                <a *ngIf="contact.type !== 'info'"
-                   [href]="contact.type === 'phone' ? 'tel:' + cleanPhone(contact.value) : (contact.type === 'whatsapp' ? 'https://wa.me/' + cleanPhone(contact.value) : (contact.type === 'email' ? 'mailto:' + contact.value : contact.value))"
-                   [target]="contact.type === 'web' || contact.type === 'whatsapp' ? '_blank' : '_self'"
-                   class="btn !py-4 !px-8 !rounded-2xl !text-base !font-bold transition-all hover:scale-[1.03] shadow-sm"
-                   [ngClass]="contact.btnClass">
-                  <span translate="no" class="material-symbols-rounded text-xl">
-                    {{ contact.type === 'phone' ? 'call' : (contact.type === 'whatsapp' ? 'chat' : (contact.type === 'web' ? 'open_in_new' : 'mail')) }}
-                  </span>
-                  {{ contact.label }}
-                </a>
-
-                <div *ngIf="contact.type === 'info'"
-                     class="w-full flex items-center gap-4 p-5 rounded-2xl text-sm font-bold bg-[color:var(--surface-soft)] text-[color:var(--text-soft)] border border-[color:var(--border-soft)] lg:justify-end lg:text-right">
-                  <span translate="no" class="material-symbols-rounded text-xl shrink-0">info</span>
-                  {{ contact.label }}
-                </div>
-
-              </ng-container>
-            </div>
-          </div>
-        </div>
-      </div>
+<section class="mb-14" data-audience="help">
+  <div class="mb-5 max-w-3xl"><p class="eyebrow text-[color:var(--c-help)]">Navegación</p><h2 class="display-2 mt-1">Herramientas que siempre tienes a la mano</h2></div>
+  <div class="grid grid-cols-1 border-y border-[color:var(--border-soft)] md:grid-cols-2 md:divide-x md:divide-[color:var(--border-soft)]">
+    <div *ngFor="let tool of tools; let i=index" class="flex gap-4 border-b border-[color:var(--border-soft)] px-1 py-5 md:px-6" [class.md:pl-0]="i%2===0">
+      <span translate="no" class="material-symbols-rounded mt-0.5 text-xl text-[color:var(--c-help)]">{{ tool.icon }}</span>
+      <div><h3 class="font-semibold text-[color:var(--text-primary)]">{{ tool.title }}</h3><p class="mt-1 text-sm leading-relaxed text-[color:var(--text-soft)]">{{ tool.description }}</p></div>
     </div>
   </div>
 </section>
 
-<!-- EMERGENCY BOTTOM CTA -->
-<section appReveal="up" class="mb-16 rounded-[2rem] border border-rose-200 bg-rose-50 p-8 dark:border-rose-900/50 dark:bg-rose-950/20">
-  <div class="flex flex-col gap-8 sm:flex-row sm:items-center">
-    <div class="flex items-center gap-6 flex-1">
-      <span class="grid h-16 w-16 place-items-center rounded-2xl bg-rose-600 text-white shadow-lg shrink-0">
-        <span translate="no" class="material-symbols-rounded text-3xl icon-fill">emergency</span>
-      </span>
-      <div>
-        <h3 class="text-xl font-black text-rose-900 dark:text-rose-100">Si hay peligro inmediato, no esperes</h3>
-        <p class="mt-1 text-sm text-rose-700 dark:text-rose-300 max-w-2xl">
-          Llama de inmediato al 911. La prioridad es tu seguridad.
-        </p>
-      </div>
-    </div>
-    <a href="tel:911" class="btn !bg-rose-600 !text-white !py-4 !px-8 !rounded-xl !text-base shadow-md hover:!bg-rose-700">
-      Llamar al 911
-      <span translate="no" class="material-symbols-rounded text-xl">call</span>
-    </a>
+<section class="mb-14" data-audience="help">
+  <div class="mb-5 max-w-3xl"><p class="eyebrow text-[color:var(--c-help)]">Perfiles</p><h2 class="display-2 mt-1">Entra por quien va a usar el contenido</h2><p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">No todos los perfiles muestran la misma experiencia. El portal adapta el lenguaje, las preguntas y el acompañamiento a cada contexto.</p></div>
+  <div class="flex flex-wrap gap-x-6 gap-y-3 border-y border-[color:var(--border-soft)] py-5">
+    <a routerLink="/p/ninas-y-ninos" class="font-semibold text-[color:var(--c-kids)] hover:underline">Niñas y niños →</a>
+    <a routerLink="/p/adolescentes" class="font-semibold text-[color:var(--c-teens)] hover:underline">Adolescentes →</a>
+    <a routerLink="/p/familias" class="font-semibold text-[color:var(--c-families)] hover:underline">Familias →</a>
+    <a routerLink="/p/docentes" class="font-semibold text-[color:var(--c-teachers)] hover:underline">Docentes →</a>
+  </div>
+</section>
+
+<section class="mb-16" data-audience="help">
+  <div class="mb-5 max-w-3xl"><p class="eyebrow text-[color:var(--c-help)]">Preguntas frecuentes</p><h2 class="display-2 mt-1">Dudas sobre el uso del portal</h2></div>
+  <div class="border-t border-[color:var(--border-soft)]">
+    <details *ngFor="let faq of faqs" class="group border-b border-[color:var(--border-soft)] py-4">
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-[color:var(--text-primary)]"><span>{{ faq.q }}</span><span translate="no" class="material-symbols-rounded text-[color:var(--c-help)] transition-transform group-open:rotate-180">expand_more</span></summary>
+      <p class="max-w-3xl pt-3 text-sm leading-relaxed text-[color:var(--text-soft)]">{{ faq.a }}</p>
+    </details>
   </div>
 </section>
