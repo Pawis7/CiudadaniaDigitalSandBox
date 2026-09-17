@@ -22,9 +22,9 @@
           <a [routerLink]="item.routerLink" (click)="item.subItems?.length ? toggleAudience(item.id, $event) : onNavigate()" routerLinkActive="is-active" [attr.data-audience]="item.audience" class="sidebar-item" [title]="item.label">
             <span class="sidebar-icon">
               @if (item.id === 'teens') {
-                <img src="/icons/adolescentes.svg" alt="" aria-hidden="true" class="h-5 w-5 object-contain">
+                <span class="sidebar-custom-icon sidebar-custom-icon--teens" aria-hidden="true"></span>
               } @else if (item.id === 'teachers') {
-                <img src="/icons/docentes-escuela.svg" alt="" aria-hidden="true" class="h-5 w-5 object-contain">
+                <span class="sidebar-custom-icon sidebar-custom-icon--teachers" aria-hidden="true"></span>
               } @else {
                 <span translate="no" class="material-symbols-rounded text-[20px] icon-interactive">{{ item.icon }}</span>
               }
