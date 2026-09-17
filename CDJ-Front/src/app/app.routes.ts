@@ -4,6 +4,7 @@ export const routes: Routes = [
  {path:'series',loadComponent:()=>import('./series/series-list/series-list').then(m=>m.SeriesListComponent),title:'Series · Ciudadanía Digital'},
  {path:'series/:slug',loadComponent:()=>import('./series/series-detail/series-detail').then(m=>m.SeriesDetailComponent),title:'Serie · Ciudadanía Digital'},
  {path:'edutips',loadComponent:()=>import('./edutips/edutips').then(m=>m.EdutipsComponent),title:'Edutips · Ciudadanía Digital'},
+ {path:'el-dia-que-casi',loadComponent:()=>import('./casi-learning/casi-learning').then(m=>m.CasiLearningComponent),title:'El día que casi · Ciudadanía Digital'},
  {path:'muestra-edutip',redirectTo:'actividad/fomo',pathMatch:'full'},
  {path:'actividad/:slug',loadComponent:()=>import('./learning-experience/learning-experience').then(m=>m.LearningExperienceComponent),title:'Experiencia · Ciudadanía Digital'},
  {path:'quienes-somos',loadComponent:()=>import('./quienes-somos/quienes-somos').then(m=>m.QuienesSomosComponent),title:'Quiénes somos · Ciudadanía Digital'},
