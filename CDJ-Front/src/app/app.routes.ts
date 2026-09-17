@@ -24,6 +24,11 @@ export const routes: Routes = [
     title: 'Edutips · Ciudadanía Digital',
   },
   {
+    path: 'muestra-edutip',
+    loadComponent: () => import('./edutip-sample/edutip-sample').then((m) => m.EdutipSampleComponent),
+    title: 'Muestra EduTip · Ciudadanía Digital',
+  },
+  {
     path: 'quienes-somos',
     loadComponent: () => import('./quienes-somos/quienes-somos').then((m) => m.QuienesSomosComponent),
     title: 'Quiénes somos · Ciudadanía Digital',
@@ -38,7 +43,6 @@ export const routes: Routes = [
     loadComponent: () => import('./ayuda/ayuda').then((m) => m.AyudaComponent),
     title: 'Ayuda Digital · Ciudadanía Digital',
   },
-
   {
     path: 'p/:slug',
     loadComponent: () => import('./audiencia/audiencia').then((m) => m.AudienciaComponent),
