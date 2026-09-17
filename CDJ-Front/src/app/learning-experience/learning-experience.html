@@ -5,47 +5,48 @@
       <header>
         <p class="eyebrow">{{ ctx.eyebrow }}</p>
         <h1>{{ x.title }}</h1>
-        <p>{{ x.subtitle }}</p>
-        <p class="profile-intro">{{ ctx.intro }}</p>
-        @if(ctx.support) { <p class="support-note">{{ ctx.support }}</p> }
-        <span>{{ x.duration }} · situación + EduTip + decisiones + acción</span>
+        <p class="subtitle">{{ x.subtitle }}</p>
+        @if(profile() !== 'kids') { <p class="profile-intro">{{ ctx.intro }}</p> }
+        <span>{{ x.duration }}</span>
       </header>
+
       <section>
-        <p class="step">1 · Ponte en situación</p>
+        <p class="step">1 · ¿Qué harías?</p>
         <h2>{{ x.prompt }}</h2>
-        <p>Piensa qué harías antes de mirar el video. No es un examen y no se usa para calificarte.</p>
-        <button class="primary" (click)="open('first')">Pensar mi primera decisión</button>
-        @if(firstChoice()) { <p class="saved">Tu primera decisión quedó guardada. Compárala con lo que pienses después del video.</p> }
+        <button class="primary" (click)="open('first')">Elegir una respuesta</button>
       </section>
+
       <section>
-        <p class="step">2 · Mira</p>
+        <p class="step">2 · Mira el EduTip</p>
         <h2>{{ x.subtitle }}</h2>
-        <p>Observa el EduTip buscando una idea que te ayude a mirar la situación de otra manera.</p>
         <div class="video"><iframe [src]="videoUrl()" title="EduTip" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
       </section>
+
       <section>
-        <p class="step">3 · Ahora decide</p>
+        <p class="step">3 · Decide otra vez</p>
         <h2>{{ x.postScenario }}</h2>
         <button class="primary" (click)="open('post')">Tomar una decisión</button>
-        @if(postChoice() !== null) { <p class="saved">Decisión registrada. Continúa para quedarte con las ideas principales.</p> }
       </section>
+
       <section>
         <p class="step">4 · Quédate con esto</p>
-        <h2>Tres ideas para recordar</h2>
         <ul>@for(t of x.takeaways; track t) { <li>{{ t }}</li> }</ul>
       </section>
+
       <section>
-        <p class="step">5 · Ponlo en práctica</p>
+        <p class="step">5 · Ahora hazlo</p>
         <h2>{{ x.actionTitle }}</h2>
+        @if(profile() === 'kids' && ctx.support) { <p class="support-note">{{ ctx.support }}</p> }
         <div class="actions">@for(a of x.actionOptions; track a) { <button [class.selected]="actionChoice() === a" (click)="chooseAction(a)">{{ a }}</button> }</div>
-        @if(actionChoice()) { <p class="finish">Listo. La experiencia termina con una acción concreta para llevar lo aprendido fuera de esta pantalla.</p> }
+        @if(actionChoice()) { <p class="finish">¡Listo! Ya elegiste una acción para ponerlo en práctica.</p> }
       </section>
     </main>
+
     @if(sheet()) {
       <div class="overlay" (click)="close()"><div class="sheet" role="dialog" aria-modal="true" (click)="$event.stopPropagation()"><button class="close" (click)="close()" aria-label="Cerrar">×</button>
         @if(sheet() === 'first') {
-          <p class="step">Antes del video</p><h2>{{ x.firstQuestion }}</h2><div class="choices">@for(a of x.firstChoices; track a) { <button [class.selected]="firstChoice() === a" (click)="chooseFirst(a)">{{ a }}</button> }</div>
-          @if(firstChoice()) { <p class="feedback">No buscamos una respuesta para calificar. Conserva tu elección y compárala después.</p><button class="primary" (click)="close()">Continuar al video</button> }
+          <p class="step">Tu primera decisión</p><h2>{{ x.firstQuestion }}</h2><div class="choices">@for(a of x.firstChoices; track a) { <button [class.selected]="firstChoice() === a" (click)="chooseFirst(a)">{{ a }}</button> }</div>
+          @if(firstChoice()) { <p class="feedback">Guarda esa idea. Después del video podrás compararla.</p><button class="primary" (click)="close()">Ver el EduTip</button> }
         } @else {
           <p class="step">Después del video</p><h2>{{ x.postScenario }}</h2><div class="choices">@for(a of x.postChoices; track a.label; let i = $index) { <button [class.selected]="postChoice() === i" [class.preferred]="postChoice() === i && a.preferred" (click)="choosePost(i)">{{ a.label }}</button> }</div>
           @if(postChoice() !== null) { <p class="feedback">{{ x.postChoices[postChoice()!].feedback }}</p><button class="primary" (click)="close()">Continuar</button> }
