@@ -1,25 +1,13 @@
-<!-- HERO BANNER (Simple & Clean) -->
-<section
-  appReveal="fade"
-  [revealDuration]="700"
-  class="main-hero relative mb-12 overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-lg)]"
-  data-audience="screens">
-  <img
-    appImageLoader
-    src="/banners/CD_PantallasSeguras.jpg"
-    alt="Ley de Pantallas Seguras Banner"
-    class="block w-full h-full object-cover">
-</section>
+<section appReveal="fade" [revealDuration]="700" class="main-hero relative mb-10 overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-lg)]" data-audience="screens"><img appImageLoader src="/banners/CD_PantallasSeguras.jpg" alt="Pantallas Seguras" class="block w-full h-full object-cover"></section>
 
-<!-- TEXTO INFORMATIVO -->
-<section appReveal="up" class="mb-14">
-  <div class="max-w-4xl">
-    <p class="eyebrow text-[color:var(--c-screens)]">Nueva Ley Estatal</p>
-    <h1 class="display-1 mt-2 text-balance">
-      {{ editorial.title }}
-    </h1>
-    <p class="lede mt-6 max-w-3xl">
-      {{ editorial.explanatory }}
-    </p>
-  </div>
-</section>
+<section appReveal="up" class="mb-12"><div class="max-w-4xl"><p class="eyebrow text-[color:var(--c-screens)]">Derechos en entornos digitales</p><h1 class="display-1 mt-2">{{ editorial.title }}</h1><p class="mt-4 text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ editorial.official }}</p><p class="lede mt-5 max-w-3xl">{{ editorial.explanatory }}</p><p class="mt-4 max-w-3xl text-xs leading-relaxed text-[color:var(--text-mute)]">{{ editorial.note }}</p></div></section>
+
+<section class="mb-14 border-y border-[color:var(--border-soft)] py-8"><div class="grid gap-5 sm:grid-cols-3"><div><span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--c-screens)]">Decreto</span><p class="mt-1 text-lg font-semibold">30168/LXIV/26</p></div><div><span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--c-screens)]">Publicación</span><p class="mt-1 text-lg font-semibold">2 de junio de 2026</p></div><div><span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--c-screens)]">Ámbito</span><p class="mt-1 text-lg font-semibold">Estado de Jalisco y sus municipios</p></div></div></section>
+
+<section class="mb-16"><div class="mb-7 max-w-3xl"><p class="eyebrow text-[color:var(--c-screens)]">¿Qué busca la ley?</p><h2 class="display-2 mt-1">Proteger derechos y aprender a desenvolverse en el entorno digital</h2><p class="mt-4 text-base leading-relaxed text-[color:var(--text-soft)]">La norma establece como fines la protección de derechos, el desarrollo de habilidades y competencias digitales, el acceso a internet en condiciones de igualdad, las buenas prácticas de seguridad y una cultura de uso responsable de dispositivos.</p></div><div class="border-t border-[color:var(--border-soft)]">@for(item of rights;track item.title){<div class="grid gap-2 border-b border-[color:var(--border-soft)] py-5 sm:grid-cols-[240px_1fr] sm:gap-8"><h3 class="font-semibold text-[color:var(--text-primary)]">{{ item.title }}</h3><p class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ item.text }}</p></div>}</div></section>
+
+<section class="mb-16"><div class="grid gap-10 lg:grid-cols-2 lg:gap-16"><div><p class="eyebrow text-[color:var(--c-screens)]">En la escuela</p><h2 class="display-2 mt-1">¿Qué establece para educación?</h2><p class="mt-3 text-sm leading-relaxed text-[color:var(--text-soft)]">El artículo 21 asigna responsabilidades específicas a la Secretaría de Educación del Estado de Jalisco.</p><ol class="mt-5 border-t border-[color:var(--border-soft)]">@for(item of school;track item;let i=$index){<li class="flex gap-4 border-b border-[color:var(--border-soft)] py-4"><span class="text-sm font-semibold text-[color:var(--c-screens)]">{{ i+1 }}</span><span class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ item }}</span></li>}</ol></div><div><p class="eyebrow text-[color:var(--c-screens)]">En familia</p><h2 class="display-2 mt-1">Acompañar también forma parte</h2><p class="mt-3 text-sm leading-relaxed text-[color:var(--text-soft)]">La ley plantea una responsabilidad compartida entre autoridades, escuela, familias y sociedad, considerando la autonomía progresiva de niñas, niños y adolescentes.</p><ol class="mt-5 border-t border-[color:var(--border-soft)]">@for(item of families;track item;let i=$index){<li class="flex gap-4 border-b border-[color:var(--border-soft)] py-4"><span class="text-sm font-semibold text-[color:var(--c-screens)]">{{ i+1 }}</span><span class="text-sm leading-relaxed text-[color:var(--text-soft)]">{{ item }}</span></li>}</ol></div></div></section>
+
+<section class="mb-16 border-y border-[color:var(--border-soft)] py-9"><div class="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-center"><div><p class="eyebrow text-[color:var(--c-screens)]">Ciudadanía Digital</p><h2 class="display-2 mt-1">De la ley a situaciones cotidianas</h2><p class="mt-3 max-w-3xl text-sm leading-relaxed text-[color:var(--text-soft)]">En este portal estos principios se traducen en actividades sobre privacidad, convivencia, pensamiento crítico, bienestar, fraudes, videojuegos, retos virales y acompañamiento. El objetivo es que la protección digital también se aprenda mediante decisiones y conversaciones.</p></div><a href="https://congresoweb.congresojal.gob.mx/BibliotecaVirtual/legislacion/Leyes/Documentos_PDF-Leyes/Ley%20para%20Garantizar%20los%20Derechos%20de%20Ni%C3%B1as%2C%20Ni%C3%B1os%20y%20Adolescentes%20en%20Entornos%20Digitales%20del%20Estado%20de%20Jalisco%20y%20sus%20Municipios-050626.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--c-screens)]">Consultar la ley completa <span translate="no" class="material-symbols-rounded text-base">open_in_new</span></a></div></section>
+
+<section class="mb-14"><p class="max-w-4xl text-xs leading-relaxed text-[color:var(--text-mute)]">Esta sección ofrece una explicación educativa del contenido de la ley y no sustituye la consulta del texto oficial.</p></section>
