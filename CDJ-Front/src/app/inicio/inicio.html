@@ -4,15 +4,21 @@
 <section
   appReveal="fade"
   [revealDuration]="700"
-  class="main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-xl)] sm:mb-10"
-  style="background: #E9004C;"
+  class="cdj-banner main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-xl)] sm:mb-10"
+  style="--banner-bg: #E9004C; background: #E9004C;"
   data-audience="cdj">
 
-  <img
-    appImageLoader
-    src="/banners/CD_Main.jpg"
-    alt="Ciudadanía Digital Jalisco Banner Principal"
-    class="block w-full h-full object-contain object-center">
+  <div class="cdj-banner__copy audience-hero__copy">
+    <h1>Ciudadanía Digital</h1>
+    <p>Aprende a utilizar la tecnología de forma segura, crítica y responsable.</p>
+  </div>
+
+  <div class="cdj-banner__visual audience-hero__visual">
+    <img
+      appImageLoader
+      src="/banners/CD_Main.jpg"
+      alt="Ciudadanía Digital Jalisco Banner Principal">
+  </div>
 </section>
 
 <!-- INTRODUCCIÓN: lectura rápida, sin tarjetas dentro de tarjetas -->

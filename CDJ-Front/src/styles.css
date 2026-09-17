@@ -16,3 +16,182 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
 .search-input{display:flex;align-items:center;gap:.625rem;padding:.5rem .875rem;background:var(--surface-soft);border:1px solid transparent;border-radius:.95rem;color:var(--text-primary)}.search-input input{background:transparent;border:0;outline:0;width:100%;color:var(--text-primary)}.search-input input::placeholder{color:var(--text-mute)}.breadcrumb{display:flex;gap:.375rem;font-size:.8125rem;color:var(--text-mute)}.breadcrumb a{color:var(--text-soft)}
 .widget-modal-overlay{animation:modalOverlayIn .2s ease-out forwards}.widget-modal-panel{background:var(--surface-base);border:1px solid var(--border-soft);box-shadow:var(--shadow-xl)}.no-scroll{overflow:hidden!important;height:100vh!important}:focus-visible{outline:3px solid color-mix(in srgb,var(--aud) 55%,transparent);outline-offset:2px;border-radius:8px}.skeleton{background:var(--surface-soft);border-radius:var(--radius-sm)}
 @keyframes modalOverlayIn{from{opacity:0}to{opacity:1}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* ==========================================================================
+   CDJ BANNERS: Sistema universal para perfiles y banners
+   ========================================================================== */
+.cdj-banner,
+.audience-hero,
+.main-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: 2rem;
+  background-color: var(--banner-bg, var(--surface-card));
+  box-shadow: var(--shadow-xl);
+  isolation: isolate;
+}
+
+/* En Desktop: La imagen llena todo el banner y el cuadro de texto tiene FONDO INVISIBLE */
+@media (min-width: 768px) {
+  .cdj-banner,
+  .audience-hero,
+  .main-hero {
+    display: block;
+    height: clamp(260px, 23vw, 360px);
+    min-height: 260px;
+  }
+
+  /* La imagen llena todo el fondo */
+  .cdj-banner__visual,
+  .audience-hero__visual {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .cdj-banner__visual img,
+  .audience-hero__visual img,
+  .main-hero > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Cuadro de texto: bloque con FONDO INVISIBLE */
+  .cdj-banner__copy,
+  .audience-hero__copy {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 3.5vw, 3.25rem) clamp(2rem, 3.5vw, 3.5rem);
+    max-width: 50%;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .cdj-banner__copy:after,
+  .audience-hero__copy:after {
+    display: none !important;
+  }
+
+  .cdj-banner__copy h1,
+  .audience-hero__copy h1 {
+    font-family: var(--font-display, 'Garet', sans-serif);
+    font-size: clamp(2.2rem, 3.4vw, 3.4rem);
+    font-weight: 700 !important;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #ffffff !important;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  .cdj-banner__copy p,
+  .audience-hero__copy p {
+    margin-top: 0.85rem;
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.95) !important;
+    max-width: 34ch;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* En Mobile (< 768px): ARRIBA EL TEXTO Y ABAJO LA FOTO */
+@media (max-width: 767px) {
+  .cdj-banner,
+  .audience-hero,
+  .main-hero {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    height: auto !important;
+    border-radius: 1.25rem !important;
+    background-color: var(--banner-bg, var(--surface-card)) !important;
+  }
+
+  /* 1. Arriba el texto */
+  .cdj-banner__copy,
+  .audience-hero__copy {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 1.5rem 1.25rem 1.25rem !important;
+    background: transparent !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .cdj-banner__copy:after,
+  .audience-hero__copy:after {
+    display: none !important;
+  }
+
+  .cdj-banner__copy h1,
+  .audience-hero__copy h1 {
+    font-size: clamp(1.75rem, 6.5vw, 2.25rem) !important;
+    line-height: 1.1 !important;
+    color: #ffffff !important;
+  }
+
+  .cdj-banner__copy p,
+  .audience-hero__copy p {
+    font-size: 0.95rem !important;
+    line-height: 1.45 !important;
+    color: rgba(255, 255, 255, 0.92) !important;
+    margin-top: 0.55rem !important;
+  }
+
+  /* 2. Abajo la foto */
+  .cdj-banner__visual,
+  .audience-hero__visual {
+    position: relative !important;
+    width: 100% !important;
+    height: clamp(180px, 46vw, 240px) !important;
+    min-height: 180px !important;
+    overflow: hidden !important;
+  }
+
+  .cdj-banner__visual img,
+  .audience-hero__visual img,
+  .main-hero > img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+  }
+}
+
+/* Logos institucionales del footer: grises en modo claro, blancos/claros en modo oscuro */
+.footer-logo {
+  filter: brightness(0.42);
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-logo:hover {
+  filter: brightness(0.25);
+}
+
+[data-theme='dark'] .footer-logo,
+.dark .footer-logo {
+  filter: brightness(1);
+  opacity: 0.85;
+}
+
+[data-theme='dark'] .footer-logo:hover,
+.dark .footer-logo:hover {
+  opacity: 1;
+}

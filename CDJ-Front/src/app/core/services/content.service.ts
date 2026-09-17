@@ -206,9 +206,9 @@ export class ContentService {
    */
   categoryAsCard(cat: Category): FeatureCard {
     const iconMap: Record<string, string> = {
-      kids: 'face',
+      kids: 'child_care',
       teens: 'forum',
-      families: 'groups',
+      families: 'family_restroom',
       teachers: 'school',
     };
     const bgMap: Record<string, string> = {

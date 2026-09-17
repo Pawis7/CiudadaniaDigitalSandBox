@@ -1,4 +1,19 @@
-<section appReveal="fade" [revealDuration]="700" class="main-hero relative mb-10 overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-lg)]" data-audience="cdj"><img src="/banners/CD_Main.jpg" alt="Ciudadanía Digital" class="block w-full h-full object-cover"></section>
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="cdj-banner main-hero relative mb-10 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-lg)]"
+  style="--banner-bg: #E9004C; background: #E9004C;"
+  data-audience="cdj">
+  <div class="cdj-banner__copy audience-hero__copy">
+    <h1>Quiénes somos</h1>
+    <p>Una iniciativa de la Secretaría de Educación Jalisco para fortalecer la ciudadanía digital.</p>
+  </div>
+  <div class="cdj-banner__visual audience-hero__visual">
+    <img
+      src="/banners/CD_Main.jpg"
+      alt="Ciudadanía Digital">
+  </div>
+</section>
 
 <section appReveal="up" class="mb-14"><div class="max-w-4xl"><nav class="breadcrumb mb-6"><a routerLink="/">Inicio</a><span class="breadcrumb-sep">›</span><span class="is-current">Quiénes somos</span></nav><p class="eyebrow text-[color:var(--c-cdj)]">Quiénes somos</p><h1 class="display-1 mt-2 text-balance">{{ editorial.brief }}</h1><p class="lede mt-6 max-w-3xl">{{ editorial.explanatory }}</p></div></section>
 
