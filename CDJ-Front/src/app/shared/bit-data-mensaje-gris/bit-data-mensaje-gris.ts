@@ -14,6 +14,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   readonly narrations = NATURAL_NARRATIONS;
 
   readonly cur = signal<number>(0);
+  readonly turnDirection = signal<'next' | 'prev'>('next');
   readonly voiceOn = signal<boolean>(true);
   readonly readAllMode = signal<boolean>(false);
   readonly isSpeaking = signal<boolean>(false);
@@ -151,6 +152,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   private autoNextAfterNarration(): void {
     if (!this.autoAdvance || !this.voiceOn() || !this.readAllMode()) return;
     if (this.cur() < this.narrations.length - 1) {
+      this.turnDirection.set('next');
       this.cur.update(c => c + 1);
     } else {
       this.readAllMode.set(false);
@@ -177,6 +179,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   }
 
   startBook(): void {
+    this.turnDirection.set('next');
     this.readAllMode.set(true);
     this.cur.set(1);
   }
@@ -184,6 +187,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   prevPage(): void {
     this.readAllMode.set(false);
     if (this.cur() > 0) {
+      this.turnDirection.set('prev');
       this.cur.update(c => c - 1);
     }
   }
@@ -191,6 +195,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   nextPage(): void {
     this.readAllMode.set(false);
     if (this.cur() < this.narrations.length - 1) {
+      this.turnDirection.set('next');
       this.cur.update(c => c + 1);
     } else {
       this.closeBook();
@@ -203,11 +208,14 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   }
 
   readAllBook(): void {
+    this.turnDirection.set('next');
     this.readAllMode.set(true);
     this.cur.set(1);
   }
 
   goToPage(index: number): void {
+    if (index === this.cur()) return;
+    this.turnDirection.set(index > this.cur() ? 'next' : 'prev');
     this.readAllMode.set(false);
     this.cur.set(index);
   }

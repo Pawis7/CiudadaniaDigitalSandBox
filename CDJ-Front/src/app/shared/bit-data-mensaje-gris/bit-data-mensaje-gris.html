@@ -25,58 +25,38 @@
   </header>
 
   <!-- ═══ BOOK STAGE ═══ -->
-  <main class="ac-stage">
+  <main class="ac-stage" [attr.data-direction]="turnDirection()">
 
     <!-- ──── PORTADA ──── -->
     <section class="ac-spread ac-cover" [class.ac-spread--visible]="cur() === 0">
       <div class="ac-cover-inner">
 
-        <!-- LEFT: illustration -->
+        <!-- LEFT: portada illustration -->
         <div class="ac-cover-art">
-          <div class="ac-sky">
-            <div class="ac-float" style="left:14%;top:12%;font-size:1.3rem;animation-delay:0s">⭐</div>
-            <div class="ac-float" style="right:20%;top:20%;font-size:1.1rem;animation-delay:.7s">✨</div>
-            <div class="ac-float" style="left:40%;top:8%;font-size:1rem;animation-delay:1.4s">💗</div>
-
-            <div class="ac-bit ac-bit--happy" style="left:8%;bottom:18%"></div>
-            <div class="ac-data" style="right:18%;top:24%"></div>
-            <div class="ac-tablet" style="left:38%;bottom:20%">
-              <span>🐶</span>
-            </div>
-
-            <div class="ac-ground"></div>
-          </div>
+          <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-01.jpg"
+               alt="Portada: Bit, Data y el mensaje gris"
+               class="ac-scene-img">
         </div>
 
-        <!-- RIGHT: cover text -->
-        <div class="ac-cover-text">
-          <span class="ac-kicker">Para niñas y niños de 3 a 6 años</span>
-          <h1 class="ac-title">
-            Bit, Data y el misterio del
-            <em class="ac-title-em">mensaje gris</em>
-          </h1>
-          <p class="ac-subtitle">
-            Un cuento ilustrado para aprender que una palabra ruda en pantalla puede arrugar el corazón. Cuando aparece un mensaje gris, Bit descubre un superpoder: <strong>cerrar y contar</strong>.
-          </p>
+        <div class="ac-spine"></div>
 
-          <div class="ac-chars">
-            <div class="ac-char-pill">
-              <span>🤖</span>
-              <div><strong>Bit</strong><p>Robot curioso</p></div>
-            </div>
-            <div class="ac-char-pill">
-              <span>🐦</span>
-              <div><strong>Data</strong><p>Pajarita cuidadora</p></div>
-            </div>
-            <div class="ac-char-pill">
-              <span>☁️</span>
-              <div><strong>Mensaje gris</strong><p>Palabra ruda</p></div>
-            </div>
+        <!-- RIGHT: portada interior con imagen + texto overlay -->
+        <div class="ac-cover-art">
+          <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-02.jpg"
+               alt="Portada interior"
+               class="ac-scene-img">
+          <div class="ac-story-overlay ac-story-overlay--cover">
+            <h1 class="ac-title">
+              Bit, Data y el misterio del
+              <em class="ac-title-em">mensaje gris</em>
+            </h1>
+            <p class="ac-cover-lead">
+              Un audiocuento sobre la empatía digital, el cuidado mutuo y el superpoder de cerrar y contar.
+            </p>
+            <button (click)="startBook()" class="ac-start-btn">
+              Abrir el cuento →
+            </button>
           </div>
-
-          <button (click)="startBook()" class="ac-start-btn">
-            <span>📖</span> Abrir el cuento
-          </button>
         </div>
 
       </div>
@@ -85,45 +65,27 @@
     <!-- ──── ESCENA 1: El gran descubrimiento ──── -->
     <section class="ac-spread" [class.ac-spread--visible]="cur() === 1">
       <div class="ac-page ac-page--left">
-        <div class="ac-sky">
-          <div class="ac-tag ac-tag--gold" style="top:5%;left:5%">🎨 Dibujo nuevo</div>
-          <div class="ac-tag ac-tag--cream" style="top:5%;right:5%">🐶 Tuercas</div>
-          <div class="ac-float" style="left:12%;top:22%;animation-delay:0s">💗</div>
-          <div class="ac-float" style="right:22%;top:16%;animation-delay:.5s">💗</div>
-          <div class="ac-float" style="left:48%;top:10%;animation-delay:1s">⭐</div>
-          <div class="ac-bit ac-bit--happy" style="left:6%;bottom:16%"></div>
-          <div class="ac-data" style="right:14%;top:30%"></div>
-          <div class="ac-tablet" style="left:38%;bottom:18%"><span>🐶</span></div>
-          <div class="ac-ground"></div>
-        </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-03.jpg"
+             alt="Escena 1: El gran descubrimiento"
+             class="ac-scene-img">
         <div class="ac-page-num">1</div>
       </div>
 
       <div class="ac-spine"></div>
 
       <div class="ac-page ac-page--right">
-        <h2 class="ac-scene-title">El gran descubrimiento</h2>
-        <div class="ac-story">
-          <p>Bit brincaba de alegría. En su tablet brillaba un dibujo nuevo.</p>
-          <p>Era Tuercas, su perrito, con orejas grandes, cola feliz y muchos colores.</p>
-        </div>
-        <div class="ac-dialogue">
-          <div class="ac-bubble">
-            <div class="ac-avatar">🤖</div>
-            <div class="ac-bubble-body">
-              <strong>Bit</strong>
-              <p>¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🐦</div>
-            <div class="ac-bubble-body">
-              <strong>Data</strong>
-              <p>¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe.</p>
-            </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-04.jpg"
+             alt="Escena 1: El gran descubrimiento"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">El gran descubrimiento</h2>
+          <div class="ac-scene-narrative">
+            <p>Bit brincaba de alegría. En su tablet brillaba un dibujo nuevo. Era Tuercas, su perrito, con orejas grandes, cola feliz y muchos colores.</p>
+            <p class="ac-dialogue-text">— ¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.</p>
+            <p class="ac-dialogue-text">— ¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe —le dijo Data con dulzura.</p>
+            <p class="ac-story-quote">«Mi corazón brilla como una estrellita.»</p>
           </div>
         </div>
-        <div class="ac-refrain">Mi corazón brilla como una estrellita. ⭐</div>
         <div class="ac-page-num">2</div>
       </div>
     </section>
@@ -131,50 +93,26 @@
     <!-- ──── ESCENA 2: Aparece el mensaje gris ──── -->
     <section class="ac-spread" [class.ac-spread--visible]="cur() === 2">
       <div class="ac-page ac-page--left">
-        <div class="ac-sky ac-sky--cloudy">
-          <div class="ac-tag ac-tag--gray" style="top:5%;left:5%">☁️ Mensaje gris</div>
-          <div class="ac-float ac-float--drop" style="left:28%;top:28%;animation-delay:0s">💧</div>
-          <div class="ac-float ac-float--drop" style="left:36%;top:38%;animation-delay:.4s">💧</div>
-          <div class="ac-bit ac-bit--sad" style="left:6%;bottom:16%"></div>
-          <div class="ac-data" style="right:14%;top:30%"></div>
-          <div class="ac-tablet" style="left:38%;bottom:18%"><span>🐶</span></div>
-          <div class="ac-gray-msg" style="right:5%;bottom:40%">
-            Ese perro es feo.<br>No sabes dibujar.
-          </div>
-          <div class="ac-ground"></div>
-        </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-05.jpg"
+             alt="Escena 2: Aparece el mensaje gris"
+             class="ac-scene-img">
         <div class="ac-page-num">3</div>
       </div>
 
       <div class="ac-spine"></div>
 
       <div class="ac-page ac-page--right">
-        <h2 class="ac-scene-title">Aparece el mensaje gris</h2>
-        <div class="ac-story">
-          <p>Pero, de pronto, una nubecita gris se pegó a la pantalla.</p>
-          <p>El brillo de Bit se hizo pequeño. Sus ojitos miraron hacia abajo.</p>
-        </div>
-        <div class="ac-dialogue">
-          <div class="ac-bubble ac-bubble--gray">
-            <div class="ac-avatar">☁️</div>
-            <div class="ac-bubble-body">
-              <strong>Mensaje gris</strong>
-              <p>Ese perro es feo. No sabes dibujar.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🤖</div>
-            <div class="ac-bubble-body">
-              <strong>Bit</strong>
-              <p>Data... mi corazón se arrugó, como una hoja hecha bolita.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🐦</div>
-            <div class="ac-bubble-body">
-              <strong>Data</strong>
-              <p>Te creo, Bit. Esa palabra no fue amable, y no es tu culpa.</p>
-            </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-06.jpg"
+             alt="Escena 2: Aparece el mensaje gris"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">Aparece el mensaje gris</h2>
+          <div class="ac-scene-narrative">
+            <p>Pero, de pronto, una nubecita gris se pegó a la pantalla.</p>
+            <p class="ac-dialogue-text ac-dialogue-text--gray">— Ese perro es feo. No sabes dibujar.</p>
+            <p>El brillo de Bit se hizo pequeño. Sus ojitos miraron hacia abajo.</p>
+            <p class="ac-dialogue-text">— Data... mi corazón se arrugó, como una hoja hecha bolita.</p>
+            <p class="ac-dialogue-text">— Te creo, Bit. Esa palabra no fue amable, y no es tu culpa —le susurró Data con ternura.</p>
           </div>
         </div>
         <div class="ac-page-num">4</div>
@@ -184,48 +122,24 @@
     <!-- ──── ESCENA 3: Data nombra lo que pasa ──── -->
     <section class="ac-spread" [class.ac-spread--visible]="cur() === 3">
       <div class="ac-page ac-page--left">
-        <div class="ac-sky ac-sky--alert">
-          <div class="ac-alert-badge" style="top:6%;right:6%">⚠️</div>
-          <div class="ac-tag ac-tag--gold" style="top:6%;left:5%">Palabras rudas</div>
-          <div class="ac-bit ac-bit--sad" style="left:6%;bottom:16%"></div>
-          <div class="ac-data" style="right:14%;top:30%"></div>
-          <div class="ac-tablet" style="left:38%;bottom:18%"><span>🐶</span></div>
-          <div class="ac-gray-msg ac-gray-msg--sm" style="right:5%;bottom:42%">mensaje gris</div>
-          <div class="ac-arrow-line" style="right:26%;bottom:58%"></div>
-          <div class="ac-ground"></div>
-        </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-07.jpg"
+             alt="Escena 3: Data nombra lo que pasa"
+             class="ac-scene-img">
         <div class="ac-page-num">5</div>
       </div>
 
       <div class="ac-spine"></div>
 
       <div class="ac-page ac-page--right">
-        <h2 class="ac-scene-title">Data nombra lo que pasa</h2>
-        <div class="ac-story">
-          <p>Data voló cerquita. Miró la pantalla, miró a Bit y respiró suave.</p>
-          <p>Luego habló con una voz tranquila, de esas que abrazan.</p>
-        </div>
-        <div class="ac-dialogue">
-          <div class="ac-bubble">
-            <div class="ac-avatar">🐦</div>
-            <div class="ac-bubble-body">
-              <strong>Data</strong>
-              <p>Las palabras rudas en pantalla también pueden doler.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🐦</div>
-            <div class="ac-bubble-body">
-              <strong>Data</strong>
-              <p>Es como un empujón hecho con letras. Los empujones no se guardan solitos.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🤖</div>
-            <div class="ac-bubble-body">
-              <strong>Bit</strong>
-              <p>Entonces sí cuenta lo que siento, aunque haya pasado en la tablet.</p>
-            </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-08.jpg"
+             alt="Escena 3: Data nombra lo que pasa"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">Data nombra lo que pasa</h2>
+          <div class="ac-scene-narrative">
+            <p>Data voló cerquita. Miró la pantalla, miró a Bit y respiró suave. Luego habló con una voz tranquila, de esas que abrazan:</p>
+            <p class="ac-dialogue-text">— Las palabras rudas en pantalla también pueden doler. Es como un empujón hecho con letras. Y los empujones no se guardan solitos.</p>
+            <p class="ac-dialogue-text">— Entonces sí cuenta lo que siento, aunque haya pasado en la tablet —comprendió Bit.</p>
           </div>
         </div>
         <div class="ac-page-num">6</div>
@@ -235,45 +149,27 @@
     <!-- ──── ESCENA 4: El superpoder ──── -->
     <section class="ac-spread" [class.ac-spread--visible]="cur() === 4">
       <div class="ac-page ac-page--left">
-        <div class="ac-sky">
-          <div class="ac-tag ac-tag--green" style="top:5%;left:5%">🛡️ Superpoder</div>
-          <div class="ac-tag ac-tag--pink" style="top:5%;right:5%">Cierra y cuenta</div>
-          <div class="ac-bit ac-bit--sad" style="left:6%;bottom:16%"></div>
-          <div class="ac-data" style="right:30%;top:30%"></div>
-          <div class="ac-adult" style="right:6%;bottom:14%"></div>
-          <div class="ac-tablet" style="left:38%;bottom:18%"><span>🐶</span></div>
-          <div class="ac-close-x" style="left:42%;bottom:40%">✕</div>
-          <div class="ac-gray-msg ac-gray-msg--sm" style="right:4%;bottom:46%">mensaje gris</div>
-          <div class="ac-ground"></div>
-        </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-09.jpg"
+             alt="Escena 4: El superpoder"
+             class="ac-scene-img">
         <div class="ac-page-num">7</div>
       </div>
 
       <div class="ac-spine"></div>
 
       <div class="ac-page ac-page--right">
-        <h2 class="ac-scene-title">El superpoder</h2>
-        <div class="ac-story">
-          <p>Bit apretó la tablet contra su pecho. Por un momento quiso esconderla.</p>
-          <p>Data no lo regañó. Se puso a su lado, despacito.</p>
-        </div>
-        <div class="ac-dialogue">
-          <div class="ac-bubble">
-            <div class="ac-avatar">🤖</div>
-            <div class="ac-bubble-body">
-              <strong>Bit</strong>
-              <p>Tal vez borro mi dibujo... y no se lo digo a nadie.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🐦</div>
-            <div class="ac-bubble-body">
-              <strong>Data</strong>
-              <p>No guardes solito un secreto que pesa. Tienes un superpoder: cerrar y contar.</p>
-            </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-10.jpg"
+             alt="Escena 4: El superpoder"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--light-ink">
+          <h2 class="ac-scene-title">El superpoder</h2>
+          <div class="ac-scene-narrative">
+            <p>Bit apretó la tablet contra su pecho. Por un momento quiso esconderla. Data no lo regañó. Se puso a su lado, despacito.</p>
+            <p class="ac-dialogue-text">— Tal vez borro mi dibujo... y no se lo digo a nadie.</p>
+            <p class="ac-dialogue-text">— No guardes solito un secreto que pesa. Tienes un superpoder: cerrar y contar.</p>
+            <p class="ac-story-quote">«Si una pantalla me trata mal: cierro y cuento.»</p>
           </div>
         </div>
-        <div class="ac-refrain">Si una pantalla me trata mal: cierro y cuento. 🛡️</div>
         <div class="ac-page-num">8</div>
       </div>
     </section>
@@ -281,49 +177,28 @@
     <!-- ──── ESCENA 5: Final amable ──── -->
     <section class="ac-spread" [class.ac-spread--visible]="cur() === 5">
       <div class="ac-page ac-page--left">
-        <div class="ac-sky">
-          <div class="ac-tag ac-tag--green" style="top:5%;left:5%">✅ Pedimos ayuda</div>
-          <div class="ac-tag ac-tag--cream" style="top:5%;right:5%">💬 Ya lo contó</div>
-          <div class="ac-float" style="left:14%;top:22%;animation-delay:0s">💗</div>
-          <div class="ac-float" style="right:20%;top:18%;animation-delay:.6s">💗</div>
-          <div class="ac-float" style="left:48%;top:10%;animation-delay:1s">⭐</div>
-          <div class="ac-check-seal" style="left:5%;bottom:24%">✓</div>
-          <div class="ac-bit ac-bit--happy" style="left:22%;bottom:16%"></div>
-          <div class="ac-data" style="right:30%;top:28%"></div>
-          <div class="ac-adult" style="right:6%;bottom:14%"></div>
-          <div class="ac-tablet" style="left:46%;bottom:18%"><span>🐶</span></div>
-          <div class="ac-big-heart" style="right:4%;bottom:38%">💗</div>
-          <div class="ac-ground"></div>
-        </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-03.jpg"
+             alt="Escena 5: Final amable"
+             class="ac-scene-img">
         <div class="ac-page-num">9</div>
       </div>
 
       <div class="ac-spine"></div>
 
       <div class="ac-page ac-page--right">
-        <h2 class="ac-scene-title">Final amable</h2>
-        <div class="ac-story">
-          <p>Bit volvió a mirar a Tuercas. Ahí seguían sus orejas grandes, su cola feliz y sus colores.</p>
-          <p>El mensaje gris no podía borrar lo bonito de su dibujo.</p>
-        </div>
-        <div class="ac-dialogue">
-          <div class="ac-bubble">
-            <div class="ac-avatar">🤖</div>
-            <div class="ac-bubble-body">
-              <strong>Bit</strong>
-              <p>Gracias, Data. Mi dibujo sigue siendo mío. Ahora se lo contaré a mi maestra.</p>
-            </div>
-          </div>
-          <div class="ac-bubble">
-            <div class="ac-avatar">🐦</div>
-            <div class="ac-bubble-body">
-              <strong>Data</strong>
-              <p>Así es, Bit. En la pantalla también cuidamos con nuestras palabras.</p>
-            </div>
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-04.jpg"
+             alt="Escena 5: Final amable"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">Final amable</h2>
+          <div class="ac-scene-narrative">
+            <p>Bit volvió a mirar a Tuercas. Ahí seguían sus orejas grandes, su cola feliz y sus colores. El mensaje gris no podía borrar lo bonito de su dibujo.</p>
+            <p class="ac-dialogue-text">— Gracias, Data. Mi dibujo sigue siendo mío. Ahora se lo contaré a mi maestra.</p>
+            <p class="ac-dialogue-text">— Así es, Bit. En la pantalla también cuidamos con nuestras palabras.</p>
+            <p class="ac-story-quote">«Si vemos un mensaje gris, ¿qué hacemos? Cerramos y contamos.»</p>
+            <p class="ac-story-moral">Fin del cuento. Repitan juntos con voz tranquila: cerramos y contamos.</p>
           </div>
         </div>
-        <div class="ac-refrain">Si vemos un mensaje gris, ¿qué hacemos? Cerramos y contamos. 💗</div>
-        <div class="ac-note">Fin del cuento. Repitan juntos con voz tranquila: cerramos y contamos.</div>
         <div class="ac-page-num">10</div>
       </div>
     </section>
@@ -331,14 +206,23 @@
     <!-- ──── ESCENA 6: Fin del cuento (cur === 6) ──── -->
     <section class="ac-spread ac-end-screen" [class.ac-spread--visible]="cur() === 6">
       <div class="ac-end-inner">
-        <div class="ac-end-icon">🏆</div>
+        <div class="ac-end-icon">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        </div>
         <h2 class="ac-end-title">¡Cuento Completado!</h2>
         <p class="ac-end-subtitle">
           ¡Felicidades! Has aprendido el superpoder de Bit y Data.
         </p>
 
         <div class="ac-end-badge">
-          <div class="ac-end-badge-icon">🛡️</div>
+          <div class="ac-end-badge-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
           <div>
             <strong>Si ves un mensaje gris:</strong>
             <p>¡Cierro la pantalla y le cuento a alguien de confianza!</p>
@@ -347,10 +231,10 @@
 
         <div class="ac-end-actions">
           <button (click)="goToPage(0)" class="ac-btn-restart">
-            <span>🔄</span> Volver a Leer
+            Volver a leer
           </button>
           <button (click)="closeBook()" class="ac-btn-close">
-            <span>🚪</span> Cerrar Cuento
+            Cerrar cuento
           </button>
         </div>
       </div>
