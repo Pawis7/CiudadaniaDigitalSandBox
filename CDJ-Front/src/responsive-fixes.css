@@ -1,0 +1,34 @@
+/* Ajustes aislados para la revisión ChatGPT.
+   No modifica la identidad visual; corrige el comportamiento de banners en pantallas pequeñas. */
+
+@media (max-width: 767px) {
+  .main-hero {
+    aspect-ratio: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    background: transparent !important;
+  }
+
+  .main-hero img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main-hero {
+    aspect-ratio: auto !important;
+    height: auto !important;
+  }
+
+  .main-hero img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
