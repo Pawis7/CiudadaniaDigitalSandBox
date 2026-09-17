@@ -1,8 +1,54 @@
 /* Estilos específicos para Inicio */
 
+/* Introducción editorial: deliberadamente plana, sin cajas anidadas. */
+.home-intro {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.home-intro__item {
+  padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1rem, 2vw, 2rem);
+}
+
+.home-intro__item + .home-intro__item {
+  border-left: 1px solid var(--border-soft);
+}
+
+.home-intro__title {
+  margin: 0;
+  font-size: clamp(1.3rem, 1.3vw + 0.9rem, 1.8rem);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.home-intro__text {
+  margin-top: 0.85rem;
+  max-width: 48ch;
+  color: var(--text-soft);
+  font-size: clamp(0.95rem, 0.2vw + 0.9rem, 1.05rem);
+  line-height: 1.65;
+}
+
+@media (max-width: 767px) {
+  .home-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .home-intro__item {
+    padding-inline: 0.25rem;
+  }
+
+  .home-intro__item + .home-intro__item {
+    border-left: 0;
+    border-top: 1px solid var(--border-soft);
+  }
+}
+
 /* ====================================================================
-   HERO WELCOME — texto superpuesto sobre el banner principal
-   Escalado fluido con clamp() basado en el ancho del viewport.
+   HERO WELCOME — estilos legacy conservados por compatibilidad.
    ==================================================================== */
 .hero-welcome {
   color: #ffffff;
@@ -44,9 +90,7 @@
   gap: 0.14em;
 }
 
-.hero-welcome__line {
-  display: block;
-}
+.hero-welcome__line { display: block; }
 
 .hero-welcome__line--accent {
   font-weight: 500;
@@ -87,16 +131,10 @@
 }
 
 @media (max-width: 420px) {
-  .hero-welcome__eyebrow {
-    display: none;
-  }
-  .hero-welcome__title {
-    line-height: 0.98;
-  }
+  .hero-welcome__eyebrow { display: none; }
+  .hero-welcome__title { line-height: 0.98; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-welcome__line--brand {
-    filter: none;
-  }
+  .hero-welcome__line--brand { filter: none; }
 }
