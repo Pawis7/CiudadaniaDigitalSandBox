@@ -4,14 +4,44 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { getExperience } from './learning-experience.data';
-@Component({selector:'app-learning-experience',standalone:true,imports:[RouterLink],templateUrl:'./learning-experience.html',styleUrl:'./learning-experience.css',changeDetection:ChangeDetectionStrategy.OnPush})
-export class LearningExperienceComponent{
- private route=inject(ActivatedRoute); private sanitizer=inject(DomSanitizer);
- slug=toSignal(this.route.paramMap.pipe(map(p=>p.get('slug')??'')),{initialValue:''});
- experience=computed(()=>getExperience(this.slug()));
- videoUrl=computed(()=>{const x=this.experience();return x?this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube-nocookie.com/embed/'+x.videoId):null;});
- sheet=signal<'first'|'post'|null>(null); firstChoice=signal<string|null>(null); postChoice=signal<number|null>(null); actionChoice=signal<string|null>(null);
- open(which:'first'|'post'){this.sheet.set(which);document.body.classList.add('no-scroll');}
- close(){this.sheet.set(null);document.body.classList.remove('no-scroll');}
- chooseFirst(v:string){this.firstChoice.set(v);} choosePost(i:number){this.postChoice.set(i);} chooseAction(v:string){this.actionChoice.set(v);}
+import { adaptExperience, normalizeProfile, profileContext } from './profile-context.data';
+
+@Component({
+  selector: 'app-learning-experience',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './learning-experience.html',
+  styleUrl: './learning-experience.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class LearningExperienceComponent {
+  private route = inject(ActivatedRoute);
+  private sanitizer = inject(DomSanitizer);
+
+  slug = toSignal(this.route.paramMap.pipe(map((p) => p.get('slug') ?? '')), { initialValue: '' });
+  profileParam = toSignal(this.route.queryParamMap.pipe(map((p) => p.get('perfil'))), { initialValue: null });
+  profile = computed(() => normalizeProfile(this.profileParam()));
+  context = computed(() => profileContext(this.profile()));
+  experience = computed(() => adaptExperience(getExperience(this.slug()), this.profile()));
+  videoUrl = computed(() => {
+    const x = this.experience();
+    return x ? this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube-nocookie.com/embed/' + x.videoId) : null;
+  });
+
+  sheet = signal<'first' | 'post' | null>(null);
+  firstChoice = signal<string | null>(null);
+  postChoice = signal<number | null>(null);
+  actionChoice = signal<string | null>(null);
+
+  open(which: 'first' | 'post') {
+    this.sheet.set(which);
+    document.body.classList.add('no-scroll');
+  }
+  close() {
+    this.sheet.set(null);
+    document.body.classList.remove('no-scroll');
+  }
+  chooseFirst(value: string) { this.firstChoice.set(value); }
+  choosePost(index: number) { this.postChoice.set(index); }
+  chooseAction(value: string) { this.actionChoice.set(value); }
 }
