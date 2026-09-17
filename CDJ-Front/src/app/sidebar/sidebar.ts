@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal, computed, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ContentService } from '../core/services/content.service';
@@ -14,14 +14,6 @@ interface SidebarItem {
 
 const COLLAPSE_KEY = 'cdj_sidebar_collapsed';
 
-/**
- * Sidebar persistente estilo Coursera/edX.
- *
- * - Default: 256px expanded, items con label visible.
- * - Collapsable a 72px con toggle (estado persistido en localStorage).
- * - Tres secciones: Aprender, Audiencias (con sub-niveles expandibles), Ayuda.
- * - Mobile: drawer 100%.
- */
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -29,7 +21,7 @@ const COLLAPSE_KEY = 'cdj_sidebar_collapsed';
   changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
- })
+})
 export class SidebarComponent {
   @Input() variant: 'desktop' | 'mobile' = 'desktop';
   @Output() navigate = new EventEmitter<void>();
@@ -49,28 +41,26 @@ export class SidebarComponent {
     });
   }
 
-  /** Sección APRENDER — los espacios de contenido educativo */
+  // Las series siguen disponibles como recursos internos; no se muestran como una categoría paralela.
   learnSections: SidebarItem[] = [
-    { id: 'home',      label: 'Inicio',         icon: 'home',             routerLink: ['/'],            audience: 'cdj' },
-    { id: 'series',    label: 'Series',         icon: 'movie',            routerLink: ['/series'],      audience: 'series' },
+    { id: 'home', label: 'Inicio', icon: 'home', routerLink: ['/'], audience: 'cdj' },
   ];
 
-  /** Sección AUDIENCIAS — perfiles con sub-niveles */
   audiences: SidebarItem[] = [
     {
-      id: 'kids',  label: 'Niñas y niños',  icon: 'child_care',
+      id: 'kids', label: 'Niñas y niños', icon: 'child_care',
       routerLink: ['/p', 'ninas-y-ninos'], audience: 'kids',
       subItems: [
-        { label: 'Preescolar',     fragment: 'preescolar' },
-        { label: 'Primaria baja',  fragment: 'primaria-baja' },
-        { label: 'Primaria alta',  fragment: 'primaria-alta' },
+        { label: 'Preescolar', fragment: 'preescolar' },
+        { label: 'Primaria baja', fragment: 'primaria-baja' },
+        { label: 'Primaria alta', fragment: 'primaria-alta' },
       ],
     },
     {
       id: 'teens', label: 'Adolescentes', icon: 'forum',
       routerLink: ['/p', 'adolescentes'], audience: 'teens',
       subItems: [
-        { label: 'Secundaria',  fragment: 'secundaria' },
+        { label: 'Secundaria', fragment: 'secundaria' },
         { label: 'Preparatoria', fragment: 'preparatoria' },
       ],
     },
@@ -78,8 +68,8 @@ export class SidebarComponent {
       id: 'families', label: 'Familias', icon: 'family_restroom',
       routerLink: ['/p', 'familias'], audience: 'families',
       subItems: [
-        { label: '0–5 años',   fragment: 'fam-0-5' },
-        { label: '6–11 años',  fragment: 'fam-6-11' },
+        { label: '0–5 años', fragment: 'fam-0-5' },
+        { label: '6–11 años', fragment: 'fam-6-11' },
         { label: '12–14 años', fragment: 'fam-12-14' },
         { label: '15–22 años', fragment: 'fam-15-22' },
       ],
@@ -88,20 +78,19 @@ export class SidebarComponent {
       id: 'teachers', label: 'Docentes', icon: 'school',
       routerLink: ['/p', 'docentes'], audience: 'teachers',
       subItems: [
-        { label: 'Preescolar',    fragment: 'doc-pre' },
+        { label: 'Preescolar', fragment: 'doc-pre' },
         { label: 'Primaria baja', fragment: 'doc-pb' },
         { label: 'Primaria alta', fragment: 'doc-pa' },
-        { label: 'Secundaria',    fragment: 'doc-sec' },
-        { label: 'Preparatoria',  fragment: 'doc-prep' },
+        { label: 'Secundaria', fragment: 'doc-sec' },
+        { label: 'Preparatoria', fragment: 'doc-prep' },
       ],
     },
   ];
 
-  /** Sección AYUDA Y COMUNIDAD */
   helpSections: SidebarItem[] = [
     { id: 'pantallas-seguras', label: 'Pantallas Seguras', icon: 'screenshot_monitor', routerLink: ['/pantallas-seguras'], audience: 'screens' },
-    { id: 'ayuda',   label: 'Ayuda Digital',  icon: 'shield',  routerLink: ['/ayuda'],         audience: 'help' },
-    { id: 'quienes', label: 'Quiénes somos',  icon: 'groups',  routerLink: ['/quienes-somos'], audience: 'cdj' },
+    { id: 'ayuda', label: 'Ayuda Digital', icon: 'shield', routerLink: ['/ayuda'], audience: 'help' },
+    { id: 'quienes', label: 'Quiénes somos', icon: 'groups', routerLink: ['/quienes-somos'], audience: 'cdj' },
   ];
 
   toggleCollapse() {
@@ -111,7 +100,6 @@ export class SidebarComponent {
   }
 
   toggleAudience(id: string, ev: Event) {
-    // ev.preventDefault(); // Permitimos la navegación si es un enlace, el toggle es secundario
     ev.stopPropagation();
     this.openedAudience.update((curr) => (curr === id ? null : id));
   }
@@ -121,14 +109,13 @@ export class SidebarComponent {
     this.navigate.emit();
   }
 
-  onSubitemClick() {
-    this.navigate.emit();
-  }
+  onSubitemClick() { this.navigate.emit(); }
 
   private readCollapsed(): boolean {
     if (typeof localStorage === 'undefined') return false;
     return localStorage.getItem(COLLAPSE_KEY) === '1';
   }
+
   private persistCollapsed() {
     try {
       if (this.collapsed()) localStorage.setItem(COLLAPSE_KEY, '1');
