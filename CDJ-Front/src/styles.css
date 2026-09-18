@@ -54,11 +54,12 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
 
   .cdj-banner__visual img,
   .audience-hero__visual img,
-  .main-hero > img {
+  .main-hero img,
+  .cdj-banner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: 76% center;
     display: block;
   }
 
@@ -196,20 +197,22 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
   .audience-hero__visual {
     position: relative !important;
     width: 100% !important;
-    height: clamp(180px, 46vw, 240px) !important;
-    min-height: 180px !important;
+    height: clamp(160px, 42vw, 220px) !important;
+    min-height: 160px !important;
     overflow: hidden !important;
+    background-color: var(--banner-bg, transparent);
   }
 
   .cdj-banner__visual img,
   .audience-hero__visual img,
-  .main-hero > img {
+  .main-hero img,
+  .cdj-banner img {
     position: absolute !important;
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
-    object-position: center !important;
+    object-position: 30% center !important;
     display: block !important;
   }
 }
