@@ -318,15 +318,33 @@
 
   @if(showCasi()){
     @if(casiCopy();as c){
-      <section class="story-row mb-12" data-audience="casi">
-        <a routerLink="/el-dia-que-casi" [queryParams]="{perfil:casiProfile()}" class="group">
-          <div>
-            <p class="eyebrow">{{c.k}}</p>
-            <h2>{{c.t}}</h2>
-            <p>{{c.d}}</p>
-          </div>
-          <span>Ver historias →</span>
-        </a>
+      <section class="mb-12" data-audience="casi">
+        <div class="surface card-hover rounded-2xl border border-[color:var(--border-soft)] p-5 sm:p-6 overflow-hidden">
+          <a routerLink="/el-dia-que-casi" [queryParams]="{perfil:casiProfile()}" class="group flex flex-col md:flex-row items-center gap-6">
+            <!-- Miniatura del video de El día que casi -->
+            <div class="relative w-full md:w-72 aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 flex-none shadow-md border border-[color:var(--border-soft)]">
+              <img [src]="casiThumb()" [alt]="c.t" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" (error)="onVideoThumbError($event)" loading="lazy">
+              <div class="absolute inset-0 bg-black/25 group-hover:bg-black/40 flex items-center justify-center transition-colors">
+                <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--c-casi)] text-slate-900 group-hover:text-white shadow-xl transition-all duration-300 group-hover:scale-110">
+                  <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+                </span>
+              </div>
+              <span class="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-black/75 backdrop-blur text-white px-2 py-0.5 rounded">
+                Serie animada
+              </span>
+            </div>
+            
+            <div class="flex-1 text-left">
+              <p class="eyebrow text-[color:var(--c-casi)]">{{c.k}}</p>
+              <h2 class="display-2 mt-1 text-[color:var(--text-primary)] group-hover:text-[color:var(--c-casi)] transition-colors">{{c.t}}</h2>
+              <p class="mt-2 text-xs sm:text-sm text-[color:var(--text-soft)] leading-relaxed max-w-2xl">{{c.d}}</p>
+              <div class="mt-4 flex items-center gap-2 text-xs sm:text-sm font-bold text-[color:var(--c-casi)]">
+                <span>Ver historias animadas</span>
+                <span class="material-symbols-rounded text-base group-hover:translate-x-1.5 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+          </a>
+        </div>
       </section>
     }
   }
@@ -336,18 +354,42 @@
       @if(learning.activities.length){
         <section class="mb-12" [attr.data-audience]="audienceTheme()">
           <div class="section-line">
-            <p class="eyebrow text-[color:var(--aud)]">Refuerza</p>
+            <p class="eyebrow text-[color:var(--aud)]">Refuerza con Edutips</p>
             <h2 class="display-2 mt-1">{{learning.title}}</h2>
             <p>{{learning.description}}</p>
           </div>
-          <div class="learning-lines">
+          <div class="learning-lines divide-y divide-[color:var(--border-soft)] border-t border-b border-[color:var(--border-soft)]">
             @for(activity of learning.activities;track activity.slug){
-              <a [routerLink]="['/actividad',activity.slug]" [queryParams]="{perfil:profileQuery()}" class="learning-line">
-                <div>
-                  <small>{{activity.kicker}}</small>
-                  <strong>{{activity.title}}</strong>
+              <a [routerLink]="['/actividad',activity.slug]" [queryParams]="{perfil:profileQuery()}" class="group flex items-center justify-between gap-4 py-3.5 px-2 sm:px-3 rounded-xl hover:bg-[color:var(--surface-soft)] transition-colors">
+                <div class="flex items-center gap-3.5 sm:gap-4 flex-1 min-w-0">
+                  <!-- Miniatura del video de Edutip correspondiente al enlace -->
+                  @if (getActivityThumb(activity.slug); as thumb) {
+                    <div class="relative w-28 sm:w-36 md:w-40 aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 flex-none shadow-sm border border-[color:var(--border-soft)]">
+                      <img [src]="thumb" [alt]="activity.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" (error)="onVideoThumbError($event)" loading="lazy">
+                      <div class="absolute inset-0 bg-black/20 group-hover:bg-black/35 flex items-center justify-center transition-colors">
+                        <span class="grid h-7 w-7 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud)] text-slate-900 group-hover:text-white shadow transition-all duration-200 group-hover:scale-110">
+                          <span translate="no" class="material-symbols-rounded text-base icon-fill">play_arrow</span>
+                        </span>
+                      </div>
+                      @if (getActivityDuration(activity.slug); as dur) {
+                        <span class="absolute bottom-1 right-1 text-[9px] font-bold bg-black/75 backdrop-blur text-white px-1.5 py-0.5 rounded">
+                          {{dur}}
+                        </span>
+                      }
+                    </div>
+                  }
+                  <div class="min-w-0 flex-1">
+                    <small class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[color:var(--aud)] line-clamp-1">{{activity.kicker}}</small>
+                    <strong class="text-xs sm:text-sm font-bold text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors line-clamp-1 sm:line-clamp-2 mt-0.5 block">{{activity.title}}</strong>
+                    @if(activity.description){
+                      <p class="text-[11px] text-[color:var(--text-soft)] line-clamp-1 sm:line-clamp-2 mt-0.5 hidden sm:block leading-snug">{{activity.description}}</p>
+                    }
+                  </div>
                 </div>
-                <span>→</span>
+                <span class="text-[color:var(--aud)] font-bold text-sm sm:text-base flex-none group-hover:translate-x-1.5 transition-transform flex items-center gap-1">
+                  <span class="hidden md:inline text-xs">Ver cápsula</span>
+                  <span>→</span>
+                </span>
               </a>
             }
           </div>

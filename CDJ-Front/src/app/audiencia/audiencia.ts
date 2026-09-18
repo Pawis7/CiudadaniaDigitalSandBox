@@ -13,6 +13,7 @@ import { ResourceCardComponent } from '../shared/resource-card/resource-card';
 import { PROFILE_LEARNING, PROFILE_QUERY } from './profile-activities.data';
 import { guidanceFor } from './profile-guidance.data';
 import { FlipCardComponent } from '../shared/flip-card/flip-card';
+import { getExperience } from '../learning-experience/learning-experience.data';
 import {
   FAMILIES_MISSIONS,
   TEACHERS_MISSIONS,
@@ -97,6 +98,39 @@ export class AudienciaComponent {
     if (this.selectedLevel() === 'primaria-alta') return { k: 'Historia', t: 'El día que casi…', d: 'Identifica el momento en que todavía puedes detenerte, revisar una señal y cambiar una decisión.' };
     return { k: 'Historia · En compañía', t: 'El día que casi…', d: 'Reconoce cuándo algo no se siente bien y practica qué hacer y cuándo pedir ayuda.' };
   });
+
+  casiThumb = computed(() => {
+    const prof = this.casiProfile();
+    const vidMap: Record<string, string> = {
+      pb: 'EmXJWNeYQZs',
+      pa: '0VnGrnTfgDU',
+      families: 'CtTLuyLp7vg',
+      teachers: 'pEmFgQjDZ1g'
+    };
+    const vid = vidMap[prof] ?? 'pEmFgQjDZ1g';
+    return `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+  });
+
+  getActivityThumb(slug: string): string {
+    const exp = getExperience(slug);
+    if (exp?.videoId) {
+      return `https://img.youtube.com/vi/${exp.videoId}/hqdefault.jpg`;
+    }
+    return '';
+  }
+
+  getActivityDuration(slug: string): string {
+    const exp = getExperience(slug);
+    return exp?.duration ?? '';
+  }
+
+  onVideoThumbError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img && !img.src.includes('edutips.webp')) {
+      img.src = '/portadas/edutips.webp';
+    }
+  }
+
 
   constructor() {
     effect(() => {
