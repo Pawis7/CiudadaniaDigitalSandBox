@@ -13,7 +13,7 @@ import { InteractivePostcard } from '../../core/data/audience-extensions.data';
         <!-- FRENTE -->
         <div class="cdj-flip-face cdj-flip-front">
           <div class="cdj-flip-img-wrap">
-            <img [src]="item.frontImgUrl" [alt]="item.title" loading="lazy" class="cdj-flip-img" />
+            <img [src]="item.frontImgUrl" [alt]="item.title" loading="lazy" class="cdj-flip-img" (error)="onImgError($event)" />
             <span class="cdj-flip-number-badge">#{{ item.id }}</span>
           </div>
           <div class="cdj-flip-footer">
@@ -22,10 +22,10 @@ import { InteractivePostcard } from '../../core/data/audience-extensions.data';
               type="button"
               class="cdj-flip-btn"
               (click)="toggleFlip($event)"
-              [attr.aria-label]="'Ver reverso de ' + item.title"
+              [attr.aria-label]="'Voltear ' + item.title"
             >
               <span class="material-symbols-rounded text-sm">sync</span>
-              <span>Ver consejo</span>
+              <span>{{ isMemorama() ? 'Ver carátula' : 'Ver consejo' }}</span>
             </button>
           </div>
         </div>
@@ -33,7 +33,7 @@ import { InteractivePostcard } from '../../core/data/audience-extensions.data';
         <!-- REVERSO -->
         <div class="cdj-flip-face cdj-flip-back">
           <div class="cdj-flip-img-wrap cdj-back-wrap">
-            <img [src]="item.backImgUrl" [alt]="'Consejo: ' + item.title" loading="lazy" class="cdj-flip-img" />
+            <img [src]="item.backImgUrl" [alt]="'Reverso: ' + item.title" loading="lazy" class="cdj-flip-img" (error)="onImgError($event)" />
           </div>
           <div class="cdj-flip-footer cdj-flip-footer-back">
             <p class="cdj-flip-advice">{{ item.shortAdvice }}</p>
@@ -52,10 +52,11 @@ import { InteractivePostcard } from '../../core/data/audience-extensions.data';
                 target="_blank"
                 rel="noopener noreferrer"
                 class="cdj-flip-btn cdj-flip-btn-download"
-                [attr.aria-label]="'Descargar PDF de ' + item.title"
+                [attr.aria-label]="'Descargar ' + item.title"
+                [download]="getDownloadFilename(item.pdfUrl)"
               >
                 <span class="material-symbols-rounded text-sm">download</span>
-                <span>PDF</span>
+                <span>{{ isImage(item.pdfUrl) ? 'Descargar' : 'PDF' }}</span>
               </a>
             </div>
           </div>
@@ -76,4 +77,25 @@ export class FlipCardComponent {
     }
     this.isFlipped.update(v => !v);
   }
+
+  onImgError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img && !img.src.includes('caratula.webp') && !img.src.includes('CD_PC.webp')) {
+      img.src = '/portadas/CD_PC.webp';
+    }
+  }
+
+  isMemorama(): boolean {
+    return !!(this.item?.backImgUrl?.includes('caratula') || this.item?.shortAdvice?.includes('Memorama'));
+  }
+
+  isImage(url: string): boolean {
+    return /\.(jpe?g|png|webp)$/i.test(url);
+  }
+
+  getDownloadFilename(url: string): string {
+    if (url?.includes('descargable')) return 'memorama-pequenos-cibernautas.jpg';
+    return '';
+  }
 }
+

@@ -240,3 +240,69 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
 .dark .footer-logo:hover {
   opacity: 1;
 }
+
+/* ==========================================================================
+   CDJ TOGGLE CARD: Paneles comprimibles/colapsables globales
+   ========================================================================== */
+.cdj-toggle-card {
+  border: 1px solid var(--border-soft);
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease;
+}
+.cdj-toggle-card:hover {
+  border-color: var(--border);
+}
+.cdj-toggle-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+.cdj-toggle-header:hover {
+  background: var(--surface-soft);
+}
+.cdj-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--aud) 12%, var(--surface-soft));
+  color: var(--aud);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.cdj-toggle-header:hover .cdj-toggle-pill {
+  background: color-mix(in srgb, var(--aud) 20%, var(--surface-soft));
+}
+.cdj-toggle-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.22s ease, border-color 0.2s ease;
+}
+.cdj-toggle-body.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  border-top: 1px solid var(--border-soft);
+}
+.cdj-toggle-inner {
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 1.35rem;
+}
+.cdj-toggle-body.is-open .cdj-toggle-inner {
+  padding: 1.35rem 1.35rem 1.5rem;
+}

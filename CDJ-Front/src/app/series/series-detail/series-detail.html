@@ -1,123 +1,330 @@
 @if (serie(); as s) {
-  <!-- HERO de la serie -->
-  <section
-    appReveal="fade"
-    [revealDuration]="700"
-    [attr.data-audience]="s.audience"
-    [ngClass]="resolvedCoverUrl() ? 'main-hero' : ''"
-    class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-[color:var(--border-soft)] bg-slate-900 text-white shadow-sm sm:mb-12 sm:rounded-[2rem]">
-    
+  <!-- HERO de la serie (Oculto en Pequeños Cibernautas a petición del usuario) -->
+  @if (!isPequenosCibernautas()) {
+    <section
+      appReveal="fade"
+      [revealDuration]="700"
+      [attr.data-audience]="s.audience"
+      [ngClass]="resolvedCoverUrl() ? 'main-hero' : ''"
+      class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-[color:var(--border-soft)] bg-slate-900 text-white shadow-sm sm:mb-12 sm:rounded-[2rem]">
 
+      <!-- Fondo de Imagen (si tiene o se ha editado) -->
+      <div *ngIf="resolvedCoverUrl()" class="absolute inset-0">
+        <img
+          appImageLoader
+          [src]="resolvedCoverUrl()"
+          [alt]="s.title"
+          class="h-full w-full object-cover">
+      </div>
 
-    <!-- Fondo de Imagen (si tiene o se ha editado) -->
-    <div *ngIf="resolvedCoverUrl()" class="absolute inset-0">
-      <img
-        appImageLoader
-        [src]="resolvedCoverUrl()"
-        [alt]="s.title"
-        class="h-full w-full object-cover">
-    </div>
+      <!-- Fondo de Color Autogenerado / Gradiente Rojo Vibrante (si no tiene imagen) -->
+      <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0"
+           style="background: radial-gradient(circle at 80% 20%, var(--c-cdj-soft, #FF3366) 0%, var(--c-cdj, #E9004C) 100%);">
+        <!-- Decoración sutil de fondo para darle "vida" (patrón de puntos y brillos flotantes) -->
+        <span aria-hidden="true" class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-pulse" style="animation-duration: 6s;"></span>
+        <span aria-hidden="true" class="absolute left-[10%] bottom-[-10%] h-64 w-64 rounded-full bg-black/15 blur-2xl"></span>
+        <div class="absolute inset-0 opacity-[0.06]"
+             style="background-image: radial-gradient(circle, white 2px, transparent 2px); background-size: 24px 24px;"></div>
+      </div>
 
-    <!-- Fondo de Color Autogenerado / Gradiente Rojo Vibrante (si no tiene imagen) -->
-    <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0"
-         style="background: radial-gradient(circle at 80% 20%, var(--c-cdj-soft, #FF3366) 0%, var(--c-cdj, #E9004C) 100%);">
-      <!-- Decoración sutil de fondo para darle "vida" (patrón de puntos y brillos flotantes) -->
-      <span aria-hidden="true" class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/10 blur-3xl animate-pulse" style="animation-duration: 6s;"></span>
-      <span aria-hidden="true" class="absolute left-[10%] bottom-[-10%] h-64 w-64 rounded-full bg-black/15 blur-2xl"></span>
-      <div class="absolute inset-0 opacity-[0.06]"
-           style="background-image: radial-gradient(circle, white 2px, transparent 2px); background-size: 24px 24px;"></div>
-    </div>
+      <!-- Capa de oscurecimiento global para asegurar que las letras blancas se lean perfectamente (Solo si hay texto) -->
+      <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0 bg-slate-950/40 pointer-events-none"></div>
 
-    <!-- Capa de oscurecimiento global para asegurar que las letras blancas se lean perfectamente (Solo si hay texto) -->
-    <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0 bg-slate-950/40 pointer-events-none"></div>
+      <!-- Oscurecimiento inferior para contraste de texto (Solo si hay texto) -->
+      <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
 
-    <!-- Oscurecimiento inferior para contraste de texto (Solo si hay texto) -->
-    <div *ngIf="!resolvedCoverUrl()" class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent pointer-events-none"></div>
+      <!-- Contenido del texto (Solo si NO hay banner personalizado) -->
+      <div *ngIf="!resolvedCoverUrl()" class="relative z-10 p-6 sm:p-12 lg:p-14">
+        <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-white/70 sm:mb-6">
+          <a routerLink="/" class="transition-colors hover:text-white">Inicio</a>
+          <span class="text-white/50">›</span>
+          <a routerLink="/series" class="transition-colors hover:text-white">Series</a>
+          <span class="text-white/50">›</span>
+          <span class="text-white">{{ s.title }}</span>
+        </nav>
 
-    <!-- Contenido del texto (Solo si NO hay banner personalizado) -->
-    <div *ngIf="!resolvedCoverUrl()" class="relative z-10 p-6 sm:p-12 lg:p-14">
-      <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-white/70 sm:mb-6">
-        <a routerLink="/" class="transition-colors hover:text-white">Inicio</a>
-        <span class="text-white/50">›</span>
-        <a routerLink="/series" class="transition-colors hover:text-white">Series</a>
-        <span class="text-white/50">›</span>
-        <span class="text-white">{{ s.title }}</span>
+        <span appReveal="up"
+              class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest backdrop-blur">
+          <span class="grid h-5 w-5 place-items-center rounded-full text-white" [ngClass]="s.iconBgClass">
+            <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">{{ s.icon }}</span>
+          </span>
+          Serie · {{ s.episodeCount }} episodios
+        </span>
+
+        <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-4 !text-white" style="color: #ffffff !important;">
+          {{ s.title }}
+        </h1>
+        <p appReveal="up" [revealDelay]="160" class="mt-2 text-base font-semibold !text-white/85 sm:text-lg" style="color: rgba(255, 255, 255, 0.85) !important;">
+          {{ s.tagline }}
+        </p>
+        <p appReveal="up" [revealDelay]="220" class="mt-4 max-w-2xl text-sm leading-relaxed !text-white/85 sm:text-base" style="color: rgba(255, 255, 255, 0.85) !important;">
+          {{ s.description }}
+        </p>
+      </div>
+    </section>
+  } @else {
+    <!-- ENCABEZADO SIN BANNER (Pequeños Cibernautas) -->
+    <header appReveal="fade" [revealDuration]="700" class="mb-8 sm:mb-10" [attr.data-audience]="s.audience">
+      <nav class="mb-4 flex items-center gap-2 text-xs font-semibold text-[color:var(--text-soft)]">
+        <a routerLink="/" class="transition-colors hover:text-[color:var(--text-primary)]">Inicio</a>
+        <span class="text-[color:var(--text-mute)]">›</span>
+        <a routerLink="/series" class="transition-colors hover:text-[color:var(--text-primary)]">Series</a>
+        <span class="text-[color:var(--text-mute)]">›</span>
+        <span class="text-[color:var(--text-primary)] font-bold">{{ s.title }}</span>
       </nav>
 
-      <span appReveal="up"
-            class="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-widest backdrop-blur">
-        <span class="grid h-5 w-5 place-items-center rounded-full text-white" [ngClass]="s.iconBgClass">
-          <span translate="no" class="material-symbols-rounded text-[14px] icon-fill">{{ s.icon }}</span>
-        </span>
-        Serie · {{ s.episodeCount }} episodios
-      </span>
-
-      <h1 appReveal="up" [revealDelay]="80" class="display-1 mt-4 !text-white" style="color: #ffffff !important;">
-        {{ s.title }}
-      </h1>
-      <p appReveal="up" [revealDelay]="160" class="mt-2 text-base font-semibold !text-white/85 sm:text-lg" style="color: rgba(255, 255, 255, 0.85) !important;">
-        {{ s.tagline }}
-      </p>
-      <p appReveal="up" [revealDelay]="220" class="mt-4 max-w-2xl text-sm leading-relaxed !text-white/85 sm:text-base" style="color: rgba(255, 255, 255, 0.85) !important;">
-        {{ s.description }}
-      </p>
-    </div>
-  </section>
-
-  <!-- Lista de episodios — mismo estilo que Edutips -->
-  <section class="mb-10 sm:mb-14">
-    <div appReveal="up" class="section-head">
-      <div>
-        <p class="eyebrow text-[color:var(--aud)]" [attr.data-audience]="s.audience">Episodios</p>
-        <h2 class="display-2 mt-1">Mira ahora</h2>
+      <div class="flex items-start gap-4">
+        <div class="grid h-12 w-12 sm:h-14 sm:w-14 place-items-center rounded-2xl bg-[color:var(--c-kids)] text-white shadow-md flex-none mt-1">
+          <span translate="no" class="material-symbols-rounded text-2xl sm:text-3xl icon-fill">{{ s.icon }}</span>
+        </div>
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[color:var(--c-kids)] mb-1">
+            Serie infantil · {{ s.tagline }}
+          </span>
+          <h1 class="display-1 text-[color:var(--text-primary)] leading-none">
+            {{ s.title }}
+          </h1>
+          <p class="mt-2.5 max-w-2xl text-sm leading-relaxed text-[color:var(--text-soft)] sm:text-base">
+            {{ s.description }}
+          </p>
+        </div>
       </div>
-      <span class="text-xs font-semibold text-[color:var(--text-mute)] sm:text-sm">{{ videos().length }} videos</span>
-    </div>
+    </header>
 
-
-
-    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-      <article *ngFor="let v of videos(); let i = index"
-               appReveal="up"
-               [revealDelay]="i * 60"
-               [attr.data-audience]="serie()?.audience"
-               class="card card-video-hover group flex flex-col overflow-hidden">
-
-        <!-- Thumbnail clicable -->
-        <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
-          <img
-            appImageLoader
-            [src]="getYoutubeThumb(v.youtubeUrl)"
-            [alt]="v.title"
-            class="h-full w-full object-cover">
-          <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/25 transition-colors">
-            <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud,var(--c-edutips))] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
-              <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+    <!-- ==========================================
+         SECCIÓN PEQUEÑOS CIBERNAUTAS: Memorama y descargable
+         ========================================== -->
+    <!-- Memorama interactivo Flip Card 3D comprimible -->
+    <section class="mb-6" [attr.data-audience]="s.audience">
+      <div class="cdj-toggle-card">
+        <button
+          type="button"
+          class="cdj-toggle-header"
+          (click)="toggleCards()"
+          [attr.aria-expanded]="isCardsOpen()"
+        >
+          <div class="flex items-center gap-3.5 overflow-hidden">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--c-kids)] flex-none">
+              <span class="material-symbols-rounded text-2xl">style</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Memorama interactivo “Pequeños Cibernautas”</h3>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
+                  {{ pequenosCards.length }} tarjetas
+                </span>
+              </div>
+              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
+                Colección completa de 20 tarjetas · Toca cualquier tarjeta para voltearla y ver su carátula oficial
+              </p>
+            </div>
+          </div>
+          <div class="cdj-toggle-pill">
+            <span>{{ isCardsOpen() ? 'Ocultar' : 'Ver memorama' }}</span>
+            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isCardsOpen()">
+              expand_more
             </span>
           </div>
-          @if (v.durationLabel) {
-            <span class="absolute bottom-2 right-2 rounded-md bg-black/75 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur">
-              {{ v.durationLabel }}
-            </span>
-          }
-          <!-- Número de episodio -->
-          <span class="absolute left-2 top-2 rounded-md bg-black/60 px-2 py-0.5 text-[11px] font-black text-white backdrop-blur">
-            Ep. {{ i + 1 }}
-          </span>
-        </div>
+        </button>
 
-        <!-- Metadata -->
-        <div class="flex flex-1 flex-col gap-2.5 p-5 cursor-pointer" (click)="activeVideo.set(v)">
-          <h3 class="text-[15px] font-black leading-snug tracking-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--aud,var(--c-edutips))] transition-colors line-clamp-2">
-            {{ v.title }}
-          </h3>
-          @if (v.description) {
-            <p class="line-clamp-2 text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ v.description }}</p>
-          }
+        <div class="cdj-toggle-body" [class.is-open]="isCardsOpen()">
+          <div class="cdj-toggle-inner">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 pt-2">
+              @for (postcard of pequenosCards; track postcard.id) {
+                <app-flip-card [item]="postcard" />
+              }
+            </div>
+          </div>
         </div>
-      </article>
-    </div>
-  </section>
+      </div>
+    </section>
+
+    <!-- Descarga de recursos oficiales de Pequeños Cibernautas -->
+    <section class="mb-12" [attr.data-audience]="s.audience">
+      <div class="cdj-toggle-card">
+        <button
+          type="button"
+          class="cdj-toggle-header"
+          (click)="toggleDownloads()"
+          [attr.aria-expanded]="isDownloadsOpen()"
+        >
+          <div class="flex items-center gap-3.5 overflow-hidden">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--c-kids)] flex-none">
+              <span class="material-symbols-rounded text-2xl">download_for_offline</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Descarga recursos</h3>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
+                  Materiales didácticos
+                </span>
+              </div>
+              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
+                Archivos en alta resolución listos para imprimir, colorear y jugar en familia o en la escuela
+              </p>
+            </div>
+          </div>
+          <div class="cdj-toggle-pill">
+            <span>{{ isDownloadsOpen() ? 'Ocultar' : 'Ver recursos' }}</span>
+            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isDownloadsOpen()">
+              expand_more
+            </span>
+          </div>
+        </button>
+
+        <div class="cdj-toggle-body" [class.is-open]="isDownloadsOpen()">
+          <div class="cdj-toggle-inner">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-2 pt-2">
+
+              <!-- Recurso 1: Memorama descargable -->
+              <div class="surface rounded-2xl border border-[color:var(--border-soft)] p-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 bg-gradient-to-br from-[color:var(--surface-card)] to-[color:var(--surface-soft)] hover:shadow-md transition-shadow">
+                <div class="w-36 h-36 rounded-xl overflow-hidden border border-[color:var(--border-soft)] shadow-sm flex-none bg-slate-900 group relative">
+                  <img
+                    src="/Cibernautas/descargable.jpg"
+                    alt="Memorama imprimible Pequeños Cibernautas"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy" />
+                  <span class="absolute bottom-2 right-2 bg-black/75 backdrop-blur text-[10px] font-bold text-white px-2 py-0.5 rounded">
+                    JPG · Alta res
+                  </span>
+                </div>
+                <div class="flex-1 flex flex-col justify-between h-full text-center sm:text-left">
+                  <div>
+                    <span class="text-[11px] font-bold text-[color:var(--c-kids)] uppercase tracking-wider">Juego de mesa educativo</span>
+                    <h4 class="text-base font-bold text-[color:var(--text-primary)] mt-0.5">Plantilla de Memorama</h4>
+                    <p class="text-xs text-[color:var(--text-soft)] mt-1.5 leading-relaxed">
+                      Lámina completa con todas las fichas y carátulas de Pequeños Cibernautas lista para imprimir y recortar.
+                    </p>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <a
+                      href="/Cibernautas/descargable.jpg"
+                      download="memorama-pequenos-cibernautas.jpg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-primary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">download</span>
+                      <span>Descargar (JPG)</span>
+                    </a>
+                    <a
+                      href="/Cibernautas/descargable.jpg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-secondary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">fullscreen</span>
+                      <span>Ver</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recurso 2: Dibujo para colorear PDF -->
+              <div class="surface rounded-2xl border border-[color:var(--border-soft)] p-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 bg-gradient-to-br from-[color:var(--surface-card)] to-[color:var(--surface-soft)] hover:shadow-md transition-shadow">
+                <div class="w-36 h-36 rounded-xl overflow-hidden border border-[color:var(--border-soft)] shadow-sm flex-none bg-white group relative">
+                  <img
+                    src="/Cibernautas/dibujo-colorear-preview.webp"
+                    alt="Dibujos para colorear Pequeños Cibernautas"
+                    class="w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy" />
+                  <span class="absolute bottom-2 right-2 bg-black/75 backdrop-blur text-[10px] font-bold text-white px-2 py-0.5 rounded">
+                    PDF · Imprimible
+                  </span>
+                </div>
+                <div class="flex-1 flex flex-col justify-between h-full text-center sm:text-left">
+                  <div>
+                    <span class="text-[11px] font-bold text-[color:var(--c-kids)] uppercase tracking-wider">Actividad y reflexión</span>
+                    <h4 class="text-base font-bold text-[color:var(--text-primary)] mt-0.5">Dibujos para colorear: Seguridad y autocuidado</h4>
+                    <p class="text-xs text-[color:var(--text-soft)] mt-1.5 leading-relaxed">
+                      Historia ilustrada con Axón y Snap para colorear y aprender sobre cuidado de dispositivos y virus digitales.
+                    </p>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <a
+                      href="/Cibernautas/DIBUJO COLOREAR2.pdf"
+                      download="dibujos-para-colorear-pequenos-cibernautas.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-primary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">download</span>
+                      <span>Descargar (PDF)</span>
+                    </a>
+                    <a
+                      href="/Cibernautas/DIBUJO COLOREAR2.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-secondary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">picture_as_pdf</span>
+                      <span>Ver PDF</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+
+  <!-- Lista de episodios (solo si la serie tiene videos publicados) -->
+  @if (!isPequenosCibernautas() && videos().length) {
+    <section class="mb-10 sm:mb-14">
+      <div appReveal="up" class="section-head">
+        <div>
+          <p class="eyebrow text-[color:var(--aud)]" [attr.data-audience]="s.audience">Episodios</p>
+          <h2 class="display-2 mt-1">Mira ahora</h2>
+        </div>
+        <span class="text-xs font-semibold text-[color:var(--text-mute)] sm:text-sm">{{ videos().length }} videos</span>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <article *ngFor="let v of videos(); let i = index"
+                 appReveal="up"
+                 [revealDelay]="i * 60"
+                 [attr.data-audience]="serie()?.audience"
+                 class="card card-video-hover group flex flex-col overflow-hidden">
+
+          <!-- Thumbnail clicable -->
+          <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
+            <img
+              appImageLoader
+              [src]="getYoutubeThumb(v.youtubeUrl)"
+              [alt]="v.title"
+              class="h-full w-full object-cover">
+            <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/25 transition-colors">
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud,var(--c-edutips))] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
+                <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
+              </span>
+            </div>
+            @if (v.durationLabel) {
+              <span class="absolute bottom-2 right-2 rounded-md bg-black/75 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur">
+                {{ v.durationLabel }}
+              </span>
+            }
+            <!-- Número de episodio -->
+            <span class="absolute left-2 top-2 rounded-md bg-black/60 px-2 py-0.5 text-[11px] font-black text-white backdrop-blur">
+              Ep. {{ i + 1 }}
+            </span>
+          </div>
+
+          <!-- Metadata -->
+          <div class="flex flex-1 flex-col gap-2.5 p-5 cursor-pointer" (click)="activeVideo.set(v)">
+            <h3 class="text-[15px] font-black leading-snug tracking-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--aud,var(--c-edutips))] transition-colors line-clamp-2">
+              {{ v.title }}
+            </h3>
+            @if (v.description) {
+              <p class="line-clamp-2 text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ v.description }}</p>
+            }
+          </div>
+        </article>
+      </div>
+    </section>
+  }
 
   <!-- Series relacionadas -->
   @if (relatedCards().length) {

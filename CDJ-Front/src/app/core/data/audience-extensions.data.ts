@@ -127,88 +127,254 @@ export const CASI_POSTCARDS: InteractivePostcard[] = [
     id: 1,
     title: 'Cuídate al usar la IA',
     shortAdvice: 'No compartas información privada ni datos sensibles con herramientas de Inteligencia Artificial.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/1.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/cuidate-al-usar-la-IA.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/cuidate-al-usar-la-inteligencia.pdf'
+    frontImgUrl: '/postales/img/1.webp',
+    backImgUrl: '/postales/img/cuidate-al-usar-la-IA.webp',
+    pdfUrl: '/postales/pdf/cuidate-al-usar-la-inteligencia.pdf'
   },
   {
     id: 2,
     title: 'Navega seguro y protege tu equipo',
     shortAdvice: 'Verifica los enlaces antes de abrirlos y mantén tus dispositivos protegidos.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/2.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/navegaseguro.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/navega-seguero-y-protege-tu-equipo.pdf'
+    frontImgUrl: '/postales/img/2.webp',
+    backImgUrl: '/postales/img/navegaseguro.webp',
+    pdfUrl: '/postales/pdf/navega-seguero-y-protege-tu-equipo.pdf'
   },
   {
     id: 3,
     title: 'No compartas tus datos con cualquiera',
     shortAdvice: 'Tu nombre, dirección, escuela y fotos familiares son datos valiosos que debes proteger.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/3.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/nocompartastusdatos.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/no-compartas-tus-datos-con-cualquiera.pdf'
+    frontImgUrl: '/postales/img/3.webp',
+    backImgUrl: '/postales/img/nocompartastusdatos.webp',
+    pdfUrl: '/postales/pdf/no-compartas-tus-datos-con-cualquiera.pdf'
   },
   {
     id: 4,
     title: 'Prevención digital: protege tu acceso',
     shortAdvice: 'Usa contraseñas seguras y nunca las compartas, ni siquiera con tus amigos.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/4.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prevenciondigital.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prevencion-digital-protege-tu-acceso.pdf'
+    frontImgUrl: '/postales/img/4.webp',
+    backImgUrl: '/postales/img/prevenciondigital.webp',
+    pdfUrl: '/postales/pdf/prevencion-digital-protege-tu-acceso.pdf'
   },
   {
     id: 5,
     title: 'Seguridad digital en compras y pagos',
     shortAdvice: 'Nunca hagas compras dentro de juegos o aplicaciones sin el permiso y compañía de una persona adulta.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/5.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/seguridaddigital.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/seguridad-digital-en-commpras-y-pagos.pdf'
+    frontImgUrl: '/postales/img/5.webp',
+    backImgUrl: '/postales/img/seguridaddigital.webp',
+    pdfUrl: '/postales/pdf/seguridad-digital-en-commpras-y-pagos.pdf'
   },
   {
     id: 6,
     title: 'Cuidado con los impostores digitales',
     shortAdvice: 'Desconfía de cuentas o mensajes que se hacen pasar por personas conocidas o marcas famosas.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/6.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prenvenciondeestafas.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/cuidadocon-impostores-digitales.pdf#'
+    frontImgUrl: '/postales/img/6.webp',
+    backImgUrl: '/postales/img/prenvenciondeestafas.webp',
+    pdfUrl: '/postales/pdf/cuidadocon-impostores-digitales.pdf'
   },
   {
     id: 7,
     title: 'Prevención del acoso digital',
     shortAdvice: 'Si ves o recibes burlas o mensajes hirientes, no te sumes: guarda evidencia y pide ayuda a un adulto.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/7.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prevenciondeacoso.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prevencion-del-acoso-digital.pdf'
+    frontImgUrl: '/postales/img/7.webp',
+    backImgUrl: '/postales/img/prevenciondeacoso.webp',
+    pdfUrl: '/postales/pdf/prevencion-del-acoso-digital.pdf'
   },
   {
     id: 8,
     title: 'Protege tu privacidad en el mundo digital',
     shortAdvice: 'Revisa la configuración de privacidad de tus redes y videojuegos para controlar quién ve tus publicaciones.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/8.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/protegetuprivacidad.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/protege-tu-privacidad.pdf'
+    frontImgUrl: '/postales/img/8.webp',
+    backImgUrl: '/postales/img/protegetuprivacidad.webp',
+    pdfUrl: '/postales/pdf/protege-tu-privacidad.pdf'
   },
   {
     id: 9,
     title: 'Seguridad en tus cuentas digitales',
     shortAdvice: 'Activa la verificación en dos pasos siempre que sea posible para evitar accesos no autorizados.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/9.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/seguridaentuscuentas.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/seguridad-en-tus-cuentas-digitales.pdf'
+    frontImgUrl: '/postales/img/9.webp',
+    backImgUrl: '/postales/img/seguridaentuscuentas.webp',
+    pdfUrl: '/postales/pdf/seguridad-en-tus-cuentas-digitales.pdf'
   },
   {
     id: 10,
     title: 'Prevención de estafas digitales',
     shortAdvice: 'Si te ofrecen premios increíbles, monedas gratis o regalos a cambio de tus datos, es una trampa.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/10.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prenvenciondeestafas.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/prevencion-de-estafas-digitales.pdf'
+    frontImgUrl: '/postales/img/10.webp',
+    backImgUrl: '/postales/img/prenvenciondeestafas.webp',
+    pdfUrl: '/postales/pdf/prevencion-de-estafas-digitales.pdf'
   },
   {
     id: 11,
     title: 'Uso responsable de la Inteligencia Artificial',
     shortAdvice: 'Usa la IA como apoyo para aprender e inspirarte, pero sé siempre el autor con tu propio criterio y esfuerzo.',
-    frontImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/11.png',
-    backImgUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/usoresponsabledeIA.png',
-    pdfUrl: 'https://ciudadaniadigital.jalisco.gob.mx/wp-content/uploads/2026/03/uso-resposable-de-la-ia.pdf'
+    frontImgUrl: '/postales/img/11.webp',
+    backImgUrl: '/postales/img/usoresponsabledeIA.webp',
+    pdfUrl: '/postales/pdf/uso-resposable-de-la-ia.pdf'
   }
 ];
+
+/** Tarjetas interactivas y descargables "Pequeños Cibernautas" (Memorama 20 piezas) */
+export const PEQUENOS_CIBERNAUTAS_CARDS: InteractivePostcard[] = [
+  {
+    id: 1,
+    title: 'Tarjeta 1',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-01.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 2,
+    title: 'Tarjeta 2',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-02.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 3,
+    title: 'Tarjeta 3',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-03.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 4,
+    title: 'Tarjeta 4',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-04.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 5,
+    title: 'Tarjeta 5',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-05.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 6,
+    title: 'Tarjeta 6',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-06.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 7,
+    title: 'Tarjeta 7',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-07.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 8,
+    title: 'Tarjeta 8',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-08.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 9,
+    title: 'Tarjeta 9',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-09.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 10,
+    title: 'Tarjeta 10',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-10.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 11,
+    title: 'Tarjeta 11',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-11.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 12,
+    title: 'Tarjeta 12',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-12.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 13,
+    title: 'Tarjeta 13',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-13.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 14,
+    title: 'Tarjeta 14',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-14.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 15,
+    title: 'Tarjeta 15',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-15.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 16,
+    title: 'Tarjeta 16',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-16.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 17,
+    title: 'Tarjeta 17',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-17.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 18,
+    title: 'Tarjeta 18',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-18.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 19,
+    title: 'Tarjeta 19',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-19.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  },
+  {
+    id: 20,
+    title: 'Tarjeta 20',
+    shortAdvice: 'Memorama Pequeños Cibernautas · Ciudadanía Digital Jalisco',
+    frontImgUrl: '/Cibernautas/memorama-20.webp',
+    backImgUrl: '/Cibernautas/caratula.webp',
+    pdfUrl: '/Cibernautas/descargable.jpg'
+  }
+];
+
+

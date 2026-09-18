@@ -8,11 +8,13 @@ import { RevealDirective } from '../../shared/scroll-reveal/scroll-reveal.direct
 import { ImageEditService } from '../../core/services/image-edit.service';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
 import { VideoModalComponent } from '../../shared/video-modal/video-modal';
+import { FlipCardComponent } from '../../shared/flip-card/flip-card';
+import { PEQUENOS_CIBERNAUTAS_CARDS } from '../../core/data/audience-extensions.data';
 
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, FeatureCardComponent, VideoModalComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, FeatureCardComponent, VideoModalComponent, FlipCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })
@@ -20,6 +22,20 @@ export class SeriesDetailComponent {
   private route   = inject(ActivatedRoute);
   private content = inject(ContentService);
   private imgEdit = inject(ImageEditService);
+
+  isPequenosCibernautas = computed(() => this.slug() === 'pequenos-cibernautas');
+  pequenosCards = PEQUENOS_CIBERNAUTAS_CARDS;
+  isCardsOpen = signal<boolean>(true);
+  isDownloadsOpen = signal<boolean>(false);
+
+  toggleCards() {
+    this.isCardsOpen.update((v) => !v);
+  }
+
+  toggleDownloads() {
+    this.isDownloadsOpen.update((v) => !v);
+  }
+
 
   resolvedCoverUrl = computed(() => {
     const s = this.serie();
