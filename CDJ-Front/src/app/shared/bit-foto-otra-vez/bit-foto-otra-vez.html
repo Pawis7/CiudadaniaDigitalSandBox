@@ -1,0 +1,318 @@
+<div class="ac-root">
+<div class="ac-shell">
+
+  <!-- ═══ HEADER STRIP ═══ -->
+  <header class="ac-header">
+    <div class="ac-brand">
+      <div class="ac-mark">B</div>
+      <div class="ac-brand-text">
+        <span class="ac-brand-name">Ciudadanía Digital Jalisco</span>
+        <span class="ac-brand-sub">Colección Preescolar · Audiocuento ilustrado</span>
+      </div>
+    </div>
+    <div class="ac-controls">
+      <button (click)="toggleVoice()" class="ac-btn" [class.ac-btn--active]="voiceOn()" [attr.aria-label]="voiceOn() ? 'Silenciar narración' : 'Activar narración'">
+        <span class="ac-btn-icon">{{ voiceOn() ? '🔊' : '🔇' }}</span>
+        {{ voiceOn() ? 'Voz' : 'Silencio' }}
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ BOOK STAGE ═══ -->
+  <main class="ac-stage" [attr.data-direction]="turnDirection()">
+
+    <!-- ──── PORTADA (Página 0) ──── -->
+    <section class="ac-spread ac-cover" [class.ac-spread--visible]="cur() === 0">
+      <!-- LEFT: portada illustration -->
+      <div class="ac-page ac-page--left ac-cover-art">
+        <img src="/cuentos/BData_123/BData_123_01.webp"
+             alt="Portada: ¡Un, dos, tres… foto otra vez!"
+             class="ac-scene-img">
+      </div>
+
+      <div class="ac-spine"></div>
+
+      <!-- RIGHT: portada interior con imagen + texto overlay -->
+      <div class="ac-page ac-page--right ac-cover-art">
+        <img src="/cuentos/BData_123/BData_123_02.webp"
+             alt="Portada interior"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--cover">
+          <h1 class="ac-title">
+            ¡Un, dos, tres…
+            <em class="ac-title-em">foto otra vez!</em>
+          </h1>
+          <p class="ac-cover-lead">
+            Un audiocuento sobre la creación responsable, la empatía y la regla de oro: antes de tomar o mostrar una foto, preguntamos con nuestra voz.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──── ESCENA 1: El gran hallazgo ──── -->
+    <section class="ac-spread" [class.ac-spread--visible]="cur() === 1">
+      <div class="ac-page ac-page--left">
+        <img src="/cuentos/BData_123/BData_123_03.webp"
+             alt="Escena 1: El gran hallazgo"
+             class="ac-scene-img">
+        <div class="ac-page-num">1</div>
+      </div>
+
+      <div class="ac-spine"></div>
+
+      <div class="ac-page ac-page--right">
+        <img src="/cuentos/BData_123/BData_123_04.webp"
+             alt="Escena 1: El gran hallazgo"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">El gran hallazgo</h2>
+          <div class="ac-scene-narrative">
+            <p>¡Hola! Acompaña a tus amigos en esta historia.</p>
+            <p>Hoy, la maestra le prestó a Bit una cámara fotográfica para el taller de exploradores.</p>
+            <p>A Bit le encanta ver por el lente, apuntar y presionar el botón de arriba para guardar imágenes de todo lo que ve en el salón.</p>
+            <p class="ac-story-quote">«¡Click! Guardamos imágenes de lo que vemos en el salón.»</p>
+            <div class="ac-shutter-action">
+              <button type="button" (click)="triggerCameraClick()" class="ac-btn-shutter" aria-label="Presionar botón de la cámara para tomar foto">
+                <span class="ac-btn-shutter-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </span>
+                <span>¡Presionar botón para tomar foto!</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ac-page-num">2</div>
+      </div>
+    </section>
+
+    <!-- ──── ESCENA 2: El tropiezo de Data ──── -->
+    <section class="ac-spread" [class.ac-spread--visible]="cur() === 2">
+      <div class="ac-page ac-page--left">
+        <img src="/cuentos/BData_123/BData_123_05.webp"
+             alt="Escena 2: El tropiezo de Data"
+             class="ac-scene-img">
+        <div class="ac-page-num">3</div>
+      </div>
+
+      <div class="ac-spine"></div>
+
+      <div class="ac-page ac-page--right">
+        <img src="/cuentos/BData_123/BData_123_06.webp"
+             alt="Escena 2: El tropiezo de Data"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">El tropiezo de Data</h2>
+          <div class="ac-scene-narrative">
+            <p>Data la pajarita perdió el equilibrio y dio una voltereta de cabeza.</p>
+            <p>Bit se rió y, sin avisar, levantó la cámara y... ¡Click! Guardó una foto justo cuando Data cayó al suelo.</p>
+            <p class="ac-story-quote">«Una foto sin avisar... en un momento difícil.»</p>
+          </div>
+        </div>
+        <div class="ac-page-num">4</div>
+      </div>
+    </section>
+
+    <!-- ──── ESCENA 3: La reacción de Data ──── -->
+    <section class="ac-spread" [class.ac-spread--visible]="cur() === 3">
+      <div class="ac-page ac-page--left">
+        <img src="/cuentos/BData_123/BData_123_07.webp"
+             alt="Escena 3: La reacción de Data"
+             class="ac-scene-img">
+        <div class="ac-page-num">5</div>
+      </div>
+
+      <div class="ac-spine"></div>
+
+      <div class="ac-page ac-page--right">
+        <img src="/cuentos/BData_123/BData_123_08.webp"
+             alt="Escena 3: La reacción de Data"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">La reacción de Data</h2>
+          <div class="ac-scene-narrative">
+            <p>Bit quería correr a enseñarle la foto a todos los robots del salón, pero al mirar a Data, vio que guardó sus alitas y escondió su piquito.</p>
+            <p>A Data le dio mucha pena que capturaran ese momento tan incómodo con la cámara sin haberle preguntado antes si estaba lista.</p>
+            <p class="ac-dialogue-text">— Data... ¿te dio pena esa foto?</p>
+            <p class="ac-story-quote">«Cuando alguien siente pena, nos detenemos a cuidar.»</p>
+          </div>
+        </div>
+        <div class="ac-page-num">6</div>
+      </div>
+    </section>
+
+    <!-- ──── ESCENA 4: Momento de decidir ──── -->
+    <section class="ac-spread" [class.ac-spread--visible]="cur() === 4">
+      <div class="ac-page ac-page--left">
+        <img src="/cuentos/BData_123/BData_123_09.webp"
+             alt="Escena 4: Momento de decidir"
+             class="ac-scene-img">
+        <div class="ac-page-num">7</div>
+      </div>
+
+      <div class="ac-spine"></div>
+
+      <div class="ac-page ac-page--right">
+        <img src="/cuentos/BData_123/BData_123_10.webp"
+             alt="Escena 4: Momento de decidir"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">Momento de decidir</h2>
+          <div class="ac-scene-narrative">
+            <p>La cámara de Bit es una gran herramienta para crear, pero para usarla con respeto, recordamos la regla de oro:</p>
+            <p class="ac-story-quote">«Antes de tomar una foto a un amigo, usamos nuestra voz para preguntar.»</p>
+            <p class="ac-prompt-line">¿Qué debe hacer Bit ahora?</p>
+
+            <div class="ac-decision-cards">
+              <button type="button" (click)="chooseOption(true)" class="ac-choice-btn ac-choice-btn--stop">
+                <span class="ac-choice-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </span>
+                <div class="ac-choice-body">
+                  <strong>Borrar la foto y preguntar</strong>
+                  <span>Usar la voz para saber si Data se siente lista.</span>
+                </div>
+              </button>
+
+              <button type="button" (click)="chooseOption(false)" class="ac-choice-btn ac-choice-btn--neutral">
+                <span class="ac-choice-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </span>
+                <div class="ac-choice-body">
+                  <strong>Mostrar la foto a todos</strong>
+                  <span>Correr a enseñar la caída a los compañeros.</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="ac-page-num">8</div>
+      </div>
+    </section>
+
+    <!-- ──── ESCENA 5: Final amable ──── -->
+    <section class="ac-spread" [class.ac-spread--visible]="cur() === 5">
+      <div class="ac-page ac-page--left">
+        <img src="/cuentos/BData_123/BData_123_11.webp"
+             alt="Escena 5: Final amable"
+             class="ac-scene-img">
+        <div class="ac-page-num">9</div>
+      </div>
+
+      <div class="ac-spine"></div>
+
+      <div class="ac-page ac-page--right">
+        <img src="/cuentos/BData_123/BData_123_12.webp"
+             alt="Escena 5: Final amable"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--dark-ink">
+          <h2 class="ac-scene-title">Final amable</h2>
+          <div class="ac-scene-narrative">
+            <p>Bit borró la foto incómoda, miró a Data y le preguntó:</p>
+            <p class="ac-dialogue-text">— Data, ¿te puedo tomar una foto volando feliz?</p>
+            <p class="ac-dialogue-text">— ¡Sí, ahora sí estoy lista! —respondió Data con alegría.</p>
+            <p class="ac-story-quote">«Antes de tomar una foto, pregunto con mi voz.»</p>
+            <p class="ac-story-moral">Fin del cuento. Cuidamos a nuestros amigos usando la tecnología con prudencia y respeto.</p>
+          </div>
+        </div>
+        <div class="ac-page-num">10</div>
+      </div>
+    </section>
+
+    <!-- ──── ESCENA 6: Fin del cuento (cur === 6) ──── -->
+    <section class="ac-spread ac-end-screen" [class.ac-spread--visible]="cur() === 6">
+      <div class="ac-end-inner">
+        <div class="ac-end-icon">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        </div>
+        <h2 class="ac-end-title">¡Cuento Completado!</h2>
+        <p class="ac-end-subtitle">
+          ¡Felicidades! Has aprendido a cuidar a tus amigos antes de tomar una foto.
+        </p>
+
+        <div class="ac-end-badge">
+          <div class="ac-end-badge-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </div>
+          <div>
+            <strong>Regla de oro de la fotografía:</strong>
+            <p>¡Antes de tomar o mostrar una foto, pregunto con mi voz!</p>
+          </div>
+        </div>
+
+        <div class="ac-end-actions">
+          <button (click)="goToPage(0)" class="ac-btn-restart">
+            Volver a leer
+          </button>
+          <button (click)="closeBook()" class="ac-btn-close">
+            Cerrar cuento
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FEEDBACK AMABLE OVERLAY (DECISIÓN INCORRECTA) ═══ -->
+  @if (showFeedback()) {
+    <div class="ac-feedback-overlay" role="dialog" aria-modal="true">
+      <div class="ac-feedback-card">
+        <div class="ac-feedback-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <h3 class="ac-feedback-title">Hagamos una pausa</h3>
+        <p class="ac-feedback-text">
+          Mira a Data. ¿Se siente lista? Probemos otra vez: recuerda que primero preguntamos con nuestra voz.
+        </p>
+        <button type="button" (click)="retryDecision()" class="ac-btn-restart ac-btn-restart--feedback">
+          Volver a intentar
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- ═══ NAVIGATION FOOTER ═══ -->
+  <footer class="ac-footer">
+    <button [disabled]="cur() === 0" (click)="prevPage()" class="ac-nav-btn">
+      <span>←</span> Anterior
+    </button>
+
+    <div class="ac-progress">
+      <div class="ac-progress-dots">
+        @for (i of [0,1,2,3,4,5,6]; track i) {
+          <button (click)="goToPage(i)" class="ac-dot" [class.ac-dot--active]="cur() === i"></button>
+        }
+      </div>
+      <span class="ac-page-label">
+        {{ cur() === 0 ? 'Portada' : (cur() === 6 ? 'Fin' : 'Págs. ' + (cur() * 2 - 1) + '–' + (cur() * 2)) }}
+      </span>
+    </div>
+
+    <button (click)="nextPage()" class="ac-nav-btn ac-nav-btn--next">
+      {{ cur() === 6 ? 'Cerrar' : 'Siguiente' }} <span>→</span>
+    </button>
+  </footer>
+
+</div><!-- /.ac-shell -->
+</div><!-- /.ac-root -->

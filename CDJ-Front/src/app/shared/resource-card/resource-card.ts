@@ -18,6 +18,8 @@ export class ResourceCardComponent {
 
   isWidgetAction(): boolean {
     return (
+      this.item.link === '#widget-seccion-anchor' ||
+      this.item.id === 'bit-foto-otra-vez' ||
       this.item.id === 'simulador-fraudes' ||
       this.item.id === 'candado-rapido' ||
       this.item.id === 'presion-pares' ||

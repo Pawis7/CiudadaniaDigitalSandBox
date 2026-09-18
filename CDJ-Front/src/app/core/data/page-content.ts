@@ -137,6 +137,19 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             colorClass: 'from-sky-400 to-emerald-400',
             actionLabel: 'Leer cuento',
             link: '#widget-seccion-anchor'
+          },
+          {
+            id: 'bit-foto-otra-vez',
+            title: '¡Un, dos, tres… foto otra vez!',
+            description: 'Acompaña a Bit y Data en este cuento interactivo para aprender a usar la voz y preguntar antes de tomar o mostrar una foto.',
+            type: 'activity',
+            typeLabel: 'Cuento interactivo',
+            icon: 'photo_camera',
+            badge: '5 escenas · Preescolar',
+            duration: '7 min',
+            colorClass: 'from-amber-400 to-rose-400',
+            actionLabel: 'Abrir cuento',
+            link: '#widget-seccion-anchor'
           }
         ]
       },
