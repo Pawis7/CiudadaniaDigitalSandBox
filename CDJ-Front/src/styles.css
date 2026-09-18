@@ -220,7 +220,7 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
   }
 }
 
-/* Logos institucionales del footer: grises en modo claro, blancos/claros en modo oscuro */
+/* Logos institucionales del footer: grises en modo claro, blancos/claros en modo oscuro ayuda se bugeo el deploy*/
 .footer-logo {
   filter: brightness(0.42);
   transition: filter 0.2s ease, opacity 0.2s ease;
