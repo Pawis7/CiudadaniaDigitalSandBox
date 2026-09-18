@@ -89,9 +89,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para los más pequeños',
     tagline: 'Aprender jugando, con calma y compañía',
     description:
-      'Recursos para aprender a convivir, jugar y participar de forma segura en el mundo digital para niñas y niños de preescolar, primaria baja y primaria alta.',
+      'Este es un espacio en el que encontrarás la serie animada “El día que casi” (con Lelé, Trapo, Nails, Pixi, Lucho, Bot, Paper, Gary, Bunny y Been), juegos, historias interactivas, postales y recursos para cuidar tu huella digital y navegar seguro.',
     explanatoryText:
-      'La ciudadanía digital comienza desde las primeras experiencias con pantallas, juegos, videos y aplicaciones. En esta sección niñas y niños encontrarán historias, actividades y recursos visuales para aprender a cuidarse, pedir ayuda, respetar a otras personas y equilibrar el uso de la tecnología con juego, descanso y convivencia.',
+      'Internet es un lugar increíble… ¡Pero también hay que saber moverse por ahí! Con el Escuadrón Digital aprenderás a utilizar los superpoderes que todo ciudadano digital necesita para proteger tu privacidad, evitar trampas o engaños y divertirte en un entorno seguro.',
     heroImage:
       'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-kids-hero',
@@ -429,9 +429,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para acompañar en casa',
     tagline: 'Conversaciones que sí ayudan',
     description:
-      'Herramientas para acompañar a niñas, niños y adolescentes en su vida digital con confianza y claridad en las etapas de crianza desde 0 hasta los 22 años.',
+      'Sabemos que como padres de familia o cuidadores buscan cómo acompañar a sus hijas e hijos para que sean ciudadanos digitales responsables y se cuiden al utilizar redes sociales o Inteligencia Artificial.',
     explanatoryText:
-      'Acompañar la vida digital no significa saberlo todo ni controlar cada paso. Significa abrir conversaciones, construir acuerdos, reconocer riesgos y ayudar a niñas, niños y adolescentes a desarrollar autonomía con cuidado. Aquí encontrarás recursos para acompañar sin miedo, sin invadir y con herramientas concretas.',
+      'Acompañar la vida digital no significa saberlo todo ni controlar cada paso. Significa abrir conversaciones, construir acuerdos, reconocer riesgos y ayudar a niñas, niños y adolescentes a cuidarse y cuidar a los otros con herramientas concretas y afectivas.',
     heroImage:
       'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-families-hero',
@@ -555,9 +555,9 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
     eyebrow: 'Para llevar al aula',
     tagline: 'Recursos listos para clase',
     description:
-      'Recursos y estrategias para trabajar ciudadanía digital en el aula de forma segura, crítica y responsable para todos los niveles básica y superior.',
+      'Tu labor docente es muy importante para nosotros: te brindamos herramientas, marcos de referencia y secuencias didácticas para fortalecer tus habilidades y formar a tus alumnos en ciudadanía digital.',
     explanatoryText:
-      'La ciudadanía digital también se aprende en la escuela. Esta sección reúne recursos para abrir conversaciones, trabajar casos, prevenir riesgos, fortalecer la convivencia y actuar con claridad cuando surge una situación digital que afecta al grupo o a la comunidad escolar.',
+      'La ciudadanía digital también se aprende en la escuela. Esta sección reúne recursos prácticos para el aula, orientaciones de la UNESCO sobre Inteligencia Artificial, marcos de competencias y herramientas para fortalecer la convivencia digital pacífica en la comunidad escolar.',
     heroImage:
       'https://images.unsplash.com/photo-1544717297-fa154ddad021?auto=format&fit=crop&q=80&w=1600',
     heroImageId: 'aud-teachers-hero',
