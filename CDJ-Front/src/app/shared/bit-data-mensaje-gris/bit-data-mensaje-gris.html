@@ -11,15 +11,9 @@
       </div>
     </div>
     <div class="ac-controls">
-      <button (click)="toggleVoice()" class="ac-btn" [class.ac-btn--active]="voiceOn()">
+      <button (click)="toggleVoice()" class="ac-btn" [class.ac-btn--active]="voiceOn()" [attr.aria-label]="voiceOn() ? 'Silenciar narración' : 'Activar narración'">
         <span class="ac-btn-icon">{{ voiceOn() ? '🔊' : '🔇' }}</span>
         {{ voiceOn() ? 'Voz' : 'Silencio' }}
-      </button>
-      <button (click)="readPageManual()" class="ac-btn">
-        <span class="ac-btn-icon">↻</span> Leer
-      </button>
-      <button (click)="readAllBook()" class="ac-btn ac-btn--highlight">
-        <span class="ac-btn-icon">🎧</span> Cuento
       </button>
     </div>
   </header>
@@ -29,36 +23,29 @@
 
     <!-- ──── PORTADA ──── -->
     <section class="ac-spread ac-cover" [class.ac-spread--visible]="cur() === 0">
-      <div class="ac-cover-inner">
+      <!-- LEFT: portada illustration -->
+      <div class="ac-page ac-page--left ac-cover-art">
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-01.jpg"
+             alt="Portada: Bit, Data y el mensaje gris"
+             class="ac-scene-img">
+      </div>
 
-        <!-- LEFT: portada illustration -->
-        <div class="ac-cover-art">
-          <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-01.jpg"
-               alt="Portada: Bit, Data y el mensaje gris"
-               class="ac-scene-img">
+      <div class="ac-spine"></div>
+
+      <!-- RIGHT: portada interior con imagen + texto overlay -->
+      <div class="ac-page ac-page--right ac-cover-art">
+        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-02.jpg"
+             alt="Portada interior"
+             class="ac-scene-img">
+        <div class="ac-story-overlay ac-story-overlay--cover">
+          <h1 class="ac-title">
+            Bit, Data y el misterio del
+            <em class="ac-title-em">mensaje gris</em>
+          </h1>
+          <p class="ac-cover-lead">
+            Un audiocuento sobre la empatía digital, el cuidado mutuo y el superpoder de cerrar y contar.
+          </p>
         </div>
-
-        <div class="ac-spine"></div>
-
-        <!-- RIGHT: portada interior con imagen + texto overlay -->
-        <div class="ac-cover-art">
-          <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-02.jpg"
-               alt="Portada interior"
-               class="ac-scene-img">
-          <div class="ac-story-overlay ac-story-overlay--cover">
-            <h1 class="ac-title">
-              Bit, Data y el misterio del
-              <em class="ac-title-em">mensaje gris</em>
-            </h1>
-            <p class="ac-cover-lead">
-              Un audiocuento sobre la empatía digital, el cuidado mutuo y el superpoder de cerrar y contar.
-            </p>
-            <button (click)="startBook()" class="ac-start-btn">
-              Abrir el cuento →
-            </button>
-          </div>
-        </div>
-
       </div>
     </section>
 

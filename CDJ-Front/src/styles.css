@@ -137,6 +137,45 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
     display: none !important;
   }
 
+  .cdj-banner[data-audience="kids"],
+  .audience-hero[data-audience="kids"],
+  .cdj-banner[data-audience="kids"] .cdj-banner__copy,
+  .audience-hero[data-audience="kids"] .audience-hero__copy {
+    background-color: #8f489d !important;
+  }
+
+  .cdj-banner[data-audience="families"],
+  .audience-hero[data-audience="families"],
+  .cdj-banner[data-audience="families"] .cdj-banner__copy,
+  .audience-hero[data-audience="families"] .audience-hero__copy {
+    background-color: #e81851 !important;
+  }
+
+  .cdj-banner[data-audience="teens"],
+  .audience-hero[data-audience="teens"],
+  .cdj-banner[data-audience="teens"] .cdj-banner__copy,
+  .audience-hero[data-audience="teens"] .audience-hero__copy {
+    background-color: #046938 !important;
+  }
+
+  .cdj-banner[data-audience="cdj"],
+  .audience-hero[data-audience="cdj"],
+  .cdj-banner[data-audience="cdj"] .cdj-banner__copy,
+  .audience-hero[data-audience="cdj"] .audience-hero__copy {
+    background-color: #e81a4f !important;
+  }
+
+  .cdj-banner[data-audience="teachers"],
+  .audience-hero[data-audience="teachers"],
+  .cdj-banner[data-audience="teachers"] .cdj-banner__copy,
+  .audience-hero[data-audience="teachers"] .audience-hero__copy,
+  .cdj-banner[data-audience="edutips"],
+  .audience-hero[data-audience="edutips"],
+  .cdj-banner[data-audience="edutips"] .cdj-banner__copy,
+  .audience-hero[data-audience="edutips"] .audience-hero__copy {
+    background-color: #f6842b !important;
+  }
+
   .cdj-banner__copy h1,
   .audience-hero__copy h1 {
     font-size: clamp(1.75rem, 6.5vw, 2.25rem) !important;

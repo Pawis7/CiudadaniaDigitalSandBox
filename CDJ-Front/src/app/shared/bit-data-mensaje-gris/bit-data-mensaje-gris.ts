@@ -170,11 +170,11 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
   toggleVoice(): void {
     const nextVal = !this.voiceOn();
     this.voiceOn.set(nextVal);
-    if (!nextVal) {
-      this.readAllMode.set(false);
-      this.stopAudio();
-    } else {
-      this.speakCurrentPage(true, false);
+    this.stopAudio();
+    if (nextVal) {
+      this.later(() => {
+        this.speakCurrentPage(true, true);
+      }, 150);
     }
   }
 
