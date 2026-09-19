@@ -51,11 +51,11 @@
             
             <!-- Title Container -->
             <div class="casino-title-container">
-              <h1 class="casino-title line-1">LA VOZ EN</h1>
+              <h1 class="casino-title line-1">LA VOZ</h1>
               <div class="casino-title-badge-wrap">
-                <span class="casino-title-badge">¡HABLA!</span>
+                <span class="casino-title-badge">EN EL</span>
               </div>
-              <h1 class="casino-title line-2">EL SQUAD</h1>
+              <h1 class="casino-title line-2">SQUAD</h1>
             </div>
 
             <!-- Icon Sticker Container -->
@@ -276,6 +276,9 @@
 
                       <!-- Audio note player mockup -->
                       <div *ngIf="msg.isVoice" class="voice bg-white border-2.5 border-black rounded-2xl p-2.5 w-[220px] shadow-[3px_3.5px_0px_#000] space-y-1.5">
+                        <span class="sender-tag" [class.tu]="msg.isMe" [ngClass]="msg.avatarClass">
+                          {{ msg.name }}
+                        </span>
                         <div class="voice-top flex items-center gap-2">
                           <div class="voice-play w-7 h-7 rounded-full bg-white border-2 border-black flex items-center justify-center font-bold text-[10px] text-black shadow-[1.5px_1.5px_0px_#000] active:translate-y-0.5 cursor-pointer">
                             ▶

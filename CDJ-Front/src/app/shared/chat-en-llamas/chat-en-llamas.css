@@ -379,23 +379,32 @@
 
 /* Sender Sticker Tags */
 .sender-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   font-family: "Arial Black", "Impact", sans-serif;
-  font-size: 7.5px;
+  font-size: 8.5px;
   font-weight: 900;
-  padding: 2.5px 7px;
+  padding: 2px 7px;
   border-radius: 6px;
-  border: 2px solid #000;
+  border: 1.8px solid #000;
   box-shadow: 1px 1.5px 0px #000;
+  background: #8b5cf6;
   color: #fff;
   margin-bottom: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
 }
 .sender-tag.sofia { background: #c084fc; }
 .sender-tag.diego { background: #0d9488; }
 .sender-tag.emiliano { background: #3b82f6; }
 .sender-tag.tu { background: #f97316; }
+
+.msg-text {
+  display: block;
+  line-height: 1.4;
+  color: #1e293b;
+}
 
 /* Stickers next to bubbles */
 .sticker-alert, .sticker-star, .sticker-heart {

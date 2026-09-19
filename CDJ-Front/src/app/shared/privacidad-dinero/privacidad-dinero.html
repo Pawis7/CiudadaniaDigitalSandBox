@@ -284,8 +284,7 @@
         </div>
 
         <!-- 4-week Planner Section -->
-        <div class="card planner-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6"
-             [class.hide-on-incomplete-print]="!isPlannerComplete()">
+        <div class="card planner-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
           <h3 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)] pb-3 border-b border-[color:var(--border-soft)]">
             🗓 Acuerdos de casa para privacidad + dinero
           </h3>
@@ -299,30 +298,35 @@
               <label class="field-label" for="agreement1">ACUERDO 1 <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="agreement1" class="field-input" placeholder="Ejemplo: No decidir suscripciones, pagos o depósitos bajo presión o prisa."
                         [ngModel]="agreement1()" (ngModelChange)="agreement1.set($event)"></textarea>
+              <div class="print-val">{{ agreement1() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="agreement2">ACUERDO 2 <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="agreement2" class="field-input" placeholder="Ejemplo: No compartir contraseñas, códigos OTP o capturas con accesos bancarios."
                         [ngModel]="agreement2()" (ngModelChange)="agreement2.set($event)"></textarea>
+              <div class="print-val">{{ agreement2() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="agreement3">ACUERDO 3 <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="agreement3" class="field-input" placeholder="Ejemplo: Conversar en familia y verificar antes de abrir enlaces sospechosos o responder ofertas dudosas."
                         [ngModel]="agreement3()" (ngModelChange)="agreement3.set($event)"></textarea>
+              <div class="print-val">{{ agreement3() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="signalRed">¿QUÉ SEÑAL RARA NOS DEBE PRENDER ALERTA DE INMEDIATO? <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="signalRed" class="field-input" placeholder="Ejemplo: Un cobro o cargo no reconocido, o un mensaje de urgencia que pide depósitos rápidos."
                         [ngModel]="signalRed()" (ngModelChange)="signalRed.set($event)"></textarea>
+              <div class="print-val">{{ signalRed() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="adultResponsible">¿QUÉ PERSONA ADULTA SERÁ EL PRIMER APOYO? <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="adultResponsible" class="field-input" placeholder="Ejemplo: Escribe el nombre o nombres de las personas adultas de primer apoyo en casa."
                         [ngModel]="adultResponsible()" (ngModelChange)="adultResponsible.set($event)"></textarea>
+              <div class="print-val">{{ adultResponsible() || '________________________________________________' }}</div>
             </div>
           </div>
 
@@ -365,6 +369,7 @@
                         [ngModel]="weeklyConfidence()[weekIdx]" 
                         (ngModelChange)="updateWeeklyConfidence(weekIdx, $event)"
                         placeholder="Escribe aquí..."></textarea>
+                      <div class="print-val text-[9px]">{{ weeklyConfidence()[weekIdx] || '—' }}</div>
                     </div>
                     <div>
                       <label class="text-[9px] font-black text-[color:var(--text-soft)] uppercase block leading-tight">Lo que debemos cambiar:</label>
@@ -374,6 +379,7 @@
                         [ngModel]="weeklyChanges()[weekIdx]" 
                         (ngModelChange)="updateWeeklyChanges(weekIdx, $event)"
                         placeholder="Escribe aquí..."></textarea>
+                      <div class="print-val text-[9px]">{{ weeklyChanges()[weekIdx] || '—' }}</div>
                     </div>
                   </div>
                 </div>

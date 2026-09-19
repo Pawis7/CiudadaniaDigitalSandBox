@@ -507,12 +507,10 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 }
 
 /* Character Specific borders inside chat */
-.bubble-comic-in:has(.sender-tag.sofia) { border-color: #c084fc; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.diego) { border-color: #0d9488; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.majo) { border-color: #ec4899; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.dani) { border-color: #3b82f6; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.leo) { border-color: #eab308; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.tu) { border-color: #10b981; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.grupo) { border-color: #8b5cf6; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.otro) { border-color: #0284c7; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.nota) { border-color: #475569; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.tu) { border-color: #f97316; box-shadow: 3px 3.5px 0px #000; }
 
 .bubble-comic-in.me {
   border-top-left-radius: 16px;
@@ -542,30 +540,32 @@ button:focus-visible { outline: 3px solid #fde047; outline-offset: 2px; border-r
 
 /* Sender Sticker Tags */
 .sender-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   font-family: "Arial Black", "Impact", sans-serif;
-  font-size: 7.5px;
+  font-size: 8.5px;
   font-weight: 900;
-  padding: 2.5px 7px;
+  padding: 2px 7px;
   border-radius: 6px;
-  border: 2px solid #000;
+  border: 1.8px solid #000;
   box-shadow: 1px 1.5px 0px #000;
+  background: #8b5cf6;
   color: #fff;
   margin-bottom: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
 }
-.sender-tag.sofia { background: #c084fc; }
-.sender-tag.diego { background: #0d9488; }
-.sender-tag.emiliano { background: #3b82f6; }
+.sender-tag.grupo { background: #8b5cf6; }
+.sender-tag.otro { background: #0284c7; }
+.sender-tag.nota { background: #475569; }
 .sender-tag.tu { background: #f97316; }
-.sender-tag.nayeli { background: #ec4899; }
-.sender-tag.antonio { background: #14b8a6; }
-.sender-tag.esteban { background: #ef4444; }
-.sender-tag.valeria { background: #8b5cf6; }
-.sender-tag.leo { background: #eab308; color: #000; }
-.sender-tag.dani { background: #3b82f6; }
-.sender-tag.majo { background: #ec4899; }
+
+.msg-text {
+  display: block;
+  line-height: 1.4;
+  color: #1e293b;
+}
 
 /* Points Level Bubble Colors with Glossy Gradients and Solid Comic Shadows */
 .bubble-safe {

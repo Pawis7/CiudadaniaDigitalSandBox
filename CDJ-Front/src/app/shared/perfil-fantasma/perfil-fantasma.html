@@ -51,9 +51,9 @@
             
             <!-- Title Container -->
             <div class="casino-title-container">
-              <h1 class="casino-title line-1">EL PERFIL</h1>
+              <h1 class="casino-title line-1">PERFIL</h1>
               <div class="casino-title-badge-wrap">
-                <span class="casino-title-badge">¿QUIÉN SOY?</span>
+                <span class="casino-title-badge">SIMULADOR</span>
               </div>
               <h1 class="casino-title line-2">FANTASMA</h1>
             </div>
@@ -339,6 +339,10 @@
                         <div class="msg-text text-[11px] leading-relaxed">{{ msg.text }}</div>
                         <small class="tm">{{ msg.time || '18:02' }}</small>
                       </div>
+
+                      <span *ngIf="msg.isProfile || msg.isSettings || msg.isRule" class="sender-tag" [class.tu]="msg.isMe" [ngClass]="msg.avatarClass">
+                        {{ msg.isMe ? selectedProfile().name : msg.name }}
+                      </span>
 
                       <!-- Profile card bubble layout -->
                       <div *ngIf="msg.isProfile" class="profilecard bg-white border-2.5 border-black rounded-2xl overflow-hidden w-[220px] shadow-[3px_3.5px_0px_#000]">

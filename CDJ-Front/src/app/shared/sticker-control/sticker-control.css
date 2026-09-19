@@ -334,11 +334,11 @@
 }
 
 /* Character Specific glowing borders inside chat */
-.bubble-comic-in:has(.sender-tag.sofia) { border-color: #a855f7; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.diego) { border-color: #0d9488; box-shadow: 3px 3.5px 0px #000; }
 .bubble-comic-in:has(.sender-tag.majo) { border-color: #ec4899; box-shadow: 3px 3.5px 0px #000; }
 .bubble-comic-in:has(.sender-tag.dani) { border-color: #2563eb; box-shadow: 3px 3.5px 0px #000; }
 .bubble-comic-in:has(.sender-tag.leo) { border-color: #eab308; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.compa) { border-color: #06b6d4; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.docente) { border-color: #4f46e5; box-shadow: 3px 3.5px 0px #000; }
 .bubble-comic-in:has(.sender-tag.tu) { border-color: #f97316; box-shadow: 3px 3.5px 0px #000; }
 
 .bubble-comic-in.me {
@@ -369,25 +369,34 @@
 
 /* Sender Sticker Tags */
 .sender-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   font-family: "Arial Black", "Impact", sans-serif;
-  font-size: 7.5px;
+  font-size: 8.5px;
   font-weight: 900;
-  padding: 2.5px 7px;
+  padding: 2px 7px;
   border-radius: 6px;
-  border: 2px solid #000;
+  border: 1.8px solid #000;
   box-shadow: 1px 1.5px 0px #000;
+  background: #6366f1;
   color: #fff;
   margin-bottom: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
 }
-.sender-tag.sofia { background: #7c3aed; }
-.sender-tag.diego { background: #0d9488; }
 .sender-tag.majo { background: #ec4899; }
 .sender-tag.dani { background: #2563eb; }
 .sender-tag.leo { background: #eab308; color: #000; }
+.sender-tag.compa { background: #06b6d4; }
+.sender-tag.docente { background: #4f46e5; }
 .sender-tag.tu { background: #f97316; }
+
+.msg-text {
+  display: block;
+  line-height: 1.4;
+  color: #1e293b;
+}
 
 /* Points Level Bubble Colors with Glossy Gradients and Solid Comic Shadows */
 .bubble-safe {

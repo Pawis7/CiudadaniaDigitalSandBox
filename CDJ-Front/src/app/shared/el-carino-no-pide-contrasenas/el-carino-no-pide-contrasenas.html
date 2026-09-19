@@ -56,7 +56,7 @@
                 <div class="casino-title-badge-wrap">
                   <span class="casino-title-badge">NO PIDE</span>
                 </div>
-                <h1 class="casino-title line-2">CLAVES</h1>
+                <h1 class="casino-title line-2">CONTRASEÑAS</h1>
               </div>
 
               <!-- Icon Sticker Container -->
@@ -239,10 +239,10 @@
                     <div class="bubble-comic-in"
                       [class.me]="msg.speaker === 'Nayeli'">
                       <span class="sender-tag" 
+                        [class.mateo]="msg.speaker === 'Mateo'"
                         [class.nayeli]="msg.speaker === 'Nayeli'"
-                        [class.antonio]="msg.speaker === 'Antonio'"
-                        [class.esteban]="msg.speaker === 'Esteban'"
-                        [class.valeria]="msg.speaker === 'Valeria'"
+                        [class.dani]="msg.speaker === 'Dani'"
+                        [class.sistema]="msg.speaker === 'Sistema'"
                         [class.tu]="msg.speaker === 'Nayeli'">
                         {{ msg.speaker }}
                       </span>

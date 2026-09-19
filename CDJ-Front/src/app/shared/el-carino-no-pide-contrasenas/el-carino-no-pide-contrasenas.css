@@ -347,9 +347,9 @@
 
 /* Character Specific glowing borders inside chat */
 .bubble-comic-in:has(.sender-tag.nayeli) { border-color: #f43f5e; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.antonio) { border-color: #0d9488; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.esteban) { border-color: #ef4444; box-shadow: 3px 3.5px 0px #000; }
-.bubble-comic-in:has(.sender-tag.valeria) { border-color: #a855f7; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.mateo) { border-color: #0284c7; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.dani) { border-color: #8b5cf6; box-shadow: 3px 3.5px 0px #000; }
+.bubble-comic-in:has(.sender-tag.sistema) { border-color: #475569; box-shadow: 3px 3.5px 0px #000; }
 .bubble-comic-in:has(.sender-tag.tu) { border-color: #f43f5e; box-shadow: 3px 3.5px 0px #000; }
 
 .bubble-comic-in.me {
@@ -380,24 +380,33 @@
 
 /* Sender Sticker Tags */
 .sender-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   font-family: "Arial Black", "Impact", sans-serif;
-  font-size: 7.5px;
+  font-size: 8.5px;
   font-weight: 900;
-  padding: 2.5px 7px;
+  padding: 2px 7px;
   border-radius: 6px;
-  border: 2px solid #000;
+  border: 1.8px solid #000;
   box-shadow: 1px 1.5px 0px #000;
+  background: #0284c7;
   color: #fff;
   margin-bottom: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
 }
-.sender-tag.nayeli { background: #f43f5e; }
-.sender-tag.antonio { background: #0d9488; }
-.sender-tag.esteban { background: #ef4444; }
-.sender-tag.valeria { background: #a855f7; }
+.sender-tag.mateo { background: #0284c7; }
+.sender-tag.nayeli { background: #ec4899; }
+.sender-tag.dani { background: #8b5cf6; }
+.sender-tag.sistema { background: #475569; }
 .sender-tag.tu { background: #f97316; }
+
+.msg-text {
+  display: block;
+  line-height: 1.4;
+  color: #1e293b;
+}
 
 /* Stickers next to bubbles */
 .sticker-alert, .sticker-star, .sticker-heart {
@@ -779,8 +788,9 @@
 
 .casino-title.line-2 {
   color: #ff2b66;
-  font-size: 50px;
-  transform: rotate(2deg) skewX(-10deg) scale(1.08);
+  font-size: 32px;
+  letter-spacing: -0.5px;
+  transform: rotate(2deg) skewX(-10deg) scale(1.02);
 }
 
 /* Icon box styling */

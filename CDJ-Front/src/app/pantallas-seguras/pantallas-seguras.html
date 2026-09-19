@@ -1,5 +1,26 @@
 
-<section appReveal="up" class="mb-12"><div class="max-w-4xl"><p class="eyebrow text-[color:var(--c-screens)]">Derechos en entornos digitales</p><h1 class="display-1 mt-2">{{ editorial.title }}</h1><p class="mt-4 text-sm font-semibold leading-relaxed text-[color:var(--text-primary)]">{{ editorial.official }}</p><p class="lede mt-5 max-w-3xl">{{ editorial.explanatory }}</p><p class="mt-4 max-w-3xl text-xs leading-relaxed text-[color:var(--text-mute)]">{{ editorial.note }}</p></div></section>
+<!-- HERO BANNER -->
+<section
+  appReveal="fade"
+  [revealDuration]="700"
+  class="cdj-banner main-hero relative mb-8 overflow-hidden rounded-[2rem] border border-[color:var(--border-soft)] shadow-[var(--shadow-xl)] sm:mb-10"
+  style="--banner-bg: #022f53; background: #022f53;"
+  data-audience="screens">
+
+  <div class="cdj-banner__copy audience-hero__copy">
+    <h1>{{ editorial.title }}</h1>
+    <p>{{ editorial.official }}</p>
+  </div>
+
+  <div class="cdj-banner__visual audience-hero__visual">
+    <img
+      appImageLoader
+      src="/banners/CD_PantallasSeguras.jpg"
+      alt="Pantallas Seguras">
+  </div>
+</section>
+
+<section appReveal="up" class="mb-12"><div class="max-w-4xl"><p class="eyebrow text-[color:var(--c-screens)]">Derechos en entornos digitales</p><p class="lede mt-4 max-w-3xl">{{ editorial.explanatory }}</p><p class="mt-4 max-w-3xl text-xs leading-relaxed text-[color:var(--text-mute)]">{{ editorial.note }}</p></div></section>
 
 <section class="mb-14 border-y border-[color:var(--border-soft)] py-8"><div class="grid gap-5 sm:grid-cols-3"><div><span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--c-screens)]">Decreto</span><p class="mt-1 text-lg font-semibold">30168/LXIV/26</p></div><div><span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--c-screens)]">Publicación</span><p class="mt-1 text-lg font-semibold">2 de junio de 2026</p></div><div><span class="text-xs font-semibold uppercase tracking-wider text-[color:var(--c-screens)]">Ámbito</span><p class="mt-1 text-lg font-semibold">Estado de Jalisco y sus municipios</p></div></div></section>
 
