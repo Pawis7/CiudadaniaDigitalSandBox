@@ -9,12 +9,13 @@ import { ImageEditService } from '../../core/services/image-edit.service';
 import { FeatureCardComponent } from '../../shared/feature-card/feature-card';
 import { VideoModalComponent } from '../../shared/video-modal/video-modal';
 import { FlipCardComponent } from '../../shared/flip-card/flip-card';
+import { MemoramaGameComponent } from '../../shared/memorama-game/memorama-game';
 import { PEQUENOS_CIBERNAUTAS_CARDS } from '../../core/data/audience-extensions.data';
 
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, RevealDirective, FeatureCardComponent, VideoModalComponent, FlipCardComponent],
+  imports: [CommonModule, RouterLink, RevealDirective, FeatureCardComponent, VideoModalComponent, FlipCardComponent, MemoramaGameComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
 })

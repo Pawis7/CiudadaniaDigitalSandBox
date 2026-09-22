@@ -1,0 +1,107 @@
+<div class="memo-container">
+  <!-- Barra de control y puntuación -->
+  <div class="memo-header">
+    <div class="memo-stats">
+      <div class="memo-stat-pill">
+        <span class="material-symbols-rounded memo-stat-icon text-amber-500">stars</span>
+        <span class="memo-stat-label">Pares:</span>
+        <span class="memo-stat-value">{{ matchedPairs() }} / 10</span>
+      </div>
+
+      <div class="memo-stat-pill">
+        <span class="material-symbols-rounded memo-stat-icon text-blue-500">touch_app</span>
+        <span class="memo-stat-label">Intentos:</span>
+        <span class="memo-stat-value">{{ attempts() }}</span>
+      </div>
+    </div>
+
+    <div class="memo-actions">
+      <button
+        type="button"
+        class="memo-btn-icon"
+        (click)="toggleSound()"
+        [attr.aria-label]="soundEnabled() ? 'Silenciar sonidos' : 'Activar sonidos'"
+        [title]="soundEnabled() ? 'Silenciar sonidos' : 'Activar sonidos'"
+      >
+        <span translate="no" class="material-symbols-rounded">
+          {{ soundEnabled() ? 'volume_up' : 'volume_off' }}
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="memo-btn-restart"
+        (click)="restartGame()"
+        title="Reiniciar y barajar"
+      >
+        <span translate="no" class="material-symbols-rounded text-base">restart_alt</span>
+        <span>Reiniciar</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Tablero del Memorama -->
+  <div class="memo-grid">
+    @for (card of cards(); track card.uid) {
+      <div
+        class="memo-card-wrap"
+        (click)="onCardClick(card)"
+        [class.is-clickable]="!card.isFlipped && !card.isMatched"
+      >
+        <div
+          class="memo-card-inner"
+          [class.is-flipped]="card.isFlipped || card.isMatched"
+          [class.is-matched]="card.isMatched"
+        >
+          <!-- CARA DORSAL (Carátula cuando está boca abajo) -->
+          <div class="memo-card-face memo-card-back">
+            <img
+              [src]="backImgUrl"
+              alt="Carátula Pequeños Cibernautas"
+              class="memo-card-img"
+              loading="lazy"
+              draggable="false"
+            />
+            <div class="memo-card-back-pattern"></div>
+          </div>
+
+          <!-- CARA FRONTAL (Ilustración del memorama cuando se voltea) -->
+          <div class="memo-card-face memo-card-front">
+            <img
+              [src]="card.frontImgUrl"
+              [alt]="'Tarjeta ' + card.id"
+              class="memo-card-img"
+              loading="lazy"
+              draggable="false"
+            />
+            @if (card.isMatched) {
+              <div class="memo-matched-badge">
+                <span translate="no" class="material-symbols-rounded">check</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Modal / Banner de Victoria -->
+  @if (isWon()) {
+    <div class="memo-victory-overlay">
+      <div class="memo-victory-card">
+        <div class="memo-victory-celebration">🎉 🥳 🏆</div>
+        <h3 class="memo-victory-title">¡Felicidades, Pequeño Cibernauta!</h3>
+        <p class="memo-victory-desc">
+          ¡Completaste todo el memorama encontrando los <strong>10 pares</strong> en
+          <span class="memo-victory-highlight">{{ attempts() }} intentos</span>!
+        </p>
+        <div class="memo-victory-actions">
+          <button type="button" class="memo-btn-play-again" (click)="restartGame()">
+            <span translate="no" class="material-symbols-rounded">replay</span>
+            <span>¡Jugar de nuevo!</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

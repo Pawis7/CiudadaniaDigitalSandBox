@@ -109,18 +109,18 @@
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Memorama interactivo “Pequeños Cibernautas”</h3>
+                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Juego de Memorama “Pequeños Cibernautas”</h3>
                 <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
-                  {{ pequenosCards.length }} tarjetas
+                  10 pares · 20 tarjetas
                 </span>
               </div>
               <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
-                Colección completa de 20 tarjetas · Toca cualquier tarjeta para voltearla y ver su carátula oficial
+                Voltea las tarjetas con la carátula para encontrar las parejas de preguntas y respuestas sobre seguridad digital
               </p>
             </div>
           </div>
           <div class="cdj-toggle-pill">
-            <span>{{ isCardsOpen() ? 'Ocultar' : 'Ver memorama' }}</span>
+            <span>{{ isCardsOpen() ? 'Ocultar' : 'Jugar memorama' }}</span>
             <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isCardsOpen()">
               expand_more
             </span>
@@ -129,11 +129,7 @@
 
         <div class="cdj-toggle-body" [class.is-open]="isCardsOpen()">
           <div class="cdj-toggle-inner">
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 pt-2">
-              @for (postcard of pequenosCards; track postcard.id) {
-                <app-flip-card [item]="postcard" />
-              }
-            </div>
+            <app-memorama-game />
           </div>
         </div>
       </div>
