@@ -9,6 +9,7 @@ import { ImageLoaderDirective } from '../image-loader/image-loader.directive';
   imports: [CommonModule, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './resource-card.html',
+  styleUrl: './resource-card.css',
   host: {
     style: 'display: contents'
   }

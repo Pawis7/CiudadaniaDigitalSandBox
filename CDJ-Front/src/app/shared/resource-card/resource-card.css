@@ -1,0 +1,39 @@
+/* ========================================================================
+   RESOURCE CARD: Animación de levitación / flotación suspendida en hover
+   ======================================================================== */
+
+.card-cover-floating {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.card-hover.card-cover-floating:hover {
+  animation: cardFloatingSuspended 2.4s ease-in-out infinite;
+}
+
+@keyframes cardFloatingSuspended {
+  0%, 100% {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  50% {
+    transform: translateY(-12px);
+    box-shadow: 0 22px 36px -10px rgba(52, 49, 45, 0.28);
+  }
+}
+
+[data-theme='dark'] .card-hover.card-cover-floating:hover,
+.dark .card-hover.card-cover-floating:hover {
+  animation-name: cardFloatingSuspendedDark;
+}
+
+@keyframes cardFloatingSuspendedDark {
+  0%, 100% {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  50% {
+    transform: translateY(-12px);
+    box-shadow: 0 24px 42px -10px rgba(0, 0, 0, 0.65);
+  }
+}
