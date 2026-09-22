@@ -23,18 +23,11 @@
           <button type="button" 
                   (click)="toggleAudio()"
                   [class.re-btn-active]="audioOn()"
-                  class="re-btn-audio"
-                  [attr.aria-label]="audioOn() ? 'Apagar voz' : 'Encender voz'">
-            <span translate="no" class="material-symbols-rounded">{{ audioOn() ? 'volume_up' : 'volume_off' }}</span>
-          </button>
-
-          <button type="button" 
-                  (click)="repeatAudio()"
-                  [disabled]="!audioOn()"
                   [class.re-speaking]="isSpeaking()"
-                  class="re-btn-speak">
-            <span translate="no" class="material-symbols-rounded text-[18px]">campaign</span>
-            <span class="re-speak-text">Escuchar</span>
+                  class="re-btn-audio"
+                  [attr.aria-label]="audioOn() ? 'Apagar voz' : 'Escuchar narración'"
+                  [title]="audioOn() ? 'Silenciar narración' : 'Escuchar narración'">
+            <span translate="no" class="material-symbols-rounded">{{ audioOn() ? 'volume_up' : 'volume_off' }}</span>
           </button>
         </div>
       </div>

@@ -20,7 +20,7 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   readonly selectedOptionIndex = signal<number | null>(null);
   readonly isCorrect = signal<boolean | null>(null);
   readonly selectedIncorrectIndices = signal<number[]>([]);
-  readonly audioOn = signal<boolean>(true);
+  readonly audioOn = signal<boolean>(false);
   readonly isSpeaking = signal<boolean>(false);
 
   // Audio Context for sound effects
@@ -59,6 +59,7 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
         window.speechSynthesis.cancel();
       }
       this.isSpeaking.set(false);
+      this.audioOn.set(false);
     });
   }
 
@@ -69,8 +70,8 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   }
 
   // Web Speech API Synthesis voice trigger
-  speakText(text: string): void {
-    if (!this.audioOn()) return;
+  speakText(text: string, force = false): void {
+    if (!this.audioOn() && !force) return;
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
     window.speechSynthesis.cancel();
@@ -87,9 +88,18 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     utterance.rate = 0.85; // slower speech for preschoolers
     utterance.pitch = 1.1; // slightly higher pitch to feel friendly
     
-    utterance.onstart = () => this.isSpeaking.set(true);
-    utterance.onend = () => this.isSpeaking.set(false);
-    utterance.onerror = () => this.isSpeaking.set(false);
+    utterance.onstart = () => {
+      this.isSpeaking.set(true);
+      this.audioOn.set(true);
+    };
+    utterance.onend = () => {
+      this.isSpeaking.set(false);
+      this.audioOn.set(false);
+    };
+    utterance.onerror = () => {
+      this.isSpeaking.set(false);
+      this.audioOn.set(false);
+    };
 
     window.speechSynthesis.speak(utterance);
   }
@@ -103,7 +113,6 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   }
 
   private playTone(freq: number, dur: number = 0.15, type: OscillatorType = 'sine', vol: number = 0.15): void {
-    if (!this.audioOn()) return;
     this.initAudio();
     if (!this.audioCtx) return;
 
@@ -137,14 +146,15 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   }
 
   toggleAudio(): void {
-    this.audioOn.set(!this.audioOn());
-    if (this.audioOn()) {
-      this.playSuccess();
-    } else {
+    if (this.isSpeaking() || this.audioOn()) {
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
       this.isSpeaking.set(false);
+      this.audioOn.set(false);
+    } else {
+      this.audioOn.set(true);
+      this.repeatAudio();
     }
   }
 
@@ -194,11 +204,11 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     if (optIdx === s.correct) {
       this.isCorrect.set(true);
       this.playSuccess();
-      this.speakText(s.feedback_positivo + " " + s.refuerzo);
+      this.speakText(s.feedback_positivo + " " + s.refuerzo, true);
     } else {
       this.isCorrect.set(false);
       this.playFailure();
-      this.speakText(s.feedback_reintento);
+      this.speakText(s.feedback_reintento, true);
       
       // Add to incorrect list if not already there
       if (!this.selectedIncorrectIndices().includes(optIdx)) {
@@ -212,6 +222,7 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
       window.speechSynthesis.cancel();
     }
     this.isSpeaking.set(false);
+    this.audioOn.set(false);
 
     const currentIndex = this.currentSceneIndex();
     
