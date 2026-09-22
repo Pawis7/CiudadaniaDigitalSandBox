@@ -145,6 +145,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'bit-foto-otra-vez',
             title: '¡Un, dos, tres… foto otra vez!',
             description: 'Acompaña a Bit y Data en este cuento interactivo para aprender a usar la voz y preguntar antes de tomar o mostrar una foto.',
+            imageUrl: '/ninasyninos/Portadas_Recursos/123Cuento.jpg',
             type: 'activity',
             typeLabel: 'Cuento interactivo',
             icon: 'photo_camera',
