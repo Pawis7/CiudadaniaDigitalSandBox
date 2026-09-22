@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LevelResource } from '../../core/data/page-content';
+import { ImageLoaderDirective } from '../image-loader/image-loader.directive';
 
 @Component({
   selector: 'app-resource-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ImageLoaderDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './resource-card.html',
   host: {
@@ -61,12 +62,15 @@ export class ResourceCardComponent {
 
     if (this.isWidgetAction()) {
       this.onAction();
-    } else {
-      // Find the anchor element inside the card and trigger its click event
+    } else if (this.item.link) {
       const element = event.currentTarget as HTMLElement;
       const anchor = element.querySelector('a') as HTMLAnchorElement;
       if (anchor) {
         anchor.click();
+      } else if (this.item.link.startsWith('http')) {
+        window.open(this.item.link, '_blank', 'noopener,noreferrer');
+      } else {
+        window.location.href = this.item.link;
       }
     }
   }

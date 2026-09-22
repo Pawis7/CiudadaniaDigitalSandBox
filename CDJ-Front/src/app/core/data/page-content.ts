@@ -22,6 +22,8 @@ export interface LevelResource {
   colorClass:  string;
   actionLabel: string;
   link:        string;
+  imageUrl?:   string;
+  coverUrl?:   string;
 }
 
 /**
@@ -116,6 +118,7 @@ export const AUDIENCE_PAGES: AudiencePage[] = [
             id: 'reconozco-emociones',
             title: '¡A jugar! Reconozco mis emociones',
             description: 'Acompaña a Bit en esta aventura para identificar sus emociones digitales y aprender cuándo es momento de pausar, respirar o pedir ayuda.',
+            imageUrl: '/ninasyninos/Portadas_Recursos/ReconozcoEmociones.jpg',
             type: 'activity',
             typeLabel: 'Caso interactivo',
             icon: 'sentiment_satisfied',
