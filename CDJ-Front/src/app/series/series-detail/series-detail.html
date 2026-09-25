@@ -99,76 +99,179 @@
       </div>
     </header>
 
-    <section
-      class="memory-game mb-12"
-      [attr.data-audience]="s.audience"
-      aria-labelledby="memory-game-title"
-      aria-describedby="memory-game-instructions">
-      <div class="memory-game-head">
-        <div class="memory-game-heading">
-          <span class="memory-game-icon material-symbols-rounded" aria-hidden="true">extension</span>
-          <div>
-            <p class="memory-game-kicker">Actividad interactiva</p>
-            <h2 id="memory-game-title">Memorama Pequeños Cibernautas</h2>
-            <p id="memory-game-instructions">
-              Encuentra 10 parejas de tarjetas sobre cómo cuidarte al jugar y navegar.
-            </p>
+    <!-- ==========================================
+         SECCIÓN PEQUEÑOS CIBERNAUTAS: Memorama y descargable
+         ========================================== -->
+    <!-- Memorama interactivo Flip Card 3D comprimible -->
+    <section class="mb-6" [attr.data-audience]="s.audience">
+      <div class="cdj-toggle-card">
+        <button
+          type="button"
+          class="cdj-toggle-header"
+          (click)="toggleCards()"
+          [attr.aria-expanded]="isCardsOpen()"
+        >
+          <div class="flex items-center gap-3.5 overflow-hidden">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--c-kids)] flex-none">
+              <span class="material-symbols-rounded text-2xl">style</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Juego de Memorama “Pequeños Cibernautas”</h3>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
+                  10 pares · 20 tarjetas
+                </span>
+              </div>
+              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
+                Voltea las tarjetas con la carátula para encontrar las parejas de preguntas y respuestas sobre seguridad digital
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div class="memory-game-tools" aria-label="Progreso de la partida">
-          <span><strong>{{ memoryMatches() }}</strong> de 10 parejas</span>
-          <span><strong>{{ memoryAttempts() }}</strong> intentos</span>
-          <button type="button" class="memory-reset" (click)="resetMemoryGame()">
-            <span class="material-symbols-rounded" aria-hidden="true">refresh</span>
-            Nueva partida
-          </button>
-        </div>
-      </div>
-
-      <p class="sr-only" aria-live="polite" aria-atomic="true">{{ memoryAnnouncement() }}</p>
-
-      @if (isMemoryComplete()) {
-        <div class="memory-complete" role="status">
-          <span class="material-symbols-rounded" aria-hidden="true">celebration</span>
-          <div>
-            <strong>¡Encontraste todas las parejas!</strong>
-            <span>Completaste la partida en {{ memoryAttempts() }} intentos.</span>
-          </div>
-        </div>
-      }
-
-      <div class="memory-grid" role="group" aria-label="20 tarjetas del memorama">
-        @for (card of memoryCards(); track card.id; let position = $index) {
-          <button
-            type="button"
-            class="memory-card"
-            [class.is-face-up]="card.isFaceUp"
-            [class.is-matched]="card.isMatched"
-            [disabled]="card.isMatched"
-            [attr.aria-disabled]="isMemoryLocked() || card.isMatched"
-            [attr.aria-pressed]="card.isFaceUp || card.isMatched"
-            [attr.aria-label]="memoryCardAriaLabel(card, position + 1)"
-            (click)="selectMemoryCard(card.id)">
-            <span class="memory-card-inner" aria-hidden="true">
-              <span class="memory-card-face memory-card-back">
-                <img src="/Cibernautas/caratula.webp" alt="" loading="lazy">
-                <span class="memory-card-number">{{ position + 1 }}</span>
-              </span>
-              <span class="memory-card-face memory-card-front">
-                <img [src]="card.imageUrl" alt="" loading="lazy">
-                @if (card.isMatched) {
-                  <span class="memory-match-mark material-symbols-rounded">check_circle</span>
-                }
-              </span>
+          <div class="cdj-toggle-pill">
+            <span>{{ isCardsOpen() ? 'Ocultar' : 'Jugar memorama' }}</span>
+            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isCardsOpen()">
+              expand_more
             </span>
-          </button>
-        }
-      </div>
+          </div>
+        </button>
 
-      <p class="memory-game-note">
-        Jueguen acompañados: al formar una pareja, conversen sobre el consejo que aparece en las tarjetas.
-      </p>
+        <div class="cdj-toggle-body" [class.is-open]="isCardsOpen()">
+          <div class="cdj-toggle-inner">
+            <app-memorama-game />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Descarga de recursos oficiales de Pequeños Cibernautas -->
+    <section class="mb-12" [attr.data-audience]="s.audience">
+      <div class="cdj-toggle-card">
+        <button
+          type="button"
+          class="cdj-toggle-header"
+          (click)="toggleDownloads()"
+          [attr.aria-expanded]="isDownloadsOpen()"
+        >
+          <div class="flex items-center gap-3.5 overflow-hidden">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--c-kids)] flex-none">
+              <span class="material-symbols-rounded text-2xl">download</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Materiales y Recursos Descargables</h3>
+                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
+                  Lámina imprimible · PDF
+                </span>
+              </div>
+              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
+                Descarga las cartas oficiales listas para imprimir y colorear en casa o en la escuela
+              </p>
+            </div>
+          </div>
+          <div class="cdj-toggle-pill">
+            <span>{{ isDownloadsOpen() ? 'Ocultar' : 'Ver descargables' }}</span>
+            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isDownloadsOpen()">
+              expand_more
+            </span>
+          </div>
+        </button>
+
+        <div class="cdj-toggle-body" [class.is-open]="isDownloadsOpen()">
+          <div class="cdj-toggle-inner">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-2 pt-2">
+
+              <!-- Recurso 1: Memorama descargable -->
+              <div class="surface rounded-2xl border border-[color:var(--border-soft)] p-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 bg-gradient-to-br from-[color:var(--surface-card)] to-[color:var(--surface-soft)] hover:shadow-md transition-shadow">
+                <div class="w-36 h-36 rounded-xl overflow-hidden border border-[color:var(--border-soft)] shadow-sm flex-none bg-slate-900 group relative">
+                  <img
+                    src="/Cibernautas/descargable.jpg"
+                    alt="Memorama imprimible Pequeños Cibernautas"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy" />
+                  <span class="absolute bottom-2 right-2 bg-black/75 backdrop-blur text-[10px] font-bold text-white px-2 py-0.5 rounded">
+                    JPG · Alta res
+                  </span>
+                </div>
+                <div class="flex-1 flex flex-col justify-between h-full text-center sm:text-left">
+                  <div>
+                    <span class="text-[11px] font-bold text-[color:var(--c-kids)] uppercase tracking-wider">Juego de mesa educativo</span>
+                    <h4 class="text-base font-bold text-[color:var(--text-primary)] mt-0.5">Plantilla de Memorama</h4>
+                    <p class="text-xs text-[color:var(--text-soft)] mt-1.5 leading-relaxed">
+                      Lámina completa con todas las fichas y carátulas de Pequeños Cibernautas lista para imprimir y recortar.
+                    </p>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <a
+                      href="/Cibernautas/descargable.jpg"
+                      download="memorama-pequenos-cibernautas.jpg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-primary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">download</span>
+                      <span>Descargar (JPG)</span>
+                    </a>
+                    <a
+                      href="/Cibernautas/descargable.jpg"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-secondary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">fullscreen</span>
+                      <span>Ver</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recurso 2: Dibujo para colorear PDF -->
+              <div class="surface rounded-2xl border border-[color:var(--border-soft)] p-5 flex flex-col sm:flex-row items-center sm:items-start gap-5 bg-gradient-to-br from-[color:var(--surface-card)] to-[color:var(--surface-soft)] hover:shadow-md transition-shadow">
+                <div class="w-36 h-36 rounded-xl overflow-hidden border border-[color:var(--border-soft)] shadow-sm flex-none bg-white group relative">
+                  <img
+                    src="/Cibernautas/dibujo-colorear-preview.webp"
+                    alt="Dibujos para colorear Pequeños Cibernautas"
+                    class="w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy" />
+                  <span class="absolute bottom-2 right-2 bg-black/75 backdrop-blur text-[10px] font-bold text-white px-2 py-0.5 rounded">
+                    PDF · Imprimible
+                  </span>
+                </div>
+                <div class="flex-1 flex flex-col justify-between h-full text-center sm:text-left">
+                  <div>
+                    <span class="text-[11px] font-bold text-[color:var(--c-kids)] uppercase tracking-wider">Actividad y reflexión</span>
+                    <h4 class="text-base font-bold text-[color:var(--text-primary)] mt-0.5">Dibujos para colorear: Seguridad y autocuidado</h4>
+                    <p class="text-xs text-[color:var(--text-soft)] mt-1.5 leading-relaxed">
+                      Historia ilustrada con Axón y Snap para colorear y aprender sobre cuidado de dispositivos y virus digitales.
+                    </p>
+                  </div>
+                  <div class="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                    <a
+                      href="/Cibernautas/DIBUJO COLOREAR2.pdf"
+                      download="dibujos-para-colorear-pequenos-cibernautas.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-primary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">download</span>
+                      <span>Descargar (PDF)</span>
+                    </a>
+                    <a
+                      href="/Cibernautas/DIBUJO COLOREAR2.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-secondary text-xs flex items-center gap-1.5 py-2 px-3"
+                    >
+                      <span class="material-symbols-rounded text-base">picture_as_pdf</span>
+                      <span>Ver PDF</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   }
 
