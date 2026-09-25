@@ -557,6 +557,22 @@ html{scroll-behavior:smooth;scroll-padding-top:96px;background:var(--surface-bas
   color: var(--text-primary);
 }
 
+/* Reconozco mis emociones dark mode button overrides */
+[data-theme='dark'] .re-btn-speak,
+[data-theme='dark'] .re-btn-audio {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+[data-theme='dark'] .re-btn-speak:hover:not(:disabled),
+[data-theme='dark'] .re-btn-audio:hover,
+[data-theme='dark'] .re-btn-active {
+  background: rgba(255, 51, 102, 0.2) !important;
+  border-color: rgba(255, 51, 102, 0.4) !important;
+  color: #ff6285 !important;
+}
+
 .quiz-nav {
   display: flex;
   justify-content: space-between;

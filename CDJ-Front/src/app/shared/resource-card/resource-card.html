@@ -98,7 +98,7 @@
         type="button"
         (click)="onPosterAction($event)"
         [attr.tabindex]="descriptionOpen() ? null : -1"
-        class="story-card__action-btn btn-primary w-full py-2.5 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none"
+        class="story-card__action-btn btn-primary w-full py-2.5 text-xs font-black flex items-center justify-center gap-1.5 rounded-none rounded-b-[0.625rem] cursor-pointer select-none"
         [class.is-pressed]="isButtonPressed()"
         [attr.aria-label]="item.actionLabel + ': ' + item.title"
       >

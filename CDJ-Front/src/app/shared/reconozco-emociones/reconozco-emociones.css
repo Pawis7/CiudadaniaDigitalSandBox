@@ -247,6 +247,11 @@
   font-weight: 900;
   margin-left: 2px; /* optical center adjustment */
 }
+:host-context([data-theme='dark']) .re-play-icon-wrap,
+[data-theme='dark'] .re-play-icon-wrap {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
 .re-btn-start:hover .re-play-icon-wrap {
   color: #e11d48;
 }
@@ -379,7 +384,7 @@
   height: 42px;
   border-radius: 50%;
   border: 1.5px solid var(--bd);
-  background: #ffffff;
+  background: var(--bg-soft, #ffffff);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -388,6 +393,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   color: var(--muted);
 }
+:host-context([data-theme='dark']) .re-btn-audio,
+[data-theme='dark'] .re-btn-audio {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
 .re-btn-audio:hover,
 .re-btn-active {
   background: var(--a-cream);
@@ -395,9 +406,12 @@
   color: var(--a);
 }
 :host-context([data-theme='dark']) .re-btn-audio:hover,
-:host-context([data-theme='dark']) .re-btn-active {
-  background: rgba(255, 51, 102, 0.12);
-  border-color: rgba(255, 51, 102, 0.3);
+:host-context([data-theme='dark']) .re-btn-active,
+[data-theme='dark'] .re-btn-audio:hover,
+[data-theme='dark'] .re-btn-active {
+  background: rgba(255, 51, 102, 0.2);
+  border-color: rgba(255, 51, 102, 0.4);
+  color: #ff6285;
 }
 
 .re-btn-speak {
@@ -405,7 +419,7 @@
   padding: 0 20px;
   border-radius: 99px;
   border: 1.5px solid var(--bd);
-  background: #ffffff;
+  background: var(--bg-soft, #ffffff);
   font-size: 0.88rem;
   font-weight: 800;
   font-family: inherit;
@@ -417,14 +431,22 @@
   gap: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
+:host-context([data-theme='dark']) .re-btn-speak,
+[data-theme='dark'] .re-btn-speak {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
 .re-btn-speak:hover:not(:disabled) {
   background: var(--a-cream);
   border-color: var(--a-tint);
   color: var(--a);
 }
-:host-context([data-theme='dark']) .re-btn-speak:hover:not(:disabled) {
-  background: rgba(255, 51, 102, 0.12);
-  border-color: rgba(255, 51, 102, 0.3);
+:host-context([data-theme='dark']) .re-btn-speak:hover:not(:disabled),
+[data-theme='dark'] .re-btn-speak:hover:not(:disabled) {
+  background: rgba(255, 51, 102, 0.2);
+  border-color: rgba(255, 51, 102, 0.4);
+  color: #ff6285;
 }
 .re-btn-speak:disabled {
   opacity: 0.4;
@@ -435,6 +457,12 @@
   background: var(--a-cream) !important;
   border-color: var(--a-tint) !important;
   color: var(--a) !important;
+}
+:host-context([data-theme='dark']) .re-speaking,
+[data-theme='dark'] .re-speaking {
+  background: rgba(255, 51, 102, 0.25) !important;
+  border-color: rgba(255, 51, 102, 0.5) !important;
+  color: #ff6285 !important;
 }
 
 @keyframes speakPulse {
