@@ -1,0 +1,400 @@
+/* ==========================================================================
+   MEMORAMA GAME COMPONENT
+   ========================================================================== */
+
+.memo-container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ---------------- HEADER Y MARCADOR ---------------- */
+.memo-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: var(--surface-soft, #F8FAFC);
+  border: 1px solid var(--bd, #E2E8F0);
+  border-radius: 20px;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+:host-context([data-theme='dark']) .memo-header {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+.memo-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.memo-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--bd, #E2E8F0);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary, #1E293B);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+:host-context([data-theme='dark']) .memo-stat-pill {
+  background: #0F172A;
+  border-color: #334155;
+  color: #F8FAFC;
+}
+
+.memo-stat-icon {
+  font-size: 1.15rem;
+}
+
+.memo-stat-label {
+  color: var(--text-soft, #64748B);
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+:host-context([data-theme='dark']) .memo-stat-label {
+  color: #94A3B8;
+}
+
+.memo-stat-value {
+  font-weight: 800;
+  color: var(--text-primary, #0F172A);
+}
+
+:host-context([data-theme='dark']) .memo-stat-value {
+  color: #FFFFFF;
+}
+
+.memo-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.memo-btn-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--bd, #E2E8F0);
+  background: #FFFFFF;
+  color: var(--text-soft, #64748B);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+:host-context([data-theme='dark']) .memo-btn-icon {
+  background: #0F172A;
+  border-color: #334155;
+  color: #CBD5E1;
+}
+
+.memo-btn-icon:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+  transform: scale(1.05);
+}
+
+:host-context([data-theme='dark']) .memo-btn-icon:hover {
+  background: #334155;
+  color: #FFFFFF;
+}
+
+.memo-btn-restart {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FF3366;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 99px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.25);
+  font-family: inherit;
+}
+
+.memo-btn-restart:hover {
+  background: #E11D48;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 51, 102, 0.35);
+}
+
+.memo-btn-restart:active {
+  transform: translateY(0);
+}
+
+/* ---------------- TABLERO GRID ---------------- */
+.memo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .memo-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (min-width: 640px) {
+  .memo-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .memo-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+  }
+}
+
+/* ---------------- TARJETA FLIP 3D ---------------- */
+.memo-card-wrap {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  perspective: 1000px;
+  cursor: default;
+  user-select: none;
+}
+
+.memo-card-wrap.is-clickable {
+  cursor: pointer;
+}
+
+.memo-card-wrap.is-clickable:hover .memo-card-inner:not(.is-flipped) {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 24px -4px rgba(255, 51, 102, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.memo-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+  border-radius: 18px;
+}
+
+.memo-card-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.memo-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  border: 2px solid #FFFFFF;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host-context([data-theme='dark']) .memo-card-face {
+  border-color: #334155;
+  background: #1E293B;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* DORSAL (Boca abajo - Carátula) */
+.memo-card-back {
+  transform: rotateY(0deg);
+}
+
+/* FRONTAL (Boca arriba - Ilustración) */
+.memo-card-front {
+  transform: rotateY(180deg);
+  background: #FFFFFF;
+}
+
+:host-context([data-theme='dark']) .memo-card-front {
+  background: #0F172A;
+}
+
+.memo-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ESTADO EMPAREJADO (MATCHED) */
+.memo-card-inner.is-matched .memo-card-front {
+  border: 3px solid #10B981 !important;
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.35) !important;
+  animation: matchedBounce 0.45s ease-out;
+}
+
+.memo-matched-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #10B981;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+  animation: badgePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.memo-matched-badge span {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+@keyframes matchedBounce {
+  0% { transform: rotateY(180deg) scale(1); }
+  40% { transform: rotateY(180deg) scale(1.08); }
+  70% { transform: rotateY(180deg) scale(0.96); }
+  100% { transform: rotateY(180deg) scale(1); }
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ---------------- MODAL / OVERLAY DE VICTORIA ---------------- */
+.memo-victory-overlay {
+  position: absolute;
+  inset: -10px;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  border-radius: 24px;
+  animation: fadeIn 0.3s ease-out;
+  padding: 20px;
+}
+
+.memo-victory-card {
+  background: #FFFFFF;
+  border-radius: 28px;
+  padding: 36px 30px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: cardScaleUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid #F1F5F9;
+}
+
+:host-context([data-theme='dark']) .memo-victory-card {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F8FAFC;
+}
+
+.memo-victory-celebration {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  animation: bounceSlow 1.5s infinite;
+}
+
+.memo-victory-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #0F172A;
+  margin: 0 0 10px;
+  font-family: inherit;
+}
+
+:host-context([data-theme='dark']) .memo-victory-title {
+  color: #FFFFFF;
+}
+
+.memo-victory-desc {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 0 24px;
+}
+
+:host-context([data-theme='dark']) .memo-victory-desc {
+  color: #CBD5E1;
+}
+
+.memo-victory-highlight {
+  color: #FF3366;
+  font-weight: 800;
+}
+
+.memo-btn-play-again {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #10B981;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 99px;
+  padding: 14px 32px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.memo-btn-play-again:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.45);
+}
+
+.memo-btn-play-again:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes cardScaleUp {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
