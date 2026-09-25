@@ -62,6 +62,7 @@
     (focusin)="onFocusIn($event)"
     (focusout)="onFocusOut($event)"
     (keydown)="onCardKeydown($event)"
+    (click)="onStoryCardClick($event)"
   >
     <h3 class="sr-only" [id]="'story-title-' + item.id">{{ item.title }}</h3>
     <button
@@ -97,7 +98,8 @@
         type="button"
         (click)="onPosterAction($event)"
         [attr.tabindex]="descriptionOpen() ? null : -1"
-        class="btn-primary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none"
+        class="story-card__action-btn btn-primary w-full py-2.5 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none"
+        [class.is-pressed]="isButtonPressed()"
         [attr.aria-label]="item.actionLabel + ': ' + item.title"
       >
         <span translate="no" class="material-symbols-rounded text-sm" aria-hidden="true"

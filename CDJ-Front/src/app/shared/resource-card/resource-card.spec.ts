@@ -53,7 +53,7 @@ describe('ResourceCardComponent illustrated posters', () => {
     cover.click();
     fixture.detectChanges();
     expect(document.activeElement).toBe(cover);
-    expect(opened).toEqual([]);
+    expect(opened).toEqual([story.id]);
 
     pointer(card, 'pointerleave', 'mouse');
     expect(cover.getAttribute('aria-expanded')).toBe('false');
@@ -62,36 +62,21 @@ describe('ResourceCardComponent illustrated posters', () => {
     expect(document.activeElement).toBe(cover);
   });
 
-  it('toggles with touch and opens the activity only through its action', () => {
+  it('opens the activity through cover click or button action', () => {
     let launchFocus: Element | null = null;
     fixture.componentInstance.actionClicked.subscribe(() => {
       launchFocus = document.activeElement;
     });
-    pointer(card, 'pointerenter', 'touch');
-    expect(cover.getAttribute('aria-expanded')).toBe('false');
 
     pointer(cover, 'pointerdown', 'touch');
     cover.click();
-    fixture.detectChanges();
-    expect(cover.getAttribute('aria-expanded')).toBe('true');
-    pointer(card, 'pointerleave', 'touch');
-    expect(cover.getAttribute('aria-expanded')).toBe('true');
-    expect(panel.textContent).toContain(story.description);
-    expect(opened).toEqual([]);
-
-    pointer(cover, 'pointerdown', 'touch');
-    cover.click();
-    fixture.detectChanges();
-    expect(cover.getAttribute('aria-expanded')).toBe('false');
-
-    pointer(cover, 'pointerdown', 'touch');
-    cover.click();
-    fixture.detectChanges();
-    action.click();
     fixture.detectChanges();
     expect(opened).toEqual([story.id]);
     expect(launchFocus).toBe(cover);
-    expect(cover.getAttribute('aria-expanded')).toBe('false');
+
+    action.click();
+    fixture.detectChanges();
+    expect(opened).toEqual([story.id, story.id]);
   });
 
   it('reveals on keyboard focus, returns focus on Escape, and closes when focus leaves', () => {
@@ -120,14 +105,13 @@ describe('ResourceCardComponent illustrated posters', () => {
 
     cover.click();
     fixture.detectChanges();
-    expect(cover.getAttribute('aria-expanded')).toBe('true');
     const outside = document.createElement('button');
     document.body.appendChild(outside);
     outside.focus();
     fixture.detectChanges();
     expect(cover.getAttribute('aria-expanded')).toBe('false');
     outside.remove();
-    expect(opened).toEqual([]);
+    expect(opened).toEqual([story.id]);
     keyboardFocus.mockRestore();
   });
 });

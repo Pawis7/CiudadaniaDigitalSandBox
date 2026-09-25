@@ -25,6 +25,7 @@ export class ResourceCardComponent {
   @Input({ required: true }) item!: LevelResource;
   @Output() actionClicked = new EventEmitter<LevelResource>();
   descriptionOpen = signal(false);
+  isButtonPressed = signal(false);
   private coverPointerType = '';
 
   onPointerEnter(event: PointerEvent): void {
@@ -41,13 +42,8 @@ export class ResourceCardComponent {
   }
 
   onCoverClick(event: MouseEvent): void {
-    const pointerType = (event as PointerEvent).pointerType || this.coverPointerType;
-    if (pointerType === 'touch') {
-      this.descriptionOpen.update((open) => !open);
-    } else {
-      this.descriptionOpen.set(true);
-    }
     this.coverPointerType = '';
+    this.onPosterAction(event);
   }
 
   onFocusIn(event: FocusEvent): void {
@@ -112,12 +108,24 @@ export class ResourceCardComponent {
 
   onPosterAction(event: MouseEvent): void {
     event.stopPropagation();
+    this.isButtonPressed.set(true);
+    setTimeout(() => this.isButtonPressed.set(false), 200);
+
     // The reader restores focus to the element active when it opens.
     // Keep that origin on the cover, which remains available with its panel hidden.
     const card = (event.currentTarget as HTMLElement).closest('.story-card');
     card?.querySelector<HTMLButtonElement>('.story-card__cover')?.focus({ preventScroll: true });
     this.descriptionOpen.set(false);
     this.onAction();
+  }
+
+  onStoryCardClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    // Don't duplicate if clicking directly on the action button
+    if (target.closest('.story-card__action-btn')) {
+      return;
+    }
+    this.onPosterAction(event);
   }
 
   onCardClick(event: Event): void {
