@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, signal, effect, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+  effect,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RECONOZCO_EMOCIONES_DATA, EmotionScene } from '../../core/data/reconozco-emociones.data';
+import { BitCharacterComponent } from '../bit-character/bit-character';
 
 @Component({
   selector: 'app-reconozco-emociones',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BitCharacterComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './reconozco-emociones.html',
   styleUrl: './reconozco-emociones.css',
@@ -20,7 +28,7 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   readonly selectedOptionIndex = signal<number | null>(null);
   readonly isCorrect = signal<boolean | null>(null);
   readonly selectedIncorrectIndices = signal<number[]>([]);
-  readonly audioOn = signal<boolean>(false);
+  readonly audioOn = signal<boolean>(true);
   readonly isSpeaking = signal<boolean>(false);
 
   // Audio Context for sound effects
@@ -33,20 +41,25 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     return Math.round((this.currentSceneIndex() / this.scenes.length) * 100);
   });
 
-  // Map emotion to CSS class for Bit's avatar
-  readonly emotionClass = computed(() => {
-    const s = this.currentScene();
-    if (!s) return 'bit-emotion-calma';
-    const emo = s.emocion_objetivo.toLowerCase();
+  readonly bitEmotion = computed(() => {
+    const scene = this.currentScene();
+    return this.isCorrect() === true
+      ? (scene.emocion_resuelta ?? scene.emocion_visual)
+      : scene.emocion_visual;
+  });
 
-    if (emo.includes('alegría') || emo.includes('alegria') || emo.includes('alta')) return 'bit-emotion-alegria';
-    if (emo.includes('susto') || emo.includes('miedo') || emo.includes('incomodidad')) return 'bit-emotion-susto';
-    if (emo.includes('enojo') || emo.includes('frustración') || emo.includes('frustracion') || emo.includes('molestia')) return 'bit-emotion-enojo';
-    if (emo.includes('tristeza') || emo.includes('triste')) return 'bit-emotion-tristeza';
-    if (emo.includes('confusión') || emo.includes('confusion') || emo.includes('duda')) return 'bit-emotion-duda';
-    if (emo.includes('cansancio') || emo.includes('cansado')) return 'bit-emotion-cansancio';
-    if (emo.includes('calma') || emo.includes('autocontrol') || emo.includes('bienestar')) return 'bit-emotion-calma';
-    return 'bit-emotion-calma';
+  readonly bitEmotionLabel = computed(() => {
+    if (this.isCorrect() !== true) return 'Bit';
+    return this.currentScene().emocion_resuelta === 'calma'
+      ? 'Calma'
+      : this.currentScene().emocion_objetivo;
+  });
+
+  readonly bitSituation = computed(() => {
+    const scene = this.currentScene();
+    return this.isCorrect() === true
+      ? (scene.texto_estado_resuelto ?? scene.voz_situacion)
+      : scene.voz_situacion;
   });
 
   constructor() {
@@ -54,12 +67,11 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     effect(() => {
       this.currentScreen();
       this.currentSceneIndex();
-      
+
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
       this.isSpeaking.set(false);
-      this.audioOn.set(false);
     });
   }
 
@@ -70,36 +82,28 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   }
 
   // Web Speech API Synthesis voice trigger
-  speakText(text: string, force = false): void {
-    if (!this.audioOn() && !force) return;
+  speakText(text: string): void {
+    if (!this.audioOn()) return;
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    
+
     // Select MX or ES voices if available
     const voices = window.speechSynthesis.getVoices();
-    const esVoice = voices.find(v => v.lang.includes('es-MX')) || voices.find(v => v.lang.startsWith('es'));
+    const esVoice =
+      voices.find((v) => v.lang.includes('es-MX')) || voices.find((v) => v.lang.startsWith('es'));
     if (esVoice) {
       utterance.voice = esVoice;
     }
-    
+
     utterance.lang = 'es-MX';
     utterance.rate = 0.85; // slower speech for preschoolers
     utterance.pitch = 1.1; // slightly higher pitch to feel friendly
-    
-    utterance.onstart = () => {
-      this.isSpeaking.set(true);
-      this.audioOn.set(true);
-    };
-    utterance.onend = () => {
-      this.isSpeaking.set(false);
-      this.audioOn.set(false);
-    };
-    utterance.onerror = () => {
-      this.isSpeaking.set(false);
-      this.audioOn.set(false);
-    };
+
+    utterance.onstart = () => this.isSpeaking.set(true);
+    utterance.onend = () => this.isSpeaking.set(false);
+    utterance.onerror = () => this.isSpeaking.set(false);
 
     window.speechSynthesis.speak(utterance);
   }
@@ -112,7 +116,13 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     } catch (e) {}
   }
 
-  private playTone(freq: number, dur: number = 0.15, type: OscillatorType = 'sine', vol: number = 0.15): void {
+  private playTone(
+    freq: number,
+    dur: number = 0.15,
+    type: OscillatorType = 'sine',
+    vol: number = 0.15,
+  ): void {
+    if (!this.audioOn()) return;
     this.initAudio();
     if (!this.audioCtx) return;
 
@@ -140,21 +150,20 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   }
 
   playWelcome(): void {
-    this.playTone(392.00, 0.1, 'sine', 0.15); // G4
+    this.playTone(392.0, 0.1, 'sine', 0.15); // G4
     setTimeout(() => this.playTone(523.25, 0.1, 'sine', 0.15), 70); // C5
     setTimeout(() => this.playTone(659.25, 0.15, 'sine', 0.15), 140); // E5
   }
 
   toggleAudio(): void {
-    if (this.isSpeaking() || this.audioOn()) {
+    this.audioOn.set(!this.audioOn());
+    if (this.audioOn()) {
+      this.playSuccess();
+    } else {
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
       }
       this.isSpeaking.set(false);
-      this.audioOn.set(false);
-    } else {
-      this.audioOn.set(true);
-      this.repeatAudio();
     }
   }
 
@@ -170,15 +179,23 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
   repeatAudio(): void {
     const screen = this.currentScreen();
     if (screen === 'welcome') {
-      this.speakText("¡Hola! Soy Data. Vamos a descubrir cómo se siente Bit cuando usa una pantalla. ¿Me acompañas?");
+      this.speakText(
+        '¡Hola! Soy Data. Vamos a descubrir cómo se siente Bit cuando usa una pantalla. ¿Me acompañas?',
+      );
     } else if (screen === 'pedagogic-pause') {
-      this.speakText("¡Es momento de hacer una pausa! Cierra tus ojitos un momento, respira despacio y mueve tus hombros. Cuando estés listo, seguimos jugando.");
+      this.speakText(
+        '¡Es momento de hacer una pausa! Cierra tus ojitos un momento, respira despacio y mueve tus hombros. Cuando estés listo, seguimos jugando.',
+      );
     } else if (screen === 'summary') {
-      this.speakText("¡Felicidades! Lograste ayudar a Bit.");
+      this.speakText('¡Felicidades! Lograste ayudar a Bit.');
     } else {
       const s = this.currentScene();
       if (s) {
-        this.speakText(s.voz_situacion + " " + s.voz_reto);
+        this.speakText(
+          this.isCorrect() === true
+            ? this.resolutionNarration(s)
+            : s.voz_situacion + ' ' + s.voz_reto,
+        );
       }
     }
   }
@@ -204,12 +221,12 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     if (optIdx === s.correct) {
       this.isCorrect.set(true);
       this.playSuccess();
-      this.speakText(s.feedback_positivo + " " + s.refuerzo, true);
+      this.speakText(this.resolutionNarration(s));
     } else {
       this.isCorrect.set(false);
       this.playFailure();
-      this.speakText(s.feedback_reintento, true);
-      
+      this.speakText(s.feedback_reintento);
+
       // Add to incorrect list if not already there
       if (!this.selectedIncorrectIndices().includes(optIdx)) {
         this.selectedIncorrectIndices.set([...this.selectedIncorrectIndices(), optIdx]);
@@ -217,15 +234,20 @@ export class ReconozcoEmocionesComponent implements OnDestroy {
     }
   }
 
+  private resolutionNarration(scene: EmotionScene): string {
+    return [scene.feedback_positivo, scene.texto_estado_resuelto, scene.refuerzo]
+      .filter(Boolean)
+      .join(' ');
+  }
+
   next(): void {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
     this.isSpeaking.set(false);
-    this.audioOn.set(false);
 
     const currentIndex = this.currentSceneIndex();
-    
+
     // Check if we need to display the pedagogic pause (after scene 6, index 5)
     if (currentIndex === 5 && this.currentScreen() === 'playing') {
       this.currentScreen.set('pedagogic-pause');

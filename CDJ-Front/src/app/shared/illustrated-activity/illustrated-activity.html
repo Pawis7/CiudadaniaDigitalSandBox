@@ -1,0 +1,276 @@
+<div class="activity-book">
+  <header class="book-toolbar">
+    <div class="book-name">
+      <span>{{ activity().ageLabel }}</span>
+      <strong>{{ activity().title }}</strong>
+    </div>
+    <div class="toolbar-actions">
+      <button
+        type="button"
+        class="paper-button paper-button--small paper-button--sun"
+        (click)="toggleNarration()"
+        [attr.aria-pressed]="isSpeaking()"
+      >
+        {{ isSpeaking() ? 'Detener voz' : 'Escuchar' }}
+      </button>
+      <button
+        type="button"
+        class="paper-button paper-button--small paper-button--cream"
+        (click)="close()"
+        aria-label="Cerrar actividad"
+      >
+        Cerrar
+      </button>
+    </div>
+  </header>
+
+  @if (audioMessage()) {
+    <p class="audio-message" role="status">{{ audioMessage() }}</p>
+  }
+
+  <main class="book-stage">
+    @if (atCover()) {
+      <section
+        class="book-spread book-spread--cover tone-sunshine"
+        #bookSpread
+        aria-label="Portada"
+      >
+        <div class="picture-page picture-page--cover">
+          <img [src]="activity().cover.src" [alt]="activity().cover.alt" draggable="false" />
+        </div>
+        <div class="reading-page reading-page--cover" #readingPage>
+          <div class="page-copy">
+            <p class="page-kicker">Una historia para decidir</p>
+            <h1 #pageHeading tabindex="-1">{{ activity().title }}</h1>
+            <p class="cover-intro">{{ activity().intro }}</p>
+            <button type="button" class="paper-button paper-button--blue" (click)="start()">
+              Abrir la historia
+            </button>
+            <p class="reading-invitation">
+              Lee, observa y elige. Puedes volver a intentarlo cuando lo necesites.
+            </p>
+          </div>
+        </div>
+      </section>
+    } @else if (atEnding()) {
+      <section
+        class="book-spread book-spread--ending tone-mint"
+        #bookSpread
+        aria-label="Final de la historia"
+      >
+        <div class="picture-page picture-page--ending">
+          <img
+            [src]="activity().ending.image.src"
+            [alt]="activity().ending.image.alt"
+            draggable="false"
+          />
+        </div>
+        <div class="reading-page reading-page--ending" #readingPage>
+          <div class="page-copy">
+            <p class="page-kicker">¡Llegaste al final!</p>
+            <h2 #pageHeading tabindex="-1">{{ activity().ending.title }}</h2>
+            <p>{{ activity().ending.message }}</p>
+            <p class="ending-rule">{{ activity().ending.rule }}</p>
+            <div class="ending-actions">
+              <button type="button" class="paper-button paper-button--sun" (click)="restart()">
+                Volver a jugar
+              </button>
+              <button type="button" class="paper-button paper-button--blue" (click)="close()">
+                Cerrar historia
+              </button>
+            </div>
+            @if (activity().sources?.length) {
+              <details class="source-note">
+                <summary>Para seguir aprendiendo en familia</summary>
+                <ul>
+                  @for (source of activity().sources; track source.url) {
+                    <li>
+                      <a [href]="source.url" target="_blank" rel="noopener noreferrer"
+                        >{{ source.label }} <span class="sr-only">(abre otra pestaña)</span></a
+                      >
+                    </li>
+                  }
+                </ul>
+              </details>
+            }
+          </div>
+        </div>
+      </section>
+    } @else if (scene(); as current) {
+      <section
+        class="book-spread"
+        [class]="'book-spread tone-' + (current.paperTone || 'sunshine')"
+        #bookSpread
+        [attr.aria-label]="current.title"
+      >
+        <div class="picture-page">
+          <img [src]="current.image.src" [alt]="current.image.alt" draggable="false" />
+          <span class="page-number" aria-hidden="true">{{ page() + 1 }}</span>
+        </div>
+        <div class="reading-page" #readingPage>
+          <div class="page-copy">
+            <h2 #pageHeading tabindex="-1">{{ current.title }}</h2>
+            <div class="story-paragraphs">
+              @for (paragraph of current.paragraphs; track $index) {
+                <p>{{ paragraph }}</p>
+              }
+            </div>
+
+            @if (current.evidence?.length) {
+              <section class="evidence-list" aria-label="Pistas para decidir">
+                <h3>Mira las pistas</h3>
+                @for (clue of current.evidence; track clue.id) {
+                  <div class="evidence-item">
+                    <button
+                      type="button"
+                      class="evidence-tab"
+                      (click)="toggleEvidence(clue.id)"
+                      [attr.aria-expanded]="isEvidenceOpen(clue.id)"
+                      [attr.aria-controls]="evidencePanelId(clue.id)"
+                    >
+                      <span>{{ clue.label }}</span>
+                      <span class="evidence-tab__state">{{
+                        isEvidenceOpen(clue.id)
+                          ? 'Cerrar'
+                          : isEvidenceReviewed(clue.id)
+                            ? 'Volver a ver'
+                            : 'Abrir'
+                      }}</span>
+                    </button>
+                    <div
+                      class="evidence-copy"
+                      [id]="evidencePanelId(clue.id)"
+                      [hidden]="!isEvidenceOpen(clue.id)"
+                    >
+                      <p>{{ clue.text }}</p>
+                    </div>
+                  </div>
+                }
+                @if (missingEvidenceIds().length) {
+                  <p class="evidence-hint" role="status">
+                    Abre
+                    {{
+                      missingEvidenceIds().length === 1
+                        ? 'la pista que falta'
+                        : 'las ' + missingEvidenceIds().length + ' pistas que faltan'
+                    }}
+                    antes de elegir.
+                  </p>
+                }
+              </section>
+            }
+
+            <section class="decision" aria-labelledby="activity-decision-prompt">
+              <h3 id="activity-decision-prompt" #decisionPrompt tabindex="-1">
+                {{ current.prompt }}
+              </h3>
+              <div class="choices">
+                @for (choice of current.choices; track choice.id; let choiceIndex = $index) {
+                  <button
+                    type="button"
+                    class="choice-button"
+                    [class.choice-button--selected]="selectedChoice()?.id === choice.id"
+                    [disabled]="!canChoose()"
+                    [attr.aria-pressed]="selectedChoice()?.id === choice.id"
+                    (click)="choose(choice.id)"
+                  >
+                    <span class="choice-number" aria-hidden="true">{{ choiceIndex + 1 }}</span>
+                    <span>{{ choice.label }}</span>
+                  </button>
+                }
+              </div>
+            </section>
+
+            @if (selectedChoice(); as chosen) {
+              <section
+                class="choice-feedback"
+                #feedbackPanel
+                tabindex="-1"
+                role="status"
+                [class.choice-feedback--resolved]="chosen.correct"
+              >
+                <h3>
+                  {{ chosen.correct ? 'Una decisión que cuida' : 'Miremos otra posibilidad' }}
+                </h3>
+                <p>{{ chosen.feedback }}</p>
+                @if (chosen.correct) {
+                  <p class="takeaway">{{ current.takeaway }}</p>
+                  <button type="button" class="paper-button paper-button--blue" (click)="next()">
+                    {{
+                      page() === activity().scenes.length - 1
+                        ? 'Ver el final'
+                        : 'Seguir la historia'
+                    }}
+                  </button>
+                } @else {
+                  <button type="button" class="paper-button paper-button--coral" (click)="retry()">
+                    Volver a elegir
+                  </button>
+                }
+              </section>
+            }
+            @if (guidance()) {
+              <p class="gentle-guidance" role="status">{{ guidance() }}</p>
+            }
+          </div>
+        </div>
+      </section>
+    }
+  </main>
+
+  <footer class="book-footer">
+    <button
+      type="button"
+      class="paper-button paper-button--small paper-button--cream"
+      (click)="previous()"
+      [disabled]="atCover()"
+    >
+      Anterior
+    </button>
+    <div class="book-progress">
+      <nav class="scene-tabs" aria-label="Escenas de la historia">
+        @for (item of activity().scenes; track item.id; let index = $index) {
+          <button
+            type="button"
+            class="scene-tab"
+            [class.scene-tab--solved]="solvedIds().has(item.id)"
+            [class.scene-tab--current]="page() === index"
+            [disabled]="!canVisitScene(index)"
+            (click)="goToScene(index)"
+            [attr.aria-label]="
+              'Escena ' +
+              (index + 1) +
+              ': ' +
+              item.title +
+              (solvedIds().has(item.id) ? ', resuelta' : '')
+            "
+            [attr.aria-current]="page() === index ? 'step' : null"
+          >
+            {{ index + 1 }}
+          </button>
+        }
+      </nav>
+      <span>{{ solvedCount() }} de {{ activity().scenes.length }} escenas resueltas</span>
+    </div>
+    @if (!atEnding()) {
+      <button
+        type="button"
+        class="paper-button paper-button--small paper-button--blue"
+        (click)="next()"
+        [disabled]="!atCover() && !sceneSolved()"
+      >
+        {{
+          atCover() ? 'Comenzar' : page() === activity().scenes.length - 1 ? 'Final' : 'Siguiente'
+        }}
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="paper-button paper-button--small paper-button--blue"
+        (click)="close()"
+      >
+        Cerrar
+      </button>
+    }
+  </footer>
+</div>

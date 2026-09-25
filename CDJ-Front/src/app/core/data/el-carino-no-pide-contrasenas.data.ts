@@ -88,7 +88,7 @@ export const EL_CARINO_DATA: CarinoData = {
     version: "v3.0_mejorado_pedagogia_ux",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años",
+    age_range: "12 a 14 años",
     status: "Listo para revisión de contenido, diseño y programación",
     based_on_uploaded_file: "CDJ-262_caso_corto_preguntas_generadoras_secundaria_V2.html"
   },

@@ -28,9 +28,9 @@ export const HERO: Hero = {
   titleHighlight: 'Ciudadanía Digital',
   description:
     'Aprendemos, convivimos y participamos en entornos digitales de forma segura, responsable y respetuosa. Para niñas, niños, adolescentes, familias y docentes.',
-  primaryCta: { label: 'Explorar series', href: '/series' },
+  primaryCta: { label: 'Explorar recursos', href: '/recursos' },
   secondaryCta: { label: 'Entrar por perfil', href: '/p/adolescentes' },
-  imageUrl: '/assets/img/hero-main.svg',
+  imageUrl: '/banners/CD_Main.webp',
   imageAlt: 'Comunidad aprendiendo en entornos digitales',
 };
 
@@ -39,18 +39,18 @@ export const CATEGORIES: Category[] = [
     id: 'kids',
     slug: 'ninas-y-ninos',
     name: 'Niñas y niños',
-    description: 'Recursos para aprender a convivir, jugar y participar de forma segura en el mundo digital para niñas y niños de preescolar, primaria baja y primaria alta.',
+    description: 'Aprende a cuidarte, convivir y disfrutar el mundo digital.',
     imageUrl: '/categorias/ninas-y-ninos.webp',
     accent: 'from-rose-400/0 via-rose-500/20 to-rose-600/40',
     audience: 'kids',
     illoScene: 'play',
-    ageRange: '5 a 11 años',
+    ageRange: '3 a 11 años',
   },
   {
     id: 'teens',
     slug: 'adolescentes',
     name: 'Adolescentes',
-    description: 'Recursos para explorar tu vida digital con criterio, creatividad y seguridad dirigidos a adolescentes de nivel secundaria y preparatoria.',
+    description: 'Toma decisiones, cuida tu identidad y participa responsablemente en línea.',
     imageUrl: '/categorias/adolescentes.webp',
     accent: 'from-violet-400/0 via-violet-500/20 to-violet-600/40',
     audience: 'teens',
@@ -61,7 +61,7 @@ export const CATEGORIES: Category[] = [
     id: 'families',
     slug: 'familias',
     name: 'Familias',
-    description: 'Herramientas para acompañar a niñas, niños y adolescentes en su vida digital con confianza y claridad en las etapas de crianza desde 0 hasta los 22 años.',
+    description: 'Acompaña su vida digital con diálogo, acuerdos y confianza.',
     imageUrl: '/categorias/familias.webp',
     accent: 'from-orange-400/0 via-orange-500/20 to-orange-600/40',
     audience: 'families',
@@ -72,12 +72,12 @@ export const CATEGORIES: Category[] = [
     id: 'teachers',
     slug: 'docentes',
     name: 'Docentes',
-    description: 'Recursos y estrategias para trabajar ciudadanía digital en el aula de forma segura, crítica y responsable para todos los niveles básica y superior.',
+    description: 'Forma estudiantes capaces de aprender, convivir y participar en el mundo digital.',
     imageUrl: '/categorias/docentes.webp',
     accent: 'from-rose-400/0 via-rose-500/20 to-rose-600/40',
     audience: 'teachers',
     illoScene: 'study',
-    ageRange: 'Preescolar a preparatoria',
+    ageRange: 'Preescolar a media superior',
   },
 ];
 
@@ -110,7 +110,7 @@ export const FEATURE_CARDS: FeatureCard[] = [
     audience:    'edutips',
     illoScene:   'spark',
     badge:       'Biblioteca',
-    sections:    ['inicio', 'series'],
+    sections:    ['series'],
   },
   {
     id:          'casi',
@@ -125,7 +125,7 @@ export const FEATURE_CARDS: FeatureCard[] = [
     audience:    'casi',
     illoScene:   'play',
     badge:       'Serie animada',
-    sections:    ['inicio', 'series'],
+    sections:    ['series'],
   },
   {
     id:          'pequenos_cibernautas',
@@ -176,9 +176,9 @@ export const SECONDARY_BANNER: Banner = {
   title: 'La ciudadanía digital nos conecta y nos responsabiliza.',
   description:
     'Cada acción en línea tiene impacto. Elige informarte, respetar y participar para construir una comunidad mejor.',
-  imageUrl: '/assets/img/cta-banner.svg',
-  ctaLabel: 'Conoce más',
-  ctaHref: '/series',
+  imageUrl: '/banners/CD_Main.webp',
+  ctaLabel: 'Explorar recursos',
+  ctaHref: '/recursos',
   audience: 'cdj',
 };
 
@@ -194,7 +194,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
     accentClass: 'from-amber-500 to-orange-500',
     iconBgClass: 'bg-[color:var(--c-edutips)]',
     icon: 'play_arrow',
-    episodeCount: 25,
+    episodeCount: 23,
     audience: 'edutips',
     illoScene: 'spark',
     videos: [
@@ -213,14 +213,6 @@ export const VIDEO_SERIES: VideoSeries[] = [
         youtubeUrl: 'https://www.youtube.com/watch?v=NGv12bQmVTc',
         durationLabel: '3:05',
         tags: ['familia', 'comunicación', 'convivencia', 'herramientas', 'aprendizaje'],
-      },
-      {
-        id: 'edu-4',
-        title: 'Seguridad y configuración de privacidad en tus cuentas',
-        description: 'Consejos clave para proteger tus perfiles en redes sociales, activar la verificación en dos pasos y cuidar tu privacidad en internet.',
-        youtubeUrl: 'https://www.youtube.com/watch?v=fuVPIWSlpEQ',
-        durationLabel: '2:50',
-        tags: ['seguridad', 'privacidad', 'cuentas', 'ciberseguridad'],
       },
       {
         id: 'edu-5',
@@ -400,11 +392,11 @@ export const VIDEO_SERIES: VideoSeries[] = [
     description:
       'Historias cortas donde personajes evitan riesgos digitales tomando buenas decisiones.',
     coverImageUrl: '/portadas/el-dia-que-casi.webp',
-    bannerImageUrl: '/banners/CD_ElDiaQueCasi.jpg',
+    bannerImageUrl: '/banners/CD_ElDiaQueCasi.webp',
     accentClass: 'from-amber-400 to-orange-500',
     iconBgClass: 'bg-[color:var(--c-casi)]',
     icon: 'star',
-    episodeCount: 8,
+    episodeCount: 5,
     audience: 'casi',
     illoScene: 'play',
     youtubePlaylistId: 'PL6UhGvZdF4uhkptPgZt5UpoFiK1WQyig4',
@@ -502,7 +494,7 @@ export const NAV_SECTIONS: NavSection[] = [
     expanded: false,
     items: [
       { label: 'Secundaria', href: '/p/adolescentes#secundaria' },
-      { label: 'Preparatoria', href: '/p/adolescentes#preparatoria' },
+      { label: 'Bachillerato', href: '/p/adolescentes#preparatoria' },
     ],
   },
   {
@@ -516,7 +508,8 @@ export const NAV_SECTIONS: NavSection[] = [
       { label: '0-5 Primera infancia', href: '/p/familias#fam-0-5' },
       { label: '6-11 Niñez', href: '/p/familias#fam-6-11' },
       { label: '12-14 Adolescencia temprana', href: '/p/familias#fam-12-14' },
-      { label: '15-22 Adolescencia tardía y juventud', href: '/p/familias#fam-15-22' },
+      { label: '15-17 Adolescencia', href: '/p/familias#fam-15-17' },
+      { label: '18-22 Personas adultas jóvenes', href: '/p/familias#fam-18-22' },
     ],
   },
   {
@@ -531,7 +524,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { label: 'Primaria baja', href: '/p/docentes#doc-pb' },
       { label: 'Primaria alta', href: '/p/docentes#doc-pa' },
       { label: 'Secundaria', href: '/p/docentes#doc-sec' },
-      { label: 'Preparatoria', href: '/p/docentes#doc-prep' },
+      { label: 'Media superior', href: '/p/docentes#doc-prep' },
     ],
   },
 ];
@@ -553,19 +546,18 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     ],
   },
   {
-    title: 'Para aprender',
+    title: 'Recursos y colecciones',
     links: [
+      { label: 'Todos los recursos', href: '/recursos' },
       { label: 'Edutips', href: '/edutips' },
       { label: 'El día que casi', href: '/series/el-dia-que-casi' },
-      { label: 'Series', href: '/series' },
-      { label: 'Ayuda Digital', href: '/ayuda' },
+      { label: 'Pequeños Cibernautas', href: '/series/pequenos-cibernautas' },
     ],
   },
   {
     title: 'Institucional',
     links: [
       { label: 'Quiénes somos', href: '/quienes-somos' },
-      { label: 'Ayuda Digital', href: '/ayuda' },
       { label: 'Aviso de privacidad', href: 'https://apprende.jalisco.gob.mx/aviso-de-privacidad/' },
       { label: 'Aliados', href: '/quienes-somos' },
       { label: 'Contacto', href: '/quienes-somos' },

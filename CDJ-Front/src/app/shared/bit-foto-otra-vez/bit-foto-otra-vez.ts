@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, effect, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StoryEndingComponent } from '../story-ending/story-ending';
 import { FOTO_OTRA_VEZ_NARRATIONS, NarrationSegment } from '../../core/data/bit-foto-otra-vez.data';
 
 @Component({
   selector: 'app-bit-foto-otra-vez',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StoryEndingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bit-foto-otra-vez.html',
   styleUrl: './bit-foto-otra-vez.css',
@@ -56,26 +57,34 @@ export class BitFotoOtraVezComponent implements OnDestroy {
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return;
 
-    const spanish = voices.filter(v => /^es[-_]/i.test(v.lang) || /español|spanish|mexico|latino/i.test(v.name));
+    const spanish = voices.filter(
+      (v) => /^es[-_]/i.test(v.lang) || /español|spanish|mexico|latino/i.test(v.name),
+    );
     const preferred = [
-      "Google español de México",
-      "Google español latinoamericano",
-      "Microsoft Dalia",
-      "Microsoft Sabina",
-      "Paulina",
-      "Mónica",
-      "Monica",
-      "Luciana",
-      "Google español"
+      'Google español de México',
+      'Google español latinoamericano',
+      'Microsoft Dalia',
+      'Microsoft Sabina',
+      'Paulina',
+      'Mónica',
+      'Monica',
+      'Luciana',
+      'Google español',
     ];
-    this.preferredVoice = preferred.map(name => spanish.find(v => v.name.toLowerCase().includes(name.toLowerCase()))).find(Boolean)
-      || spanish.find(v => /MX|419|US/i.test(v.lang))
-      || spanish[0]
-      || voices[0];
+    this.preferredVoice =
+      preferred
+        .map((name) => spanish.find((v) => v.name.toLowerCase().includes(name.toLowerCase())))
+        .find(Boolean) ||
+      spanish.find((v) => /MX|419|US/i.test(v.lang)) ||
+      spanish[0] ||
+      voices[0];
   }
 
   private clean(t: string): string {
-    return String(t || "").replace(/[🤖🐦📸✨🛑⚠️⭐✓✕🐾🎨💬🛡️«»—]/g, "").replace(/\s+/g, " ").trim();
+    return String(t || '')
+      .replace(/[🤖🐦📸✨🛑⚠️⭐✓✕🐾🎨💬🛡️«»—]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   private stopAudio(): void {
@@ -94,7 +103,7 @@ export class BitFotoOtraVezComponent implements OnDestroy {
 
   private later(fn: () => void, ms: number): any {
     const id = setTimeout(() => {
-      this.timers = this.timers.filter(x => x !== id);
+      this.timers = this.timers.filter((x) => x !== id);
       fn();
     }, ms);
     this.timers.push(id);
@@ -103,7 +112,7 @@ export class BitFotoOtraVezComponent implements OnDestroy {
 
   private utter(text: string, rate: number = 0.8, pitch: number = 1.08): SpeechSynthesisUtterance {
     const u = new SpeechSynthesisUtterance(this.clean(text));
-    u.lang = (this.preferredVoice && this.preferredVoice.lang) || "es-MX";
+    u.lang = (this.preferredVoice && this.preferredVoice.lang) || 'es-MX';
     if (this.preferredVoice) {
       u.voice = this.preferredVoice;
     }
@@ -113,7 +122,11 @@ export class BitFotoOtraVezComponent implements OnDestroy {
     return u;
   }
 
-  private speakSegments(segs: NarrationSegment[], force: boolean = false, onDone: (() => void) | null = null): void {
+  private speakSegments(
+    segs: NarrationSegment[],
+    force: boolean = false,
+    onDone: (() => void) | null = null,
+  ): void {
     if (!this.voiceOn() && !force) return;
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     this.loadVoices();
@@ -235,7 +248,7 @@ export class BitFotoOtraVezComponent implements OnDestroy {
     this.showFeedback.set(false);
     if (this.cur() > 0) {
       this.turnDirection.set('prev');
-      this.cur.update(c => c - 1);
+      this.cur.update((c) => c - 1);
     }
   }
 
@@ -243,7 +256,7 @@ export class BitFotoOtraVezComponent implements OnDestroy {
     this.showFeedback.set(false);
     if (this.cur() < 6) {
       this.turnDirection.set('next');
-      this.cur.update(c => c + 1);
+      this.cur.update((c) => c + 1);
     } else {
       this.closeBook();
     }

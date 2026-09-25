@@ -83,7 +83,7 @@ export const PEER_PRESSURE_SIMULATOR_DATA: PeerPressureData = {
     version: "v3.0_mejora_pedagogica_ux",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años"
+    age_range: "12 a 14 años"
   },
   proposito: {
     titulo_publico: "El chat como corriente",

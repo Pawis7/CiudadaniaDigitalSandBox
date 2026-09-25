@@ -1,0 +1,331 @@
+:host {
+  display: block;
+  inline-size: var(--bit-width, 9rem);
+  max-inline-size: 100%;
+  aspect-ratio: 387 / 480;
+  flex: 0 0 auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bit-character {
+  --arm-left-rotation: 0deg;
+  --arm-right-rotation: 0deg;
+  --head-rotation: 0deg;
+  --head-shift: 0%;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  isolation: isolate;
+}
+
+.bit-character__float {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 88%;
+  animation: bit-float 4s ease-in-out infinite;
+}
+
+.bit-character__part,
+.bit-character__shadow {
+  position: absolute;
+  display: block;
+}
+
+.bit-character__part {
+  transition: transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.bit-character__part img,
+.bit-character__shadow {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.bit-character__shadow {
+  z-index: 0;
+  inset-inline-start: 8%;
+  inset-block-start: 84%;
+  inline-size: 84%;
+  opacity: 0.66;
+  transform: scaleX(0.84);
+  transform-origin: center;
+}
+
+.bit-character__leg {
+  z-index: 1;
+  inset-block-start: 52%;
+  inline-size: 27%;
+  transform-origin: 50% 9%;
+}
+
+.bit-character__leg--left {
+  inset-inline-start: 24%;
+  transform: rotate(-1deg);
+}
+
+.bit-character__leg--right {
+  inset-inline-start: 49%;
+  transform: rotate(1deg);
+}
+
+.bit-character__arm {
+  z-index: 2;
+  inset-block-start: 37%;
+  inline-size: 49%;
+}
+
+.bit-character__arm--left {
+  inset-inline-start: -1%;
+  transform: rotate(var(--arm-left-rotation));
+  transform-origin: 89% 18%;
+}
+
+.bit-character__arm--right {
+  inset-inline-start: 52%;
+  transform: rotate(var(--arm-right-rotation));
+  transform-origin: 11% 18%;
+}
+
+.bit-character__torso {
+  z-index: 3;
+  inset-inline-start: 20%;
+  inset-block-start: 31%;
+  inline-size: 60%;
+}
+
+.bit-character__head {
+  z-index: 4;
+  inset-inline-start: 14%;
+  inset-block-start: var(--head-shift);
+  inline-size: 72%;
+  transform: rotate(var(--head-rotation));
+  transform-origin: 50% 91%;
+}
+
+.bit-character__face {
+  position: absolute;
+  inset-inline-start: 20%;
+  inset-block-start: 49%;
+  inline-size: 60%;
+  block-size: 31%;
+  color: #e875ad;
+}
+
+.bit-character__eye,
+.bit-character__mouth {
+  position: absolute;
+  display: block;
+  background: currentColor;
+  transition:
+    transform 280ms ease,
+    inline-size 280ms ease,
+    block-size 280ms ease,
+    inset 280ms ease,
+    border-radius 280ms ease;
+}
+
+.bit-character__eye {
+  inset-block-start: 7%;
+  inline-size: 11%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.bit-character__eye--left {
+  inset-inline-start: 18%;
+}
+
+.bit-character__eye--right {
+  inset-inline-end: 18%;
+}
+
+.bit-character__mouth {
+  inset-inline-start: 21%;
+  inset-block-start: 45%;
+  inline-size: 58%;
+  block-size: 30%;
+  background: transparent;
+  border-block-end: 0.22rem solid currentColor;
+  border-radius: 0 0 999px 999px;
+}
+
+.bit-character[data-emotion='alegria'] {
+  --arm-left-rotation: 7deg;
+  --arm-right-rotation: -7deg;
+}
+
+.bit-character[data-emotion='alegria'] .bit-character__eye {
+  transform: scaleY(0.78);
+}
+
+.bit-character[data-emotion='alegria'] .bit-character__mouth {
+  inset-inline-start: 16%;
+  inline-size: 68%;
+  block-size: 37%;
+}
+
+.bit-character[data-emotion='susto'] {
+  --arm-left-rotation: 17deg;
+  --arm-right-rotation: -17deg;
+  --head-shift: -1.5%;
+}
+
+.bit-character[data-emotion='susto'] .bit-character__eye {
+  inset-block-start: 2%;
+  inline-size: 14%;
+}
+
+.bit-character[data-emotion='susto'] .bit-character__mouth {
+  inset-inline-start: 43%;
+  inset-block-start: 48%;
+  inline-size: 14%;
+  block-size: auto;
+  aspect-ratio: 1;
+  background: currentColor;
+  border: 0;
+  border-radius: 50%;
+}
+
+.bit-character[data-emotion='enojo'] {
+  --arm-left-rotation: -8deg;
+  --arm-right-rotation: 8deg;
+}
+
+.bit-character[data-emotion='enojo'] .bit-character__eye {
+  inset-block-start: 12%;
+  block-size: 16%;
+  border-radius: 999px;
+}
+
+.bit-character[data-emotion='enojo'] .bit-character__eye--left {
+  transform: rotate(18deg);
+}
+
+.bit-character[data-emotion='enojo'] .bit-character__eye--right {
+  transform: rotate(-18deg);
+}
+
+.bit-character[data-emotion='enojo'] .bit-character__mouth,
+.bit-character[data-emotion='tristeza'] .bit-character__mouth {
+  inset-block-start: 57%;
+  background: transparent;
+  border-block-start: 0.22rem solid currentColor;
+  border-block-end: 0;
+  border-radius: 999px 999px 0 0;
+}
+
+.bit-character[data-emotion='tristeza'] {
+  --arm-left-rotation: -10deg;
+  --arm-right-rotation: 10deg;
+  --head-rotation: -3deg;
+  --head-shift: 1.5%;
+}
+
+.bit-character[data-emotion='tristeza'] .bit-character__eye {
+  transform: scaleY(0.58) translateY(18%);
+}
+
+.bit-character[data-emotion='duda'] {
+  --head-rotation: -6deg;
+  --arm-right-rotation: -10deg;
+}
+
+.bit-character[data-emotion='duda'] .bit-character__eye--left {
+  inset-block-start: 13%;
+  transform: scale(0.72);
+}
+
+.bit-character[data-emotion='duda'] .bit-character__mouth {
+  inset-inline-start: 38%;
+  inset-block-start: 58%;
+  inline-size: 30%;
+  block-size: 0.2rem;
+  background: currentColor;
+  border: 0;
+  border-radius: 999px;
+  transform: rotate(-10deg);
+}
+
+.bit-character[data-emotion='cansancio'] {
+  --head-rotation: 3deg;
+  --head-shift: 2.5%;
+  --arm-left-rotation: -8deg;
+  --arm-right-rotation: 8deg;
+}
+
+.bit-character[data-emotion='cansancio'] .bit-character__eye {
+  inset-block-start: 17%;
+  block-size: 0.2rem;
+  border-radius: 999px;
+}
+
+.bit-character[data-emotion='cansancio'] .bit-character__mouth {
+  inset-inline-start: 37%;
+  inset-block-start: 61%;
+  inline-size: 26%;
+  block-size: 0.2rem;
+  background: currentColor;
+  border: 0;
+  border-radius: 999px;
+}
+
+.bit-character[data-emotion='calma'] .bit-character__eye {
+  inset-block-start: 13%;
+  inline-size: 18%;
+  block-size: 20%;
+  background: transparent;
+  border-block-start: 0.22rem solid currentColor;
+  border-radius: 50%;
+}
+
+.bit-character[data-emotion='calma'] .bit-character__eye--left {
+  inset-inline-start: 14%;
+}
+
+.bit-character[data-emotion='calma'] .bit-character__eye--right {
+  inset-inline-end: 14%;
+}
+
+.bit-character[data-emotion='calma'] .bit-character__mouth {
+  inset-inline-start: 27%;
+  inline-size: 46%;
+  block-size: 25%;
+}
+
+.bit-character[data-pose='saludo'] {
+  --arm-left-rotation: 31deg;
+  --arm-right-rotation: -4deg;
+}
+
+.bit-character[data-pose='celebracion'] {
+  --arm-left-rotation: 31deg;
+  --arm-right-rotation: -31deg;
+  --head-shift: -1.5%;
+}
+
+@keyframes bit-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.2%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bit-character__float {
+    animation: none;
+  }
+
+  .bit-character__part,
+  .bit-character__eye,
+  .bit-character__mouth {
+    transition: none;
+  }
+}

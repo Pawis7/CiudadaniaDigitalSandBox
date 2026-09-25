@@ -1,94 +1,154 @@
-<main class="resources-page">
+<div class="resources-page">
   <header>
     <p class="eyebrow">Biblioteca</p>
     <h1>Recursos</h1>
-    <p>Encuentra materiales para aprender, acompañar o trabajar ciudadanía digital. Elige para quién es, qué tipo de recurso necesitas y el tema que quieres abordar.</p>
+    <p>Biblioteca completa de Ciudadanía Digital Jalisco. Reúne cuentos, actividades interactivas, simuladores, videos, experiencias, guías, documentos y recursos de orientación disponibles en la plataforma.</p>
   </header>
 
-  <section class="finder" aria-label="Filtros de recursos">
-    <label>
-      <span>Perfil</span>
-      <select [value]="aud()" (change)="aud.set($any($event.target).value);stage.set('all')">
-        @for(a of audiences;track a[0]){
-          <option [value]="a[0]">{{a[1]}}</option>
-        }
-      </select>
+  <nav class="collection-links" aria-label="Colecciones destacadas">
+    <span>Colecciones</span>
+    <a routerLink="/edutips">Edutips</a>
+    <a routerLink="/series/el-dia-que-casi">El día que casi…</a>
+    <a routerLink="/series/pequenos-cibernautas">Pequeños Cibernautas</a>
+    <a routerLink="/p/familias/videojuegos">Videojuegos en casa</a>
+    <a routerLink="/pantallas-seguras">Pantallas Seguras</a>
+  </nav>
+
+  <section class="finder" aria-label="Buscar y filtrar recursos">
+    <label class="resource-search" for="resource-query">
+      <span class="material-symbols-rounded" aria-hidden="true">search</span>
+      <input
+        id="resource-query"
+        type="search"
+        placeholder="Buscar por tema, título, necesidad o institución"
+        autocomplete="off"
+        [value]="query()"
+        (input)="query.set($any($event.target).value)">
     </label>
-    <label>
-      <span>Tipo de recurso</span>
-      <select [value]="format()" (change)="format.set($any($event.target).value)">
-        @for(f of formats;track f[0]){
-          <option [value]="f[0]">{{f[1]}}</option>
-        }
-      </select>
-    </label>
-    <label>
-      <span>Tema</span>
-      <select [value]="topic()" (change)="topic.set($any($event.target).value)">
-        @for(t of topics;track t[0]){
-          <option [value]="t[0]">{{t[1]}}</option>
-        }
-      </select>
-    </label>
-    <label>
-      <span>Edad o nivel</span>
-      <select [value]="stage()" (change)="stage.set($any($event.target).value)">
-        @for(s of stages();track s){
-          <option [value]="s">{{s==='all'?'Todas las edades y niveles':s}}</option>
-        }
-      </select>
-    </label>
+
+    <div class="filter-grid">
+      <label>
+        <span>Perfil</span>
+        <select [value]="audience()" (change)="changeAudience($any($event.target).value)">
+          @for (option of audiences; track option[0]) {
+            <option [value]="option[0]">{{ option[1] }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Nivel o etapa</span>
+        <select [value]="level()" (change)="level.set($any($event.target).value)">
+          @for (option of levels(); track option) {
+            <option [value]="option">{{ option === 'all' ? 'Todos los niveles y etapas' : option }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Propósito</span>
+        <select [value]="purpose()" (change)="purpose.set($any($event.target).value)">
+          @for (option of purposes; track option[0]) {
+            <option [value]="option[0]">{{ option[1] }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Formato</span>
+        <select [value]="format()" (change)="format.set($any($event.target).value)">
+          @for (option of formats; track option[0]) {
+            <option [value]="option[0]">{{ option[1] }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Tema</span>
+        <select [value]="topic()" (change)="topic.set($any($event.target).value)">
+          @for (option of topics; track option[0]) {
+            <option [value]="option[0]">{{ option[1] }}</option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Colección o fuente</span>
+        <select [value]="collection()" (change)="collection.set($any($event.target).value)">
+          @for (option of collections(); track option) {
+            <option [value]="option">{{ option === 'all' ? 'Todas las colecciones y fuentes' : option }}</option>
+          }
+        </select>
+      </label>
+    </div>
   </section>
 
-  <section class="topic-shortcuts">
+  <section class="topic-shortcuts" aria-label="Temas frecuentes">
     <span>Temas</span>
     <div>
-      @for(t of topics.slice(1);track t[0]){
-        <button type="button" (click)="topic.set(t[0])" [class.active]="topic()===t[0]">{{t[1]}}</button>
+      @for (option of topics.slice(1); track option[0]) {
+        <button type="button" (click)="topic.set(option[0])" [class.active]="topic() === option[0]" [attr.aria-pressed]="topic() === option[0]">{{ option[1] }}</button>
       }
     </div>
   </section>
 
   <section class="results">
     <div class="results-head">
-      <h2>{{results().length}} recursos</h2>
-      @if(aud()!=='all'||topic()!=='all'||format()!=='all'||stage()!=='all'){
-        <button type="button" (click)="reset()">Limpiar filtros</button>
+      <h2 aria-live="polite">{{ results().length }} {{ results().length === 1 ? 'recurso' : 'recursos' }}</h2>
+      @if (hasActiveFilters()) {
+        <button type="button" (click)="reset()">Limpiar búsqueda y filtros</button>
       }
     </div>
 
     <div class="resource-lines">
-      @for(r of results();track r.title+r.stage){
-        @if (r.youtubeId) {
-          <div class="resource-line resource-line-action" role="button" tabindex="0" (click)="openVideo(r)" (keydown.enter)="openVideo(r)">
+      @for (resource of results(); track resource.id) {
+        @if (resource.youtubeId) {
+          <div
+            class="resource-line resource-line-action"
+            role="button"
+            tabindex="0"
+            (click)="openVideo(resource)"
+            (keydown.enter)="openVideo(resource)"
+            (keydown.space)="$event.preventDefault(); openVideo(resource)">
             <div>
-              <small>{{audLabel(r.aud)}} · {{r.stage}} · {{r.formatLabel}} @if(r.collection){· {{r.collection}}}</small>
-              <strong>{{r.title}}</strong>
-              <p>{{r.description}}</p>
+              <small>{{ audienceLabel(resource.audiences) }} · {{ levelLabel(resource.levels) }} · {{ purposeLabel(resource.purpose) }}</small>
+              <strong>{{ resource.title }}</strong>
+              <p>{{ resource.description }}</p>
+              @if (resource.collection || resource.institution) {
+                <span class="resource-source">{{ resource.collection || resource.institution }} · {{ resource.formatLabel }}</span>
+              }
             </div>
             <span class="action-badge" title="Ver video">▶ Ver</span>
           </div>
-        } @else if (r.external) {
-          <a [href]="r.href" target="_blank" rel="noopener noreferrer" class="resource-line" [attr.download]="r.isPdf ? '' : null">
+        } @else if (resource.external) {
+          <a [href]="resource.href" target="_blank" rel="noopener noreferrer" class="resource-line">
             <div>
-              <small>{{audLabel(r.aud)}} · {{r.stage}} · {{r.formatLabel}} @if(r.collection){· {{r.collection}}}</small>
-              <strong>{{r.title}}</strong>
-              <p>{{r.description}}</p>
+              <small>{{ audienceLabel(resource.audiences) }} · {{ levelLabel(resource.levels) }} · {{ purposeLabel(resource.purpose) }}</small>
+              <strong>{{ resource.title }}</strong>
+              <p>{{ resource.description }}</p>
+              @if (resource.collection || resource.institution) {
+                <span class="resource-source">{{ resource.collection || resource.institution }} · {{ resource.formatLabel }}</span>
+              }
             </div>
-            <span class="action-badge" [class.badge-pdf]="r.isPdf">{{r.isPdf ? 'PDF ⬇' : '↗ Abrir'}}</span>
+            <span class="action-badge" [class.badge-pdf]="resource.isPdf">{{ resource.isPdf ? 'PDF ↓' : '↗ Abrir' }}</span>
           </a>
         } @else {
-          <a [routerLink]="r.href.split('#')[0]" [fragment]="r.href.includes('#')?r.href.split('#')[1]:undefined" class="resource-line">
+          <a [routerLink]="resource.href.split('#')[0]" [queryParams]="resourceParams(resource)" [fragment]="resource.href.includes('#') ? resource.href.split('#')[1] : undefined" class="resource-line">
             <div>
-              <small>{{audLabel(r.aud)}} · {{r.stage}} · {{r.formatLabel}} @if(r.collection){· {{r.collection}}}</small>
-              <strong>{{r.title}}</strong>
-              <p>{{r.description}}</p>
+              <small>{{ audienceLabel(resource.audiences) }} · {{ levelLabel(resource.levels) }} · {{ purposeLabel(resource.purpose) }}</small>
+              <strong>{{ resource.title }}</strong>
+              <p>{{ resource.description }}</p>
+              <span class="resource-source">{{ resource.collection ? resource.collection + ' · ' : '' }}{{ resource.formatLabel }}</span>
             </div>
-            <span>→</span>
+            <span aria-hidden="true">→</span>
           </a>
         }
       } @empty {
-        <p class="empty">Todavía no hay recursos con esta combinación. Prueba otro tema o perfil.</p>
+        <div class="empty">
+          <strong>No encontramos recursos con esta combinación.</strong>
+          <p>Prueba con menos filtros o utiliza otra palabra en la búsqueda.</p>
+          <button type="button" (click)="reset()">Ver todos los recursos</button>
+        </div>
       }
     </div>
   </section>
@@ -96,4 +156,4 @@
   @if (activeVideo()) {
     <app-video-modal [video]="activeVideo()" (close)="activeVideo.set(null)" />
   }
-</main>
+</div>

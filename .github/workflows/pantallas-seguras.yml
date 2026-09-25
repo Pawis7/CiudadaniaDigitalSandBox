@@ -1,0 +1,51 @@
+name: Pantallas Seguras
+
+on:
+  push:
+    paths:
+      - 'CDJ-Front/src/app/pantallas-seguras/**'
+      - 'CDJ-Front/scripts/check-pantallas-seguras.mjs'
+      - '.github/workflows/pantallas-seguras.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pantallas-seguras-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: CDJ-Front
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: CDJ-Front/package-lock.json
+      - name: Install application dependencies
+        run: npm ci
+      - name: Build actual application
+        run: npm run build -- --output-path=dist/pantallas-check
+      - name: Install browser for validation only
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pantallas-browser" --no-audit --no-fund --package-lock=false playwright@1.56.1
+          "$RUNNER_TEMP/pantallas-browser/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Check navigation, resources, keyboard and responsive layout
+        run: |
+          cp scripts/check-pantallas-seguras.mjs "$RUNNER_TEMP/pantallas-browser/check.mjs"
+          node "$RUNNER_TEMP/pantallas-browser/check.mjs"
+      - name: Retain screenshots and report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pantallas-seguras-validation
+          path: CDJ-Front/artifacts/pantallas-seguras
+          retention-days: 7
+          if-no-files-found: ignore

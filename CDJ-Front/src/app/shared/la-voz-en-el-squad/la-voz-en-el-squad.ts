@@ -279,7 +279,7 @@ export class LaVozEnElSquadComponent {
 
   async copyQuickRules(): Promise<void> {
     const text = `Ciudadanía Digital Jalisco · CDJ-GAME-P03 · La voz en el squad
-Guía rápida de convivencia gamer para estudiantes de preparatoria
+Guía rápida de convivencia gamer para estudiantes de bachillerato
 
 1. Si el comentario te pasa a ti:
 - No tienes que demostrar que “sí aguantas”. Incomodarte no te hace débil.

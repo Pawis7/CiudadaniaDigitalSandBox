@@ -58,7 +58,7 @@ export const RIESGOS_REALES_DATA: RiesgosRealesData = {
     product_id: "PF-14",
     product_title: "¿Tu casa está lista para acompañar riesgos reales en línea?",
     segment: "Familias y cuidadores",
-    subsegment: "12–15 · Adolescencia temprana",
+    subsegment: "12–14 · Adolescencia temprana",
     topic: "Riesgos reales en línea",
     main_axis: "Riesgos y engaños en línea",
     duration_minutes: "5–6",

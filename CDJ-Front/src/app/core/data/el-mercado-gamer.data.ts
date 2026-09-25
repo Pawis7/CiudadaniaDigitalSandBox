@@ -84,7 +84,7 @@ export const MERCADO_GAME_DATA: DiscorGameSchema = {
     "title": "El mercado fuera de la plataforma",
     "subtitle": "Skins, cuentas y ofertas en un mercado gamer",
     "segment": "Estudiantes",
-    "subsegment": "Preparatoria",
+    "subsegment": "Bachillerato",
     "axes": [
       "Privacidad y seguridad",
       "Consumo responsable",

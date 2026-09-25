@@ -65,7 +65,7 @@ export const STICKER_CONTROL_DATA: StickerData = {
     version: "v3.0_mejora_pedagogica_ux",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años"
+    age_range: "12 a 14 años"
   },
   proposito: {
     titulo_publico: "El sticker que se salió de control",

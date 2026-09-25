@@ -29,7 +29,7 @@ export class MemoramaGameComponent implements OnInit, OnDestroy {
   private isProcessing = false;
   private audioCtx: AudioContext | null = null;
 
-  readonly backImgUrl = '/Cibernautas/caratula.jpg';
+  readonly backImgUrl = '/Cibernautas/caratula.webp';
 
   ngOnInit(): void {
     this.restartGame();

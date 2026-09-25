@@ -18,6 +18,7 @@ import { PEQUENOS_CIBERNAUTAS_CARDS } from '../../core/data/audience-extensions.
   imports: [CommonModule, RouterLink, RevealDirective, FeatureCardComponent, VideoModalComponent, FlipCardComponent, MemoramaGameComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './series-detail.html',
+  styleUrl: './series-detail.css',
 })
 export class SeriesDetailComponent {
   private route   = inject(ActivatedRoute);
@@ -36,7 +37,6 @@ export class SeriesDetailComponent {
   toggleDownloads() {
     this.isDownloadsOpen.update((v) => !v);
   }
-
 
   resolvedCoverUrl = computed(() => {
     const s = this.serie();

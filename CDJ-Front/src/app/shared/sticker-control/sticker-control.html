@@ -196,8 +196,8 @@
                         [class.majo]="msg.name === 'Majo'"
                         [class.dani]="msg.name === 'Dani'"
                         [class.leo]="msg.name === 'Leo'"
-                        [class.compa]="msg.name?.includes('Compañero')"
-                        [class.docente]="msg.name?.includes('Docente')"
+                        [class.compa]="msg.name.includes('Compañero')"
+                        [class.docente]="msg.name.includes('Docente')"
                         [class.tu]="msg.from === 'me'">
                         {{ msg.name }}
                       </span>

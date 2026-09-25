@@ -1,0 +1,92 @@
+@if (delivery(); as d) {
+  <main class="stage-xp" [attr.data-audience]="d.option.profile" [attr.data-variant]="d.key" data-presentation="guided-v3">
+    <nav class="entry-tools no-print" aria-label="Recorrido de la actividad">
+      <a class="back" [routerLink]="routes[d.option.profile]" [fragment]="d.option.stage" [queryParams]="{contexto:d.context,enfoque:d.option.band}">← Volver a {{ profiles[d.option.profile] }} · {{ d.option.label }}</a>
+      <a [routerLink]="['/actividad',d.slug]" class="change-stage">Cambiar perfil o etapa</a>
+    </nav>
+    <header class="cdj-banner case-hero" [style.--banner-bg]="banner().bg" aria-labelledby="case-title">
+      <div class="cdj-banner__copy case-hero__copy">
+        <p class="case-kicker">Caso para aprender · {{ profiles[d.option.profile] }} · {{ d.option.label }}</p>
+        <h1 id="case-title">{{ d.lesson.title }}</h1>
+        <p class="case-subtitle">{{ d.lesson.subtitle }}</p>
+      </div>
+      <div class="cdj-banner__visual case-hero__visual"><img [src]="banner().src" [alt]="banner().alt" width="2560" height="706" fetchpriority="high" /></div>
+    </header>
+    <div class="lesson-setup">
+      <p class="goal"><strong>{{ adult() ? 'Aprendizaje que acompañas' : 'Lo que vas a practicar' }}</strong>{{ d.lesson.objective }}</p>
+      <div class="context-controls no-print">
+        <label>¿Dónde realizarán la actividad?<select [value]="d.context" (change)="change('contexto',$any($event.target).value)"><option value="casa">En casa</option><option value="escuela">En la escuela</option></select></label>
+        @if (d.option.alternativeBand) {
+          <label>Etapa que acompañas<select [value]="d.option.band" (change)="change('enfoque',$any($event.target).value)"><option value="pb">Primaria baja · 6–8 años, orientativo</option><option value="pa">Primaria alta · 9–11 años, orientativo</option></select></label>
+        }
+        <span class="duration"><span class="material-symbols-rounded" aria-hidden="true" translate="no">schedule</span>{{ d.lesson.duration }}</span>
+        @if (adult()) { <button type="button" (click)="print()" class="print-button"><span class="material-symbols-rounded" aria-hidden="true" translate="no">print</span>Imprimir caso y guía</button> }
+      </div>
+    </div>
+    <app-experience-conditions [delivery]="d" />
+    @if (adult()) {
+      <section class="adult-guide no-print" aria-labelledby="adult-guide-title">
+        <p class="eyebrow">{{ d.option.profile==='teachers'?'Para trabajar en clase':'Para acompañar en familia' }}</p>
+        <h2 id="adult-guide-title">Antes, durante y al cerrar</h2>
+        <p class="section-description">Gira cada tarjeta para consultar cómo acompañar este momento.</p>
+        <div class="guide-cards">
+          @for (text of guide(); track $index; let i=$index) {
+            <button type="button" class="guide-card" [class.is-flipped]="guideOpen(i)" (mouseenter)="previewGuide(i)" (mouseleave)="endPreview()" (click)="toggleGuide(i)" [attr.aria-expanded]="guideOpen(i)" [attr.aria-label]="moments[i] + (guideOpen(i) ? ': ' + text + ' Volver al frente.' : ': mostrar orientación.')">
+              <span class="guide-inner">
+                <span class="guide-face guide-front" [attr.aria-hidden]="guideOpen(i)"><span class="guide-number">0{{ i+1 }}</span><span class="material-symbols-rounded moment-icon" aria-hidden="true" translate="no">{{ momentIcons[i] }}</span><strong>{{ moments[i] }}</strong><span class="flip-invitation">Ver orientación <span aria-hidden="true">↻</span></span></span>
+                <span class="guide-face guide-back" [attr.aria-hidden]="!guideOpen(i)"><strong>{{ moments[i] }}</strong><span>{{ text }}</span><small>Volver al frente <span aria-hidden="true">↻</span></small></span>
+              </span>
+            </button>
+          }
+        </div>
+      </section>
+    }
+    <section id="case-flow" class="questionnaire no-print" aria-labelledby="flow-title">
+      <div class="flow-heading"><div><p class="eyebrow">Lee, decide y conversa</p><h2 id="flow-title">Tu recorrido</h2></div><p class="step-status" role="status">{{ step()<2 ? 'Situación ' + (step()+1) + ' de 2' : 'Cierre del recorrido' }}</p></div>
+      <ol class="progress" aria-label="Pasos del recorrido"><li [class.active]="step()===0" [class.done]="step()>0" [attr.aria-current]="step()===0?'step':null">1 · Observa</li><li [class.active]="step()===1" [class.done]="step()>1" [attr.aria-current]="step()===1?'step':null">2 · Decide</li><li [class.active]="step()===2" [attr.aria-current]="step()===2?'step':null">3 · Practica</li></ol>
+      <div class="step-viewport" [class.backwards]="direction()==='backward'">
+        @for (current of [step()]; track current) {
+          <article class="step-panel" [attr.data-step]="current">
+            @if (question(); as q) {
+              <p class="eyebrow">{{ current===0?'Observa la situación':'Prueba en otra situación' }}</p>
+              <h3 class="step-heading" tabindex="-1">{{ q.question }}</h3>
+              <p class="story">{{ q.story }}</p>
+              <fieldset class="choices"><legend>{{ adult()?'¿Qué respuesta ayudarías a construir?':'Elige una respuesta para el personaje' }}</legend>
+                @for(c of q.choices;track c.label;let i=$index){<label class="choice" [class.chosen]="selected()===i"><input type="radio" [name]="'decision-'+current" [checked]="selected()===i" (change)="choose(i)"><span>{{ c.label }}</span></label>}
+              </fieldset>
+              <div class="feedback-region" aria-live="polite" aria-atomic="true">@if(feedback()){<p class="feedback"><strong>Para pensar tu decisión</strong>{{ feedback() }}</p>}</div>
+              <details class="clues"><summary><span class="material-symbols-rounded" aria-hidden="true" translate="no">lightbulb</span>Ver pistas para decidir</summary><ol>@for(clue of d.lesson.clues;track clue){<li>{{ clue }}</li>}</ol><p>Puedes cambiar tu respuesta. Lo importante es explicar tu decisión.</p></details>
+              <div class="panel-controls">@if(current>0){<button type="button" class="secondary-action" (click)="previous()">← Anterior</button>}<button type="button" class="primary-action next-button" [disabled]="selected()===null" (click)="next()">{{ current===0?'Continuar':'Ir al cierre' }} <span aria-hidden="true">→</span></button></div>
+              @if(selected()===null){<p class="control-hint">Elige una respuesta para continuar.</p>}
+            } @else {
+              <p class="eyebrow">Continúa sin pantalla</p><h3 class="step-heading" tabindex="-1">Una acción para practicar</h3>
+              <p>Elige una acción para continuar la conversación fuera de pantalla. No necesitas abrir aplicaciones ni compartir información personal.</p>
+              <fieldset class="choices"><legend>{{ adult()?'Elige una propuesta para acompañar':'¿Qué vas a practicar?' }}</legend>@for(action of d.lesson.practice;track action;let i=$index){<label class="choice" [class.chosen]="practice()===i"><input type="radio" name="practice-action" [checked]="practice()===i" (change)="choosePractice(i)"><span>{{ action }}</span></label>}</fieldset>
+              <p class="evidence"><strong>{{ adult()?'Qué observar al acompañar':'Al conversar, intenta lo siguiente' }}</strong>{{ d.lesson.evidence }}</p>
+              <div class="panel-controls"><button type="button" class="secondary-action" (click)="previous()">← Anterior</button><button type="button" class="primary-action finish-button" [disabled]="!canFinish() || finished()" (click)="finish()">{{ finished()?'Recorrido terminado':'Terminar el recorrido' }}</button><button type="button" class="restart-button" (click)="restart()">Volver a practicar</button></div>
+              @if(practice()===null){<p class="control-hint">Elige una acción de cierre para terminar.</p>}
+              <div aria-live="polite" aria-atomic="true">@if(finished()){<p class="finish-message"><span class="material-symbols-rounded" aria-hidden="true" translate="no">task_alt</span><span><strong>Terminaste el recorrido.</strong> Ahora realiza la acción elegida y comenta por qué la elegiste. Pedir ayuda también forma parte de aprender.</span></p>}</div>
+            }
+          </article>
+        }
+      </div>
+    </section>
+    <section class="print-only" aria-label="Caso completo para imprimir">
+      @if(adult()){<h2>Antes, durante y al cerrar</h2>@for(text of guide();track $index){<p><strong>{{ moments[$index] }}.</strong> {{ text }}</p>}}
+      @for(q of [d.lesson.first,d.lesson.second];track $index){<section><h2>Situación {{ $index+1 }} · {{ q.question }}</h2><p>{{ q.story }}</p><ol>@for(c of q.choices;track c.label){<li>{{ c.label }}</li>}</ol></section>}
+      <h2>Pistas para decidir</h2><ol>@for(clue of d.lesson.clues;track clue){<li>{{ clue }}</li>}</ol>
+      <h2>Una acción para practicar</h2><ul>@for(action of d.lesson.practice;track action){<li>{{ action }}</li>}</ul><p><strong>Qué observar:</strong> {{ d.lesson.evidence }}</p>
+    </section>
+    <aside class="real-support" aria-labelledby="support-title"><span class="material-symbols-rounded support-icon" aria-hidden="true" translate="no">health_and_safety</span><div><p class="eyebrow">Orientación fuera del ejercicio</p><h2 id="support-title">Si ocurre algo real</h2><p>Detén la interacción que preocupa y busca a una persona adulta de confianza o al responsable escolar.</p><p>No compartas contraseñas, datos o material sensible para explicar el caso. Quien acompaña escucha sin culpabilizar y sigue la ruta de protección que corresponda.</p><p class="support-scope">Esta actividad es preventiva; no recibe denuncias ni sustituye la atención de una situación real.</p></div></aside>
+    <nav class="related no-print" aria-label="Acompañamientos de esta experiencia"><h2>Continuar esta conversación</h2>@for(o of related();track o.profile+o.stage){<a [routerLink]="['/actividad',d.slug]" [queryParams]="relatedParams(o)">{{ o.profile==='teachers'?'Guía docente':o.profile==='families'?'Orientación familiar':'Actividad para estudiantes' }} · {{ o.label }} <span aria-hidden="true">→</span></a>}</nav>
+    <footer class="case-footer">Caso educativo preparado · Revisión editorial: 22 de septiembre de 2026</footer>
+  </main>
+} @else {
+  <main class="stage-xp chooser" data-stage-chooser data-presentation="guided-v3">
+    <a routerLink="/recursos" class="back no-print">← Volver a Recursos</a>
+    <header class="cdj-banner case-hero chooser-hero" [style.--banner-bg]="banner().bg"><div class="cdj-banner__copy case-hero__copy"><p class="case-kicker">Caso para aprender</p><h1>{{ title() }}</h1><p class="case-subtitle">{{ chooserIntro() }}</p></div><div class="cdj-banner__visual case-hero__visual"><img [src]="banner().src" [alt]="banner().alt" width="2560" height="706" /></div></header>
+    <h2>¿Cómo vas a trabajar esta experiencia?</h2><p>Elige la actividad o la orientación que necesitas, y después la etapa. No necesitas proporcionar edad exacta ni datos personales.</p>
+    <div class="chooser-grid">@for(profile of profileKeys;track profile){@if(optionsFor(profile).length){<section [attr.data-audience]="profile"><h3>{{ profiles[profile] }}</h3><p>{{ profileDescriptions[profile] }}</p>@for(o of optionsFor(profile);track o.stage){<a [routerLink]="['/actividad',slug()]" [queryParams]="select(o)">{{ o.label }} <span aria-hidden="true">→</span></a>}</section>}}</div>
+    <p class="selection-scope">Esta selección adapta el material, no verifica identidad ni autoriza el uso de servicios.</p>
+  </main>
+}

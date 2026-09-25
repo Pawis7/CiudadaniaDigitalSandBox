@@ -71,7 +71,7 @@ export const CANDADO_RAPIDO_DATA: CandadoData = {
     version: "v2.2_respuestas_desafiantes_y_orden_balanceado",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años",
+    age_range: "12 a 14 años",
     public_axis: "Privacidad y seguridad",
     dimension: "D2",
     guiding_verb: "Actuar",

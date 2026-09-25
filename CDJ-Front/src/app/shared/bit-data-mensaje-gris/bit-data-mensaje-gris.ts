@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, signal, effect, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  signal,
+  effect,
+  OnDestroy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StoryEndingComponent } from '../story-ending/story-ending';
 import { NATURAL_NARRATIONS, NarrationSegment } from '../../core/data/bit-data-mensaje-gris.data';
 
 @Component({
   selector: 'app-bit-data-mensaje-gris',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StoryEndingComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bit-data-mensaje-gris.html',
   styleUrl: './bit-data-mensaje-gris.css',
@@ -34,7 +42,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     effect(() => {
       // Register reactivity dependency on current page index
       const curIndex = this.cur();
-      
+
       if (typeof window !== 'undefined') {
         this.stopAudio();
         this.later(() => this.speakCurrentPage(false, true), 250);
@@ -50,29 +58,37 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
     const voices = window.speechSynthesis.getVoices();
     if (!voices.length) return;
-    
+
     // Prioritize natural Spanish voices (MX, Latino, ES)
-    const spanish = voices.filter(v => /^es[-_]/i.test(v.lang) || /español|spanish|mexico|latino/i.test(v.name));
+    const spanish = voices.filter(
+      (v) => /^es[-_]/i.test(v.lang) || /español|spanish|mexico|latino/i.test(v.name),
+    );
     const preferred = [
-      "Google español de México",
-      "Google español latinoamericano",
-      "Microsoft Dalia",
-      "Microsoft Sabina",
-      "Paulina",
-      "Mónica",
-      "Monica",
-      "Luciana",
-      "Google español"
+      'Google español de México',
+      'Google español latinoamericano',
+      'Microsoft Dalia',
+      'Microsoft Sabina',
+      'Paulina',
+      'Mónica',
+      'Monica',
+      'Luciana',
+      'Google español',
     ];
-    this.preferredVoice = preferred.map(name => spanish.find(v => v.name.toLowerCase().includes(name.toLowerCase()))).find(Boolean)
-      || spanish.find(v => /MX|419|US/i.test(v.lang))
-      || spanish[0] 
-      || voices[0];
+    this.preferredVoice =
+      preferred
+        .map((name) => spanish.find((v) => v.name.toLowerCase().includes(name.toLowerCase())))
+        .find(Boolean) ||
+      spanish.find((v) => /MX|419|US/i.test(v.lang)) ||
+      spanish[0] ||
+      voices[0];
   }
 
   private clean(t: string): string {
     // Strip emojis for SpeechSynthesis reading
-    return String(t || "").replace(/[🤖🐦☁️👧⭐💗💔⚠️✓✕🐾✨🎨💬🛡️]/g, "").replace(/\s+/g, " ").trim();
+    return String(t || '')
+      .replace(/[🤖🐦☁️👧⭐💗💔⚠️✓✕🐾✨🎨💬🛡️]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   private stopAudio(): void {
@@ -91,7 +107,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
 
   private later(fn: () => void, ms: number): any {
     const id = setTimeout(() => {
-      this.timers = this.timers.filter(x => x !== id);
+      this.timers = this.timers.filter((x) => x !== id);
       fn();
     }, ms);
     this.timers.push(id);
@@ -100,7 +116,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
 
   private utter(text: string, rate: number = 0.82, pitch: number = 1.08): SpeechSynthesisUtterance {
     const u = new SpeechSynthesisUtterance(this.clean(text));
-    u.lang = (this.preferredVoice && this.preferredVoice.lang) || "es-MX";
+    u.lang = (this.preferredVoice && this.preferredVoice.lang) || 'es-MX';
     if (this.preferredVoice) {
       u.voice = this.preferredVoice;
     }
@@ -110,7 +126,11 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     return u;
   }
 
-  private speakSegments(segs: NarrationSegment[], force: boolean = false, onDone: (() => void) | null = null): void {
+  private speakSegments(
+    segs: NarrationSegment[],
+    force: boolean = false,
+    onDone: (() => void) | null = null,
+  ): void {
     if (!this.voiceOn() && !force) return;
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       return;
@@ -119,7 +139,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     this.stopAudio();
     const token = this.narrationToken;
     let i = 0;
-    
+
     this.isSpeaking.set(true);
 
     const next = () => {
@@ -153,7 +173,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     if (!this.autoAdvance || !this.voiceOn() || !this.readAllMode()) return;
     if (this.cur() < this.narrations.length - 1) {
       this.turnDirection.set('next');
-      this.cur.update(c => c + 1);
+      this.cur.update((c) => c + 1);
     } else {
       this.readAllMode.set(false);
     }
@@ -188,7 +208,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     this.readAllMode.set(false);
     if (this.cur() > 0) {
       this.turnDirection.set('prev');
-      this.cur.update(c => c - 1);
+      this.cur.update((c) => c - 1);
     }
   }
 
@@ -196,7 +216,7 @@ export class BitDataMensajeGrisComponent implements OnDestroy {
     this.readAllMode.set(false);
     if (this.cur() < this.narrations.length - 1) {
       this.turnDirection.set('next');
-      this.cur.update(c => c + 1);
+      this.cur.update((c) => c + 1);
     } else {
       this.closeBook();
     }

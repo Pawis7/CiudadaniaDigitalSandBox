@@ -1,36 +1,37 @@
+@if(isStageExperience()) {
+  <app-stage-experience />
+} @else {
 @if(experience(); as x) {
   @if(context(); as ctx) {
     <main class="xp" [attr.data-audience]="profile()">
-      <a [routerLink]="ctx.backHref" class="back">← {{ ctx.backLabel }}</a>
+      <a [routerLink]="ctx.backHref" [fragment]="backFragment()" class="back">← {{ ctx.backLabel }}</a>
       <header class="lesson-head">
         <div><p class="eyebrow">EduTip · {{ ctx.label }}</p><h1>{{ x.title }}</h1><p class="lesson-subtitle">{{ x.subtitle }}</p></div>
         <div class="lesson-meta">{{ x.duration }} · actividad guiada</div>
       </header>
 
       <div class="lesson-grid">
-        <div class="lesson-content">
-          <section class="lesson-step">
-            <p class="step">1 · ¿Qué harías?</p><h2>{{ x.prompt }}</h2><p class="question">{{ x.firstQuestion }}</p>
-            <div class="inline-choices" role="radiogroup" aria-label="Primera decisión">
-              @for(a of x.firstChoices; track a) { <button type="button" class="choice-line" role="radio" [attr.aria-checked]="firstChoice() === a" [class.selected]="firstChoice() === a" (click)="chooseFirst(a)"><span class="choice-dot"></span><span>{{ a }}</span></button> }
-            </div>
-            @if(firstChoice()) { <p class="inline-feedback">Guarda esa idea. Después del video podrás compararla con una nueva decisión.</p> }
-          </section>
-
-          <section class="lesson-step">
-            <p class="step">3 · Decide otra vez</p><h2>{{ x.postScenario }}</h2>
-            <div class="inline-choices" role="radiogroup" aria-label="Decisión después del video">
-              @for(a of x.postChoices; track a.label; let i = $index) { <button type="button" class="choice-line" role="radio" [attr.aria-checked]="postChoice() === i" [class.selected]="postChoice() === i" (click)="choosePost(i)"><span class="choice-dot"></span><span>{{ a.label }}</span></button> }
-            </div>
-            @if(postChoice() !== null) { <p class="inline-feedback strong">{{ x.postChoices[postChoice()!].feedback }}</p> }
-          </section>
-        </div>
+        <section class="lesson-step lesson-before">
+          <p class="step">1 · Antes de mirar</p><h2>{{ x.prompt }}</h2><p class="question">{{ x.firstQuestion }}</p>
+          <div class="inline-choices" role="radiogroup" aria-label="Primera decisión">
+            @for(a of x.firstChoices; track a) { <button type="button" class="choice-line" role="radio" [attr.aria-checked]="firstChoice() === a" [class.selected]="firstChoice() === a" (click)="chooseFirst(a)"><span class="choice-dot"></span><span>{{ a }}</span></button> }
+          </div>
+          @if(firstChoice()) { <p class="inline-feedback" role="status">Guarda esa idea. Después del video podrás compararla con una nueva decisión.</p> }
+        </section>
 
         <aside class="lesson-media">
           <p class="step">2 · Mira el EduTip</p>
-          <div class="video"><iframe [src]="videoUrl()" title="EduTip" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+          <div class="video"><iframe [src]="videoUrl()" [title]="'Video: ' + x.title" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
           <p class="media-note">Míralo pensando en la decisión que acabas de tomar.</p>
         </aside>
+
+        <section class="lesson-step lesson-after">
+          <p class="step">3 · Después de mirar</p><h2>{{ x.postScenario }}</h2>
+          <div class="inline-choices" role="radiogroup" aria-label="Decisión después del video">
+            @for(a of x.postChoices; track a.label; let i = $index) { <button type="button" class="choice-line" role="radio" [attr.aria-checked]="postChoice() === i" [class.selected]="postChoice() === i" (click)="choosePost(i)"><span class="choice-dot"></span><span>{{ a.label }}</span></button> }
+          </div>
+          @if(postChoice() !== null) { <p class="inline-feedback strong" role="status">{{ x.postChoices[postChoice()!].feedback }}</p> }
+        </section>
       </div>
 
       <section class="lesson-summary">
@@ -42,10 +43,12 @@
         <div><p class="step">5 · Ahora hazlo</p><h2>{{ x.actionTitle }}</h2></div>
         @if(profile() === 'kids' && ctx.support) { <p class="support-note">{{ ctx.support }}</p> }
         <div class="action-lines">@for(a of x.actionOptions; track a) { <button type="button" [class.selected]="actionChoice() === a" (click)="chooseAction(a)"><span class="choice-dot"></span>{{ a }}</button> }</div>
-        @if(actionChoice()) { <p class="finish">Listo. Elegiste una acción para ponerlo en práctica.</p> }
+        @if(actionChoice()) { <p class="finish" role="status">Listo. Elegiste una acción para ponerlo en práctica.</p> }
       </section>
     </main>
   }
 } @else {
   <main class="xp"><h1>Experiencia no encontrada</h1><a routerLink="/">Volver al inicio</a></main>
+}
+
 }

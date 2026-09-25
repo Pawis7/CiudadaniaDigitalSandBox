@@ -1,0 +1,171 @@
+<article class="family-guide" data-audience="families" aria-labelledby="family-gaming-title">
+  <a class="back-link" routerLink="/p/familias" fragment="fam-6-11">
+    <span class="material-symbols-rounded" aria-hidden="true" translate="no">arrow_back</span>
+    Volver a Familias
+  </a>
+
+  <header class="guide-hero">
+    <div class="guide-hero__copy">
+      <p class="guide-eyebrow">En familia · 6 a 11 años</p>
+      <h1 id="family-gaming-title">{{ guide.title }}</h1>
+      <p class="guide-lead">{{ guide.lead }}</p>
+    </div>
+    <figure class="guide-hero__picture">
+      <img
+        src="/cuentos/primaria/mision/01-escena.webp"
+        alt="Leo y su abuela conversan junto a una tableta y un reloj antes de empezar a jugar."
+        width="1254"
+        height="1254"
+        decoding="async"
+      />
+    </figure>
+  </header>
+
+  <nav class="guide-nav" aria-label="Contenido de la guía">
+    <a
+      routerLink="/p/familias/videojuegos"
+      fragment="acompanamiento"
+      (click)="focusSection('acompanamiento')"
+      >Cómo acompañar</a
+    >
+    <a
+      routerLink="/p/familias/videojuegos"
+      fragment="situaciones"
+      (click)="focusSection('situaciones')"
+      >Situaciones para conversar</a
+    >
+    <a routerLink="/p/familias/videojuegos" fragment="acuerdo" (click)="focusSection('acuerdo')"
+      >Un acuerdo en casa</a
+    >
+    <a routerLink="/p/familias/videojuegos" fragment="apoyo" (click)="focusSection('apoyo')"
+      >Pedir ayuda</a
+    >
+    <a routerLink="/p/familias/videojuegos" fragment="fuentes" (click)="focusSection('fuentes')"
+      >Fuentes</a
+    >
+  </nav>
+
+  <section class="guide-section" aria-labelledby="acompanamiento">
+    <div class="section-intro">
+      <h2 id="acompanamiento" tabindex="-1">Cómo acompañar</h2>
+      <p>Decisiones que pueden revisar antes de jugar y retomar cuando algo cambie.</p>
+    </div>
+    <ul class="principles-list">
+      @for (principle of guide.principles; track principle.id) {
+        <li>
+          <h3>{{ principle.title }}</h3>
+          <p>{{ principle.text }}</p>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="guide-section" aria-labelledby="situaciones">
+    <div class="section-intro">
+      <h2 id="situaciones" tabindex="-1">Situaciones para conversar</h2>
+      <p>
+        Partan de una historia, escuchen su respuesta y ensayen juntos qué podrían hacer. Estos
+        cuatro casos usan actividades de primaria alta, para 9 a 11 años.
+      </p>
+    </div>
+    <div class="situations-list">
+      @for (situation of situations; track situation.id) {
+        @if (situation.resource; as resource) {
+          <article
+            class="situation"
+            [attr.aria-labelledby]="'situation-' + situation.id"
+            [attr.data-resource-id]="resource.id"
+          >
+            @if (resource.coverSrc) {
+              <img
+                class="situation__cover"
+                [src]="resource.coverSrc"
+                alt=""
+                width="1024"
+                height="1536"
+                loading="lazy"
+                decoding="async"
+              />
+            }
+            <div class="situation__copy">
+              <p class="situation__story">{{ resource.title }}</p>
+              <h3 [id]="'situation-' + situation.id">{{ situation.title }}</h3>
+              <p class="situation__context">{{ situation.context }}</p>
+              <blockquote class="situation__prompt">
+                <p>{{ situation.prompt }}</p>
+              </blockquote>
+              <p class="situation__action">
+                <strong>Prueben juntos.</strong> {{ situation.action }}
+              </p>
+              <a
+                class="guide-cta situation__link"
+                routerLink="/p/familias"
+                fragment="fam-6-11"
+                [queryParams]="{ acompanar: resource.id }"
+                [attr.aria-label]="'Ver propuesta en familia: ' + resource.title"
+              >
+                Ver propuesta en familia
+                <span class="material-symbols-rounded" aria-hidden="true" translate="no"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </article>
+        }
+      }
+    </div>
+  </section>
+
+  <section class="agreement-paper" aria-labelledby="acuerdo">
+    <header>
+      <p class="agreement-paper__eyebrow">Para conversar y dejar por escrito</p>
+      <h2 id="acuerdo" tabindex="-1">{{ guide.agreement.title }}</h2>
+      <p>{{ guide.agreement.intro }}</p>
+    </header>
+    <ol class="agreement-list">
+      @for (item of guide.agreement.items; track item.id) {
+        <li>
+          <div>
+            <h3>{{ item.prompt }}</h3>
+            <p><span>Por ejemplo:</span> {{ item.example }}</p>
+          </div>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section class="guide-section help-section" aria-labelledby="apoyo">
+    <div class="section-intro">
+      <h2 id="apoyo" tabindex="-1">{{ guide.help.title }}</h2>
+    </div>
+    <div class="help-content">
+      <ol class="help-steps">
+        @for (step of guide.help.steps; track $index) {
+          <li>{{ step }}</li>
+        }
+      </ol>
+      <div class="help-next">
+        <p>{{ guide.help.supportText }}</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="guide-sources" aria-labelledby="fuentes">
+    <h2 id="fuentes" tabindex="-1">Fuentes y alcance</h2>
+    <p class="adaptation-note">{{ guide.adaptationNote }}</p>
+    <ul class="sources-list">
+      @for (source of guide.sources; track source.url) {
+        <li>
+          <a [href]="source.url" target="_blank" rel="noopener noreferrer">
+            {{ source.label }}
+            <span class="material-symbols-rounded" aria-hidden="true" translate="no"
+              >open_in_new</span
+            >
+            <span class="sr-only"> (abre en una pestaña nueva)</span>
+          </a>
+          <p>{{ source.note }}</p>
+        </li>
+      }
+    </ul>
+  </footer>
+</article>

@@ -1,0 +1,117 @@
+<section id="cuentos-acompanados" class="adult-stories" aria-labelledby="adult-stories-title">
+  <header class="adult-stories__header">
+    <p class="eyebrow">{{ school() ? 'Para trabajar con el grupo' : 'Para compartir en casa' }}</p>
+    <h2 id="adult-stories-title">
+      {{ school() ? 'Del cuento a la práctica' : 'Leer, conversar y practicar' }}
+    </h2>
+    <p>
+      {{
+        school()
+          ? 'Elige una historia según el propósito de tu clase. Cada propuesta incluye qué observar y una actividad para continuar fuera de la pantalla.'
+          : 'Elige una historia, escuchen lo que piensa cada quien y prueben una acción en casa. No hace falta terminar todas las actividades en una sesión.'
+      }}
+    </p>
+    @if (school()) {
+      <p class="adult-stories__note">
+        Basta un dispositivo para leer o proyectar. Trabajen con los personajes; no pidan cuentas,
+        fotografías ni relatos privados del alumnado.
+      </p>
+    } @else if (isPreschool()) {
+      <p class="adult-stories__note">
+        Estos cuentos son para compartir con niñas y niños de 3 a 5 años. La persona adulta lee y
+        acompaña; pueden continuar con gestos, juego y objetos reales.
+      </p>
+    }
+  </header>
+
+  @for (group of groups(); track group.id) {
+    <div class="adult-stories__stage">
+      <h3>
+        {{ group.title }} <span>{{ group.age }}</span>
+      </h3>
+      @for (entry of group.entries; track entry.resource.id; let i = $index) {
+        @if (school() || i < 2 || expandedGroups().has(group.id) || requestedId() === entry.resource.id) {
+        <article
+          class="story-guide"
+          [id]="'acompanar-' + entry.resource.id"
+          [attr.aria-labelledby]="'titulo-' + entry.resource.id"
+        >
+          <div class="story-guide__intro">
+            <img [src]="entry.resource.coverSrc" alt="" width="96" height="144" loading="lazy" />
+            <div>
+              <p class="story-guide__meta">
+                {{ entry.resource.typeLabel }} ·
+                {{
+                  school()
+                    ? entry.guidance.school.duration + ' con el grupo'
+                    : entry.resource.duration + ' de actividad'
+                }}
+              </p>
+              <h4 [id]="'titulo-' + entry.resource.id">{{ entry.resource.title }}</h4>
+              <p class="story-guide__purpose">
+                {{ school() ? entry.guidance.school.objective : entry.resource.description }}
+              </p>
+              <div class="story-guide__actions">
+                <button
+                  type="button"
+                  class="story-guide__open"
+                  [attr.aria-label]="entry.resource.actionLabel + ': ' + entry.resource.title"
+                  (click)="actionClicked.emit(entry.resource)"
+                >
+                  <span class="material-symbols-rounded" aria-hidden="true">play_arrow</span
+                  >{{ entry.resource.actionLabel }}
+                </button>
+                <button
+                  type="button"
+                  class="story-guide__toggle"
+                  [attr.aria-expanded]="openId() === entry.resource.id"
+                  [attr.aria-controls]="'propuesta-' + entry.resource.id"
+                  (click)="toggle(entry.resource.id)"
+                >
+                  {{ school() ? 'Propuesta para el aula' : 'Cómo acompañar'
+                  }}<span aria-hidden="true">{{ openId() === entry.resource.id ? '−' : '+' }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="story-guide__body"
+            [id]="'propuesta-' + entry.resource.id"
+            [hidden]="openId() !== entry.resource.id"
+          >
+            <ol class="story-guide__steps">
+              <li>
+                <strong>Antes</strong>
+                <p>{{ school() ? entry.guidance.school.before : entry.guidance.family.before }}</p>
+              </li>
+              <li>
+                <strong>Durante</strong>
+                <p>{{ school() ? entry.guidance.school.during : entry.guidance.family.during }}</p>
+              </li>
+              <li>
+                <strong>Después, sin pantalla</strong>
+                <p>{{ school() ? entry.guidance.school.after : entry.guidance.family.after }}</p>
+              </li>
+            </ol>
+            <p class="story-guide__outcome">
+              <strong>{{ school() ? 'Qué observar:' : 'Una señal de avance:' }}</strong>
+              {{ school() ? entry.guidance.school.outcome : entry.guidance.family.outcome }}
+            </p>
+          </div>
+        </article>
+        }
+      }
+      @if (!school() && group.entries.length > 2) {
+        <button
+          type="button"
+          class="adult-stories__more"
+          [attr.aria-expanded]="expandedGroups().has(group.id)"
+          (click)="toggleGroup(group.id)"
+        >
+          {{ expandedGroups().has(group.id) ? 'Ver menos historias' : 'Ver las otras ' + (group.entries.length - 2) + ' historias de esta edad' }}
+          <span aria-hidden="true">{{ expandedGroups().has(group.id) ? '↑' : '↓' }}</span>
+        </button>
+      }
+    </div>
+  }
+</section>

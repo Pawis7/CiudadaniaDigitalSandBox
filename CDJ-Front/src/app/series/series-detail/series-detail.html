@@ -5,15 +5,23 @@
       appReveal="fade"
       [revealDuration]="700"
       [attr.data-audience]="s.audience"
-      [ngClass]="resolvedCoverUrl() ? 'main-hero' : ''"
+      [ngClass]="resolvedCoverUrl() ? 'main-hero series-image-hero' : ''"
       class="relative mb-8 overflow-hidden rounded-[1.75rem] border border-[color:var(--border-soft)] bg-slate-900 text-white shadow-sm sm:mb-12 sm:rounded-[2rem]">
 
+      <!-- Un solo h1 real. En móvil también funciona como encabezado visible,
+           porque el texto integrado en la imagen no es accesible ni legible al reducirla. -->
+      <div *ngIf="resolvedCoverUrl()" class="series-banner-copy">
+        <p>Serie animada</p>
+        <h1>{{ s.title }}</h1>
+        <p>{{ s.tagline }}</p>
+      </div>
+
       <!-- Fondo de Imagen (si tiene o se ha editado) -->
-      <div *ngIf="resolvedCoverUrl()" class="absolute inset-0">
+      <div *ngIf="resolvedCoverUrl()" class="series-banner-image-wrap absolute inset-0">
         <img
           appImageLoader
           [src]="resolvedCoverUrl()"
-          [alt]="s.title"
+          alt=""
           class="h-full w-full object-cover">
       </div>
 
@@ -146,22 +154,22 @@
         >
           <div class="flex items-center gap-3.5 overflow-hidden">
             <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--c-kids)] flex-none">
-              <span class="material-symbols-rounded text-2xl">download_for_offline</span>
+              <span class="material-symbols-rounded text-2xl">download</span>
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Descarga recursos</h3>
+                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Materiales y Recursos Descargables</h3>
                 <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
-                  Materiales didácticos
+                  Lámina imprimible · PDF
                 </span>
               </div>
               <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
-                Archivos en alta resolución listos para imprimir, colorear y jugar en familia o en la escuela
+                Descarga las cartas oficiales listas para imprimir y colorear en casa o en la escuela
               </p>
             </div>
           </div>
           <div class="cdj-toggle-pill">
-            <span>{{ isDownloadsOpen() ? 'Ocultar' : 'Ver recursos' }}</span>
+            <span>{{ isDownloadsOpen() ? 'Ocultar' : 'Ver descargables' }}</span>
             <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isDownloadsOpen()">
               expand_more
             </span>
@@ -283,14 +291,21 @@
                  appReveal="up"
                  [revealDelay]="i * 60"
                  [attr.data-audience]="serie()?.audience"
-                 class="card card-video-hover group flex flex-col overflow-hidden">
+                 class="card card-video-hover group relative flex flex-col overflow-hidden">
+
+          <button type="button"
+                  class="absolute inset-0 z-10 cursor-pointer rounded-[inherit]"
+                  (click)="activeVideo.set(v)"
+                  [attr.aria-label]="'Reproducir ' + v.title">
+            <span class="sr-only">Reproducir {{ v.title }}</span>
+          </button>
 
           <!-- Thumbnail clicable -->
-          <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
+          <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
             <img
               appImageLoader
               [src]="getYoutubeThumb(v.youtubeUrl)"
-              [alt]="v.title"
+              alt=""
               class="h-full w-full object-cover">
             <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/25 transition-colors">
               <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud,var(--c-edutips))] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
@@ -309,7 +324,7 @@
           </div>
 
           <!-- Metadata -->
-          <div class="flex flex-1 flex-col gap-2.5 p-5 cursor-pointer" (click)="activeVideo.set(v)">
+          <div class="flex flex-1 flex-col gap-2.5 p-5">
             <h3 class="text-[15px] font-black leading-snug tracking-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--aud,var(--c-edutips))] transition-colors line-clamp-2">
               {{ v.title }}
             </h3>
@@ -359,7 +374,7 @@
 } @else {
   <section class="surface mb-12 p-12 text-center">
     <span translate="no" class="material-symbols-rounded text-5xl text-[color:var(--text-mute)]">help</span>
-    <h2 class="mt-4 text-2xl font-black tracking-tight text-[color:var(--text-primary)]">Serie no encontrada</h2>
+    <h1 class="mt-4 text-2xl font-black tracking-tight text-[color:var(--text-primary)]">Serie no encontrada</h1>
     <p class="mt-2 text-sm text-[color:var(--text-soft)]">La serie que buscas no existe o fue movida.</p>
     <a routerLink="/series" class="btn-primary mt-6">
       <span translate="no" class="material-symbols-rounded text-base">arrow_back</span>

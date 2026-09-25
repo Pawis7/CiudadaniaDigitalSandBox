@@ -122,14 +122,14 @@
               <span class="grid h-16 w-16 place-items-center rounded-full bg-orange-500/20 border border-orange-400/30 backdrop-blur text-orange-700 shadow-lg mx-auto mb-2">
                 <span translate="no" class="material-symbols-rounded text-3xl">verified_user</span>
               </span>
-              <h3 class="text-lg font-black text-center text-slate-900 leading-tight">Resultado Analítico</h3>
+              <h3 class="text-lg font-black text-center text-slate-900 leading-tight">Lectura orientativa</h3>
               <p class="text-xs text-slate-500 text-center leading-relaxed max-w-xs mx-auto">
                 Has completado la simulación digital de límites de pareja y privacidad.
               </p>
 
               <!-- Diagnostic Block -->
               <div class="p-3.5 rounded-xl border text-xs leading-relaxed font-semibold bg-orange-50/50 border-orange-100 text-orange-950">
-                <strong class="block font-black text-xs text-orange-900 mb-1">Perfil: {{ finalDiagnostic().titulo }}</strong>
+                <strong class="block font-black text-xs text-orange-900 mb-1">Resultado: {{ finalDiagnostic().titulo }}</strong>
                 {{ finalDiagnostic().mensaje }}
               </div>
 

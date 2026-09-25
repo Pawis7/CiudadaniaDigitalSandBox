@@ -1,0 +1,767 @@
+:host {
+  display: block;
+}
+
+.screens-page {
+  --screens-accent: var(--c-screens, #097db9);
+  --screens-accent-dark: #075f8d;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.section-space {
+  padding: clamp(2.75rem, 6vw, 5.5rem) 0;
+}
+
+.anchored-section {
+  scroll-margin-top: 7rem;
+}
+
+.screens-hero {
+  margin-bottom: 0;
+  background: #022f53;
+}
+
+.section-kicker {
+  margin-bottom: 0.8rem;
+  color: var(--screens-accent-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.intro-section h2,
+.section-heading h2 {
+  max-width: 30ch;
+  font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.intro-copy,
+.section-heading > p {
+  max-width: 72ch;
+  margin-top: 1rem;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  line-height: 1.72;
+}
+
+.official-source {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: clamp(2rem, 4vw, 3.25rem);
+  padding: 0.2rem 0 0.2rem 1.35rem;
+  border-left: 4px solid var(--screens-accent);
+}
+
+.official-source > div {
+  max-width: 48rem;
+  min-width: 0;
+}
+
+.official-source p,
+.reference-group small,
+.related-resource small {
+  color: var(--text-mute);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.official-source h3 {
+  margin-top: 0.35rem;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  line-height: 1.35;
+}
+
+.official-source span:not(.material-symbols-rounded) {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--text-mute);
+  font-size: 0.85rem;
+}
+
+.official-source > a {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.18rem;
+  border-bottom: 1px solid currentColor;
+  color: var(--screens-accent-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.official-source > a:hover,
+.section-nav a:hover,
+.reference-link:hover strong,
+.related-resource:hover strong,
+.inline-link:hover {
+  color: var(--screens-accent);
+}
+
+.official-source .material-symbols-rounded,
+.reference-link > .material-symbols-rounded,
+.related-resource > .material-symbols-rounded,
+.inline-link .material-symbols-rounded {
+  font-size: 1.15rem;
+}
+
+.screens-page a:focus-visible,
+.faq-list summary:focus-visible {
+  outline: 3px solid var(--screens-accent-dark);
+  outline-offset: 5px;
+  border-radius: 2px;
+}
+
+.scope-note,
+.protocol-note {
+  max-width: 76ch;
+  margin-top: 1.5rem;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--border);
+  color: var(--text-mute);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.legal-note {
+  margin-top: 2rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-left: 4px solid var(--screens-accent);
+  background: color-mix(in srgb, var(--screens-accent) 6%, var(--surface-base, #fff));
+}
+
+.legal-note h3,
+.school-role h3,
+.school-duties-title {
+  color: var(--text-primary);
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.legal-note p,
+.school-role p,
+.school-practice p,
+.help-link-block p {
+  max-width: 76ch;
+  margin-top: 0.75rem;
+  color: var(--text-soft);
+  font-size: 0.96rem;
+  line-height: 1.68;
+}
+
+.inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-top: 0.65rem;
+  color: var(--screens-accent-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+}
+
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.4rem;
+  margin-top: clamp(2.25rem, 5vw, 4rem);
+  padding: 1rem 0;
+  border-block: 1px solid var(--border-soft);
+}
+
+.section-nav ul {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-nav strong {
+  margin-right: 0.35rem;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+}
+
+.section-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: var(--text-soft);
+  font-size: 0.84rem;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.22rem;
+}
+
+.section-nav a:hover {
+  text-decoration-color: currentColor;
+}
+
+.section-heading {
+  max-width: 51rem;
+  margin-bottom: clamp(1.75rem, 4vw, 3.25rem);
+}
+
+.section-heading > .article-reference {
+  margin-top: 0.8rem;
+}
+
+.section-subtitle {
+  margin-top: 1.3rem;
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.section-heading > .recommendation-context {
+  max-width: 72ch;
+  margin-top: 0.8rem;
+  color: var(--text-mute);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.law-list,
+.age-guidance,
+.school-list {
+  border-top: 1px solid var(--border);
+}
+
+.law-row,
+.age-row,
+.school-row {
+  display: grid;
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 4.5rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.law-row h3,
+.school-row h4,
+.age-intro h3 {
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.35;
+}
+
+.law-row p,
+.school-row p,
+.age-intro > p:last-child,
+.action-list,
+.substage > p,
+.incident-steps p,
+.faq-answer p {
+  color: var(--text-soft);
+  font-size: 0.96rem;
+  line-height: 1.68;
+}
+
+.article-reference {
+  display: block;
+  width: fit-content;
+  margin-top: 0.65rem;
+  color: var(--screens-accent-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.age-intro .age-focus {
+  margin-top: 0.45rem;
+  color: var(--screens-accent-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.age-intro > p:last-child {
+  margin-top: 0.7rem;
+}
+
+.age-body {
+  min-width: 0;
+}
+
+.action-list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding-left: 1.15rem;
+  list-style: disc;
+}
+
+.action-list li::marker {
+  color: var(--screens-accent);
+}
+
+.substage + .substage {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-soft);
+}
+
+.substage h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.substage > p,
+.substage .action-list {
+  margin-top: 0.75rem;
+}
+
+.age-note {
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--screens-accent);
+  color: var(--text-soft);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.age-note a {
+  color: var(--screens-accent-dark);
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.conversation-prompt {
+  margin-top: 1.65rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--border);
+}
+
+.conversation-prompt > p {
+  color: var(--screens-accent-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.conversation-prompt blockquote {
+  margin: 0.5rem 0 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.related-resources {
+  margin-top: 1.75rem;
+}
+
+.related-resources > h3,
+.related-resources > h4 {
+  margin-bottom: 0.65rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.related-resource {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.25rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.related-resource > span:first-child {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.related-resource strong {
+  color: var(--screens-accent-dark);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.related-resource span span {
+  color: var(--text-mute);
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.related-resource > .material-symbols-rounded {
+  color: var(--screens-accent-dark);
+}
+
+.related-resource:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.school-role,
+.school-practice,
+.school-resources {
+  max-width: 54rem;
+}
+
+.school-duties-title {
+  margin: 2.5rem 0 1.25rem;
+}
+
+.school-practice {
+  margin-top: 2rem;
+}
+
+.school-practice h3,
+.help-link-block h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.school-practice .practice-questions {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.protocol-note {
+  max-width: 80ch;
+  margin-top: 2rem;
+  border-left-color: var(--screens-accent);
+  color: var(--text-soft);
+}
+
+.incident-section {
+  margin-inline: calc(50% - 50vw);
+  padding-inline: max(calc((100vw - 72rem) / 2), 1.5rem);
+  border-block: 1px solid color-mix(in srgb, var(--screens-accent) 18%, var(--border-soft));
+  background: color-mix(in srgb, var(--screens-accent) 5%, var(--surface-base));
+}
+
+.incident-steps {
+  max-width: 54rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid color-mix(in srgb, var(--screens-accent) 20%, var(--border-soft));
+}
+
+.incident-steps li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--screens-accent) 16%, var(--border-soft));
+}
+
+.step-number {
+  color: var(--screens-accent-dark);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.incident-steps h3 {
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.incident-steps p {
+  margin-top: 0.35rem;
+}
+
+.help-link-block {
+  max-width: 54rem;
+  margin-top: 2rem;
+}
+
+.faq-list {
+  max-width: 58rem;
+  border-top: 1px solid var(--border);
+}
+
+.faq-list details {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.faq-list summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.5rem;
+  gap: 1.25rem;
+  align-items: center;
+  min-height: 4.4rem;
+  padding: 1rem 0;
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary .material-symbols-rounded {
+  color: var(--screens-accent-dark);
+  transition: transform 180ms ease;
+}
+
+.faq-list details[open] summary .material-symbols-rounded {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-width: 72ch;
+  padding: 0 3rem 1.35rem 0;
+}
+
+.references-section {
+  border-top: 1px solid var(--border);
+}
+
+.reference-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 6vw, 5rem);
+}
+
+.reference-group h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.reference-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1.25rem;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.15rem 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.reference-link > span:first-child {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.reference-link strong {
+  color: var(--text-primary);
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
+.reference-link span span {
+  color: var(--text-mute);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.reference-link > .material-symbols-rounded {
+  margin-top: 0.15rem;
+  color: var(--screens-accent-dark);
+}
+
+.all-resources-link {
+  margin-top: 1.75rem;
+}
+
+.editorial-note {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+  color: var(--text-mute);
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.editorial-note time {
+  margin-left: 0.3rem;
+}
+
+@media (min-width: 768px) {
+  .screens-hero {
+    height: clamp(19rem, 27vw, 22.5rem);
+  }
+
+  .screens-hero .screens-hero__visual img {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  .screens-hero .screens-hero__copy {
+    justify-content: flex-start;
+    max-width: 43%;
+    padding-top: clamp(2rem, 3.2vw, 2.75rem);
+    padding-bottom: 9rem;
+  }
+
+  .screens-hero .screens-hero__copy h1 {
+    font-size: clamp(2.15rem, 3.1vw, 3.2rem);
+  }
+
+  .screens-hero .screens-hero__copy p {
+    max-width: 31ch;
+    font-size: clamp(0.92rem, 1.15vw, 1.1rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .law-row,
+  .age-row,
+  .school-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .law-row h3,
+  .school-row h4 {
+    max-width: 32rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .screens-page {
+    padding-bottom: 3rem;
+  }
+
+  .screens-hero .screens-hero__visual {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 2048 / 563;
+  }
+
+  .screens-hero .screens-hero__visual img {
+    position: static !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+  }
+
+  .section-space {
+    padding-block: 2.75rem;
+  }
+
+  .official-source {
+    display: block;
+  }
+
+  .official-source > a {
+    margin-top: 1.15rem;
+  }
+
+  .section-nav {
+    display: block;
+    padding: 0;
+  }
+
+  .section-nav strong {
+    display: block;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .section-nav ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .section-nav a {
+    display: flex;
+    padding: 0.75rem 0.65rem 0.75rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    line-height: 1.35;
+  }
+
+  .incident-section {
+    padding-inline: 1rem;
+  }
+
+  .reference-columns {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .faq-answer {
+    padding-right: 0;
+  }
+
+  .editorial-note {
+    display: block;
+  }
+}
+
+@media (max-width: 430px) {
+  .section-nav ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-list summary .material-symbols-rounded {
+    transition: none;
+  }
+}
+
+/* Show the supplied infographic in full, without cropping or recoloring. */
+.infographic-figure {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+.infographic-image-link {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--border-soft);
+  border-radius: 0.75rem;
+}
+.infographic-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+.infographic-figure figcaption {
+  margin-top: 0.8rem;
+  color: var(--text-soft);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.infographic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  max-width: 64rem;
+  margin: 0.8rem auto 0;
+}
+.infographic-actions .inline-link {
+  margin-top: 0;
+}

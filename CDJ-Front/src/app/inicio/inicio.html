@@ -16,8 +16,27 @@
   <div class="cdj-banner__visual audience-hero__visual">
     <img
       appImageLoader
-      src="/banners/CD_Main.jpg"
+      src="/banners/CD_Main.webp"
       alt="Ciudadanía Digital Jalisco Banner Principal">
+  </div>
+</section>
+
+<!-- La entrada principal es por perfil: primero identificamos para quién es el contenido. -->
+<section id="perfiles" class="mb-14 sm:mb-18">
+  <div class="section-head mb-10">
+    <div appReveal="up">
+      <p class="eyebrow eyebrow-ink">Ciudadanía digital para todas y todos</p>
+      <h2 class="display-2 mt-2">{{ editorial.profilesTitle }}</h2>
+      <p class="mt-4 max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] hidden sm:block sm:text-xl">
+        {{ editorial.profilesGuide }}
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+    @for (card of profileCards(); track card.id; let i = $index) {
+      <app-feature-card [card]="card" [delay]="i * 70" />
+    }
   </div>
 </section>
 
@@ -65,24 +84,6 @@
       <div class="col-span-full py-8 text-center text-sm text-[color:var(--text-soft)]">
         No hay contenidos destacados disponibles en este momento.
       </div>
-    }
-  </div>
-</section>
-
-<section id="perfiles" class="mb-12 sm:mb-16">
-  <div class="section-head mb-10">
-    <div appReveal="up">
-      <p class="eyebrow eyebrow-ink">Encuentra contenido para ti</p>
-      <h2 class="display-2 mt-2">{{ editorial.profilesTitle }}</h2>
-      <p class="mt-4 max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] hidden sm:block sm:text-xl">
-        {{ editorial.profilesGuide }}
-      </p>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-    @for (card of profileCards(); track card.id; let i = $index) {
-      <app-feature-card [card]="card" [delay]="i * 70" />
     }
   </div>
 </section>

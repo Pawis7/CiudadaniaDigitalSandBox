@@ -172,9 +172,9 @@
                   } @else {
                     <div class="bubble-comic-in" [class.me]="msg.from === 'me'">
                       <span class="sender-tag" 
-                        [class.grupo]="msg.name?.includes('2B') || msg.name?.includes('Grupo')"
-                        [class.otro]="msg.name?.includes('Otro')"
-                        [class.nota]="msg.name?.includes('Nota')"
+                        [class.grupo]="msg.name.includes('2B') || msg.name.includes('Grupo')"
+                        [class.otro]="msg.name.includes('Otro')"
+                        [class.nota]="msg.name.includes('Nota')"
                         [class.tu]="msg.from === 'me'">
                         {{ msg.from === 'me' ? 'Tú' : msg.name }}
                       </span>

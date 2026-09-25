@@ -1,0 +1,23 @@
+<section class="story-ending" [attr.aria-label]="title()">
+  @if (imageSrc()) {
+    <img class="story-ending__art" [src]="imageSrc()" [alt]="imageAlt()" draggable="false" />
+  }
+  <div class="story-ending__content">
+    <div class="story-ending__copy">
+      <h2>{{ title() }}</h2>
+      <p class="story-ending__subtitle">{{ subtitle() }}</p>
+      <div class="story-ending__rule">
+        <strong>{{ ruleLabel() }}</strong>
+        <p>{{ rule() }}</p>
+      </div>
+      <div class="story-ending__actions">
+        <button type="button" class="story-ending__restart" (click)="restart.emit()">
+          Volver a leer
+        </button>
+        <button type="button" class="story-ending__close" (click)="closed.emit()">
+          Cerrar cuento
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,9 +1,19 @@
+import { FEATURED_VIDEOS, FeaturedVideoAudience, FeaturedVideoStage } from './featured-videos.data';
+
+export type ExternalResourceAudience = 'kids' | 'teens' | 'families' | 'teachers';
+
 export interface ExternalResourceItem {
   id: string;
   title: string;
   description: string;
-  aud: 'kids' | 'teens' | 'families' | 'teachers';
+  /** Audiencia principal utilizada por el filtro actual del catálogo. */
+  aud: ExternalResourceAudience;
+  /** Todas las audiencias a las que el recurso puede mostrarse de forma contextual. */
+  audiences?: ExternalResourceAudience[];
   stage: string;
+  /** IDs de etapa del portal. Vacío cuando el recurso es transversal o de política educativa. */
+  stageIds?: FeaturedVideoStage[];
+  scope?: 'education-stage' | 'cross-stage' | 'professional' | 'policy';
   topic: 'security' | 'relations' | 'wellbeing' | 'critical' | 'ai' | 'create' | 'participation' | 'consumer';
   format: 'activity' | 'game' | 'video' | 'story' | 'guide';
   formatLabel: string;
@@ -13,6 +23,7 @@ export interface ExternalResourceItem {
   external: boolean;
   isPdf?: boolean;
   youtubeId?: string;
+  featuredVideoId?: string;
 }
 
 export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
@@ -21,7 +32,10 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     title: 'Canal "Aula Digital Jalisco"',
     description: 'Iniciativa de la Secretaría de Educación Jalisco que ofrece una completa serie de videoclases para fortalecer las competencias digitales docentes y de estudiantes: Google Drive, Documentos, Gmail, Sitios, Chrome, Chromebooks y sesiones sobre el uso de Gemini y Notebook LM en el aula.',
     aud: 'teachers',
-    stage: 'Docentes y Escuela',
+    audiences: ['teachers'],
+    stage: 'Formación docente',
+    stageIds: ['doc-pre', 'doc-sec', 'doc-prep'],
+    scope: 'professional',
     topic: 'ai',
     format: 'video',
     formatLabel: 'Canal de Videoclases',
@@ -35,7 +49,9 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     title: 'Apprende Digital Jalisco',
     description: 'Plataforma educativa oficial de la Secretaría de Educación del Gobierno de Jalisco, diseñada para fortalecer las competencias digitales de estudiantes, docentes y familias mediante recursos interactivos, contenidos temáticos y herramientas tecnológicas.',
     aud: 'teachers',
-    stage: 'Comunidad Educativa',
+    audiences: ['kids', 'teens', 'families', 'teachers'],
+    stage: 'Todas las etapas',
+    scope: 'cross-stage',
     topic: 'create',
     format: 'activity',
     formatLabel: 'Plataforma Educativa',
@@ -49,7 +65,9 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     title: 'Ceibal: Transformando la educación a través del uso inteligente de la tecnología',
     description: 'Informe del Banco Mundial que analiza el caso de Ceibal (Uruguay), destacándolo como un modelo exitoso para transformar la educación mediante el uso inteligente y sistémico de la tecnología, enfocándose en mejorar los resultados de aprendizaje y la equidad educativa.',
     aud: 'teachers',
-    stage: 'Gestión y Políticas',
+    audiences: ['teachers'],
+    stage: 'Gestión educativa',
+    scope: 'policy',
     topic: 'critical',
     format: 'guide',
     formatLabel: 'Documento PDF (Nativo)',
@@ -64,7 +82,9 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     title: 'Recomendación sobre la ética de la inteligencia artificial (UNESCO, 2021)',
     description: 'Marco normativo internacional adoptado por la UNESCO que promueve un enfoque centrado en el ser humano, los derechos humanos, la equidad, la transparencia y la sostenibilidad para el desarrollo y uso ético de la Inteligencia Artificial.',
     aud: 'teachers',
-    stage: 'Marco Normativo',
+    audiences: ['teachers'],
+    stage: 'Política y gestión educativa',
+    scope: 'policy',
     topic: 'ai',
     format: 'guide',
     formatLabel: 'Documento Oficial PDF (Nativo)',
@@ -76,10 +96,12 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
   },
   {
     id: 'unesco-ia-politicas',
-    title: 'Inteligencia artificial y educación: guía para las personas a cargo de formular políticas (UNESCO, 2022b)',
+    title: 'Inteligencia artificial y educación: guía para las personas a cargo de formular políticas (UNESCO, 2021)',
     description: 'Guía de la UNESCO con directrices y recomendaciones estratégicas para la formulación de políticas públicas sobre el uso de la IA en la educación: gobernanza de datos, competencias docentes y mitigación de riesgos.',
     aud: 'teachers',
-    stage: 'Políticas Educativas',
+    audiences: ['teachers'],
+    stage: 'Política y gestión educativa',
+    scope: 'policy',
     topic: 'ai',
     format: 'guide',
     formatLabel: 'Guía Oficial PDF (Nativo)',
@@ -165,21 +187,6 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     external: true
   },
   {
-    id: 'comie-ia-mtqefydq48m-1',
-    title: 'Video COMIE IA: TIC, Inteligencia Artificial Generativa, lectura y escritura',
-    description: 'Explora el impacto de la IA en las prácticas de lectura, escritura y creación de contenidos educativos en el aula.',
-    aud: 'teachers',
-    stage: 'Docentes y Escuela',
-    topic: 'create',
-    format: 'video',
-    formatLabel: 'Video COMIE',
-    href: 'https://www.youtube.com/watch?v=MtqEfyDq48M',
-    youtubeId: 'MtqEfyDq48M',
-    collection: 'COMIE IA',
-    institution: 'Consejo Mexicano de Investigación Educativa',
-    external: true
-  },
-  {
     id: 'comie-ia-2ai-6idfj-s',
     title: 'Tutorial COMIE IA: Creación de personajes con IA',
     description: 'Demuestra cómo generar personajes educativos con herramientas de IA para enriquecer narrativas escolares y proyectos.',
@@ -255,7 +262,7 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     external: true
   },
   {
-    id: 'comie-ia-mtqefydq48m-2',
+    id: 'comie-ia-mtqefydq48m',
     title: 'Video COMIE IA: IAGen en la construcción de presentaciones y experiencias interactivas',
     description: 'Explora cómo la IA puede apoyar la creación de presentaciones educativas dinámicas e interacciones participativas.',
     aud: 'teachers',
@@ -305,7 +312,7 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     description: 'Aborda el respeto a la autoría, el uso de licencias Creative Commons, acceso abierto y reconocimiento académico en la era digital.',
     aud: 'teachers',
     stage: 'Docentes y Escuela',
-    topic: 'security',
+    topic: 'create',
     format: 'video',
     formatLabel: 'Tutorial COMIE',
     href: 'https://www.youtube.com/watch?v=UCz9ZqbGtps',
@@ -320,7 +327,7 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     description: 'Discute cómo la IA impacta la noción de autoría, originalidad y el reconocimiento del trabajo intelectual en la escuela.',
     aud: 'teachers',
     stage: 'Docentes y Escuela',
-    topic: 'security',
+    topic: 'critical',
     format: 'video',
     formatLabel: 'Video COMIE',
     href: 'https://www.youtube.com/watch?v=0o0xsNB0vKU',
@@ -343,5 +350,28 @@ export const EXTERNAL_RESOURCES: ExternalResourceItem[] = [
     collection: 'COMIE IA',
     institution: 'Consejo Mexicano de Investigación Educativa',
     external: true
-  }
+  },
+  ...FEATURED_VIDEOS.map(video => ({
+    id: `sej-en-corto-${video.id}`,
+    title: video.title,
+    description: video.description,
+    aud: video.audiences[0] as FeaturedVideoAudience,
+    audiences: video.audiences,
+    stage: video.id === 'pantallas-primera-infancia'
+      ? 'Primera infancia'
+      : video.id === 'desinformacion-en-clase'
+        ? 'Secundaria y bachillerato · Docentes'
+        : 'Secundaria y bachillerato',
+    stageIds: video.stages,
+    scope: 'education-stage' as const,
+    topic: video.topic,
+    format: 'video' as const,
+    formatLabel: 'Video + actividad',
+    href: video.youtubeUrl,
+    collection: video.collection,
+    institution: video.institution,
+    external: true,
+    youtubeId: video.youtubeId,
+    featuredVideoId: video.id
+  }))
 ];

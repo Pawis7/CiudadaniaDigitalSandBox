@@ -1,25 +1,28 @@
 <!-- ═══════════════════════════════════════════════════════════
      VIDEO MODAL — componente global premium
      Backdrop oscuro semi-trans + panel con tema claro/oscuro
-     X solo en la esquina INFERIOR del panel (no choca con ⚙ de YT)
+     Cierre visible y accesible en escritorio y móvil
 ════════════════════════════════════════════════════════════ -->
 
 <!-- Backdrop: clic fuera cierra -->
-<div class="vm-backdrop" [class.vm-closing]="closing()" (click)="onBackdropClick()" role="dialog" aria-modal="true">
+<div class="vm-backdrop"
+     [class.vm-closing]="closing()"
+     (click)="onBackdropClick()"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="vm-title"
+     [attr.aria-describedby]="data()?.description ? 'vm-description' : null">
 
   <!-- Wrapper externo: permite que la X sobresalga del panel -->
-  <div class="vm-panel-wrap" (click)="onPanelClick($event)">
+  <div class="vm-panel-wrap" #panelWrap (click)="onPanelClick($event)">
 
     <!-- Botón X flotante en esquina: mitad adentro, mitad afuera -->
-    <button type="button" class="vm-corner-close" (click)="onBackdropClick()" aria-label="Cerrar">
+    <button #closeButton type="button" class="vm-corner-close" (click)="onBackdropClick()" aria-label="Cerrar video">
       <span translate="no" class="material-symbols-rounded">close</span>
     </button>
 
     <!-- Panel con overflow:hidden para el iframe -->
-    <div class="vm-panel" #panel
-         (touchstart)="onTouchStart($event)"
-         (touchmove)="onTouchMove($event)"
-         (touchend)="onTouchEnd($event)">
+    <div class="vm-panel" #panel>
 
       <!-- Drag handle visual para móvil -->
       <div class="vm-drag-handle"></div>
@@ -59,11 +62,11 @@
         </div>
 
         <!-- Título -->
-        <h2 class="vm-title">{{ v.title }}</h2>
+        <h2 id="vm-title" class="vm-title">{{ v.title }}</h2>
 
         <!-- Descripción -->
         @if (v.description) {
-          <p class="vm-description">{{ v.description }}</p>
+          <p id="vm-description" class="vm-description">{{ v.description }}</p>
         }
 
         <!-- Tags inline -->

@@ -4,6 +4,7 @@
  * - https://youtu.be/ID
  * - https://www.youtube.com/embed/ID
  * - https://www.youtube.com/shorts/ID
+ * - https://www.youtube.com/live/ID
  * - ID directo (11 chars)
  */
 export function extractYouTubeId(input: string): string | null {
@@ -20,11 +21,12 @@ export function extractYouTubeId(input: string): string | null {
       return id && /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
     }
 
-    if (host.endsWith('youtube.com') || host.endsWith('youtube-nocookie.com')) {
+    if (['youtube.com', 'youtube-nocookie.com'].includes(host) ||
+        host.endsWith('.youtube.com') || host.endsWith('.youtube-nocookie.com')) {
       const v = url.searchParams.get('v');
       if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) return v;
       const parts = url.pathname.split('/').filter(Boolean);
-      const idx = parts.findIndex((p) => p === 'embed' || p === 'shorts' || p === 'v');
+      const idx = parts.findIndex((p) => ['embed', 'shorts', 'live', 'v'].includes(p));
       if (idx >= 0 && parts[idx + 1] && /^[a-zA-Z0-9_-]{11}$/.test(parts[idx + 1])) {
         return parts[idx + 1];
       }

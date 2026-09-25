@@ -1,255 +1,349 @@
 <div class="ac-root">
-<div class="ac-shell">
-
-  <!-- ═══ HEADER STRIP ═══ -->
-  <header class="ac-header">
-    <div class="ac-brand">
-      <div class="ac-mark">B</div>
-      <div class="ac-brand-text">
-        <span class="ac-brand-name">Ciudadanía Digital Jalisco</span>
-        <span class="ac-brand-sub">Colección Preescolar · Audiocuento ilustrado</span>
+  <div class="ac-shell">
+    <!-- ═══ HEADER STRIP ═══ -->
+    <header class="ac-header">
+      <div class="ac-brand">
+        <div class="ac-mark">B</div>
+        <div class="ac-brand-text">
+          <span class="ac-brand-name">Ciudadanía Digital Jalisco</span>
+          <span class="ac-brand-sub">Colección Preescolar · Audiocuento ilustrado</span>
+        </div>
       </div>
-    </div>
-    <div class="ac-controls">
-      <button (click)="toggleVoice()" class="ac-btn" [class.ac-btn--active]="voiceOn()" [attr.aria-label]="voiceOn() ? 'Silenciar narración' : 'Activar narración'">
-        <span class="ac-btn-icon">{{ voiceOn() ? '🔊' : '🔇' }}</span>
-        {{ voiceOn() ? 'Voz' : 'Silencio' }}
+      <div class="ac-controls">
+        <button
+          (click)="toggleVoice()"
+          class="ac-btn"
+          [class.ac-btn--active]="voiceOn()"
+          [attr.aria-label]="voiceOn() ? 'Silenciar narración' : 'Activar narración'"
+        >
+          <span class="ac-btn-icon">{{ voiceOn() ? '🔊' : '🔇' }}</span>
+          {{ voiceOn() ? 'Voz' : 'Silencio' }}
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══ BOOK STAGE ═══ -->
+    <main class="ac-stage" [attr.data-direction]="turnDirection()">
+      <!-- ──── PORTADA ──── -->
+      <section
+        class="ac-spread ac-cover ac-paper--sun"
+        [class.ac-spread--visible]="cur() === 0"
+        [attr.inert]="cur() !== 0 ? '' : null"
+        [attr.aria-hidden]="cur() !== 0"
+      >
+        <!-- LEFT: portada illustration -->
+        <div class="ac-page ac-page--left ac-cover-art">
+          <img
+            src="/cuentos/BData_Pausa/BData_PAUSA_01.webp"
+            alt="Portada: Bit, Data y la pausa que cuida"
+            class="ac-scene-img"
+          />
+        </div>
+
+        <div class="ac-spine"></div>
+
+        <!-- RIGHT: portada interior con imagen + texto overlay -->
+        <div class="ac-page ac-page--right ac-cover-art">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-02.webp"
+            alt=""
+            class="ac-scene-img"
+          />
+          <div class="ac-story-overlay ac-story-overlay--cover">
+            <h1 class="ac-title">
+              Bit, Data y
+              <em class="ac-title-em">la pausa que cuida</em>
+            </h1>
+            <p class="ac-cover-lead">
+              Un audiocuento para aprender que las pantallas tienen su momento y que hacer una pausa
+              también cuida el cuerpo y las emociones.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──── ESCENA 1: El dibujo de Tuercas ──── -->
+      <section
+        class="ac-spread ac-paper--sun"
+        [class.ac-spread--visible]="cur() === 1"
+        [attr.inert]="cur() !== 1 ? '' : null"
+        [attr.aria-hidden]="cur() !== 1"
+      >
+        <div class="ac-page ac-page--left">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-03.webp"
+            alt="Escena 1: El dibujo de Tuercas"
+            class="ac-scene-img"
+          />
+          <div class="ac-page-num">1</div>
+        </div>
+
+        <div class="ac-spine"></div>
+
+        <div class="ac-page ac-page--right">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-04.webp"
+            alt=""
+            class="ac-scene-img"
+          />
+          <div class="ac-story-overlay">
+            <h2 class="ac-scene-title">El dibujo de Tuercas</h2>
+            <div class="ac-scene-narrative">
+              <p>
+                Bit y Data dibujaban juntos en la tableta, durante el tiempo que habían acordado con
+                su maestra. Bit eligió sus colores favoritos para retratar a Tuercas.
+              </p>
+              <p class="ac-dialogue-text">
+                — ¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.
+              </p>
+              <p class="ac-dialogue-text">
+                — ¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe —le
+                dijo Data con dulzura.
+              </p>
+              <p class="ac-story-quote">«Mi corazón brilla como una estrellita.»</p>
+            </div>
+          </div>
+          <div class="ac-page-num">2</div>
+        </div>
+      </section>
+
+      <!-- ──── ESCENA 2: Es hora de una pausa ──── -->
+      <section
+        class="ac-spread ac-paper--sky"
+        [class.ac-spread--visible]="cur() === 2"
+        [attr.inert]="cur() !== 2 ? '' : null"
+        [attr.aria-hidden]="cur() !== 2"
+      >
+        <div class="ac-page ac-page--left">
+          <img
+            src="/cuentos/BData_Pausa/BData_PAUSA_05.webp"
+            alt="Escena 2: Es hora de una pausa"
+            class="ac-scene-img"
+          />
+          <div class="ac-page-num">3</div>
+        </div>
+
+        <div class="ac-spine"></div>
+
+        <div class="ac-page ac-page--right">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-06.webp"
+            alt=""
+            class="ac-scene-img"
+          />
+          <div class="ac-story-overlay">
+            <h2 class="ac-scene-title">Es hora de una pausa</h2>
+            <div class="ac-scene-narrative">
+              <p>
+                Cuando terminó el tiempo acordado, apareció un aviso: «Es momento de hacer una
+                pausa».
+              </p>
+              <p class="ac-dialogue-text ac-dialogue-text--gray">
+                — Quería seguir dibujando —dijo Bit mientras bajaba la mirada.
+              </p>
+              <p class="ac-dialogue-text">
+                — Te entiendo —respondió Data—. Dejar algo divertido puede sentirse difícil.
+              </p>
+              <p class="ac-dialogue-text">— Guardamos el dibujo y podemos volver después.</p>
+            </div>
+          </div>
+          <div class="ac-page-num">4</div>
+        </div>
+      </section>
+
+      <!-- ──── ESCENA 3: Data nombra lo que pasa ──── -->
+      <section
+        class="ac-spread ac-paper--lilac"
+        [class.ac-spread--visible]="cur() === 3"
+        [attr.inert]="cur() !== 3 ? '' : null"
+        [attr.aria-hidden]="cur() !== 3"
+      >
+        <div class="ac-page ac-page--left">
+          <img
+            src="/cuentos/BData_Pausa/BData_PAUSA_07.webp"
+            alt="Bit sigue molesto por detener el dibujo y escucha a Data, que lo acompaña a hacer una pausa."
+            class="ac-scene-img"
+          />
+          <div class="ac-page-num">5</div>
+        </div>
+
+        <div class="ac-spine"></div>
+
+        <div class="ac-page ac-page--right">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-08.webp"
+            alt=""
+            class="ac-scene-img"
+          />
+          <div class="ac-story-overlay">
+            <h2 class="ac-scene-title">Data nombra lo que pasa</h2>
+            <div class="ac-scene-narrative">
+              <p>
+                Data se acercó y respiró junto a Bit. Luego habló con una voz tranquila, de esas que
+                abrazan:
+              </p>
+              <p class="ac-dialogue-text">
+                — Parece que estás molesto porque querías continuar. ¿Es así? Lo que sientes
+                importa. Tu cuerpo también necesita moverse y descansar.
+              </p>
+              <p class="ac-dialogue-text">
+                — ¿Puedo estar molesto y aun así hacer una pausa? —preguntó Bit.
+              </p>
+              <p class="ac-story-quote">«Sí. Respiramos, guardamos y cerramos.»</p>
+            </div>
+          </div>
+          <div class="ac-page-num">6</div>
+        </div>
+      </section>
+
+      <!-- ──── ESCENA 4: La pausa que cuida ──── -->
+      <section
+        class="ac-spread ac-paper--peach"
+        [class.ac-spread--visible]="cur() === 4"
+        [attr.inert]="cur() !== 4 ? '' : null"
+        [attr.aria-hidden]="cur() !== 4"
+      >
+        <div class="ac-page ac-page--left">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-09.webp"
+            alt="Escena 4: La pausa que cuida"
+            class="ac-scene-img"
+          />
+          <div class="ac-page-num">7</div>
+        </div>
+
+        <div class="ac-spine"></div>
+
+        <div class="ac-page ac-page--right">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-10.webp"
+            alt=""
+            class="ac-scene-img"
+          />
+          <div class="ac-story-overlay">
+            <h2 class="ac-scene-title">La pausa que cuida</h2>
+            <div class="ac-scene-narrative">
+              <p>
+                La maestra ayudó a Bit a guardar el dibujo y a poner la tableta en su lugar. Bit
+                estiró brazos y piernas.
+              </p>
+              <p class="ac-dialogue-text">— Mi dibujo estará aquí cuando vuelva —dijo Bit.</p>
+              <p>
+                Después fue con Data a jugar con Tuercas. La pausa no borró su dibujo ni su alegría.
+              </p>
+              <p class="ac-story-quote">«Guardo, cierro y cambio de actividad.»</p>
+            </div>
+          </div>
+          <div class="ac-page-num">8</div>
+        </div>
+      </section>
+
+      <!-- ──── ESCENA 5: Colores fuera de la pantalla ──── -->
+      <section
+        class="ac-spread ac-paper--leaf"
+        [class.ac-spread--visible]="cur() === 5"
+        [attr.inert]="cur() !== 5 ? '' : null"
+        [attr.aria-hidden]="cur() !== 5"
+      >
+        <div class="ac-page ac-page--left">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-03.webp"
+            alt="Escena 5: Colores fuera de la pantalla"
+            class="ac-scene-img"
+          />
+          <div class="ac-page-num">9</div>
+        </div>
+
+        <div class="ac-spine"></div>
+
+        <div class="ac-page ac-page--right">
+          <img
+            src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-04.webp"
+            alt=""
+            class="ac-scene-img"
+          />
+          <div class="ac-story-overlay">
+            <h2 class="ac-scene-title">Colores fuera de la pantalla</h2>
+            <div class="ac-scene-narrative">
+              <p>
+                Bit encontró colores también fuera de la tableta: el cielo, los árboles y el collar
+                de Tuercas.
+              </p>
+              <p>
+                Más tarde, cuando llegó el momento acordado, volvió con su maestra para terminar su
+                dibujo.
+              </p>
+              <p class="ac-dialogue-text">
+                — La pantalla tiene su momento; jugar, moverse y descansar también —recordó Data.
+              </p>
+              <p class="ac-story-quote">
+                «Puedo reconocer lo que siento, hacer una pausa y cambiar de actividad.»
+              </p>
+              <p class="ac-story-moral">
+                Fin del cuento. Repitan juntos: guardo, cierro y cambio de actividad.
+              </p>
+            </div>
+          </div>
+          <div class="ac-page-num">10</div>
+        </div>
+      </section>
+
+      <!-- Final ilustrado con texto y controles accesibles. -->
+      <section
+        class="ac-spread ac-end-screen"
+        [class.ac-spread--visible]="cur() === 6"
+        [attr.inert]="cur() !== 6 ? '' : null"
+        [attr.aria-hidden]="cur() !== 6"
+      >
+        <app-story-ending
+          title="¡Cuento completado!"
+          subtitle="¡Felicidades! Aprendiste que una pausa también nos cuida."
+          ruleLabel="Mi regla de pausa:"
+          rule="Guardo, cierro y busco otra forma de jugar."
+          imageSrc="/cuentos/cierres/pausa.webp"
+          imageAlt=""
+          (restart)="goToPage(0)"
+          (closed)="closeBook()"
+        />
+      </section>
+    </main>
+
+    <!-- ═══ NAVIGATION FOOTER ═══ -->
+    <footer class="ac-footer">
+      <button [disabled]="cur() === 0" (click)="prevPage()" class="ac-nav-btn">
+        <span>←</span> Anterior
       </button>
-    </div>
-  </header>
 
-  <!-- ═══ BOOK STAGE ═══ -->
-  <main class="ac-stage" [attr.data-direction]="turnDirection()">
-
-    <!-- ──── PORTADA ──── -->
-    <section class="ac-spread ac-cover" [class.ac-spread--visible]="cur() === 0">
-      <!-- LEFT: portada illustration -->
-      <div class="ac-page ac-page--left ac-cover-art">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-01.webp"
-             alt="Portada: Bit, Data y el mensaje gris"
-             class="ac-scene-img">
-      </div>
-
-      <div class="ac-spine"></div>
-
-      <!-- RIGHT: portada interior con imagen + texto overlay -->
-      <div class="ac-page ac-page--right ac-cover-art">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-02.webp"
-             alt="Portada interior"
-             class="ac-scene-img">
-        <div class="ac-story-overlay ac-story-overlay--cover">
-          <h1 class="ac-title">
-            Bit, Data y el misterio del
-            <em class="ac-title-em">mensaje gris</em>
-          </h1>
-          <p class="ac-cover-lead">
-            Un audiocuento sobre la empatía digital, el cuidado mutuo y el superpoder de cerrar y contar.
-          </p>
+      <div class="ac-progress">
+        <div class="ac-progress-dots">
+          @for (i of [0, 1, 2, 3, 4, 5, 6]; track i) {
+            <button
+              (click)="goToPage(i)"
+              class="ac-dot"
+              [attr.aria-label]="
+                i === 0 ? 'Ir a la portada' : i === 6 ? 'Ir al cierre' : 'Ir a la escena ' + i
+              "
+              [attr.aria-current]="cur() === i ? 'page' : null"
+              [class.ac-dot--active]="cur() === i"
+            ></button>
+          }
         </div>
-      </div>
-    </section>
-
-    <!-- ──── ESCENA 1: El gran descubrimiento ──── -->
-    <section class="ac-spread" [class.ac-spread--visible]="cur() === 1">
-      <div class="ac-page ac-page--left">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-03.webp"
-             alt="Escena 1: El gran descubrimiento"
-             class="ac-scene-img">
-        <div class="ac-page-num">1</div>
-      </div>
-
-      <div class="ac-spine"></div>
-
-      <div class="ac-page ac-page--right">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-04.webp"
-             alt="Escena 1: El gran descubrimiento"
-             class="ac-scene-img">
-        <div class="ac-story-overlay ac-story-overlay--dark-ink">
-          <h2 class="ac-scene-title">El gran descubrimiento</h2>
-          <div class="ac-scene-narrative">
-            <p>Bit brincaba de alegría. En su tablet brillaba un dibujo nuevo. Era Tuercas, su perrito, con orejas grandes, cola feliz y muchos colores.</p>
-            <p class="ac-dialogue-text">— ¡Mira, Data! Es Tuercas. Lo dibujé con mis colores favoritos.</p>
-            <p class="ac-dialogue-text">— ¡Qué bonito quedó! Cuando alguien mira con cariño, el corazón también sonríe —le dijo Data con dulzura.</p>
-            <p class="ac-story-quote">«Mi corazón brilla como una estrellita.»</p>
-          </div>
-        </div>
-        <div class="ac-page-num">2</div>
-      </div>
-    </section>
-
-    <!-- ──── ESCENA 2: Aparece el mensaje gris ──── -->
-    <section class="ac-spread" [class.ac-spread--visible]="cur() === 2">
-      <div class="ac-page ac-page--left">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-05.webp"
-             alt="Escena 2: Aparece el mensaje gris"
-             class="ac-scene-img">
-        <div class="ac-page-num">3</div>
+        <span class="ac-page-label">
+          {{
+            cur() === 0
+              ? 'Portada'
+              : cur() === 6
+                ? 'Fin'
+                : 'Págs. ' + (cur() * 2 - 1) + '–' + cur() * 2
+          }}
+        </span>
       </div>
 
-      <div class="ac-spine"></div>
-
-      <div class="ac-page ac-page--right">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-06.webp"
-             alt="Escena 2: Aparece el mensaje gris"
-             class="ac-scene-img">
-        <div class="ac-story-overlay ac-story-overlay--dark-ink">
-          <h2 class="ac-scene-title">Aparece el mensaje gris</h2>
-          <div class="ac-scene-narrative">
-            <p>Pero, de pronto, una nubecita gris se pegó a la pantalla.</p>
-            <p class="ac-dialogue-text ac-dialogue-text--gray">— Ese perro es feo. No sabes dibujar.</p>
-            <p>El brillo de Bit se hizo pequeño. Sus ojitos miraron hacia abajo.</p>
-            <p class="ac-dialogue-text">— Data... mi corazón se arrugó, como una hoja hecha bolita.</p>
-            <p class="ac-dialogue-text">— Te creo, Bit. Esa palabra no fue amable, y no es tu culpa —le susurró Data con ternura.</p>
-          </div>
-        </div>
-        <div class="ac-page-num">4</div>
-      </div>
-    </section>
-
-    <!-- ──── ESCENA 3: Data nombra lo que pasa ──── -->
-    <section class="ac-spread" [class.ac-spread--visible]="cur() === 3">
-      <div class="ac-page ac-page--left">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-07.webp"
-             alt="Escena 3: Data nombra lo que pasa"
-             class="ac-scene-img">
-        <div class="ac-page-num">5</div>
-      </div>
-
-      <div class="ac-spine"></div>
-
-      <div class="ac-page ac-page--right">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-08.webp"
-             alt="Escena 3: Data nombra lo que pasa"
-             class="ac-scene-img">
-        <div class="ac-story-overlay ac-story-overlay--dark-ink">
-          <h2 class="ac-scene-title">Data nombra lo que pasa</h2>
-          <div class="ac-scene-narrative">
-            <p>Data voló cerquita. Miró la pantalla, miró a Bit y respiró suave. Luego habló con una voz tranquila, de esas que abrazan:</p>
-            <p class="ac-dialogue-text">— Las palabras rudas en pantalla también pueden doler. Es como un empujón hecho con letras. Y los empujones no se guardan solitos.</p>
-            <p class="ac-dialogue-text">— Entonces sí cuenta lo que siento, aunque haya pasado en la tablet —comprendió Bit.</p>
-          </div>
-        </div>
-        <div class="ac-page-num">6</div>
-      </div>
-    </section>
-
-    <!-- ──── ESCENA 4: El superpoder ──── -->
-    <section class="ac-spread" [class.ac-spread--visible]="cur() === 4">
-      <div class="ac-page ac-page--left">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-09.webp"
-             alt="Escena 4: El superpoder"
-             class="ac-scene-img">
-        <div class="ac-page-num">7</div>
-      </div>
-
-      <div class="ac-spine"></div>
-
-      <div class="ac-page ac-page--right">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-10.webp"
-             alt="Escena 4: El superpoder"
-             class="ac-scene-img">
-        <div class="ac-story-overlay ac-story-overlay--light-ink">
-          <h2 class="ac-scene-title">El superpoder</h2>
-          <div class="ac-scene-narrative">
-            <p>Bit apretó la tablet contra su pecho. Por un momento quiso esconderla. Data no lo regañó. Se puso a su lado, despacito.</p>
-            <p class="ac-dialogue-text">— Tal vez borro mi dibujo... y no se lo digo a nadie.</p>
-            <p class="ac-dialogue-text">— No guardes solito un secreto que pesa. Tienes un superpoder: cerrar y contar.</p>
-            <p class="ac-story-quote">«Si una pantalla me trata mal: cierro y cuento.»</p>
-          </div>
-        </div>
-        <div class="ac-page-num">8</div>
-      </div>
-    </section>
-
-    <!-- ──── ESCENA 5: Final amable ──── -->
-    <section class="ac-spread" [class.ac-spread--visible]="cur() === 5">
-      <div class="ac-page ac-page--left">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-03.webp"
-             alt="Escena 5: Final amable"
-             class="ac-scene-img">
-        <div class="ac-page-num">9</div>
-      </div>
-
-      <div class="ac-spine"></div>
-
-      <div class="ac-page ac-page--right">
-        <img src="/cuentos/BData_MsjGris/BIT EL MENSAJE GRIS-04.webp"
-             alt="Escena 5: Final amable"
-             class="ac-scene-img">
-        <div class="ac-story-overlay ac-story-overlay--dark-ink">
-          <h2 class="ac-scene-title">Final amable</h2>
-          <div class="ac-scene-narrative">
-            <p>Bit volvió a mirar a Tuercas. Ahí seguían sus orejas grandes, su cola feliz y sus colores. El mensaje gris no podía borrar lo bonito de su dibujo.</p>
-            <p class="ac-dialogue-text">— Gracias, Data. Mi dibujo sigue siendo mío. Ahora se lo contaré a mi maestra.</p>
-            <p class="ac-dialogue-text">— Así es, Bit. En la pantalla también cuidamos con nuestras palabras.</p>
-            <p class="ac-story-quote">«Si vemos un mensaje gris, ¿qué hacemos? Cerramos y contamos.»</p>
-            <p class="ac-story-moral">Fin del cuento. Repitan juntos con voz tranquila: cerramos y contamos.</p>
-          </div>
-        </div>
-        <div class="ac-page-num">10</div>
-      </div>
-    </section>
-
-    <!-- ──── ESCENA 6: Fin del cuento (cur === 6) ──── -->
-    <section class="ac-spread ac-end-screen" [class.ac-spread--visible]="cur() === 6">
-      <div class="ac-end-inner">
-        <div class="ac-end-icon">
-          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="7"></circle>
-            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-          </svg>
-        </div>
-        <h2 class="ac-end-title">¡Cuento Completado!</h2>
-        <p class="ac-end-subtitle">
-          ¡Felicidades! Has aprendido el superpoder de Bit y Data.
-        </p>
-
-        <div class="ac-end-badge">
-          <div class="ac-end-badge-icon">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffe600" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-          </div>
-          <div>
-            <strong>Si ves un mensaje gris:</strong>
-            <p>¡Cierro la pantalla y le cuento a alguien de confianza!</p>
-          </div>
-        </div>
-
-        <div class="ac-end-actions">
-          <button (click)="goToPage(0)" class="ac-btn-restart">
-            Volver a leer
-          </button>
-          <button (click)="closeBook()" class="ac-btn-close">
-            Cerrar cuento
-          </button>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ═══ NAVIGATION FOOTER ═══ -->
-  <footer class="ac-footer">
-    <button [disabled]="cur() === 0" (click)="prevPage()" class="ac-nav-btn">
-      <span>←</span> Anterior
-    </button>
-
-    <div class="ac-progress">
-      <div class="ac-progress-dots">
-        @for (i of [0,1,2,3,4,5,6]; track i) {
-          <button (click)="goToPage(i)" class="ac-dot" [class.ac-dot--active]="cur() === i"></button>
-        }
-      </div>
-      <span class="ac-page-label">
-        {{ cur() === 0 ? 'Portada' : (cur() === 6 ? 'Fin' : 'Págs. ' + (cur() * 2 - 1) + '–' + (cur() * 2)) }}
-      </span>
-    </div>
-
-    <button (click)="nextPage()" class="ac-nav-btn ac-nav-btn--next">
-      {{ cur() === 6 ? 'Cerrar' : 'Siguiente' }} <span>→</span>
-    </button>
-  </footer>
-
-</div><!-- /.ac-shell -->
-</div><!-- /.ac-root -->
+      <button (click)="nextPage()" class="ac-nav-btn ac-nav-btn--next">
+        {{ cur() === 6 ? 'Cerrar' : 'Siguiente' }} <span>→</span>
+      </button>
+    </footer>
+  </div>
+  <!-- /.ac-shell -->
+</div>
+<!-- /.ac-root -->

@@ -58,7 +58,7 @@ export const APP_NO_SE_ACABA_DATA: AppNoSeAcabaData = {
     version: "v3.0_laboratorio_atencion",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años",
+    age_range: "12 a 14 años",
     title: "La app que no se acaba",
     public_title: "¿Por qué me cuesta salir de la app?",
     status: "Prototipo mejorado listo para revisión pedagógica, diseño y programación"

@@ -1,394 +1,427 @@
-@if(page();as p){
-  @if(config();as cfg){
-    <section appReveal="fade" [revealDuration]="700" class="cdj-banner audience-hero mb-7 no-print sm:mb-8" [attr.data-audience]="cfg.theme" [style.--banner-bg]="cfg.bannerBg" [style.--banner-focus]="cfg.bannerFocus">
-      <div class="cdj-banner__copy audience-hero__copy">
-        <h1>{{cfg.bannerTitle}}</h1>
-        <p>{{cfg.bannerTagline}}</p>
-      </div>
-      <div class="cdj-banner__visual audience-hero__visual">
-        <img appImageLoader [src]="cfg.bannerSrc" [alt]="cfg.bannerAlt">
-      </div>
-    </section>
-  }
-
-  <section class="mb-7 no-print" [attr.data-audience]="audienceTheme()">
-    <p class="max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-lg">{{p.description}}</p>
-  </section>
-
-  @if(p.subLevels.length>1){
-    <section class="stage-filter mb-10 no-print" [attr.data-audience]="audienceTheme()">
-      <p class="stage-label">{{audienceTheme()==='families'?'Edad que acompañas':audienceTheme()==='teachers'?'Nivel educativo':'Etapa'}}</p>
-      <div class="stage-options">
-        @for(sub of p.subLevels;track sub.id){
-          <button type="button" (click)="selectLevelAndScroll(sub.id)" [class.is-active]="selectedLevel()===sub.id">{{sub.title}}</button>
-        }
-      </div>
-    </section>
-  }
-
-  <div id="contenido-etapa" class="scroll-mt-24"></div>
-
-  @if(guidance();as g){
-    <section class="guidance mb-12" [attr.data-audience]="audienceTheme()">
-      <div class="mb-5 max-w-3xl">
-        <p class="eyebrow text-[color:var(--aud)]">{{g.eyebrow}}</p>
-        <h2 class="display-2 mt-1">{{g.title}}</h2>
-        <p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">{{g.intro}}</p>
-      </div>
-      <div class="guidance-list">
-        @for(item of g.items;track item.title;let i=$index){
-          <div class="guidance-item" [class.is-open]="openGuidance()===i">
-            <button type="button" class="guidance-trigger" (click)="toggleGuidance(i)" [attr.aria-expanded]="openGuidance()===i">
-              <span>{{item.title}}</span>
-              <span class="guidance-plus">{{openGuidance()===i?'−':'+'}}</span>
-            </button>
-            <div class="guidance-collapse" [class.is-open]="openGuidance()===i">
-              <div class="guidance-body">
-                <p>{{item.summary}}</p>
-                @if(item.watch){<p><strong>Pon atención:</strong> {{item.watch}}</p>}
-                @if(item.action){<p><strong>Qué puedes hacer:</strong> {{item.action}}</p>}
-              </div>
-            </div>
-          </div>
-        }
-      </div>
-    </section>
-  }
-
-  @if(p.subLevels.length){
-    <section id="actividades-nivel" class="mb-12" [attr.data-audience]="audienceTheme()">
-      <div class="section-line">
-        <p class="eyebrow text-[color:var(--aud)]">Practica</p>
-        <h2 class="display-2 mt-1">{{getActiveLevelName()}}</h2>
-        <p>Casos, cuentos, simuladores y actividades para aplicar lo que acabas de revisar.</p>
-      </div>
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        @for(item of levelResources();track item.id){
-          <app-resource-card [item]="item" (actionClicked)="onResourceActionClicked($event)"/>
-        }
-        @if(!levelResources().length){
-          <p class="col-span-full py-5 text-sm text-[color:var(--text-soft)]">Todavía no hay actividades publicadas para esta etapa.</p>
-        }
-      </div>
-    </section>
-  }
-
-  <!-- ==========================================
-       SECCIÓN FAMILIAS: Misiones Digitales
-       ========================================== -->
-  @if(audienceTheme() === 'families'){
-    <section class="mb-12" [attr.data-audience]="audienceTheme()">
-      <div class="section-line">
-        <p class="eyebrow text-[color:var(--aud)]">Misiones para el hogar</p>
-        <h2 class="display-2 mt-1">Misiones digitales: Familias y cuidadores</h2>
-        <p>Herramientas prácticas descargables en PDF para acompañar a tus hijas e hijos a ser ciudadanos digitales responsables.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-        @for(mision of familiesMissions; track mision.id){
-          <div class="surface card-hover overflow-hidden rounded-2xl border border-[color:var(--border-soft)] flex flex-col sm:flex-row">
-            <div class="w-full sm:w-44 h-56 sm:h-auto bg-[color:var(--surface-soft)] flex-none overflow-hidden relative">
-              <img [src]="mision.coverUrl" [alt]="mision.title" class="w-full h-full object-cover" loading="lazy" />
-              <span class="absolute top-2.5 left-2.5 text-[0.65rem] font-bold uppercase tracking-wider bg-black/75 backdrop-blur text-white px-2 py-0.5 rounded">
-                {{mision.badge}}
-              </span>
-            </div>
-            <div class="p-5 flex-1 flex flex-col justify-between">
-              <div>
-                <span class="text-xs font-bold text-[color:var(--aud)] uppercase tracking-wider">{{mision.subtitle}}</span>
-                <h3 class="text-lg font-bold text-[color:var(--text-primary)] mt-0.5">{{mision.title}}</h3>
-                <p class="text-xs text-[color:var(--text-soft)] mt-2 leading-relaxed">{{mision.description}}</p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-[color:var(--border-soft)]">
-                <a [href]="mision.pdfUrl" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs w-full flex items-center justify-center gap-1.5">
-                  <span class="material-symbols-rounded text-base">download</span>
-                  <span>Descargar misión (PDF)</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
-    </section>
-  }
-
-  <!-- ==========================================
-       SECCIÓN DOCENTES: Misiones y Libros de Interés
-       ========================================== -->
-  @if(audienceTheme() === 'teachers'){
-    <!-- Misiones para docentes -->
-    <section class="mb-12" [attr.data-audience]="audienceTheme()">
-      <div class="section-line">
-        <p class="eyebrow text-[color:var(--aud)]">Planeación pedagógica</p>
-        <h2 class="display-2 mt-1">Misiones digitales para docentes</h2>
-        <p>Guías con actividades listas para el aula que fortalecen habilidades y competencias de ciudadanía digital.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-        @for(mision of teachersMissions; track mision.id){
-          <div class="surface card-hover overflow-hidden rounded-2xl border border-[color:var(--border-soft)] flex flex-col sm:flex-row">
-            <div class="w-full sm:w-44 h-56 sm:h-auto bg-[color:var(--surface-soft)] flex-none overflow-hidden relative">
-              <img [src]="mision.coverUrl" [alt]="mision.title" class="w-full h-full object-cover" loading="lazy" />
-              <span class="absolute top-2.5 left-2.5 text-[0.65rem] font-bold uppercase tracking-wider bg-black/75 backdrop-blur text-white px-2 py-0.5 rounded">
-                {{mision.badge}}
-              </span>
-            </div>
-            <div class="p-5 flex-1 flex flex-col justify-between">
-              <div>
-                <span class="text-xs font-bold text-[color:var(--aud)] uppercase tracking-wider">{{mision.subtitle}}</span>
-                <h3 class="text-lg font-bold text-[color:var(--text-primary)] mt-0.5">{{mision.title}}</h3>
-                <p class="text-xs text-[color:var(--text-soft)] mt-2 leading-relaxed">{{mision.description}}</p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-[color:var(--border-soft)]">
-                <a [href]="mision.pdfUrl" target="_blank" rel="noopener noreferrer" class="btn-primary text-xs w-full flex items-center justify-center gap-1.5">
-                  <span class="material-symbols-rounded text-base">download</span>
-                  <span>Descargar misión (PDF)</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        }
-      </div>
-    </section>
-
-    <!-- Libros de interés y marcos oficiales comprimible -->
-    <section class="mb-12" [attr.data-audience]="audienceTheme()">
-      <div class="cdj-toggle-card">
-        <button
-          type="button"
-          class="cdj-toggle-header"
-          (click)="toggleBooks()"
-          [attr.aria-expanded]="isBooksOpen()"
-        >
-          <div class="flex items-center gap-3.5 overflow-hidden">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--aud)] flex-none">
-              <span class="material-symbols-rounded text-2xl">auto_stories</span>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Libros de interés y marcos de referencia</h3>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
-                  {{teachersBooks.length}} publicaciones
-                </span>
-              </div>
-              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
-                Marcos de la UNESCO sobre IA, DigComp 2.2 e investigaciones pedagógicas en PDF
-              </p>
-            </div>
-          </div>
-          <div class="cdj-toggle-pill">
-            <span>{{isBooksOpen() ? 'Ocultar' : 'Ver libros'}}</span>
-            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isBooksOpen()">
-              expand_more
-            </span>
-          </div>
-        </button>
-
-        <div class="cdj-toggle-body" [class.is-open]="isBooksOpen()">
-          <div class="cdj-toggle-inner">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
-              @for(book of teachersBooks; track book.id){
-                <div class="surface card-hover overflow-hidden rounded-2xl border border-[color:var(--border-soft)] flex flex-col">
-                  <div class="relative w-full h-64 bg-[color:var(--surface-soft)] flex items-center justify-center p-4 overflow-hidden group">
-                    <img [src]="book.coverUrl" [alt]="book.title" class="h-full w-auto max-w-full object-contain rounded shadow-md group-hover:scale-105 transition-transform duration-300" loading="lazy" />
-                    <span class="absolute top-2.5 left-2.5 text-[0.65rem] font-bold uppercase tracking-wider bg-black/75 backdrop-blur text-white px-2 py-0.5 rounded">
-                      {{book.badge}}
-                    </span>
-                  </div>
-                  <div class="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <span class="text-xs font-bold text-[color:var(--aud)] uppercase tracking-wider">{{book.institution}}</span>
-                      <h4 class="text-base font-bold text-[color:var(--text-primary)] mt-1 line-clamp-2 leading-snug">{{book.title}}</h4>
-                      <p class="text-xs text-[color:var(--text-soft)] mt-2 line-clamp-3 leading-relaxed">{{book.description}}</p>
-                    </div>
-                    <div class="mt-4 pt-3 border-t border-[color:var(--border-soft)]">
-                      <a [href]="book.pdfUrl" target="_blank" rel="noopener noreferrer" class="btn-secondary text-xs w-full flex items-center justify-center gap-1.5">
-                        <span class="material-symbols-rounded text-base">picture_as_pdf</span>
-                        <span>Consultar publicación</span>
-                        <span class="material-symbols-rounded text-xs">open_in_new</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
+@if (page(); as p) {
+  <div
+    class="audiencia-page-content"
+    [attr.inert]="activeWidget() || activeVideo() ? '' : null"
+    [attr.aria-hidden]="activeWidget() || activeVideo() ? 'true' : null"
+  >
+    @if (config(); as cfg) {
+      <section
+        appReveal="fade"
+        [revealDuration]="700"
+        class="cdj-banner audience-hero mb-7 no-print sm:mb-8"
+        [attr.data-audience]="cfg.theme"
+        [style.--banner-bg]="cfg.bannerBg"
+        [style.--banner-focus]="cfg.bannerFocus"
+      >
+        <div class="cdj-banner__copy audience-hero__copy">
+          <h1>{{ cfg.bannerTitle }}</h1>
+          <p>{{ cfg.bannerTagline }}</p>
         </div>
-      </div>
-    </section>
-  }
-
-  <!-- ==========================================
-       SECCIÓN NIÑAS Y NIÑOS: Postales 3D
-       ========================================== -->
-  @if(audienceTheme() === 'kids'){
-
-    <!-- Postales interactivas Flip Card 3D comprimible -->
-    <section class="mb-6" [attr.data-audience]="audienceTheme()">
-      <div class="cdj-toggle-card">
-        <button
-          type="button"
-          class="cdj-toggle-header"
-          (click)="togglePostcards()"
-          [attr.aria-expanded]="isPostcardsOpen()"
-        >
-          <div class="flex items-center gap-3.5 overflow-hidden">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--aud)] flex-none">
-              <span class="material-symbols-rounded text-2xl">style</span>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Postales interactivas “El día que casi…”</h3>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
-                  {{casiPostcards.length}} postales
-                </span>
-              </div>
-              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
-                Recomendaciones ilustradas con superpoderes del Escuadrón Digital (frente y reverso 3D)
-              </p>
-            </div>
-          </div>
-          <div class="cdj-toggle-pill">
-            <span>{{isPostcardsOpen() ? 'Ocultar' : 'Ver postales'}}</span>
-            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isPostcardsOpen()">
-              expand_more
-            </span>
-          </div>
-        </button>
-
-        <div class="cdj-toggle-body" [class.is-open]="isPostcardsOpen()">
-          <div class="cdj-toggle-inner">
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 pt-2">
-              @for(postcard of casiPostcards; track postcard.id){
-                <app-flip-card [item]="postcard" />
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Descarga de postales en PDF comprimible -->
-    <section class="mb-12" [attr.data-audience]="audienceTheme()">
-      <div class="cdj-toggle-card">
-        <button
-          type="button"
-          class="cdj-toggle-header"
-          (click)="toggleDownloads()"
-          [attr.aria-expanded]="isDownloadsOpen()"
-        >
-          <div class="flex items-center gap-3.5 overflow-hidden">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-[color:var(--surface-soft)] text-[color:var(--aud)] flex-none">
-              <span class="material-symbols-rounded text-2xl">download_for_offline</span>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[color:var(--text-primary)]">Descarga las postales en PDF</h3>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[color:var(--surface-soft)] text-[color:var(--text-soft)]">
-                  {{casiPostcards.length}} archivos
-                </span>
-              </div>
-              <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
-                Archivos en alta resolución listos para imprimir y compartir
-              </p>
-            </div>
-          </div>
-          <div class="cdj-toggle-pill">
-            <span>{{isDownloadsOpen() ? 'Ocultar' : 'Ver descargables'}}</span>
-            <span class="material-symbols-rounded text-base transition-transform duration-200" [class.rotate-180]="isDownloadsOpen()">
-              expand_more
-            </span>
-          </div>
-        </button>
-
-        <div class="cdj-toggle-body" [class.is-open]="isDownloadsOpen()">
-          <div class="cdj-toggle-inner">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
-              @for(postcard of casiPostcards; track postcard.id){
-                <a [href]="postcard.pdfUrl" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 p-3 rounded-xl bg-[color:var(--surface-soft)] hover:bg-[color:var(--surface-mute)] transition-all text-xs font-medium text-[color:var(--text-primary)] border border-[color:var(--border-soft)] group">
-                  <span class="material-symbols-rounded text-base text-[color:var(--aud)] group-hover:scale-110 transition-transform">picture_as_pdf</span>
-                  <span class="truncate flex-1 font-semibold">{{postcard.id}}. {{postcard.title}}</span>
-                  <span class="material-symbols-rounded text-xs text-[color:var(--text-mute)]">open_in_new</span>
-                </a>
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  }
-
-  @if(showCasi()){
-    @if(casiCopy();as c){
-      <section class="mb-12" data-audience="casi">
-        <div class="surface card-hover rounded-2xl border border-[color:var(--border-soft)] p-5 sm:p-6 overflow-hidden">
-          <a routerLink="/el-dia-que-casi" [queryParams]="{perfil:casiProfile()}" class="group flex flex-col md:flex-row items-center gap-6">
-            <!-- Miniatura del video de El día que casi -->
-            <div class="relative w-full md:w-72 aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 flex-none shadow-md border border-[color:var(--border-soft)]">
-              <img [src]="casiThumb()" [alt]="c.t" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" (error)="onVideoThumbError($event)" loading="lazy">
-              <div class="absolute inset-0 bg-black/25 group-hover:bg-black/40 flex items-center justify-center transition-colors">
-                <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--c-casi)] text-slate-900 group-hover:text-white shadow-xl transition-all duration-300 group-hover:scale-110">
-                  <span translate="no" class="material-symbols-rounded text-2xl icon-fill">play_arrow</span>
-                </span>
-              </div>
-              <span class="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-black/75 backdrop-blur text-white px-2 py-0.5 rounded">
-                Serie animada
-              </span>
-            </div>
-            
-            <div class="flex-1 text-left">
-              <p class="eyebrow text-[color:var(--c-casi)]">{{c.k}}</p>
-              <h2 class="display-2 mt-1 text-[color:var(--text-primary)] group-hover:text-[color:var(--c-casi)] transition-colors">{{c.t}}</h2>
-              <p class="mt-2 text-xs sm:text-sm text-[color:var(--text-soft)] leading-relaxed max-w-2xl">{{c.d}}</p>
-              <div class="mt-4 flex items-center gap-2 text-xs sm:text-sm font-bold text-[color:var(--c-casi)]">
-                <span>Ver historias animadas</span>
-                <span class="material-symbols-rounded text-base group-hover:translate-x-1.5 transition-transform">arrow_forward</span>
-              </div>
-            </div>
-          </a>
+        <div class="cdj-banner__visual audience-hero__visual">
+          <img appImageLoader [src]="cfg.bannerSrc" [alt]="cfg.bannerAlt" />
         </div>
       </section>
     }
-  }
 
-  @if(showEduTips()){
-    @if(filteredLearning();as learning){
-      @if(learning.activities.length){
+    <section class="mb-7 no-print" [attr.data-audience]="audienceTheme()">
+      <p class="max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-lg">
+        {{ p.description }}
+      </p>
+    </section>
+
+    @if (p.subLevels.length > 1) {
+      <section class="stage-filter mb-10 no-print" [attr.data-audience]="audienceTheme()">
+        <p class="stage-label">
+          {{
+            audienceTheme() === 'families'
+              ? 'Edad que acompañas'
+              : audienceTheme() === 'teachers'
+                ? 'Nivel educativo'
+                : 'Etapa'
+          }}
+        </p>
+        <div class="stage-options">
+          @for (sub of p.subLevels; track sub.id) {
+            <button
+              type="button"
+              (click)="selectLevelAndScroll(sub.id)"
+              [class.is-active]="selectedLevel() === sub.id"
+              [attr.aria-pressed]="selectedLevel() === sub.id"
+            >
+              {{ sub.title }}
+            </button>
+          }
+        </div>
+      </section>
+    }
+
+    <div id="contenido-etapa" class="scroll-mt-24">
+      @if (guidance()?.accompaniment; as message) {
+        <p class="mb-7 max-w-3xl text-base leading-relaxed text-[color:var(--text-soft)] sm:text-lg" data-accompaniment>
+          <strong>{{ message.title }}</strong> {{ message.text }}
+        </p>
+      }
+    </div>
+
+    @if (guidance(); as g) {
+      <section class="guidance mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="mb-5 max-w-3xl">
+          <p class="eyebrow text-[color:var(--aud)]">{{ g.eyebrow }}</p>
+          <h2 class="display-2 mt-1">{{ g.title }}</h2>
+          @if (!g.accompaniment) {
+            <p class="mt-2 text-sm leading-relaxed text-[color:var(--text-soft)]">{{ g.intro }}</p>
+          }
+        </div>
+        <div class="guidance-list">
+          @for (item of g.items; track item.title; let i = $index) {
+            <div class="guidance-item" [class.is-open]="openGuidance() === i">
+              <button
+                type="button"
+                class="guidance-trigger"
+                (click)="toggleGuidance(i)"
+                [attr.aria-expanded]="openGuidance() === i"
+              >
+                <span>{{ item.title }}</span>
+                <span class="guidance-plus">{{ openGuidance() === i ? '−' : '+' }}</span>
+              </button>
+              <div class="guidance-collapse" [class.is-open]="openGuidance() === i">
+                <div class="guidance-body">
+                  <p>{{ item.summary }}</p>
+                  @if (item.watch) {
+                    <p><strong>Pon atención:</strong> {{ item.watch }}</p>
+                  }
+                  @if (item.action) {
+                    <p><strong>Qué puedes hacer:</strong> {{ item.action }}</p>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+    @if (audienceTheme() === 'families' && selectedLevel() === 'fam-6-11') {
+      <section
+        class="family-gaming-entry"
+        data-audience="families"
+        aria-labelledby="family-gaming-entry-title"
+      >
+        <img
+          src="/cuentos/primaria/mision/01-escena.webp"
+          alt="Leo y su abuela conversan junto al juego."
+          width="176"
+          height="132"
+          loading="lazy"
+        />
+        <div>
+          <p class="eyebrow">Guía para acompañar de 6 a 11 años</p>
+          <h2 id="family-gaming-entry-title">Videojuegos en casa</h2>
+          <p>
+            Casos de 9 a 11 años sobre juegos, privacidad y compras. De 6 a 8 años, acompaña la
+            elección del juego y la conversación con ejemplos sencillos.
+          </p>
+          <a routerLink="/p/familias/videojuegos"
+            >Abrir la guía <span aria-hidden="true">→</span></a
+          >
+        </div>
+      </section>
+    }
+
+    @if (audienceTheme() === 'families') {
+      <aside class="family-help" aria-labelledby="family-help-title" data-audience="families">
+        <h2 id="family-help-title">Si necesitas apoyo ante una situación real</h2>
+        <p>Escucha sin culpabilizar, evita difundir imágenes o mensajes y busca el canal que corresponda:</p>
+        <ul>
+          <li><strong>Peligro inmediato:</strong> llama al <a href="tel:911">911</a>.</li>
+          <li>
+            <strong>En la escuela:</strong> informa a la dirección del plantel y pide que activen su
+            protocolo. La
+            <a href="https://apprende.jalisco.gob.mx/direccion-equidad-prevencion-violencia/" target="_blank" rel="noopener noreferrer">SEJ orienta a la comunidad educativa</a>
+            (33 3030 7500, ext. 56797).
+          </li>
+          @if (selectedLevel() !== 'fam-18-22') {
+            <li>
+              <strong>Protección de menores de 18:</strong>
+              <a href="https://difjalisco.gob.mx/ppnna/atencion-derivacion-casos-maltrato-dictado-medidas-proteccion-NNA" target="_blank" rel="noopener noreferrer">PPNNA del DIF Jalisco</a>
+              (33 3030 8200, ext. 7102).
+            </li>
+          }
+          <li>
+            <strong>Posible delito:</strong>
+            <a href="https://fiscalia.jalisco.gob.mx/" target="_blank" rel="noopener noreferrer">Fiscalía de Jalisco</a>
+            (33 3837 6000) para consultar sobre la denuncia ante el Ministerio Público.
+          </li>
+        </ul>
+      </aside>
+    }
+
+    @if (levelResources().length) {
+      <section id="actividades-nivel" class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="section-line">
+          <p class="eyebrow text-[color:var(--aud)]">Empieza aquí</p>
+          <h2 class="display-2 mt-1">{{ getActiveLevelName() }}</h2>
+          <p>
+            Elige una actividad para esta etapa y pon en práctica lo que revisaste en la orientación.
+          </p>
+        </div>
+        <div
+          class="resource-grid grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+          [attr.data-covers]="audienceTheme() === 'kids' ? 'true' : null"
+        >
+          @for (item of levelResources(); track item.id) {
+            <app-resource-card [item]="item" (actionClicked)="onResourceActionClicked($event)" />
+          }
+        </div>
+      </section>
+    }
+
+    @if (adultStoryGroups().length) {
+      <div [attr.data-audience]="audienceTheme()">
+        <app-adult-story-collection
+          [groups]="adultStoryGroups()"
+          [school]="audienceTheme() === 'teachers'"
+          [requestedId]="requestedStoryId() ?? null"
+          (actionClicked)="onResourceActionClicked($event)"
+        />
+        @if (audienceTheme() === 'teachers') {
+          <p class="school-family-link">
+            Para continuar con las familias:
+            <a routerLink="/p/familias/videojuegos">Videojuegos en casa</a> reúne ejemplos y un
+            acuerdo para conversar.
+          </p>
+        }
+      </div>
+    }
+
+    @if (featuredVideoCards().length) {
+      <section class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="section-line">
+          <p class="eyebrow text-[color:var(--aud)]">Video y actividad</p>
+          <h2 class="display-2 mt-1">Para ver, conversar y actuar</h2>
+          <p>Cada video incluye una propuesta concreta para trabajar antes, durante y después.</p>
+        </div>
+        <div class="featured-video-list">
+          @for (card of featuredVideoCards(); track card.video.id) {
+            <article class="featured-video">
+              <div class="featured-video__intro">
+                <button
+                  type="button"
+                  (click)="openVideo(card.video)"
+                  class="featured-video__thumb"
+                  [attr.aria-label]="'Ver video: ' + card.video.title"
+                >
+                  <img
+                    [src]="'https://img.youtube.com/vi/' + card.video.youtubeId + '/hqdefault.jpg'"
+                    [alt]="card.video.title"
+                    loading="lazy"
+                  />
+                  <span class="featured-video__play"
+                    ><span class="material-symbols-rounded">play_arrow</span></span
+                  >
+                  <small>{{ card.video.durationLabel }}</small>
+                </button>
+                <div>
+                  <p class="eyebrow text-[color:var(--aud)]">
+                    {{ card.video.collection }} · {{ card.activity.duration }} de actividad
+                  </p>
+                  @if (audienceTheme() === 'families' && selectedLevel() === 'fam-18-22') {
+                    <p class="featured-video__audience">Video para la persona joven adulta. La familia puede acompañar si ella lo desea.</p>
+                  }
+                  <h3>{{ card.video.title }}</h3>
+                  <p>{{ card.video.description }}</p>
+                  <p class="featured-video__objective">
+                    <strong>Objetivo:</strong> {{ card.activity.objective }}
+                  </p>
+                  <div class="featured-video__actions">
+                    <button
+                      type="button"
+                      (click)="openVideo(card.video)"
+                      class="btn-primary"
+                      ><span class="material-symbols-rounded">play_circle</span
+                      ><span>Ver video aquí</span></button
+                    >
+                    @if (card.activity.helpRoute.href) {
+                      <a [routerLink]="card.activity.helpRoute.href" class="btn-secondary"
+                        ><span class="material-symbols-rounded">support_agent</span
+                        ><span>{{ card.activity.helpRoute.label }}</span></a
+                      >
+                    }
+                  </div>
+                </div>
+              </div>
+              <div class="featured-video__steps">
+                <div>
+                  <h4>Antes</h4>
+                  <ol>
+                    @for (step of card.activity.before; track step) {
+                      <li>{{ step }}</li>
+                    }
+                  </ol>
+                </div>
+                <div>
+                  <h4>Durante</h4>
+                  <ol>
+                    @for (step of card.activity.during; track step) {
+                      <li>{{ step }}</li>
+                    }
+                  </ol>
+                </div>
+                <div>
+                  <h4>Después</h4>
+                  <ol>
+                    @for (step of card.activity.after; track step) {
+                      <li>{{ step }}</li>
+                    }
+                  </ol>
+                </div>
+              </div>
+              <div class="featured-video__result">
+                <p><strong>Evidencia:</strong> {{ card.activity.evidence }}</p>
+                <p><strong>Si necesitan apoyo:</strong> {{ card.activity.helpRoute.guidance }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+
+    @if (showCasi()) {
+      @if (casiCopy(); as c) {
+        <section class="mb-12" data-audience="casi">
+          <div
+            class="surface card-hover rounded-2xl border border-[color:var(--border-soft)] p-5 sm:p-6 overflow-hidden"
+          >
+            <a
+              routerLink="/el-dia-que-casi"
+              [queryParams]="{ perfil: casiProfile() }"
+              class="group flex flex-col md:flex-row items-center gap-6"
+            >
+              <!-- Miniatura del video de El día que casi -->
+              <div
+                class="relative w-full md:w-72 aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 flex-none shadow-md border border-[color:var(--border-soft)]"
+              >
+                <img
+                  [src]="casiThumb()"
+                  [alt]="c.t"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  (error)="onVideoThumbError($event)"
+                  loading="lazy"
+                />
+                <div
+                  class="absolute inset-0 bg-black/25 group-hover:bg-black/40 flex items-center justify-center transition-colors"
+                >
+                  <span
+                    class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--c-casi)] text-slate-900 group-hover:text-white shadow-xl transition-all duration-300 group-hover:scale-110"
+                  >
+                    <span translate="no" class="material-symbols-rounded text-2xl icon-fill"
+                      >play_arrow</span
+                    >
+                  </span>
+                </div>
+                <span
+                  class="absolute top-2 left-2 text-[10px] font-bold uppercase tracking-wider bg-black/75 backdrop-blur text-white px-2 py-0.5 rounded"
+                >
+                  Serie animada
+                </span>
+              </div>
+
+              <div class="flex-1 text-left">
+                <p class="eyebrow text-[color:var(--c-casi)]">{{ c.k }}</p>
+                <h2
+                  class="display-2 mt-1 text-[color:var(--text-primary)] group-hover:text-[color:var(--c-casi)] transition-colors"
+                >
+                  {{ c.t }}
+                </h2>
+                <p
+                  class="mt-2 text-xs sm:text-sm text-[color:var(--text-soft)] leading-relaxed max-w-2xl"
+                >
+                  {{ c.d }}
+                </p>
+                <div
+                  class="mt-4 flex items-center gap-2 text-xs sm:text-sm font-bold text-[color:var(--c-casi)]"
+                >
+                  <span>Ver historias animadas</span>
+                  <span
+                    class="material-symbols-rounded text-base group-hover:translate-x-1.5 transition-transform"
+                    >arrow_forward</span
+                  >
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+      }
+    }
+
+    @if (filteredLearning(); as learning) {
+      @if (learning.activities.length) {
         <section class="mb-12" [attr.data-audience]="audienceTheme()">
           <div class="section-line">
-            <p class="eyebrow text-[color:var(--aud)]">Refuerza con Edutips</p>
-            <h2 class="display-2 mt-1">{{learning.title}}</h2>
-            <p>{{learning.description}}</p>
+            <p class="eyebrow text-[color:var(--aud)]">Videos y recursos</p>
+            <h2 class="display-2 mt-1">{{ learning.title }}</h2>
+            <p>{{ learning.description }}</p>
           </div>
-          <div class="learning-lines divide-y divide-[color:var(--border-soft)] border-t border-b border-[color:var(--border-soft)]">
-            @for(activity of learning.activities;track activity.slug){
-              <a [routerLink]="['/actividad',activity.slug]" [queryParams]="{perfil:profileQuery()}" class="group flex items-center justify-between gap-4 py-3.5 px-2 sm:px-3 rounded-xl hover:bg-[color:var(--surface-soft)] transition-colors">
+          <div
+            class="learning-lines divide-y divide-[color:var(--border-soft)] border-t border-b border-[color:var(--border-soft)]"
+          >
+            @for (activity of learning.activities; track activity.slug) {
+              <a
+                [routerLink]="['/actividad', activity.slug]"
+                [queryParams]="activityParams()"
+                class="group flex items-center justify-between gap-4 py-3.5 px-2 sm:px-3 rounded-xl hover:bg-[color:var(--surface-soft)] transition-colors"
+              >
                 <div class="flex items-center gap-3.5 sm:gap-4 flex-1 min-w-0">
-                  <!-- Miniatura del video de Edutip correspondiente al enlace -->
                   @if (getActivityThumb(activity.slug); as thumb) {
-                    <div class="relative w-28 sm:w-36 md:w-40 aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 flex-none shadow-sm border border-[color:var(--border-soft)]">
-                      <img [src]="thumb" [alt]="activity.title" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" (error)="onVideoThumbError($event)" loading="lazy">
-                      <div class="absolute inset-0 bg-black/20 group-hover:bg-black/35 flex items-center justify-center transition-colors">
-                        <span class="grid h-7 w-7 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud)] text-slate-900 group-hover:text-white shadow transition-all duration-200 group-hover:scale-110">
-                          <span translate="no" class="material-symbols-rounded text-base icon-fill">play_arrow</span>
+                    <div
+                      class="relative w-28 sm:w-36 md:w-40 aspect-[16/9] rounded-xl overflow-hidden bg-slate-900 flex-none shadow-sm border border-[color:var(--border-soft)]"
+                    >
+                      <img
+                        [src]="thumb"
+                        [alt]="activity.title"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        (error)="onVideoThumbError($event)"
+                        loading="lazy"
+                      />
+                      <div
+                        class="absolute inset-0 bg-black/20 group-hover:bg-black/35 flex items-center justify-center transition-colors"
+                      >
+                        <span
+                          class="grid h-7 w-7 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--aud)] text-slate-900 group-hover:text-white shadow transition-all duration-200 group-hover:scale-110"
+                        >
+                          <span translate="no" class="material-symbols-rounded text-base icon-fill"
+                            >play_arrow</span
+                          >
                         </span>
                       </div>
                       @if (getActivityDuration(activity.slug); as dur) {
-                        <span class="absolute bottom-1 right-1 text-[9px] font-bold bg-black/75 backdrop-blur text-white px-1.5 py-0.5 rounded">
-                          {{dur}}
-                        </span>
+                        <span
+                          class="absolute bottom-1 right-1 text-[9px] font-bold bg-black/75 backdrop-blur text-white px-1.5 py-0.5 rounded"
+                          >{{ dur }}</span
+                        >
                       }
                     </div>
                   }
                   <div class="min-w-0 flex-1">
-                    <small class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[color:var(--aud)] line-clamp-1">{{activity.kicker}}</small>
-                    <strong class="text-xs sm:text-sm font-bold text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors line-clamp-1 sm:line-clamp-2 mt-0.5 block">{{activity.title}}</strong>
-                    @if(activity.description){
-                      <p class="text-[11px] text-[color:var(--text-soft)] line-clamp-1 sm:line-clamp-2 mt-0.5 hidden sm:block leading-snug">{{activity.description}}</p>
-                    }
+                    <small
+                      class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[color:var(--aud)] line-clamp-1"
+                      >{{ activity.kicker }}{{ isStageActivity(activity.slug) ? ' · Caso preparado · Sin cuentas' : '' }}</small
+                    >
+                    <strong
+                      class="text-xs sm:text-sm font-bold text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors line-clamp-1 sm:line-clamp-2 mt-0.5 block"
+                      >{{ activity.title }}</strong
+                    >
+                    <p
+                      class="text-[11px] text-[color:var(--text-soft)] line-clamp-1 sm:line-clamp-2 mt-0.5 hidden sm:block leading-snug"
+                    >
+                      {{ activity.description }}
+                    </p>
                   </div>
                 </div>
-                <span class="text-[color:var(--aud)] font-bold text-sm sm:text-base flex-none group-hover:translate-x-1.5 transition-transform flex items-center gap-1">
-                  <span class="hidden md:inline text-xs">Ver cápsula</span>
-                  <span>→</span>
+                <span
+                  class="text-[color:var(--aud)] font-bold text-sm sm:text-base flex-none group-hover:translate-x-1.5 transition-transform flex items-center gap-1"
+                >
+                  <span class="hidden md:inline text-xs">Ver recurso</span><span>→</span>
                 </span>
               </a>
             }
@@ -396,38 +429,342 @@
         </section>
       }
     }
-  }
+
+    @if (
+      (audienceTheme() === 'families' || audienceTheme() === 'teachers') &&
+      featuredVideoDownloads().length
+    ) {
+      <section class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="section-line">
+          <p class="eyebrow text-[color:var(--aud)]">Descargables de los videos</p>
+          <h2 class="display-2 mt-1">Materiales para continuar la actividad</h2>
+          <p>Documentos complementarios disponibles para esta etapa.</p>
+        </div>
+        <div class="download-list">
+          @for (download of featuredVideoDownloads(); track download.id) {
+            <a
+              [href]="download.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="download-line"
+              ><span class="material-symbols-rounded text-[color:var(--aud)]">picture_as_pdf</span
+              ><span>{{ download.title }}</span
+              ><span class="material-symbols-rounded text-sm">download</span></a
+            >
+          }
+        </div>
+      </section>
+    }
+
+    @if (audienceTheme() === 'families' && familiesMissions().length) {
+      <section class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="section-line">
+          <p class="eyebrow text-[color:var(--aud)]">Material complementario para familias</p>
+          <h2 class="display-2 mt-1">Misiones para familias y personas cuidadoras</h2>
+          <p>Estas misiones son propuestas para conversar en familia. Revisa el contenido y adapta los ejemplos a la edad de quien acompañas.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+          @for (mision of familiesMissions(); track mision.id) {
+            <article
+              class="surface card-hover overflow-hidden rounded-2xl border border-[color:var(--border-soft)] flex flex-col sm:flex-row"
+            >
+              <div
+                class="w-full sm:w-44 h-56 sm:h-auto bg-[color:var(--surface-soft)] flex-none overflow-hidden relative"
+              >
+                <img
+                  [src]="mision.coverUrl"
+                  [alt]="mision.title"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <span
+                  class="absolute top-2.5 left-2.5 text-[0.65rem] font-bold uppercase tracking-wider bg-black/75 text-white px-2 py-0.5 rounded"
+                  >{{ mision.badge }}</span
+                >
+              </div>
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span
+                    class="text-xs font-bold text-[color:var(--aud)] uppercase tracking-wider"
+                    >{{ mision.subtitle }}</span
+                  >
+                  <h3 class="text-lg font-bold mt-0.5">{{ mision.title }}</h3>
+                  <p class="text-xs text-[color:var(--text-soft)] mt-2 leading-relaxed">
+                    {{ mision.description }}
+                  </p>
+                </div>
+                <a
+                  [href]="mision.pdfUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-primary text-xs mt-4 flex items-center justify-center gap-1.5"
+                  ><span class="material-symbols-rounded text-base">download</span
+                  ><span>Descargar misión (PDF)</span></a
+                >
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+
+    @if (audienceTheme() === 'teachers' && teachersMissions().length) {
+      <section class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="section-line">
+          <p class="eyebrow text-[color:var(--aud)]">Descargables para este nivel</p>
+          <h2 class="display-2 mt-1">Misiones digitales para docentes</h2>
+          <p>Guías disponibles para el nivel educativo seleccionado.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+          @for (mision of teachersMissions(); track mision.id) {
+            <article
+              class="surface card-hover overflow-hidden rounded-2xl border border-[color:var(--border-soft)] flex flex-col sm:flex-row"
+            >
+              <div
+                class="w-full sm:w-44 h-56 sm:h-auto bg-[color:var(--surface-soft)] flex-none overflow-hidden relative"
+              >
+                <img
+                  [src]="mision.coverUrl"
+                  [alt]="mision.title"
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <span
+                  class="absolute top-2.5 left-2.5 text-[0.65rem] font-bold uppercase tracking-wider bg-black/75 text-white px-2 py-0.5 rounded"
+                  >{{ mision.badge }}</span
+                >
+              </div>
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <span
+                    class="text-xs font-bold text-[color:var(--aud)] uppercase tracking-wider"
+                    >{{ mision.subtitle }}</span
+                  >
+                  <h3 class="text-lg font-bold mt-0.5">{{ mision.title }}</h3>
+                  <p class="text-xs text-[color:var(--text-soft)] mt-2 leading-relaxed">
+                    {{ mision.description }}
+                  </p>
+                </div>
+                <a
+                  [href]="mision.pdfUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-primary text-xs mt-4 flex items-center justify-center gap-1.5"
+                  ><span class="material-symbols-rounded text-base">download</span
+                  ><span>Descargar misión (PDF)</span></a
+                >
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+
+    @if (audienceTheme() === 'kids' && interactivePostcards().length) {
+      <section class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="cdj-toggle-card">
+          <button
+            type="button"
+            class="cdj-toggle-header"
+            (click)="togglePostcards()"
+            [attr.aria-expanded]="isPostcardsOpen()"
+          >
+            <div class="flex items-center gap-3.5">
+              <span class="material-symbols-rounded text-2xl text-[color:var(--aud)]">style</span>
+              <div>
+                <h3 class="text-base font-bold">Más recursos: postales para explorar</h3>
+                <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
+                  Consejos seleccionados para {{ getActiveLevelName().toLowerCase() }}
+                </p>
+              </div>
+            </div>
+            <div class="cdj-toggle-pill">
+              <span>{{ isPostcardsOpen() ? 'Ocultar' : 'Ver postales' }}</span
+              ><span
+                class="material-symbols-rounded text-base"
+                [class.rotate-180]="isPostcardsOpen()"
+                >expand_more</span
+              >
+            </div>
+          </button>
+          <div class="cdj-toggle-body" [class.is-open]="isPostcardsOpen()">
+            <div class="cdj-toggle-inner">
+              <div class="postcard-grid pt-2">
+                @for (postcard of interactivePostcards(); track postcard.id) {
+                  <details class="postcard-preview">
+                    <summary>
+                      <img
+                        [src]="postcard.frontImgUrl"
+                        [alt]="postcard.title"
+                        loading="lazy"
+                      /><span>{{ postcard.title }}</span
+                      ><small>Ver consejo</small>
+                    </summary>
+                    <div class="postcard-advice">
+                      <img
+                        [src]="postcard.backImgUrl"
+                        [alt]="'Consejo: ' + postcard.title"
+                        loading="lazy"
+                      />
+                      <p>{{ postcard.shortAdvice }}</p>
+                    </div>
+                  </details>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+
+    @if (audienceTheme() === 'teachers') {
+      <section class="mb-12" [attr.data-audience]="audienceTheme()">
+        <div class="cdj-toggle-card">
+          <button
+            type="button"
+            class="cdj-toggle-header"
+            (click)="toggleBooks()"
+            [attr.aria-expanded]="isBooksOpen()"
+          >
+            <div class="flex items-center gap-3.5">
+              <span class="material-symbols-rounded text-2xl text-[color:var(--aud)]"
+                >auto_stories</span
+              >
+              <div>
+                <h3 class="text-base font-bold">Más recursos: marcos de referencia</h3>
+                <p class="text-xs text-[color:var(--text-soft)] mt-0.5">
+                  UNESCO, DigComp 2.2 e investigaciones pedagógicas
+                </p>
+              </div>
+            </div>
+            <div class="cdj-toggle-pill">
+              <span>{{ isBooksOpen() ? 'Ocultar' : 'Ver publicaciones' }}</span
+              ><span class="material-symbols-rounded text-base" [class.rotate-180]="isBooksOpen()"
+                >expand_more</span
+              >
+            </div>
+          </button>
+          <div class="cdj-toggle-body" [class.is-open]="isBooksOpen()">
+            <div class="cdj-toggle-inner">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+                @for (book of teachersBooks; track book.id) {
+                  <article
+                    class="surface overflow-hidden rounded-2xl border border-[color:var(--border-soft)] flex flex-col"
+                  >
+                    <div
+                      class="relative h-56 bg-[color:var(--surface-soft)] flex items-center justify-center p-4"
+                    >
+                      <img
+                        [src]="book.coverUrl"
+                        [alt]="book.title"
+                        class="h-full w-auto max-w-full object-contain rounded"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <span
+                          class="text-xs font-bold text-[color:var(--aud)] uppercase tracking-wider"
+                          >{{ book.institution }}</span
+                        >
+                        <h4 class="text-base font-bold mt-1">{{ book.title }}</h4>
+                        <p class="text-xs text-[color:var(--text-soft)] mt-2 leading-relaxed">
+                          {{ book.description }}
+                        </p>
+                      </div>
+                      <a
+                        [href]="book.pdfUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-secondary text-xs mt-4 flex items-center justify-center gap-1.5"
+                        ><span class="material-symbols-rounded text-base">picture_as_pdf</span
+                        ><span>Consultar publicación</span></a
+                      >
+                    </div>
+                  </article>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+  </div>
 
   <!-- Modal interactivo de widgets -->
-  @if(activeWidget();as widget){
-    <div class="widget-modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6" role="dialog" aria-modal="true">
-      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" (click)="closeWidgetModal()"></div>
-      @if(isFullscreenWidget()){
-        <button type="button" (click)="closeWidgetModal()" class="fixed top-4 right-4 z-[99999] grid h-10 w-10 place-items-center rounded-full bg-black/70 hover:bg-black text-white shadow-2xl border border-white/25 backdrop-blur transition-transform hover:scale-105" aria-label="Cerrar">×</button>
-        <ng-container [ngComponentOutlet]="widget"/>
-      }@else if(isBookWidget()){
-        <div class="widget-modal-card relative w-[min(1060px,96vw)] max-h-[92vh] flex items-center justify-center">
-          <button type="button" (click)="closeWidgetModal()" class="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 z-50 grid h-10 w-10 place-items-center rounded-full bg-black/75 hover:bg-black text-white shadow-xl border border-white/20 backdrop-blur transition-transform hover:scale-110 cursor-pointer" aria-label="Cerrar">×</button>
-          <ng-container [ngComponentOutlet]="widget"/>
+  @if (activeWidget(); as widget) {
+    <div
+      #widgetDialog
+      class="widget-modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="widget-dialog-title"
+      tabindex="-1"
+      (audiobook-close-requested)="onAudiobookCloseRequested($event)"
+    >
+      <div
+        class="widget-modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm"
+        aria-hidden="true"
+        (click)="closeWidgetModal()"
+      ></div>
+      <h2 id="widget-dialog-title" class="sr-only">{{ activeWidgetTitle() }}</h2>
+      @if (isFullscreenWidget()) {
+        <button
+          type="button"
+          (click)="closeWidgetModal()"
+          class="fixed top-4 right-4 z-[99999] grid h-10 w-10 place-items-center rounded-full bg-black/70 hover:bg-black text-white shadow-2xl border border-white/25 backdrop-blur transition-transform hover:scale-105"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+        <ng-container [ngComponentOutlet]="widget" />
+      } @else if (isBookWidget()) {
+        <div
+          class="widget-modal-card relative w-[min(1060px,96vw)] max-h-[92vh] flex items-center justify-center"
+        >
+          <button
+            type="button"
+            (click)="closeWidgetModal()"
+            class="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 z-50 grid h-10 w-10 place-items-center rounded-full bg-black/75 hover:bg-black text-white shadow-xl border border-white/20 backdrop-blur transition-transform hover:scale-110 cursor-pointer"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
+          <ng-container [ngComponentOutlet]="widget" />
         </div>
-      }@else if(isPhoneWidget()){
+      } @else if (isPhoneWidget()) {
         <div class="widget-modal-card w-fit max-w-full flex items-center justify-center">
-          <button type="button" (click)="closeWidgetModal()" class="absolute -top-3 -right-3 z-50 grid h-10 w-10 place-items-center rounded-full bg-black/75 hover:bg-black text-white shadow-xl border border-white/20 backdrop-blur transition-transform hover:scale-110" aria-label="Cerrar">×</button>
-          <ng-container [ngComponentOutlet]="widget"/>
+          <button
+            type="button"
+            (click)="closeWidgetModal()"
+            class="absolute -top-3 -right-3 z-50 grid h-10 w-10 place-items-center rounded-full bg-black/75 hover:bg-black text-white shadow-xl border border-white/20 backdrop-blur transition-transform hover:scale-110"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
+          <ng-container [ngComponentOutlet]="widget" />
         </div>
-      }@else{
+      } @else {
         <div class="widget-modal-card w-full max-w-4xl">
-          <button type="button" (click)="closeWidgetModal()" class="widget-modal-close" aria-label="Cerrar">×</button>
+          <button
+            type="button"
+            (click)="closeWidgetModal()"
+            class="widget-modal-close"
+            aria-label="Cerrar"
+          >
+            ×
+          </button>
           <div class="widget-modal-panel max-h-[88vh] w-full overflow-y-auto rounded-[2rem]">
-            <ng-container [ngComponentOutlet]="widget"/>
+            <ng-container [ngComponentOutlet]="widget" />
           </div>
         </div>
       }
     </div>
   }
-
-
-}@else{
+  @if (activeVideo(); as video) {
+    <app-video-modal [video]="video" (close)="activeVideo.set(null)" />
+  }
+} @else {
   <section class="mb-12 p-12 text-center">
     <h2 class="text-2xl font-black">Página no encontrada</h2>
     <a routerLink="/" class="btn-primary mt-6">Volver al inicio</a>

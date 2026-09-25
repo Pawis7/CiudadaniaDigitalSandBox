@@ -51,9 +51,33 @@ export const PROFILE_CONTEXTS: Record<ExperienceProfile, ProfileContext> = {
 
 const ch = (label: string, feedback: string, preferred = false): ExperienceChoice => ({ label, feedback, preferred });
 
-type Override = Partial<Pick<LearningExperience, 'prompt' | 'firstQuestion' | 'firstChoices' | 'postScenario' | 'postChoices' | 'actionTitle' | 'actionOptions'>>;
+type Override = Partial<Pick<LearningExperience, 'title' | 'subtitle' | 'prompt' | 'firstQuestion' | 'firstChoices' | 'postScenario' | 'postChoices' | 'takeaways' | 'actionTitle' | 'actionOptions'>>;
 
 const OVERRIDES: Record<string, Override> = {
+  'kids:uso-con-intencion': {
+    title: '¿Para qué vamos a usar la tableta?',
+    subtitle: 'Elegir, crear y hacer pausas',
+    prompt: 'Quieres dibujar una mariposa. En la mesa tienes colores, papel y una tableta. Bit quiere ayudarte a observar sus alas.',
+    firstQuestion: '¿Qué plan les ayuda a hacer el dibujo?',
+    firstChoices: [
+      'Mirar una foto de una mariposa y después dibujar sus alas',
+      'Abrir muchas cosas aunque no ayuden al dibujo',
+      'Elegir el primer video que aparezca, aunque sea de otro tema',
+    ],
+    postScenario: 'Ahora Bit quiere hacer un avión de papel. Ya terminó un video corto que explica los dobleces y aparecen más videos para ver. Tiene el papel listo sobre la mesa.',
+    postChoices: [
+      ch('Seguir viendo todo lo que aparece.', 'Antes de abrir otro video, recuerda lo que querías hacer: ya puedes probar los dobleces con tu papel.'),
+      ch('Pausar y construir el avión. Si un doblez no sale, volver a mirar ese paso.', 'Usas el video para aprender algo y después lo pones en práctica. Puedes volver a un paso cuando lo necesites.', true),
+      ch('Abrir otro juego mientras intento doblar el papel.', 'Atender a dos actividades a la vez puede hacer más difícil seguir los pasos. Puedes pausar el juego y probar tu avión.'),
+    ],
+    takeaways: [
+      'Antes de encender una pantalla, piensa qué quieres hacer.',
+      'Una foto, un audio o un video pueden ayudarte a crear algo.',
+      'Al terminar puedes guardar la pantalla, jugar, moverte o compartir lo que hiciste.',
+    ],
+    actionTitle: 'Elige algo que quieras crear',
+    actionOptions: ['Dibujar un animal', 'Construir algo de papel', 'Aprender una canción', 'Inventar un juego con movimiento'],
+  },
   'kids:tecnologia-en-familia': {
     prompt: 'Termina un cuento que viste con una persona adulta y la plataforma empieza a reproducir otra historia automáticamente.',
     firstQuestion: '¿Qué podrían hacer juntos antes de seguir?',
@@ -108,6 +132,33 @@ const OVERRIDES: Record<string, Override> = {
       ch('Entregar el teléfono molesto y participar como castigo.', 'La pausa funciona mejor como decisión compartida que como sanción.'),
     ],
   },
+  'families:retos-virales': {
+    prompt: 'Lean este caso ficticio en familia: un grupo propone grabar y publicar un reto para conseguir visitas. No hace falta abrir una red social ni grabar nada.',
+    firstQuestion: '¿Qué conversarían antes de responder al grupo?',
+    firstChoices: [
+      'Si conseguirían muchas visitas',
+      'Si hay riesgos, presión o alguien podría salir dañado',
+      'Si todas las demás personas ya lo hicieron',
+    ],
+    postScenario: 'En el caso, proponen grabar una broma a una persona desconocida para subirla a una red social. Analicen la idea sin realizarla ni publicarla.',
+    postChoices: [
+      ch('Grabar la broma para ganar popularidad.', 'La popularidad no justifica dañar o exponer a otra persona.'),
+      ch('Decir que no, explicar por qué y acudir a una persona adulta si continúa la presión.', 'Poner un límite y pedir apoyo protege la seguridad y la dignidad de todos.', true),
+      ch('Participar solo como camarógrafo.', 'Grabar y difundir también contribuye a la situación de riesgo.'),
+    ],
+    actionTitle: 'Acuerden una respuesta sin usar redes sociales',
+    actionOptions: ['Decir que no', 'Salir de la situación', 'Pedir ayuda adulta', 'Proponer una actividad presencial segura'],
+  },
+  'families:fam-0-5:tecnologia-en-familia': {
+    postScenario: 'Termina un cuento breve que vieron juntos con una niña o un niño pequeño y la plataforma inicia otra historia automáticamente.',
+    actionOptions: ['Preguntar qué sintió un personaje', 'Dibujar la historia', 'Jugar a representarla', 'Compartir una canción'],
+  },
+  'families:fam-12-14:fraudes-estafas': {
+    prompt: 'Llega al correo de una persona adulta un aviso urgente: un enlace le pide la contraseña para no perder el acceso a su cuenta.',
+    postScenario: 'Un correo que parece del soporte de una cuenta adulta pide iniciar sesión desde un enlace. Analicen juntos las señales de engaño sin abrirlo.',
+    actionTitle: 'Revisen una cuenta adulta o un servicio adecuado para la edad',
+    actionOptions: ['Activar verificación en dos pasos', 'Cambiar una contraseña débil', 'Revisar sesiones de una cuenta adulta', 'Verificar un mensaje sospechoso'],
+  },
 };
 
 export function normalizeProfile(value: string | null): ExperienceProfile {
@@ -118,17 +169,19 @@ export function profileContext(profile: ExperienceProfile): ProfileContext {
   return PROFILE_CONTEXTS[profile];
 }
 
-export function adaptExperience(base: LearningExperience | undefined, profile: ExperienceProfile): LearningExperience | undefined {
+export function adaptExperience(base: LearningExperience | undefined, profile: ExperienceProfile, stage?: string | null): LearningExperience | undefined {
   if (!base) return undefined;
   const specific = OVERRIDES[`${profile}:${base.slug}`] ?? {};
+  const stageSpecific = stage ? OVERRIDES[`${profile}:${stage}:${base.slug}`] ?? {} : {};
   if (profile === 'teachers') {
     return {
       ...base,
       ...specific,
+      ...stageSpecific,
       audience: 'Docentes',
       actionTitle: 'Llévalo al aula',
       actionOptions: ['Pregunta detonadora', 'Discusión en parejas', 'Acuerdo de grupo', 'Cierre con una acción concreta'],
     };
   }
-  return { ...base, ...specific, audience: PROFILE_CONTEXTS[profile].label };
+  return { ...base, ...specific, ...stageSpecific, audience: PROFILE_CONTEXTS[profile].label };
 }

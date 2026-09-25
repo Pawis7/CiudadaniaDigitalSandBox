@@ -58,18 +58,6 @@ export class HeroSectionComponent implements OnInit, OnDestroy {
       ctaHref: '/edutips',
       audience: 'edutips',
     },
-    {
-      id: 'ayuda-digital',
-      badge: 'Orientación',
-      badgeIcon: 'support_agent',
-      title: 'Ayuda Digital',
-      description:
-        'Si recibiste un fraude, acoso o algo no está bien, no estás solo: aquí encuentras a quién acudir.',
-      image: '/portadas/ayuda-digital.webp',
-      ctaLabel: 'Pedir ayuda',
-      ctaHref: '/ayuda',
-      audience: 'help',
-    },
   ];
 
   currentIndex = signal(0);

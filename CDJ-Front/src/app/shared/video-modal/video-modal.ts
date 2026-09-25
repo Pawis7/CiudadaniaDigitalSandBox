@@ -1,7 +1,9 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   Input,
   OnDestroy,
@@ -47,19 +49,25 @@ export interface VideoModalData {
   templateUrl: './video-modal.html',
   styleUrl: './video-modal.css',
 })
-export class VideoModalComponent implements OnInit, OnDestroy {
+export class VideoModalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('panel') panelRef!: ElementRef<HTMLElement>;
+  @ViewChild('panelWrap') panelWrapRef!: ElementRef<HTMLElement>;
+  @ViewChild('closeButton') closeButtonRef!: ElementRef<HTMLButtonElement>;
   @ViewChild('meta') metaRef!: ElementRef<HTMLElement>;
 
   private sanitizer = inject(DomSanitizer);
   private document = inject(DOCUMENT);
 
   private _video = signal<VideoModalData | null>(null);
+  private previouslyFocused: HTMLElement | null = null;
   @Input({ required: true }) set video(v: VideoModalData | null) { this._video.set(v); }
 
   close = output<void>();
 
   ngOnInit() {
+    this.previouslyFocused = this.document.activeElement instanceof HTMLElement
+      ? this.document.activeElement
+      : null;
     this.document.body.classList.add('no-scroll');
   }
 
@@ -67,6 +75,8 @@ export class VideoModalComponent implements OnInit, OnDestroy {
   private cleanupListeners: (() => void)[] = [];
 
   ngAfterViewInit() {
+    setTimeout(() => this.closeButtonRef?.nativeElement.focus(), 0);
+
     if (window.innerWidth < 640 && this.panelRef) {
       const el = this.panelRef.nativeElement;
       const ts = (e: TouchEvent) => this.onTouchStart(e);
@@ -88,6 +98,50 @@ export class VideoModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.document.body.classList.remove('no-scroll');
     this.cleanupListeners.forEach(fn => fn());
+    const returnTarget = this.previouslyFocused;
+    if (returnTarget?.isConnected) {
+      queueMicrotask(() => returnTarget.focus());
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onDocumentKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.onBackdropClick();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+    const container = this.panelWrapRef?.nativeElement;
+    if (!container) return;
+
+    const focusable = Array.from(container.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), a[href], iframe, input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter((element) => element.getClientRects().length > 0);
+
+    if (!focusable.length) {
+      event.preventDefault();
+      this.closeButtonRef?.nativeElement.focus();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = this.document.activeElement;
+    if (!active || !container.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+      return;
+    }
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   readonly videoId = computed(() => {
@@ -216,6 +270,7 @@ export class VideoModalComponent implements OnInit, OnDestroy {
   }
 
   onBackdropClick() {
+    if (this.closing()) return;
     if (window.innerWidth < 640) {
       this.closing.set(true);
       setTimeout(() => {
