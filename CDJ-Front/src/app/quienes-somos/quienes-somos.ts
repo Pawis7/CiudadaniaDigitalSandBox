@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { RevealDirective } from '../shared/scroll-reveal/scroll-reveal.directive';
+import { ImageLoaderDirective } from '../shared/image-loader/image-loader.directive';
 
-@Component({selector:'app-quienes-somos',standalone:true,imports:[CommonModule,RouterLink,RevealDirective],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./quienes-somos.html',styleUrl:'./quienes-somos.css'})
+@Component({selector:'app-quienes-somos',standalone:true,imports:[CommonModule,RouterLink,RevealDirective,ImageLoaderDirective],changeDetection:ChangeDetectionStrategy.OnPush,templateUrl:'./quienes-somos.html',styleUrl:'./quienes-somos.css'})
 export class QuienesSomosComponent {
   editorial={
     title:'Quiénes somos',

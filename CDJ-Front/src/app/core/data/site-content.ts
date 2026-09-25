@@ -30,7 +30,7 @@ export const HERO: Hero = {
     'Aprendemos, convivimos y participamos en entornos digitales de forma segura, responsable y respetuosa. Para niñas, niños, adolescentes, familias y docentes.',
   primaryCta: { label: 'Explorar recursos', href: '/recursos' },
   secondaryCta: { label: 'Entrar por perfil', href: '/p/adolescentes' },
-  imageUrl: '/banners/CD_Main.webp',
+  imageUrl: '/banners/CD_Main.jpg',
   imageAlt: 'Comunidad aprendiendo en entornos digitales',
 };
 
@@ -176,7 +176,7 @@ export const SECONDARY_BANNER: Banner = {
   title: 'La ciudadanía digital nos conecta y nos responsabiliza.',
   description:
     'Cada acción en línea tiene impacto. Elige informarte, respetar y participar para construir una comunidad mejor.',
-  imageUrl: '/banners/CD_Main.webp',
+  imageUrl: '/banners/CD_Main.jpg',
   ctaLabel: 'Explorar recursos',
   ctaHref: '/recursos',
   audience: 'cdj',
@@ -392,7 +392,7 @@ export const VIDEO_SERIES: VideoSeries[] = [
     description:
       'Historias cortas donde personajes evitan riesgos digitales tomando buenas decisiones.',
     coverImageUrl: '/portadas/el-dia-que-casi.webp',
-    bannerImageUrl: '/banners/CD_ElDiaQueCasi.webp',
+    bannerImageUrl: '/banners/CD_ElDiaQueCasi.jpg',
     accentClass: 'from-amber-400 to-orange-500',
     iconBgClass: 'bg-[color:var(--c-casi)]',
     icon: 'star',
@@ -457,12 +457,13 @@ export const VIDEO_SERIES: VideoSeries[] = [
     id: 'pequenos_cibernautas',
     slug: 'pequenos-cibernautas',
     title: 'Pequeños Cibernautas',
-    tagline: 'Aventuras digitales para niñas y niños',
+    tagline: 'Juegos y actividades para tus primeros pasos en internet',
     description:
-      'Historias divertidas para aprender a navegar en internet con seguridad, imaginación y respeto.',
+      'Juegos interactivos, actividades y materiales prácticos para aprender a cuidarte, convivir y divertirte en el mundo digital.',
     coverImageUrl: '/portadas/CD_PC.webp',
-    accentClass: 'from-fuchsia-500 to-pink-500',
-    iconBgClass: 'bg-[color:var(--c-kids)]',
+    bannerImageUrl: '/banners/CD_Cibernautas.png',
+    accentClass: 'from-[#372767] to-indigo-950',
+    iconBgClass: 'bg-[#372767]',
     icon: 'smart_toy',
     episodeCount: 0,
     audience: 'kids',

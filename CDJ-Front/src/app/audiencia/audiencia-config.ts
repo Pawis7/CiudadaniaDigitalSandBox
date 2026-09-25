@@ -14,7 +14,7 @@ export interface AudienceConfig {
 export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   'ninas-y-ninos': {
     theme: 'kids',
-    bannerSrc: '/banners/CD_NinasYNinos.webp',
+    bannerSrc: '/banners/CD_NinasYNinos.jpg',
     bannerAlt: 'Ciudadanía Digital Jalisco — Niñas y niños',
     bannerBg: '#8f489d',
     bannerTitle: 'Niñas y niños',
@@ -29,7 +29,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   },
   adolescentes: {
     theme: 'teens',
-    bannerSrc: '/banners/CD_Adolescentes.webp',
+    bannerSrc: '/banners/CD_Adolescentes.jpg',
     bannerAlt: 'Ciudadanía Digital Jalisco — Adolescentes',
     bannerBg: '#046938',
     bannerTitle: 'Adolescentes',
@@ -40,7 +40,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   },
   familias: {
     theme: 'families',
-    bannerSrc: '/banners/CD_Familias.webp',
+    bannerSrc: '/banners/CD_Familias.jpg',
     bannerAlt: 'Ciudadanía Digital Jalisco — Familias',
     bannerBg: '#e81851',
     bannerTitle: 'Familias',
@@ -56,7 +56,7 @@ export const AUDIENCE_CONFIG: Record<string, AudienceConfig> = {
   },
   docentes: {
     theme: 'teachers',
-    bannerSrc: '/banners/CD_Docentes.webp',
+    bannerSrc: '/banners/CD_Docentes.jpg',
     bannerAlt: 'Ciudadanía Digital Jalisco — Docentes',
     bannerBg: '#f6842b',
     bannerTitle: 'Docentes',

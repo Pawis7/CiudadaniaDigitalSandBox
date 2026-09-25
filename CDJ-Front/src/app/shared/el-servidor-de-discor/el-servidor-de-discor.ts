@@ -39,7 +39,7 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
 
   // Poster image source; the layout falls back to its CSS treatment if loading fails.
   readonly posterSources = [
-    '/banners/CD_DiscorPoster.webp'
+    '/banners/CD_DiscorPoster.jpg'
   ];
   readonly posterIndex = signal<number>(0);
   readonly posterSrc = computed(() => this.posterSources[this.posterIndex()]);

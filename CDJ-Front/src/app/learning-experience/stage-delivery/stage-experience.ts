@@ -61,11 +61,11 @@ export class StageExperienceComponent {
     const profile = this.delivery()?.option.profile;
     const key = profile ?? (this.slug() === 'fomo' ? 'teens' : this.slug() === 'roblox-seguridad' ? 'families' : 'screens');
     const banners: Record<string, { src: string; bg: string; alt: string }> = {
-      kids: { src: '/banners/CD_NinasYNinos.webp', bg: '#8f489d', alt: 'Personajes de la sección Niñas y niños de Ciudadanía Digital.' },
-      teens: { src: '/banners/CD_Adolescentes.webp', bg: '#07663d', alt: 'Jóvenes de la sección Adolescentes de Ciudadanía Digital.' },
-      families: { src: '/banners/CD_Familias.webp', bg: '#e90e4c', alt: 'Una familia comparte una actividad con una computadora.' },
-      teachers: { src: '/banners/CD_Docentes.webp', bg: '#f58423', alt: 'Docentes de Ciudadanía Digital acompañan el aprendizaje.' },
-      screens: { src: '/banners/CD_PantallasSeguras.webp', bg: '#022f53', alt: 'Una familia acompañada en el uso de entornos digitales.' },
+      kids: { src: '/banners/CD_NinasYNinos.jpg', bg: '#8f489d', alt: 'Personajes de la sección Niñas y niños de Ciudadanía Digital.' },
+      teens: { src: '/banners/CD_Adolescentes.jpg', bg: '#07663d', alt: 'Jóvenes de la sección Adolescentes de Ciudadanía Digital.' },
+      families: { src: '/banners/CD_Familias.jpg', bg: '#e90e4c', alt: 'Una familia comparte una actividad con una computadora.' },
+      teachers: { src: '/banners/CD_Docentes.jpg', bg: '#f58423', alt: 'Docentes de Ciudadanía Digital acompañan el aprendizaje.' },
+      screens: { src: '/banners/CD_PantallasSeguras.jpg', bg: '#022f53', alt: 'Una familia acompañada en el uso de entornos digitales.' },
     };
     return banners[key];
   });
