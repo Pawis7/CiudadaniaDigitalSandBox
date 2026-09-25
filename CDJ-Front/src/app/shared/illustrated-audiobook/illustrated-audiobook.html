@@ -1,0 +1,172 @@
+<article
+  class="aib-shell"
+  [style.--aib-accent]="book().accent ?? '#3468b2'"
+  [style.--aib-accent-strong]="book().accentStrong ?? '#244f91'"
+  [attr.aria-label]="book().title"
+>
+  <header class="aib-header">
+    <div class="aib-brand" aria-label="Ciudadanía Digital Jalisco">
+      <span class="aib-mark" aria-hidden="true">B</span>
+      <span>
+        <strong>Ciudadanía Digital Jalisco</strong>
+        <small>{{
+          book().collectionLabel ?? 'Colección Preescolar · Audiocuento ilustrado'
+        }}</small>
+      </span>
+    </div>
+
+    @if (!atEnding() && !book().readingOnly) {
+      <div class="aib-audio-controls" aria-label="Controles de narración">
+        <button type="button" class="aib-control" (click)="toggleCurrentNarration()">
+          <span aria-hidden="true">
+            {{ narrationState() === 'playing' || narrationState() === 'loading' ? '⏸' : '▶' }}
+          </span>
+          {{ playLabel() }}
+        </button>
+        <button
+          type="button"
+          class="aib-control aib-control--secondary"
+          [class.aib-control--active]="continuousMode()"
+          (click)="listenContinuously()"
+        >
+          <span aria-hidden="true">♫</span>
+          Escuchar cuento completo
+        </button>
+        @if (currentDuration(); as duration) {
+          <span class="aib-duration" aria-label="Duración de esta narración">{{ duration }}</span>
+        }
+        @if (narrationState() === 'unavailable') {
+          <p class="aib-audio-status" role="status">
+            El audio no está disponible. Puedes continuar leyendo la historia.
+          </p>
+        }
+      </div>
+    }
+  </header>
+
+  <p class="aib-sr-only" aria-live="polite">{{ book().readingOnly ? currentLabel() : announcement() }}</p>
+  @if (!book().readingOnly) {
+  <audio
+    #audioPlayer
+    hidden
+    preload="metadata"
+    [attr.src]="currentAudioSrc()"
+    (play)="handleRecordedPlay()"
+    (pause)="handleRecordedPause()"
+    (ended)="handleRecordedEnded()"
+    (error)="handleRecordedError()"
+  ></audio>
+  }
+
+  <div class="aib-stage" [attr.data-direction]="direction()">
+    @if (currentSpread(); as spread) {
+      <section class="aib-spread" [class.aib-spread--cover]="spread.kind === 'cover'">
+        <figure class="aib-page aib-page--left">
+          <img
+            class="aib-image"
+            [src]="spread.leftPage.src"
+            [alt]="spread.leftPage.alt"
+            [style.object-position]="spread.leftPage.objectPosition ?? 'center'"
+          />
+          @if (spread.leftPage.pageNumber; as pageNumber) {
+            <figcaption class="aib-page-number">{{ pageNumber }}</figcaption>
+          }
+        </figure>
+
+        <div class="aib-spine" aria-hidden="true"></div>
+
+        <figure
+          class="aib-page aib-page--right aib-page--text"
+          [attr.data-paper-tone]="spread.paperTone ?? 'sunshine'"
+        >
+          @if (spread.rightPage; as rightPage) {
+            <img
+              class="aib-image aib-image--watermark"
+              [src]="rightPage.src"
+              [alt]="rightPage.alt"
+              [style.object-position]="rightPage.objectPosition ?? 'center'"
+            />
+            @if (rightPage.pageNumber; as pageNumber) {
+              <span class="aib-page-number">{{ pageNumber }}</span>
+            }
+          }
+          <figcaption class="aib-copy" [class.aib-copy--cover]="spread.kind === 'cover'">
+            @if (spread.kind === 'cover') {
+              <h1 class="aib-title" [id]="'aib-title-' + book().id">{{ book().title }}</h1>
+              @if (spread.lead) {
+                <p class="aib-lead">{{ spread.lead }}</p>
+              }
+            } @else {
+              @if (spread.title) {
+                <h2 class="aib-scene-title">{{ spread.title }}</h2>
+              }
+              <div class="aib-story-text">
+                @for (block of spread.blocks ?? []; track $index) {
+                  @switch (block.kind) {
+                    @case ('dialogue') {
+                      <p class="aib-dialogue">{{ block.text }}</p>
+                    }
+                    @case ('quote') {
+                      <blockquote>{{ block.text }}</blockquote>
+                    }
+                    @case ('moral') {
+                      <p class="aib-moral">{{ block.text }}</p>
+                    }
+                    @default {
+                      <p>{{ block.text }}</p>
+                    }
+                  }
+                }
+              </div>
+            }
+          </figcaption>
+        </figure>
+      </section>
+    } @else {
+      <div class="aib-ending">
+        <app-story-ending
+          [title]="book().ending.title"
+          [subtitle]="book().ending.subtitle"
+          [ruleLabel]="book().ending.ruleLabel"
+          [rule]="book().ending.rule"
+          [imageSrc]="book().ending.illustration?.src ?? ''"
+          [imageAlt]="book().ending.illustration?.alt ?? ''"
+          (restart)="restart()"
+          (closed)="closeBook()"
+        />
+      </div>
+    }
+  </div>
+
+  <footer class="aib-footer">
+    <button type="button" class="aib-nav" [disabled]="currentIndex() === 0" (click)="previous()">
+      <span aria-hidden="true">←</span>
+      Anterior
+    </button>
+
+    <div class="aib-progress">
+      <div class="aib-dots" aria-label="Páginas del cuento">
+        @for (index of stepIndexes(); track index) {
+          <button
+            type="button"
+            class="aib-dot"
+            [class.aib-dot--active]="currentIndex() === index"
+            [attr.aria-label]="
+              index === book().spreads.length
+                ? 'Ir al final'
+                : 'Ir a ' + book().spreads[index].pageLabel
+            "
+            [attr.aria-current]="currentIndex() === index ? 'step' : null"
+            (click)="goTo(index)"
+          ></button>
+        }
+      </div>
+      <span>{{ currentLabel() }}</span>
+    </div>
+
+    <button type="button" class="aib-nav aib-nav--next" (click)="next()">
+      {{ atEnding() ? 'Cerrar' : 'Siguiente' }}
+      <span aria-hidden="true">→</span>
+    </button>
+  </footer>
+</article>

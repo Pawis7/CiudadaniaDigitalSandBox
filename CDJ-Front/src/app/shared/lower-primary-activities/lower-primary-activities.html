@@ -1,0 +1,74 @@
+<section class="lp-board" [attr.data-mode]="activity().mode" [class.is-dragging]="drag()">
+  <header class="lp-header">
+    <div class="lp-heading"><span class="lp-eyebrow">JUGAMOS CON BIT · 6 A 8 AÑOS</span><h1>{{ activity().title }}</h1><p>{{ activity().subtitle }}</p></div>
+    <button type="button" class="sound-button" (click)="toggleSound()" [attr.aria-pressed]="soundOn()" [attr.aria-label]="soundOn() ? 'Silenciar sonidos y voces' : 'Activar sonidos y voces'">
+      <span class="material-symbols-rounded" aria-hidden="true">{{ soundOn() ? 'volume_up' : 'volume_off' }}</span><span>{{ soundOn() ? 'Sonido activo' : 'Sin sonido' }}</span>
+    </button>
+  </header>
+  @if (finished()) {
+    <div class="final-scene">
+      <div class="final-intro"><app-bit-character emotion="alegria" pose="celebracion" /><div>
+        <span class="lp-eyebrow">LAS DOS MISIONES ESTÁN COMPLETAS</span><h2 data-stage-title tabindex="-1">{{ finalTitle() }}</h2><p>{{ activity().success }}</p>
+        <button type="button" class="text-button" (click)="readFinal()"><span class="material-symbols-rounded" aria-hidden="true">hearing</span>Escuchar lo que aprendimos</button>
+      </div></div>
+      <div class="final-record" [class.agreement-sheet]="activity().mode === 'agreements'">
+        <h3>{{ activity().mode === 'agreements' ? 'Así queremos aprender y convivir' : 'Mira lo que construiste' }}</h3>
+        <ul class="final-list">@for (item of finalItems(); track item.key) {<li><img [src]="item.image" alt="" /><p>{{ item.text }}</p></li>}</ul>
+      </div>
+      <div class="final-actions"><button type="button" class="secondary-button" (click)="restart()">Jugar otra vez</button><button type="button" class="primary-button" data-finish (click)="requestClose()">Terminar <span aria-hidden="true">✓</span></button></div>
+    </div>
+  } @else {
+    <div class="mission-heading"><div><span class="mission-count">MISIÓN {{ roundIndex() + 1 }} DE {{ activity().rounds.length }}</span><h2 data-stage-title tabindex="-1">{{ round().title }}</h2></div>
+      <div class="mission-progress"><span>{{ placedCount() }} de {{ round().objects.length }} objetos</span><progress [value]="placedCount()" [max]="round().objects.length" aria-label="Objetos colocados"></progress></div>
+    </div>
+    <div class="bit-guidance"><app-bit-character [emotion]="feedbackKind() === 'retry' ? 'duda' : 'alegria'" pose="saludo" />
+      <div class="mission-copy"><p class="mission-context">{{ round().context }}</p><p>{{ round().instruction }}</p></div>
+      <button type="button" class="listen-button" (click)="readInstructions()"><span class="material-symbols-rounded" aria-hidden="true">hearing</span><span>Escuchar<br />instrucciones</span></button>
+    </div>
+    <div class="play-surface">
+      <div class="tray-heading"><h3>Elige, mueve y coloca</h3><p>Toca un objeto y luego su destino. También puedes arrastrarlo.</p></div>
+      <div class="object-tray" aria-label="Objetos para mover">
+        @for (object of remaining(); track object.id) {
+          <button type="button" class="drag-object" [class.is-selected]="selected() === object.id" [class.is-in-hand]="drag()?.id === object.id" [attr.data-object-id]="object.id" [attr.aria-pressed]="selected() === object.id" [attr.aria-label]="'Elegir ' + object.label" (pointerdown)="pointerDown($event, object.id)" (click)="selectObject(object.id)" (dragstart)="$event.preventDefault()">
+            <span class="object-art"><img [src]="object.image" alt="" draggable="false" /></span><span class="object-label">{{ object.label }}</span><span class="object-handle material-symbols-rounded" aria-hidden="true">{{ selected() === object.id ? 'check_circle' : 'drag_indicator' }}</span>
+          </button>
+        }
+        @if (!remaining().length) {<p class="tray-complete"><span aria-hidden="true">✓</span>Todos los objetos tienen un lugar.</p>}
+      </div>
+      @if (drag()) {
+        @if (dragInsightHeight() > 0) {<div class="drag-insight-space" aria-hidden="true" [style.height.px]="dragInsightHeight()"></div>}
+      } @else { @if (selectedObject(); as object) {
+        <div class="object-insight" [class.has-clue]="object.clue"><div><strong>{{ object.label }}</strong>@if (object.description) {<p>{{ object.description }}</p>}</div>
+          <div class="insight-actions"><button type="button" class="text-button" (click)="readObject()" aria-label="Escuchar el objeto seleccionado"><span class="material-symbols-rounded" aria-hidden="true">volume_up</span>Escuchar</button>
+            @if (object.clue) {<button type="button" class="clue-button" data-open-clue (click)="openClue()" [attr.aria-expanded]="clueIsOpen(object)"><span class="material-symbols-rounded" aria-hidden="true">search</span>{{ clueIsOpen(object) ? 'Volver a escuchar la pista' : 'Abrir la pista' }}</button>}
+          </div>
+          @if (object.clue && clueIsOpen(object)) {<div class="evidence-clue"><span class="material-symbols-rounded" aria-hidden="true">manage_search</span><div><strong>{{ object.clue.title }}</strong><p>{{ object.clue.text }}</p></div></div>}
+        </div>
+      }}
+      <div class="scene-heading"><span class="scene-line" aria-hidden="true"></span><h3>{{ sceneLabel() }}</h3><span class="scene-line" aria-hidden="true"></span></div>
+      <div class="drop-grid" [class.four-zones]="round().zones.length === 4" [class.three-zones]="round().zones.length === 3">
+        @for (zone of round().zones; track zone.id; let index = $index) {
+          <article class="drop-zone" [attr.data-drop-zone]="zone.id" [class.ready]="selected()" [class.is-hovered]="hoveredZone() === zone.id" [class.has-objects]="objectsFor(zone.id).length">
+            <button type="button" class="zone-target" [attr.data-zone-target]="zone.id" (click)="tapZone(zone.id)" [attr.aria-label]="selectedObject() ? 'Colocar ' + selectedObject()!.label + ' en ' + zone.label : zone.label + '. Primero elige un objeto.'">
+              <span class="zone-emblem" aria-hidden="true">@if (activity().mode === 'day') { {{ index + 1 }} } @else {<span class="material-symbols-rounded">{{ zone.icon || modeIcon() }}</span>}</span>
+              <span class="zone-copy"><strong>{{ zone.label }}</strong><span>{{ zone.hint }}</span></span>@if (selected()) {<span class="place-indicator material-symbols-rounded" aria-hidden="true">south</span>}
+            </button>
+            <div class="placed-objects">
+              @for (object of objectsFor(zone.id); track object.id) {
+                <div class="placed-object" [attr.data-placed-object]="object.id"><img [src]="object.image" alt="" draggable="false" /><div><strong>{{ object.label }}</strong><p>{{ resultText(object, zone.id) }}</p></div><button type="button" class="return-object" (click)="returnObject(object.id)" [attr.aria-label]="'Mover de nuevo: ' + object.label" title="Mover de nuevo"><span class="material-symbols-rounded" aria-hidden="true">undo</span></button></div>
+              }
+              @if (!objectsFor(zone.id).length) {<button type="button" class="empty-zone" (click)="tapZone(zone.id)" [attr.aria-label]="'Colocar el objeto seleccionado en ' + zone.label"><span class="material-symbols-rounded" aria-hidden="true">add</span><span>{{ selected() ? 'Colocar aquí' : 'Aquí van tus objetos' }}</span></button>}
+            </div>
+          </article>
+        }
+      </div>
+    </div>
+    <div class="feedback-area" role="status" aria-live="polite" aria-atomic="true" [attr.data-feedback-kind]="feedbackKind()">
+      @if (feedback()) {<span class="material-symbols-rounded" aria-hidden="true">{{ feedbackKind() === 'success' ? 'check_circle' : feedbackKind() === 'retry' ? 'lightbulb' : 'touch_app' }}</span><p>{{ feedback() }}</p>}
+      @else {<p>{{ resumed() ? 'Seguimos donde te quedaste. Tu tablero está guardado en esta pestaña.' : 'Puedes ir a tu ritmo. Bit te acompaña.' }}</p>}
+    </div>
+    @if (complete()) {<div class="round-complete"><div><span class="mission-count">MISIÓN COMPLETA</span><p>{{ round().success }}</p></div><button type="button" class="primary-button" data-next-round (click)="nextRound()">{{ roundIndex() < activity().rounds.length - 1 ? 'Siguiente misión' : 'Ver lo que construimos' }}<span aria-hidden="true">→</span></button></div>}
+    <footer class="board-footer"><span>Tu progreso se conserva al cerrar la actividad.</span><button type="button" class="text-button" (click)="restart()">Empezar de nuevo</button></footer>
+  }
+  @if (drag(); as held) { @if (draggedObject(); as object) {<div class="drag-ghost" aria-hidden="true" [style.left.px]="held.x" [style.top.px]="held.y"><img [src]="object.image" alt="" /></div>}}
+</section>

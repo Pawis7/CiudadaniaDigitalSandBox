@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "language": "es-MX",
+  "recordings": [
+    {
+      "id": "success",
+      "file": "marlene-muy-bien.mp3",
+      "text": "¡Muy bien!",
+      "provider": "ElevenLabs",
+      "voice": "Marlene",
+      "voiceId": "JYyJjNPfmNJdaby8LdZs",
+      "origin": "reused-project-recording",
+      "sourceCommit": "770345b267a583aa701d6d1b790b8345262527e9",
+      "sourcePath": "CDJ-Front/public/audio/kids/marlene-muy-bien.mp3",
+      "bytes": 37360,
+      "sha256": "538c821fbfa5c0313ac96f108452bb2c668633d63e7749f47c8323b949fd2590",
+      "durationSeconds": 1.253878
+    },
+    {
+      "id": "retry",
+      "file": "marlene-intentalo-otra-vez.mp3",
+      "text": "Inténtalo otra vez.",
+      "provider": "ElevenLabs",
+      "voice": "Marlene",
+      "voiceId": "JYyJjNPfmNJdaby8LdZs",
+      "origin": "reused-project-recording",
+      "sourceCommit": "770345b267a583aa701d6d1b790b8345262527e9",
+      "sourcePath": "CDJ-Front/public/audio/kids/marlene-intentalo-otra-vez.mp3",
+      "bytes": 39449,
+      "sha256": "6c986ae6ffb7f73526a28f89e8ac62bd2ed82fb470db54e3450ea0021fed1ba6",
+      "durationSeconds": 1.38449
+    },
+    {
+      "id": "help",
+      "file": "marlene-pide-ayuda.mp3",
+      "text": "Pide ayuda a una persona adulta de confianza.",
+      "provider": "ElevenLabs",
+      "voice": "Marlene",
+      "voiceId": "JYyJjNPfmNJdaby8LdZs",
+      "origin": "reused-project-recording",
+      "sourceCommit": "770345b267a583aa701d6d1b790b8345262527e9",
+      "sourcePath": "CDJ-Front/public/audio/kids/marlene-pide-ayuda.mp3",
+      "bytes": 59511,
+      "sha256": "f8b2c5c70209a5b3904161884ec170adc1f326b0b73d7abedccdc6b283299037",
+      "durationSeconds": 2.638367
+    }
+  ],
+  "instructionAndLabelNarration": {
+    "provider": "browser-speech-synthesis",
+    "language": "es-MX",
+    "reason": "The attempted ElevenLabs instruction generation was rejected because the connected account has zero remaining credits. No new recordings were generated."
+  }
+}

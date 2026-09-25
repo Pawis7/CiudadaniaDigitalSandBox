@@ -94,7 +94,7 @@ export const LIMITES_CHATS_DATA: LimitesChatsData = {
     product_title: "¿Cómo pongo límites sin bronca en chats y redes?",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años",
+    age_range: "12 a 14 años",
     dimension: "D2",
     public_axis: "Relaciones y comunicación",
     guiding_verb: "Actuar",

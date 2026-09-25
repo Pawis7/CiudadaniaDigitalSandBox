@@ -19,7 +19,7 @@
   <div class="cdj-banner__visual audience-hero__visual">
     <img
       appImageLoader
-      src="/banners/CD_Edutips.jpg"
+      src="/banners/CD_Edutips.webp"
       alt="Ciudadanía Digital Jalisco Edutips Banner">
   </div>
 </section>
@@ -38,12 +38,16 @@
       <article *ngFor="let v of videos(); let i = index"
                appReveal="up" [revealDelay]="i * 40"
                data-audience="edutips"
-               class="card card-video-hover group flex flex-col overflow-hidden">
-        <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900 cursor-pointer" (click)="activeVideo.set(v)">
+               class="card card-video-hover group relative flex flex-col overflow-hidden">
+        <button type="button"
+                class="absolute inset-0 z-10 cursor-pointer rounded-[inherit] focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-[color:var(--c-edutips)]"
+                [attr.aria-label]="'Reproducir ' + v.title"
+                (click)="activeVideo.set(v)"></button>
+        <div class="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
           <img
             appImageLoader
             [src]="getYoutubeThumb(v.youtubeUrl)"
-            [alt]="v.title"
+            alt=""
             class="h-full w-full object-cover">
           <div class="absolute inset-0 flex items-center justify-center bg-transparent group-hover:bg-black/25 transition-colors">
             <span class="grid h-12 w-12 place-items-center rounded-full bg-white/90 group-hover:bg-[color:var(--c-edutips)] text-slate-900 group-hover:text-white shadow-lg transition-all duration-300 group-hover:scale-110">
@@ -56,7 +60,7 @@
             </span>
           }
         </div>
-        <div class="flex flex-1 flex-col gap-2 p-5 cursor-pointer" (click)="activeVideo.set(v)">
+        <div class="flex flex-1 flex-col gap-2 p-5">
           <h3 class="text-[15px] font-black leading-snug tracking-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--c-edutips)] transition-colors">{{ v.title }}</h3>
           @if (v.description) {
             <p class="line-clamp-2 text-[13px] leading-relaxed text-[color:var(--text-soft)]">{{ v.description }}</p>

@@ -1,58 +1,150 @@
-<article class="card card-hover flex flex-col justify-between overflow-hidden group cursor-pointer" (click)="onCardClick($event)">
-  
-  <div class="p-5 flex-1 flex flex-col justify-between">
-    <div class="space-y-3">
-      <!-- Resource Header: Icon & Category Badge -->
-      <div class="flex items-center justify-between">
-        <span class="grid h-10 w-10 place-items-center rounded-xl text-white shadow-md bg-gradient-to-br"
-              [ngClass]="item.colorClass">
-          <span translate="no" class="material-symbols-rounded text-lg icon-fill">{{ item.icon }}</span>
-        </span>
-        
-        <span class="rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider shadow-sm"
-              [class.bg-violet-100]="item.type === 'game'" [class.text-violet-700]="item.type === 'game'"
-              [class.bg-amber-100]="item.type === 'activity'" [class.text-amber-700]="item.type === 'activity'"
-              [class.bg-sky-100]="item.type === 'video'" [class.text-sky-700]="item.type === 'video'"
-              [class.bg-rose-100]="item.type === 'guide'" [class.text-rose-700]="item.type === 'guide'">
-          {{ item.typeLabel }}
-        </span>
-      </div>
-
-      <!-- Title & Description -->
-      <div class="pt-1.5">
-        <h4 class="text-base font-black tracking-tight text-[color:var(--text-primary)] group-hover:text-[color:var(--aud)] transition-colors duration-200">{{ item.title }}</h4>
-        <p class="text-xs text-[color:var(--text-soft)] leading-relaxed mt-1.5">{{ item.description }}</p>
+@if (item.coverSrc && item.coverMode === 'editorial') {
+  <article
+    class="card editorial-card group"
+    [class.editorial-card--square]="item.coverAspect === 'square'"
+    (click)="onCardClick($event)"
+    [attr.aria-labelledby]="'resource-title-' + item.id"
+  >
+    <div
+      class="editorial-card__image"
+      [class.is-sprite]="!!item.coverPosition"
+      [class.sprite-col-0]="item.coverPosition?.startsWith('0%')"
+      [class.sprite-col-1]="item.coverPosition?.startsWith('50%')"
+      [class.sprite-col-2]="item.coverPosition?.startsWith('100%')"
+      [class.sprite-row-0]="item.coverPosition?.endsWith('0%')"
+      [class.sprite-row-1]="item.coverPosition?.endsWith('50%')"
+      [class.sprite-row-2]="item.coverPosition?.endsWith('100%')"
+      aria-hidden="true"
+    >
+      <img [src]="item.coverSrc" alt="" loading="lazy" decoding="async" />
+    </div>
+    <div class="editorial-card__veil" aria-hidden="true"></div>
+    <div class="editorial-card__content">
+      <p class="editorial-card__meta">
+        <span>{{ item.typeLabel }}</span>
+        <span aria-hidden="true">·</span>
+        <span>{{ item.duration }}</span>
+      </p>
+      <h3 class="editorial-card__title" [id]="'resource-title-' + item.id">{{ item.title }}</h3>
+      <p class="editorial-card__description">{{ item.description }}</p>
+      <div class="editorial-card__footer">
+        @if (isWidgetAction()) {
+          <button
+            type="button"
+            (click)="onAction()"
+            class="editorial-card__action"
+            [attr.aria-label]="item.actionLabel + ': ' + item.title"
+          >
+            {{ item.actionLabel }}
+            <span translate="no" class="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+          </button>
+        } @else {
+          <a
+            [href]="item.link"
+            [target]="item.link.startsWith('http') ? '_blank' : '_self'"
+            rel="noopener noreferrer"
+            class="editorial-card__action"
+            [attr.aria-label]="item.actionLabel + ': ' + item.title"
+          >
+            {{ item.actionLabel }}
+            <span translate="no" class="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+          </a>
+        }
       </div>
     </div>
-
-    <!-- Resource Footer Metadata -->
-    <div class="mt-4 pt-3 border-t border-[color:var(--border-soft)] flex items-center justify-between text-[11px] font-bold text-[color:var(--text-mute)]">
-      <span class="inline-flex items-center gap-1">
-        <span translate="no" class="material-symbols-rounded text-[13px]">schedule</span>
-        {{ item.duration }}
-      </span>
-
-      <span class="inline-flex items-center gap-1 rounded bg-amber-50 text-amber-700 px-1.5 py-0.5 text-[9px] uppercase font-black" *ngIf="item.badge">
-        {{ item.badge }}
-      </span>
-    </div>
-  </div>
-
-  <!-- Bottom Button -->
-  <div class="px-5 pb-5">
-    @if (isWidgetAction()) {
-      <button (click)="onAction()"
-         class="btn-primary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none">
-        <span translate="no" class="material-symbols-rounded text-sm">play_arrow</span>
+  </article>
+} @else if (item.coverSrc) {
+  <article
+    class="card story-card"
+    [attr.aria-labelledby]="'story-title-' + item.id"
+    (pointerenter)="onPointerEnter($event)"
+    (pointerleave)="onPointerLeave($event)"
+    (focusin)="onFocusIn($event)"
+    (focusout)="onFocusOut($event)"
+    (keydown)="onCardKeydown($event)"
+  >
+    <h3 class="sr-only" [id]="'story-title-' + item.id">{{ item.title }}</h3>
+    <button
+      type="button"
+      class="story-card__cover"
+      [attr.aria-label]="'Acerca de ' + item.title"
+      [attr.aria-expanded]="descriptionOpen()"
+      [attr.aria-controls]="'story-panel-' + item.id"
+      [attr.aria-describedby]="descriptionOpen() ? 'story-description-' + item.id : null"
+      (pointerdown)="onCoverPointerDown($event)"
+      (click)="onCoverClick($event)"
+    >
+      <img
+        [src]="item.coverSrc"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        width="1024"
+        height="1536"
+      />
+    </button>
+    <div
+      class="story-card__panel"
+      [class.is-expanded]="descriptionOpen()"
+      [id]="'story-panel-' + item.id"
+      [attr.aria-hidden]="!descriptionOpen()"
+      [attr.inert]="descriptionOpen() ? null : ''"
+    >
+      <p class="story-card__description" [id]="'story-description-' + item.id">
+        {{ item.description }}
+      </p>
+      <button
+        type="button"
+        (click)="onPosterAction($event)"
+        [attr.tabindex]="descriptionOpen() ? null : -1"
+        class="btn-primary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 shadow-md cursor-pointer select-none"
+        [attr.aria-label]="item.actionLabel + ': ' + item.title"
+      >
+        <span translate="no" class="material-symbols-rounded text-sm" aria-hidden="true"
+          >play_arrow</span
+        >
         {{ item.actionLabel }}
       </button>
-    } @else {
-      <a [href]="item.link" 
-         [target]="item.link.startsWith('http') ? '_blank' : '_self'"
-         class="btn-secondary w-full py-3 text-xs font-black flex items-center justify-center gap-1.5 border border-[color:var(--border-soft)] hover:bg-[color:var(--aud)] hover:text-white hover:border-transparent transition-all">
-        <span translate="no" class="material-symbols-rounded text-sm">{{ item.type === 'video' ? 'play_circle' : item.type === 'guide' ? 'download' : 'open_in_new' }}</span>
-        {{ item.actionLabel }}
-      </a>
-    }
-  </div>
-</article>
+    </div>
+  </article>
+} @else {
+  <article
+    class="card resource-card group cursor-pointer"
+    (click)="onCardClick($event)"
+  >
+    <div class="resource-card__content">
+      <p class="resource-card__meta">
+        <span>{{ item.typeLabel }}</span>
+        <span aria-hidden="true">·</span>
+        <span>{{ item.duration }}</span>
+      </p>
+      <h3 class="resource-card__title">{{ item.title }}</h3>
+      <p class="resource-card__description">{{ item.description }}</p>
+    </div>
+
+    <div class="resource-card__footer">
+      @if (isWidgetAction()) {
+        <button
+          type="button"
+          (click)="onAction()"
+          class="resource-card__action"
+          [attr.aria-label]="item.actionLabel + ': ' + item.title"
+        >
+          {{ item.actionLabel }}
+          <span translate="no" class="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+        </button>
+      } @else {
+        <a
+          [href]="item.link"
+          [target]="item.link.startsWith('http') ? '_blank' : '_self'"
+          rel="noopener noreferrer"
+          class="resource-card__action"
+          [attr.aria-label]="item.actionLabel + ': ' + item.title"
+        >
+          {{ item.actionLabel }}
+          <span translate="no" class="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+        </a>
+      }
+    </div>
+  </article>
+}

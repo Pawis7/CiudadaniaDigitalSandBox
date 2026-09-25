@@ -33,7 +33,24 @@ import { CuandoEntraMundoPrivadoComponent } from '../shared/cuando-entra-mundo-p
 import { QuienEntraMiMundoComponent } from '../shared/quien-entra-mi-mundo/quien-entra-mi-mundo';
 import { BitDataMensajeGrisComponent } from '../shared/bit-data-mensaje-gris/bit-data-mensaje-gris';
 import { LunaCajitaImportanteComponent } from '../shared/luna-cajita-importante/luna-cajita-importante';
+import {
+  DetectivesDeLasPistasComponent,
+  MuralBuenasIdeasComponent,
+  CastilloCambioComponent,
+  MisionPuedeEsperarComponent,
+} from '../shared/primary-digital-stories/primary-digital-stories';
 import { BitFotoOtraVezComponent } from '../shared/bit-foto-otra-vez/bit-foto-otra-vez';
+import {
+  BitHojasStoryComponent,
+  BitPlanCasaStoryComponent,
+  BitRotondaStoryComponent,
+} from '../shared/bit-audiobook-stories/bit-audiobook-stories';
+import {
+  BitPuentePorTerminarComponent,
+  BitVentanaInesperadaComponent,
+  BitBotonBrillanteComponent,
+  BitCartelClaseComponent,
+} from '../shared/lower-primary-stories/lower-primary-stories';
 
 export type WidgetId =
   | 'fraud-simulator'
@@ -60,8 +77,19 @@ export type WidgetId =
   | 'cuando-hijo-mundo-privado'
   | 'quien-entra-mi-mundo'
   | 'bit-data-mensaje-gris'
+  | 'bit-hojas'
+  | 'bit-plan-casa'
+  | 'bit-rotonda'
   | 'luna-cajita-importante'
-  | 'bit-foto-otra-vez';
+  | 'detectives-pistas'
+  | 'mural-buenas-ideas'
+  | 'castillo-cambio'
+  | 'mision-puede-esperar'
+  | 'bit-foto-otra-vez'
+  | 'bit-puente-por-terminar'
+  | 'bit-ventana-inesperada'
+  | 'bit-boton-brillante'
+  | 'bit-cartel-clase';
 
 export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'fraud-simulator': SecondaryFraudSimulatorComponent,
@@ -88,7 +116,17 @@ export const WIDGET_REGISTRY: Record<WidgetId, Type<unknown>> = {
   'cuando-hijo-mundo-privado': CuandoEntraMundoPrivadoComponent,
   'quien-entra-mi-mundo': QuienEntraMiMundoComponent,
   'bit-data-mensaje-gris': BitDataMensajeGrisComponent,
+  'bit-hojas': BitHojasStoryComponent,
+  'bit-plan-casa': BitPlanCasaStoryComponent,
+  'bit-rotonda': BitRotondaStoryComponent,
   'luna-cajita-importante': LunaCajitaImportanteComponent,
+  'detectives-pistas': DetectivesDeLasPistasComponent,
+  'mural-buenas-ideas': MuralBuenasIdeasComponent,
+  'castillo-cambio': CastilloCambioComponent,
+  'mision-puede-esperar': MisionPuedeEsperarComponent,
   'bit-foto-otra-vez': BitFotoOtraVezComponent,
+  'bit-puente-por-terminar': BitPuentePorTerminarComponent,
+  'bit-ventana-inesperada': BitVentanaInesperadaComponent,
+  'bit-boton-brillante': BitBotonBrillanteComponent,
+  'bit-cartel-clase': BitCartelClaseComponent,
 };
-

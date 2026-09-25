@@ -1,3 +1,5 @@
+import { FEATURED_VIDEOS } from './featured-videos.data';
+
 /**
  * Índice estático de búsqueda del portal Ciudadanía Digital.
  *
@@ -37,22 +39,31 @@ export const SEARCH_INDEX: SearchEntry[] = [
     keywords: ['inicio', 'home', 'principal', 'portal'],
   },
   {
-    title: 'Series',
-    description: 'Catálogo completo de series y videos educativos',
-    href: '/series',
+    title: 'Recursos',
+    description: 'Biblioteca de actividades, videos, guías y materiales por perfil, nivel y propósito',
+    href: '/recursos',
     section: 'Navegación',
-    icon: 'movie',
+    icon: 'library_books',
     color: 'bg-amber-600',
-    keywords: ['series', 'videos', 'catalogo', 'catálogo', 'animados'],
+    keywords: ['recursos', 'biblioteca', 'actividades', 'videos', 'guias', 'guías', 'documentos', 'series', 'colecciones'],
   },
   {
     title: 'Edutips',
     description: 'Cápsulas breves para aprender, conversar y actuar mejor',
     href: '/edutips',
-    section: 'Aprender',
+    section: 'Colecciones de recursos',
     icon: 'auto_awesome',
     color: 'bg-orange-500',
     keywords: ['edutips', 'capsulas', 'cápsulas', 'tips', 'microvideos', 'aprender'],
+  },
+  {
+    title: 'Pequeños Cibernautas',
+    description: 'Colección interactiva para iniciar conversaciones sobre cuidado digital en la infancia',
+    href: '/series/pequenos-cibernautas',
+    section: 'Colecciones de recursos',
+    icon: 'smart_toy',
+    color: 'bg-pink-600',
+    keywords: ['pequeños cibernautas', 'infancia', 'memorama', 'juego', 'actividades', 'seguridad digital'],
   },
   {
     title: 'Pantallas Seguras',
@@ -62,15 +73,6 @@ export const SEARCH_INDEX: SearchEntry[] = [
     icon: 'screenshot_monitor',
     color: 'bg-violet-700',
     keywords: ['pantallas', 'seguras', 'ley', 'entornos digitales', 'menores', 'proteccion', 'protección', 'restriccion', 'redes sociales', 'jalisco'],
-  },
-  {
-    title: 'Ayuda Digital',
-    description: 'Orientación ante riesgos y violencia digital',
-    href: '/ayuda',
-    section: 'Orientación y más',
-    icon: 'shield',
-    color: 'bg-violet-600',
-    keywords: ['ayuda', 'digital', 'violencia', 'acoso', 'fraude', 'riesgo', 'orientacion', 'orientación', 'apoyo'],
   },
   {
     title: 'Quiénes somos',
@@ -122,12 +124,12 @@ export const SEARCH_INDEX: SearchEntry[] = [
   },
   {
     title: 'Adolescentes',
-    description: 'Recursos para adolescentes de secundaria y preparatoria',
+    description: 'Recursos para adolescentes de secundaria y bachillerato',
     href: '/p/adolescentes',
     section: 'Perfiles',
     icon: 'forum',
     color: 'bg-violet-600',
-    keywords: ['adolescentes', 'teens', 'jóvenes', 'jovenes', 'secundaria', 'preparatoria', 'prepa', 'teens'],
+    keywords: ['adolescentes', 'teens', 'jóvenes', 'jovenes', 'secundaria', 'bachillerato', 'preparatoria', 'prepa', 'teens'],
   },
   {
     title: 'Secundaria',
@@ -139,8 +141,8 @@ export const SEARCH_INDEX: SearchEntry[] = [
     keywords: ['secundaria', 'secundario', 'primer', 'segundo', 'tercer', 'grado', '12', '13', '14', 'años'],
   },
   {
-    title: 'Preparatoria',
-    description: 'Recursos para estudiantes de preparatoria o bachillerato',
+    title: 'Bachillerato',
+    description: 'Recursos para estudiantes de bachillerato',
     href: '/p/adolescentes#preparatoria',
     section: 'Adolescentes',
     icon: 'forum',
@@ -184,13 +186,22 @@ export const SEARCH_INDEX: SearchEntry[] = [
     keywords: ['adolescencia', 'temprana', '12', '13', '14', 'años', 'secundaria'],
   },
   {
-    title: 'Adolescencia tardía y juventud (15–22 años)',
-    description: 'Acompañamiento digital para jóvenes',
-    href: '/p/familias#fam-15-22',
+    title: 'Adolescencia (15–17 años)',
+    description: 'Acompañamiento familiar con acuerdos claros, privacidad y una ruta de apoyo',
+    href: '/p/familias#fam-15-17',
     section: 'Familias',
     icon: 'family_restroom',
     color: 'bg-orange-600',
-    keywords: ['adolescencia', 'tardía', 'juventud', 'joven', '15', '16', '17', '18', '19', '20', '21', '22', 'años', 'prepa', 'universidad'],
+    keywords: ['adolescencia', '15', '16', '17', 'años', 'prepa', 'privacidad', 'autonomía'],
+  },
+  {
+    title: 'Personas adultas jóvenes (18–22 años)',
+    description: 'Apoyo familiar acordado con respeto a la autonomía y el consentimiento',
+    href: '/p/familias#fam-18-22',
+    section: 'Familias',
+    icon: 'family_restroom',
+    color: 'bg-orange-600',
+    keywords: ['personas adultas jóvenes', 'juventud', 'joven', '18', '19', '20', '21', '22', 'años', 'universidad', 'autonomía', 'consentimiento'],
   },
   {
     title: 'Docentes',
@@ -238,88 +249,13 @@ export const SEARCH_INDEX: SearchEntry[] = [
     keywords: ['docentes', 'secundaria', 'secundario', 'nivel', 'maestros'],
   },
   {
-    title: 'Docentes – Preparatoria',
-    description: 'Recursos para docentes de bachillerato o preparatoria',
+    title: 'Docentes – Media superior',
+    description: 'Recursos para docentes de bachillerato',
     href: '/p/docentes#doc-prep',
     section: 'Docentes',
     icon: 'school',
     color: 'bg-rose-800',
     keywords: ['docentes', 'preparatoria', 'prepa', 'bachillerato', 'nivel', 'maestros'],
-  },
-
-  // ── AYUDA DIGITAL — INSTANCIAS / CONTACTOS ───────────────────────────────
-
-  {
-    title: '911 – Emergencias',
-    description: 'Peligro inmediato, agresión, riesgo físico o extorsión activa',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'emergency',
-    color: 'bg-rose-600',
-    keywords: ['911', 'emergencia', 'urgente', 'peligro', 'inmediato', 'agresion', 'agresión', 'riesgo', 'físico', 'fisico', 'policia', 'policía', 'llamar', 'numero', 'número'],
-  },
-  {
-    title: 'Código Violeta',
-    description: 'Violencia contra mujeres, amenazas o riesgo urgente con componente digital',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'security',
-    color: 'bg-purple-700',
-    keywords: ['codigo violeta', 'código violeta', 'violeta', 'mujer', 'mujeres', 'violencia', 'agresion', 'amenaza', 'pareja', 'género', 'genero', '911', '33', '14', '15', '10', '02'],
-  },
-  {
-    title: 'Policía Cibernética de Jalisco',
-    description: 'Fraudes, suplantación, acoso digital, extorsión, phishing',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'policy',
-    color: 'bg-sky-700',
-    keywords: ['policia', 'policía', 'cibernética', 'cibernetica', 'ciberacoso', 'fraude', 'suplantacion', 'suplantación', 'phishing', 'extorsion', 'extorsión', 'acoso', 'digital', '3338376000', 'numero', 'número', 'jalisco'],
-  },
-  {
-    title: 'PPNNA – Procuraduría de Protección de NNA',
-    description: 'Protección de niñas, niños y adolescentes en situaciones de riesgo digital',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'child_care',
-    color: 'bg-violet-700',
-    keywords: ['ppnna', 'procuraduria', 'procuraduría', 'proteccion', 'protección', 'niños', 'niñas', 'adolescentes', 'menores', 'derechos', '3330308200', 'numero', 'número'],
-  },
-  {
-    title: 'Centro de Justicia para las Mujeres',
-    description: 'Difusión no consentida, acoso, violencia digital contra mujeres',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'female',
-    color: 'bg-purple-700',
-    keywords: ['centro justicia', 'mujeres', 'difusion no consentida', 'difusión', 'imágenes', 'acoso', 'violencia digital', 'pareja', 'chatbot', 'violeta', 'whatsapp', '3336681880', 'numero', 'número'],
-  },
-  {
-    title: 'Fiscalía del Estado de Jalisco',
-    description: 'Denuncia penal por amenazas, fraude, extorsión o delitos digitales',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'gavel',
-    color: 'bg-amber-700',
-    keywords: ['fiscalia', 'fiscalía', 'ministerio publico', 'ministerio público', 'denuncia', 'penal', 'delito', 'amenaza', 'extorsion', 'extorsión', 'fraude', 'suplantacion', '3338376000', 'numero', 'número', 'jalisco'],
-  },
-  {
-    title: 'Canales de apoyo',
-    description: 'Todas las instancias y canales de atención ante situaciones digitales',
-    href: '/ayuda#canales',
-    section: 'Ayuda Digital',
-    icon: 'support_agent',
-    color: 'bg-violet-600',
-    keywords: ['canales', 'apoyo', 'instancias', 'atencion', 'atención', 'contacto', 'donde acudir', 'numero', 'número', 'llamar', 'reporte'],
-  },
-  {
-    title: 'Pasos ante un riesgo digital',
-    description: 'Qué hacer primero si viviste un fraude, acoso o amenaza digital',
-    href: '/ayuda#pasos',
-    section: 'Ayuda Digital',
-    icon: 'checklist',
-    color: 'bg-violet-600',
-    keywords: ['pasos', 'que hacer', 'primero', 'evidencia', 'captura', 'reporte', 'apoyo', 'riesgo', 'fraude', 'acoso'],
   },
 
   // ── SERIE: EL DÍA QUE CASI ───────────────────────────────────────────────
@@ -328,37 +264,10 @@ export const SEARCH_INDEX: SearchEntry[] = [
     title: 'El día que casi (serie)',
     description: 'Serie animada donde personajes evitan riesgos digitales tomando buenas decisiones',
     href: '/series/el-dia-que-casi',
-    section: 'Series',
+    section: 'Colecciones de recursos',
     icon: 'star',
     color: 'bg-amber-500',
     keywords: ['el dia que casi', 'el día que casi', 'casi', 'serie', 'animada', 'animacion', 'animación', 'episodios'],
-  },
-  {
-    title: 'El día que casi me hackean',
-    description: 'Cómo proteger tus cuentas y reconocer intentos de hackeo',
-    href: '/series/el-dia-que-casi',
-    section: 'El día que casi',
-    icon: 'star',
-    color: 'bg-amber-500',
-    keywords: ['hackeo', 'hackear', 'hack', 'contraseñas', 'cuentas', 'seguridad', 'redes sociales', 'proteger'],
-  },
-  {
-    title: 'El día que casi caigo en un reto viral',
-    description: 'Por qué los retos virales pueden ser peligrosos y cómo decir "no"',
-    href: '/series/el-dia-que-casi',
-    section: 'El día que casi',
-    icon: 'star',
-    color: 'bg-amber-500',
-    keywords: ['reto', 'retos', 'viral', 'presion social', 'presión social', 'tiktok', 'peligroso', 'no'],
-  },
-  {
-    title: 'El día que casi caigo en un video falso',
-    description: 'Identificar deepfakes y noticias falsas',
-    href: '/series/el-dia-que-casi',
-    section: 'El día que casi',
-    icon: 'star',
-    color: 'bg-amber-500',
-    keywords: ['deepfake', 'video falso', 'fake news', 'noticias falsas', 'desinformacion', 'desinformación', 'ia', 'inteligencia artificial'],
   },
   {
     title: 'El día que casi hago cyberbullying',
@@ -370,13 +279,22 @@ export const SEARCH_INDEX: SearchEntry[] = [
     keywords: ['cyberbullying', 'ciberbullying', 'acoso', 'bullying', 'respeto', 'empatia', 'empatía', 'meme', 'broma'],
   },
   {
-    title: 'El día que casi doy mis datos a un extraño',
+    title: 'El día que casi doy mis datos personales a un extraño',
     description: 'Proteger tu información personal en línea',
     href: '/series/el-dia-que-casi',
     section: 'El día que casi',
     icon: 'star',
     color: 'bg-amber-500',
     keywords: ['datos personales', 'datos', 'privacidad', 'privado', 'extraño', 'desconocido', 'nombre', 'direccion', 'dirección'],
+  },
+  {
+    title: 'El día que casi creo una historia que no era mía',
+    description: 'Verificar la fuente antes de compartir una historia o noticia',
+    href: '/series/el-dia-que-casi',
+    section: 'El día que casi',
+    icon: 'star',
+    color: 'bg-amber-500',
+    keywords: ['historia', 'fuente', 'verificar', 'noticia', 'información', 'desinformación', 'compartir'],
   },
   {
     title: 'El día que casi descargo un virus',
@@ -388,7 +306,7 @@ export const SEARCH_INDEX: SearchEntry[] = [
     keywords: ['virus', 'malware', 'descarga', 'app', 'link', 'enlace', 'peligroso', 'dispositivo', 'celular', 'computadora'],
   },
   {
-    title: 'El día que casi compro un videojuego (falso)',
+    title: 'El día que casi compro un videojuego',
     description: 'Estafas comunes en compras de videojuegos en línea',
     href: '/series/el-dia-que-casi',
     section: 'El día que casi',
@@ -403,7 +321,7 @@ export const SEARCH_INDEX: SearchEntry[] = [
     title: 'Edutip: ¿A qué edad usar IA?',
     description: 'Orientación práctica sobre el uso de chats de IA generativa en menores',
     href: '/edutips',
-    section: 'Edutips',
+    section: 'Colecciones de recursos',
     icon: 'auto_awesome',
     color: 'bg-orange-500',
     keywords: ['ia', 'inteligencia artificial', 'chatgpt', 'menores', 'edad', 'crianza', 'adolescentes'],
@@ -412,7 +330,7 @@ export const SEARCH_INDEX: SearchEntry[] = [
     title: 'Edutip: Fomentar la intención, no la evitación',
     description: 'Uso consciente de la tecnología durante vacaciones y tiempo libre',
     href: '/edutips',
-    section: 'Edutips',
+    section: 'Colecciones de recursos',
     icon: 'auto_awesome',
     color: 'bg-orange-500',
     keywords: ['bienestar', 'pantallas', 'aburrimiento', 'intención', 'autonomía', 'tiempo libre', 'familia'],
@@ -421,28 +339,55 @@ export const SEARCH_INDEX: SearchEntry[] = [
     title: 'Edutip: Medios y tecnología para reforzar lazos familiares',
     description: 'Cómo la tecnología puede convertirse en una herramienta de unión y convivencia',
     href: '/edutips',
-    section: 'Edutips',
+    section: 'Colecciones de recursos',
     icon: 'auto_awesome',
     color: 'bg-orange-500',
     keywords: ['familia', 'convivencia', 'comunicación', 'lazos familiares', 'medios digitales'],
   },
+  ...FEATURED_VIDEOS.map((video): SearchEntry => ({
+    title: video.title,
+    description: video.description,
+    href: video.audiences.includes('teens')
+      ? '/p/adolescentes#secundaria'
+      : video.audiences.includes('families')
+        ? '/p/familias#fam-0-5'
+        : '/p/docentes#doc-sec',
+    section: 'Recursos · En corto',
+    icon: 'smart_display',
+    color: 'bg-rose-600',
+    keywords: [
+      video.collection.toLowerCase(),
+      video.topic,
+      ...video.audiences,
+      ...video.stages,
+      ...video.title.toLowerCase().split(/\s+/)
+    ],
+  })),
 ];
+
+function normalizeSearchText(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('es-MX')
+    .trim();
+}
 
 /**
  * Función de búsqueda: filtra el índice con una query en texto libre.
  * Devuelve hasta `limit` resultados relevantes.
  */
 export function searchIndex(query: string, limit = 10): SearchEntry[] {
-  const q = query.trim().toLowerCase();
+  const q = normalizeSearchText(query);
   if (!q) return [];
 
   const scored: { entry: SearchEntry; score: number }[] = [];
 
   for (const entry of SEARCH_INDEX) {
     let score = 0;
-    const titleLower = entry.title.toLowerCase();
-    const descLower  = entry.description.toLowerCase();
-    const secLower   = entry.section.toLowerCase();
+    const titleLower = normalizeSearchText(entry.title);
+    const descLower  = normalizeSearchText(entry.description);
+    const secLower   = normalizeSearchText(entry.section);
 
     // Coincidencia exacta en título — máxima prioridad
     if (titleLower === q) score += 100;
@@ -459,9 +404,10 @@ export function searchIndex(query: string, limit = 10): SearchEntry[] {
 
     // Coincidencia en keywords
     for (const kw of entry.keywords) {
-      if (kw === q)           { score += 50; break; }
-      if (kw.startsWith(q))   { score += 30; break; }
-      if (kw.includes(q))     { score += 20; break; }
+      const normalizedKeyword = normalizeSearchText(kw);
+      if (normalizedKeyword === q)         { score += 50; break; }
+      if (normalizedKeyword.startsWith(q)) { score += 30; break; }
+      if (normalizedKeyword.includes(q))   { score += 20; break; }
     }
 
     if (score > 0) scored.push({ entry, score });

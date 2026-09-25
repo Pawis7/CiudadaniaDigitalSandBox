@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd CDJ-Front && yarn install --frozen-lockfile",
+  "buildCommand": "cd CDJ-Front && yarn build",
+  "outputDirectory": "CDJ-Front/dist/CDJ-Front/browser",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

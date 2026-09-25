@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LevelResource } from '../../core/data/page-content';
 
@@ -8,13 +15,63 @@ import { LevelResource } from '../../core/data/page-content';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './resource-card.html',
+  styleUrl: './resource-card.css',
   host: {
-    style: 'display: contents'
-  }
+    style: 'display: contents',
+  },
 })
 export class ResourceCardComponent {
   @Input({ required: true }) item!: LevelResource;
   @Output() actionClicked = new EventEmitter<LevelResource>();
+  descriptionOpen = signal(false);
+  private coverPointerType = '';
+
+  onPointerEnter(event: PointerEvent): void {
+    if (event.pointerType !== 'touch') this.descriptionOpen.set(true);
+  }
+
+  onPointerLeave(event: PointerEvent): void {
+    // A mouse click can leave focus on the cover; leaving must still hide its panel.
+    if (event.pointerType !== 'touch') this.descriptionOpen.set(false);
+  }
+
+  onCoverPointerDown(event: PointerEvent): void {
+    this.coverPointerType = event.pointerType;
+  }
+
+  onCoverClick(event: MouseEvent): void {
+    const pointerType = (event as PointerEvent).pointerType || this.coverPointerType;
+    if (pointerType === 'touch') {
+      this.descriptionOpen.update((open) => !open);
+    } else {
+      this.descriptionOpen.set(true);
+    }
+    this.coverPointerType = '';
+  }
+
+  onFocusIn(event: FocusEvent): void {
+    const target = event.target as HTMLElement;
+    if (target.matches(':focus-visible') && this.coverPointerType !== 'touch') {
+      this.descriptionOpen.set(true);
+    }
+  }
+
+  onFocusOut(event: FocusEvent): void {
+    const card = event.currentTarget as HTMLElement;
+    if (!card.contains(event.relatedTarget as Node | null)) this.descriptionOpen.set(false);
+  }
+
+  onCardKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      const card = event.currentTarget as HTMLElement;
+      if (card.querySelector('.story-card__panel')?.contains(event.target as Node)) {
+        card.querySelector<HTMLButtonElement>('.story-card__cover')?.focus({ preventScroll: true });
+      }
+      this.descriptionOpen.set(false);
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
 
   isWidgetAction(): boolean {
     return (
@@ -50,6 +107,16 @@ export class ResourceCardComponent {
 
   onAction(): void {
     this.actionClicked.emit(this.item);
+  }
+
+  onPosterAction(event: MouseEvent): void {
+    event.stopPropagation();
+    // The reader restores focus to the element active when it opens.
+    // Keep that origin on the cover, which remains available with its panel hidden.
+    const card = (event.currentTarget as HTMLElement).closest('.story-card');
+    card?.querySelector<HTMLButtonElement>('.story-card__cover')?.focus({ preventScroll: true });
+    this.descriptionOpen.set(false);
+    this.onAction();
   }
 
   onCardClick(event: Event): void {

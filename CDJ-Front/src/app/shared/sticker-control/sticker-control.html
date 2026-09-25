@@ -54,7 +54,7 @@
               <div class="casino-title-container">
                 <h1 class="casino-title line-1">EL STICKER</h1>
                 <div class="casino-title-badge-wrap">
-                  <span class="casino-title-badge">SIN CONTROL</span>
+                  <span class="casino-title-badge">QUE SE SALIÓ</span>
                 </div>
                 <h1 class="casino-title line-2">DE CONTROL</h1>
               </div>
@@ -193,11 +193,11 @@
                     <div class="bubble-comic-in"
                       [class.me]="msg.from === 'me'">
                       <span class="sender-tag" 
-                        [class.sofia]="msg.name === 'Sofía' || msg.name === 'Sofi'"
-                        [class.diego]="msg.name === 'Diego'"
                         [class.majo]="msg.name === 'Majo'"
                         [class.dani]="msg.name === 'Dani'"
                         [class.leo]="msg.name === 'Leo'"
+                        [class.compa]="msg.name.includes('Compañero')"
+                        [class.docente]="msg.name.includes('Docente')"
                         [class.tu]="msg.from === 'me'">
                         {{ msg.name }}
                       </span>

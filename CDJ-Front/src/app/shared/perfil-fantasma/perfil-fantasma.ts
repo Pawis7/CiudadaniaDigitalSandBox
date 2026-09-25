@@ -296,7 +296,7 @@ export class PerfilFantasmaComponent {
 
   async copyQuickRules(): Promise<void> {
     const text = `Ciudadanía Digital Jalisco · CDJ-GAME-P05 · Perfil fantasma
-Guía rápida de privacidad, voz y límites para estudiantes de preparatoria
+Guía rápida de privacidad, voz y límites para estudiantes de bachillerato
 
 1. La idea central:
 - Privacidad no es desaparecer: es decidir qué compartes, con quién y para qué.

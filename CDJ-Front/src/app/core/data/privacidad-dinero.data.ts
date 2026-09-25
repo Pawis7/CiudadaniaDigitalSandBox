@@ -57,7 +57,7 @@ export const PRIVACIDAD_DINERO_DATA: PrivacidadDineroData = {
     product_id: "PF-15",
     product_title: "¿Tu casa está lista para acompañar privacidad y dinero en la vida digital?",
     segment: "Familias y cuidadores",
-    subsegment: "15–22 años · Adolescencia tardía y juventud",
+    subsegment: "15–17 años · 18–22 personas adultas jóvenes",
     topic: "Privacidad y dinero en la vida digital",
     main_axis: "Privacidad y seguridad",
     duration_minutes: "5–6",
@@ -218,7 +218,7 @@ export const PRIVACIDAD_DINERO_DATA: PrivacidadDineroData = {
       icon: '🔴',
       label: "Todavía falta base",
       summary: "Hoy la casa todavía no tiene una base suficiente para acompañar decisiones de privacidad y dinero en la vida digital. Faltan conversación útil, criterios claros o una ruta mínima de respuesta.",
-      key: "Primero alinear criterios en casa. Después dar libertad. Un error digital con cuentas o dinero a esta edad puede evitarse con conversación directa.",
+      key: "Primero acuerden criterios y formas de apoyo. La autonomía cambia con la edad, pero una conversación directa puede prevenir daños con cuentas, datos o dinero.",
       hojaPersonalizada: {
         title: "Hoja personalizada 3: Establecer bases mínimas con urgencia",
         resolveFirst: [

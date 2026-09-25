@@ -51,7 +51,7 @@
               <div class="casino-title-container">
                 <h1 class="casino-title line-1">PRESIÓN</h1>
                 <div class="casino-title-badge-wrap">
-                  <span class="casino-title-badge">¡DECIDE!</span>
+                  <span class="casino-title-badge">SIMULADOR</span>
                 </div>
                 <h1 class="casino-title line-2">DE PARES</h1>
               </div>
@@ -172,12 +172,9 @@
                   } @else {
                     <div class="bubble-comic-in" [class.me]="msg.from === 'me'">
                       <span class="sender-tag" 
-                        [class.sofia]="msg.name === 'Sofía' || msg.name === 'Sofi'"
-                        [class.diego]="msg.name === 'Diego'"
-                        [class.emiliano]="msg.name === 'Emiliano'"
-                        [class.majo]="msg.name === 'Majo'"
-                        [class.dani]="msg.name === 'Dani'"
-                        [class.leo]="msg.name === 'Leo'"
+                        [class.grupo]="msg.name.includes('2B') || msg.name.includes('Grupo')"
+                        [class.otro]="msg.name.includes('Otro')"
+                        [class.nota]="msg.name.includes('Nota')"
                         [class.tu]="msg.from === 'me'">
                         {{ msg.from === 'me' ? 'Tú' : msg.name }}
                       </span>

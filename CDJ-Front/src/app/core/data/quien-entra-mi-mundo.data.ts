@@ -1,5 +1,5 @@
 // CDJ-PB-GAME-P01 · ¿Quién entra a mi mundo?
-// Segmento: Primaria baja · 6 a 8 años
+// Segmento: Secundaria · 12 a 14 años
 // Dimensiones: pausa, limite, datos, ayuda
 
 export interface QuienEntraOption {

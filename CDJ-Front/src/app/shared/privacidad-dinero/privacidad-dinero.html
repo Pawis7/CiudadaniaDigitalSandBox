@@ -34,7 +34,7 @@
             {{ data.metadata.product_title }}
           </h2>
           <p class="text-sm sm:text-base text-[color:var(--text-secondary)] max-w-2xl mx-auto">
-            Chequeo rápido para revisar la preparación familiar ante decisiones de privacidad, pagos, fraudes y uso de datos de jóvenes de 15 a 22 años.
+            Autorrevisión breve para acompañar decisiones de privacidad, pagos, fraudes y uso de datos con adolescentes de 15 a 17 años o personas adultas jóvenes de 18 a 22 años.
           </p>
         </div>
 
@@ -63,7 +63,7 @@
           <div class="rounded-xl border border-emerald-200 dark:border-emerald-950 bg-emerald-50/50 dark:bg-emerald-950/20 p-4 text-xs sm:text-sm leading-relaxed space-y-1">
             <strong class="text-emerald-700 dark:text-emerald-400 font-bold block">¿Qué obtendrás?</strong>
             <p class="text-[color:var(--text-secondary)]">
-              Un diagnóstico de perfil, 5 herramientas clave de casa y un plan de seguimiento de 4 semanas.
+              Una autorrevisión orientativa, 5 herramientas prácticas y un plan de seguimiento de 4 semanas.
             </p>
           </div>
         </div>
@@ -80,7 +80,7 @@
             (click)="start()"
             class="btn-primary w-full py-4 text-base font-bold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 bg-[#B50038] text-white">
             <span translate="no" class="material-symbols-rounded text-xl">play_arrow</span>
-            Comenzar autodiagnóstico
+            Comenzar autorrevisión
           </button>
         </div>
 
@@ -88,7 +88,7 @@
 
       <!-- Methodological Note -->
       <div class="mt-6 rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--surface-soft)] p-4 text-xs leading-relaxed text-[color:var(--text-soft)]">
-        <strong>Nota metodológica:</strong> esta prueba no es un diagnóstico clínico ni sustituye orientación profesional, legal o policial. Su propósito es ayudar a las personas adultas del hogar a observar si existen acuerdos, criterios y una ruta mínima de respuesta ante riesgos financieros y de privacidad en la vida digital de jóvenes.
+        <strong>Nota metodológica:</strong> esta autorrevisión es orientativa; sus rangos son editoriales y no constituyen un diagnóstico ni sustituyen orientación profesional, jurídica o policial. Ayuda a revisar acuerdos y rutas de respuesta ante riesgos financieros y de privacidad, respetando la autonomía de cada persona.
       </div>
     }
 
@@ -284,8 +284,7 @@
         </div>
 
         <!-- 4-week Planner Section -->
-        <div class="card planner-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6"
-             [class.hide-on-incomplete-print]="!isPlannerComplete()">
+        <div class="card planner-card rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-5 sm:p-8 shadow-md space-y-6">
           <h3 class="text-xl sm:text-2xl font-black text-[color:var(--text-primary)] pb-3 border-b border-[color:var(--border-soft)]">
             🗓 Acuerdos de casa para privacidad + dinero
           </h3>
@@ -299,30 +298,35 @@
               <label class="field-label" for="agreement1">ACUERDO 1 <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="agreement1" class="field-input" placeholder="Ejemplo: No decidir suscripciones, pagos o depósitos bajo presión o prisa."
                         [ngModel]="agreement1()" (ngModelChange)="agreement1.set($event)"></textarea>
+              <div class="print-val">{{ agreement1() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="agreement2">ACUERDO 2 <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="agreement2" class="field-input" placeholder="Ejemplo: No compartir contraseñas, códigos OTP o capturas con accesos bancarios."
                         [ngModel]="agreement2()" (ngModelChange)="agreement2.set($event)"></textarea>
+              <div class="print-val">{{ agreement2() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="agreement3">ACUERDO 3 <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="agreement3" class="field-input" placeholder="Ejemplo: Conversar en familia y verificar antes de abrir enlaces sospechosos o responder ofertas dudosas."
                         [ngModel]="agreement3()" (ngModelChange)="agreement3.set($event)"></textarea>
+              <div class="print-val">{{ agreement3() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="signalRed">¿QUÉ SEÑAL RARA NOS DEBE PRENDER ALERTA DE INMEDIATO? <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="signalRed" class="field-input" placeholder="Ejemplo: Un cobro o cargo no reconocido, o un mensaje de urgencia que pide depósitos rápidos."
                         [ngModel]="signalRed()" (ngModelChange)="signalRed.set($event)"></textarea>
+              <div class="print-val">{{ signalRed() || '________________________________________________' }}</div>
             </div>
 
             <div>
               <label class="field-label" for="adultResponsible">¿QUÉ PERSONA ADULTA SERÁ EL PRIMER APOYO? <span class="text-rose-500 font-bold">*</span></label>
               <textarea id="adultResponsible" class="field-input" placeholder="Ejemplo: Escribe el nombre o nombres de las personas adultas de primer apoyo en casa."
                         [ngModel]="adultResponsible()" (ngModelChange)="adultResponsible.set($event)"></textarea>
+              <div class="print-val">{{ adultResponsible() || '________________________________________________' }}</div>
             </div>
           </div>
 
@@ -365,6 +369,7 @@
                         [ngModel]="weeklyConfidence()[weekIdx]" 
                         (ngModelChange)="updateWeeklyConfidence(weekIdx, $event)"
                         placeholder="Escribe aquí..."></textarea>
+                      <div class="print-val text-[9px]">{{ weeklyConfidence()[weekIdx] || '—' }}</div>
                     </div>
                     <div>
                       <label class="text-[9px] font-black text-[color:var(--text-soft)] uppercase block leading-tight">Lo que debemos cambiar:</label>
@@ -374,6 +379,7 @@
                         [ngModel]="weeklyChanges()[weekIdx]" 
                         (ngModelChange)="updateWeeklyChanges(weekIdx, $event)"
                         placeholder="Escribe aquí..."></textarea>
+                      <div class="print-val text-[9px]">{{ weeklyChanges()[weekIdx] || '—' }}</div>
                     </div>
                   </div>
                 </div>

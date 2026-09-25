@@ -47,17 +47,6 @@ import { InteractivePostcard } from '../../core/data/audience-extensions.data';
                 <span class="material-symbols-rounded text-sm">undo</span>
                 <span>Frente</span>
               </button>
-              <a
-                [href]="item.pdfUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="cdj-flip-btn cdj-flip-btn-download"
-                [attr.aria-label]="'Descargar ' + item.title"
-                [download]="getDownloadFilename(item.pdfUrl)"
-              >
-                <span class="material-symbols-rounded text-sm">download</span>
-                <span>{{ isImage(item.pdfUrl) ? 'Descargar' : 'PDF' }}</span>
-              </a>
             </div>
           </div>
         </div>
@@ -89,13 +78,4 @@ export class FlipCardComponent {
     return !!(this.item?.backImgUrl?.includes('caratula') || this.item?.shortAdvice?.includes('Memorama'));
   }
 
-  isImage(url: string): boolean {
-    return /\.(jpe?g|png|webp)$/i.test(url);
-  }
-
-  getDownloadFilename(url: string): string {
-    if (url?.includes('descargable')) return 'memorama-pequenos-cibernautas.jpg';
-    return '';
-  }
 }
-

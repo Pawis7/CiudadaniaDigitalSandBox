@@ -277,7 +277,7 @@ export class NoLoHagasViralComponent {
 
   async copyQuickRules(): Promise<void> {
     const text = `Ciudadanía Digital Jalisco · CDJ-GAME-P04 · No lo hagas viral
-Guía breve de reflexión y recomendaciones para estudiantes de preparatoria
+Guía breve de reflexión y recomendaciones para estudiantes de bachillerato
 
 1. Antes de reenviar:
 - ¿El contenido informa algo necesario o solo expone a alguien?

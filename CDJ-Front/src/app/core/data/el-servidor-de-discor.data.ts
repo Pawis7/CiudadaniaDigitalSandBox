@@ -84,7 +84,7 @@ export const DISCOR_GAME_DATA: DiscorGameSchema = {
     "title": "El servidor de Discor",
     "subtitle": "Cuando el juego se sale de la partida",
     "segment": "Estudiantes",
-    "subsegment": "Preparatoria",
+    "subsegment": "Bachillerato",
     "axes": [
       "Huella e identidad digital",
       "Participación y ciudadanía en línea",
@@ -767,7 +767,7 @@ export const DISCOR_GAME_DATA: DiscorGameSchema = {
   },
   "guide": {
     "title": "Guía gamer · Muévete con criterio en servidores y clanes",
-    "subtitle": "Una guía corta, útil y no rellenable para estudiantes de preparatoria que juegan en línea y conviven en chats, voz y torneos.",
+    "subtitle": "Una guía corta, útil y no rellenable para estudiantes de bachillerato que juegan en línea y conviven en chats, voz y torneos.",
     "sections": [
       {
         "title": "1. Señales rojas",

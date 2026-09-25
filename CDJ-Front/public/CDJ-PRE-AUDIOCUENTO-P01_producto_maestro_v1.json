@@ -103,7 +103,7 @@
   "archivos": {
     "html": "CDJ-PRE-AUDIOCUENTO-P01_bit_data_mensaje_gris_v1.html",
     "json": "CDJ-PRE-AUDIOCUENTO-P01_producto_maestro_v1.json",
-    "handoff_docx": "CDJ-PRE-AUDIOCUENTO-P01_handoff_diseno_programacion_v1.docx",
-    "guia_pdf": "CDJ-PRE-AUDIOCUENTO-P01_guia_breve_mediacion_v1.pdf"
+    "handoff_docx": null,
+    "guia_pdf": null
   }
 }

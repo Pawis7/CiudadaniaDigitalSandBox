@@ -1,14 +1,19 @@
-<section class="sim-shell relative flex flex-col justify-start overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] p-6 sm:p-10 shadow-[var(--shadow-2xl)] min-h-[580px] max-w-4xl mx-auto transition-all duration-300" data-audience="kids">
-  
+<section
+  class="sim-shell relative flex flex-col justify-start overflow-hidden rounded-[2.5rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-base)] p-6 sm:p-10 shadow-[var(--shadow-2xl)] min-h-[580px] max-w-4xl mx-auto transition-all duration-300"
+  data-audience="kids"
+>
   <!-- BACKDROP DECORATIONS (Premium color blurs) -->
   <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-    <div class="absolute -left-20 -top-20 h-80 w-80 rounded-full bg-rose-400/10 blur-3xl transition-colors duration-500"></div>
-    <div class="absolute -right-20 -bottom-20 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl transition-colors duration-500"></div>
+    <div
+      class="absolute -left-20 -top-20 h-80 w-80 rounded-full bg-rose-400/10 blur-3xl transition-colors duration-500"
+    ></div>
+    <div
+      class="absolute -right-20 -bottom-20 h-80 w-80 rounded-full bg-cyan-400/10 blur-3xl transition-colors duration-500"
+    ></div>
     <div class="absolute left-1/3 top-1/4 h-60 w-60 rounded-full bg-amber-300/5 blur-3xl"></div>
   </div>
 
   <div class="relative z-10 flex flex-col flex-1 justify-start items-center gap-6 sm:gap-8 w-full">
-
     <!-- ==================== TOP STATUS BAR (Gameplay only) ==================== -->
     @if (currentScreen() === 'playing') {
       <div class="re-top-bar">
@@ -20,19 +25,25 @@
         </div>
 
         <div class="re-audio-group">
-          <button type="button" 
-                  (click)="toggleAudio()"
-                  [class.re-btn-active]="audioOn()"
-                  class="re-btn-audio"
-                  [attr.aria-label]="audioOn() ? 'Apagar voz' : 'Encender voz'">
-            <span translate="no" class="material-symbols-rounded">{{ audioOn() ? 'volume_up' : 'volume_off' }}</span>
+          <button
+            type="button"
+            (click)="toggleAudio()"
+            [class.re-btn-active]="audioOn()"
+            class="re-btn-audio"
+            [attr.aria-label]="audioOn() ? 'Apagar voz' : 'Encender voz'"
+          >
+            <span translate="no" class="material-symbols-rounded">{{
+              audioOn() ? 'volume_up' : 'volume_off'
+            }}</span>
           </button>
 
-          <button type="button" 
-                  (click)="repeatAudio()"
-                  [disabled]="!audioOn()"
-                  [class.re-speaking]="isSpeaking()"
-                  class="re-btn-speak">
+          <button
+            type="button"
+            (click)="repeatAudio()"
+            [disabled]="!audioOn()"
+            [class.re-speaking]="isSpeaking()"
+            class="re-btn-speak"
+          >
             <span translate="no" class="material-symbols-rounded text-[18px]">campaign</span>
             <span class="re-speak-text">Escuchar</span>
           </button>
@@ -43,35 +54,26 @@
     <!-- ==================== SCREEN 1: WELCOME ==================== -->
     @if (currentScreen() === 'welcome') {
       <div class="re-screen re-welcome-screen w-full flex flex-col items-center text-center">
-        <div class="re-badge animate-bounce-slow">
-          <span>🤖</span> ¡A JUGAR CON BIT Y DATA!
-        </div>
+        <div class="re-badge animate-bounce-slow"><span>🤖</span> ¡A JUGAR CON BIT Y DATA!</div>
 
         <h1 class="re-title">
-          ¡A jugar!<br>
+          ¡A jugar!<br />
           <span class="re-title-pink">Reconozco mis emociones</span>
         </h1>
 
         <p class="re-subtitle max-w-lg">
-          Acompaña a Bit en esta divertida aventura para descubrir sus emociones digitales y aprender cuándo es momento de pausar, respirar y pedir ayuda.
+          Acompaña a Bit en esta divertida aventura para descubrir sus emociones digitales y
+          aprender cuándo es momento de pausar, respirar y pedir ayuda.
         </p>
 
         <!-- Centered Character Circle -->
         <div class="re-char-center-wrap">
           <div class="re-bit-circle">
-            <div class="bit-avatar re-bit-float bit-emotion-alegria">
-              <div class="bit-head">
-                <div class="bit-antenna"></div>
-                <div class="bit-face">
-                  <div class="bit-eye"></div>
-                  <div class="bit-eye"></div>
-                </div>
-                <div class="bit-mouth"></div>
-              </div>
-              <div class="bit-mini-bubble">
-                <span class="bit-bubble-dots">...</span>
-              </div>
-            </div>
+            <app-bit-character
+              class="re-bit-character re-bit-character--hero"
+              emotion="alegria"
+              pose="saludo"
+            />
           </div>
           <span class="re-char-name-badge">BIT</span>
         </div>
@@ -89,7 +91,8 @@
             <span translate="no" class="material-symbols-rounded">lightbulb</span>
           </div>
           <p>
-            <strong>Acompañamiento adulto recomendado:</strong> Nombre las emociones en voz alta y platique sobre las situaciones cotidianas. Se sugiere jugar en dos bloques de 6 escenas.
+            <strong>Acompañamiento adulto recomendado:</strong> Nombre las emociones en voz alta y
+            platique sobre las situaciones cotidianas. Se sugiere jugar en dos bloques de 6 escenas.
           </p>
         </div>
       </div>
@@ -98,24 +101,15 @@
     <!-- ==================== SCREEN 2: PLAYING ==================== -->
     @if (currentScreen() === 'playing') {
       <div class="re-screen re-game-screen flex flex-col gap-6 sm:gap-8 w-full">
-        
         <!-- Scene row: Bit + Speech Bubble -->
         <div class="re-scene-layout">
           <div class="re-avatar-col">
-            <div class="bit-avatar re-bit-float" [ngClass]="emotionClass()">
-              <div class="bit-head">
-                <div class="bit-antenna"></div>
-                <div class="bit-face">
-                  <div class="bit-eye"></div>
-                  <div class="bit-eye"></div>
-                </div>
-                <div class="bit-mouth"></div>
-              </div>
-              <div class="bit-mini-bubble">
-                <span class="bit-bubble-dots">...</span>
-              </div>
-            </div>
-            <span class="re-emotion-tag">{{ currentScene().emocion_objetivo }}</span>
+            <app-bit-character
+              class="re-bit-character re-bit-character--game"
+              [emotion]="bitEmotion()"
+              pose="escena"
+            />
+            <span class="re-emotion-tag">{{ bitEmotionLabel() }}</span>
           </div>
 
           <!-- Bubble col -->
@@ -126,7 +120,7 @@
                   <span class="re-situation-qmark">?</span>
                   <span class="re-situation-badge">¿QUÉ PASA EN LA PANTALLA?</span>
                 </div>
-                <p class="re-situation-text">{{ currentScene().voz_situacion }}</p>
+                <p class="re-situation-text">{{ bitSituation() }}</p>
               </div>
               <div class="re-question-container">
                 <div class="re-question-bubble-icon">
@@ -140,32 +134,46 @@
 
         <!-- Options selector grid -->
         <div class="re-options-grid">
-          <div *ngFor="let opt of currentScene().opciones_visibles; let idx = index"
-               class="re-option-card-wrapper"
-               [class.re-flipped]="(isCorrect() === true && idx === currentScene().correct) || selectedIncorrectIndices().includes(idx)">
+          <div
+            *ngFor="let opt of currentScene().opciones_visibles; let idx = index"
+            class="re-option-card-wrapper"
+            [class.re-flipped]="
+              (isCorrect() === true && idx === currentScene().correct) ||
+              selectedIncorrectIndices().includes(idx)
+            "
+          >
             <div class="re-option-card-inner">
-              
               <!-- Front Side of Card -->
               <div class="re-option-card-front">
-                <button type="button"
-                        (click)="selectOption(idx)"
-                        [disabled]="isCorrect() === true"
-                        [class.re-opt-correct]="isCorrect() === true && idx === currentScene().correct"
-                        [class.re-opt-incorrect]="selectedIncorrectIndices().includes(idx)"
-                        class="re-option-btn group relative">
-                  <span class="re-opt-emoji transition-transform duration-200 group-hover:scale-125">{{ getOptionEmoji(opt) }}</span>
+                <button
+                  type="button"
+                  (click)="selectOption(idx)"
+                  [disabled]="isCorrect() === true"
+                  [class.re-opt-correct]="isCorrect() === true && idx === currentScene().correct"
+                  [class.re-opt-incorrect]="selectedIncorrectIndices().includes(idx)"
+                  class="re-option-btn group relative"
+                >
+                  <span
+                    class="re-opt-emoji transition-transform duration-200 group-hover:scale-125"
+                    >{{ getOptionEmoji(opt) }}</span
+                  >
                   <span class="re-opt-text">{{ getOptionText(opt) }}</span>
                   <!-- Corner checkmark badge for correct option -->
-                  <span *ngIf="isCorrect() === true && idx === currentScene().correct" class="re-option-badge-correct">
+                  <span
+                    *ngIf="isCorrect() === true && idx === currentScene().correct"
+                    class="re-option-badge-correct"
+                  >
                     ✓
                   </span>
                 </button>
               </div>
 
               <!-- Back Side of Card -->
-              <div class="re-option-card-back"
-                   [class.re-back-correct]="idx === currentScene().correct"
-                   [class.re-back-incorrect]="idx !== currentScene().correct">
+              <div
+                class="re-option-card-back"
+                [class.re-back-correct]="idx === currentScene().correct"
+                [class.re-back-incorrect]="idx !== currentScene().correct"
+              >
                 <div class="re-card-back-content">
                   @if (idx === currentScene().correct) {
                     <span class="re-back-badge">✓</span>
@@ -176,7 +184,6 @@
                   }
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -184,15 +191,25 @@
         <!-- Feedback message area -->
         <div class="re-feedback-area">
           @if (isCorrect() !== null) {
-            <div class="re-feedback-box"
-                 [class.re-fb-success]="isCorrect() === true"
-                 [class.re-fb-retry]="isCorrect() === false">
+            <div
+              class="re-feedback-box"
+              [class.re-fb-success]="isCorrect() === true"
+              [class.re-fb-retry]="isCorrect() === false"
+            >
               <div class="re-feedback-icon-wrap">
-                <span translate="no" class="material-symbols-rounded">{{ isCorrect() ? 'check' : 'question_mark' }}</span>
+                <span translate="no" class="material-symbols-rounded">{{
+                  isCorrect() ? 'check' : 'question_mark'
+                }}</span>
               </div>
               <div class="re-feedback-text">
                 <h3>{{ isCorrect() ? '¡Excelente!' : 'Miremos con cuidado...' }}</h3>
-                <p>{{ isCorrect() ? currentScene().feedback_positivo : currentScene().feedback_reintento }}</p>
+                <p>
+                  {{
+                    isCorrect()
+                      ? currentScene().feedback_positivo
+                      : currentScene().feedback_reintento
+                  }}
+                </p>
                 @if (isCorrect()) {
                   <span class="re-reinforce">{{ currentScene().refuerzo }}</span>
                 }
@@ -209,7 +226,6 @@
             </span>
           </button>
         </div>
-
       </div>
     }
 
@@ -219,10 +235,11 @@
         <div class="re-pause-icon">
           <span translate="no" class="material-symbols-rounded text-6xl text-emerald-400">air</span>
         </div>
-        
+
         <h1 class="re-title-pause">¡Hagamos una pausa!</h1>
         <p class="re-subtitle-pause max-w-md">
-          Data nos propone estirarnos, cerrar los ojos un momento y respirar despacio. Las pantallas también necesitan descansar.
+          Data nos propone estirarnos, cerrar los ojos un momento y respirar despacio. Las pantallas
+          también necesitan descansar.
         </p>
 
         <!-- Breathing anim ring -->
@@ -236,11 +253,17 @@
             </div>
           </div>
           <div class="re-breathing-instructions">
-            <span class="re-breathe-text">Toma aire suavemente... sostén... y sácalo despacio.</span>
+            <span class="re-breathe-text"
+              >Toma aire suavemente... sostén... y sácalo despacio.</span
+            >
           </div>
         </div>
 
-        <button type="button" (click)="resumeAfterPause()" class="re-btn-start re-btn-emerald-pause group">
+        <button
+          type="button"
+          (click)="resumeAfterPause()"
+          class="re-btn-start re-btn-emerald-pause group"
+        >
           <span>CONTINUAR JUGANDO</span>
           <span class="re-play-icon-wrap">
             <span translate="no" class="material-symbols-rounded">arrow_forward</span>
@@ -252,7 +275,8 @@
             <span translate="no" class="material-symbols-rounded">lightbulb</span>
           </div>
           <p>
-            <strong>Docente / Adulto:</strong> Este es un momento excelente para realizar estiramientos, ponerse de pie o tomar un poco de agua.
+            <strong>Docente / Adulto:</strong> Este es un momento excelente para realizar
+            estiramientos, ponerse de pie o tomar un poco de agua.
           </p>
         </div>
       </div>
@@ -265,30 +289,21 @@
 
         <h1 class="re-title">¡Felicidades, lo lograste!</h1>
         <p class="re-subtitle max-w-md">
-          Aprendiste a observar las emociones de Bit y a tomar decisiones seguras al usar una pantalla.
+          Aprendiste a observar las emociones de Bit y a tomar decisiones seguras al usar una
+          pantalla.
         </p>
 
         <!-- Centered Character Circle for Summary -->
-        <div class="re-char-center-wrap" style="margin: 15px auto 25px;">
+        <div class="re-char-center-wrap" style="margin: 15px auto 25px">
           <div class="re-bit-circle">
-            <div class="bit-avatar re-bit-float bit-emotion-alegria">
-              <div class="bit-head">
-                <div class="bit-antenna"></div>
-                <div class="bit-face">
-                  <div class="bit-eye"></div>
-                  <div class="bit-eye"></div>
-                </div>
-                <div class="bit-mouth"></div>
-              </div>
-              <div class="bit-mini-bubble">
-                <span class="bit-bubble-dots">...</span>
-              </div>
-            </div>
+            <app-bit-character
+              class="re-bit-character re-bit-character--hero"
+              emotion="alegria"
+              pose="celebracion"
+            />
           </div>
           <span class="re-char-name-badge">BIT</span>
         </div>
-
-
 
         <button type="button" (click)="restart()" class="re-btn-start mt-4">
           <span>VOLVER A JUGAR</span>
@@ -298,6 +313,5 @@
         </button>
       </div>
     }
-
   </div>
 </section>

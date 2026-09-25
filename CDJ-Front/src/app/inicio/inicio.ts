@@ -22,7 +22,7 @@ export class InicioComponent {
 
   editorial = {
     featuredResourcesTitle: 'Para comenzar',
-    profilesTitle: 'Contenido para cada perfil',
-    profilesGuide: 'Elige el perfil que mejor te represente para encontrar contenidos, actividades y orientaciones pensadas para cada etapa y necesidad.',
+    profilesTitle: 'Cada etapa vive lo digital de manera diferente',
+    profilesGuide: 'Aprender a cuidarnos, convivir, informarnos, crear y participar en entornos digitales cambia con la edad y con el papel que tenemos. Explora la ciudadanía digital desde la infancia y la adolescencia, o desde el acompañamiento de las familias y la escuela.',
   };
 }

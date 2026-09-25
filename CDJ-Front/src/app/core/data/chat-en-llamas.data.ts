@@ -67,7 +67,7 @@ export const CHAT_EN_LLAMAS_DATA: ChatData = {
     version: "v3.1_feedback_mejorada",
     audience: "Estudiantes",
     subsegment: "Secundaria",
-    age_range: "12 a 15 años",
+    age_range: "12 a 14 años",
     status: "Actualizado: retroalimentación pedagógica y UX mejorada"
   },
   product: {

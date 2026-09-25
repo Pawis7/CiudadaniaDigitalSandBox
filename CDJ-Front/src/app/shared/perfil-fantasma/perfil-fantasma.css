@@ -397,28 +397,37 @@
 
 /* Sender Sticker Tags */
 .sender-tag {
-  display: inline-block;
+  display: block;
+  width: fit-content;
   font-family: "Montserrat", "Arial Black", sans-serif;
-  font-size: 7px;
+  font-size: 8.5px;
   font-weight: 900;
-  padding: 1.5px 5px;
-  border-radius: 5px;
-  border: 1.5px solid #000;
-  box-shadow: 1px 1px 0px #000;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1.8px solid #000;
+  box-shadow: 1px 1.5px 0px #000;
+  background: #6366f1;
   color: #fff;
-  margin-bottom: 3px; /* Saves space */
+  margin-bottom: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
 }
 .sender-tag.av-mint { background: #0f766e; }
 .sender-tag.av-pink { background: #ec4899; }
 .sender-tag.av-blue { background: #2563eb; }
-.sender-tag.av-purple { background: #a855f7; }
-.sender-tag.av-gray { background: #6b7280; }
-.sender-tag.av-cyan { background: #06b6d4; }
-.sender-tag.av-gold { background: #eab308; }
-.sender-tag.av-green { background: #10b981; }
+.sender-tag.av-purple { background: #8b5cf6; }
+.sender-tag.av-gray { background: #475569; }
+.sender-tag.av-cyan { background: #0891b2; }
+.sender-tag.av-gold { background: #d97706; }
+.sender-tag.av-green { background: #059669; }
 .sender-tag.tu { background: #f97316; }
+
+.msg-text {
+  display: block;
+  line-height: 1.4;
+  color: #1e293b;
+}
 
 /* Feedback scores level colors */
 .bubble-safe {

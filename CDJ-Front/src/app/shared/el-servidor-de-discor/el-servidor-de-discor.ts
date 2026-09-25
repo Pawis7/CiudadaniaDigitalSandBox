@@ -37,11 +37,9 @@ export class ElServidorDeDiscorComponent implements OnDestroy {
   private typingInterval: any = null;
   private lastTypingMissionId: string = '';
 
-  // Poster Image Sources with automatic fallback chain
+  // Poster image source; the layout falls back to its CSS treatment if loading fails.
   readonly posterSources = [
-    '/banners/CD_DiscorPoster.jpg',
-    '/banners/CD_DiscorPoster.svg',
-    '/banners/el-servidor-de-discor-poster.svg'
+    '/banners/CD_DiscorPoster.webp'
   ];
   readonly posterIndex = signal<number>(0);
   readonly posterSrc = computed(() => this.posterSources[this.posterIndex()]);

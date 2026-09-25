@@ -53,7 +53,7 @@
             <div class="casino-title-container">
               <h1 class="casino-title line-1">NO LO HAGAS</h1>
               <div class="casino-title-badge-wrap">
-                <span class="casino-title-badge">¡FAIL!</span>
+                <span class="casino-title-badge">SIMULADOR</span>
               </div>
               <h1 class="casino-title line-2">VIRAL</h1>
             </div>
@@ -94,7 +94,7 @@
               </span>
               <span class="casino-pill pill-pink">
                 <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                PREPARATORIA
+                BACHILLERATO
               </span>
             </div>
 
@@ -272,6 +272,10 @@
                         <div class="msg-text text-[11px] leading-relaxed">{{ msg.text }}</div>
                         <small class="tm">{{ msg.time || '18:02' }}</small>
                       </div>
+
+                      <span *ngIf="msg.isClip || msg.isRule || msg.isPost" class="sender-tag" [class.tu]="msg.isMe" [ngClass]="msg.avatarClass">
+                        {{ msg.isMe ? selectedProfile().name : msg.name }}
+                      </span>
 
                       <!-- Video fail clip -->
                       <div *ngIf="msg.isClip" class="clip-card bg-white border-2.5 border-black rounded-2xl overflow-hidden w-[220px] shadow-[3px_3.5px_0px_#000]">

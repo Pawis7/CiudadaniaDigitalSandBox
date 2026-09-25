@@ -54,7 +54,7 @@ export const PRESENCIA_JOVENES_DATA: PresenciaJovenesData = {
     product_id: "PF-04",
     product_title: "¿Tu uso digital en casa te está ayudando o te está quitando presencia?",
     segment: "Familias y cuidadores",
-    subsegment: "15–22 · Adolescencia tardía y juventud",
+    subsegment: "15–17 · 18–22 personas adultas jóvenes",
     topic: "Presencia digital adulta en casa",
     main_axis: "Bienestar digital",
     dimension: "D2 – Convivencia y prácticas en el entorno digital",
@@ -72,7 +72,7 @@ export const PRESENCIA_JOVENES_DATA: PresenciaJovenesData = {
     {
       id: "Q1",
       block: "Escucha y respeto",
-      text: "Cuando mi hija, hijo o joven de 15 a 22 años quiere hablar conmigo de algo importante, sí dejo el celular a un lado para escucharlo de verdad.",
+      text: "Cuando una o un adolescente, o una persona adulta joven de la familia, quiere hablar conmigo de algo importante, dejo el celular a un lado para escuchar de verdad.",
       hint: "Mide si puedes dar atención completa cuando una persona joven te busca para hablar en serio.",
       reverse: true
     },
@@ -189,7 +189,7 @@ export const PRESENCIA_JOVENES_DATA: PresenciaJovenesData = {
       band: "rb3",
       icon: "🔴",
       label: "Tu uso ya te está quitando presencia",
-      summary: "Tu uso digital ya parece estar afectando la escucha, la convivencia y la calidad de reacción con una persona joven de 15 a 22 años. Esto no es para culparte; es para ayudarte a recuperar piso con cambios pequeños pero reales.",
+      summary: "Tu uso digital parece estar afectando la escucha, la convivencia o la calidad de respuesta con una persona adolescente o adulta joven. Esta lectura no busca culparte: propone cambios pequeños y observables.",
       key: "Primero presencia adulta. Después lo demás. En esta etapa, una conversación mal atendida puede cerrar puertas importantes.",
       virtue: {
         name: "Responsabilidad",

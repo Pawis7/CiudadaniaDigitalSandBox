@@ -47,7 +47,7 @@
       <div class="grid gap-3 sm:grid-cols-3 pt-2">
         <div class="p-4 sm:p-5 bg-[color:var(--surface-soft)] rounded-2xl border border-[color:var(--border-soft)] text-center space-y-2">
           <span translate="no" class="material-symbols-rounded text-2xl sm:text-3xl text-[color:var(--aud)] icon-fill">analytics</span>
-          <strong class="block font-bold text-sm sm:text-base text-[color:var(--text-primary)]">1. Diagnóstico</strong>
+          <strong class="block font-bold text-sm sm:text-base text-[color:var(--text-primary)]">1. Revisión inicial</strong>
           <span class="block text-[10px] sm:text-xs text-[color:var(--text-soft)]">Audita 12 elementos en formato de cuestionario</span>
         </div>
         <div class="p-4 sm:p-5 bg-[color:var(--surface-soft)] rounded-2xl border border-[color:var(--border-soft)] text-center space-y-2">
@@ -213,7 +213,7 @@
         <div class="rounded-[1.75rem] border border-[color:var(--border-soft)] bg-[color:var(--surface-card)] p-6 sm:p-8 shadow-md space-y-4">
           <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">
             <span translate="no" class="material-symbols-rounded text-sm">analytics</span>
-            Diagnóstico consolidado
+            Revisión consolidada
           </span>
           <h3 class="text-xl sm:text-2xl font-black tracking-tight text-[color:var(--text-primary)]">
             Tu puntuación: <span class="text-[color:var(--aud)]">{{ totalScore() }}/12</span> respuestas correctas
@@ -338,7 +338,7 @@
         <div class="flex justify-between gap-3 pt-2">
           <button type="button" (click)="go('map')" class="btn-secondary py-3 px-5 font-bold flex items-center gap-1.5 text-xs sm:text-sm">
             <span translate="no" class="material-symbols-rounded text-sm">arrow_back</span>
-            Volver al diagnóstico
+            Volver a la revisión
           </button>
           <button 
             type="button" 
