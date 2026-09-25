@@ -42,16 +42,16 @@ const MEMORY_CARD_TEXT: Record<number, string> = {
   20: 'Consejo: Solo digo cosas bonitas y amables.',
 };
 
-/** Parejas semánticas definidas por la pregunta y su consejo correspondiente. */
+/** Parejas del memorama consecutivas (1-2, 3-4, 5-6, 7-8, 9-10, 11-12, 13-14, 15-16, 17-18, 19-20). */
 const MEMORY_PAIR_IDS: Record<number, number> = {
   1: 1, 2: 1,
   3: 2, 4: 2,
-  5: 3, 10: 3,
-  6: 4, 7: 4,
-  8: 5, 9: 5,
-  11: 6, 16: 6,
-  12: 7, 13: 7,
-  14: 8, 15: 8,
+  5: 3, 6: 3,
+  7: 4, 8: 4,
+  9: 5, 10: 5,
+  11: 6, 12: 6,
+  13: 7, 14: 7,
+  15: 8, 16: 8,
   17: 9, 18: 9,
   19: 10, 20: 10,
 };
